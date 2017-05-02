@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd">
+
+	<context:component-scan base-package="com.drones4hire.dronesapp.services.services" />
+	<context:component-scan base-package="com.drones4hire.dronesapp.services.util.switches" />
+	<context:component-scan base-package="com.drones4hire.dronesapp.services.util.test" />
+
+	<bean id="passwordEncryptor" class="org.jasypt.util.password.BasicPasswordEncryptor" />
+
+	<bean id="tokenizer" class="com.drones4hire.dronesapp.services.util.Tokenizer">
+		<constructor-arg index="0" value="SHA1PRNG" />
+		<constructor-arg index="1" value="SHA-1" />
+	</bean>
+
+	<bean id="messageJsonifier" class="com.fasterxml.jackson.databind.ObjectMapper">
+		<property name="serializationInclusion" value="NON_NULL" />
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="messageJsonifier" />
+		<property name="targetMethod" value="configure" />
+		<property name="arguments">
+			<list>
+				<value type="com.fasterxml.jackson.databind.SerializationFeature">FAIL_ON_EMPTY_BEANS</value>
+				<value>false</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="serviceMessageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:i18n/services/messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${drones4hire.mail.host}" />
+		<property name="port" value="${drones4hire.mail.port}" />
+		<property name="username" value="${drones4hire.mail.user}" />
+		<property name="password" value="${drones4hire.mail.pass}" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+       	      	<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean"
+		id="freemarkerConfiguration">
+		<property name="preferFileSystemAccess" value="true" />
+		<property name="templateLoaderPaths" value="classpath:templates" />
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+	
+	<cache:annotation-driven />
+	
+   <bean id="amazonCredentials" class="com.amazonaws.auth.BasicAWSCredentials">
+		<constructor-arg index="0" value="${drones4hire.amazon.accessKey}" />
+		<constructor-arg index="1" value="${drones4hire.amazon.secretKey}" />
+	</bean>
+
+	<bean id="amazonConfig" class="com.amazonaws.ClientConfiguration">
+		<property name="maxConnections" value="100" />
+		<property name="protocol" value="HTTP" />
+	</bean>
+
+	<bean class="com.amazonaws.services.s3.AmazonS3Client">
+		<constructor-arg index="0" ref="amazonCredentials" />
+		<constructor-arg index="1" ref="amazonConfig" />
+	</bean>
+	
+	<bean id="jwtService" class="com.drones4hire.dronesapp.services.services.auth.JWTService">
+		<constructor-arg index="0" value="${drones4hire.jwt.secret}" />
+		<constructor-arg index="1" value="${drones4hire.jwt.authTokenExp}"  />
+		<constructor-arg index="2" value="${drones4hire.jwt.refreshTokenExp}"  />
+	</bean>
+	
+</beans>

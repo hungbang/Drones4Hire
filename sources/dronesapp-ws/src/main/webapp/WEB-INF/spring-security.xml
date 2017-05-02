@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<bean id="unauthorizedEntryPoint" class="com.drones4hire.dronesapp.ws.security.UnauthorizedEntryPoint">
+	    <constructor-arg  name="loginUrl" value="/api/auth/login"/>
+	</bean>
+	
+	<bean id="userAuthService" class="com.drones4hire.dronesapp.ws.security.jwt.JWTAuthService" />
+	
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="userAuthService" />
+	</security:authentication-manager>
+	
+	<bean id="authenticationTokenProcessingFilter" class="com.drones4hire.dronesapp.ws.security.jwt.JWTProcessingFilter">
+		<constructor-arg ref="authenticationManager" />
+	</bean>
+	
+	<!-- Public API end-points -->
+	<security:http pattern="/api/auth/**" security="none" />
+	
+	<!-- Protected API end-points -->
+	<security:http realm="Protected API" use-expressions="true" auto-config="false" create-session="stateless" entry-point-ref="unauthorizedEntryPoint">
+		<security:intercept-url pattern="/api/users/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/tests/**" access="isAuthenticated()" />
+		<security:csrf disabled="true"/>
+		<security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />
+	</security:http>
+
+</beans>
