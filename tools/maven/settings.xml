@@ -35,4 +35,11 @@
 			</properties>
 		</profile>
 	</profiles>
+	<servers>
+		<server>
+			<id>TomcatServer</id>
+			<username>drones4hire</username>
+			<password>tomc@t4drones</password>
+		</server>
+	</servers>
 </settings>
