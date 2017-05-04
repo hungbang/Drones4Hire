@@ -7,18 +7,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-//import com.drones4hire.dronesapp.models.db.User;
-//import com.drones4hire.dronesapp.services.services.auth.JWTService;
-//import com.drones4hire.dronesapp.ws.security.SecuredUser;
+import com.drones4hire.dronesapp.models.db.User;
+import com.drones4hire.dronesapp.services.services.auth.JWTService;
+import com.drones4hire.dronesapp.ws.security.SecuredUser;
 
 @Component
-public class JWTAuthService 
-//implements UserDetailsService
+public class JWTAuthService implements UserDetailsService
 {
-//	@Autowired
-	//private JWTService jwtService;
+	@Autowired
+	private JWTService jwtService;
 	
-	/*@Override
+	@Override
 	public UserDetails loadUserByUsername(String token) throws UsernameNotFoundException
 	{
 		User user = null;
@@ -34,5 +33,5 @@ public class JWTAuthService
 							   user.getUsername(), StringUtils.EMPTY, 
 							   user.getRoles());
 							   
-	}*/
+	}
 }
