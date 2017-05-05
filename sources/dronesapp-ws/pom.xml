@@ -211,9 +211,9 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<url>${drones4hire.tomcat.url}</url>
-					<path>${drones4hire.tomcat.ws.path}</path>
-					<server>TomcatServer</server>
+					<port>8080</port>
+					<charset>UTF-8</charset>
+					<uriEncoding>UTF-8</uriEncoding>
 				</configuration>
 			</plugin>
 		</plugins>
