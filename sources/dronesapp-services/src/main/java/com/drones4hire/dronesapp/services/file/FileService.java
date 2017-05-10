@@ -1,27 +1,27 @@
 package com.drones4hire.dronesapp.services.file;
 
+
 import java.io.InputStream;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.drones4hire.dronesapp.models.db.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 
 public abstract class FileService
 {
-	@Value("#{environmentProperties['drones4hire.images.dir']}")
-	private String imagesDir;
 	protected final static String DOT = ".";
 	protected final static String DASH = "-";
 
 	/**
-	 * Save images on disk. File will be save in @see {proj}/{env}/{userId}/{type}_{uuid}.
+	 * Save images on disk. File will be save in @see {env}/{userId}/{uuid}.
 	 * 
 	 * @param inputFile
 	 *            - profile foto to save in bytes.
 	 * @return path to profile foto on disk.
 	 */
-	abstract public String saveImage(final InputStream inputFile, final String fileName, long fileSize)
+	abstract public String saveImage(MultipartFile file, User user)
 			throws ServiceException;
 
 	/**
@@ -44,11 +44,4 @@ public abstract class FileService
 	 */
 	abstract public void removeFile(String pathToFile) throws ServiceException;
 	
-	public String getImagesDir() {
-		return imagesDir;
-	}
-
-	public void setImagesDir(String imagesDir) {
-		this.imagesDir = imagesDir;
-	}
 }

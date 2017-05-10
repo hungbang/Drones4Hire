@@ -12,6 +12,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				<drones4hire.env>local</drones4hire.env>
 				<drones4hire.url>http://localhost:8080</drones4hire.url>
 				<drones4hire.tomcat.url>${drones4hire.url}/manager/text</drones4hire.tomcat.url>
 				<drones4hire.tomcat.ws.path>/dronesapp</drones4hire.tomcat.ws.path>
@@ -29,9 +30,9 @@
 				<mail.user>{user}</mail.user>
 				<mail.pass>{pass}</mail.pass>
 
-				<drones4hire.amazon.accessKey></drones4hire.amazon.accessKey>
-				<drones4hire.amazon.secretKey></drones4hire.amazon.secretKey>
-				<drones4hire.amazon.bucket></drones4hire.amazon.bucket>
+				<drones4hire.amazon.accessKey>AKIAJSPZIDX4XQD766EQ</drones4hire.amazon.accessKey>
+				<drones4hire.amazon.secretKey>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</drones4hire.amazon.secretKey>
+				<drones4hire.amazon.bucket>dronessapp</drones4hire.amazon.bucket>
 			</properties>
 		</profile>
 	</profiles>

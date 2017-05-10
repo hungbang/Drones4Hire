@@ -86,6 +86,8 @@
 		<constructor-arg index="1" ref="amazonConfig" />
 	</bean>
 	
+	<bean id="amazonFileService" class="com.drones4hire.dronesapp.services.file.impl.AmazonFileService" />
+	
 	<bean id="jwtService" class="com.drones4hire.dronesapp.services.services.auth.JWTService">
 		<constructor-arg index="0" value="${drones4hire.jwt.secret}" />
 		<constructor-arg index="1" value="${drones4hire.jwt.authTokenExp}"  />
