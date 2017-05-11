@@ -1,0 +1,42 @@
+<form (submit)="onSubmit()" class="f-company f-default">
+  <div class="f-default__row">
+    <label class="f-default__label">
+      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Company Display Name:</span>
+      <input class="f-default__field" type="text" placeholder="Tester1" name="name" [(ngModel)]="company.name" [required]="_appService.isUserPilot"/>
+      <span class="f-default__error" *ngIf="isPilot">This field is required</span>
+    </label>
+  </div>
+  <div class="f-default__row">
+    <label class="f-default__label">
+      <span class="f-default__text">Web Url:</span>
+      <input class="f-default__field" type="text" placeholder="www.Test1.com" name="url" [(ngModel)]="company.url"/>
+    </label>
+  </div>
+  <div class="f-default__row">
+    <label class="f-default__label">
+      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Contact Name:</span>
+      <input class="f-default__field" type="text" placeholder="Tester1" name="contactName" [(ngModel)]="company.contactName" [required]="_appService.isUserPilot"/>
+      <span class="f-default__error" *ngIf="_appService.isUserPilot">This field is required</span>
+    </label>
+  </div>
+  <div class="f-default__row">
+    <label class="f-default__label">
+      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Contact Email:</span>
+      <input class="f-default__field" type="text" placeholder="iuhui@uihv.com" name="contactEmail" [(ngModel)]="company.contactEmail" [required]="_appService.isUserPilot"/>
+      <span class="f-default__error" *ngIf="_appService.isUserPilot">This field is required</span>
+    </label>
+  </div>
+  <div class="f-default__row">
+    <label class="f-default__label">
+      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Country:</span>
+      <select class="f-default__field" name="country" [(ngModel)]="company.country" [required]="_appService.isUserPilot">
+        <option>USA</option>
+        <option>France</option>
+      </select>
+      <span class="f-default__error" *ngIf="_appService.isUserPilot">This field is required</span>
+    </label>
+  </div>
+
+  <button type="submit" class="f-default__button f-client-company__button">Save Changes</button>
+
+</form>

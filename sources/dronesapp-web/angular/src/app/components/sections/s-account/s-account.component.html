@@ -1,0 +1,47 @@
+<div class="s-account">
+  <div class="container">
+    <h2 class="s-account__title">Account Settings</h2>
+    <div class="s-account__tabs">
+      <button type="button" class="s-account__tab"
+        [ngClass]="{ '_active': activeTabName === 'details' }"
+        (click)="showTab('details')">Account Details</button>
+      <button type="button" class="s-account__tab"
+        *ngIf="_appService.isUserPilot"
+        [ngClass]="{ '_active': activeTabName === 'preference' }"
+        (click)="showTab('preference')">Account Preferences</button>
+      <button type="button" class="s-account__tab"
+        [ngClass]="{ '_active': activeTabName === 'security' }" (click)="showTab('security')">Account Security</button>
+      <button type="button" class="s-account__tab"
+        [ngClass]="{ '_active': activeTabName === 'notification' }"
+        (click)="showTab('notification')">Notifications</button>
+    </div>
+    <div class="s-account__content">
+      <div class="s-account__item" [ngClass]="{ '_active': activeTabName === 'details' }">
+        <h3 class="s-account__subtitle">Profile Details</h3>
+        <f-profile></f-profile>
+        <h3 class="s-account__subtitle">Company Details</h3>
+        <f-company></f-company>
+        <h3 *ngIf="_appService.isUserPilot" class="s-account__subtitle">License & Insurance Info</h3>
+        <f-license *ngIf="_appService.isUserPilot"></f-license>
+        <h3 class="s-account__subtitle">Financial Preferences</h3>
+      </div>
+      <div class="s-account__item" *ngIf="_appService.isUserPilot" [ngClass]="{ '_active': activeTabName === 'preference' }">
+        <h3 class="s-account__subtitle">Details</h3>
+        <p class="s-account__text">Sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+          Nemo enim ipsam voluptatem quia voluptas. sit.aspernatur aut odit aut fugit</p>
+
+      </div>
+      <div class="s-account__item" [ngClass]="{ '_active': activeTabName === 'security' }">
+        <h3 class="s-account__subtitle">Security Details</h3>
+        <p class="s-account__text">Lorem sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+          Nemo enim ipsam voluptatem quia voluptas. sit.aspernatur aut odit aut fugit</p>
+      </div>
+      <div class="s-account__item" [ngClass]="{ '_active': activeTabName === 'notification' }">
+        <h3 class="s-account__subtitle">Details</h3>
+        <p class="s-account__text">Sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+          Nemo enim ipsam voluptatem quia voluptas. sit.aspernatur aut odit aut fugit</p>
+      </div>
+    </div>
+  </div>
+</div>
+

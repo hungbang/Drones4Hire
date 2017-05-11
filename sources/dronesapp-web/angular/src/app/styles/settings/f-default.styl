@@ -1,0 +1,105 @@
+// TODO: refactoring
+.f-default
+  padding 0 20px
+  &__inner
+    display: flex
+    margin 0 -30px 40px
+  &__col
+    max-width 45%
+    flex-basis: 45%
+    padding 0 30px
+  &__row
+    &+&
+      margin-top 20px
+  &__label
+    display: flex
+    width: 100%
+    justify-content: space-between
+    align-items: center
+    position: relative
+    &._top
+      align-items flex-start
+    &._checkbox
+      justify-content flex-start
+      [type="checkbox"]
+        display none
+        &:checked + .f-default__chk-span:after
+          content '\2713'
+          position absolute
+          top: 50%;
+          left: 50%;
+          transform translate(-50%, -50%);
+  &__field
+    display: block
+    width: 100%
+    max-width 65%
+    flex-basis: 65%
+    height: 5rem
+    background #eee
+    border-radius 5px
+    padding 0 15px
+    font-size 1.8rem
+    font-weight: 400
+    color #4d4d4f
+    &::placeholder
+      color #4d4d4f
+    &._area
+      height 200px
+      padding 10px 15px
+    &._file
+      background none
+    &.ng-invalid.ng-touched
+      +.f-profile__error
+        opacity 1
+    &._submit.ng-invalid
+      +.f-profile__error
+        opacity 1
+  &__error
+    position: absolute
+    font-size 1.2rem
+    color red
+    bottom: -5px
+    left: 0
+    opacity 0
+  &__text
+    font-size 1.8rem
+    font-weight: 400
+    color #4d4d4f
+    &._req
+      &:after
+        content '*'
+        display: inline-block
+        color red
+        font-size 1.8rem
+        font-weight: 400
+    &._req-l
+      &:before
+        content '*'
+        display: inline-block
+        color red
+        font-size 1.8rem
+        font-weight: 400
+    &._lh
+      line-height 5rem
+    &._center
+      text-align center
+  &__chk-span
+    display inline-block
+    width 13px
+    height 13px
+    border-radius 3px
+    background-color #eee
+    border 1px solid darken(#eee, 25%)
+    position relative
+    margin-right .5rem
+  &__button
+    display: inline-block
+    border-radius 5px
+    font-size 1.4rem
+    font-weight: 400
+    color #fff
+    text-transform: uppercase
+    min-width 150px
+    height: 4rem
+    background #3ebcc7
+    margin-bottom: 30px

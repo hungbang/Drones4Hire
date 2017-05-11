@@ -1,0 +1,46 @@
+.t-dashboard
+  width: 100%
+  color #454545
+  font-size 1.6rem
+  text-transform: uppercase
+  text-align: center
+  tr:first-of-type
+    th.t-dashboard__th:first-child
+      background #363636
+    .t-dashboard__th:nth-child(2n)
+      background #3fb6c0
+    .t-dashboard__th:nth-child(2n+1)
+      background #159aa5
+  tr
+    td:first-child
+      text-align: left;
+      ._client &
+        width: 33.333%
+    .t-dashboard__td:nth-child(2n)
+      background #f6f6f6
+    ._pilot &
+      td:last-child
+        width: 9%
+  &__th
+    color #fff
+    font-weight: 500
+    padding: 18px 10px 16px;
+  &__td
+    padding: 15px 10px;
+    border-bottom: 1px solid #d3d3d3;
+  &__link
+    &-name
+      color #454545
+      border-bottom: 1px solid #454545;
+    ._client &
+      &-review
+        color #397eb9
+  ._client &
+    &__wrapper
+      display: flex
+      justify-content: space-between
+      align-items: center
+  tr
+    &:hover
+      td
+        background #f8f8f8

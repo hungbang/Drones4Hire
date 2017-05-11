@@ -40,42 +40,15 @@
                     <phase>generate-resources</phase>
                 </execution>
                 <execution>
-                    <id>bower install</id>
+                    <id>npm run build</id>
                     <goals>
-                        <goal>bower</goal>
+                        <goal>npm</goal>
                     </goals>
                     <configuration>
-                        <arguments>install</arguments>
+                        <arguments>run build</arguments>
                     </configuration>
-                    <phase>generate-resources</phase>
-                </execution>
-                <execution>
-                    <id>gulp build</id>
-                    <goals>
-                        <goal>gulp</goal>
-                    </goals>
-                    <configuration>
-                        <arguments>build</arguments>
-                    </configuration>
-                    <phase>generate-resources</phase>
-                </execution>
-                <execution>
-                    <id>gulp war</id>
-                    <goals>
-                        <goal>gulp</goal>
-                    </goals>
-                    <configuration>
-                        <arguments>war</arguments>
-                    </configuration>
-                    <phase>generate-resources</phase>
                 </execution>
             </executions>
-        </plugin>
-        <plugin>
-            <artifactId>maven-war-plugin</artifactId>
-            <configuration>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-            </configuration>
         </plugin>
         <plugin>
             <groupId>org.apache.tomcat.maven</groupId>

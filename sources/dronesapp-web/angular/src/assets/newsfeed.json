@@ -1,0 +1,122 @@
+[
+  {
+    "author": {
+      "firstName": "Don",
+      "lastName": "King",
+      "avatar": "https://randomuser.me/api/portraits/women/57.jpg",
+      "id": 1
+    },
+    "date": 133443211234,
+    "post": {
+      "type": "image",
+      "caption": "This is where we are going to our development phase.",
+      "img": "https://unsplash.it/700/300"
+    }
+  },
+  {
+    "author": {
+      "firstName": "Don",
+      "lastName": "King",
+      "avatar": "https://randomuser.me/api/portraits/women/56.jpg",
+      "id": 2
+    },
+    "date": 123443211234,
+    "post": {
+      "type": "text",
+      "content": "While some people really seem to have a knack for barbequing – always grilling up a perfect meal – for the rest of us, it is something that must be learned, not something that just comes naturally. Believe it or not, there is technique involved. It’s not just a matter of following your cooking instincts. "
+    }
+  },
+  {
+    "author": {
+      "firstName": "Don",
+      "lastName": "King",
+      "avatar": "https://randomuser.me/api/portraits/women/55.jpg",
+      "id": 3
+    },
+    "date": 113443211234,
+    "post": {
+      "type": "video",
+      "caption": "This is where we are going to our development phase.",
+      "video": {
+        "type": "youtube",
+        "width": "560",
+        "height": "315",
+        "src": "https://www.youtube.com/embed/ziNqYnhksmw"
+      }
+    }
+  },
+  {
+    "author": {
+      "firstName": "Don",
+      "lastName": "King",
+      "avatar": "https://randomuser.me/api/portraits/women/55.jpg",
+      "id": 3
+    },
+    "date": 113443211234,
+    "post": {
+      "type": "video",
+      "caption": "This is where we are going to our development phase.",
+      "video": {
+        "type": "vimeo",
+        "width": "640",
+        "height": "360",
+        "src": "https://player.vimeo.com/video/184380829"
+      }
+    }
+  },
+  {
+    "author": {
+      "firstName": "Don",
+      "lastName": "King",
+      "avatar": "https://randomuser.me/api/portraits/women/54.jpg",
+      "id": 4
+    },
+    "date": 110443211234,
+    "post": {
+      "type": "video",
+      "caption": "This is where we are going to our development phase.",
+      "video": {
+        "type": "html5",
+        "src": "http://104.199.10.87/wordpress/wp-content/uploads/2016/09/Dehres_1.22_ENG.mp4"
+      }
+    }
+  },
+  {
+    "author": {
+      "firstName": "Don",
+      "lastName": "King",
+      "avatar": "https://randomuser.me/api/portraits/women/53.jpg",
+      "id": 5
+    },
+    "date": 103443211234,
+    "post": {
+      "type": "article",
+      "caption": "This is where we are going to our development phase.",
+      "article": {
+        "link": "www.behance.net",
+        "title": "Placeist - Behance Project",
+        "text": "My side project which unfortunately never went live because me and my friend joined Tapdaq. But I didn\"t want to lose to opportunity to at lorem ipsum dolor sit amet",
+        "website": "www.behance.net",
+        "img": "https://unsplash.it/120/120"
+      }
+    }
+  },
+  {
+    "author": {
+      "firstName": "Don",
+      "lastName": "King",
+      "avatar": "https://randomuser.me/api/portraits/women/52.jpg",
+      "id": 6
+    },
+    "date": 100443211234,
+    "post": {
+      "type": "publication",
+      "publication": {
+        "id": 1,
+        "title": "This is the name of my publication, I would like to share it with you ",
+        "text": "Unless you have the dubious pleasure of living right next door to an airport one of the biggest downsides of going on holiday is catching a flight at an ungodly hour of the day. ",
+        "img": "https://unsplash.it/430/210"
+      }
+    }
+  }
+]

@@ -1,0 +1,32 @@
+.l-portfolio
+  display: flex
+  flex-wrap wrap
+  margin: 0 -20px;
+  text-align: center
+  &__item
+    padding: 0 20px;
+    margin-bottom: 38px
+    flex-basis: 25%
+    max-width: 25%
+    &:nth-child(1)
+    &:nth-child(2)
+    &:nth-child(3)
+      flex-basis: 33.333%
+      max-width: 33.333%
+    .b-portfolio
+      &__wrapper
+        padding: 35px 10px;
+      &__title
+        font-size 1.6rem
+      &__subtitle
+      &__text
+        font-size 1.2rem
+    &:nth-child(-n+3)
+      .b-portfolio
+        &__wrapper
+          padding: 65px 15px;
+        &__title
+          font-size 2.4rem
+        &__subtitle
+        &__text
+          font-size 1.8rem

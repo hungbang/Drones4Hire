@@ -1,0 +1,3 @@
+<nav class="b-pagination" *ngIf="pagesCount > 1">
+  <l-pagination [currentPage]="currentPage" [pagesCount]="pagesCount" (newPage)="setNewPage($event)"></l-pagination>
+</nav>

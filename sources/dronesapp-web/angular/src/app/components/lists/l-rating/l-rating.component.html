@@ -1,0 +1,7 @@
+<ul class="l-rating">
+  <li class="l-rating__item" *ngFor="let i of ratingArr; let ind = index">
+    <svg-use *ngIf="rating-1 >= ind" name="star"></svg-use>
+    <svg-use *ngIf="rating-0.5 === ind" name="halfstar"></svg-use>
+    <svg-use *ngIf="(rating-0.5 !== ind)&&(rating-1 < ind)" name="emptystar"></svg-use>
+  </li>
+</ul>

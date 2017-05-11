@@ -1,0 +1,62 @@
+@import "../../../styles/settings/mixin.styl"
+@import "../../../styles/settings/variables.styl"
+
+.modal-default
+  z-index: 10
+  background rgba(#000,.8)
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  width: 100%
+  height: 100%
+  position: fixed
+  padding: 50px 20px
+  opacity: 0
+  pointer-events none
+  text-align: center
+  overflow-y scroll
+  tro()
+  vam-ps()
+  &._open
+    opacity: 1
+    pointer-events all
+    .modal-default__inner
+      opacity: 1
+      transition opacity .1s linear .5s
+  &__header
+    padding 20px 20px
+    position: relative
+    border-radius: 4px 4px 0 0
+    background linear-gradient(to top, #367dbb, #3e90d8)
+  &__inner
+    vam()
+    max-width 100%
+    background #fff
+    position: relative
+    border-radius: 4px
+    opacity: 0
+    transition opacity .1s linear .2s
+  &__title
+    font-size: 1.8rem
+    color #fff
+    font-weight: 400
+    text-align: left
+  &__close
+    width: 52px
+    height: 40px
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    margin auto 0
+    .svg-cross
+      width: 12px
+      height: 12px
+      fill #fff
+      hvb()
+      trf()
+    &:hover
+    &:focus
+      .svg-close
+        fill #000

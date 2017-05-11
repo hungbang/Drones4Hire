@@ -1,0 +1,89 @@
+@import "../../../styles/settings/mixin.styl"
+
+.f-bid
+  margin-bottom: 70px
+  &__title
+    text-transform: uppercase
+    font-size 3.6rem
+    color #414141
+    margin-bottom: 25px
+  &__text
+    text-transform: uppercase
+    color #464646
+    margin-bottom: 10px;
+    font-size 1.8rem
+  &__textarea
+    border 1px solid #464646
+    width: 100%
+    height: 150px
+    padding: 10px;
+  &__row
+    &+&
+      margin-top: 40px
+      margin-bottom: 30px
+  &__wrapper
+    display: flex
+  &__col
+    &._amount
+      width: 100%
+      max-width: 225px
+      position: relative
+      margin-right: 22px;
+  &__field
+    width: 100%
+    height: 40px;
+    padding: 0 10px 0 25px;
+    border 1px solid #464646
+    &-span
+      font-size 1.8rem
+      color #464646
+      position: absolute
+      top 10px
+      left: 10px
+  &__label
+    display: flex
+    align-items flex-end
+    height: 100%
+  &__chk
+    &-input
+      display: none
+      &:checked+
+        .f-bid__chk-span
+          &:after
+            display: block
+    &-span
+      vab()
+      position: absolute
+      &:before
+        ps()
+        top -40px
+        left: 0
+        width: 40px
+        height: 40px
+        border 1px solid #464646
+      &:after
+        ps()
+        display: none
+        top -34px
+        left: 5px;
+        width: 30px
+        height: 14px
+        border-left: 2px solid #464646;
+        border-bottom: 2px solid #464646;
+        transform rotate(-45deg)
+  &__span
+    vab()
+    padding-left: 55px
+    font-size 1.8rem
+    color #464646
+    text-transform: uppercase
+  &__button
+    background #3ebcc7
+    width: 225px
+    height: 46px
+    color #fff
+    text-transform: uppercase
+    font-size 1.8rem
+
+
+

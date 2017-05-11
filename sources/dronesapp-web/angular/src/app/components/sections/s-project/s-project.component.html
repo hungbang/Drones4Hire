@@ -1,0 +1,22 @@
+<section class="s-project">
+  <div class="container">
+    <h1 class="s-project__title">{{project.name}}</h1>
+    <div class="s-project__wrapper">
+      <div class="s-project__left">
+        <b-project-details [details]="project.details"></b-project-details>
+        <b-photos></b-photos>
+      </div>
+      <div class="s-project__right">
+        <b-project-description [description]="project.description"></b-project-description>
+        <b-bid-info [bidInfo]="projectBidsInfo"></b-bid-info>
+        <f-bid *ngIf="_appService.isUserPilot"></f-bid>
+        <b-bids *ngIf="_appService.isUserClient" [bids]="projectBids"></b-bids>
+        <b-comments [comments]="comments"></b-comments>
+      </div>
+    </div>
+    <div class="s-project__similar">
+      <div class="s-project__similar-title">similar projects</div>
+      <l-similar></l-similar>
+    </div>
+  </div>
+</section>

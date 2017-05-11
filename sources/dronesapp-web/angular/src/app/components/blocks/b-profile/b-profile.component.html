@@ -1,0 +1,35 @@
+<div class="b-profile">
+  <div class="b-profile__img-wrapper">
+    <div *ngIf="profile.img; else elseBlock">
+      <img src="{{profile.img}}" alt="user icon" class="b-profile__img">
+    </div>
+    <ng-template #elseBlock>
+      <div class="b-profile__img-wrapper">
+        <svg-use name="usericon"></svg-use>
+      </div>
+    </ng-template>
+  </div>
+  <div class="b-profile__title">{{profile.name}}</div>
+  <div class="b-profile__subtitle">{{profile.status}}</div>
+  <div class="b-profile__dron-wrapper">
+    <img class="b-profile__dron-img" src="../assets/img/dron.png">
+  </div>
+  <div class="b-profile__wrapper">
+    <div class="b-profile__col" *ngIf="showDescription">
+      <div class="b-profile__col-title">Flight Hours</div>
+      <div class="b-profile__col-text">{{profile.flightHours}}</div>
+    </div>
+    <div class="b-profile__col" *ngIf="!showDescription">
+      <div class="b-profile__col-title">Wallet Balance</div>
+      <div class="b-profile__col-text">{{profile.walletBalance}}</div>
+    </div>
+    <div class="b-profile__col" *ngIf="showDescription">
+      <div class="b-profile__col-title">Location</div>
+      <div class="b-profile__col-text">{{profile.location}}</div>
+    </div>
+    <div class="b-profile__col" *ngIf="!showDescription">
+      <div class="b-profile__col-title">Member Since</div>
+      <div class="b-profile__col-text">{{profile.registrationDate}}</div>
+    </div>
+  </div>
+</div>

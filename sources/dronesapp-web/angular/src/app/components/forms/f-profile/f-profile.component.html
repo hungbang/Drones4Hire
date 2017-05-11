@@ -1,0 +1,89 @@
+<form novalidate (submit)="onSubmit()" class="f-profile f-default">
+  <div class="f-default__inner">
+    <div class="f-default__col">
+      <div class="f-default__row">
+        <div class="f-default__label">
+          <span class="f-default__text _req-l">Required</span>
+        </div>
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label">
+          <span class="f-default__text _req">First Name:</span>
+          <input class="f-default__field" type="text" name="firstName" [(ngModel)]="account.firstName" required/>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label">
+          <span class="f-default__text _req">Last Name:</span>
+          <input class="f-default__field" type="text" name="lastName" [(ngModel)]="account.lastName" required/>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label">
+          <span class="f-default__text _req">Address:</span>
+          <input class="f-default__field" type="text" name="address" [(ngModel)]="account.address" required/>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label">
+          <span class="f-default__text _req">Country:</span>
+          <select class="f-default__field" name="country" [(ngModel)]="account.country" required>
+            <option value="USA">USA</option>
+            <option value="France">France</option>
+          </select>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label">
+          <span class="f-default__text _req">State:</span>
+          <input class="f-default__field" type="text" name="state" [(ngModel)]="account.state" required/>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label">
+          <span class="f-default__text _req">City:</span>
+          <input class="f-default__field" type="text" name="city" [(ngModel)]="account.city" required/>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label">
+          <span class="f-default__text _req">Postal Code:</span>
+          <input class="f-default__field" type="text" name="postalCode" [(ngModel)]="account.postalCode" required/>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row" *ngIf="_appService.isUserPilot">
+        <label class="f-default__label">
+          <span class="f-default__text">Flight Hours:</span>
+          <input class="f-default__field" type="text" name="flightHours"/>
+        </label>
+      </div>
+    </div>
+
+    <div class="f-default__col">
+      <div class="f-default__row">
+        <label class="f-default__label _top">
+          <span class="f-default__text _req">Upload Image:</span>
+          <input class="f-default__field _file" type="file" name="profileImage" ngModel required/>
+          <span class="f-default__error">This field is required</span>
+        </label>
+      </div>
+      <div class="f-default__row" *ngIf="account.profileImage">
+        <img src="{{account.profileImage}}" alt="">
+      </div>
+      <div class="f-default__row">
+        <label class="f-default__label _top">
+          <span class="f-default__text _lh">Introduction:</span>
+          <textarea class="f-default__field _area" name="introduction" [(ngModel)]="account.introduction"></textarea>
+        </label>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="f-default__button">Save Changes</button>
+</form>

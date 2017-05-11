@@ -1,0 +1,26 @@
+<div class="l-abilities">
+  <div class="l-abilities__block" *ngIf="abilities.services.length">
+    <div class="l-abilities__title">services</div>
+    <ul class="l-abilities__list" *ngFor="let service of abilities.services">
+      <li class="l-abilities__item">{{service}}</li>
+    </ul>
+  </div>
+  <div class="l-abilities__block" *ngIf="abilities.industries.length">
+    <div class="l-abilities__title">Industries</div>
+    <ul class="l-abilities__list" *ngFor="let industry of abilities.industries">
+      <li class="l-abilities__item">{{industry}}</li>
+    </ul>
+  </div>
+  <div class="l-abilities__block" *ngIf="abilities.drones.length">
+    <div class="l-abilities__title">drones</div>
+    <ul class="l-abilities__list" *ngFor="let drone of abilities.drones">
+      <li class="l-abilities__item">{{drone}}</li>
+    </ul>
+  </div>
+  <div class="l-abilities__block" *ngIf="abilities.cameraTypes.length">
+    <div class="l-abilities__title">Camera Types</div>
+    <ul class="l-abilities__list" *ngFor="let cameraType of abilities.cameraTypes">
+      <li class="l-abilities__item">{{cameraType}}</li>
+    </ul>
+  </div>
+</div>
