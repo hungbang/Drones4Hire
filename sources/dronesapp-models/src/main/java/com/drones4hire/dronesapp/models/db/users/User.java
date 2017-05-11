@@ -1,7 +1,9 @@
 package com.drones4hire.dronesapp.models.db.users;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Location;
@@ -12,6 +14,7 @@ import com.drones4hire.dronesapp.models.db.projects.Comment;
 import com.drones4hire.dronesapp.models.db.projects.Feedback;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.settings.NotificationSettings;
+import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -152,6 +155,16 @@ public class User extends AbstractEntity implements Comparable<User> {
 
 	public void setWallet(Wallet wallet) {
 		this.wallet = wallet;
+	}
+	
+	public List<Role> getRoles()
+	{
+		Set<Role> roles = new HashSet<>();
+		for(Group group : groups)
+		{
+			roles.add(group.getRole());
+		}
+		return new ArrayList<>(roles);
 	}
 	
 	@Override
