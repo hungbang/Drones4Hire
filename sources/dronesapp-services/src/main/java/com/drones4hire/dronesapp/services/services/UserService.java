@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
-import com.drones4hire.dronesapp.models.db.User;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 @Service

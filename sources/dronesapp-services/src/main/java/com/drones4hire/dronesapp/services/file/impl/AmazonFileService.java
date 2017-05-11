@@ -27,7 +27,7 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import com.drones4hire.dronesapp.models.db.User;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.AWSException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.file.FileService;

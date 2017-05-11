@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.drones4hire.dronesapp.models.db.User;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.file.impl.AmazonFileService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;

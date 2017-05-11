@@ -3,9 +3,9 @@ package com.drones4hire.dronesapp.services.services.auth;
 import java.util.Calendar;
 import java.util.List;
 
-import com.drones4hire.dronesapp.models.db.Group;
-import com.drones4hire.dronesapp.models.db.Group.Role;
-import com.drones4hire.dronesapp.models.db.User;
+import com.drones4hire.dronesapp.models.db.users.Group;
+import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.db.users.Group.Role;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.drones4hire.dronesapp.models.db.User;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.ws.security.SecuredUser;
 

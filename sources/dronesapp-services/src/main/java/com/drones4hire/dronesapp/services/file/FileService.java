@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.drones4hire.dronesapp.models.db.User;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 

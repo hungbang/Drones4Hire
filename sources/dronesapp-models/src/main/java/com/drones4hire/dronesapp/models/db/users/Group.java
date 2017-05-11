@@ -1,6 +1,8 @@
-package com.drones4hire.dronesapp.models.db;
+package com.drones4hire.dronesapp.models.db.users;
 
 import java.util.List;
+
+import com.drones4hire.dronesapp.models.db.AbstractEntity;
 
 public class Group extends AbstractEntity
 {
