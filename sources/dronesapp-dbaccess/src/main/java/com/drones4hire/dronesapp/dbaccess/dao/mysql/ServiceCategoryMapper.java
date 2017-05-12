@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ServiceCategoryMapper {
 
-    void create(ServiceCategory serviceCategory);
+    void createServiceCategory(ServiceCategory serviceCategory);
 
     ServiceCategory getServiceCategoryById(long id);
 

@@ -3,14 +3,14 @@
 
 <mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceCategoryMapper">
 
-    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+    <insert id="createServiceCategory" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-              drones.SERVICE_CATEGORIES (NAME, SORT_ORDER)
+            drones.SERVICE_CATEGORIES (NAME, SORT_ORDER)
           VALUES
           (
-              #{name},
-              #{order}
+            #{name},
+            #{order}
           )
         ]]>
     </insert>
@@ -18,13 +18,13 @@
     <sql id="getServiceCategories">
         <![CDATA[
           SELECT
-	          SC.ID AS SERVICE_CATEGORY_ID,
-	          SC.NAME AS SERVICE_CATEGORY_NAME,
-	          SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
-	          SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
-	          SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT
+	        SC.ID AS SERVICE_CATEGORY_ID,
+	        SC.NAME AS SERVICE_CATEGORY_NAME,
+	        SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
+	        SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
+	        SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT
           FROM
-	          drones.SERVICE_CATEGORIES SC
+	        drones.SERVICE_CATEGORIES SC
         ]]>
     </sql>
 
@@ -32,7 +32,7 @@
         <include refid="getServiceCategories"/>
         <![CDATA[
           WHERE
-              SC.ID = #{id}
+            SC.ID = #{id}
         ]]>
     </select>
 
@@ -43,12 +43,12 @@
     <update id="updateServiceCategory">
         <![CDATA[
           UPDATE
-         	 drones.SERVICE_CATEGORIES
+         	drones.SERVICE_CATEGORIES
           SET
-          	 NAME = #{name},
-          	 SORT_ORDER = #{order}
+          	NAME = #{name},
+          	SORT_ORDER = #{order}
           WHERE
-			 ID = #{id}
+			ID = #{id}
         ]]>
     </update>
 
@@ -56,9 +56,9 @@
         <![CDATA[
           DELETE
           FROM
-              drones.SERVICE_CATEGORIES
+            drones.SERVICE_CATEGORIES
           WHERE
-              ID = #{id}
+            ID = #{id}
         ]]>
     </delete>
 

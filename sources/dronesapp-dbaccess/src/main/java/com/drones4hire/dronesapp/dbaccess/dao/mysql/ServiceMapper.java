@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ServiceMapper {
 
-    void create(Service service);
+    void createService(Service service);
 
     Service getServiceById(long id);
 
