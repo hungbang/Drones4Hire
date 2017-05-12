@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.NotificationSettingsMapper">
+
+	<insert id="createNotificationSettings" useGeneratedKeys="true" keyProperty="id">
+    	<![CDATA[
+        	INSERT
+          		INTO drones.NOTIFICATION_SETTINGS (USER_ID, PLAIN_EMAIL, BID_PLACED, PAYMENT_RECEIVED, 
+          			PROJECT_UPDATE, STAFF, DRONES_NEWS, PROJECT_AWARD, MARKETING, DEALS, MONTHLY_NEWS)
+          	VALUES 
+            (
+          		#{userId},
+            	#{plainEmail},
+            	#{bidPlaced},
+            	#{paymentReceived},
+            	#{projectUpdate},
+            	#{staff},
+            	#{dronesNews},
+            	#{projectAward},
+            	#{marketing},
+            	#{deals},
+            	#{monthlyNews}
+          	)
+        ]]>
+    </insert>
+    
+
+	<sql id="getNotificationSettings">
+    	<![CDATA[
+        	SELECT
+	      		NS.ID AS NOTIFICATION_SETTINGS_ID,
+				NS.USER_ID AS NOTIFICATION_SETTINGS_USER_ID,
+				NS.PLAIN_EMAIL AS NOTIFICATION_SETTINGS_PLAIN_EMAIL,
+				NS.BID_PLACED AS NOTIFICATION_SETTINGS_BID_PLACED,
+				NS.PAYMENT_RECEIVED AS NOTIFICATION_SETTINGS_PAYMENT_RECEIVED,
+				NS.PROJECT_UPDATE AS NOTIFICATION_SETTINGS_PROJECT_UPDATE,
+				NS.STAFF AS NOTIFICATION_SETTINGS_STAFF,
+				NS.DRONES_NEWS AS NOTIFICATION_SETTINGS_DRONES_NEWS,
+				NS.PROJECT_AWARD AS NOTIFICATION_SETTINGS_PROJECT_AWARD,
+				NS.MARKETING AS NOTIFICATION_SETTINGS_MARKETING,
+				NS.DEALS AS NOTIFICATION_SETTINGS_DEALS,
+				NS.MONTHLY_NEWS AS NOTIFICATION_SETTINGS_MONTHLY_NEWS,
+				NS.MODIFIED_AT AS NOTIFICATION_SETTINGS_MODIFIED_AT,
+				NS.CREATED_AT AS NOTIFICATION_SETTINGS_CREATED_AT
+          	FROM
+	          	drones.NOTIFICATION_SETTINGS NS
+        ]]>
+    </sql>
+
+    <select id="getNotificationSettingsById" resultMap="NotificationSettingsResultMap">
+        <include refid="getNotificationSettings"/>
+        <![CDATA[
+        	WHERE
+          		NS.ID = #{id}
+        ]]>
+    </select>
+    
+     <select id="getNotificationSettingsByUserId" resultMap="NotificationSettingsResultMap">
+        <include refid="getNotificationSettings"/>
+        <![CDATA[
+        	WHERE
+          		NS.USER_ID = #{userId}
+        ]]>
+    </select>
+
+    <select id="getAllNotificationSettings" resultMap="NotificationSettingsResultMap">
+        <include refid="getNotificationSettings"/>
+    </select>
+
+    <update id="updateNotificationSettings">
+        <![CDATA[
+        	UPDATE
+        		drones.NOTIFICATION_SETTINGS
+          	SET
+          		USER_ID = #{userId}, 
+          		PLAIN_EMAIL = #{plainEmail}, 
+          		BID_PLACED = #{bidPlaced}, 
+          		PAYMENT_RECEIVED = #{paymentReceived}, 
+          		PROJECT_UPDATE = #{projectUpdate}, 
+          		STAFF = #{staff}, 
+          		DRONES_NEWS = #{dronesNews}, 
+          		PROJECT_AWARD = #{projectAward}, 
+          		MARKETING = #{marketing}, 
+          		DEALS = #{deals}, 
+          		MONTHLY_NEWS = #{monthlyNews}
+          	WHERE
+			 	ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteNotificationSettings">
+        <![CDATA[
+        	DELETE
+          	FROM 
+          		drones.NOTIFICATION_SETTINGS
+          	WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="NotificationSettingsResultMap" type="com.drones4hire.dronesapp.models.db.settings.NotificationSettings" autoMapping="false">
+        <id column="NOTIFICATION_SETTINGS_ID" property="id"/>
+        <result column="NOTIFICATION_SETTINGS_USER_ID" property="userId" />
+        <result column="NOTIFICATION_SETTINGS_PLAIN_EMAIL" property="plainEmail" />
+        <result column="NOTIFICATION_SETTINGS_BID_PLACED" property="bidPlaced" />
+        <result column="NOTIFICATION_SETTINGS_PAYMENT_RECEIVED" property="paymentReceived" />
+        <result column="NOTIFICATION_SETTINGS_PROJECT_UPDATE" property="projectUpdate" />
+		<result column="NOTIFICATION_SETTINGS_STAFF" property="staff" />
+		<result column="NOTIFICATION_SETTINGS_DRONES_NEWS" property="dronesNews" />
+		<result column="NOTIFICATION_SETTINGS_PROJECT_AWARD" property="projectAward" />
+		<result column="NOTIFICATION_SETTINGS_MARKETING" property="marketing" />
+		<result column="NOTIFICATION_SETTINGS_DEALS" property="deals" />
+		<result column="NOTIFICATION_SETTINGS_MONTHLY_NEWS" property="monthlyNews" />
+		<result column="NOTIFICATION_SETTINGS_MODIFIED_AT" property="modifiedAt" />
+		<result column="NOTIFICATION_SETTINGS_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

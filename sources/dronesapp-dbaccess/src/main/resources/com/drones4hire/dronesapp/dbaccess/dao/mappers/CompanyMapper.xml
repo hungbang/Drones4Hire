@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.CompanyMapper">
+
+	<insert id="createCompany" useGeneratedKeys="true" keyProperty="id">
+    	<![CDATA[
+        	INSERT
+          		INTO drones.COMPANIES (USER_ID, NAME, WEB_URL, CONTACT_NAME, CONTACT_EMAIL, COUNTRY_ID)
+          	VALUES 
+            (
+          		#{userId},
+            	#{name},
+            	#{webURL},
+            	#{contactName},
+            	#{contactEmail},
+            	#{country.id},
+          	)
+        ]]>
+    </insert>
+    
+
+	<sql id="getCompany">
+    	<![CDATA[
+        	SELECT
+	      		C.ID AS COMPANY_ID,
+				C.USER_ID AS COMPANY_USER_ID,
+				C.NAME AS COMPANY_NAME,
+				C.WEB_URL AS COMPANY_WEB_URL,
+				C.CONTACT_NAME AS COMPANY_CONTACT_NAME,
+				C.CONTACT_EMAIL AS COMPANY_CONTACT_EMAIL,
+				C.MODIFIED_AT AS COMPANY_MODIFIED_AT,
+				C.CREATED_AT AS COMPANY_CREATED_AT,
+				C.COUNTRY_ID AS COUNTRY_COUNTRY_ID,
+				CO.NAME AS COUNTRY_NAME,
+				CO.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
+				CO.CREATED_AT AS COUNTRY_CREATED_AT
+          	FROM
+	          	drones.COMPANIES C
+	        LEFT JOIN drones.COUNTRIES CO ON C.COUNTRY_ID = CO.ID
+        ]]>
+    </sql>
+
+    <select id="getCompanyById" resultMap="getCompanyResultMap">
+        <include refid="getCompany"/>
+        <![CDATA[
+        	WHERE
+          		C.ID = #{id}
+        ]]>
+    </select>
+    
+     <select id="getCompanyByUserId" resultMap="getCompanyResultMap">
+        <include refid="getCompany"/>
+        <![CDATA[
+        	WHERE
+          		C.USER_ID = #{userId}
+        ]]>
+    </select>
+
+    <select id="getAllCompanies" resultMap="getCompanyResultMap">
+        <include refid="getCompany"/>
+    </select>
+
+    <update id="updateCompany">
+        <![CDATA[
+        	UPDATE
+        		drones.COMPANIES
+          	SET
+          		USERS_ID = #{userId}, 
+          		NAME = #{name}, 
+          		WEB_URL = #{webURL}, 
+          		CONTACT_NAME = #{contactName},
+          		CONTACT_EMAIL = #{contactEmail},
+          		COUNTRY_ID = #{country.id}
+          	WHERE
+			 	ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteCompany">
+        <![CDATA[
+        	DELETE
+          	FROM 
+          		drones.COMPANIES
+          	WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="getCompanyResultMap" type="com.drones4hire.dronesapp.models.db.users.Company" autoMapping="false">
+        <id column="COMPANY_ID" property="id"/>
+        <result column="COMPANY_USER_ID" property="userId" />
+        <result column="COMPANY_NAME" property="licenseURL" />
+        <result column="COMPANY_WEB_URL" property="insuranceURL" />
+        <result column="COMPANY_CONTACT_NAME" property="verified" />
+        <result column="COMPANY_CONTACT_EMAIL" property="verified" />
+		<result column="COMPANY_MODIFIED_AT" property="modifiedAt" />
+		<result column="COUNTRY_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

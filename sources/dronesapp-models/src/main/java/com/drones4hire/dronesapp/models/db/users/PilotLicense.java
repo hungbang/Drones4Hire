@@ -6,7 +6,7 @@ public class PilotLicense extends AbstractEntity
 {
 	private static final long serialVersionUID = -3845232480700290476L;
 
-	private Long pilotId;
+	private Long userId;
 	private String licenseURL;
 	private String insuranceURL;
 	private Boolean verified;
@@ -41,13 +41,13 @@ public class PilotLicense extends AbstractEntity
 		this.verified = verified;
 	}
 
-	public Long getPilotId()
+	public Long getUserId()
 	{
-		return pilotId;
+		return userId;
 	}
 
-	public void setPilotId(Long pilotId)
+	public void setUserId(Long userId)
 	{
-		this.pilotId = pilotId;
+		this.userId = userId;
 	}
 }

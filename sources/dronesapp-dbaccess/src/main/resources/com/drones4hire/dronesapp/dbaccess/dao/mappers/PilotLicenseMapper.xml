@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.PilotLicenseMapper">
+
+	<insert id="createPilotLicense" useGeneratedKeys="true" keyProperty="id">
+    	<![CDATA[
+        	INSERT
+          		INTO drones.PILOT_LICENSES (USER_ID, LICENSE_URL, INSURANCE_URL, VERIFIED)
+          	VALUES 
+            (
+          		#{userId},
+            	#{licenseURL},
+            	#{insuranceURL},
+            	#{verified}
+          	)
+        ]]>
+    </insert>
+    
+
+	<sql id="getPilotLicense">
+    	<![CDATA[
+        	SELECT
+	      		PL.ID AS PILOT_LICENSE_ID,
+				PL.USER_ID AS PILOT_LICENSE_USER_ID,
+				PL.LICENSE_URL AS PILOT_LICENSE_LICENSE_URL,
+				PL.INSURANCE_URL AS PILOT_LICENSE_INSURANCE_URL,
+				PL.VERIFIED AS PILOT_LICENSE_VERIFIED,
+				PL.MODIFIED_AT AS PILOT_LICENSE_MODIFIED_AT,
+				PL.CREATED_AT AS PILOT_LICENSE_CREATED_AT
+          	FROM
+	          	drones.PILOT_LICENSES PL
+        ]]>
+    </sql>
+
+    <select id="getPilotLicenseById" resultMap="getPilotLicenseResultMap">
+        <include refid="getPilotLicense"/>
+        <![CDATA[
+        	WHERE
+          		PL.ID = #{id}
+        ]]>
+    </select>
+    
+     <select id="getPilotLicenseByUserId" resultMap="getPilotLicenseResultMap">
+        <include refid="getPilotLicense"/>
+        <![CDATA[
+        	WHERE
+          		PL.USER_ID = #{pilotId}
+        ]]>
+    </select>
+
+    <select id="getAllPilotLicenses" resultMap="getPilotLicenseResultMap">
+        <include refid="getPilotLicense"/>
+    </select>
+
+    <update id="updatePilotLicense">
+        <![CDATA[
+        	UPDATE
+        		drones.PILOT_LICENSES
+          	SET
+          		USER_ID = #{userId}, 
+          		LICENSE_URL = #{licenseURL}, 
+          		INSURANCE_URL = #{insuranceURL}, 
+          		VERIFIED = #{verified}
+          	WHERE
+			 	ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deletePilotLicense">
+        <![CDATA[
+        	DELETE
+          	FROM 
+          		drones.PILOT_LICENSES
+          	WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="getPilotLicenseResultMap" type="com.drones4hire.dronesapp.models.db.users.PilotLicense" autoMapping="false">
+        <id column="PILOT_LICENSE_ID" property="id"/>
+        <result column="PILOT_LICENSE_USER_ID" property="userId" />
+        <result column="PILOT_LICENSE_LICENSE_URL" property="licenseURL" />
+        <result column="PILOT_LICENSE_INSURANCE_URL" property="insuranceURL" />
+        <result column="PILOT_LICENSE_VERIFIED" property="verified" />
+		<result column="PILOT_LICENSE_MODIFIED_AT" property="modifiedAt" />
+		<result column="PILOT_LICENSE_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

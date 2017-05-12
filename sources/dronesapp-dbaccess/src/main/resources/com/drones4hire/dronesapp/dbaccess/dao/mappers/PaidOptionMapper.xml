@@ -29,6 +29,7 @@
 		        PO.CURRENCY AS PAID_OPTION_CURRENCY,
 		        PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
 		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT
+
           FROM
 	            drones.PAID_OPTIONS PO
         ]]>
