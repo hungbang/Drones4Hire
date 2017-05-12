@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mappers.ServiceCategoryMapper">
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceCategoryMapper">
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
-          INSERT
-          INTO Drones4Hire.SERVICE_CATEGORIES (NAME, ORDER)
-          VALUES (
-            #{name},
-            #{order}
+          INSERT INTO
+              drones.SERVICE_CATEGORIES (NAME, SORT_ORDER)
+          VALUES
+          (
+              #{name},
+              #{order}
           )
         ]]>
     </insert>
@@ -19,11 +20,11 @@
           SELECT
 	          SC.ID AS SERVICE_CATEGORY_ID,
 	          SC.NAME AS SERVICE_CATEGORY_NAME,
-	          SC.ORDER AS SERVICE_CATEGORY_ORDER,
+	          SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
 	          SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
 	          SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT
           FROM
-	          Drones4Hire.SERVICE_CATEGORIES SC
+	          drones.SERVICE_CATEGORIES SC
         ]]>
     </sql>
 
@@ -31,7 +32,7 @@
         <include refid="getServiceCategories"/>
         <![CDATA[
           WHERE
-          SC.ID = #{id}
+              SC.ID = #{id}
         ]]>
     </select>
 
@@ -42,10 +43,10 @@
     <update id="updateServiceCategory">
         <![CDATA[
           UPDATE
-         	 Drones4Hire.SERVICE_CATEGORIES
+         	 drones.SERVICE_CATEGORIES
           SET
           	 NAME = #{name},
-          	 ORDER = #{order}
+          	 SORT_ORDER = #{order}
           WHERE
 			 ID = #{id}
         ]]>
@@ -54,18 +55,19 @@
     <delete id="deleteServiceCategory">
         <![CDATA[
           DELETE
-          FROM Drones4Hire.SERVICE_CATEGORIES
+          FROM
+              drones.SERVICE_CATEGORIES
           WHERE
-          ID = #{id}
+              ID = #{id}
         ]]>
     </delete>
 
     <resultMap id="ServiceCategoryResultMap" type="com.drones4hire.dronesapp.models.db.services.ServiceCategory" autoMapping="false">
-        <id property="id" column="SERVICE_CATEGORY_ID"/>
-        <result property="name" column="SERVICE_CATEGORY_NAME"/>
-        <result property="order" column="SERVICE_CATEGORY_ORDER"/>
-        <result property="modifiedAt" column="SERVICE_CATEGORY_MODIFIED_AT" />
-        <result property="createdAt" column="SERVICE_CATEGORY_CREATED_AT" />
+        <id column="SERVICE_CATEGORY_ID" property="id"/>
+        <result column="SERVICE_CATEGORY_NAME" property="name"/>
+        <result column="SERVICE_CATEGORY_SORT_ORDER" property="order"/>
+        <result column="SERVICE_CATEGORY_MODIFIED_AT" property="modifiedAt"/>
+        <result column="SERVICE_CATEGORY_CREATED_AT" property="createdAt"/>
     </resultMap>
 
 </mapper>
