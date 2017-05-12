@@ -18,13 +18,13 @@ public class Project extends AbstractEntity
 		NEW, IN_PROGRESS, COMPLETED, CANCELLED
 	}
 
-	private Service service;
-	private Duration duration;
-	private Location location;
 	private String title;
 	private String summary;
 	private Long clientId;
 	private Long pilotId;
+	private Service service;
+	private Duration duration;
+	private Location location;
 	private Budget budget;
 	private String imageURL;
 	private Boolean postProductionRequired;

@@ -6,7 +6,7 @@ import com.drones4hire.dronesapp.models.db.projects.Project;
 
 public interface ProjectMapper
 {
-	void create(Project device);
+	void createProject(Project device);
 
 	Project getProjectById(long id);
 
