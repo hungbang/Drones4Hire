@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.drones4hire.dronesapp.models.auth.AuthTokenType;
-import com.drones4hire.dronesapp.models.auth.CredentialsType;
-import com.drones4hire.dronesapp.models.auth.RefreshTokenType;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.dto.auth.AuthTokenType;
+import com.drones4hire.dronesapp.models.dto.auth.CredentialsType;
+import com.drones4hire.dronesapp.models.dto.auth.RefreshTokenType;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;

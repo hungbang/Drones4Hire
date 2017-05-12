@@ -1,4 +1,4 @@
-package com.drones4hire.dronesapp.models.auth;
+package com.drones4hire.dronesapp.models.dto.auth;
 
 import java.io.Serializable;
 

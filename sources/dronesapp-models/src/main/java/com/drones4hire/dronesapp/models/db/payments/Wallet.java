@@ -1,57 +1,56 @@
 package com.drones4hire.dronesapp.models.db.payments;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 
-public class Wallet extends AbstractEntity {
+public class Wallet extends AbstractEntity
+{
 	private static final long serialVersionUID = 5407593528058423401L;
 
 	private Long userId;
 	private BigDecimal balance;
-	private Currency currnecy;
+	private Currency currency;
 	private String paymentToken;
-	private List<Transaction> transactions;
 
-	public BigDecimal getBalance() {
+	public BigDecimal getBalance()
+	{
 		return balance;
 	}
 
-	public void setBalance(BigDecimal balance) {
+	public void setBalance(BigDecimal balance)
+	{
 		this.balance = balance;
 	}
 
-	public Currency getCurrnecy() {
-		return currnecy;
+	public Currency getCurrency()
+	{
+		return currency;
 	}
 
-	public void setCurrnecy(Currency currnecy) {
-		this.currnecy = currnecy;
+	public void setCurrency(Currency currency)
+	{
+		this.currency = currency;
 	}
 
-	public String getPaymentToken() {
+	public String getPaymentToken()
+	{
 		return paymentToken;
 	}
 
-	public void setPaymentToken(String paymentToken) {
+	public void setPaymentToken(String paymentToken)
+	{
 		this.paymentToken = paymentToken;
 	}
 
-	public List<Transaction> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
-	}
-
-	public Long getUserId() {
+	public Long getUserId()
+	{
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(Long userId)
+	{
 		this.userId = userId;
 	}
 }

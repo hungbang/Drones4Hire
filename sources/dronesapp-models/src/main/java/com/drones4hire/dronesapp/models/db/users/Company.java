@@ -3,61 +3,74 @@ package com.drones4hire.dronesapp.models.db.users;
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Country;
 
-public class Company extends AbstractEntity {
+public class Company extends AbstractEntity
+{
 	private static final long serialVersionUID = -7154264953434031300L;
 
 	private Long userId;
 	private String name;
-	private String webUrl;
+	private String webURL;
 	private String contactName;
 	private String contactEmail;
 	private Country country;
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
-	public String getWebUrl() {
-		return webUrl;
+	public String getWebURL()
+	{
+		return webURL;
 	}
 
-	public void setWebUrl(String webUrl) {
-		this.webUrl = webUrl;
+	public void setWebURL(String webURL)
+	{
+		this.webURL = webURL;
 	}
 
-	public String getContactName() {
+	public String getContactName()
+	{
 		return contactName;
 	}
 
-	public void setContactName(String contactName) {
+	public void setContactName(String contactName)
+	{
 		this.contactName = contactName;
 	}
 
-	public String getContactEmail() {
+	public String getContactEmail()
+	{
 		return contactEmail;
 	}
 
-	public void setContactEmail(String contactEmail) {
+	public void setContactEmail(String contactEmail)
+	{
 		this.contactEmail = contactEmail;
 	}
 
-	public Country getCountry() {
+	public Country getCountry()
+	{
 		return country;
 	}
 
-	public void setCountry(Country country) {
+	public void setCountry(Country country)
+	{
 		this.country = country;
 	}
 
-	public Long getUserId() {
+	public Long getUserId()
+	{
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(Long userId)
+	{
 		this.userId = userId;
 	}
 }

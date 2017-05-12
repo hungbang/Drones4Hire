@@ -2,43 +2,52 @@ package com.drones4hire.dronesapp.models.db.users;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 
-public class PilotLicense extends AbstractEntity {
+public class PilotLicense extends AbstractEntity
+{
 	private static final long serialVersionUID = -3845232480700290476L;
 
 	private Long pilotId;
-	private String licenseUrl;
-	private String insuranceUrl;
+	private String licenseURL;
+	private String insuranceURL;
 	private Boolean verified;
 
-	public String getLicenseUrl() {
-		return licenseUrl;
+	public String getLicenseURL()
+	{
+		return licenseURL;
 	}
 
-	public void setLicenseUrl(String licenseUrl) {
-		this.licenseUrl = licenseUrl;
+	public void setLicenseURL(String licenseURL)
+	{
+		this.licenseURL = licenseURL;
 	}
 
-	public String getInsuranceUrl() {
-		return insuranceUrl;
+	public String getInsuranceURL()
+	{
+		return insuranceURL;
 	}
 
-	public void setInsuranceUrl(String insuranceUrl) {
-		this.insuranceUrl = insuranceUrl;
+	public void setInsuranceURL(String insuranceURL)
+	{
+		this.insuranceURL = insuranceURL;
 	}
 
-	public Boolean getVerified() {
+	public Boolean getVerified()
+	{
 		return verified;
 	}
 
-	public void setVerified(Boolean verified) {
+	public void setVerified(Boolean verified)
+	{
 		this.verified = verified;
 	}
 
-	public Long getPilotId() {
+	public Long getPilotId()
+	{
 		return pilotId;
 	}
 
-	public void setPilotId(Long pilotId) {
+	public void setPilotId(Long pilotId)
+	{
 		this.pilotId = pilotId;
 	}
 }

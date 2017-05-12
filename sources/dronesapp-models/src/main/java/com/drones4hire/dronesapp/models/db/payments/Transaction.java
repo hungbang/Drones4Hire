@@ -5,15 +5,18 @@ import java.math.BigDecimal;
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 
-public class Transaction extends AbstractEntity {
+public class Transaction extends AbstractEntity
+{
 	private static final long serialVersionUID = 6859774482239803963L;
 
-	public enum Type {
-
+	public enum Type
+	{
+		WITHDRAW, SERVICE_FEE
 	}
 
-	public enum Status {
-		OPEN, CLOSED
+	public enum Status
+	{
+		COMPLETED
 	}
 
 	private Long walletId;
@@ -23,69 +26,74 @@ public class Transaction extends AbstractEntity {
 	private String purpose;
 	private Long projectId;
 	private Status status;
-	private WithdrawRequest withdrawRequest;
 
-	public Long getWalletId() {
+	public Long getWalletId()
+	{
 		return walletId;
 	}
 
-	public void setWalletId(Long walletId) {
+	public void setWalletId(Long walletId)
+	{
 		this.walletId = walletId;
 	}
 
-	public BigDecimal getAmount() {
+	public BigDecimal getAmount()
+	{
 		return amount;
 	}
 
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(BigDecimal amount)
+	{
 		this.amount = amount;
 	}
 
-	public Currency getCurrency() {
+	public Currency getCurrency()
+	{
 		return currency;
 	}
 
-	public void setCurrency(Currency currency) {
+	public void setCurrency(Currency currency)
+	{
 		this.currency = currency;
 	}
 
-	public Type getType() {
+	public Type getType()
+	{
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(Type type)
+	{
 		this.type = type;
 	}
 
-	public String getPurpose() {
+	public String getPurpose()
+	{
 		return purpose;
 	}
 
-	public void setPurpose(String purpose) {
+	public void setPurpose(String purpose)
+	{
 		this.purpose = purpose;
 	}
 
-	public Status getStatus() {
+	public Status getStatus()
+	{
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(Status status)
+	{
 		this.status = status;
 	}
 
-	public Long getProjectId() {
+	public Long getProjectId()
+	{
 		return projectId;
 	}
 
-	public void setProjectId(Long projectId) {
+	public void setProjectId(Long projectId)
+	{
 		this.projectId = projectId;
-	}
-
-	public WithdrawRequest getWithdrawRequest() {
-		return withdrawRequest;
-	}
-
-	public void setWithdrawRequest(WithdrawRequest withdrawRequest) {
-		this.withdrawRequest = withdrawRequest;
 	}
 }

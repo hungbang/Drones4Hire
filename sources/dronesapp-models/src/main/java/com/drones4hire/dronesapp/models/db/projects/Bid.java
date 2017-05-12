@@ -5,52 +5,63 @@ import java.math.BigDecimal;
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 
-public class Bid extends AbstractEntity {
+public class Bid extends AbstractEntity
+{
 	private static final long serialVersionUID = -6358248317808730305L;
 
 	private Long userId;
 	private Long projectId;
 	private String comment;
-	private Currency currency;
 	private BigDecimal amount;
+	private Currency currency;
 
-	public Long getUserId() {
+	public Long getUserId()
+	{
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(Long userId)
+	{
 		this.userId = userId;
 	}
 
-	public Long getProjectId() {
+	public Long getProjectId()
+	{
 		return projectId;
 	}
 
-	public void setProjectId(Long projectId) {
+	public void setProjectId(Long projectId)
+	{
 		this.projectId = projectId;
 	}
 
-	public String getComment() {
+	public String getComment()
+	{
 		return comment;
 	}
 
-	public void setComment(String comment) {
+	public void setComment(String comment)
+	{
 		this.comment = comment;
 	}
 
-	public Currency getCurrency() {
+	public Currency getCurrency()
+	{
 		return currency;
 	}
 
-	public void setCurrency(Currency currency) {
+	public void setCurrency(Currency currency)
+	{
 		this.currency = currency;
 	}
 
-	public BigDecimal getAmount() {
+	public BigDecimal getAmount()
+	{
 		return amount;
 	}
 
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(BigDecimal amount)
+	{
 		this.amount = amount;
 	}
 }

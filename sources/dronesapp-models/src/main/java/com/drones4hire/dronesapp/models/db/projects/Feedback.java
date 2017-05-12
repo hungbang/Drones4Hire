@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 
-public class Feedback extends AbstractEntity {
+public class Feedback extends AbstractEntity
+{
 	private static final long serialVersionUID = 1985019619730337149L;
 
 	private Long fromUserId;
@@ -13,43 +14,53 @@ public class Feedback extends AbstractEntity {
 	private BigDecimal mark;
 	private String comment;
 
-	public Long getFromUserId() {
+	public Long getFromUserId()
+	{
 		return fromUserId;
 	}
 
-	public void setFromUserId(Long fromUserId) {
+	public void setFromUserId(Long fromUserId)
+	{
 		this.fromUserId = fromUserId;
 	}
 
-	public Long getToUserId() {
+	public Long getToUserId()
+	{
 		return toUserId;
 	}
 
-	public void setToUserId(Long toUserId) {
+	public void setToUserId(Long toUserId)
+	{
 		this.toUserId = toUserId;
 	}
 
-	public Long getProjectId() {
+	public Long getProjectId()
+	{
 		return projectId;
 	}
 
-	public void setProjectId(Long projectId) {
+	public void setProjectId(Long projectId)
+	{
 		this.projectId = projectId;
 	}
 
-	public BigDecimal getMark() {
+	public BigDecimal getMark()
+	{
 		return mark;
 	}
 
-	public void setMark(BigDecimal mark) {
+	public void setMark(BigDecimal mark)
+	{
 		this.mark = mark;
 	}
 
-	public String getComment() {
+	public String getComment()
+	{
 		return comment;
 	}
 
-	public void setComment(String comment) {
+	public void setComment(String comment)
+	{
 		this.comment = comment;
 	}
 }

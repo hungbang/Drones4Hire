@@ -1,7 +1,5 @@
 package com.drones4hire.dronesapp.models.db.users;
 
-import java.util.List;
-
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 
 public class Group extends AbstractEntity
@@ -10,20 +8,19 @@ public class Group extends AbstractEntity
 
 	private String name;
 	private Role role;
-	private List<User> users;
-	
+
 	public Group()
 	{
 	}
-	
+
 	public Group(Role role)
 	{
 		this.role = role;
 	}
-	
+
 	public enum Role
 	{
-		ROLE_USER, ROLE_ADMIN
+		ROLE_CLIENT, ROLE_PILOT, ROLE_ADMIN
 	}
 
 	public String getName()
@@ -44,15 +41,5 @@ public class Group extends AbstractEntity
 	public void setRole(Role role)
 	{
 		this.role = role;
-	}
-
-	public List<User> getUsers()
-	{
-		return users;
-	}
-
-	public void setUsers(List<User> users)
-	{
-		this.users = users;
 	}
 }

@@ -3,7 +3,8 @@ package com.drones4hire.dronesapp.models.db.users;
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Location;
 
-public class PilotLocation extends AbstractEntity {
+public class PilotLocation extends AbstractEntity
+{
 	private static final long serialVersionUID = -205989245888562044L;
 
 	private Long userId;
@@ -12,43 +13,53 @@ public class PilotLocation extends AbstractEntity {
 	private String alternativePhone;
 	private Location location;
 
-	public String getOffice() {
+	public String getOffice()
+	{
 		return office;
 	}
 
-	public void setOffice(String office) {
+	public void setOffice(String office)
+	{
 		this.office = office;
 	}
 
-	public String getPhone() {
+	public String getPhone()
+	{
 		return phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(String phone)
+	{
 		this.phone = phone;
 	}
 
-	public String getAlternativePhone() {
+	public String getAlternativePhone()
+	{
 		return alternativePhone;
 	}
 
-	public void setAlternativePhone(String alternativePhone) {
+	public void setAlternativePhone(String alternativePhone)
+	{
 		this.alternativePhone = alternativePhone;
 	}
 
-	public Location getLocation() {
+	public Location getLocation()
+	{
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(Location location)
+	{
 		this.location = location;
 	}
 
-	public Long getUserId() {
+	public Long getUserId()
+	{
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(Long userId)
+	{
 		this.userId = userId;
 	}
 }

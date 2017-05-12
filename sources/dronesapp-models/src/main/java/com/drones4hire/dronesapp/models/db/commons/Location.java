@@ -2,7 +2,8 @@ package com.drones4hire.dronesapp.models.db.commons;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 
-public class Location extends AbstractEntity {
+public class Location extends AbstractEntity
+{
 	private static final long serialVersionUID = 1001654360765711983L;
 
 	private String address;
@@ -10,53 +11,65 @@ public class Location extends AbstractEntity {
 	private Country country;
 	private State state;
 	private String city;
-	private Integer postCode;
+	private Integer postcode;
 
-	public String getAddress() {
+	public String getAddress()
+	{
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(String address)
+	{
 		this.address = address;
 	}
 
-	public Coordinates getCoordinates() {
+	public Coordinates getCoordinates()
+	{
 		return coordinates;
 	}
 
-	public void setCoordinates(Coordinates coordinates) {
+	public void setCoordinates(Coordinates coordinates)
+	{
 		this.coordinates = coordinates;
 	}
 
-	public Country getCountry() {
+	public Country getCountry()
+	{
 		return country;
 	}
 
-	public void setCountry(Country country) {
+	public void setCountry(Country country)
+	{
 		this.country = country;
 	}
 
-	public State getState() {
+	public State getState()
+	{
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(State state)
+	{
 		this.state = state;
 	}
 
-	public String getCity() {
+	public String getCity()
+	{
 		return city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(String city)
+	{
 		this.city = city;
 	}
 
-	public Integer getPostCode() {
-		return postCode;
+	public Integer getPostcode()
+	{
+		return postcode;
 	}
 
-	public void setPostCode(Integer postCode) {
-		this.postCode = postCode;
+	public void setPostcode(Integer postcode)
+	{
+		this.postcode = postcode;
 	}
 }

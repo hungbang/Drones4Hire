@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 
-public class Budget extends AbstractEntity {
+public class Budget extends AbstractEntity
+{
 	private static final long serialVersionUID = -6915325435084023500L;
 
 	private String title;
@@ -13,43 +14,53 @@ public class Budget extends AbstractEntity {
 	private Currency currency;
 	private Integer order;
 
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
-	public BigDecimal getMin() {
+	public BigDecimal getMin()
+	{
 		return min;
 	}
 
-	public void setMin(BigDecimal min) {
+	public void setMin(BigDecimal min)
+	{
 		this.min = min;
 	}
 
-	public BigDecimal getMax() {
+	public BigDecimal getMax()
+	{
 		return max;
 	}
 
-	public void setMax(BigDecimal max) {
+	public void setMax(BigDecimal max)
+	{
 		this.max = max;
 	}
 
-	public Currency getCurrency() {
+	public Currency getCurrency()
+	{
 		return currency;
 	}
 
-	public void setCurrency(Currency currency) {
+	public void setCurrency(Currency currency)
+	{
 		this.currency = currency;
 	}
 
-	public Integer getOrder() {
+	public Integer getOrder()
+	{
 		return order;
 	}
 
-	public void setOrder(Integer order) {
+	public void setOrder(Integer order)
+	{
 		this.order = order;
 	}
 }
