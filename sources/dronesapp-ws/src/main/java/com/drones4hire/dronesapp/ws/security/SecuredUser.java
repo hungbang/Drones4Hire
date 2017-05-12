@@ -31,7 +31,7 @@ public class SecuredUser implements UserDetails
 		// TODO: Remove when ready global user role setup
 		if(CollectionUtils.isEmpty(roles))
 		{
-			authorities.add(new SimpleGrantedAuthority(Role.ROLE_USER.name()));
+			authorities.add(new SimpleGrantedAuthority(Role.ROLE_CLIENT.name()));
 		}
 	}
 	
