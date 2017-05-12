@@ -25,3 +25,5 @@
 /sources/.project
 /sources/.settings/org.eclipse.core.resources.prefs
 /sources/.settings/org.eclipse.m2e.core.prefs
+.idea
+*.iml
