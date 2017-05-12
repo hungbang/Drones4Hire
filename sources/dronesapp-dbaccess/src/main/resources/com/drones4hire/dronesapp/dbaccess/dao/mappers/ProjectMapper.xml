@@ -3,89 +3,123 @@
 
 <mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper">
 
-    <insert id="createProject" useGeneratedKeys="true" keyProperty="id">
+	<insert id="createProject" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT
-          	INTO zafira.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, IMAGE_URL, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
+          		INTO zafira.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, IMAGE_URL, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
           VALUES 
-          (
-            #{title},
-            #{summary},
-            #{clientId},
-            #{pilotId},
-            #{service.id},
-            #{duration.id},
-            #{location.id},
-            #{budget.id},
-            #{imageURL},
-            #{postProductionRequired},
-            #{status},
-            #{startDate},
-            #{finishDate}
-          )
+	           (
+	            #{title},
+	            #{summary},
+	            #{clientId},
+	            #{pilotId},
+	            #{service.id},
+	            #{duration.id},
+	            #{location.id},
+	            #{budget.id},
+	            #{imageURL},
+	            #{postProductionRequired},
+	            #{status},
+	            #{startDate},
+	            #{finishDate}
+	           )
         ]]>
-    </insert>
-    
+	</insert>
 
-    <sql id="getProject">
+
+	<sql id="getProject">
         <![CDATA[
           SELECT
-	          V.ID AS PROJECT_ID,
-	          V.NAME AS PROJECT_NAME,
-	          P.ID AS PROJECT_ID,
-	          P.NAME AS PROJECT_NAME,
-	          P.DESCRIPTION AS PROJECT_DESCRIPTION,
-	          P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
-	          P.CREATED_AT AS PROJECT_CREATED_AT,
-	          V.MODIFIED_AT AS PROJECT_MODIFIED_AT,
-	          V.CREATED_AT AS PROJECT_CREATED_AT
+	      		P.ID AS PROJECT_ID,
+	        	P.SUMMARY AS PROJECT_SUMMARY,
+	        	P.CLIENT_ID AS PROJECT_CLIENT_ID,
+	        	P.PILOT_ID AS PROJECT_PILOT_ID,
+	        	P.SERVICE_ID AS PROJECT_SERVICE_ID,
+	        	P.DURATION_ID AS PROJECT_DURATION_ID,
+	        	P.LOCATION_ID AS PROJECT_LOCATION_ID,
+	        	P.BUDGET_ID AS PROJECT_BUDGET_ID,
+	        	P.IMAGE_URL AS PROJECT_IMAGE_URL,
+	        	P.POST_PRODUCTION_REQUIRED AS PROJECT_POST_PRODUCTION_REQUIRED,
+	        	P.STATUS AS PROJECT_STATUS,
+	        	P.START_DATE AS PROJECT_START_DATE,
+	        	P.FINISH_DATE AS PROJECT_FINISH_DATE,
+	        	
+	        	PO.ID AS PAID_OPTION_ID,
+		        PO.TITLE AS PAID_OPTION_TITLE,
+		        PO.DESCRIPTION AS PAID_OPTION_DESCRIPTION,
+		        PO.PRICE AS PAID_OPTION_PRICE,
+		        PO.CURRENCY AS PAID_OPTION_CURRENCY,
+		        PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
+		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT
           FROM
-	          zafira.VIEWS V
+	      		drones.PROJECTS P
 	      LEFT JOIN
-	          zafira.PROJECTS P
+	      		drones.PROJECTS_PAID_OPTIONS PPO		
 	      ON
-          	V.PROJECT_ID = P.ID
+          		P.ID = PPO.PROJECT_ID		
+	      LEFT JOIN
+	      		drones.PAID_OPTIONS PO
+	      ON
+          		PPO.PAID_OTION_ID = PO.ID
         ]]>
-    </sql>
+	</sql>
 
-    <select id="getProjectById" resultMap="ProjectResultMap">
-        <include refid="getProject"/>
+	<select id="getProjectById" resultMap="ProjectResultMap">
+		<include refid="getProject" />
         <![CDATA[
           WHERE
           V.ID = #{id}
         ]]>
-    </select>
+	</select>
 
-    <select id="getAllProjects" resultMap="ProjectResultMap">
-        <include refid="getProject"/>
-    </select>
+	<select id="getAllProjects" resultMap="ProjectResultMap">
+		<include refid="getProject" />
+	</select>
 
-    <update id="updateProject">
+	<update id="updateProject">
         <![CDATA[
           UPDATE
-         	 zafira.VIEWS
+          		drones.PROJECTS
           SET
-          	 NAME = #{name},
-          	 PROJECT_ID = #{project.id}
+          		NAME = #{name},
+          	 	PROJECT_ID = #{project.id}
           WHERE
-			 ID = #{id}
+			 	ID = #{id}
         ]]>
-    </update>
+	</update>
 
-    <delete id="deleteProjectById">
+	<delete id="deleteProjectById">
         <![CDATA[
           DELETE
-          FROM zafira.VIEWS
+          		FROM drones.PROJECTS
           WHERE
-          ID = #{id}
+          		ID = #{id}
         ]]>
-    </delete>
+	</delete>
 
-    <resultMap id="ProjectResultMap" type="com.drones4hire.dronesapp.models.db.projects.Project" autoMapping="false">
-        <id property="id" column="PROJECT_ID"/>
-        <result property="name" column="PROJECT_NAME"/>
-        <result column="PROJECT_MODIFIED_AT" property="modifiedAt" />
+
+	<resultMap id="ProjectResultMap"
+		type="com.drones4hire.dronesapp.models.db.projects.Project"
+		autoMapping="false">
+		<id column="PROJECT_ID" property="id" />
+		<result column="PROJECT_TITLE" property="title" />
+		<result column="PROJECT_SUMMARY" property="summary" />
+		<result column="PROJECT_CLIENT_ID" property="clientId" />
+		<result column="PROJECT_PILOT_ID" property="pilotId" />
+		<result column="PROJECT_SERVICE_ID" property="service.id" />
+		<result column="PROJECT_DURATION_ID" property="duration.id" />
+		<result column="PROJECT_LOCATION_ID" property="location.id" />
+		<result column="PROJECT_BUDGET_ID" property="budget.id" />
+		<result column="PROJECT_IMAGE_URL" property="imageURL" />
+		<result column="PROJECT_POST_PRODUCTION_REQUIRED" property="postProductionRequired" />
+		<result column="PROJECT_STATUS" property="status" />
+		<result column="PROJECT_START_DATE" property="startDate" />
+		<result column="PROJECT_FINISH_DATE" property="finishDate" />
+		<result column="PROJECT_MODIFIED_AT" property="modifiedAt" />
 		<result column="PROJECT_CREATED_AT" property="createdAt" />
-    </resultMap>
+		<collection property="paidOptions"
+			ofType="com.drones4hire.dronesapp.models.db.projects.PaidOption"
+			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.PaidOptionMapper.PaidOptionResultMap" />
+	</resultMap>
 
 </mapper>
