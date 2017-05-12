@@ -6,14 +6,15 @@
     <insert id="createPaidOption" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT
-          	INTO zafira.PAID_OPTIONS (TITLE, DESCRIPTION, PRICE, CURRENCY)
+          INTO 
+          		drones.PAID_OPTIONS (TITLE, DESCRIPTION, PRICE, CURRENCY)
           VALUES 
-          (
-            #{title},
-            #{description},
-            #{price},
-            #{currency}
-          )
+	          (
+	            #{title},
+	            #{description},
+	            #{price},
+	            #{currency}
+	          )
         ]]>
     </insert>
     
@@ -21,15 +22,15 @@
     <sql id="getPaidOption">
         <![CDATA[
           SELECT
-	          PO.ID AS PAID_OPTION_ID,
-	          PO.TITLE AS PAID_OPTION_TITLE,
-	          PO.DESCRIPTION AS PAID_OPTION_DESCRIPTION,
-	          PO.PRICE AS PAID_OPTION_PRICE,
-	          PO.CURRENCY AS PAID_OPTION_CURRENCY,
-	          PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
-	          PO.CREATED_AT AS PAID_OPTION_CREATED_AT
+	      		PO.ID AS PAID_OPTION_ID,
+	      		PO.TITLE AS PAID_OPTION_TITLE,
+		        PO.DESCRIPTION AS PAID_OPTION_DESCRIPTION,
+		        PO.PRICE AS PAID_OPTION_PRICE,
+		        PO.CURRENCY AS PAID_OPTION_CURRENCY,
+		        PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
+		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT
           FROM
-	          drones.PAID_OPTIONS PO
+	            drones.PAID_OPTIONS PO
         ]]>
     </sql>
 
@@ -37,7 +38,7 @@
         <include refid="getPaidOption"/>
         <![CDATA[
           WHERE
-          	PO.ID = #{id}
+          		PO.ID = #{id}
         ]]>
     </select>
 
@@ -48,14 +49,14 @@
     <update id="updatePaidOption">
         <![CDATA[
           UPDATE
-         	 drones.PAID_OPTIONS
+          		drones.PAID_OPTIONS
           SET
-          	 TITLE = #{title},
-          	 DESCRIPTION = #{description},
-          	 PRICE = #{price},
-          	 CURRENCY = #{currency}
+          		TITLE = #{title},
+          		DESCRIPTION = #{description},
+          		PRICE = #{price},
+          		CURRENCY = #{currency}
           WHERE
-			 ID = #{id}
+		  		ID = #{id}
         ]]>
     </update>
 
@@ -63,9 +64,9 @@
         <![CDATA[
           DELETE
           FROM 
-          	drones.PAID_OPTIONS
+          		drones.PAID_OPTIONS
           WHERE
-          	ID = #{id}
+          		ID = #{id}
         ]]>
     </delete>
 
