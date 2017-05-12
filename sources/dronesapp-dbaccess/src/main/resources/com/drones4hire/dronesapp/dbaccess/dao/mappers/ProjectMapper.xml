@@ -68,7 +68,7 @@
 		<include refid="getProject" />
         <![CDATA[
           WHERE
-          V.ID = #{id}
+          		P.ID = #{id}
         ]]>
 	</select>
 

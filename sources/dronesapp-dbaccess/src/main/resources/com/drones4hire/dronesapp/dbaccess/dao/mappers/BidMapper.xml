@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper">
+
+	<insert id="createBid" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+		INSERT
+		INTO 
+			drones.BIDS (AMOUNT, CURRENCY, COMMENT, PROJECT_ID, USER_ID)
+		VALUES 
+			(
+			#{amount},
+			#{currency},
+			#{comment},
+			#{projectId},
+			#{userId}
+		    )
+        ]]>
+    </insert>
+    
+
+    <sql id="getBid">
+        <![CDATA[
+          SELECT
+			B.ID AS BID_ID,
+			B.AMOUNT AS BID_AMOUNT,
+			B.CURRENCY AS BID_CURRENCY,
+			B.COMMENT AS BID_COMMENT,
+			B.PROJECT_ID AS BID_PROJECT_ID,
+			B.USER_ID AS BID_USER_ID,
+			B.MODIFIED_AT AS BID_MODIFIED_AT,
+			B.CREATED_AT AS BID_CREATED_AT
+          FROM
+			drones.BIDS B
+        ]]>
+    </sql>
+
+    <select id="getBidById" resultMap="BidResultMap">
+        <include refid="getBid"/>
+        <![CDATA[
+          WHERE
+			B.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getBidsByProjectId" resultMap="BidResultMap">
+        <include refid="getBid"/>
+        <![CDATA[
+          WHERE
+			B.PROJECT_ID = #{projectId}
+        ]]>
+    </select>
+
+    <update id="updateBid">
+        <![CDATA[
+          UPDATE
+			drones.BIDS
+          SET
+          	AMOUNT = #{amount},
+          	CURRENCY = #{currency},
+          	COMMENT = #{comment}
+          WHERE
+		  		ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteBidById">
+        <![CDATA[
+          DELETE
+          FROM 
+          		drones.BIDS
+          WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="BidResultMap" type="com.drones4hire.dronesapp.models.db.projects.Bid" autoMapping="false">
+        <id column="BID_ID" property="id"/>
+        <result column="BID_AMOUNT" property="amount" />
+        <result column="BID_CURRENCY" property="currency" />
+        <result column="BID_COMMENT" property="comment" />
+        <result column="BID_PROJECT_ID" property="projectId" />
+        <result column="BID_USER_ID" property="userId" />
+        <result column="BID_MODIFIED_AT" property="modifiedAt" />
+		<result column="BID_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

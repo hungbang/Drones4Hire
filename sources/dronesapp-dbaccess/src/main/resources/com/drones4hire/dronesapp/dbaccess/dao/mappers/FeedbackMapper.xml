@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.FeedbackMapper">
+
+	<insert id="createFeedback" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+		INSERT
+		INTO 
+			drones.FEEDBACKS (FROM_USER_ID, TO_USER_ID, PROJECT_ID, MARK, COMMENT)
+		VALUES 
+			(
+			#{fromUserId},
+			#{toUserId},
+			#{projectId},
+			#{mark},
+			#{comment}
+		    )
+        ]]>
+    </insert>
+    
+
+    <sql id="getFeedback">
+        <![CDATA[
+          SELECT
+			F.ID AS FEEDBACK_ID,
+			F.FROM_USER_ID AS FEEDBACK_FROM_USER_ID,
+			F.TO_USER_ID AS FEEDBACK_TO_USER_ID,
+			F.PROJECT_ID AS FEEDBACK_PROJECT_ID,
+			F.MARK AS FEEDBACK_MARK,
+			F.COMMENT AS FEEDBACK_COMMENT,
+			F.MODIFIED_AT AS FEEDBACK_MODIFIED_AT,
+			F.CREATED_AT AS FEEDBACK_CREATED_AT
+          FROM
+			drones.FEEDBACKS F
+        ]]>
+    </sql>
+
+    <select id="getFeedbackById" resultMap="FeedbackResultMap">
+        <include refid="getFeedback"/>
+        <![CDATA[
+          WHERE
+			F.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getFeedbacksByProjectId" resultMap="FeedbackResultMap">
+        <include refid="getFeedback"/>
+        <![CDATA[
+          WHERE
+			F.PROJECT_ID = #{projectId}
+        ]]>
+    </select>
+    
+    <select id="getFeedbacksByUserId" resultMap="FeedbackResultMap">
+        <include refid="getFeedback"/>
+        <![CDATA[
+          WHERE
+			F.USER_ID = #{userId}
+        ]]>
+    </select>
+
+    <update id="updateFeedback">
+        <![CDATA[
+          UPDATE
+			drones.FEEDBACKS
+          SET
+          	MARK = #{mark},
+          	COMMENT = #{comment}
+          WHERE
+		  	ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteFeedbackById">
+        <![CDATA[
+          DELETE
+          FROM 
+          	drones.FEEDBACKS
+          WHERE
+          	ID = #{id}
+        ]]>
+    </delete>
+    
+    <resultMap id="FeedbackResultMap" type="com.drones4hire.dronesapp.models.db.projects.Feedback" autoMapping="false">
+        <id column="FEEDBACK_ID" property="id"/>
+        <result column="FEEDBACK_FROM_USER_ID" property="fromUserId" />
+        <result column="FEEDBACK_TO_USER_ID" property="toUserId" />
+        <result column="FEEDBACK_PROJECT_ID" property="projectId" />
+        <result column="FEEDBACK_MARK" property="mark" />
+        <result column="FEEDBACK_COMMENT" property="comment" />
+        <result column="FEEDBACK_MODIFIED_AT" property="modifiedAt" />
+		<result column="FEEDBACK_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

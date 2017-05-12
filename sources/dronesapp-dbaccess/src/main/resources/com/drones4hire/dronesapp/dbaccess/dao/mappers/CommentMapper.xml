@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.CommentMapper">
+
+	<insert id="createComment" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+		INSERT
+		INTO 
+			drones.COMMENTS (USER_ID, PROJECT_ID, COMMENT)
+		VALUES 
+			(
+			#{userId},
+			#{projectId},
+			#{comment}
+		    )
+        ]]>
+    </insert>
+    
+
+    <sql id="getComment">
+        <![CDATA[
+          SELECT
+			C.ID AS COMMENT_ID,
+			C.USER_ID AS COMMENT_USER_ID,
+			C.PROJECT_ID AS COMMENT_PROJECT_ID,
+			C.COMMENT AS COMMENT_COMMENT,
+			C.MODIFIED_AT AS COMMENT_MODIFIED_AT,
+			C.CREATED_AT AS COMMENT_CREATED_AT
+          FROM
+			drones.COMMENTS C
+        ]]>
+    </sql>
+
+    <select id="getCommentById" resultMap="CommentResultMap">
+        <include refid="getComment"/>
+        <![CDATA[
+          WHERE
+			C.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getCommentsByProjectId" resultMap="CommentResultMap">
+        <include refid="getComment"/>
+        <![CDATA[
+          WHERE
+			C.PROJECT_ID = #{projectId}
+        ]]>
+    </select>
+
+    <update id="updateComment">
+        <![CDATA[
+          UPDATE
+			drones.COMMENTS
+          SET
+          		COMMENT = #{comment}
+          WHERE
+		  		ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteCommentById">
+        <![CDATA[
+          DELETE
+          FROM 
+          		drones.COMMENTS
+          WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="CommentResultMap" type="com.drones4hire.dronesapp.models.db.projects.Comment" autoMapping="false">
+        <id column="COMMENT_ID" property="id"/>
+        <result column="COMMENT_COMMENT" property="comment" />
+        <result column="COMMENT_USER_ID" property="userId" />
+        <result column="COMMENT_PROJECT_ID" property="projectId" />
+        <result column="COMMENT_MODIFIED_AT" property="modifiedAt" />
+		<result column="COMMENT_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>
