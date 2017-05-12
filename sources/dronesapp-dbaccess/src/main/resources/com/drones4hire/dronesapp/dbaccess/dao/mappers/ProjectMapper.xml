@@ -12,6 +12,11 @@
             #{summary},
             #{clientId},
             #{pilotId},
+            #{service.id},
+            #{duration.id},
+            #{location.id},
+            #{budget.id},
+            #{imageURL},
           )
         ]]>
     </insert>
