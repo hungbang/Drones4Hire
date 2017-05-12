@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper">
+
+    <insert id="createLocation" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.LOCATIONS (ADDRESS, COORDINATES, COUNTRY_ID, CITY, LOCATION_ID, POSTCODE)
+          VALUES
+          (
+            #{address},
+            POINT(#{coordinates.latitude}, #{coordinates.longitude}),
+            #{country.id},
+            #{city},
+            #{state.id},
+            #{postcode}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getLocations">
+        <![CDATA[
+          SELECT
+	        L.ID AS LOCATION_ID,
+	        X(L.COORDINATES) AS LOCATION_X_COORDINATE,
+	        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
+	        C.ID AS COUNTRY_ID,
+	        C.NAME AS COUNTRY_NAME,
+	        C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
+	        C.CREATED_AT AS COUNTRY_CREATED_AT,
+	        L.CITY AS LOCATION_CITY,
+	        L.POSTCODE AS LOCATION_POSTCODE,
+	        L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
+	        L.CREATED_AT AS LOCATION_CREATED_AT,
+	        S.ID AS STATE_ID,
+	        S.NAME AS STATE_NAME,
+	        S.MODIFIED_AT AS STATE_MODIFIED_AT,
+	        S.CREATED_AT AS STATE_CREATED_AT
+          FROM
+	        drones.LOCATIONS L
+          LEFT JOIN
+            drones.COUNTRIES C
+          ON
+            L.COUNTRY_ID = C.ID
+          LEFT JOINT
+            drones.STATES S
+          ON
+            L.STATE_ID = S.ID
+        ]]>
+    </sql>
+
+    <select id="getLocationById" resultMap="LocationResultMap">
+        <include refid="getLocations"/>
+        <![CDATA[
+          WHERE
+            L.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllLocations" resultMap="LocationResultMap">
+        <include refid="getLocations"/>
+    </select>
+
+    <update id="updateLocation">
+        <![CDATA[
+          UPDATE
+         	drones.LOCATIONS
+          SET
+          	NAME = #{name}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteLocation">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.LOCATIONS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="LocationResultMap" type="com.drones4hire.dronesapp.models.db.commons.Location" autoMapping="false">
+        <id column="LOCATION_ID" property="id"/>
+        <result column="LOCATION_X_COORDINATE" property="coordinates.latitude"/>
+        <result column="LOCATION_Y_COORDINATE" property="coordinates.longitude"/>
+        <result column="LOCATION_CITY" property="city"/>
+        <result column="LOCATION_POSTCODE" property="postcode"/>
+        <result column="LOCATION_MODIFIED_AT" property="modifiedAt"/>
+        <result column="LOCATION_CREATED_AT" property="createdAt"/>
+        <association property="country" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper.CountryResultMap"/>
+        <association property="city" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.StateMapper.StateResultMap"/>
+    </resultMap>
+
+</mapper>
