@@ -28,3 +28,4 @@
 .idea
 *.iml
 db-schema.mwb.bak
+sources/dronesapp-dbaccess/test-output

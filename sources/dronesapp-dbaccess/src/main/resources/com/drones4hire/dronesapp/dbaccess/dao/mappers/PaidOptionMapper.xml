@@ -60,7 +60,7 @@
         ]]>
     </update>
 
-    <delete id="deletePaidOptionById">
+    <delete id="deletePaidOption">
         <![CDATA[
           DELETE
           FROM 
