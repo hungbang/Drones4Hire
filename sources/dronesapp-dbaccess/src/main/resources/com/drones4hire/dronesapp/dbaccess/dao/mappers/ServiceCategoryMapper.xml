@@ -6,7 +6,7 @@
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT
-          INTO mydb.SERVICE_CATEGORIES (NAME, ORDER)
+          INTO Drones4Hire.SERVICE_CATEGORIES (NAME, ORDER)
           VALUES (
             #{name},
             #{order}
@@ -23,7 +23,7 @@
 	          SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
 	          SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT
           FROM
-	          mydb.SERVICE_CATEGORIES SC
+	          Drones4Hire.SERVICE_CATEGORIES SC
         ]]>
     </sql>
 
@@ -42,7 +42,7 @@
     <update id="updateServiceCategory">
         <![CDATA[
           UPDATE
-         	 mydb.SERVICE_CATEGORIES
+         	 Drones4Hire.SERVICE_CATEGORIES
           SET
           	 NAME = #{name},
           	 ORDER = #{order}
@@ -54,7 +54,7 @@
     <delete id="deleteServiceCategory">
         <![CDATA[
           DELETE
-          FROM mydb.SERVICE_CATEGORIES
+          FROM Drones4Hire.SERVICE_CATEGORIES
           WHERE
           ID = #{id}
         ]]>
