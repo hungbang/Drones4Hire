@@ -37,7 +37,7 @@
         <include refid="getPaidOption"/>
         <![CDATA[
           WHERE
-          V.ID = #{id}
+          	PO.ID = #{id}
         ]]>
     </select>
 
@@ -48,10 +48,12 @@
     <update id="updatePaidOption">
         <![CDATA[
           UPDATE
-         	 zafira.VIEWS
+         	 drones.PAID_OPTIONS
           SET
-          	 NAME = #{name},
-          	 PAID_OPTION_ID = #{project.id}
+          	 TITLE = #{title},
+          	 DESCRIPTION = #{description},
+          	 PRICE = #{price},
+          	 CURRENCY = #{currency}
           WHERE
 			 ID = #{id}
         ]]>
@@ -60,9 +62,10 @@
     <delete id="deletePaidOptionById">
         <![CDATA[
           DELETE
-          FROM zafira.VIEWS
+          FROM 
+          	drones.PAID_OPTIONS
           WHERE
-          ID = #{id}
+          	ID = #{id}
         ]]>
     </delete>
 
