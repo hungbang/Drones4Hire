@@ -6,8 +6,9 @@
     <insert id="createProject" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT
-          INTO zafira.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, IMAGE_URL, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
-          VALUES (
+          	INTO zafira.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, IMAGE_URL, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
+          VALUES 
+          (
             #{title},
             #{summary},
             #{clientId},
@@ -17,9 +18,14 @@
             #{location.id},
             #{budget.id},
             #{imageURL},
+            #{postProductionRequired},
+            #{status},
+            #{startDate},
+            #{finishDate}
           )
         ]]>
     </insert>
+    
 
     <sql id="getProject">
         <![CDATA[
@@ -52,11 +58,6 @@
 
     <select id="getAllProjects" resultMap="ProjectResultMap">
         <include refid="getProject"/>
-        <if test="null != projectId">
-            <![CDATA[
-               WHERE P.ID = #{projectId}
-            ]]>
-		</if>
     </select>
 
     <update id="updateProject">
@@ -80,7 +81,7 @@
         ]]>
     </delete>
 
-    <resultMap id="ProjectResultMap" type="com.qaprosoft.zafira.models.db.Project" autoMapping="false">
+    <resultMap id="ProjectResultMap" type="com.drones4hire.dronesapp.models.db.projects.Project" autoMapping="false">
         <id property="id" column="PROJECT_ID"/>
         <result property="name" column="PROJECT_NAME"/>
         <result column="PROJECT_MODIFIED_AT" property="modifiedAt" />

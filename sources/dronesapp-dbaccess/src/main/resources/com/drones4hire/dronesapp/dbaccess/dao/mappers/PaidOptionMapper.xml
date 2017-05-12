@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.PaidOptionMapper">
+
+    <insert id="createPaidOption" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT
+          	INTO zafira.PAID_OPTIONS (TITLE, DESCRIPTION, PRICE, CURRENCY)
+          VALUES 
+          (
+            #{title},
+            #{description},
+            #{price},
+            #{currency}
+          )
+        ]]>
+    </insert>
+    
+
+    <sql id="getPaidOption">
+        <![CDATA[
+          SELECT
+	          PO.ID AS PAID_OPTION_ID,
+	          PO.TITLE AS PAID_OPTION_TITLE,
+	          PO.DESCRIPTION AS PAID_OPTION_DESCRIPTION,
+	          PO.PRICE AS PAID_OPTION_PRICE,
+	          PO.CURRENCY AS PAID_OPTION_CURRENCY,
+	          PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
+	          PO.CREATED_AT AS PAID_OPTION_CREATED_AT
+          FROM
+	          drones.PAID_OPTIONS PO
+        ]]>
+    </sql>
+
+    <select id="getPaidOptionById" resultMap="PaidOptionResultMap">
+        <include refid="getPaidOption"/>
+        <![CDATA[
+          WHERE
+          V.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllPaidOptions" resultMap="PaidOptionResultMap">
+        <include refid="getPaidOption"/>
+    </select>
+
+    <update id="updatePaidOption">
+        <![CDATA[
+          UPDATE
+         	 zafira.VIEWS
+          SET
+          	 NAME = #{name},
+          	 PAID_OPTION_ID = #{project.id}
+          WHERE
+			 ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deletePaidOptionById">
+        <![CDATA[
+          DELETE
+          FROM zafira.VIEWS
+          WHERE
+          ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="PaidOptionResultMap" type="com.drones4hire.dronesapp.models.db.projects.PaidOption" autoMapping="false">
+        <id column="PAID_OPTION_ID" property="id"/>
+        <result column="PAID_OPTION_TITLE" property="title" />
+        <result column="PAID_OPTION_DESCRIPTION" property="description" />
+        <result column="PAID_OPTION_PRICE" property="price" />
+        <result column="PAID_OPTION_CURRENCY" property="currency" />
+        <result column="PAID_OPTION_MODIFIED_AT" property="modifiedAt" />
+		<result column="PAID_OPTION_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>
