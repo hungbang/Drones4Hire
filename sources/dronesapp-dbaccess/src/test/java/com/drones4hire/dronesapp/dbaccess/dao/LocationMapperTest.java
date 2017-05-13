@@ -2,7 +2,6 @@ package com.drones4hire.dronesapp.dbaccess.dao;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.StateMapper;
 import com.drones4hire.dronesapp.dbaccess.utils.DataGenerator;
 import com.drones4hire.dronesapp.models.db.commons.Coordinates;
@@ -25,7 +24,7 @@ public class LocationMapperTest extends AbstractTestNGSpringContextTests {
     /**
      * Turn this on to enable this test
      */
-    private static final boolean ENABLED = true;
+    private static final boolean ENABLED = false;
 
     private static final Country COUNTRY = new Country() {
 

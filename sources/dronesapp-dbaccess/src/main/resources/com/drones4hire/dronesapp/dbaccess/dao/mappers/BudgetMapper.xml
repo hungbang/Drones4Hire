@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.BudgetMapper">
+
+    <insert id="createBudget" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.BUDGETS (TITLE, MIN, MAX, CURRENCY, SORT_ORDER)
+          VALUES
+          (
+            #{title},
+            #{min},
+            #{max},
+            #{currency},
+            #{order}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getBudgets">
+        <![CDATA[
+          SELECT
+	        B.ID AS BUDGET_ID,
+	        B.TITLE AS BUDGET_TITLE,
+	        B.MIN AS BUDGET_MIN,
+	        B.MAX AS BUDGET_MAX,
+	        B.CURRENCY AS BUDGET_CURRENCY,
+	        B.SORT_ORDER AS BUDGET_SORT_ORDER,
+	        B.MODIFIED_AT AS BUDGET_MODIFIED_AT,
+	        B.CREATED_AT AS BUDGET_CREATED_AT
+          FROM
+	        drones.BUDGETS B
+        ]]>
+    </sql>
+
+    <select id="getBudgetById" resultMap="BudgetResultMap">
+        <include refid="getBudgets"/>
+        <![CDATA[
+          WHERE
+            B.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllBudgets" resultMap="BudgetResultMap">
+        <include refid="getBudgets"/>
+    </select>
+
+    <update id="updateBudget">
+        <![CDATA[
+          UPDATE
+         	drones.BUDGETS
+          SET
+          	TITLE = #{title},
+            MIN = #{min},
+            MAX = #{max},
+            CURRENCY = #{currency},
+            SORT_ORDER = #{order}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteBudget">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.BUDGETS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="BudgetResultMap" type="com.drones4hire.dronesapp.models.db.commons.Budget" autoMapping="false">
+        <id column="BUDGET_ID" property="id"/>
+        <result column="BUDGET_TITLE" property="title"/>
+        <result column="BUDGET_MIN" property="min"/>
+        <result column="BUDGET_MAX" property="max"/>
+        <result column="BUDGET_CURRENCY" property="currency"/>
+        <result column="BUDGET_SORT_ORDER" property="order"/>
+        <result column="MODIFIED_AT" property="modifiedAt"/>
+        <result column="CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>

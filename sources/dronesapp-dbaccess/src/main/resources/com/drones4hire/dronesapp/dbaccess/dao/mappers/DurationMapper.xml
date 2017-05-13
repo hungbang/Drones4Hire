@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.DurationMapper">
+
+    <insert id="createDuration" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.DURATIONS (TITLE, MIN, MAX, SORT_ORDER)
+          VALUES
+          (
+            #{title},
+            #{min},
+            #{max},
+            #{order}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getDurations">
+        <![CDATA[
+          SELECT
+	        D.ID AS DURATION_ID,
+	        D.TITLE AS DURATION_TITLE,
+	        D.MIN AS DURATION_MIN,
+	        D.MAX AS DURATION_MAX,
+	        D.SORT_ORDER AS DURATION_SORT_ORDER,
+	        D.MODIFIED_AT AS DURATION_MODIFIED_AT,
+	        D.CREATED_AT AS DURATION_CREATED_AT
+          FROM
+	        drones.DURATIONS D
+        ]]>
+    </sql>
+
+    <select id="getDurationById" resultMap="DurationResultMap">
+        <include refid="getDurations"/>
+        <![CDATA[
+          WHERE
+            D.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllDurations" resultMap="DurationResultMap">
+        <include refid="getDurations"/>
+    </select>
+
+    <update id="updateDuration">
+        <![CDATA[
+          UPDATE
+         	drones.DURATIONS
+          SET
+          	TITLE = #{title},
+            MIN = #{min},
+            MAX = #{max},
+            SORT_ORDER = #{order}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteDuration">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.DURATIONS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="DurationResultMap" type="com.drones4hire.dronesapp.models.db.commons.Duration" autoMapping="false">
+        <id column="DURATION_ID" property="id"/>
+        <result column="DURATION_TITLE" property="title"/>
+        <result column="DURATION_MIN" property="min"/>
+        <result column="DURATION_MAX" property="max"/>
+        <result column="DURATION_SORT_ORDER" property="order"/>
+        <result column="MODIFIED_AT" property="modifiedAt"/>
+        <result column="CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>
