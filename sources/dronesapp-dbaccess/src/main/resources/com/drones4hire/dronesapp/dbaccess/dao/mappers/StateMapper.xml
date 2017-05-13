@@ -22,7 +22,7 @@
 	        S.MODIFIED_AT AS STATE_MODIFIED_AT,
 	        S.CREATED_AT AS STATE_CREATED_AT
           FROM
-	        drones.COUNTRIES C
+	        drones.STATES S
         ]]>
     </sql>
 
