@@ -53,8 +53,8 @@ module.exports = {
   },
   "output": {
     "path": path.join(process.cwd(), "dist"),
-    "filename": "scripts/[name].bundle.js",
-    "chunkFilename": "scripts/[id].chunk.js"
+    "filename": "scripts/[name].bundle.[hash:20].js",
+    "chunkFilename": "scripts/[id].chunk.[hash:20].js"
   },
   "module": {
     "rules": [
