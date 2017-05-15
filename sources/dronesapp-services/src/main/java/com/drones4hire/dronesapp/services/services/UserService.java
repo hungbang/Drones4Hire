@@ -29,7 +29,7 @@ public class UserService
 	@Transactional(readOnly = true)
 	public User getUserByUsername(String username) throws ServiceException
 	{
-		return userMapper.getUserByUserName(username);
+		return userMapper.getUserByUsername(username);
 	}
 	
 	public boolean checkPassword(String plain, String encrypted)

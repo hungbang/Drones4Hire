@@ -23,7 +23,6 @@ import com.drones4hire.dronesapp.models.db.commons.Country;
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.commons.State;
 import com.drones4hire.dronesapp.models.db.users.Group;
-import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
 
 @Test
@@ -153,9 +152,6 @@ public class UserMapperTest extends AbstractTestNGSpringContextTests {
         LOCATION.setCity("c2");
         LOCATION.setPostcode(2);
         locationMapper.createLocation(LOCATION);
-        GROUP.setName("n2" + DataGenerator.generateNumber(10000));
-        GROUP.setRole(Role.ROLE_ADMIN);
-        groupMapper.createGroup(GROUP);
         USER.setUsername("userName2");
         USER.setEmail("email2");
         USER.setPassword("password2");
@@ -177,7 +173,7 @@ public class UserMapperTest extends AbstractTestNGSpringContextTests {
     public void testDeleteUser()
     {
         userMapper.deleteUserGroup(USER.getId());
-        assertNull(userMapper.getUserById(USER.getId()).getGroups());
+        assertEquals(userMapper.getUserById(USER.getId()).getGroups().size(), 0, "User shouldn't have any groups");
         userMapper.deleteUser(USER.getId());
         assertNull(userMapper.getUserById(USER.getId()));
     }

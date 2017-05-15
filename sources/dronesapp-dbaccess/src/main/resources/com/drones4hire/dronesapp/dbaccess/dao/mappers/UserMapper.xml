@@ -26,7 +26,7 @@
     <insert id="createUserGroup">
     	<![CDATA[
         	INSERT
-          		INTO drones.USER_GROUP (USER_ID, GROUP_ID)
+          		INTO drones.USER_GROUPS (USER_ID, GROUP_ID)
           	VALUES 
             (
           		#{user.id},
@@ -64,7 +64,7 @@
 		        G.NAME AS GROUP_NAME,
 		        G.ROLE AS GROUP_ROLE,
 		        G.MODIFIED_AT AS GROUP_MODIFIED_AT,
-		        G.CREATED_AT AS GROUP_CREATED_AT
+		        G.CREATED_AT AS GROUP_CREATED_AT,
 	        	
 	        	C.ID AS COUNTRY_ID,
 	        	C.NAME AS COUNTRY_NAME,
@@ -144,7 +144,7 @@
         <![CDATA[
         	DELETE
           	FROM 
-          		drones.USER_GROUP
+          		drones.USER_GROUPS
           	WHERE
           		USER_ID = #{userId}
         ]]>
@@ -161,18 +161,18 @@
     </delete>
 
     <resultMap id="UserResultMap" type="com.drones4hire.dronesapp.models.db.users.User" autoMapping="false">
-        <id column="COMPANY_ID" property="id"/>
-        <result column="COMPANY_USER_ID" property="username" />
-        <result column="COMPANY_NAME" property="email" />
-        <result column="COMPANY_WEB_URL" property="password" />
-        <result column="COMPANY_CONTACT_NAME" property="firstName" />
-        <result column="COMPANY_CONTACT_EMAIL" property="lastName" />
-        <result column="COMPANY_CONTACT_EMAIL" property="photoURL" />
-        <result column="COMPANY_CONTACT_EMAIL" property="introduction" />
-        <result column="COMPANY_CONTACT_EMAIL" property="summary" />
-        <result column="COMPANY_CONTACT_EMAIL" property="enabled" />
-		<result column="COMPANY_MODIFIED_AT" property="modifiedAt" />
-		<result column="COUNTRY_CREATED_AT" property="createdAt" />
+        <id column="USER_ID" property="id"/>
+        <result column="USER_USERNAME" property="username" />
+        <result column="USER_EMAIL" property="email" />
+        <result column="USER_PASSWORD" property="password" />
+        <result column="USER_FIRST_NAME" property="firstName" />
+        <result column="USER_LAST_NAME" property="lastName" />
+        <result column="USER_PHOTO_URL" property="photoURL" />
+        <result column="USER_INTRODUCTION" property="introduction" />
+        <result column="USER_SUMMARY" property="summary" />
+        <result column="USER_ENABLED" property="enabled" />
+		<result column="USER_MODIFIED_AT" property="modifiedAt" />
+		<result column="USER_CREATED_AT" property="createdAt" />
 		<association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap" />
 		<collection property="groups" ofType="com.drones4hire.dronesapp.models.db.users.Group" 
 			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.GroupMapper.GroupResultMap"/>

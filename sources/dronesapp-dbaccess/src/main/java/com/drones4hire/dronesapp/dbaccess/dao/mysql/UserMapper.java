@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.dbaccess.dao.mysql;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.User;
 
@@ -9,9 +11,9 @@ public interface UserMapper
 {
 	void createUser(User user);
 	
-	void createUserGroup(User user, Group group);
+	void createUserGroup(@Param("user") User user, @Param("group") Group group);
 	
-	User getUserById(long id);
+	User getUserById(Long id);
 
 	User getUserByUsername(String username);
 
@@ -19,7 +21,7 @@ public interface UserMapper
 	
 	void updateUser(User user);
 
-	void deleteUserGroup(long userId);
+	void deleteUserGroup(Long userId);
 	
-	void deleteUser(long id);
+	void deleteUser(Long id);
 }
