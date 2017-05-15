@@ -6,7 +6,7 @@
 	<insert id="createProject" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT
-          		INTO zafira.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, IMAGE_URL, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
+          		INTO drones.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, IMAGE_URL, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
           VALUES 
 	           (
 	            #{title},
@@ -25,19 +25,28 @@
 	           )
         ]]>
 	</insert>
+	
+	<insert id="createProjectPaidOption" useGeneratedKeys="true">
+        <![CDATA[
+          INSERT
+          		INTO drones.PROJECTS_PAID_OPTIONS (PROJECT_ID, PAID_OPTION_ID)
+          VALUES 
+	           (
+	            #{projectId},
+	            #{paidOptionId}
+	           )
+        ]]>
+	</insert>
 
 
 	<sql id="getProject">
         <![CDATA[
           SELECT
 	      		P.ID AS PROJECT_ID,
+	      		P.TITLE AS PROJECT_TITLE,
 	        	P.SUMMARY AS PROJECT_SUMMARY,
 	        	P.CLIENT_ID AS PROJECT_CLIENT_ID,
 	        	P.PILOT_ID AS PROJECT_PILOT_ID,
-	        	P.SERVICE_ID AS PROJECT_SERVICE_ID,
-	        	P.DURATION_ID AS PROJECT_DURATION_ID,
-	        	P.LOCATION_ID AS PROJECT_LOCATION_ID,
-	        	P.BUDGET_ID AS PROJECT_BUDGET_ID,
 	        	P.IMAGE_URL AS PROJECT_IMAGE_URL,
 	        	P.POST_PRODUCTION_REQUIRED AS PROJECT_POST_PRODUCTION_REQUIRED,
 	        	P.STATUS AS PROJECT_STATUS,
@@ -50,7 +59,50 @@
 		        PO.PRICE AS PAID_OPTION_PRICE,
 		        PO.CURRENCY AS PAID_OPTION_CURRENCY,
 		        PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
-		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT
+		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT,
+		        
+		        L.ID AS LOCATION_ID,
+		        X(L.COORDINATES) AS LOCATION_X_COORDINATE,
+		        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
+		        L.CITY AS LOCATION_CITY,
+		        L.POSTCODE AS LOCATION_POSTCODE,
+		        L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
+		        L.CREATED_AT AS LOCATION_CREATED_AT,
+		        C.ID AS COUNTRY_ID,
+		        C.NAME AS COUNTRY_NAME,
+		        C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
+		        C.CREATED_AT AS COUNTRY_CREATED_AT,
+		        ST.ID AS STATE_ID,
+		        ST.NAME AS STATE_NAME,
+		        ST.MODIFIED_AT AS STATE_MODIFIED_AT,
+		        ST.CREATED_AT AS STATE_CREATED_AT,
+		        
+		        D.ID AS DURATION_ID,
+		        D.TITLE AS DURATION_TITLE,
+		        D.MIN AS DURATION_MIN,
+		        D.MAX AS DURATION_MAX,
+		        D.SORT_ORDER AS DURATION_SORT_ORDER,
+		        D.MODIFIED_AT AS DURATION_MODIFIED_AT,
+		        D.CREATED_AT AS DURATION_CREATED_AT,
+		        
+		        B.ID AS BUDGET_ID,
+		        B.TITLE AS BUDGET_TITLE,
+		        B.MIN AS BUDGET_MIN,
+		        B.MAX AS BUDGET_MAX,
+		        B.CURRENCY AS BUDGET_CURRENCY,
+		        B.SORT_ORDER AS BUDGET_SORT_ORDER,
+		        B.MODIFIED_AT AS BUDGET_MODIFIED_AT,
+		        B.CREATED_AT AS BUDGET_CREATED_AT,
+		        
+		        S.ID AS SERVICE_ID,
+	            S.NAME AS SERVICE_NAME,
+	            S.MODIFIED_AT AS SERVICE_MODIFIED_AT,
+	            S.CREATED_AT AS SERVICE_CREATED_AT,
+	            SC.ID AS SERVICE_CATEGORY_ID,
+	            SC.NAME AS SERVICE_CATEGORY_NAME,
+	            SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
+	            SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
+	            SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT
           FROM
 	      		drones.PROJECTS P
 	      LEFT JOIN
@@ -60,7 +112,37 @@
 	      LEFT JOIN
 	      		drones.PAID_OPTIONS PO
 	      ON
-          		PPO.PAID_OTION_ID = PO.ID
+          		PPO.PAID_OPTION_ID = PO.ID
+          LEFT JOIN
+	      		drones.LOCATIONS L		
+	      ON
+          		P.LOCATION_ID = L.ID
+          LEFT JOIN
+            	drones.COUNTRIES C
+          ON
+            L.COUNTRY_ID = C.ID
+          LEFT JOIN
+            	drones.STATES ST
+          ON
+            L.STATE_ID = ST.ID
+          LEFT JOIN
+	      		drones.BUDGETS B		
+	      ON
+          		P.BUDGET_ID = B.ID
+          		
+          LEFT JOIN
+	      		drones.DURATIONS D	
+	      ON
+          		P.DURATION_ID = D.ID
+          		
+          LEFT JOIN
+	      		drones.SERVICES S	
+	      ON
+          		P.SERVICE_ID = S.ID
+          LEFT JOIN
+	      		drones.SERVICE_CATEGORIES SC
+	      ON
+          		S.SERVICE_CATEGORY_ID = SC.ID		
         ]]>
 	</sql>
 
@@ -81,14 +163,21 @@
           UPDATE
           		drones.PROJECTS
           SET
-          		NAME = #{name},
-          	 	PROJECT_ID = #{project.id}
+          		TITLE = #{title},
+          	 	SUMMARY = #{summary},
+          	 	CLIENT_ID = #{clientId},
+          	 	PILOT_ID = #{pilotId},
+          	 	IMAGE_URL = #{imageURL},
+          	 	POST_PRODUCTION_REQUIRED = #{postProductionRequired},
+          	 	STATUS = #{status},
+          	 	START_DATE = #{startDate},
+          	 	FINISH_DATE = #{finishDate}
           WHERE
 			 	ID = #{id}
         ]]>
 	</update>
 
-	<delete id="deleteProjectById">
+	<delete id="deleteProject">
         <![CDATA[
           DELETE
           		FROM drones.PROJECTS
@@ -98,18 +187,12 @@
 	</delete>
 
 
-	<resultMap id="ProjectResultMap"
-		type="com.drones4hire.dronesapp.models.db.projects.Project"
-		autoMapping="false">
+	<resultMap id="ProjectResultMap" type="com.drones4hire.dronesapp.models.db.projects.Project" autoMapping="false">
 		<id column="PROJECT_ID" property="id" />
 		<result column="PROJECT_TITLE" property="title" />
 		<result column="PROJECT_SUMMARY" property="summary" />
 		<result column="PROJECT_CLIENT_ID" property="clientId" />
 		<result column="PROJECT_PILOT_ID" property="pilotId" />
-		<result column="PROJECT_SERVICE_ID" property="service.id" />
-		<result column="PROJECT_DURATION_ID" property="duration.id" />
-		<result column="PROJECT_LOCATION_ID" property="location.id" />
-		<result column="PROJECT_BUDGET_ID" property="budget.id" />
 		<result column="PROJECT_IMAGE_URL" property="imageURL" />
 		<result column="PROJECT_POST_PRODUCTION_REQUIRED" property="postProductionRequired" />
 		<result column="PROJECT_STATUS" property="status" />
@@ -117,6 +200,10 @@
 		<result column="PROJECT_FINISH_DATE" property="finishDate" />
 		<result column="PROJECT_MODIFIED_AT" property="modifiedAt" />
 		<result column="PROJECT_CREATED_AT" property="createdAt" />
+		<association property="service" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceMapper.ServiceResultMap"/>
+		<association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap"/>
+		<association property="duration" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.DurationMapper.DurationResultMap"/>
+		<association property="budget" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BudgetMapper.BudgetResultMap"/>
 		<collection property="paidOptions"
 			ofType="com.drones4hire.dronesapp.models.db.projects.PaidOption"
 			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.PaidOptionMapper.PaidOptionResultMap" />

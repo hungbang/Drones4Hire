@@ -8,6 +8,15 @@ public class Service extends AbstractEntity
 
 	private String name;
 	private ServiceCategory category;
+	
+	public Service()
+	{
+	}
+	
+	public Service(long id)
+	{
+		this.setId(id);
+	}
 
 	public String getName()
 	{

@@ -14,6 +14,15 @@ public class Bid extends AbstractEntity
 	private String comment;
 	private BigDecimal amount;
 	private Currency currency;
+	
+	public Bid()
+	{
+	}
+	
+	public Bid(long id)
+	{
+		this.setId(id);
+	}
 
 	public Long getUserId()
 	{

@@ -13,6 +13,15 @@ public class Budget extends AbstractEntity
 	private BigDecimal max;
 	private Currency currency;
 	private Integer order;
+	
+	public Budget()
+	{
+	}
+	
+	public Budget(long id)
+	{
+		this.setId(id);
+	}
 
 	public String getTitle()
 	{

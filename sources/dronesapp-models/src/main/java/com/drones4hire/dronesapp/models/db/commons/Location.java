@@ -12,6 +12,15 @@ public class Location extends AbstractEntity
 	private State state;
 	private String city;
 	private Integer postcode;
+	
+	public Location()
+	{
+	}
+	
+	public Location(long id)
+	{
+		this.setId(id);
+	}
 
 	public String getAddress()
 	{

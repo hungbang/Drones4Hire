@@ -65,7 +65,7 @@
         ]]>
     </update>
 
-    <delete id="deleteBidById">
+    <delete id="deleteBid">
         <![CDATA[
           DELETE
           FROM 

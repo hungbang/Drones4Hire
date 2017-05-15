@@ -10,6 +10,15 @@ public class Duration extends AbstractEntity
 	private Double min;
 	private Double max;
 	private Integer order;
+	
+	public Duration()
+	{
+	}
+	
+	public Duration(long id)
+	{
+		this.setId(id);
+	}
 
 	public String getTitle()
 	{

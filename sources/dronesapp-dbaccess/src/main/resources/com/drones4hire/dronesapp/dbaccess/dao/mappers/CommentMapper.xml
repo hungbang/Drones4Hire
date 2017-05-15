@@ -59,7 +59,7 @@
         ]]>
     </update>
 
-    <delete id="deleteCommentById">
+    <delete id="deleteComment">
         <![CDATA[
           DELETE
           FROM 
