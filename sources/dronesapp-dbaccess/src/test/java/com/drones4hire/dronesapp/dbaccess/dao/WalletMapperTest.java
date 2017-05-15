@@ -1,13 +1,8 @@
 package com.drones4hire.dronesapp.dbaccess.dao;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.StateMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.WalletMapper;
-import com.drones4hire.dronesapp.dbaccess.utils.DataGenerator;
 import com.drones4hire.dronesapp.models.db.commons.*;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -25,7 +20,7 @@ public class WalletMapperTest extends AbstractTestNGSpringContextTests {
     /**
      * Turn this on to enable this test
      */
-    private static final boolean ENABLED = true;
+    private static final boolean ENABLED = false;
 
     private static final Wallet WALLET = new Wallet() {
 

@@ -26,7 +26,7 @@ public class PilotLocationMapperTest extends AbstractTestNGSpringContextTests {
     /**
      * Turn this on to enable this test
      */
-    private static final boolean ENABLED = true;
+    private static final boolean ENABLED = false;
 
     private static final Country COUNTRY = new Country() {
 
