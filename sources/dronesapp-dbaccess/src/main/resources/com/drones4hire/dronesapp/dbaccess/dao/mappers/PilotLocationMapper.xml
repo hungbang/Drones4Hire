@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.PilotLocationMapper">
+
+    <insert id="createPilotLocation" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.PILOT_LOCATIONS (USER_ID, OFFICE, PHONE, ALTERNATIVE_PHONE, LOCATION_ID)
+          VALUES
+          (
+            #{userId},
+            #{office},
+            #{phone},
+            #{alternativePhone},
+            #{location.id}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getPilotLocations">
+        <![CDATA[
+          SELECT
+	        PL.ID AS PILOT_LOCATION_ID,
+	        PL.USER_ID AS PILOT_LOCATION_USER_ID,
+	        PL.OFFICE AS PILOT_LOCATION_OFFICE,
+	        PL.PHONE AS PILOT_LOCATION_PHONE,
+	        PL.ALTERNATIVE_PHONE AS PILOT_LOCATION_ALTERNATIVE_PHONE,
+	        PL.MODIFIED_AT AS PILOT_LOCATION_MODIFIED_AT,
+	        PL.CREATED_AT AS PILOT_LOCATION_CREATED_AT
+
+	        L.ID AS LOCATION_ID,
+	        X(L.COORDINATES) AS LOCATION_X_COORDINATE,
+	        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
+	        L.CITY AS LOCATION_CITY,
+	        L.POSTCODE AS LOCATION_POSTCODE,
+	        L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
+	        L.CREATED_AT AS LOCATION_CREATED_AT,
+	        C.ID AS COUNTRY_ID,
+	        C.NAME AS COUNTRY_NAME,
+	        C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
+	        C.CREATED_AT AS COUNTRY_CREATED_AT,
+	        S.ID AS STATE_ID,
+	        S.NAME AS STATE_NAME,
+	        S.MODIFIED_AT AS STATE_MODIFIED_AT,
+	        S.CREATED_AT AS STATE_CREATED_AT
+          FROM
+	        drones.PILOT_LOCATIONS PL
+          LEFT JOIN
+            drones.LOCATIONS L
+          ON
+            PL.LOCATION_ID = L.ID
+          LEFT JOIN
+            drones.COUNTRIES C
+          ON
+            L.COUNTRY_ID = C.ID
+          LEFT JOIN
+            drones.STATES S
+          ON
+            L.STATE_ID = S.ID
+        ]]>
+    </sql>
+
+    <select id="getPilotLocationById" resultMap="PilotLocationResultMap">
+        <include refid="getPilotLocations"/>
+        <![CDATA[
+          WHERE
+            PL.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllPilotLocations" resultMap="PilotLocationResultMap">
+        <include refid="getPilotLocations"/>
+    </select>
+
+    <update id="updatePilotLocation">
+        <![CDATA[
+          UPDATE
+         	drones.PILOT_LOCATIONS
+          SET
+          	USER_ID = #{userId},
+            OFFICE = #{office},
+            PHONE = #{phone},
+            ALTERNATIVE_PHONE = #{alternativePhone},
+            LOCATION_ID = #{location.id}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deletePilotLocation">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.PILOT_LOCATIONS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="PilotLocationResultMap" type="com.drones4hire.dronesapp.models.db.users.PilotLocation" autoMapping="false">
+        <id column="PILOT_LOCATION_ID" property="id"/>
+        <result column="PILOT_LOCATION_USER_ID" property="userId"/>
+        <result column="PILOT_LOCATION_OFFICE" property="office"/>
+        <result column="PILOT_LOCATION_PHONE" property="phone"/>
+        <result column="PILOT_LOCATION_ALTERNATIVE_PHONE" property="alternativePhone"/>
+        <result column="PILOT_LOCATION_MODIFIED_AT" property="modifiedAt"/>
+        <result column="PILOT_LOCATION_CREATED_AT" property="createdAt"/>
+        <association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap"/>
+    </resultMap>
+
+</mapper>

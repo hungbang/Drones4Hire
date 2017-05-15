@@ -7,8 +7,8 @@ public class Duration extends AbstractEntity
 	private static final long serialVersionUID = -8574854731176821945L;
 
 	private String title;
-	private Double min;
-	private Double max;
+	private Integer min;
+	private Integer max;
 	private Integer order;
 	
 	public Duration()
@@ -30,22 +30,22 @@ public class Duration extends AbstractEntity
 		this.title = title;
 	}
 
-	public Double getMin()
+	public Integer getMin()
 	{
 		return min;
 	}
 
-	public void setMin(Double min)
+	public void setMin(Integer min)
 	{
 		this.min = min;
 	}
 
-	public Double getMax()
+	public Integer getMax()
 	{
 		return max;
 	}
 
-	public void setMax(Double max)
+	public void setMax(Integer max)
 	{
 		this.max = max;
 	}

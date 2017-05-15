@@ -27,8 +27,8 @@ public class BudgetMapperTest extends AbstractTestNGSpringContextTests {
         private static final long serialVersionUID = 1L;
         {
             setTitle("t1" + DataGenerator.generateNumber(10000));
-            setMin(new BigDecimal(1.01));
-            setMax(new BigDecimal(2.02));
+            setMin(new BigDecimal(10.00D));
+            setMax(new BigDecimal(20.00D));
             setCurrency(Currency.USD);
             setOrder(1);
         }
@@ -62,8 +62,8 @@ public class BudgetMapperTest extends AbstractTestNGSpringContextTests {
     public void testUpdateBudget()
     {
         BUDGET.setTitle("t2" + DataGenerator.generateNumber(10000));
-        BUDGET.setMin(new BigDecimal(3.03));
-        BUDGET.setMax(new BigDecimal(4.04));
+        BUDGET.setMin(new BigDecimal(30.00D));
+        BUDGET.setMax(new BigDecimal(40.00D));
         BUDGET.setCurrency(Currency.EUR);
         BUDGET.setOrder(2);
         budgetMapper.updateBudget(BUDGET);
@@ -82,8 +82,8 @@ public class BudgetMapperTest extends AbstractTestNGSpringContextTests {
     {
         assertEquals(budget.getId(), BUDGET.getId(), "Budget id must match");
         assertEquals(budget.getTitle(), BUDGET.getTitle(), "Budget title must match");
-        //assertEquals(budget.getMin(), BUDGET.getMin(), "Budget min must match");
-        //assertEquals(budget.getMax(), BUDGET.getMax(), "Budget max must match");
+        assertEquals(budget.getMin().compareTo(BUDGET.getMin()), 0, "Budget min must match");
+        assertEquals(budget.getMax().compareTo(BUDGET.getMax()), 0, "Budget max must match");
         assertEquals(budget.getCurrency(), BUDGET.getCurrency(), "Budget currency must match");
         assertEquals(budget.getOrder(), BUDGET.getOrder(), "Budget sort order must match");
     }

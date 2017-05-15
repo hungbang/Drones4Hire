@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.TransactionMapper">
+
+    <insert id="createTransaction" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.TRANSACTIONS (WALLET_ID, AMOUNT, CURRENCY, TYPE, PURPOSE, PROJECT_ID, STATUS)
+          VALUES
+          (
+            #{walletId},
+            #{amount},
+            #{currency},
+            #{type},
+            #{purpose},
+            #{projectId},
+            #{status}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getTransactions">
+        <![CDATA[
+          SELECT
+	        T.ID AS TRANSACTION_ID,
+	        T.WALLET_ID AS TRANSACTION_WALLET_ID,
+	        T.AMOUNT AS TRANSACTION_AMOUNT,
+	        T.CURRENCY AS TRANSACTION_CURRENCY,
+	        T.TYPE AS TRANSACTION_TYPE,
+	        T.PURPOSE AS TRANSACTION_PURPOSE,
+	        T.PROJECT_ID AS TRANSACTION_PROJECT_ID,
+	        T.STATUS AS TRANSACTION_STATUS,
+	        T.MODIFIED_AT AS TRANSACTION_MODIFIED_AT,
+	        T.CREATED_AT AS TRANSACTION_CREATED_AT
+          FROM
+	        drones.TRANSACTIONS T
+        ]]>
+    </sql>
+
+    <select id="getTransactionById" resultMap="TransactionResultMap">
+        <include refid="getTransactions"/>
+        <![CDATA[
+          WHERE
+            T.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllTransactions" resultMap="TransactionResultMap">
+        <include refid="getTransactions"/>
+    </select>
+
+    <update id="updateTransaction">
+        <![CDATA[
+          UPDATE
+         	drones.TRANSACTIONS
+          SET
+          	WALLET_ID = #{walletId},
+            AMOUNT = #{amount},
+            CURRENCY = #{currency},
+            TYPE = #{type},
+            PURPOSE = #{purpose},
+            PROJECT_ID = #{projectId},
+            STATUS = #{status}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteTransaction">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.TRANSACTIONS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="TransactionResultMap" type="com.drones4hire.dronesapp.models.db.payments.Transaction" autoMapping="false">
+        <id column="TRANSACTION_ID" property="id"/>
+        <result column="TRANSACTION_WALLET_ID" property="walletId"/>
+        <result column="TRANSACTION_AMOUNT" property="amount"/>
+        <result column="TRANSACTION_CURRENCY" property="currency"/>
+        <result column="TRANSACTION_TYPE" property="type"/>
+        <result column="TRANSACTION_PURPOSE" property="purpose"/>
+        <result column="TRANSACTION_PROJECT_ID" property="projectId"/>
+        <result column="TRANSACTION_STATUS" property="status"/>
+        <result column="TRANSACTION_MODIFIED_AT" property="modifiedAt"/>
+        <result column="TRANSACTION_CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>
