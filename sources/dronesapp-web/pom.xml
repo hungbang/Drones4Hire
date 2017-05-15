@@ -70,7 +70,7 @@
             <configuration>
                 <charset>UTF-8</charset>
                 <uriEncoding>UTF-8</uriEncoding>
-                <path>/dronesapp</path>
+                <path>${drones4hire.tomcat.web.path}</path>
                 <server>TomcatServer</server>
                 <ignorePackaging>true</ignorePackaging>
             </configuration>
