@@ -1,0 +1,27 @@
+<form action="" class="f-projects-search">
+  <div class="f-projects-search__wrapper">
+    <div class="f-projects-search__input-wrapper">
+      <input name="nameFilter" type="text"
+             class="f-projects-search__input"
+             placeholder="Enter the project name"
+             [(ngModel)]="nameFilter">
+      <button type="button" class="f-projects-search__btn-search"
+              (click)="filterByName()">
+        <svg-use name="search"></svg-use>
+      </button>
+    </div>
+    <div class="f-projects-search__select-wrapper">
+      <select [(ngModel)]="limitProjectsToShow"
+              name="filterByCount" id=""
+              class="f-projects-search__select">
+        <option [value]="value" *ngFor="let value of _projectService.countProjectsToShow"
+                class="f-projects-search__option">
+          Show {{value}}</option>
+      </select>
+    </div>
+    <button type="button" class="f-projects-search__btn-refresh"
+            (click)="refresh(limitProjectsToShow)">
+      <svg-use name="refresh"></svg-use>
+    </button>
+  </div>
+</form>

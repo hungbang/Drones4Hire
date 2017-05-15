@@ -1,0 +1,54 @@
+.f-projects-search
+  font-size 1.4rem
+  letter-spacing .5px
+  padding-bottom 30px
+  &__wrapper
+    display flex
+  &__input-wrapper
+    width 100%
+    display flex
+    position relative
+  &__input
+    width 100%
+    padding 8px
+    border 1px solid #8a8a8a
+    background-color: #ffffff
+  &__btn-search
+    position absolute
+    left calc(100% - 32px)
+    padding 12px 8px
+    background-color #3ebcc7
+  &__select
+    padding 11px 5px
+    min-width 200px
+    margin-left 20px
+    border 1px solid #8a8a8a
+    border-radius 5px
+    letter-spacing 1px
+    background-color transparent
+    appearance: none
+  &__select-wrapper
+    position relative
+    &:after
+      content '\25bc'
+      font-size .9rem
+      display block
+      position absolute
+      width 5px
+      height 5px
+      top 35%
+      left 90%
+      pointer-events none
+  &__btn-refresh
+    margin-left 10px
+    padding 10px
+    background-color #3ebcc7
+    border-radius 4px
+
+.svg-search
+  width 15px
+  height 15px
+.svg-refresh
+  width 20px
+  height 20px
+  margin 0 auto

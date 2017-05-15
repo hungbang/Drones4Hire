@@ -1,0 +1,232 @@
+ps()
+  display block
+  content ""
+  position absolute
+h()
+  display block
+  content ""
+  position absolute
+  left 0
+  right 0
+  margin 0 auto
+hb()
+  position absolute
+  left 0
+  right 0
+  margin 0 auto
+v()
+  display block
+  content ""
+  position absolute
+  top 0
+  bottom 0
+  margin auto 0
+vb()
+  position absolute
+  top 0
+  bottom 0
+  margin auto 0
+hv()
+  display block
+  content ""
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  margin auto
+hvb()
+  display block
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  margin auto
+tr(all_=0.2s)
+  transition all all_ ease-out
+trc(color_=0.2s)
+  transition color color_ ease-out
+tro(opacity_=0.2s)
+  transition opacity opacity_ ease-out
+trt(transform_=0.2s)
+  transition transform transform_ ease-out
+trto(transform_=0.2s, opacity_=0.2s)
+  transition transform transform_ ease-out, opacity opacity_ ease-out
+trf(fill_=0.2s)
+  transition fill fill_ ease-out
+trw(width_=0.2s)
+  transition width width_ ease-out
+trb(bc=0.2s)
+  transition border-color bc ease-out
+trbg(bgc=0.2s)
+  transition background-color bgc ease-out
+trbc(bdc=0.2s, color_=0.2s)
+  transition border-color bdc ease-out, color color_ ease-out
+trbgc(bgc=0.2s, color_=0.2s)
+  transition background-color bgc ease-out, color color_ ease-out
+trbgb(bgc=0.2s, bdc=0.2s)
+  transition background-color bgc ease-out, border-color bdc ease-out
+trts(trts=0.2s)
+  transition text-shadow trts ease-out
+vam()
+  display inline-block
+  vertical-align middle
+vat()
+  display inline-block
+  vertical-align top
+vabs()
+  display inline-block
+  vertical-align baseline
+vab()
+  display inline-block
+  vertical-align bottom
+dt()
+  display table
+  table-layout: fixed
+  width: 100%
+dtct()
+  display: table-cell
+  vertical-align: top
+dtcm()
+  display: table-cell
+  vertical-align: middle
+dtcb()
+  display: table-cell
+  vertical-align: bottom
+cf()
+  &:after
+    display block
+    content ''
+    height 0
+    visibility hidden
+    clear both
+vam-ps()
+  font-size: 0
+  &:after
+    content ""
+    display inline-block
+    width 0
+    height 100%
+    vertical-align middle
+o(bgc=#fff, opacity_=0.7)
+  background rgba(bgc, opacity_);
+pso(bgc=#fff, opacity_=0.7)
+  &:after
+    display: block
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background rgba(bgc, opacity_);
+dts(left_,left-padding_,right_,right-padding_)
+  &__table
+    dt()
+  &__left
+    dtct()
+    if left_ != 0
+      width left_
+    if left-padding_ != 0
+      padding left-padding_
+  &__right
+    dtct()
+    if right_ != 0
+      width right_
+    if right-padding_ != 0
+      padding right-padding_
+
+select-reset()
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  &::-ms-expand
+    display: none;
+
+divide($width)
+  $width / 2
+
+arrow($direction, $width, $height, $color)
+  width $width
+  height $height
+  if $direction == 'top'
+    border-bottom $height solid $color
+    border-left divide($width) solid transparent
+    border-right divide($width) solid transparent
+  if $direction == 'bottom'
+    border-top $height solid $color
+    border-left divide($width) solid transparent
+    border-right divide($width) solid transparent
+  if $direction == 'left'
+    border-right $width solid $color
+    border-top divide($height) solid transparent
+    border-bottom divide($height) solid transparent
+  if $direction == 'right'
+    border-left $width solid $color
+    border-top divide($height) solid transparent
+    border-bottom divide($height) solid transparent
+
+customScroll(isHorizontal = false, width = 2px)
+  scrollbar-base-color transparent
+  scrollbar-3dlight-color transparent
+  scrollbar-arrow-color #ccc
+  scrollbar-track-color rgba(#fff,.01)
+  scrollbar-darkshadow-color rgba(#fff,.01)
+  scrollbar-face-color #ccc
+  scrollbar-highlight-color rgba(#fff,.01)
+  scrollbar-shadow-color #ccc
+  &::-webkit-scrollbar
+    if isHorizontal
+      height: 17px
+    else
+      width width
+  &::-webkit-scrollbar-thumb
+    if isHorizontal
+      background linear-gradient(to top, #000 0, #000 2px, transparent 2px, transparent)
+      //background #000
+    else
+      background #000
+  &::-webkit-scrollbar-track
+    background transparent
+
+customScrollDark(isHorizontal = false, width = 2px)
+  scrollbar-base-color transparent
+  scrollbar-3dlight-color transparent
+  scrollbar-arrow-color #fff
+  scrollbar-track-color rgba(#000,.01)
+  scrollbar-darkshadow-color rgba(#000,.01)
+  scrollbar-face-color #fff
+  scrollbar-highlight-color rgba(#000,.01)
+  scrollbar-shadow-color #fff
+  &::-webkit-scrollbar
+    if isHorizontal
+      height: 17px
+    else
+      width width
+  &::-webkit-scrollbar-thumb
+    if isHorizontal
+      background linear-gradient(to top, #fff 0, #fff 2px, transparent 2px, transparent)
+      //background #fff
+    else
+      background #fff
+  &::-webkit-scrollbar-track
+    background transparent
+
+customScroll_2(width = 15px)
+  &::-webkit-scrollbar
+    width: width
+  &::-webkit-scrollbar-thumb
+    background #656d78
+    width width
+    height: width
+    border-radius 8px
+  &::-webkit-scrollbar-track
+    width width
+    background #656d78
+    box-shadow: 7px 0 0 #fff inset,
+    -7px 0 0 #fff inset
+  @media only screen and (max-width: 740px)
+    &::-webkit-scrollbar-thumb
+      border-left 3px solid #fff
+      border-right 3px solid #fff

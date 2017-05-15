@@ -22,6 +22,7 @@
 /sources/dronesapp-ws/target
 /sources/dronesapp-ws/.project
 /sources/dronesapp-ws/.classpath
+/sources/dronesapp-web/target
 /sources/.project
 /sources/.settings/org.eclipse.core.resources.prefs
 /sources/.settings/org.eclipse.m2e.core.prefs
@@ -29,3 +30,51 @@
 *.iml
 db-schema.mwb.bak
 sources/dronesapp-dbaccess/test-output
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+
+npm-debug.log.*
+
+sources/dronesapp-web/angular/node

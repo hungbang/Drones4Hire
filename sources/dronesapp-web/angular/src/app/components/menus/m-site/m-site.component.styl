@@ -1,0 +1,70 @@
+.m-site
+  height: 100%
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin: 0 -15px
+  &._profile
+    .m-site__item
+      &._margin
+        margin-right 100px
+      &._margin-left
+        margin-left 100px
+  &__item
+    padding 0 15px
+    position: relative
+    &._margin
+      margin-right auto
+  &__link
+    display: block
+    font-size 1.4rem
+    line-height: 2
+    letter-spacing 1px
+    font-weight: 400
+    color #fff
+    text-transform: uppercase
+    transition color 0.25s
+    white-space nowrap
+    &:hover
+      color: #3ebcc7;
+      + .m-site__sub
+        opacity 1
+        pointer-events all
+      .m-site__num
+        color #fff
+    &._project
+      display: inline-block
+      padding: 10px;
+      border-radius: 3px;
+      background: #3ebcc7;
+      color: white;
+      text-decoration: none;
+      font-size 1.4rem
+  &__num
+    display: inline-block
+    vertical-align middle
+    width: 26px
+    border-radius 10px
+    background: #3ebcc7;
+    text-align: center
+    line-height: 1.9rem
+    margin-top: -3px
+    color #fff
+  &__sub
+    position: absolute
+    display: inline-block
+    padding 10px 15px
+    left: 15px
+    top: 100%
+    background #000
+    opacity 0
+    pointer-events none
+    transition opacity 0.25s
+    transform translateZ(0)
+    &._last
+      left: auto
+      right: 0
+    &:hover
+      opacity 1
+      pointer-events all
+

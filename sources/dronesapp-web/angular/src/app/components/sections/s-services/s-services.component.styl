@@ -1,0 +1,42 @@
+.s-services
+  padding 110px 0 120px
+  text-align: center
+  &__title
+    font-size 3.6rem
+    font-weight: 400
+    margin-bottom: 70px
+    color #414141
+    text-transform: uppercase
+    position: relative
+    &::before
+    &::after
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -25px;
+      height: 3px;
+      width: 20px;
+      background-color: #8a8a8a;
+    &::before
+      transform: translateX( -50% ) rotate(45deg);
+    &::after
+      transform: translateX( -50% ) rotate(-45deg);
+  &__text
+    max-width 910px
+    margin: 0 auto
+    margin-bottom: 45px
+    font-size 1.8rem
+    color #8a8a8a
+  &__bottom
+    margin-bottom: 50px
+  &__link
+    display: block;
+    max-width 250px
+    margin: 0 auto
+    font-size 1.8rem
+    line-height: 4.7rem
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 3px;
+    background: #3ebcc7;
+

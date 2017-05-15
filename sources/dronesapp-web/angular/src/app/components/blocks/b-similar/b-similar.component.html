@@ -1,0 +1,25 @@
+<div class="b-similar" (click)="click()" [ngClass]="{ '_active': toggleClass}">
+  <div class="b-similar__wrapper">
+    <div class="b-similar__title">{{item.title}}</div>
+
+    <div class="b-similar__description">
+      <div class="b-similar__subtitle">Type</div>
+      <div class="b-similar__text">{{item.type}}</div>
+    </div>
+    <div class="b-similar__description">
+      <div class="b-similar__subtitle">Location</div>
+      <div class="b-similar__text">{{item.location}}</div>
+    </div>
+    <div class="b-similar__description">
+      <div class="b-similar__subtitle">Budget</div>
+      <div class="b-similar__text">{{item.budget}}</div>
+    </div>
+    <div class="b-similar__description">
+      <div class="b-similar__subtitle">Date Posted</div>
+      <div class="b-similar__text">{{item.date}}</div>
+    </div>
+  </div>
+  <div class="b-similar__img-wrapper">
+    <img [src]="item.src" class="b-similar__img"/>
+  </div>
+</div>

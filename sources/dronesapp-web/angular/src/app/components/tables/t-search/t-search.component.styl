@@ -1,0 +1,40 @@
+@import '../../../styles/settings/mixin.styl'
+.t-search
+  display: table
+  width: 100%
+  &__row
+    display table-row
+    &._head
+      .t-search
+        &__cell
+          padding: 20px 8px
+          color #fff
+          &:first-child
+            background #363636
+          &:nth-child(2n)
+            background #898989
+          &:nth-child(2n+3)
+            background #b7b7b7
+  &__cell
+    display table-cell
+    text-align: center
+    padding: 25px 8px
+    font-size 1.6rem
+    font-weight: 400
+    color #454545
+    text-transform: uppercase
+    border-bottom 1px solid #b7b7b7
+    &._first
+      text-align left
+  &__colors
+    vam()
+    font-size 0
+  &__color
+    width: 13px
+    height: 13px
+    border-radius: 50%
+    &-li
+      vam()
+      padding 0 3px
+  &__title
+    vam()

@@ -1,0 +1,8 @@
+<ul class="l-transactions-search">
+  <li class="l-transactions-search__item" *ngFor="let transaction of transactions |
+   slice:(_transactionService.currentPage * _transactionService.itemsPerPage):
+   (_transactionService.currentPage * _transactionService.itemsPerPage + _transactionService.itemsPerPage)">
+    <b-transaction-search [transaction]="transaction"></b-transaction-search>
+  </li>
+</ul>
+

@@ -1,0 +1,14 @@
+<form action="" class="f-transactions-search">
+  <div class="f-transactions-search__wrapper">
+    <div class="f-transactions-search__select-wrapper">
+      <label class="f-transactions-search__select-label">
+        <span>Show </span>
+        <select name="" id="" class="f-transactions-search__select" (change)="setLimit($event.target.value)">
+          <option [value]="limit" class="f-transactions-search__option"
+                  [selected]="limit === currentLimit"
+                  *ngFor="let limit of itemsPerPageSet">{{limit}}</option>
+        </select>
+      </label>
+    </div>
+  </div>
+</form>

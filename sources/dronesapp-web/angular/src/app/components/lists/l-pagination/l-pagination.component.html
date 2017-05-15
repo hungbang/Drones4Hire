@@ -1,0 +1,41 @@
+<ul class="l-pagination">
+  <li class="l-pagination__item _first"
+      *ngIf="currentPage > 0 && pagesCount > 5">
+    <a class="l-pagination__link" aria-label="First" (click)="setNewPage(0)">
+      <span aria-hidden="true">❬❬</span>
+      <span class="l-pagination__link-sr">First</span>
+    </a>
+  </li>
+  <li class="l-pagination__item _prev"
+      *ngIf="currentPage > 0">
+    <a class="l-pagination__link" aria-label="Previous" (click)="setNewPage(currentPage - 1)">
+      <span aria-hidden="true">❬</span>
+      <span class="l-pagination__link-sr">Previous</span>
+    </a>
+  </li>
+  <li *ngIf="currentPage > 2">...</li>
+  <li class="l-pagination__item"
+      *ngIf="currentPage - 2 >= 0"><a class="l-pagination__link" (click)="setNewPage(currentPage - 2)">{{currentPage - 1}}</a></li>
+  <li class="l-pagination__item"
+      *ngIf="currentPage - 1 >= 0"><a class="l-pagination__link" (click)="setNewPage(currentPage - 1)">{{currentPage}}</a></li>
+  <li class="l-pagination__item _active"><a class="l-pagination__link">{{currentPage + 1}}</a></li>
+  <li class="l-pagination__item"
+      *ngIf="currentPage < pagesCount - 1"><a class="l-pagination__link" (click)="setNewPage(currentPage + 1)">{{currentPage + 2}}</a></li>
+  <li class="l-pagination__item"
+      *ngIf="currentPage + 1 < pagesCount - 1"><a class="l-pagination__link" (click)="setNewPage(currentPage + 2)">{{currentPage + 3}}</a></li>
+  <li *ngIf="currentPage + 2 < pagesCount - 1">...</li>
+  <li class="l-pagination__item _next"
+      *ngIf="currentPage < pagesCount - 1">
+    <a class="l-pagination__link" aria-label="Next" (click)="setNewPage(currentPage + 1)">
+      <span aria-hidden="true">❭</span>
+      <span class="l-pagination__link-sr">Next</span>
+    </a>
+  </li>
+  <li class="l-pagination__item _last"
+      *ngIf="currentPage < pagesCount - 1 && pagesCount > 5">
+    <a class="l-pagination__link" aria-label="Last" (click)="setNewPage(pagesCount - 1)">
+      <span aria-hidden="true">❭❭</span>
+      <span class="l-pagination__link-sr">Last</span>
+    </a>
+  </li>
+</ul>
