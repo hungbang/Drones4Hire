@@ -27,7 +27,7 @@ public class ProjectMapperTest extends AbstractTestNGSpringContextTests
 	/**
      * Turn this on to enable this test
      */
-    private static final boolean ENABLED = true;
+    private static final boolean ENABLED = false;
 
 	@Autowired
 	private ProjectMapper projectMapper;
@@ -76,7 +76,7 @@ public class ProjectMapperTest extends AbstractTestNGSpringContextTests
 	public void getAllProjects()
 	{
 		List<Project> projects = projectMapper.getAllProjects();
-		check(projects.get(1));
+		check(projects.get(0));
 	}
 
 	@Test(enabled = ENABLED, dependsOnMethods = { "getAllProjects" })
