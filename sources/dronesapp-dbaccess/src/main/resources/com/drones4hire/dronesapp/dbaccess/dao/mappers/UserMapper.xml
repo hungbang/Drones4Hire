@@ -108,7 +108,7 @@
         ]]>
     </select>
     
-     <select id="getUserByUserName" resultMap="UserResultMap">
+     <select id="getUserByUsername" resultMap="UserResultMap">
         <include refid="getUser"/>
         <![CDATA[
         	WHERE
@@ -139,6 +139,16 @@
 			 	ID = #{id}
         ]]>
     </update>
+
+	<delete id="deleteUserGroup">
+        <![CDATA[
+        	DELETE
+          	FROM 
+          		drones.USER_GROUP
+          	WHERE
+          		USER_ID = #{userId}
+        ]]>
+    </delete>
 
     <delete id="deleteUser">
         <![CDATA[

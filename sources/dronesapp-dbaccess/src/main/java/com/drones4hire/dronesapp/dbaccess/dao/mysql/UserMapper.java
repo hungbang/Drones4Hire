@@ -13,11 +13,13 @@ public interface UserMapper
 	
 	User getUserById(long id);
 
-	User getUserByUserName(String username);
+	User getUserByUsername(String username);
 
 	List<User> getAllUsers();
 	
 	void updateUser(User user);
 
+	void deleteUserGroup(long userId);
+	
 	void deleteUser(long id);
 }
