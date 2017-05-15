@@ -1,18 +1,19 @@
 package com.drones4hire.dronesapp.dbaccess.dao;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.DurationMapper;
-import com.drones4hire.dronesapp.dbaccess.utils.DataGenerator;
-import com.drones4hire.dronesapp.models.db.commons.Duration;
-import com.drones4hire.dronesapp.models.db.commons.Currency;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNull;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
-import java.math.BigDecimal;
-import java.util.List;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertNull;
+
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.DurationMapper;
+import com.drones4hire.dronesapp.dbaccess.utils.DataGenerator;
+import com.drones4hire.dronesapp.models.db.commons.Duration;
 
 @Test
 @ContextConfiguration("classpath:com/drones4hire/dronesapp/dbaccess/dbaccess-test.xml")
@@ -21,7 +22,7 @@ public class DurationMapperTest extends AbstractTestNGSpringContextTests {
     /**
      * Turn this on to enable this test
      */
-    private static final boolean ENABLED = true;
+    private static final boolean ENABLED = false;
 
     private static final Duration DURATION = new Duration() {
 
