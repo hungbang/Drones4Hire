@@ -211,7 +211,7 @@ module.exports = {
         "manifest.json"
       ],
       "globOptions": {
-        "cwd": "/Users/ea/Documents/work/Drones4Hire/sources/dronesapp-web/angular/src",
+        "cwd": "./src",
         "dot": true,
         "ignore": "**/.gitkeep"
       }
