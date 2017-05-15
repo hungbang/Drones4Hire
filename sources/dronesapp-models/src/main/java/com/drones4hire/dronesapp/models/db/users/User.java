@@ -8,6 +8,7 @@ import java.util.Set;
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -18,6 +19,7 @@ public class User extends AbstractEntity
 
 	private String username;
 	private String email;
+	@JsonIgnore
 	private String password;
 	private String firstName;
 	private String lastName;

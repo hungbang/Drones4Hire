@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @Api(value = "Auth API")
 @CrossOrigin
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/auth")
 public class AuthController extends AbstractController
 {
 	@Autowired
@@ -46,7 +46,7 @@ public class AuthController extends AbstractController
 	private Mapper mapper;
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Generates auth token", nickname = "login", code = 200, httpMethod = "POST", response = AuthTokenType.class)
+	@ApiOperation(value = "Generate auth token", nickname = "login", code = 200, httpMethod = "POST", response = AuthTokenType.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value="login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AuthTokenType login(@Valid @RequestBody CredentialsType credentials) throws BadCredentialsException
@@ -79,7 +79,7 @@ public class AuthController extends AbstractController
 	}
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Refreshes auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenType.class)
+	@ApiOperation(value = "Refreshe auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenType.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value="refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AuthTokenType refresh(@RequestBody @Valid RefreshTokenType refreshToken) throws BadCredentialsException

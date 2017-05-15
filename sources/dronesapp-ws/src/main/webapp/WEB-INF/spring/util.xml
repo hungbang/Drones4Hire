@@ -25,22 +25,11 @@
 		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
 
-	<!-- bean id="mapper" class="com.qaprosoft.zafira.ws.util.dozer.NullSafeDozerBeanMapper">
+	<bean id="mapper" class="com.drones4hire.dronesapp.ws.util.NullSafeDozerBeanMapper">
 		<property name="mappingFiles">
 			<list>
-				<value>dozer/TestSuite-dozer-mapping.xml</value>
-				<value>dozer/TestCase-dozer-mapping.xml</value>
-				<value>dozer/Test-dozer-mapping.xml</value>
-				<value>dozer/Job-dozer-mapping.xml</value>
-				<value>dozer/TestRun-dozer-mapping.xml</value>
 				<value>dozer/User-dozer-mapping.xml</value>
-				<value>dozer/Project-dozer-mapping.xml</value>
 			</list>
 		</property>
-		<property name="customConvertersWithId">
-			<map>
-				<entry key="longToUserConverter" value-ref="longToUserConverter" />
-			</map>
-		</property>
-	</bean-->
+	</bean>
 </beans>

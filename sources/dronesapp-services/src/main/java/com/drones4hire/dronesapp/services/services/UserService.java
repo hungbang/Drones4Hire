@@ -27,15 +27,15 @@ public class UserService
 	{
 		try
 		{
+			user.setEnabled(true);
+			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
 		}
 		catch(DuplicateKeyException e)
 		{
-			throw new UserAlreadyExistException(e.getMessage());
+			throw new UserAlreadyExistException(e);
 		}
-		
 		// TODO: add user initialization based on role
-		
 		return user;
 	}
 

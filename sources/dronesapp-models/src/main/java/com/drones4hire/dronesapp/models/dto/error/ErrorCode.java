@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public enum ErrorCode
 {
 	VALIDATION_ERROR(0),
+	UNAUTHORIZED(401),
 	USER_ALREADY_EXIST(1001);
 
 
