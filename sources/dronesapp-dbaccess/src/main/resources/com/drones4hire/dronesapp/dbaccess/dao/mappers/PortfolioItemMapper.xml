@@ -110,7 +110,7 @@
         ]]>
     </delete>
 
-    <resultMap id="PortfolioItemResultMap" type="com.drones4hire.dronesapp.models.db.users.PortfolioItem" autoMapping="false">
+    <resultMap id="PortfolioItemResultMap" type="com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem" autoMapping="false">
         <id column="PORTFOLIO_ITEM_ID" property="id"/>
         <result column="PORTFOLIO_ITEM_USER_ID" property="userId" />
         <result column="PORTFOLIO_ITEM_NAME" property="name" />
