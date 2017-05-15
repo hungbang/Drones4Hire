@@ -19,6 +19,18 @@
         ]]>
     </insert>
     
+    <insert id="createPortfolioCategory">
+    	<![CDATA[
+        	INSERT
+          		INTO drones.PORTFOLIO_CATEGORIES (PORTFOLIO_ITEM_ID, SERVICE_CATEGORY_ID)
+          	VALUES 
+            (
+          		#{portfolio.id},
+            	#{serviceCategory.id}
+          	)
+        ]]>
+    </insert>
+    
 
 	<sql id="getPortfolioItem">
     	<![CDATA[
@@ -52,7 +64,7 @@
         ]]>
     </sql>
 
-    <select id="getPortfolioItemById" resultMap="portfolioItemResultMap">
+    <select id="getPortfolioItemById" resultMap="PortfolioItemResultMap">
         <include refid="getPortfolioItem"/>
         <![CDATA[
         	WHERE
@@ -60,7 +72,7 @@
         ]]>
     </select>
     
-     <select id="getPortfolioItemByUserId" resultMap="portfolioItemResultMap">
+     <select id="getPortfolioItemByUserId" resultMap="PortfolioItemResultMap">
         <include refid="getPortfolioItem"/>
         <![CDATA[
         	WHERE
@@ -68,7 +80,7 @@
         ]]>
     </select>
 
-    <select id="getAllPortfolioItems" resultMap="portfolioItemResultMap">
+    <select id="getAllPortfolioItems" resultMap="PortfolioItemResultMap">
         <include refid="getPortfolioItem"/>
     </select>
 
@@ -98,7 +110,7 @@
         ]]>
     </delete>
 
-    <resultMap id="portfolioItemResultMap" type="com.drones4hire.dronesapp.models.db.users.PortfolioItem" autoMapping="false">
+    <resultMap id="PortfolioItemResultMap" type="com.drones4hire.dronesapp.models.db.users.PortfolioItem" autoMapping="false">
         <id column="PORTFOLIO_ITEM_ID" property="id"/>
         <result column="PORTFOLIO_ITEM_USER_ID" property="userId" />
         <result column="PORTFOLIO_ITEM_NAME" property="name" />
@@ -109,7 +121,7 @@
 		<result column="PORTFOLIO_ITEM_MODIFIED_AT" property="modifiedAt" />
 		<result column="PORTFOLIO_ITEM_CREATED_AT" property="createdAt" />
 		<collection property="serviceCategories" ofType="com.drones4hire.dronesapp.models.db.services.ServiceCategory" 
-			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceCategoryMapper"/>
+			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceCategoryMapper.ServiceCategoryResultMap"/>
     </resultMap>
 
 </mapper>

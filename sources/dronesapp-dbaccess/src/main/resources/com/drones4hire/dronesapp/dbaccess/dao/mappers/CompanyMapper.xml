@@ -42,7 +42,7 @@
         ]]>
     </sql>
 
-    <select id="getCompanyById" resultMap="getCompanyResultMap">
+    <select id="getCompanyById" resultMap="CompanyResultMap">
         <include refid="getCompany"/>
         <![CDATA[
         	WHERE
@@ -50,7 +50,7 @@
         ]]>
     </select>
     
-     <select id="getCompanyByUserId" resultMap="getCompanyResultMap">
+     <select id="getCompanyByUserId" resultMap="CompanyResultMap">
         <include refid="getCompany"/>
         <![CDATA[
         	WHERE
@@ -58,7 +58,7 @@
         ]]>
     </select>
 
-    <select id="getAllCompanies" resultMap="getCompanyResultMap">
+    <select id="getAllCompanies" resultMap="CompanyResultMap">
         <include refid="getCompany"/>
     </select>
 
@@ -88,7 +88,7 @@
         ]]>
     </delete>
 
-    <resultMap id="getCompanyResultMap" type="com.drones4hire.dronesapp.models.db.users.Company" autoMapping="false">
+    <resultMap id="CompanyResultMap" type="com.drones4hire.dronesapp.models.db.users.Company" autoMapping="false">
         <id column="COMPANY_ID" property="id"/>
         <result column="COMPANY_USER_ID" property="userId" />
         <result column="COMPANY_NAME" property="licenseURL" />

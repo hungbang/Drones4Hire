@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.CompanyMapper">
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper">
 
-	<insert id="createCompany" useGeneratedKeys="true" keyProperty="id">
+	<insert id="createUser" useGeneratedKeys="true" keyProperty="id">
     	<![CDATA[
         	INSERT
           		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, LOCATION_ID, ENABLED)
@@ -23,88 +23,149 @@
         ]]>
     </insert>
     
+    <insert id="createUserGroup">
+    	<![CDATA[
+        	INSERT
+          		INTO drones.USER_GROUP (USER_ID, GROUP_ID)
+          	VALUES 
+            (
+          		#{user.id},
+            	#{group.id}
+          	)
+        ]]>
+    </insert>
+    
 
-	<sql id="getCompany">
+	<sql id="getUser">
     	<![CDATA[
         	SELECT
-	      		U.ID AS COMPANY_ID,
-				U.USER_ID AS COMPANY_USER_ID,
-				U.NAME AS COMPANY_NAME,
-				U.WEB_URL AS COMPANY_WEB_URL,
-				U.CONTACT_NAME AS COMPANY_CONTACT_NAME,
-				U.CONTACT_EMAIL AS COMPANY_CONTACT_EMAIL,
-				U.MODIFIED_AT AS COMPANY_MODIFIED_AT,
-				U.CREATED_AT AS COMPANY_CREATED_AT,
-				
-				CO.ID AS COUNTRY_ID,
-	       		CO.NAME AS COUNTRY_NAME,
-	        	CO.MODIFIED_AT AS COUNRTY_MODIFIED_AT,
-	        	CO.CREATED_AT AS COUNTRY_CREATED_AT
+	      		U.ID AS USER_ID,
+				U.USERNAME AS USER_USERNAME,
+				U.EMAIL AS USER_EMAIL,
+				U.PASSWORD AS USER_PASSWORD,
+				U.FIRST_NAME AS USER_FIRST_NAME,
+				U.LAST_NAME AS USER_LAST_NAME,
+				U.PHOTO_URL AS USER_PHOTO_URL,
+				U.INTRODUCTION AS USER_INTRODUCTION,
+				U.SUMMARY AS USER_SUMMARY,
+				U.ENABLED AS USER_ENABLED,
+				U.MODIFIED_AT AS USER_MODIFIED_AT,
+				U.CREATED_AT AS USER_CREATED_AT,
+				 
+				L.ID AS LOCATION_ID,
+	        	X(L.COORDINATES) AS LOCATION_X_COORDINATE,
+	        	Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
+	        	L.CITY AS LOCATION_CITY,
+	        	L.POSTCODE AS LOCATION_POSTCODE,
+	        	L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
+	        	L.CREATED_AT AS LOCATION_CREATED_AT,
+	        	
+	        	G.ID AS GROUP_ID,
+		        G.NAME AS GROUP_NAME,
+		        G.ROLE AS GROUP_ROLE,
+		        G.MODIFIED_AT AS GROUP_MODIFIED_AT,
+		        G.CREATED_AT AS GROUP_CREATED_AT
+	        	
+	        	C.ID AS COUNTRY_ID,
+	        	C.NAME AS COUNTRY_NAME,
+	        	C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
+	        	C.CREATED_AT AS COUNTRY_CREATED_AT,
+	        	
+	        	S.ID AS STATE_ID,
+	        	S.NAME AS STATE_NAME,
+	        	S.MODIFIED_AT AS STATE_MODIFIED_AT,
+	        	S.CREATED_AT AS STATE_CREATED_AT
           	FROM
 	          	drones.USERS U
 	        LEFT JOIN 
 	        	drones.LOCATIONS L 
 	        ON 
 	        	U.LOCATION_ID = L.ID
+	        LEFT JOIN
+            	drones.COUNTRIES C
+          	ON
+            	L.COUNTRY_ID = C.ID
+          	LEFT JOIN
+            	drones.STATES S
+          	ON
+            	L.STATE_ID = S.ID
+            LEFT JOIN
+            	drones.USER_GROUPS UG
+            ON
+            	UG.USER_ID = U.ID
+            LEFT JOIN
+	        	drones.GROUPS G
+	        ON
+	        	G.ID = UG.GROUP_ID
         ]]>
     </sql>
 
-    <select id="getCompanyById" resultMap="getCompanyResultMap">
-        <include refid="getCompany"/>
+    <select id="getUserById" resultMap="UserResultMap">
+        <include refid="getUser"/>
         <![CDATA[
         	WHERE
-          		C.ID = #{id}
+          		U.ID = #{id}
         ]]>
     </select>
     
-     <select id="getCompanyByUserId" resultMap="getCompanyResultMap">
-        <include refid="getCompany"/>
+     <select id="getUserByUserName" resultMap="UserResultMap">
+        <include refid="getUser"/>
         <![CDATA[
         	WHERE
-          		C.USER_ID = #{userId}
+          		U.USERNAME = #{username}
         ]]>
     </select>
-
-    <select id="getAllCompanies" resultMap="getCompanyResultMap">
-        <include refid="getCompany"/>
+    
+    <select id="getAllUsers" resultMap="UserResultMap">
+        <include refid="getUser"/>
     </select>
 
-    <update id="updateCompany">
+    <update id="updateUser">
         <![CDATA[
         	UPDATE
-        		drones.COMPANIES
+        		drones.USERS
           	SET
-          		USERS_ID = #{userId}, 
-          		NAME = #{name}, 
-          		WEB_URL = #{webURL}, 
-          		CONTACT_NAME = #{contactName},
-          		CONTACT_EMAIL = #{contactEmail},
-          		COUNTRY_ID = #{country.id}
+          		USERNAME = #{username}, 
+          		EMAIL = #{email}, 
+          		PASSWORD = #{password}, 
+          		FIRST_NAME = #{firstName},
+          		LAST_NAME = #{lastName},
+          		PHOTO_URL = #{photoURL},
+          		INTRODUCTION = #{introduction},
+          		SUMMARY = #{summary},
+          		ENABLED = #{enabled},
+          		LOCATION_ID = #{location.id}
           	WHERE
 			 	ID = #{id}
         ]]>
     </update>
 
-    <delete id="deleteCompany">
+    <delete id="deleteUser">
         <![CDATA[
         	DELETE
           	FROM 
-          		drones.COMPANIES
+          		drones.USERS
           	WHERE
           		ID = #{id}
         ]]>
     </delete>
 
-    <resultMap id="getCompanyResultMap" type="com.drones4hire.dronesapp.models.db.users.Company" autoMapping="false">
+    <resultMap id="UserResultMap" type="com.drones4hire.dronesapp.models.db.users.User" autoMapping="false">
         <id column="COMPANY_ID" property="id"/>
-        <result column="COMPANY_USER_ID" property="userId" />
-        <result column="COMPANY_NAME" property="licenseURL" />
-        <result column="COMPANY_WEB_URL" property="insuranceURL" />
-        <result column="COMPANY_CONTACT_NAME" property="verified" />
-        <result column="COMPANY_CONTACT_EMAIL" property="verified" />
+        <result column="COMPANY_USER_ID" property="username" />
+        <result column="COMPANY_NAME" property="email" />
+        <result column="COMPANY_WEB_URL" property="password" />
+        <result column="COMPANY_CONTACT_NAME" property="firstName" />
+        <result column="COMPANY_CONTACT_EMAIL" property="lastName" />
+        <result column="COMPANY_CONTACT_EMAIL" property="photoURL" />
+        <result column="COMPANY_CONTACT_EMAIL" property="introduction" />
+        <result column="COMPANY_CONTACT_EMAIL" property="summary" />
+        <result column="COMPANY_CONTACT_EMAIL" property="enabled" />
 		<result column="COMPANY_MODIFIED_AT" property="modifiedAt" />
 		<result column="COUNTRY_CREATED_AT" property="createdAt" />
-		<association property="country" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper.CountryResultMap" />
+		<association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap" />
+		<collection property="groups" ofType="com.drones4hire.dronesapp.models.db.users.Group" 
+			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.GroupMapper.GroupResultMap"/>
     </resultMap>
 
 </mapper>

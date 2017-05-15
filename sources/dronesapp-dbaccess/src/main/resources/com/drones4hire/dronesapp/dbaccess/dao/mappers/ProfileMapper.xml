@@ -37,7 +37,7 @@
         ]]>
     </sql>
 
-    <select id="getProfileById" resultMap="profileResultMap">
+    <select id="getProfileById" resultMap="ProfileResultMap">
         <include refid="getProfile"/>
         <![CDATA[
         	WHERE
@@ -45,7 +45,7 @@
         ]]>
     </select>
     
-     <select id="getProfileByUserId" resultMap="profileResultMap">
+     <select id="getProfileByUserId" resultMap="ProfileResultMap">
         <include refid="getProfile"/>
         <![CDATA[
         	WHERE
@@ -53,7 +53,7 @@
         ]]>
     </select>
 
-    <select id="getAllProfiles" resultMap="profileResultMap">
+    <select id="getAllProfiles" resultMap="ProfileResultMap">
         <include refid="getProfile"/>
     </select>
 
@@ -83,7 +83,7 @@
         ]]>
     </delete>
 
-    <resultMap id="profileResultMap" type="com.drones4hire.dronesapp.models.db.users.Profile" autoMapping="false">
+    <resultMap id="ProfileResultMap" type="com.drones4hire.dronesapp.models.db.users.Profile" autoMapping="false">
         <id column="PROFILE_ID" property="id"/>
         <result column="PROFILE_USER_ID" property="userId" />
         <result column="PROFILE_TAGLINE" property="tagline" />
