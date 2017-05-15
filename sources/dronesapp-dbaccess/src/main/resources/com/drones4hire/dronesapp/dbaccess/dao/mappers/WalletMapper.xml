@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.WalletMapper">
+
+    <insert id="createWallet" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.WALLETS (USER_ID, BALANCE, CURRENCY, PAYMENT_TOKEN)
+          VALUES
+          (
+            #{userId},
+            #{balance},
+            #{currency},
+            #{paymentToken}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getWallets">
+        <![CDATA[
+          SELECT
+	        W.ID AS WALLET_ID,
+	        W.USER_ID AS WALLET_USER_ID,
+	        W.BALANCE AS WALLET_BALANCE,
+	        W.CURRENCY AS WALLET_CURRENCY,
+	        W.PAYMENT_TOKEN AS WALLET_PAYMENT_TOKEN,
+	        W.MODIFIED_AT AS WALLET_MODIFIED_AT,
+	        W.CREATED_AT AS WALLET_CREATED_AT
+          FROM
+	        drones.WALLETS W
+        ]]>
+    </sql>
+
+    <select id="getWalletById" resultMap="WalletResultMap">
+        <include refid="getWallets"/>
+        <![CDATA[
+          WHERE
+            W.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllWallets" resultMap="WalletResultMap">
+        <include refid="getWallets"/>
+    </select>
+
+    <update id="updateWallet">
+        <![CDATA[
+          UPDATE
+         	drones.WALLETS
+          SET
+          	USER_ID = #{userId},
+            BALANCE = #{balance},
+            CURRENCY = #{currency},
+            PAYMENT_TOKEN = #{paymentToken}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteWallet">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.WALLETS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="WalletResultMap" type="com.drones4hire.dronesapp.models.db.payments.Wallet" autoMapping="false">
+        <id column="WALLET_ID" property="id"/>
+        <result column="WALLET_USER_ID" property="userId"/>
+        <result column="WALLET_BALANCE" property="balance"/>
+        <result column="WALLET_CURRENCY" property="currency"/>
+        <result column="WALLET_PAYMENT_TOKEN" property="paymentToken"/>
+        <result column="WALLET_MODIFIED_AT" property="modifiedAt"/>
+        <result column="WALLET_CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>

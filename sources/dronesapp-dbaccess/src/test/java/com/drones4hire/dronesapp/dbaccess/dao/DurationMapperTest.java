@@ -29,8 +29,8 @@ public class DurationMapperTest extends AbstractTestNGSpringContextTests {
         private static final long serialVersionUID = 1L;
         {
             setTitle("t1" + DataGenerator.generateNumber(10000));
-            setMin(1.1);
-            setMax(1.1);
+            setMin(1.1D);
+            setMax(2.1D);
             setOrder(1);
         }
     };
@@ -63,8 +63,8 @@ public class DurationMapperTest extends AbstractTestNGSpringContextTests {
     public void testUpdateDuration()
     {
         DURATION.setTitle("t2" + DataGenerator.generateNumber(10000));
-        DURATION.setMin(3.3);
-        DURATION.setMax(4.4);
+        DURATION.setMin(3.1D);
+        DURATION.setMax(4.1D);
         DURATION.setOrder(2);
         durationMapper.updateDuration(DURATION);
         Duration duration = durationMapper.getDurationById(DURATION.getId());
