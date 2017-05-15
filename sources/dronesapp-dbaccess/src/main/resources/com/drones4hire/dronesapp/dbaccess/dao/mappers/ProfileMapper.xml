@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProfileMapper">
+
+	<insert id="createProfile" useGeneratedKeys="true" keyProperty="id">
+    	<![CDATA[
+        	INSERT
+          		INTO drones.PROFILES (USER_ID, TAGLINE, BIO, WEB_URL, COMPANY_LOGO_URL, COVER_PHOTO_URL)
+          	VALUES 
+            (
+          		#{userId},
+            	#{tagline},
+            	#{bio},
+            	#{webURL},
+            	#{companyLogoURL}, 
+            	#{coverPhotoURL}
+          	)
+        ]]>
+    </insert>
+    
+
+	<sql id="getProfile">
+    	<![CDATA[
+        	SELECT
+	      		P.ID AS PROFILE_ID,
+				P.USER_ID AS PROFILE_USER_ID,
+				P.TAGLINE AS PROFILE_TAGLINE,
+				P.BIO AS PROFILE_BIO,
+				P.WEB_URL AS PROFILE_WEB_URL,
+				P.COMPANY_LOGO_URL AS PROFILE_COMPANY_LOGO_URL,
+				P.COVER_PHOTO_URL AS PROFILE_COVER_PHOTO_URL,
+				P.MODIFIED_AT AS PROFILE_MODIFIED_AT,
+				P.CREATED_AT AS PROFILE_CREATED_AT
+          	FROM
+	          	drones.PROFILES P
+        ]]>
+    </sql>
+
+    <select id="getProfileById" resultMap="profileResultMap">
+        <include refid="getProfile"/>
+        <![CDATA[
+        	WHERE
+          		P.ID = #{id}
+        ]]>
+    </select>
+    
+     <select id="getProfileByUserId" resultMap="profileResultMap">
+        <include refid="getProfile"/>
+        <![CDATA[
+        	WHERE
+          		P.USER_ID = #{userId}
+        ]]>
+    </select>
+
+    <select id="getAllProfiles" resultMap="profileResultMap">
+        <include refid="getProfile"/>
+    </select>
+
+    <update id="updateProfile">
+        <![CDATA[
+        	UPDATE
+        		drones.PROFILES
+          	SET
+          		USER_ID = #{userId}, 
+          		TAGLINE = #{tagline}, 
+          		BIO = #{bio}, 
+          		WEB_URL = #{webURL},
+          		COMPANY_LOGO_URL = #{companyLogoURL},
+          		COVER_PHOTO_URL = #{coverPhotoURL}
+          	WHERE
+			 	ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteProfile">
+        <![CDATA[
+        	DELETE
+          	FROM 
+          		drones.PROFILES
+          	WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="profileResultMap" type="com.drones4hire.dronesapp.models.db.users.Profile" autoMapping="false">
+        <id column="PROFILE_ID" property="id"/>
+        <result column="PROFILE_USER_ID" property="userId" />
+        <result column="PROFILE_TAGLINE" property="tagline" />
+        <result column="PROFILE_BIO" property="bio" />
+        <result column="PROFILE_WEB_URL" property="webURL" />
+        <result column="PROFILE_COMPANY_LOGO_URL" property="companyLogoURL" />
+        <result column="PROFILE_COVER_PHOTO_URL" property="coverPhotoURL" />
+		<result column="PROFILE_MODIFIED_AT" property="modifiedAt" />
+		<result column="PROFILE_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

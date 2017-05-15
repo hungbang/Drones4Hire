@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.PortfolioItemMapper">
+
+	<insert id="createPortfolioItem" useGeneratedKeys="true" keyProperty="id">
+    	<![CDATA[
+        	INSERT
+          		INTO drones.PORTFOLIO_ITEMS (USER_ID, NAME, TITLE, SUMMARY, TYPE, ITEM_URL)
+          	VALUES 
+            (
+          		#{userId},
+            	#{name},
+            	#{title},
+            	#{summary},
+            	#{type}, 
+            	#{itemURL}
+          	)
+        ]]>
+    </insert>
+    
+
+	<sql id="getPortfolioItem">
+    	<![CDATA[
+        	SELECT
+	      		PI.ID AS PORTFOLIO_ITEM_ID,
+				PI.USER_ID AS PORTFOLIO_ITEM_USER_ID,
+				PI.NAME AS PORTFOLIO_ITEM_NAME,
+				PI.TITLE AS PORTFOLIO_ITEM_TITLE,
+				PI.SUMMARY AS PORTFOLIO_ITEM_SUMMARY,
+				PI.TYPE AS PORTFOLIO_ITEM_TYPE,
+				PI.ITEM_URL AS PORTFOLIO_ITEM_ITEM_URL,
+				PI.MODIFIED_AT AS PORTFOLIO_ITEM_MODIFIED_AT,
+				PI.CREATED_AT AS PORTFOLIO_ITEM_CREATED_AT,
+				
+				SC.ID AS SERVICE_CATEGORY_ID,
+	        	SC.NAME AS SERVICE_CATEGORY_NAME,
+	        	SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
+	        	SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
+	        	SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT
+          	FROM
+	          	drones.PORTFOLIO_ITEMS PI
+	        LEFT JOIN
+	        	drones.PORTFOLIO_CATEGORIES PG 
+	        ON
+	        	PG.PORTFOLIO_ITEM_ID = PI.ID
+	        LEFT JOIN 
+	        	drones.SERVICE_CATEGORIES SC
+	        ON 
+	        	SC.ID = PG.SERVICE_CATEGORY_ID
+	        
+        ]]>
+    </sql>
+
+    <select id="getPortfolioItemById" resultMap="portfolioItemResultMap">
+        <include refid="getPortfolioItem"/>
+        <![CDATA[
+        	WHERE
+          		PI.ID = #{id}
+        ]]>
+    </select>
+    
+     <select id="getPortfolioItemByUserId" resultMap="portfolioItemResultMap">
+        <include refid="getPortfolioItem"/>
+        <![CDATA[
+        	WHERE
+          		PI.USER_ID = #{userId}
+        ]]>
+    </select>
+
+    <select id="getAllPortfolioItems" resultMap="portfolioItemResultMap">
+        <include refid="getPortfolioItem"/>
+    </select>
+
+    <update id="updatePortfolioItem">
+        <![CDATA[
+        	UPDATE
+        		drones.PORTFOLIO_ITEMS
+          	SET
+          		USER_ID = #{userId}, 
+          		NAME = #{name}, 
+          		TITLE = #{title}, 
+          		SUMMARY = #{summary},
+          		TYPE = #{type},
+          		ITEM_URL = #{itemURL}
+          	WHERE
+			 	ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deletePortfolioItem">
+        <![CDATA[
+        	DELETE
+          	FROM 
+          		drones.PORTFOLIO_ITEMS
+          	WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="portfolioItemResultMap" type="com.drones4hire.dronesapp.models.db.users.PortfolioItem" autoMapping="false">
+        <id column="PORTFOLIO_ITEM_ID" property="id"/>
+        <result column="PORTFOLIO_ITEM_USER_ID" property="userId" />
+        <result column="PORTFOLIO_ITEM_NAME" property="name" />
+        <result column="PORTFOLIO_ITEM_TITLE" property="title" />
+        <result column="PORTFOLIO_ITEM_SUMMARY" property="summary" />
+        <result column="PORTFOLIO_ITEM_TYPE" property="type" />
+        <result column="PORTFOLIO_ITEM_ITEM_URL" property="itemURL" />
+		<result column="PORTFOLIO_ITEM_MODIFIED_AT" property="modifiedAt" />
+		<result column="PORTFOLIO_ITEM_CREATED_AT" property="createdAt" />
+		<collection property="serviceCategories" ofType="com.drones4hire.dronesapp.models.db.services.ServiceCategory" 
+			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceCategoryMapper"/>
+    </resultMap>
+
+</mapper>

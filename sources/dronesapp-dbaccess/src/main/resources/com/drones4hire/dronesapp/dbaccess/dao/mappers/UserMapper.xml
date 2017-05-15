@@ -6,15 +6,19 @@
 	<insert id="createCompany" useGeneratedKeys="true" keyProperty="id">
     	<![CDATA[
         	INSERT
-          		INTO drones.COMPANIES (USER_ID, NAME, WEB_URL, CONTACT_NAME, CONTACT_EMAIL, COUNTRY_ID)
+          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, LOCATION_ID, ENABLED)
           	VALUES 
             (
-          		#{userId},
-            	#{name},
-            	#{webURL},
-            	#{contactName},
-            	#{contactEmail},
-            	#{country.id},
+          		#{username},
+            	#{email},
+            	#{password},
+            	#{firstName},
+            	#{lastName},
+            	#{photoURL},
+            	#{introduction},
+            	#{summary},
+            	#{location.id},
+            	#{enabled}
           	)
         ]]>
     </insert>
@@ -23,22 +27,25 @@
 	<sql id="getCompany">
     	<![CDATA[
         	SELECT
-	      		C.ID AS COMPANY_ID,
-				C.USER_ID AS COMPANY_USER_ID,
-				C.NAME AS COMPANY_NAME,
-				C.WEB_URL AS COMPANY_WEB_URL,
-				C.CONTACT_NAME AS COMPANY_CONTACT_NAME,
-				C.CONTACT_EMAIL AS COMPANY_CONTACT_EMAIL,
-				C.MODIFIED_AT AS COMPANY_MODIFIED_AT,
-				C.CREATED_AT AS COMPANY_CREATED_AT,
+	      		U.ID AS COMPANY_ID,
+				U.USER_ID AS COMPANY_USER_ID,
+				U.NAME AS COMPANY_NAME,
+				U.WEB_URL AS COMPANY_WEB_URL,
+				U.CONTACT_NAME AS COMPANY_CONTACT_NAME,
+				U.CONTACT_EMAIL AS COMPANY_CONTACT_EMAIL,
+				U.MODIFIED_AT AS COMPANY_MODIFIED_AT,
+				U.CREATED_AT AS COMPANY_CREATED_AT,
 				
 				CO.ID AS COUNTRY_ID,
 	       		CO.NAME AS COUNTRY_NAME,
 	        	CO.MODIFIED_AT AS COUNRTY_MODIFIED_AT,
 	        	CO.CREATED_AT AS COUNTRY_CREATED_AT
           	FROM
-	          	drones.COMPANIES C
-	        LEFT JOIN drones.COUNTRIES CO ON C.COUNTRY_ID = CO.ID
+	          	drones.USERS U
+	        LEFT JOIN 
+	        	drones.LOCATIONS L 
+	        ON 
+	        	U.LOCATION_ID = L.ID
         ]]>
     </sql>
 

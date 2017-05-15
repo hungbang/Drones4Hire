@@ -33,7 +33,7 @@
         ]]>
     </sql>
 
-    <select id="getPilotLicenseById" resultMap="getPilotLicenseResultMap">
+    <select id="getPilotLicenseById" resultMap="pilotLicenseResultMap">
         <include refid="getPilotLicense"/>
         <![CDATA[
         	WHERE
@@ -41,15 +41,15 @@
         ]]>
     </select>
     
-     <select id="getPilotLicenseByUserId" resultMap="getPilotLicenseResultMap">
+     <select id="getPilotLicenseByUserId" resultMap="pilotLicenseResultMap">
         <include refid="getPilotLicense"/>
         <![CDATA[
         	WHERE
-          		PL.USER_ID = #{pilotId}
+          		PL.USER_ID = #{userId}
         ]]>
     </select>
 
-    <select id="getAllPilotLicenses" resultMap="getPilotLicenseResultMap">
+    <select id="getAllPilotLicenses" resultMap="pilotLicenseResultMap">
         <include refid="getPilotLicense"/>
     </select>
 
@@ -77,7 +77,7 @@
         ]]>
     </delete>
 
-    <resultMap id="getPilotLicenseResultMap" type="com.drones4hire.dronesapp.models.db.users.PilotLicense" autoMapping="false">
+    <resultMap id="pilotLicenseResultMap" type="com.drones4hire.dronesapp.models.db.users.PilotLicense" autoMapping="false">
         <id column="PILOT_LICENSE_ID" property="id"/>
         <result column="PILOT_LICENSE_USER_ID" property="userId" />
         <result column="PILOT_LICENSE_LICENSE_URL" property="licenseURL" />

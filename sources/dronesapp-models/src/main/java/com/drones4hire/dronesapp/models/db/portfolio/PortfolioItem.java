@@ -14,7 +14,7 @@ public class PortfolioItem extends AbstractEntity
 		PHOTO, VIDEO
 	}
 
-	private Long pilotId;
+	private Long userId;
 	private String name;
 	private String title;
 	private String summary;
@@ -82,13 +82,13 @@ public class PortfolioItem extends AbstractEntity
 		this.serviceCategories = serviceCategories;
 	}
 
-	public Long getPilotId()
+	public Long getUserId()
 	{
-		return pilotId;
+		return userId;
 	}
 
-	public void setPilotId(Long pilotId)
+	public void setUserId(Long pilotId)
 	{
-		this.pilotId = pilotId;
+		this.userId = pilotId;
 	}
 }
