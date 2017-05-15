@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.GroupMapper">
+
+    <insert id="createGroup" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.GROUPS (NAME, ROLE)
+          VALUES
+          (
+            #{name},
+            #{role}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getGroups">
+        <![CDATA[
+          SELECT
+	        G.ID AS GROUP_ID,
+	        G.NAME AS GROUP_NAME,
+	        G.ROLE AS GROUP_ROLE,
+	        G.MODIFIED_AT AS GROUP_MODIFIED_AT,
+	        G.CREATED_AT AS GROUP_CREATED_AT
+          FROM
+	        drones.GROUPS G
+        ]]>
+    </sql>
+
+    <select id="getGroupById" resultMap="GroupResultMap">
+        <include refid="getGroups"/>
+        <![CDATA[
+          WHERE
+            G.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllGroups" resultMap="GroupResultMap">
+        <include refid="getGroups"/>
+    </select>
+
+    <update id="updateGroup">
+        <![CDATA[
+          UPDATE
+         	drones.GROUPS
+          SET
+          	NAME = #{name},
+            ROLE = #{role}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteGroup">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.GROUPS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="GroupResultMap" type="com.drones4hire.dronesapp.models.db.users.Group" autoMapping="false">
+        <id column="GROUP_ID" property="id"/>
+        <result column="GROUP_NAME" property="name"/>
+        <result column="GROUP_ROLE" property="role"/>
+        <result column="GROUP_MODIFIED_AT" property="modifiedAt"/>
+        <result column="GROUP_CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>
