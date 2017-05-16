@@ -155,6 +155,8 @@
           		drones.USER_GROUPS
           	WHERE
           		USER_ID = #{userId}
+          	AND 
+          		GROUP_ID = #{groupId}
         ]]>
     </delete>
 

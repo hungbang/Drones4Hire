@@ -40,7 +40,7 @@ public class PilotLicense extends AbstractEntity
 		this.insuranceURL = insuranceURL;
 	}
 
-	public Boolean getVerified()
+	public Boolean isVerified()
 	{
 		return verified;
 	}
