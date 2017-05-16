@@ -23,7 +23,7 @@ public interface UserMapper
 	
 	void updateUser(User user);
 
-	void deleteUserGroup(Long userId);
+	void deleteUserGroup(@Param("userId") Long userId, @Param("groupId") Long groupId);
 	
 	void deleteUser(Long id);
 }

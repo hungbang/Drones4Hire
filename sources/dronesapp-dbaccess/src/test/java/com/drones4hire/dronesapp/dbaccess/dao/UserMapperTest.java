@@ -178,7 +178,7 @@ public class UserMapperTest extends AbstractTestNGSpringContextTests {
     @Test(enabled = ENABLED, dependsOnMethods = {"testUpdateUser"})
     public void testDeleteUserGroup()
     {
-        userMapper.deleteUserGroup(USER.getId());
+        userMapper.deleteUserGroup(USER.getId(), USER.getGroups().get(0).getId());
         assertEquals(userMapper.getUserById(USER.getId()).getGroups().size(), 0, "User shouldn't have any groups");
     }
     

@@ -100,6 +100,18 @@
         ]]>
     </update>
 
+	 <delete id="deletePortfolioCategory">
+        <![CDATA[
+        	DELETE
+          	FROM 
+          		drones.PORTFOLIO_CATEGORIES
+          	WHERE
+          		PORTFOLIO_ITEM_ID = #{portfolioId}
+          	AND
+          		SERVICE_CATEGORY_ID = #{categoryId}
+        ]]>
+    </delete>
+
     <delete id="deletePortfolioItem">
         <![CDATA[
         	DELETE
