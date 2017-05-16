@@ -33,6 +33,8 @@ public class JWTService
 	{
 		Claims claims = Jwts.claims().setSubject(user.getId().toString());
 		claims.put("username", user.getUsername());
+		claims.put("email", user.getEmail());
+		claims.put("enabled", user.isEnabled());
 		claims.put("roles", user.getRoles());
 		return buildToken(claims, authTokenExp);
 	}
@@ -49,7 +51,9 @@ public class JWTService
 		
 		User user = new User();
 		user.setId(Long.valueOf(body.getSubject()));
+		user.setEmail((String)body.get("email"));
 		user.setUsername((String)body.get("username"));
+		user.setEnabled((Boolean)body.get("enabled"));
 		for(String role : (List<String>)body.get("roles"))
 		{
 			user.getGroups().add(new Group(Role.valueOf(role)));

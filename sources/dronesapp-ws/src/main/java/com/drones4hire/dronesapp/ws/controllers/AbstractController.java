@@ -14,7 +14,9 @@ import com.drones4hire.dronesapp.models.dto.error.ErrorCode;
 import com.drones4hire.dronesapp.models.dto.error.ErrorResponse;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
+import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
 import com.drones4hire.dronesapp.ws.security.SecuredUser;
 
 public abstract class AbstractController 
@@ -38,6 +40,16 @@ public abstract class AbstractController
 		return result;
 	}
 	
+	@ExceptionHandler(UserNotConfirmedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handleUserNotConfirmedException(UserNotConfirmedException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.USER_NOT_CONFIRMED));
+		return result;
+	}
+	
 	@ExceptionHandler(UserAlreadyExistException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ResponseBody
@@ -55,6 +67,16 @@ public abstract class AbstractController
 	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.FORBIDDEN_OPERATION));
+		return result;
+	}	
+	
+	@ExceptionHandler(InvalidUserStatusException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handleInvalidUserStatusException(InvalidUserStatusException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.INVALID_USER_STATUS));
 		return result;
 	}	
 }

@@ -29,6 +29,6 @@ public class JWTAuthService implements UserDetailsService
 		{
 			throw new UsernameNotFoundException("User not found", e);
 		}
-		return new SecuredUser(user.getId(), user.getUsername(), StringUtils.EMPTY, user.getRoles());
+		return new SecuredUser(user.getId(), user.getEmail(), StringUtils.EMPTY, user.getRoles(), user.isEnabled());
 	}
 }

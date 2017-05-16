@@ -1,12 +1,16 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.WalletMapper;
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.WalletMapper;
+import com.drones4hire.dronesapp.models.db.commons.Currency;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 @Service
 public class WalletService
@@ -19,6 +23,15 @@ public class WalletService
 	{
 		walletMapper.createWallet(wallet);
 		return wallet;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public Wallet createDefaultWallet(User user)
+	{
+		Wallet wallet = new Wallet(user.getId());
+		wallet.setBalance(BigDecimal.ZERO);
+		wallet.setCurrency(Currency.USD);
+		return createWallet(wallet);
 	}
 
 	@Transactional(readOnly = true)

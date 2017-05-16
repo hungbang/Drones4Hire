@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,30 +15,26 @@ public class SecuredUser implements UserDetails
 	private static final long serialVersionUID = 1024356863633107004L;
 
 	private long id;
-	private String username;
+	private String email;
 	private String password;
+	private boolean enabled;
 	private List<GrantedAuthority> authorities = new ArrayList<>();
 
-	public SecuredUser(String username, List<Role> roles)
+	public SecuredUser(String email, List<Role> roles)
 	{
-		this.username = username;
+		this.email = email;
 		for(Role role : roles)
 		{
 			authorities.add(new SimpleGrantedAuthority(role.name()));
 		}
-		
-		// TODO: Remove when ready global user role setup
-		if(CollectionUtils.isEmpty(roles))
-		{
-			authorities.add(new SimpleGrantedAuthority(Role.ROLE_CLIENT.name()));
-		}
 	}
 	
-	public SecuredUser(long id, String username, String password, List<Role> roles)
+	public SecuredUser(long id, String username, String password, List<Role> roles, boolean enabled)
 	{
 		this(username, roles);
 		this.id = id;
 		this.password = password;
+		this.enabled = enabled;
 	}
 
 	@Override
@@ -56,7 +51,7 @@ public class SecuredUser implements UserDetails
 	@Override
 	public String getUsername()
 	{
-		return username;
+		return email;
 	}
 
 	@Override
@@ -86,6 +81,6 @@ public class SecuredUser implements UserDetails
 	@Override
 	public boolean isEnabled()
 	{
-		return true;
+		return enabled;
 	}
 }

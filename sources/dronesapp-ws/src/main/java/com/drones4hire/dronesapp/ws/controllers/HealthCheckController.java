@@ -14,14 +14,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-@Api(value = "Health check API")
+@Api(value = "Healthcheck API")
 @RequestMapping("api/v1/healthcheck")
-public class HealthCheckController extends AbstractController 
+public class HealthcheckController extends AbstractController 
 {
 	@ResponseStatusDetails
-	@ApiOperation(value = "Server health check", nickname = "healthCheck", code = 200, httpMethod = "POST", response = String.class)
+	@ApiOperation(value = "Server health check", nickname = "healthCheck", code = 200, httpMethod = "GET", response = String.class)
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	public @ResponseBody String healthCheck()
 	{
 		return "Drones4Hire is up and running!";

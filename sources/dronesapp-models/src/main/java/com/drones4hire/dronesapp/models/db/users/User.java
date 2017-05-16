@@ -26,6 +26,7 @@ public class User extends AbstractEntity
 	private String photoURL;
 	private String introduction;
 	private String summary;
+	private Boolean confirmed;
 	private Boolean enabled;
 	private Location location;
 	private List<Group> groups = new ArrayList<>();
@@ -110,6 +111,16 @@ public class User extends AbstractEntity
 		this.summary = summary;
 	}
 
+	public Boolean isConfirmed()
+	{
+		return confirmed;
+	}
+
+	public void setConfirmed(Boolean confirmed)
+	{
+		this.confirmed = confirmed;
+	}
+
 	public Boolean isEnabled()
 	{
 		return enabled;
@@ -140,6 +151,7 @@ public class User extends AbstractEntity
 		this.location = location;
 	}
 
+	@JsonIgnore
 	public List<Role> getRoles()
 	{
 		Set<Role> roles = new HashSet<>();
