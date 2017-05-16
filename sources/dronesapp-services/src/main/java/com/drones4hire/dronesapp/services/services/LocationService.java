@@ -11,34 +11,38 @@ import java.util.List;
 @Service
 public class LocationService
 {
-
 	@Autowired
 	private LocationMapper locationMapper;
 
 	@Transactional(rollbackFor = Exception.class)
-	public Location createLocation(Location location) {
+	public Location createLocation(Location location)
+	{
 		locationMapper.createLocation(location);
 		return location;
 	}
-
+	
 	@Transactional(readOnly = true)
-	public Location getLocationById(long id) {
+	public Location getLocationById(long id)
+	{
 		return locationMapper.getLocationById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Location> getAllLocations() {
+	public List<Location> getAllLocations()
+	{
 		return locationMapper.getAllLocations();
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Location updateLocation(Location location) {
+	public Location updateLocation(Location location)
+	{
 		locationMapper.updateLocation(location);
 		return location;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public void deleteLocation(long id) {
+	public void deleteLocation(long id)
+	{
 		locationMapper.deleteLocation(id);
 	}
 }

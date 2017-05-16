@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
+import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
@@ -34,6 +35,9 @@ public class UserService
 	
 	@Autowired
 	private NotificationSettingService notificationSettingService;
+	
+	@Autowired
+	private LocationService locationService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
@@ -55,6 +59,9 @@ public class UserService
 			// Add group with default user role
 			Group group = groupService.getGroupByRole(role);
 			userMapper.createUserGroup(user, group);
+			
+			// Initialize default location
+						user.setLocation(locationService.createLocation(new Location()));
 			
 			// Initialize default notification settings
 			notificationSettingService.createDefaultNotificationSettings(user);
