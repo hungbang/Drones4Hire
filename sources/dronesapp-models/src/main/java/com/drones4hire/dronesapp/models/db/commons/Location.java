@@ -16,6 +16,11 @@ public class Location extends AbstractEntity
 	public Location()
 	{
 	}
+	
+	public Location(Long id)
+	{
+		this.setId(id);
+	}
 
 	public String getAddress()
 	{
