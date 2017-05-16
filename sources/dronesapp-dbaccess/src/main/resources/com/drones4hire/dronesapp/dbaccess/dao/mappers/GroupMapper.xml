@@ -36,6 +36,14 @@
         ]]>
     </select>
 
+    <select id="getGroupByName" resultMap="GroupResultMap">
+        <include refid="getGroups"/>
+        <![CDATA[
+          WHERE
+            G.NAME = #{name}
+        ]]>
+    </select>
+
     <select id="getAllGroups" resultMap="GroupResultMap">
         <include refid="getGroups"/>
     </select>

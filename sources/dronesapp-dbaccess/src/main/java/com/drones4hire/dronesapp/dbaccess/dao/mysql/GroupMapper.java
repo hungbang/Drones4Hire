@@ -9,6 +9,8 @@ public interface GroupMapper {
 
     Group getGroupById(long id);
 
+    Group getGroupByName(String name);
+
     List<Group> getAllGroups();
 
     void updateGroup(Group group);
