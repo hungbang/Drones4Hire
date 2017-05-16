@@ -238,7 +238,7 @@ INSERT INTO drones.COUNTRIES (NAME) VALUES
 	('Zambia'),
 	('Zimbabwe'),
 	('Palestinian Territory, Occupied');
-    
+
 INSERT INTO drones.STATES (NAME, CODE) VALUES
 	('Alabama', 'AL'),
 	('Alaska', 'AK'),
@@ -291,8 +291,8 @@ INSERT INTO drones.STATES (NAME, CODE) VALUES
 	('West Virginia', 'WV'),
 	('Wisconsin', 'WI'),
 	('Wyoming', 'WY');
-    
+
 INSERT INTO drones.GROUPS (NAME, ROLE) VALUES
-	('PILOT', 'ROLE_PILOT'),
-	('CLIENT', 'ROLE_CLIENT'),
-	('ADMIN', 'ROLE_ADMIN');
+	('General pilots group', 'ROLE_PILOT'),
+	('General clients group', 'ROLE_CLIENT'),
+	('General admins group', 'ROLE_ADMIN');

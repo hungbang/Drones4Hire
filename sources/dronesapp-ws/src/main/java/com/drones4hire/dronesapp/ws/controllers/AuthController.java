@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -59,10 +60,10 @@ public class AuthController extends AbstractController
 	}
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Refreshe auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenType.class)
+	@ApiOperation(value = "Refresh auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenType.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value="refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AuthTokenType refresh(@RequestBody @Valid RefreshTokenType refreshToken) throws ForbiddenOperationException
+	public @ResponseBody AuthTokenType refreshToken(@RequestBody @Valid RefreshTokenType refreshToken) throws ForbiddenOperationException
 	{
 		AuthTokenType authToken = null;
 		try
@@ -94,5 +95,14 @@ public class AuthController extends AbstractController
 	public @ResponseBody User register(@RequestBody @Valid RegistrationType user) throws MappingException, ServiceException
 	{
 		return userService.registerUser(mapper.map(user, User.class), user.getRole());
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Confirm email", nickname = "confirm", code = 200, httpMethod = "GET")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value="register/confirm", method = RequestMethod.GET)
+	public void confirmEmail(@RequestParam(name="id", required=true) long id, @RequestParam(name="token", required=true) String token) throws ServiceException
+	{		
+		userService.confirmUserEmail(id, token);
 	}
 }

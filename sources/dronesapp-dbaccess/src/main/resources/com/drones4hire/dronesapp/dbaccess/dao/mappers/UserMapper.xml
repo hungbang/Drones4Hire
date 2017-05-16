@@ -6,7 +6,7 @@
 	<insert id="createUser" useGeneratedKeys="true" keyProperty="id">
     	<![CDATA[
         	INSERT
-          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, LOCATION_ID, ENABLED)
+          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, LOCATION_ID, ENABLED, CONFIRMED)
           	VALUES 
             (
           		#{username},
@@ -18,7 +18,8 @@
             	#{introduction},
             	#{summary},
             	#{location.id},
-            	#{enabled}
+            	#{enabled},
+            	#{confirmed}
           	)
         ]]>
     </insert>
@@ -49,6 +50,7 @@
 				U.INTRODUCTION AS USER_INTRODUCTION,
 				U.SUMMARY AS USER_SUMMARY,
 				U.ENABLED AS USER_ENABLED,
+				U.CONFIRMED AS USER_CONFIRMED,
 				U.MODIFIED_AT AS USER_MODIFIED_AT,
 				U.CREATED_AT AS USER_CREATED_AT,
 				 
@@ -142,6 +144,7 @@
           		INTRODUCTION = #{introduction},
           		SUMMARY = #{summary},
           		ENABLED = #{enabled},
+          		CONFIRMED = #{confirmed},
           		LOCATION_ID = #{location.id}
           	WHERE
 			 	ID = #{id}
@@ -181,6 +184,7 @@
         <result column="USER_INTRODUCTION" property="introduction" />
         <result column="USER_SUMMARY" property="summary" />
         <result column="USER_ENABLED" property="enabled" />
+        <result column="USER_CONFIRMED" property="confirmed" />
 		<result column="USER_MODIFIED_AT" property="modifiedAt" />
 		<result column="USER_CREATED_AT" property="createdAt" />
 		<association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap" />

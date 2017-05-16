@@ -15,12 +15,17 @@ import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
+import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
 
 @Service
 public class UserService
 {
+	private boolean DEFAULT_ENABLED = true;
+	private boolean DEFAULT_CONFIRMED = true;
+	
 	@Autowired
 	private UserMapper userMapper;
 	
@@ -52,16 +57,19 @@ public class UserService
 		
 		try
 		{
-			user.setEnabled(true);
+			user.setEnabled(DEFAULT_ENABLED);
+			user.setConfirmed(DEFAULT_CONFIRMED);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
 			
 			// Add group with default user role
 			Group group = groupService.getGroupByRole(role);
 			userMapper.createUserGroup(user, group);
+			user.getGroups().add(group);
 			
 			// Initialize default location
-						user.setLocation(locationService.createLocation(new Location()));
+			user.setLocation(locationService.createLocation(new Location()));
+			updateUser(user);
 			
 			// Initialize default notification settings
 			notificationSettingService.createDefaultNotificationSettings(user);
@@ -81,6 +89,21 @@ public class UserService
 		}
 		
 		return user;
+	}
+	
+	@Transactional(rollbackFor=Exception.class)
+	public void confirmUserEmail(Long id, String token) throws ServiceException
+	{
+		User user = getUserById(id);
+		if(user != null && token.equals(generateConfrimEmailToken(user)))
+		{
+			user.setConfirmed(true);
+			updateUser(user);
+		}
+		else
+		{
+			throw new UserNotConfirmedException();
+		}
 	}
 
 	@Transactional(readOnly = true)
@@ -108,13 +131,31 @@ public class UserService
 		return userMapper.getUserByEmail(email);
 	}
 	
+	@Transactional(rollbackFor=Exception.class)
+	public User updateUser(User user) throws ServiceException
+	{
+		userMapper.updateUser(user);
+		return user;
+	}
+	
 	public User checkUserCredentials(String email, String password) throws ServiceException
 	{
 		User user = getUserByEmail(email);
 		if(user == null || !passwordEncryptor.checkPassword(password, user.getPassword()))
 		{
-			throw new InvalidUserCredentialsException("Invalid credentials");
+			throw new InvalidUserCredentialsException();
 		}
+		
+		if(!user.isEnabled() || !user.isConfirmed())
+		{
+			throw new InvalidUserStatusException();
+		}
+		
 		return user;
+	}
+	
+	private String generateConfrimEmailToken(User user)
+	{
+		return passwordEncryptor.encryptPassword(user.getEmail());
 	}
 }
