@@ -14,6 +14,15 @@ public class Wallet extends AbstractEntity
 	private Currency currency;
 	private String paymentToken;
 
+	public Wallet()
+	{
+	}
+	
+	public Wallet(Long userId)
+	{
+		this.userId = userId;
+	}
+	
 	public BigDecimal getBalance()
 	{
 		return balance;

@@ -24,6 +24,7 @@ import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
 public class UserService
 {
 	private boolean DEFAULT_ENABLED = true;
+	
 	private boolean DEFAULT_CONFIRMED = true;
 	
 	@Autowired
@@ -43,6 +44,9 @@ public class UserService
 	
 	@Autowired
 	private LocationService locationService;
+	
+	@Autowired
+	private WalletService walletService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
@@ -73,6 +77,9 @@ public class UserService
 			
 			// Initialize default notification settings
 			notificationSettingService.createDefaultNotificationSettings(user);
+			
+			// Initialize default wallet
+			walletService.createDefaultWallet(user);
 		}
 		catch(DuplicateKeyException e)
 		{
