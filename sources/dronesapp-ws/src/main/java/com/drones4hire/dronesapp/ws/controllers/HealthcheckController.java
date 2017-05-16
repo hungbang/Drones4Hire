@@ -14,9 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-@Api(value = "Health check API")
+@Api(value = "Healthcheck API")
 @RequestMapping("api/v1/healthcheck")
-public class HealthCheckController extends AbstractController 
+public class HealthcheckController extends AbstractController 
 {
 	@ResponseStatusDetails
 	@ApiOperation(value = "Server health check", nickname = "healthCheck", code = 200, httpMethod = "GET", response = String.class)
