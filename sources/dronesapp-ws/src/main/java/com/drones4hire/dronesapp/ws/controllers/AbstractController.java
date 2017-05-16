@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.drones4hire.dronesapp.models.dto.error.Error;
 import com.drones4hire.dronesapp.models.dto.error.ErrorCode;
 import com.drones4hire.dronesapp.models.dto.error.ErrorResponse;
+import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.ws.security.SecuredUser;
 
@@ -26,6 +28,16 @@ public abstract class AbstractController
 		return user instanceof SecuredUser ? (SecuredUser) user : null;
 	}
 	
+	@ExceptionHandler(InvalidUserCredentialsException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ResponseBody
+	public ErrorResponse handleInvalidUserCredentialsException(InvalidUserCredentialsException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.UNAUTHORIZED));
+		return result;
+	}
+	
 	@ExceptionHandler(UserAlreadyExistException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ResponseBody
@@ -35,4 +47,14 @@ public abstract class AbstractController
 		result.setError(new Error(ErrorCode.USER_ALREADY_EXIST));
 		return result;
 	}
+	
+	@ExceptionHandler(ForbiddenOperationException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handleForbiddenOperationException(ForbiddenOperationException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.FORBIDDEN_OPERATION));
+		return result;
+	}	
 }

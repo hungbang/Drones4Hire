@@ -7,8 +7,8 @@ public enum ErrorCode
 {
 	VALIDATION_ERROR(0),
 	UNAUTHORIZED(401),
+	FORBIDDEN_OPERATION(403),
 	USER_ALREADY_EXIST(1001);
-
 
 	private int code;
 

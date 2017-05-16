@@ -9,19 +9,19 @@ public class CredentialsType implements Serializable
 	private static final long serialVersionUID = 1567014101763491651L;
 	
 	@NotNull
-	private String username;
+	private String email;
 	
 	@NotNull
 	private String password;
 
-	public String getUsername()
+	public String getEmail()
 	{
-		return username;
+		return email;
 	}
 
-	public void setUsername(String username)
+	public void setEmail(String email)
 	{
-		this.username = username;
+		this.email = email;
 	}
 
 	public String getPassword()

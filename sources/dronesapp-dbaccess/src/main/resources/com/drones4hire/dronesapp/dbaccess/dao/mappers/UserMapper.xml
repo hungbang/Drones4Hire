@@ -116,6 +116,14 @@
         ]]>
     </select>
     
+     <select id="getUserByEmail" resultMap="UserResultMap">
+        <include refid="getUser"/>
+        <![CDATA[
+        	WHERE
+          		U.EMAIL = #{email}
+        ]]>
+    </select>
+    
     <select id="getAllUsers" resultMap="UserResultMap">
         <include refid="getUser"/>
     </select>

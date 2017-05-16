@@ -23,15 +23,16 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 @Controller
 @RequestMapping("api/v1/aws")
-public class AWSTestControllerController extends AbstractController {
-
+public class AWSTestControllerController extends AbstractController
+{
 	@Autowired
 	private AmazonFileService fService;
-	
+
 	@ResponseStatusDetails
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String createUser(@RequestParam("file") MultipartFile file) throws ServiceException, IOException
+	public @ResponseBody String createUser(@RequestParam("file") MultipartFile file)
+			throws ServiceException, IOException
 	{
 		User u = new User();
 		u.setId(1L);

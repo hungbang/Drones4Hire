@@ -16,6 +16,8 @@ public interface UserMapper
 	User getUserById(Long id);
 
 	User getUserByUsername(String username);
+	
+	User getUserByEmail(String email);
 
 	List<User> getAllUsers();
 	
