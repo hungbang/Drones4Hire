@@ -43,6 +43,17 @@
             G.NAME = #{name}
         ]]>
     </select>
+    
+    <select id="getGroupByRole" resultMap="GroupResultMap">
+        <include refid="getGroups"/>
+        <![CDATA[
+          WHERE
+            G.ROLE = #{role}
+          ORDER BY 
+          	ID
+          LIMIT 1 
+        ]]>
+    </select>
 
     <select id="getAllGroups" resultMap="GroupResultMap">
         <include refid="getGroups"/>

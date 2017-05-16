@@ -7,17 +7,26 @@ public class NotificationSettings extends AbstractEntity
 	private static final long serialVersionUID = 4481040116411703206L;
 
 	private Long userId;
-	private boolean plainEmail;
-	private boolean bidPlaced;
-	private boolean paymentReceived;
-	private boolean projectUpdate;
-	private boolean staff;
-	private boolean dronesNews;
-	private boolean projectAward;
-	private boolean marketing;
-	private boolean deals;
-	private boolean monthlyNews;
+	private boolean plainEmail = true;
+	private boolean bidPlaced = true;
+	private boolean paymentReceived = false;
+	private boolean projectUpdate = false;
+	private boolean staff = false;
+	private boolean dronesNews = false;
+	private boolean projectAward = true;
+	private boolean marketing = false;
+	private boolean deals = false;
+	private boolean monthlyNews = false;
 
+	public NotificationSettings()
+	{
+	}
+	
+	public NotificationSettings(Long userId)
+	{
+		this.userId = userId;
+	}
+	
 	public Long getUserId()
 	{
 		return userId;

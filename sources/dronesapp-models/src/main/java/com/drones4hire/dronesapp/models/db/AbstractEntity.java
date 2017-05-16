@@ -14,6 +14,8 @@ public abstract class AbstractEntity implements Serializable
 	private Date modifiedAt;
 	@Transient
 	private Date createdAt;
+	
+	protected String EMPTY = "";
 
 	public Long getId()
 	{

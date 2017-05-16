@@ -1,19 +1,23 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql;
 
-import com.drones4hire.dronesapp.models.db.users.Group;
 import java.util.List;
 
-public interface GroupMapper {
+import com.drones4hire.dronesapp.models.db.users.Group;
+import com.drones4hire.dronesapp.models.db.users.Group.Role;
 
-    void createGroup(Group group);
+public interface GroupMapper
+{
+	void createGroup(Group group);
 
-    Group getGroupById(long id);
+	Group getGroupById(long id);
 
-    Group getGroupByName(String name);
+	Group getGroupByName(String name);
+	
+	Group getGroupByRole(Role role);
 
-    List<Group> getAllGroups();
+	List<Group> getAllGroups();
 
-    void updateGroup(Group group);
+	void updateGroup(Group group);
 
-    void deleteGroup(long id);
+	void deleteGroup(long id);
 }

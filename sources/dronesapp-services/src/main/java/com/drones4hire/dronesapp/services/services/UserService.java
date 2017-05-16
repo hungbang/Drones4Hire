@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
+import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
@@ -21,6 +22,18 @@ public class UserService
 {
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private GroupService groupService;
+	
+	@Autowired
+	private ProfileService profileService;
+	
+	@Autowired
+	private PilotLicenseService pilotLicenseService;
+	
+	@Autowired
+	private NotificationSettingService notificationSettingService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
@@ -38,13 +51,27 @@ public class UserService
 			user.setEnabled(true);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
+			
+			// Add group with default user role
+			Group group = groupService.getGroupByRole(role);
+			userMapper.createUserGroup(user, group);
+			
+			// Initialize default notification settings
+			notificationSettingService.createDefaultNotificationSettings(user);
 		}
 		catch(DuplicateKeyException e)
 		{
 			throw new UserAlreadyExistException("Duplicate user credentials");
 		}
 		
-		// TODO: add user initialization based on role
+		if(Role.ROLE_PILOT.equals(role))
+		{
+			// Initialize default profile
+			profileService.createDefaultProfile(user);
+			
+			// Initialize default license
+			pilotLicenseService.createDefaultPilotLicense(user);
+		}
 		
 		return user;
 	}
@@ -79,7 +106,7 @@ public class UserService
 		User user = getUserByEmail(email);
 		if(user == null || !passwordEncryptor.checkPassword(password, user.getPassword()))
 		{
-			throw new InvalidUserCredentialsException();
+			throw new InvalidUserCredentialsException("Invalid credentials");
 		}
 		return user;
 	}
