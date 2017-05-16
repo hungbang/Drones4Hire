@@ -9,6 +9,8 @@ public interface WalletMapper {
 
     Wallet getWalletById(long id);
 
+    Wallet getWalletByUserId(long userId);
+
     List<Wallet> getAllWallets();
 
     void updateWallet(Wallet wallet);

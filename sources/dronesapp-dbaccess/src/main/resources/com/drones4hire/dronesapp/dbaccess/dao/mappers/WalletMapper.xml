@@ -40,6 +40,14 @@
         ]]>
     </select>
 
+    <select id="getWalletByUserId" resultMap="WalletResultMap">
+        <include refid="getWallets"/>
+        <![CDATA[
+          WHERE
+            W.USER_ID = #{userId}
+        ]]>
+    </select>
+
     <select id="getAllWallets" resultMap="WalletResultMap">
         <include refid="getWallets"/>
     </select>
