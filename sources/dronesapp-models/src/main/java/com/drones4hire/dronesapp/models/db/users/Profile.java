@@ -12,6 +12,15 @@ public class Profile extends AbstractEntity
 	private String webURL;
 	private String companyLogoURL;
 	private String coverPhotoURL;
+	
+	public Profile()
+	{
+	}
+	
+	public Profile(Long userId)
+	{
+		this.userId = userId;
+	}
 
 	public String getTagline()
 	{
