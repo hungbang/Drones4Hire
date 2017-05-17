@@ -4,8 +4,8 @@ import javax.validation.constraints.NotNull;
 
 public class NotificationSettingsDTO extends AbstractDTO
 {
-	private static final long serialVersionUID = 4481040116411703206L;
-
+	private static final long serialVersionUID = 1914111637907329254L;
+	
 	@NotNull(message="Plain email shouldn't be null")
 	private Boolean plainEmail;
 	@NotNull(message="Bid placed shouldn't be null")

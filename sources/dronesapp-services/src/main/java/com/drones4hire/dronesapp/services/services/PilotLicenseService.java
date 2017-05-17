@@ -13,7 +13,6 @@ import com.drones4hire.dronesapp.models.db.users.User;
 @Service
 public class PilotLicenseService
 {
-
 	@Autowired
 	private PilotLicenseMapper pilotLicenseMapper;
 
@@ -36,6 +35,12 @@ public class PilotLicenseService
 	public PilotLicense getPilotLicenseById(long id)
 	{
 		return pilotLicenseMapper.getPilotLicenseById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public PilotLicense getPilotLicenseByUserId(long userId)
+	{
+		return pilotLicenseMapper.getPilotLicenseByUserId(userId);
 	}
 
 	@Transactional(readOnly = true)

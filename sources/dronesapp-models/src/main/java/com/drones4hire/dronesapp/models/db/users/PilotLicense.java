@@ -9,7 +9,7 @@ public class PilotLicense extends AbstractEntity
 	private Long userId;
 	private String licenseURL;
 	private String insuranceURL;
-	private Boolean verified;
+	private boolean verified;
 	
 	public PilotLicense()
 	{
