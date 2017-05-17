@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-@Api(value = "Portfolio API")
+@Api(value = "Notification settings API")
 @CrossOrigin
 @RequestMapping("api/v1/account/notifications")
 public class NotificationSettingsController extends AbstractController
