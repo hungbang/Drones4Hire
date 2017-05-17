@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 @Api(value = "Portfolio API")
+@CrossOrigin
 @RequestMapping("api/v1/portfolio")
 public class PortfolioController extends AbstractController
 {
