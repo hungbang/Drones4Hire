@@ -7,10 +7,6 @@
 		<class-b>com.drones4hire.dronesapp.models.db.settings.NotificationSettingService</class-b>
 
 		<field>
-			<a>userId</a>
-			<b>userId</b>
-		</field>
-		<field>
 			<a>plainEmail</a>
 			<b>plainEmail</b>
 		</field>

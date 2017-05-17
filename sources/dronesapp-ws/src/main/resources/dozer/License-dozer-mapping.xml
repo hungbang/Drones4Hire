@@ -7,10 +7,6 @@
 		<class-b>com.drones4hire.dronesapp.models.db.users.PilotLicense</class-b>
 
 		<field>
-			<a>userId</a>
-			<b>userId</b>
-		</field>
-		<field>
 			<a>licenseURL</a>
 			<b>licenseURL</b>
 		</field>
