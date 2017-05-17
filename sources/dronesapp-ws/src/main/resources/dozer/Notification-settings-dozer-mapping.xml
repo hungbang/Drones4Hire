@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping type="one-way" wildcard="false">
+		<class-a>com.drones4hire.dronesapp.models.dto.NotificationSettingsDTO</class-a>
+		<class-b>com.drones4hire.dronesapp.models.db.settings.NotificationSettingService</class-b>
+
+		<field>
+			<a>plainEmail</a>
+			<b>plainEmail</b>
+		</field>
+		<field>
+			<a>bidPlaced</a>
+			<b>bidPlaced</b>
+		</field>
+		<field>
+			<a>paymentReceived</a>
+			<b>paymentReceived</b>
+		</field>
+		<field>
+			<a>projectUpdate</a>
+			<b>projectUpdate</b>
+		</field>
+		<field>
+			<a>staff</a>
+			<b>staff</b>
+		</field>
+		<field>
+			<a>dronesNews</a>
+			<b>dronesNews</b>
+		</field>
+		<field>
+			<a>projectAward</a>
+			<b>projectAward</b>
+		</field>
+		<field>
+			<a>marketing</a>
+			<b>marketing</b>
+		</field>
+		<field>
+			<a>deals</a>
+			<b>deals</b>
+		</field>
+		<field>
+			<a>monthlyNews</a>
+			<b>monthlyNews</b>
+		</field>
+	</mapping>
+</mappings>

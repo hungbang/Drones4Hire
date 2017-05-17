@@ -12,7 +12,6 @@ public class CredentialsDTO implements Serializable
 	private static final long serialVersionUID = 1567014101763491651L;
 	
 	@NotNull(message = "Email address shouldn't be null")
-	@Size(max = 10, min = 5, message = "Wrong email size")
 	@Email(message="Wrong email address")
 	private String email;
 	
