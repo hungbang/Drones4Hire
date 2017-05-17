@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public enum ErrorCode
 {
 	VALIDATION_ERROR(0),
+	INVALID_VALUE(1001),
 	
 	UNAUTHORIZED(401),
 	FORBIDDEN_OPERATION(403),

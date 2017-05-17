@@ -116,7 +116,7 @@
 		<module>dronesapp-services</module>
 		<module>dronesapp-ws</module>
 		<module>dronesapp-batch-services</module>
-		<module>dronesapp-web</module>
+		<!--module>dronesapp-web</module-->
 	</modules>
 
 	<dependencyManagement>

@@ -14,27 +14,28 @@ public class RegistrationDTO implements Serializable
 {
 	private static final long serialVersionUID = 1567014101763491651L;
 	
-	@NotNull
+	@NotNull(message = "First name shouldn't be null.")
 	private String firstName;
 	
-	@NotNull
+	@NotNull(message = "Last name shouldn't be null")
 	private String lastName;
 	
-	@NotNull
+	@NotNull(message = "User name shouldn't be null")
 	private String username;
 	
-	@NotNull
-	@Email
+	@NotNull(message = "Email address shouldn't be null")
+	@Email(message = "Wrong email")
 	private String email;
 	
-	@NotNull
-	@Size(min = 6)
+	@NotNull(message = "Password shouldn't be null")
+	@Size(min = 6, message = "Wrong password size")
 	private String password;
 	
-	@NotNull
+	@NotNull(message = "Confirm password shouldn't be null")
+	@Size(min = 6, message = "Wrong confirm password size")
 	private String confirmPassword;
 	
-	@NotNull
+	@NotNull(message = "Role shouldn't be null")
 	private Role role;
 
 	public String getFirstName()
