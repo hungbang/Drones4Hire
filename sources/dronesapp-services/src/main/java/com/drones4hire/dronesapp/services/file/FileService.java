@@ -3,9 +3,7 @@ package com.drones4hire.dronesapp.services.file;
 
 import java.io.InputStream;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.aws.FileUploadObject;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 
@@ -21,7 +19,7 @@ public abstract class FileService
 	 *            - profile foto to save in bytes.
 	 * @return path to profile foto on disk.
 	 */
-	abstract public String saveImage(MultipartFile file, User user)
+	abstract public String saveImage(FileUploadObject fileObject)
 			throws ServiceException;
 
 	/**
