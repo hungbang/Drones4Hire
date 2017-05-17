@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-public class CredentialsType implements Serializable
+public class CredentialsDTO implements Serializable
 {
 	private static final long serialVersionUID = 1567014101763491651L;
 	

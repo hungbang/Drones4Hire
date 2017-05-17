@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
 	<mapping type="one-way" wildcard="false">
-		<class-a>com.drones4hire.dronesapp.models.dto.auth.RegistrationType</class-a>
+		<class-a>com.drones4hire.dronesapp.models.dto.auth.RegistrationDTO</class-a>
 		<class-b>com.drones4hire.dronesapp.models.db.users.User</class-b>
 
 		<field>

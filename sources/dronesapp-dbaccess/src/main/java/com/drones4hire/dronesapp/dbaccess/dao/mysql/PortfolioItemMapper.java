@@ -15,10 +15,10 @@ public interface PortfolioItemMapper
 
 	PortfolioItem getPortfolioItemById(long id);
 	
-	PortfolioItem getPortfolioItemByUserId(long userId);
+	List<PortfolioItem> getPortfolioItemsByUserId(long userId);
 
 	List<PortfolioItem> getAllPortfolioItems();
-
+	
 	void updatePortfolioItem(PortfolioItem portfolioItem);
 
 	void deletePortfolioCategory(@Param("portfolioId") Long portfolioId, @Param("categoryId") Long serviceCategory);

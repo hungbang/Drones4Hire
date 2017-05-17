@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class AuthTokenType implements Serializable
+public class AuthTokenDTO implements Serializable
 {
 	private static final long serialVersionUID = -586102250911687530L;
 	
@@ -15,11 +15,11 @@ public class AuthTokenType implements Serializable
 	private String refreshToken;
 	private int expiresIn;
 	
-	public AuthTokenType()
+	public AuthTokenDTO()
 	{
 	}
 	
-	public AuthTokenType(String type, String accessToken, String refreshToken, int expiresIn)
+	public AuthTokenDTO(String type, String accessToken, String refreshToken, int expiresIn)
 	{
 		this.type = type;
 		this.accessToken = accessToken;

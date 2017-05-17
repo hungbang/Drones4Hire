@@ -170,7 +170,7 @@ public class PortfolioItemMapperTest extends AbstractTestNGSpringContextTests
 	{ "testGetPortfolioItemById" })
 	public void testGetPortfolioItemByUserId()
 	{
-		PortfolioItem item = portfolioItemMapper.getPortfolioItemByUserId(PORTFOLIO_ITEM.getId());
+		PortfolioItem item = portfolioItemMapper.getPortfolioItemsByUserId(PORTFOLIO_ITEM.getId()).get(0);
 		check(item);
 	}
 

@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.drones4hire.dronesapp.models.db.users.User;
-import com.drones4hire.dronesapp.models.dto.auth.AuthTokenType;
-import com.drones4hire.dronesapp.models.dto.auth.CredentialsType;
-import com.drones4hire.dronesapp.models.dto.auth.RefreshTokenType;
-import com.drones4hire.dronesapp.models.dto.auth.RegistrationType;
+import com.drones4hire.dronesapp.models.dto.auth.AuthTokenDTO;
+import com.drones4hire.dronesapp.models.dto.auth.CredentialsDTO;
+import com.drones4hire.dronesapp.models.dto.auth.RefreshTokenDTO;
+import com.drones4hire.dronesapp.models.dto.auth.RegistrationDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.UserService;
@@ -46,26 +46,26 @@ public class AuthController extends AbstractController
 	private Mapper mapper;
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Generate auth token", nickname = "login", code = 200, httpMethod = "POST", response = AuthTokenType.class)
+	@ApiOperation(value = "Generate auth token", nickname = "login", code = 200, httpMethod = "POST", response = AuthTokenDTO.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value="login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AuthTokenType login(@Valid @RequestBody CredentialsType credentials) throws ServiceException
+	public @ResponseBody AuthTokenDTO login(@Valid @RequestBody CredentialsDTO credentials) throws ServiceException
 	{
 		User user = userService.checkUserCredentials(credentials.getEmail(), credentials.getPassword());
 		
-		return new AuthTokenType("Bearer", 
+		return new AuthTokenDTO("Bearer", 
 				jwtService.generateAuthToken(user), 
 				jwtService.generateRefreshToken(user), 
 				jwtService.getExpiration());
 	}
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Refresh auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenType.class)
+	@ApiOperation(value = "Refresh auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenDTO.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value="refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AuthTokenType refreshToken(@RequestBody @Valid RefreshTokenType refreshToken) throws ForbiddenOperationException
+	public @ResponseBody AuthTokenDTO refreshToken(@RequestBody @Valid RefreshTokenDTO refreshToken) throws ForbiddenOperationException
 	{
-		AuthTokenType authToken = null;
+		AuthTokenDTO authToken = null;
 		try
 		{
 			User jwtUser = jwtService.parseRefreshToken(refreshToken.getRefreshToken());
@@ -75,7 +75,7 @@ public class AuthController extends AbstractController
 				throw new Exception("User password changed");
 			}
 			
-			authToken = new AuthTokenType("Bearer", 
+			authToken = new AuthTokenDTO("Bearer", 
 					jwtService.generateAuthToken(user), 
 					jwtService.generateRefreshToken(user), 
 					jwtService.getExpiration());
@@ -92,7 +92,7 @@ public class AuthController extends AbstractController
 	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = User.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value="register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User register(@RequestBody @Valid RegistrationType user) throws MappingException, ServiceException
+	public @ResponseBody User register(@RequestBody @Valid RegistrationDTO user) throws MappingException, ServiceException
 	{
 		return userService.registerUser(mapper.map(user, User.class), user.getRole());
 	}

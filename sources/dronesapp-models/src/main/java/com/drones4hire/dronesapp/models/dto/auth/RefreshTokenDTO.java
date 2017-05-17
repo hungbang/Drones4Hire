@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class RefreshTokenType implements Serializable
+public class RefreshTokenDTO implements Serializable
 {
 	private static final long serialVersionUID = -586102250911687530L;
 	
 	@NotNull
 	private String refreshToken;
 	
-	public RefreshTokenType()
+	public RefreshTokenDTO()
 	{
 	}
 	

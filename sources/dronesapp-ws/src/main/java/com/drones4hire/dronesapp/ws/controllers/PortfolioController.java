@@ -1,9 +1,12 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
 import com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem;
-import com.drones4hire.dronesapp.services.services.PortfolioItemService;
+import com.drones4hire.dronesapp.models.dto.PortfolioItemDTO;
+import com.drones4hire.dronesapp.services.services.PortfolioService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.*;
+
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,23 +14,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import javax.validation.Valid;
+
 @Controller
 @Api(value = "Portfolio API")
 @RequestMapping("api/v1/portfolio")
-public class PortfolioItemController extends AbstractController
+public class PortfolioController extends AbstractController
 {
-
 	@Autowired
-	private PortfolioItemService portfolioItemService;
+	private PortfolioService portfolioService;
+	
+	@Autowired
+	private Mapper mapper;
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Create portfolio item", nickname = "createPortfolioItem", code = 201, httpMethod = "POST", response = PortfolioItem.class)
 	@ApiImplicitParams({@ApiImplicitParam(name = "Authorization", paramType = "header")})
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody PortfolioItem createPortfolioItem(@RequestBody PortfolioItem portfolioItem)
+	public @ResponseBody PortfolioItem createPortfolioItem(@Valid @RequestBody PortfolioItemDTO pi)
 	{
-		return portfolioItemService.createPortfolioItem(portfolioItem);
+		PortfolioItem portfolioItem = mapper.map(pi, PortfolioItem.class);
+		portfolioItem.setUserId(getPrincipal().getId());
+		return portfolioService.createPortfolioItem(portfolioItem);
 	}
 
 	@ResponseStatusDetails
@@ -37,17 +46,17 @@ public class PortfolioItemController extends AbstractController
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody PortfolioItem getPortfolioItemById(@ApiParam(value = "Id of the portfolio", required = true) @PathVariable(value="id") long id)
 	{
-		return portfolioItemService.getPortfolioItemById(id);
+		return portfolioService.getPortfolioItemById(id);
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Get all portfolio items", nickname = "getAllPortfolioItems", code = 200, httpMethod = "GET", response = List.class)
+	@ApiOperation(value = "Get user portfolio items", nickname = "getUserPortfolioItems", code = 200, httpMethod = "GET", response = List.class)
 	@ApiImplicitParams({@ApiImplicitParam(name = "Authorization", paramType = "header")})
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<PortfolioItem> getAllPortfolioItems()
+	public @ResponseBody List<PortfolioItem> getUserPortfolioItems()
 	{
-		return portfolioItemService.getAllPortfolioItems();
+		return portfolioService.getPortfolioItemsByUserId(getPrincipal().getId());
 	}
 
 	@ResponseStatusDetails
@@ -57,7 +66,7 @@ public class PortfolioItemController extends AbstractController
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody PortfolioItem updatePortfolioItem(@RequestBody PortfolioItem portfolioItem)
 	{
-		return portfolioItemService.updatePortfolioItem(portfolioItem);
+		return portfolioService.updatePortfolioItem(portfolioItem);
 	}
 
 	@ResponseStatusDetails
@@ -67,6 +76,6 @@ public class PortfolioItemController extends AbstractController
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deletePortfolioItem(@ApiParam(value = "Id of the portfolio", required = true) @PathVariable(value="id") long id)
 	{
-		portfolioItemService.deletePortfolioItem(id);
+		portfolioService.deletePortfolioItem(id);
 	}
 }

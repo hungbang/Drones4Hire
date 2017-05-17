@@ -72,7 +72,7 @@
         ]]>
     </select>
     
-     <select id="getPortfolioItemByUserId" resultMap="PortfolioItemResultMap">
+     <select id="getPortfolioItemsByUserId" resultMap="PortfolioItemResultMap">
         <include refid="getPortfolioItem"/>
         <![CDATA[
         	WHERE

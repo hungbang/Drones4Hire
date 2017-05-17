@@ -10,9 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class PortfolioItemService
+public class PortfolioService
 {
-
 	@Autowired
 	private PortfolioItemMapper portfolioItemMapper;
 
@@ -37,9 +36,9 @@ public class PortfolioItemService
 	}
 
 	@Transactional(readOnly = true)
-	public PortfolioItem getPortfolioItemByUserId(long userId)
+	public List<PortfolioItem> getPortfolioItemsByUserId(long userId)
 	{
-		return portfolioItemMapper.getPortfolioItemByUserId(userId);
+		return portfolioItemMapper.getPortfolioItemsByUserId(userId);
 	}
 
 	@Transactional(readOnly = true)

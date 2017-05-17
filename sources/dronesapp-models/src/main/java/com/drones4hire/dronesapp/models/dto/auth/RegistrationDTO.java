@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Email;
 
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
 
-public class RegistrationType implements Serializable
+public class RegistrationDTO implements Serializable
 {
 	private static final long serialVersionUID = 1567014101763491651L;
 	
