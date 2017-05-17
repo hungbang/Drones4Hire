@@ -30,6 +30,20 @@
           	)
         ]]>
     </insert>
+
+    <insert id="createPortfolioCategories">
+        <![CDATA[
+        	INSERT INTO
+        	  drones.PORTFOLIO_CATEGORIES (PORTFOLIO_ITEM_ID, SERVICE_CATEGORY_ID)
+            VALUES
+        ]]>
+            <foreach collection="serviceCategories" item="category" index="index" open="" separator="," close=";">
+                (
+                    #{portfolio.id},
+                    #{category.id}
+                )
+            </foreach>
+    </insert>
     
 
 	<sql id="getPortfolioItem">
@@ -109,6 +123,16 @@
           		PORTFOLIO_ITEM_ID = #{portfolioId}
           	AND
           		SERVICE_CATEGORY_ID = #{categoryId}
+        ]]>
+    </delete>
+
+    <delete id="deletePortfolioCategoriesByPortfolioId">
+        <![CDATA[
+        	DELETE
+          	FROM
+          		drones.PORTFOLIO_CATEGORIES
+          	WHERE
+          		PORTFOLIO_ITEM_ID = #{portfolioId}
         ]]>
     </delete>
 

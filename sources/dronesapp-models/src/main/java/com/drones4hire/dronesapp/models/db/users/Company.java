@@ -14,6 +14,16 @@ public class Company extends AbstractEntity
 	private String contactEmail;
 	private Country country;
 
+	public Company()
+	{
+	}
+
+	public Company(long userId, String name)
+	{
+		this.userId = userId;
+		this.name = name;
+	}
+
 	public String getName()
 	{
 		return name;

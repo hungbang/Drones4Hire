@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping type="one-way" wildcard="false">
+        <class-a>com.drones4hire.dronesapp.models.dto.CompanyDTO</class-a>
+        <class-b>com.drones4hire.dronesapp.models.db.users.Company</class-b>
+
+        <field>
+            <a>name</a>
+            <b>name</b>
+        </field>
+        <field>
+            <a>webURL</a>
+            <b>webURL</b>
+        </field>
+        <field>
+            <a>contactName</a>
+            <b>contactName</b>
+        </field>
+        <field>
+            <a>contactEmail</a>
+            <b>contactEmail</b>
+        </field>
+        <field>
+            <a>country</a>
+            <b>country</b>
+        </field>
+    </mapping>
+</mappings>

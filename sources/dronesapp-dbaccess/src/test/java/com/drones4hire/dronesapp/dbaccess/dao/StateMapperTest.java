@@ -26,6 +26,7 @@ public class StateMapperTest extends AbstractTestNGSpringContextTests {
         private static final long serialVersionUID = 1L;
         {
             setName("n1" + DataGenerator.generateNumber(10000));
+            setCode("c1" + DataGenerator.generateNumber(10000));
         }
     };
 
@@ -57,6 +58,7 @@ public class StateMapperTest extends AbstractTestNGSpringContextTests {
     public void testUpdateState()
     {
         STATE.setName("n2" + DataGenerator.generateNumber(10000));
+        STATE.setCode("c2" + DataGenerator.generateNumber(10000));
         stateMapper.updateState(STATE);
         State state = stateMapper.getStateById(STATE.getId());
         check(state);
@@ -73,5 +75,6 @@ public class StateMapperTest extends AbstractTestNGSpringContextTests {
     {
         assertEquals(state.getId(), STATE.getId(), "State id must match");
         assertEquals(state.getName(), STATE.getName(), "State name must match");
+        assertEquals(state.getCode(), STATE.getCode(), "State code must match");
     }
 }

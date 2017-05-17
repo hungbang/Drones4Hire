@@ -29,6 +29,9 @@
 		<property name="mappingFiles">
 			<list>
 				<value>dozer/User-dozer-mapping.xml</value>
+				<value>dozer/Portfolio-dozer-mapping.xml</value>
+				<value>dozer/Company-dozer-mapping.xml</value>
+				<value>dozer/Account-dozer-mapping.xml</value>
 			</list>
 		</property>
 	</bean>

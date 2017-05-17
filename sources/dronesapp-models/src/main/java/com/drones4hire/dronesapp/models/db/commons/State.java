@@ -7,6 +7,7 @@ public class State extends AbstractEntity
 	private static final long serialVersionUID = 3967170236154798084L;
 
 	private String name;
+	private String code;
 
 	public String getName()
 	{
@@ -16,5 +17,15 @@ public class State extends AbstractEntity
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getCode()
+	{
+		return code;
+	}
+
+	public void setCode(String code)
+	{
+		this.code = code;
 	}
 }

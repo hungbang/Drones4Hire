@@ -24,33 +24,36 @@ import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
 public class UserService
 {
 	private boolean DEFAULT_ENABLED = true;
-	
+
 	private boolean DEFAULT_CONFIRMED = true;
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private GroupService groupService;
-	
+
 	@Autowired
 	private ProfileService profileService;
-	
+
 	@Autowired
 	private PilotLicenseService pilotLicenseService;
-	
+
 	@Autowired
 	private NotificationSettingService notificationSettingService;
-	
+
 	@Autowired
 	private LocationService locationService;
-	
+
 	@Autowired
 	private WalletService walletService;
 
 	@Autowired
+	private CompanyService companyService;
+
+	@Autowired
 	private PasswordEncryptor passwordEncryptor;
-	
+
 	@Transactional(rollbackFor=Exception.class)
 	public User registerUser(User user, Role role) throws ServiceException
 	{
@@ -58,26 +61,26 @@ public class UserService
 		{
 			throw new ForbiddenOperationException("Invalid role for registration");
 		}
-		
+
 		try
 		{
 			user.setEnabled(DEFAULT_ENABLED);
 			user.setConfirmed(DEFAULT_CONFIRMED);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
-			
+
 			// Add group with default user role
 			Group group = groupService.getGroupByRole(role);
 			userMapper.createUserGroup(user, group);
 			user.getGroups().add(group);
-			
+
 			// Initialize default location
 			user.setLocation(locationService.createLocation(new Location()));
 			updateUser(user);
-			
+
 			// Initialize default notification settings
 			notificationSettingService.createDefaultNotificationSettings(user);
-			
+
 			// Initialize default wallet
 			walletService.createDefaultWallet(user);
 		}
@@ -85,19 +88,22 @@ public class UserService
 		{
 			throw new UserAlreadyExistException("Duplicate user credentials");
 		}
-		
+
 		if(Role.ROLE_PILOT.equals(role))
 		{
 			// Initialize default profile
 			profileService.createDefaultProfile(user);
-			
+
 			// Initialize default license
 			pilotLicenseService.createDefaultPilotLicense(user);
+
+			// Initialize default company
+			companyService.createDefaultCompany(user);
 		}
-		
+
 		return user;
 	}
-	
+
 	@Transactional(rollbackFor=Exception.class)
 	public void confirmUserEmail(Long id, String token) throws ServiceException
 	{
@@ -118,33 +124,34 @@ public class UserService
 	{
 		return userMapper.getUserById(id);
 	}
-	
+
 	@Transactional
 	public User createUser(User user) throws ServiceException
 	{
 		userMapper.createUser(user);
 		return user;
 	}
-	
+
 	@Transactional(readOnly = true)
 	public User getUserByUsername(String username) throws ServiceException
 	{
 		return userMapper.getUserByUsername(username);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public User getUserByEmail(String email) throws ServiceException
 	{
 		return userMapper.getUserByEmail(email);
 	}
-	
+
 	@Transactional(rollbackFor=Exception.class)
 	public User updateUser(User user) throws ServiceException
 	{
 		userMapper.updateUser(user);
+		locationService.updateLocation(user.getLocation());
 		return user;
 	}
-	
+
 	public User checkUserCredentials(String email, String password) throws ServiceException
 	{
 		User user = getUserByEmail(email);
@@ -152,15 +159,15 @@ public class UserService
 		{
 			throw new InvalidUserCredentialsException();
 		}
-		
+
 		if(!user.isEnabled() || !user.isConfirmed())
 		{
 			throw new InvalidUserStatusException();
 		}
-		
+
 		return user;
 	}
-	
+
 	private String generateConfrimEmailToken(User user)
 	{
 		return passwordEncryptor.encryptPassword(user.getEmail());

@@ -13,6 +13,8 @@ public interface PortfolioItemMapper
 	
 	void createPortfolioCategory(@Param("portfolio") PortfolioItem portfolio, @Param("serviceCategory") ServiceCategory serviceCategory);
 
+	void createPortfolioCategories(@Param("portfolio") PortfolioItem portfolio, @Param("serviceCategories") List<ServiceCategory> serviceCategories);
+
 	PortfolioItem getPortfolioItemById(long id);
 	
 	List<PortfolioItem> getPortfolioItemsByUserId(long userId);
@@ -22,6 +24,8 @@ public interface PortfolioItemMapper
 	void updatePortfolioItem(PortfolioItem portfolioItem);
 
 	void deletePortfolioCategory(@Param("portfolioId") Long portfolioId, @Param("categoryId") Long serviceCategory);
-	
+
+	void deletePortfolioCategoriesByPortfolioId(Long portfolioId);
+
 	void deletePortfolioItem(long id);
 }

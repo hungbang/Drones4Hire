@@ -6,10 +6,11 @@
     <insert id="createState" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-            drones.STATES (NAME)
+            drones.STATES (NAME, CODE)
           VALUES
           (
-            #{name}
+            #{name},
+            #{code}
           )
         ]]>
     </insert>
@@ -19,6 +20,7 @@
           SELECT
 	        S.ID AS STATE_ID,
 	        S.NAME AS STATE_NAME,
+	        S.CODE AS STATE_CODE,
 	        S.MODIFIED_AT AS STATE_MODIFIED_AT,
 	        S.CREATED_AT AS STATE_CREATED_AT
           FROM
@@ -43,7 +45,8 @@
           UPDATE
          	drones.STATES
           SET
-          	NAME = #{name}
+          	NAME = #{name},
+          	CODE = #{code}
           WHERE
 			ID = #{id}
         ]]>
@@ -62,6 +65,7 @@
     <resultMap id="StateResultMap" type="com.drones4hire.dronesapp.models.db.commons.State" autoMapping="false">
         <id column="STATE_ID" property="id"/>
         <result column="STATE_NAME" property="name"/>
+        <result column="STATE_CODE" property="code"/>
         <result column="STATE_MODIFIED_AT" property="modifiedAt"/>
         <result column="STATE_CREATED_AT" property="createdAt"/>
     </resultMap>
