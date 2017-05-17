@@ -31,7 +31,13 @@ public class NotificationSettingService
 	}
 
 	@Transactional(readOnly = true)
-	public List<NotificationSettings> getAllNotificationSettingss()
+	public NotificationSettings getNotificationSettingsByUserId(long id)
+	{
+		return notificationSettingsMapper.getNotificationSettingsByUserId(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<NotificationSettings> getAllNotificationSettings()
 	{
 		return notificationSettingsMapper.getAllNotificationSettings();
 	}
