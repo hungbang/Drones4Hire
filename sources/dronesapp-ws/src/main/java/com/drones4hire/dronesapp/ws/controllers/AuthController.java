@@ -89,8 +89,8 @@ public class AuthController extends AbstractController
 	}
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Register user", nickname = "register", code = 200, httpMethod = "POST", response = User.class)
-	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = User.class)
+	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value="register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User register(@RequestBody @Valid RegistrationType user) throws MappingException, ServiceException
 	{

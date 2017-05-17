@@ -21,9 +21,9 @@ public class PortfolioItemController extends AbstractController
 	private PortfolioItemService portfolioItemService;
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Create portfolio item", nickname = "createPortfolioItem", code = 200, httpMethod = "POST", response = PortfolioItem.class)
+	@ApiOperation(value = "Create portfolio item", nickname = "createPortfolioItem", code = 201, httpMethod = "POST", response = PortfolioItem.class)
 	@ApiImplicitParams({@ApiImplicitParam(name = "Authorization", paramType = "header")})
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody PortfolioItem createPortfolioItem(@RequestBody PortfolioItem portfolioItem)
 	{
@@ -61,9 +61,9 @@ public class PortfolioItemController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Delete portfolio item", nickname = "deletePortfolioItem", code = 200, httpMethod = "DELETE")
+	@ApiOperation(value = "Delete portfolio item", nickname = "deletePortfolioItem", code = 204, httpMethod = "DELETE")
 	@ApiImplicitParams({@ApiImplicitParam(name = "Authorization", paramType = "header")})
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deletePortfolioItem(@ApiParam(value = "Id of the portfolio", required = true) @PathVariable(value="id") long id)
 	{
