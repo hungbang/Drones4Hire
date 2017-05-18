@@ -6,6 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.dto.error.AdditionalErrorData;
 import com.drones4hire.dronesapp.models.dto.error.Error;
 import com.drones4hire.dronesapp.models.dto.error.ErrorCode;
@@ -28,6 +31,8 @@ import com.drones4hire.dronesapp.ws.security.SecuredUser;
 
 public abstract class AbstractController
 {
+	private static final GrantedAuthority ADMIN = new SimpleGrantedAuthority(Role.ROLE_ADMIN.name());
+	
 	@Resource(name = "messageSource")
 	protected MessageSource messageSource;
 
@@ -35,6 +40,19 @@ public abstract class AbstractController
 	{
 		Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return user instanceof SecuredUser ? (SecuredUser) user : null;
+	}
+	
+	/**
+	 * If user not ADMIN limit CRUD operations for objects where he is owner.
+	 * @param objectUserId
+	 * @throws ForbiddenOperationException
+	 */
+	protected void checkPrincipalPermissions(Long userId) throws ForbiddenOperationException
+	{
+		if(!getPrincipal().getAuthorities().contains(ADMIN) && getPrincipal().getId() != userId)
+		{
+			throw new ForbiddenOperationException();
+		}
 	}
 
 	@ExceptionHandler(InvalidUserCredentialsException.class)

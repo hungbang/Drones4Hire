@@ -1,25 +1,33 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import com.drones4hire.dronesapp.models.db.users.Company;
-import com.drones4hire.dronesapp.models.dto.AccountDTO;
-import com.drones4hire.dronesapp.models.dto.CompanyDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
-import com.drones4hire.dronesapp.services.services.CompanyService;
-import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.dto.AccountDTO;
+import com.drones4hire.dronesapp.models.dto.CompanyDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.CompanyService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
-import javax.validation.Valid;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @Api(value = "Account API")
@@ -83,17 +91,14 @@ public class AccountController extends AbstractController
 			throws ServiceException
 	{
 		Company company = companyService.getCompanyById(c.getId());
-		if (company.getUserId() == getPrincipal().getId())
-		{
-			company.setName(c.getName());
-			company.setWebURL(c.getWebURL());
-			company.setContactName(c.getContactName());
-			company.setContactEmail(c.getContactEmail());
-			company.setCountry(c.getCountry());
-		} else
-		{
-			throw new ForbiddenOperationException("Invalid user");
-		}
+		checkPrincipalPermissions(company.getUserId());
+		
+		company.setName(c.getName());
+		company.setWebURL(c.getWebURL());
+		company.setContactName(c.getContactName());
+		company.setContactEmail(c.getContactEmail());
+		company.setCountry(c.getCountry());
+		
 		return mapper.map(companyService.updateCompany(company), CompanyDTO.class);
 	}
 }
