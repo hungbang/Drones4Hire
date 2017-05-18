@@ -19,6 +19,8 @@ import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
+import javax.validation.Valid;
+
 @Controller
 @Api(value = "Account API")
 @CrossOrigin
@@ -49,7 +51,7 @@ public class AccountController extends AbstractController
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AccountDTO updateUserAccount(@RequestBody AccountDTO account)
+	public @ResponseBody AccountDTO updateUserAccount(@Valid @RequestBody AccountDTO account)
 			throws ServiceException
 	{
 		User user = userService.getUserById(getPrincipal().getId());
@@ -77,7 +79,7 @@ public class AccountController extends AbstractController
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "company", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody CompanyDTO updateUserCompany(@RequestBody CompanyDTO c)
+	public @ResponseBody CompanyDTO updateUserCompany(@Valid @RequestBody CompanyDTO c)
 			throws ServiceException
 	{
 		Company company = companyService.getCompanyById(c.getId());

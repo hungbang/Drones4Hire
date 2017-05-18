@@ -44,7 +44,7 @@ public class PortfolioController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Get portfolio item by id", nickname = "createPortfolioItem", code = 200, httpMethod = "GET", response = PortfolioItem.class)
+	@ApiOperation(value = "Get portfolio item by id", nickname = "getPortfolioItemById", code = 200, httpMethod = "GET", response = PortfolioItem.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -75,7 +75,7 @@ public class PortfolioController extends AbstractController
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody PortfolioItemDTO updatePortfolioItem(@RequestBody PortfolioItemDTO pi)
+	public @ResponseBody PortfolioItemDTO updatePortfolioItem(@Valid @RequestBody PortfolioItemDTO pi)
 			throws ForbiddenOperationException
 	{
 		PortfolioItem portfolioItem = portfolioService.getPortfolioItemById(pi.getId());
