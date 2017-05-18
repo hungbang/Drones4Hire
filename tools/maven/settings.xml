@@ -1,47 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-
-	<profiles>
-		<profile>
-			<id>drones4hire</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<drones4hire.env>local</drones4hire.env>
-				<drones4hire.url>http://localhost:8080</drones4hire.url>
-				<drones4hire.tomcat.url>${drones4hire.url}/manager/text</drones4hire.tomcat.url>
-        <drones4hire.tomcat.ws.path>/drones-api</drones4hire.tomcat.ws.path>
-        <drones4hire.tomcat.web.path>/drones</drones4hire.tomcat.web.path>
-				<drones4hire.ws.url>http://localhost:8080</drones4hire.ws.url>
-				<drones4hire.integrationTest.host>${drones4hire.url}</drones4hire.integrationTest.host>
-
-				<drones4hire.db.jdbc.driverClass>com.mysql.jdbc.Driver</drones4hire.db.jdbc.driverClass>
-				<drones4hire.db.jdbc.url>jdbc:mysql://d4h-db-dev.cawopigqzklz.us-east-2.rds.amazonaws.com:3306/dronesapp</drones4hire.db.jdbc.url>
-				<drones4hire.db.jdbc.user>root</drones4hire.db.jdbc.user>
-				<drones4hire.db.jdbc.password>Qxgknp8pTx</drones4hire.db.jdbc.password>
-				<drones4hire.db.c3p0.maxPoolSize>2</drones4hire.db.c3p0.maxPoolSize>
-
-				<mail.host>smtp.gmail.com</mail.host>
-				<mail.port>587</mail.port>
-				<mail.user>{user}</mail.user>
-				<mail.pass>{pass}</mail.pass>
-
-				<drones4hire.amazon.accessKey>AKIAJSPZIDX4XQD766EQ</drones4hire.amazon.accessKey>
-				<drones4hire.amazon.secretKey>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</drones4hire.amazon.secretKey>
-				<drones4hire.amazon.bucket>dronessapp</drones4hire.amazon.bucket>
-			</properties>
-		</profile>
-	</profiles>
-	<servers>
-		<server>
-			<id>TomcatServer</id>
-			<username>drones4hire</username>
-			<password>tomc@t4drones</password>
-		</server>
-	</servers>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>TomcatServer</id>
+            <username>drones4hire</username>
+            <password>tomc@t4drones</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>drones4hire</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <drones4hire.env>local</drones4hire.env>
+                <drones4hire.url>http://localhost:8080</drones4hire.url>
+                <drones4hire.tomcat.url>${drones4hire.url}/manager/text</drones4hire.tomcat.url>
+                <drones4hire.tomcat.ws.path>/drones-api</drones4hire.tomcat.ws.path>
+                <drones4hire.tomcat.web.path>/drones</drones4hire.tomcat.web.path>
+                <drones4hire.ws.url>http://localhost:8080</drones4hire.ws.url>
+                <drones4hire.integrationTest.host>${drones4hire.url}</drones4hire.integrationTest.host>
+                <drones4hire.db.jdbc.driverClass>com.mysql.jdbc.Driver</drones4hire.db.jdbc.driverClass>
+                <drones4hire.db.jdbc.url>jdbc:mysql://{host}:{port}/dronesapp</drones4hire.db.jdbc.url>
+                <drones4hire.db.jdbc.user></drones4hire.db.jdbc.user>
+                <drones4hire.db.jdbc.password></drones4hire.db.jdbc.password>
+                <drones4hire.db.c3p0.maxPoolSize>2</drones4hire.db.c3p0.maxPoolSize>
+                <mail.host>smtp.gmail.com</mail.host>
+                <mail.port>587</mail.port>
+                <mail.user>{user}</mail.user>
+                <mail.pass>{pass}</mail.pass>
+                <drones4hire.amazon.accessKey>AKIAJSPZIDX4XQD766EQ</drones4hire.amazon.accessKey>
+                <drones4hire.amazon.secretKey>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</drones4hire.amazon.secretKey>
+                <drones4hire.amazon.bucket>dronessapp</drones4hire.amazon.bucket>
+            </properties>
+        </profile>
+    </profiles>
 </settings>
