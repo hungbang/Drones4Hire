@@ -12,16 +12,20 @@ public class BudgetDTO extends AbstractDTO
 
 	private static final long serialVersionUID = -7831240772101353162L;
 
-	@NotNull(message = "Title shouldn't be null")
+	@NotNull(message = "Title required")
 	private String title;
-	@NotNull(message = "Min shouldn't be null")
-	@Min(value = 0, message = "Min shouldn't be less than '0'")
+	
+	@NotNull(message = "Min required")
+	@Min(value = 0, message = "Min price need to be positive")
 	private BigDecimal min;
-	@NotNull(message = "Max shouldn't be null")
+	
+	@NotNull(message = "Max required")
 	private BigDecimal max;
-	@NotNull(message = "Currency shouldn't be null")
+	
+	@NotNull(message = "Currency required")
 	private Currency currency;
-	@NotNull(message = "Order shouldn't be null")
+	
+	@NotNull(message = "Order required")
 	private Integer order;
 
 	public String getTitle()

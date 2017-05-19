@@ -1,18 +1,17 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper;
-import com.drones4hire.dronesapp.models.db.commons.Country;
-import com.drones4hire.dronesapp.models.db.users.User;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper;
+import com.drones4hire.dronesapp.models.db.commons.Country;
 
 @Service
 public class CountryService
 {
-
 	@Autowired
 	private CountryMapper countryMapper;
 

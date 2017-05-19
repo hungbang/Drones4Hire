@@ -1,19 +1,18 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.CompanyMapper;
-import com.drones4hire.dronesapp.models.db.users.Company;
-import com.drones4hire.dronesapp.models.db.users.PilotLicense;
-import com.drones4hire.dronesapp.models.db.users.User;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.CompanyMapper;
+import com.drones4hire.dronesapp.models.db.users.Company;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 @Service
 public class CompanyService
 {
-
 	private static final String DEFAULT_COMPANY_NAME = "default";
 
 	@Autowired
