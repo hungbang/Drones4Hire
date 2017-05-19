@@ -32,6 +32,14 @@
         <class-a>com.drones4hire.dronesapp.models.dto.AccountDTO</class-a>
         <class-b>com.drones4hire.dronesapp.models.db.users.User</class-b>
 
+		<field>
+            <a>username</a>
+            <b>username</b>
+        </field>
+        <field>
+            <a>email</a>
+            <b>email</b>
+        </field>
         <field>
             <a>firstName</a>
             <b>firstName</b>
@@ -55,6 +63,10 @@
         <field>
             <a>summary</a>
             <b>summary</b>
+        </field>
+         <field>
+            <a>groups</a>
+            <b>groups</b>
         </field>
     </mapping>
 </mappings>
