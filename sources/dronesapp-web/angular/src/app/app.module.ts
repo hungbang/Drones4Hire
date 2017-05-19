@@ -13,6 +13,7 @@ import { ROUTES } from './app.routes';
 import { Services } from './services/index';
 import { AppResolves } from './resolves/index';
 import { AppDirectives } from './directives/index';
+import { Guards } from './guards/index';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AppDirectives } from './directives/index';
   ],
   providers: [
     Services,
+    Guards,
     AppResolves
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

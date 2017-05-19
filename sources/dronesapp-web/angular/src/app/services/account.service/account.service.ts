@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
+import { RequestService } from '../request.service/request.service';
+import 'rxjs/add/operator/map';
+import { RequestOptions, Headers } from '@angular/http';
 
 @Injectable()
 export class AccountService {
+  currentUser: any;
   account = {
       '_id': '58fa06d5070639d287c1e697',
       general: {
@@ -25,6 +29,31 @@ export class AccountService {
       }
     };
 
-  constructor() {}
+  constructor(
+    private _requestService: RequestService
+  ) {}
+
+  isUserClient() {
+    return this.currentUser.groups.map((group) => group.role).pop() === 'ROLE_CLIENT';
+  }
+
+  isUserPilot() {
+    return this.currentUser.groups.map((group) => group.role).pop() === 'ROLE_PILOT';
+  }
+
+  getUserData() {
+    return this._requestService.fetch('get', '/account');
+  }
+
+  saveUserPhoto(file) {
+    const headers = new Headers({
+      'Authorization': this._requestService.getCurrentToken()
+    });
+    return new RequestOptions({ headers: headers });
+  }
+
+  saveUserData(data) {
+    return this._requestService.fetch('put', '/account', data);
+  }
 
 }

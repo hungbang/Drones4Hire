@@ -1,24 +1,23 @@
-<ul role="list" class="m-site" [ngClass]="{ _profile: isProfile }">
-  <li *ngIf="isProfile" class="m-site__item">
-    <a href="#" class="m-site__link">Dashboard
+<ul role="list" class="m-site" [ngClass]="{ _profile: _authorizationService.isUserLogin }">
+  <li *ngIf="_authorizationService.isUserLogin" class="m-site__item">
+    <a href="#" class="m-site__link" [routerLink]="['/dashboard/' + getCurrentUserType()]">Dashboard
       <span class="m-site__num">7</span>
     </a>
   </li>
-  <li *ngIf="isProfile" class="m-site__item">
-    <a href="#" class="m-site__link">my projects</a>
-  </li>
   <li class="m-site__item _margin">
-    <a *ngIf="isIndex" class="m-site__link _project" href="https://www.drones4hire.com/projects/create_project">Post A Project</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link">Inbox</a>
+    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link _project" href="#" [routerLink]="[_authorizationService.isUserLogin ? '/project/add' : 'sign-up']">Post A Project</a>
+    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" [routerLink]="['/search']" class="m-site__link">Job Board</a>
+    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserClient()" class="m-site__link" [routerLink]="['/my-projects']">My projects</a>
   </li>
   <li class="m-site__item _margin-left">
-    <a *ngIf="isIndex" class="m-site__link" href="http://drones4hire.wordpress.com">Blog</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link">Payment</a>
+    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link" href="#">Blog</a>
+    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" href="#" class="m-site__link" [routerLink]="['/']">Home</a>
+    <a *ngIf="isPilot && isClient" class="m-site__link" [routerLink]="['/project/add']"> New Project</a>
   </li>
   <li class="m-site__item">
-    <a *ngIf="isIndex" class="m-site__link" href="#">How it works</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link"> New Project</a>
-    <ul *ngIf="isIndex" class="m-site__sub">
+    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link" [routerLink]="['/']">How it works</a>
+    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserClient()" class="m-site__link" [routerLink]="['project/add']"> New Project</a>
+    <ul *ngIf="!_authorizationService.isUserLogin" class="m-site__sub">
       <li class="m-site__sub-item">
         <a href="#" class="m-site__link">Drone Pilot</a>
       </li>
@@ -28,27 +27,27 @@
     </ul>
   </li>
   <li class="m-site__item">
-    <a *ngIf="isIndex" class="m-site__link" href="https://www.drones4hire.com/signup/pilot_signup">Sign up</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link _last">Account</a>
-    <ul *ngIf="isProfile" class="m-site__sub _last">
+    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link" (click)="setActiveLoginForm('sign-up')" [routerLink]="['/sign-up']">Sign up</a>
+    <a *ngIf="_authorizationService.isUserLogin" class="m-site__link _last">Account</a>
+    <ul *ngIf="_authorizationService.isUserLogin" class="m-site__sub _last">
       <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">View/edit profile</a>
+        <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" href="#" class="m-site__link" [routerLink]="['/profile']">View/edit profile</a>
       </li>
       <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Account settings</a>
+        <a href="#" class="m-site__link" [routerLink]="['/account/' + getCurrentUserType()]">Account settings</a>
       </li>
       <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Withdrawal request</a>
+        <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" href="#" class="m-site__link" [routerLink]="['/withdrawal']">Withdrawal request</a>
       </li>
       <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Transactions</a>
+        <a href="#" class="m-site__link" [routerLink]="['/transactions']">Transactions</a>
       </li>
       <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Sign out</a>
+        <a href="#" class="m-site__link" (click)="logout()">Sign out</a>
       </li>
     </ul>
   </li>
-  <li *ngIf="isIndex" class="m-site__item">
-    <a class="m-site__link" href="https://www.drones4hire.com/login">Login</a>
+  <li *ngIf="!_authorizationService.isUserLogin" class="m-site__item">
+    <a class="m-site__link" [routerLink]="['login']">Login</a>
   </li>
 </ul>

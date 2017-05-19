@@ -8,22 +8,40 @@ import { ProjectComponent } from './containers/project/project.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { AccountComponent } from './containers/account/account.component';
 import { ProjectAddComponent } from './containers/project-add/project-add.component';
+import { SAuthorizationComponent } from './components/sections/s-authorization/s-authorization.component';
+import { AuthGuard } from './guards/auth.guard/auth.guard';
+import { ClientGuard } from './guards/client.guard/client.guard';
+import { PilotGuard } from './guards/pilot.guard/pilot.guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
+    canActivate: [AuthGuard],
     component: IndexComponent
   },
   {
+    path: 'sign-up',
+    canActivate: [AuthGuard],
+    component: SAuthorizationComponent
+  },
+  {
+    path: 'login',
+    canActivate: [AuthGuard],
+    component: SAuthorizationComponent
+  },
+  {
     path: 'profile',
+    canActivate: [AuthGuard, PilotGuard],
     component: ProfileComponent
   },
   {
     path: 'my-projects',
+    canActivate: [AuthGuard, ClientGuard],
     component: MyProjectsComponent
   },
   {
     path: 'project',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -33,6 +51,7 @@ export const ROUTES: Routes = [
       {
         path: 'pilot',
         component: ProjectComponent,
+        canActivate: [PilotGuard],
         data: {
           isPilotPage: true
         }
@@ -40,18 +59,21 @@ export const ROUTES: Routes = [
       {
         path: 'client',
         component: ProjectComponent,
+        canActivate: [ClientGuard],
         data: {
           isClientPage: true
         }
       },
       {
         path: 'add',
+        canActivate: [ClientGuard],
         component: ProjectAddComponent
       }
     ]
   },
   {
     path: 'dashboard',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -61,6 +83,7 @@ export const ROUTES: Routes = [
       {
         path: 'client',
         component: DashboardComponent,
+        canActivate: [ClientGuard],
         data: {
           isClientPage: true
         }
@@ -68,6 +91,7 @@ export const ROUTES: Routes = [
       {
         path: 'pilot',
         component: DashboardComponent,
+        canActivate: [PilotGuard],
         data: {
           isPilotPage: true,
           className: 'pilot-dashboard'
@@ -77,6 +101,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'account',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -86,6 +111,7 @@ export const ROUTES: Routes = [
       {
         path: 'pilot',
         component: AccountComponent,
+        canActivate: [PilotGuard],
         data: {
           isPilotPage: true
         }
@@ -93,6 +119,7 @@ export const ROUTES: Routes = [
       {
         path: 'client',
         component: AccountComponent,
+        canActivate: [ClientGuard],
         data: {
           isClientPage: true
         }
@@ -101,10 +128,12 @@ export const ROUTES: Routes = [
   },
   {
     path: 'transactions',
+    canActivate: [AuthGuard],
     component: TransactionsComponent
   },
   {
     path: 'search',
+    canActivate: [AuthGuard, PilotGuard],
     component: SearchComponent
   }
 ];

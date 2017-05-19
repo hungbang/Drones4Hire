@@ -23,14 +23,14 @@
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Address:</span>
-          <input class="f-default__field" type="text" name="address" [(ngModel)]="account.address" required/>
+          <input class="f-default__field" type="text" name="address" [(ngModel)]="account.location && account.location.address" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Country:</span>
-          <select class="f-default__field" name="country" [(ngModel)]="account.country" required>
+          <select class="f-default__field" name="country" [(ngModel)]="account.location && account.location.country && account.location.country.name" required>
             <option value="USA">USA</option>
             <option value="France">France</option>
           </select>
@@ -40,25 +40,25 @@
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">State:</span>
-          <input class="f-default__field" type="text" name="state" [(ngModel)]="account.state" required/>
+          <input class="f-default__field" type="text" name="state" [(ngModel)]="account.location && account.location.state && account.location.state.name" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">City:</span>
-          <input class="f-default__field" type="text" name="city" [(ngModel)]="account.city" required/>
+          <input class="f-default__field" type="text" name="city" [(ngModel)]="account.location && account.location.city" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Postal Code:</span>
-          <input class="f-default__field" type="text" name="postalCode" [(ngModel)]="account.postalCode" required/>
+          <input class="f-default__field" type="text" name="postalCode" [(ngModel)]="account.postcode" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
-      <div class="f-default__row" *ngIf="_appService.isUserPilot">
+      <div class="f-default__row" *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()">
         <label class="f-default__label">
           <span class="f-default__text">Flight Hours:</span>
           <input class="f-default__field" type="text" name="flightHours"/>
@@ -70,20 +70,20 @@
       <div class="f-default__row">
         <label class="f-default__label _top">
           <span class="f-default__text _req">Upload Image:</span>
-          <input class="f-default__field _file" type="file" name="profileImage" ngModel required/>
+          <input class="f-default__field _file" type="file" name="profileImage" (change)="handlePhotoUpload($event)" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
-      <div class="f-default__row" *ngIf="account.profileImage">
-        <img src="{{account.profileImage}}" alt="">
+      <div class="f-default__row" *ngIf="account.photoURL">
+        <img src="{{account.photoURL}}" alt="">
       </div>
       <div class="f-default__row">
         <label class="f-default__label _top">
           <span class="f-default__text _lh">Introduction:</span>
-          <textarea class="f-default__field _area" name="introduction" [(ngModel)]="account.introduction"></textarea>
+          <textarea class="f-default__field _area" name="introduction" [(ngModel)]="account.summary"></textarea>
         </label>
       </div>
     </div>
   </div>
-  <button type="submit" class="f-default__button">Save Changes</button>
+  <button type="button" class="f-default__button" (click)="saveChanges()">Save Changes</button>
 </form>

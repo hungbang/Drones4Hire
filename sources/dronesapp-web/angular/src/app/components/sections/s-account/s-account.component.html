@@ -5,13 +5,13 @@
       <button type="button" class="s-account__tab"
         [ngClass]="{ '_active': activeTabName === 'details' }"
         (click)="showTab('details')">Account Details</button>
-      <button type="button" class="s-account__tab"
+      <button type="button" class="s-account__tab _disabled"
         *ngIf="_appService.isUserPilot"
         [ngClass]="{ '_active': activeTabName === 'preference' }"
         (click)="showTab('preference')">Account Preferences</button>
-      <button type="button" class="s-account__tab"
+      <button type="button" class="s-account__tab _disabled"
         [ngClass]="{ '_active': activeTabName === 'security' }" (click)="showTab('security')">Account Security</button>
-      <button type="button" class="s-account__tab"
+      <button type="button" class="s-account__tab _disabled"
         [ngClass]="{ '_active': activeTabName === 'notification' }"
         (click)="showTab('notification')">Notifications</button>
     </div>
@@ -21,11 +21,11 @@
         <f-profile></f-profile>
         <h3 class="s-account__subtitle">Company Details</h3>
         <f-company></f-company>
-        <h3 *ngIf="_appService.isUserPilot" class="s-account__subtitle">License & Insurance Info</h3>
-        <f-license *ngIf="_appService.isUserPilot"></f-license>
+        <h3 *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" class="s-account__subtitle">License & Insurance Info</h3>
+        <f-license *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()"></f-license>
         <h3 class="s-account__subtitle">Financial Preferences</h3>
       </div>
-      <div class="s-account__item" *ngIf="_appService.isUserPilot" [ngClass]="{ '_active': activeTabName === 'preference' }">
+      <div class="s-account__item" *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" [ngClass]="{ '_active': activeTabName === 'preference' }">
         <h3 class="s-account__subtitle">Details</h3>
         <p class="s-account__text">Sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
           Nemo enim ipsam voluptatem quia voluptas. sit.aspernatur aut odit aut fugit</p>

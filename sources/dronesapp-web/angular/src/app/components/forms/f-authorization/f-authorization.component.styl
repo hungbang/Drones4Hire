@@ -1,0 +1,168 @@
+@import "../../../styles/settings/mixin.styl"
+
+.f-authorization
+  display: block
+  border-radius 4px
+  padding 20px 40px
+  background #262626
+  &__row
+    margin-bottom 16px
+    &._col-wrap
+      display: flex
+      justify-content: space-between
+      .f-authorization__col
+        max-width 48%
+        flex-basis 48%
+    &._top
+      margin-bottom 20px
+  input[type='text']
+    background-color: #fff;
+    width: 100%;
+    height: 34px;
+    padding: 10px 10px 10px 17px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #000;
+  h3
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 15px 0;
+    position: relative
+    text-align: center
+    &:before
+      h()
+      top: 9px
+      width: 80%
+      height: 2px
+      background rgba(#fff, 0.5)
+    span
+      display: inline-block
+      padding 0 10px
+      background #262626
+      position: relative
+      z-index: 1
+  &__link
+    display: block
+    color: #ffffff;
+    font-size: 14px;
+    height: 44px;
+    line-height: 40px;
+    overflow: hidden;
+    border-radius: 10px;
+    span
+      height 44px
+      vam()
+    &._facebook
+    &._google
+      .first
+        width: 54px;
+        margin-right: 11px;
+    &._facebook
+      background-color: #4453A8;
+      border: 2px solid #4453A8;
+      .first
+        border-right: 2px solid #4f44a8;
+        background: #4f44a8;
+    &._google
+      background-color: #da3e2d;
+      border: 2px solid #891b0f;
+      .first
+        border-right: 2px solid #6d1f16;
+        background: #ad1100;
+  svg
+    fill #fff
+    margin 0 auto
+    position: relative
+    top: 10px
+  .svg-fb
+    width: 10px
+    height: 20px
+    fill #fff
+  .svg-g
+    width: 22px
+    height: 22px
+    fill #ff
+  &__name
+  &__text
+    font-size: 14px;
+    line-height: 1.2
+    color: #fff;
+    font-weight: 700
+    margin-bottom: 16px
+  &__text
+    font-weight: 400
+    a
+      color #337ab7
+      margin-left 10px
+      &:hover
+        color #23527c
+        text-decoration: underline
+  &__label
+    font-size: 14px;
+    font-weight: 400
+    line-height: 16px
+    color: #fff;
+    &-radio
+      &+&
+        margin-left 15px
+    &._radio
+    &._chk
+      padding-left 25px
+      position: relative
+      &:before
+        ps()
+        width: 16px
+        height: 16px
+        left: 0
+        top: 0
+      &:after
+        position absolute
+        content ''
+        display none
+        left: 4px
+        top: 4px
+    &._radio
+      &:before
+        border-radius 50%
+        background #fff
+      &:after
+        border-radius 50%
+        width: 8px
+        height: 8px
+        background #000
+    &._chk
+      &:before
+        border 1px solid #fff
+      &:after
+        top: 2px
+        left: 5px
+        width: 6px
+        height: 10px
+        border-bottom 2px solid #fff
+        border-right 2px solid #fff
+        transform rotate(50deg) skew(15deg)
+      a
+        font-size 14px
+        font-weight: 700
+        color #fff
+        &:hover
+          text-decoration: underline
+  input:checked
+    & + span.f-authorization__label
+      &:after
+        display: block
+  &__button
+    background-color: #0fa9ea;
+    border-radius: 6px;
+    color: #ffffff;
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 35px;
+    margin: 20px auto 0;
+    padding: 2px 31px;
+    & + .f-authorization__row
+      margin-top 16px
+      margin-bottom: 0

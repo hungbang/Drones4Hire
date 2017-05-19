@@ -6,69 +6,17 @@
     <th class="t-dashboard__th">Payment created</th>
     <th class="t-dashboard__th">Payment released</th>
   </tr>
-  <tr>
+  <tr *ngFor="let item of dashboard">
     <td class="t-dashboard__td">
-      <div class="t-dashboard__wrapper">
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-name" href="#">Test1</a>
-        </div>
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-review" href="#">Review bids</a>
-        </div>
-      </div>
+      <a class="t-dashboard__link-name" href="#" [routerLink]="['/project/client']">
+        <span class="t-dashboard__project-name">{{item.projectName}} /</span>
+        <span class="t-dashboard__project-name">{{item.clientName}}</span>
+      </a>
     </td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td">12/15/16</td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td">12/15/16</td>
-  </tr>
-  <tr>
-    <td class="t-dashboard__td">
-      <div class="t-dashboard__wrapper">
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-name" href="#">Test2</a>
-        </div>
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-review" href="#">Review bids</a>
-        </div>
-      </div>
-    </td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td">12/15/16</td>
-    <td class="t-dashboard__td">12/15/16</td>
-    <td class="t-dashboard__td"></td>
-  </tr>
-  <tr>
-    <td class="t-dashboard__td">
-      <div class="t-dashboard__wrapper">
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-name" href="#">Test3</a>
-        </div>
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-review" href="#">Review bids</a>
-        </div>
-      </div>
-    </td>
-    <td class="t-dashboard__td">12/15/16</td>
-    <td class="t-dashboard__td">12/15/16</td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td"></td>
-  </tr>
-  <tr>
-    <td class="t-dashboard__td">
-      <div class="t-dashboard__wrapper">
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-name" href="#">Test4</a>
-        </div>
-        <div class="t-dashboard__col">
-          <a class="t-dashboard__link-review" href="#">Review bids</a>
-        </div>
-      </div>
-    </td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td">12/15/16</td>
-    <td class="t-dashboard__td">12/15/16</td>
+    <td class="t-dashboard__td">{{item.projectBidPlaced}}</td>
+    <td class="t-dashboard__td">{{item.projectAwarded}}</td>
+    <td class="t-dashboard__td">{{item.paymentCreated}}</td>
+    <td class="t-dashboard__td">{{item.paymentReleased}}</td>
   </tr>
 </table>
 
@@ -84,9 +32,9 @@
   </tr>
   <tr *ngFor="let item of dashboard">
     <td class="t-dashboard__td">
-      <a class="t-dashboard__link-name" href="#">
+      <a class="t-dashboard__link-name" href="#" [routerLink]="['/project/pilot']">
         <span class="t-dashboard__project-name">{{item.projectName}} /</span>
-        {{item.clientName}}
+        <span class="t-dashboard__project-name">{{item.clientName}}</span>
       </a>
     </td>
     <td class="t-dashboard__td">{{item.projectBidPlaced}}</td>

@@ -1,190 +1,192 @@
 <form (submit)="onSubmit()" class="f-project-add f-default">
-  <div class="f-default__row">
-    <div class="f-default__inner">
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">1</span>
+      <span> Name of project and Category</span></h3>
+    <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">What type of work do you require?</div>
-          <select class="f-default__field" name="workType">
-            <option value="">type 1</option>
+        <div class="f-project-add__caption">What type of work do you require?</div>
+      </div>
+      <div class="f-default__col">
+        <select class="f-default__field" name="">
+          <option value="">Select Category</option>
+          <option value="">type 2</option>
+        </select>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Project name. (i.e. Wedding)</div>
+      </div>
+      <div class="f-default__col">
+        <input class="f-default__field" type="text" name="projectName" placeholder="What is the Project Title"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">2</span>
+      <span>Tell us more about your project</span></h3>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">What skills are requried?</div>
+      </div>
+      <div class="f-default__col">
+        <select class="f-default__field" name="">
+          <option value="">Select Category</option>
+          <option value="">type 2</option>
+        </select>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Describe your project</div>
+        <textarea class="f-default__field _area" name="description" placeholder=""></textarea>
+      </div>
+      <div class="f-default__col _flex">
+        <div class="f-project-add__caption">Upload your images here</div>
+        <span class="f-default__text">Add images or documents that might help explain your project (Optional)</span>
+        <input class="f-default__field _file" type="file" name="projectImages" ngModel required/>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">3</span>
+      <span>Budget and Locaticon</span></h3>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">What budget do you have in mind?</div>
+      </div>
+      <div class="f-default__col">
+        <div class="f-default__col-inner">
+          <select class="f-default__field _30" name="">
+            <option value="">USA</option>
+            <option value="">type 2</option>
+          </select>
+          <select class="f-default__field _65" name="">
+            <option value="">Select Budget</option>
             <option value="">type 2</option>
           </select>
         </div>
       </div>
+    </div>
+    <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Project name. (i.e. Wedding)</div>
-          <input class="f-default__field" type="text" name="projectName" placeholder="What is the Project Title"/>
+        <div class="f-project-add__caption">Country</div>
+      </div>
+      <div class="f-default__col">
+        <select class="f-default__field" name="">
+          <option value="">United States</option>
+          <option value="">France</option>
+        </select>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">State</div>
+      </div>
+      <div class="f-default__col">
+        <select class="f-default__field" name="">
+          <option value="">Alabama</option>
+          <option value="">State</option>
+        </select>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Job location</div>
+      </div>
+      <div class="f-default__col">
+        <input class="f-default__field" type="text" name="projectLocation" placeholder="Type your location"/>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Date and time</div>
+      </div>
+      <div class="f-default__col">
+        <div class="f-default__col-inner">
+          <input class="f-default__field _50" type="text" name="projectDate" placeholder="26.12.2017"/>
+          <input class="f-default__field _50" type="text" name="projectTime" placeholder="8:30"/>
         </div>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Expection duration of flight</div>
+      </div>
+      <div class="f-default__col">
+        <select class="f-default__field" name="">
+          <option value="">Select</option>
+          <option value="">item2</option>
+        </select>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Project Post Production (Editing)</div>
+      </div>
+      <div class="f-default__col">
+        <select class="f-default__field" name="">
+          <option value="">Select</option>
+          <option value="">item2</option>
+        </select>
       </div>
     </div>
   </div>
-  <div class="f-default__row">
-    <div class="f-project-add__caption">Tell us more about your project.</div>
-    <div class="f-default__form-group">
-      <span class="f-default__text">What skills are required?</span>
-      <select multiple class="f-default__field" name="skills">
-        <option value="">Skill 1</option>
-        <option value="">Skill 2</option>
-      </select>
-    </div>
-    <div class="f-default__form-group">
-      <span class="f-default__text _lh">Describe your project</span>
-      <textarea class="f-default__field _area" name="description" rows="3" placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"></textarea>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">What budget do you have in mind?</div>
-          <div class="f-default__inner">
-            <div class="f-default__col">
-              <select class="f-default__field" name="currency">
-                <option value="">$</option>
-                <option value="">€</option>
-              </select>
-            </div>
-            <div class="f-default__col">
-              <select class="f-default__field" name="budget">
-                <option value="">1000-5000</option>
-                <option value="">5001-10000</option>
-              </select>
-            </div>
-          </div>
-        </div>
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">4</span>
+      <span>Get the most from your project!</span>
+      <span class="_small">(optional)</span>
+    </h3>
+    <div class="f-default__row _flex _wrap">
+      <div class="f-default__col _featured">
+        <label class="f-default__label _chk">
+          <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value="" checked/>
+          <span class="f-default__chk">Featured project</span>
+        </label>
+        <p class="f-default__text">I want my project to be listed as a featured project. Featured projects attract more, higher-quality bids and are displayed prominently on the ‘Featured Jobs’ page.</p>
+        <div class="f-default__price">$29.00</div>
       </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Upload your images here</div>
-          <input class="f-default__field _file" type="file" name="projectImages" ngModel required/>
-          <span class="f-default__text">Add images or documents that might help explain your project (Optional)</span>
-        </div>
+      <div class="f-default__col _urgent">
+        <label class="f-default__label _chk">
+          <input class="f-default__chk-input" type="checkbox" name="projectUrgent" value=""/>
+          <span class="f-default__chk">Urgent project</span>
+        </label>
+        <p class="f-default__text">I want my project to be marked as an urgent project. Receive a faster response from drone pilots to get your project started within 24 - 48 hours!</p>
+        <div class="f-default__price">$15.00</div>
+      </div>
+      <div class="f-default__col _sealed">
+        <label class="f-default__label _chk">
+          <input class="f-default__chk-input" type="checkbox" name="projectSealed" value=""/>
+          <span class="f-default__chk">Sealed project</span>
+        </label>
+        <p class="f-default__text">I want all bids to be sealed so that drone pilots cannot see what others are bidding, leading to more accurate, higher quality proposals.</p>
+        <div class="f-default__price">$9.00</div>
+      </div>
+      <div class="f-default__col _private">
+        <label class="f-default__label _chk">
+          <input class="f-default__chk-input" type="checkbox" name="projectPrivate" value=""/>
+          <span class="f-default__chk">Private project</span>
+        </label>
+        <p class="f-default__text">I want hide project details from search engines and users that are not logged in. This feature is recommended for projects where confidentiality is a must.</p>
+        <div class="f-default__price">$19.00</div>
       </div>
     </div>
   </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Job location</div>
-          <input class="f-default__field" type="text" name="jobLocation" placeholder="Type your location"/>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Country</div>
-          <select class="f-default__field" name="country">
-            <option value="">USA</option>
-            <option value="">Canada</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">State</div>
-          <select class="f-default__field" name="country">
-            <option value="">State 1</option>
-            <option value="">State 2</option>
-          </select>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Date and time</div>
-          <div class="f-default__inner">
-            <div class="f-default__col">
-              <input type="date" name="date">
-            </div>
-            <div class="f-default__col">
-              <input type="time" name="time">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Expected duration of flight</div>
-          <select class="f-default__field" name="flightDuration">
-            <option value="">10</option>
-            <option value="">20</option>
-          </select>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Project Post Production/Editing</div>
-          <select class="f-default__field" name="flightDuration">
-            <option value="">Option 1</option>
-            <option value="">Option 2</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-project-add__caption">Get the most from your project!(optional)</div>
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
-          </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
-          </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
-        </div>
-      </div>
-    </div>
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
-          </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
-          </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="f-default__row">
+
+  <div class="f-project-add__bottom">
     <button class="f-default__button">Post Project now</button>
     <div class="f-default__text _center">
-      <div>By clicking 'Post Project Now', you are indicating that you have reed and agree to the</div>
-      <div><a href="#">Terms & Conditions</a></div>
+      <div>By clicking 'Post Project Now', you are indicating that you have reed and agree to the
+        <a href="#" class="f-project-add__link">Terms & Conditions</a>
+      </div>
     </div>
   </div>
 </form>

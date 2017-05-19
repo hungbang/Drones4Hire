@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppService } from '../../../services/app.service/app.service';
+import { AccountService } from '../../../services/account.service/account.service';
+import { AuthorizationService } from '../../../services/authorization.service/authorization.service';
 
 @Component({
   selector: 's-account',
@@ -13,7 +15,9 @@ export class SAccountComponent {
   activeTabName = 'details';
 
   constructor(
-    public _appService: AppService
+    public _appService: AppService,
+    private _authorizationService: AuthorizationService,
+    public _accountService: AccountService
   ) {}
 
   showTab(tabName) {

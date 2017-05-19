@@ -16,11 +16,13 @@ import { SProjectsSearchComponent } from './s-projects-search/s-projects-search.
 import { SDashboardComponent } from './s-dashboard/s-dashboard.component';
 import { STransactionsComponent } from './s-transactions/s-transactions.component';
 import { SProjectAddComponent } from './s-project-add/s-project-add.component';
+import { SAuthorizationComponent } from './s-authorization/s-authorization.component';
 
 export const SECTIONS = [
   HeaderComponent,
   FooterComponent,
   SProfileComponent,
+  SAuthorizationComponent,
   SIndexComponent,
   SServicesComponent,
   SHowitComponent,

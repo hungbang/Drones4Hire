@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../../../services/account.service/account.service';
+import { AuthorizationService } from '../../../services/authorization.service/authorization.service';
 
 @Component({
   selector: 's-index',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SIndexComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public _accountService: AccountService,
+    private _authorizationService: AuthorizationService,
+  ) { }
 
   ngOnInit() {
   }

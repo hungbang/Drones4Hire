@@ -7,9 +7,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AccountComponent } from './account/account.component';
 import { ProjectAddComponent } from './project-add/project-add.component';
+import { AuthorizationComponent } from './authorization/authorization.component';
 
 export const AppContainers = [
   AccountComponent,
+  AuthorizationComponent,
   IndexComponent,
   MyProjectsComponent,
   DashboardComponent,
