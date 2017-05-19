@@ -67,6 +67,16 @@ public class CommonController extends AbstractController
 	}
 
 	@ResponseStatusDetails
+	@ApiOperation(value = "Get all budgets", nickname = "getAllBudgets", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "budgets", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Budget> getAllBudgets()
+	{
+		return budgetService.getAllBudgets();
+	}
+
+	@ResponseStatusDetails
 	@ApiOperation(value = "Update budget", nickname = "updateBudget", code = 200, httpMethod = "PUT", response = Budget.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
@@ -109,6 +119,16 @@ public class CommonController extends AbstractController
 	}
 
 	@ResponseStatusDetails
+	@ApiOperation(value = "Get all durations", nickname = "getAllDurations", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "durations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Duration> getAllDurations()
+	{
+		return durationService.getAllDurations();
+	}
+
+	@ResponseStatusDetails
 	@ApiOperation(value = "Update duration", nickname = "updateDuration", code = 200, httpMethod = "PUT", response = Duration.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
@@ -148,6 +168,16 @@ public class CommonController extends AbstractController
 			@ApiParam(value = "Id of the paid option", required = true) @PathVariable(value = "id") long id)
 	{
 		return paidOptionService.getPaidOptionById(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get all paid options", nickname = "getAllPaidOptions", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "paidoptions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<PaidOption> getAllPaidOptions()
+	{
+		return paidOptionService.getAllPaidOptions();
 	}
 
 	@ResponseStatusDetails
