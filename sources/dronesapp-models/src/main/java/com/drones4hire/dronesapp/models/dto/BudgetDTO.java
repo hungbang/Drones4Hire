@@ -1,30 +1,27 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import java.math.BigDecimal;
+import com.drones4hire.dronesapp.models.db.commons.Currency;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import com.drones4hire.dronesapp.models.db.commons.Currency;
+import java.math.BigDecimal;
 
 public class BudgetDTO extends AbstractDTO
 {
+
 	private static final long serialVersionUID = -7831240772101353162L;
 
-	@NotNull(message = "Title requried")
+	@NotNull(message = "Title shouldn't be null")
 	private String title;
-	
-	@NotNull(message = "Min requried")
-	@Min(value = 0, message = "Min budget need to be positive")
+	@NotNull(message = "Min shouldn't be null")
+	@Min(value = 0, message = "Min shouldn't be less than '0'")
 	private BigDecimal min;
-	
-	@NotNull(message = "Max budget requried")
+	@NotNull(message = "Max shouldn't be null")
 	private BigDecimal max;
-	
-	@NotNull(message = "Currency requried")
+	@NotNull(message = "Currency shouldn't be null")
 	private Currency currency;
-	
-	@NotNull(message = "Order requried")
+	@NotNull(message = "Order shouldn't be null")
 	private Integer order;
 
 	public String getTitle()
@@ -75,5 +72,18 @@ public class BudgetDTO extends AbstractDTO
 	public void setOrder(Integer order)
 	{
 		this.order = order;
+	}
+
+	@AssertTrue(message = "Currency ENUM confirmation not matching")
+	public boolean isConfirmationValid()
+	{
+		try
+		{
+			Currency.valueOf(currency.name());
+			return true;
+		} catch (IllegalArgumentException e)
+		{
+			return false;
+		}
 	}
 }
