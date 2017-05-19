@@ -42,13 +42,13 @@
   <div class="f-authorization__row">
     <div class="f-authorization__col">
       <div class="f-authorization__name">Password</div>
-      <input type="text" [(ngModel)]="formData.password" name="password" />
+      <input type="password" [(ngModel)]="formData.password" name="password" />
     </div>
   </div>
   <div class="f-authorization__row" *ngIf="isSignUpForm">
     <div class="f-authorization__col">
       <div class="f-authorization__name">Confirm Password</div>
-      <input type="text" [(ngModel)]="formData.confirmPassword" name="confirmPassword" />
+      <input type="password" [(ngModel)]="formData.confirmPassword" name="confirmPassword" />
     </div>
   </div>
   <div class="f-authorization__row" *ngIf="isSignUpForm">
