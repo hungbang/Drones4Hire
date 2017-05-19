@@ -49,9 +49,9 @@ public class AccountController extends AbstractController
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User getUserAccount() throws MappingException, ServiceException
+	public @ResponseBody AccountDTO getUserAccount() throws MappingException, ServiceException
 	{
-		return userService.getUserById(getPrincipal().getId());
+		return mapper.map(userService.getUserById(getPrincipal().getId()), AccountDTO.class);
 	}
 
 	@ResponseStatusDetails
@@ -59,8 +59,7 @@ public class AccountController extends AbstractController
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AccountDTO updateUserAccount(@Valid @RequestBody AccountDTO account)
-			throws ServiceException
+	public @ResponseBody AccountDTO updateUserAccount(@Valid @RequestBody AccountDTO account) throws ServiceException
 	{
 		User user = userService.getUserById(getPrincipal().getId());
 		user.setFirstName(account.getFirstName());
