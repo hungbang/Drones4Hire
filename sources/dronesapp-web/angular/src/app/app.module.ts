@@ -28,7 +28,7 @@ import { Guards } from './guards/index';
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [
     Services,
