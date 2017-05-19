@@ -148,7 +148,6 @@ public class UserService
 	public User updateUser(User user) throws ServiceException
 	{
 		userMapper.updateUser(user);
-		locationService.updateLocation(user.getLocation());
 		return user;
 	}
 

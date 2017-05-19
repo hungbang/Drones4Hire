@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.users.Group;
 
 public class AccountDTO extends AbstractDTO
@@ -13,17 +12,25 @@ public class AccountDTO extends AbstractDTO
 	private static final long serialVersionUID = -5542006534130010886L;
 
 	private String username;
+	
 	private String email;
-	@NotNull(message = "First name shouldn't be null")
+	
+	@NotNull(message = "First name required")
 	private String firstName;
-	@NotNull(message = "Last name shouldn't be null")
+	
+	@NotNull(message = "Last name required")
 	private String lastName;
-	@NotNull(message = "Location shouldn't be null")
-	private Location location;
-	@NotNull(message = "Photo URL shouldn't be null")
+	
+	@NotNull(message = "Location required")
+	private LocationDTO location;
+	
+	@NotNull(message = "Photo URL required")
 	private String photoURL;
+	
 	private String introduction;
+	
 	private String summary;
+	
 	private List<Group> groups = new ArrayList<>();
 
 	public String getUsername()
@@ -66,12 +73,12 @@ public class AccountDTO extends AbstractDTO
 		this.lastName = lastName;
 	}
 
-	public Location getLocation()
+	public LocationDTO getLocation()
 	{
 		return location;
 	}
 
-	public void setLocation(Location location)
+	public void setLocation(LocationDTO location)
 	{
 		this.location = location;
 	}

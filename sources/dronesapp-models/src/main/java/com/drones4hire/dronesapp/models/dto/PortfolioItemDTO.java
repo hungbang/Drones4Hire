@@ -11,17 +11,22 @@ public class PortfolioItemDTO extends AbstractDTO
 {
 	private static final long serialVersionUID = -2051191606069736283L;
 
-	@NotNull(message = "Name shouldn't be null")
+	@NotNull(message = "Name required")
 	private String name;
-	@NotNull(message = "Title shouldn't be null")
+	
+	@NotNull(message = "Title required")
 	private String title;
-	@NotNull(message = "Summary shouldn't be null")
+	
+	@NotNull(message = "Summary required")
 	private String summary;
-	@NotNull(message = "Type shouldn't be null")
+	
+	@NotNull(message = "Type required")
 	private Type type;
-	@NotNull(message = "Item Url shouldn't be null")
+	
+	@NotNull(message = "Item URL required")
 	private String itemURL;
-	@NotNull(message = "Categories shouldn't be null")
+	
+	@NotNull(message = "Categories required")
 	private List<ServiceCategory> serviceCategories;
 
 	public String getName()

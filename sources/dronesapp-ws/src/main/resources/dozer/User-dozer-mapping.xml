@@ -28,7 +28,7 @@
 		</field>
 	</mapping>
 	
-	<mapping type="one-way" wildcard="false">
+	<mapping type="bi-directional" wildcard="false">
         <class-a>com.drones4hire.dronesapp.models.dto.AccountDTO</class-a>
         <class-b>com.drones4hire.dronesapp.models.db.users.User</class-b>
 

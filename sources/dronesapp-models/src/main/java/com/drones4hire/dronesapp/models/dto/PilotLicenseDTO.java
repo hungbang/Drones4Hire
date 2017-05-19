@@ -8,13 +8,15 @@ public class PilotLicenseDTO extends AbstractDTO
 {
 	private static final long serialVersionUID = -4783150607563567638L;
 	
-	@NotNull(message = "License url shouldn't be null")
-	@URL(message = "Wrong license url")
+	@NotNull(message = "License URL required")
+	@URL(message = "Wrong license URL")
 	private String licenseURL;
-	@NotNull(message = "Insurance url shouldn't be null")
-	@URL(message = "Wrong insurance url")
+	
+	@NotNull(message = "Insurance URL required")
+	@URL(message = "Wrong insurance URL")
 	private String insuranceURL;
-	@NotNull(message="Verified flag shouldn't be null")
+	
+	@NotNull(message="Verified flag required")
 	private Boolean verified;
 	
 	public String getLicenseURL()

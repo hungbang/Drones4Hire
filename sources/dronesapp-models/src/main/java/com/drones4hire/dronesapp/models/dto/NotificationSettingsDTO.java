@@ -6,25 +6,34 @@ public class NotificationSettingsDTO extends AbstractDTO
 {
 	private static final long serialVersionUID = 1914111637907329254L;
 	
-	@NotNull(message="Plain email shouldn't be null")
+	@NotNull(message="Plain email required")
 	private Boolean plainEmail;
-	@NotNull(message="Bid placed shouldn't be null")
+	
+	@NotNull(message="Bid placed required")
 	private Boolean bidPlaced;
-	@NotNull(message="Payment received shouldn't be null")
+	
+	@NotNull(message="Payment received required")
 	private Boolean paymentReceived;
-	@NotNull(message="Project update shouldn't be null")
+	
+	@NotNull(message="Project update required")
 	private Boolean projectUpdate;
-	@NotNull(message="Staff shouldn't be null")
+	
+	@NotNull(message="Staff required")
 	private Boolean staff;
-	@NotNull(message="Drones news shouldn't be null")
+	
+	@NotNull(message="Drones news required")
 	private Boolean dronesNews;
-	@NotNull(message="Project award shouldn't be null")
+	
+	@NotNull(message="Project award required")
 	private Boolean projectAward;
-	@NotNull(message="Marketing shouldn't be null")
+	
+	@NotNull(message="Marketing required")
 	private Boolean marketing;
-	@NotNull(message="Deals shouldn't be null")
+	
+	@NotNull(message="Deals required")
 	private Boolean deals;
-	@NotNull(message="Monthly news shouldn't be null")
+	
+	@NotNull(message="Monthly news required")
 	private Boolean monthlyNews;
 
 	public boolean isPlainEmail()

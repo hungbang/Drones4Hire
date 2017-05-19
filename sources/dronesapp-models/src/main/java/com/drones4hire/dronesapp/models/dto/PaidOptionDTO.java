@@ -8,17 +8,19 @@ import java.math.BigDecimal;
 
 public class PaidOptionDTO extends AbstractDTO
 {
-
 	private static final long serialVersionUID = 229985081766669727L;
 
-	@NotNull(message = "Title shouldn't be null")
+	@NotNull(message = "Title required")
 	private String title;
-	@NotNull(message = "Description shouldn't be null")
+	
+	@NotNull(message = "Description required")
 	private String description;
-	@NotNull(message = "Price shouldn't be null")
-	@Min(value = 0, message = "Price shouldn't be less than '0'")
+	
+	@NotNull(message = "Price required")
+	@Min(value = 0, message = "Price should be positive")
 	private BigDecimal price;
-	@NotNull(message = "Currency shouldn't be null")
+	
+	@NotNull(message = "Currency required")
 	private Currency currency;
 
 	public String getTitle()

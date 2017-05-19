@@ -37,7 +37,7 @@ public class LocationService
 	public Location updateLocation(Location location)
 	{
 		locationMapper.updateLocation(location);
-		return location;
+		return getLocationById(location.getId());
 	}
 
 	@Transactional(rollbackFor = Exception.class)

@@ -1,22 +1,25 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import com.drones4hire.dronesapp.models.db.commons.Country;
-
 import javax.validation.constraints.NotNull;
+
+import com.drones4hire.dronesapp.models.db.commons.Country;
 
 public class CompanyDTO extends AbstractDTO
 {
-
 	private static final long serialVersionUID = -7697101906536815484L;
 
-	@NotNull(message = "Name shouldn't be null")
+	@NotNull(message = "Name required")
 	private String name;
+	
 	private String webURL;
-	@NotNull(message = "Contact name shouldn't be null")
+	
+	@NotNull(message = "Contact name required")
 	private String contactName;
-	@NotNull(message = "Contact email shouldn't be null")
+	
+	@NotNull(message = "Contact email required")
 	private String contactEmail;
-	@NotNull(message = "Country shouldn't be null")
+	
+	@NotNull(message = "Country required")
 	private Country country;
 
 	public String getName()

@@ -1,23 +1,20 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.PortfolioItemMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceCategoryMapper;
-import com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem;
-import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.PortfolioItemMapper;
+import com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem;
+import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
 
 @Service
 public class PortfolioService
 {
 	@Autowired
 	private PortfolioItemMapper portfolioItemMapper;
-
-	@Autowired
-	private ServiceCategoryMapper serviceCategoryMapper;
 
 	@Transactional(rollbackFor = Exception.class)
 	public PortfolioItem createPortfolioItem(PortfolioItem portfolioItem)

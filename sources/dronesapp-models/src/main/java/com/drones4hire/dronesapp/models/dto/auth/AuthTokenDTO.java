@@ -11,8 +11,11 @@ public class AuthTokenDTO implements Serializable
 	private static final long serialVersionUID = -586102250911687530L;
 	
 	private String type;
+	
 	private String accessToken;
+	
 	private String refreshToken;
+	
 	private int expiresIn;
 	
 	public AuthTokenDTO()

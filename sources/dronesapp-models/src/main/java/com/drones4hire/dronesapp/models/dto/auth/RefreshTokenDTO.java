@@ -12,7 +12,7 @@ public class RefreshTokenDTO implements Serializable
 {
 	private static final long serialVersionUID = -586102250911687530L;
 	
-	@NotNull(message = "Refresh token shouldn't be null")
+	@NotNull(message = "Refresh token required")
 	private String refreshToken;
 	
 	public RefreshTokenDTO()

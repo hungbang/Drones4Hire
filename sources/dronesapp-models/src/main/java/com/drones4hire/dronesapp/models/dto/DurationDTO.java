@@ -5,17 +5,19 @@ import javax.validation.constraints.NotNull;
 
 public class DurationDTO extends AbstractDTO
 {
-
 	private static final long serialVersionUID = -6156152405878066391L;
 
-	@NotNull(message = "Title shouldn't be null")
+	@NotNull(message = "Title required")
 	private String title;
-	@NotNull(message = "Min shouldn't be null")
-	@Min(value = 0, message = "Min shouldn't be less than '0'")
+	
+	@NotNull(message = "Min required")
+	@Min(value = 0, message = "Min duration need to be positive")
 	private Integer min;
-	@NotNull(message = "Max shouldn't be null")
+	
+	@NotNull(message = "Max duration required")
 	private Integer max;
-	@NotNull(message = "Order shouldn't be null")
+	
+	@NotNull(message = "Order required")
 	private Integer order;
 
 	public String getTitle()

@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
 import com.drones4hire.dronesapp.models.dto.CompanyDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CompanyService;
+import com.drones4hire.dronesapp.services.services.LocationService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
@@ -37,6 +39,9 @@ public class AccountController extends AbstractController
 {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private LocationService locationService;
 
 	@Autowired
 	private CompanyService companyService;
@@ -64,10 +69,14 @@ public class AccountController extends AbstractController
 		User user = userService.getUserById(getPrincipal().getId());
 		user.setFirstName(account.getFirstName());
 		user.setLastName(account.getLastName());
-		user.setLocation(account.getLocation());
 		user.setPhotoURL(account.getPhotoURL());
 		user.setIntroduction(account.getIntroduction());
 		user.setSummary(account.getSummary());
+		
+		Location location = mapper.map(account.getLocation(), Location.class);
+		location.setId(user.getLocation().getId());
+		user.setLocation(locationService.updateLocation(location));
+		
 		return mapper.map(userService.updateUser(user), AccountDTO.class);
 	}
 

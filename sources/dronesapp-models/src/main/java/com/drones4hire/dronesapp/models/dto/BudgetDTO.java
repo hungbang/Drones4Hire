@@ -1,25 +1,30 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import com.drones4hire.dronesapp.models.db.commons.Currency;
+import java.math.BigDecimal;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
+
+import com.drones4hire.dronesapp.models.db.commons.Currency;
 
 public class BudgetDTO extends AbstractDTO
 {
-
 	private static final long serialVersionUID = -7831240772101353162L;
 
-	@NotNull(message = "Title shouldn't be null")
+	@NotNull(message = "Title requried")
 	private String title;
-	@NotNull(message = "Min shouldn't be null")
-	@Min(value = 0, message = "Min shouldn't be less than '0'")
+	
+	@NotNull(message = "Min requried")
+	@Min(value = 0, message = "Min budget need to be positive")
 	private BigDecimal min;
-	@NotNull(message = "Max shouldn't be null")
+	
+	@NotNull(message = "Max budget requried")
 	private BigDecimal max;
-	@NotNull(message = "Currency shouldn't be null")
+	
+	@NotNull(message = "Currency requried")
 	private Currency currency;
-	@NotNull(message = "Order shouldn't be null")
+	
+	@NotNull(message = "Order requried")
 	private Integer order;
 
 	public String getTitle()

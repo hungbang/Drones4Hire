@@ -11,11 +11,11 @@ public class CredentialsDTO implements Serializable
 {
 	private static final long serialVersionUID = 1567014101763491651L;
 	
-	@NotNull(message = "Email address shouldn't be null")
+	@NotNull(message = "Email address required")
 	@Email(message="Wrong email address")
 	private String email;
 	
-	@NotNull(message = "Password shouldn't be null")
+	@NotNull(message = "Password required")
 	@Size(max = 30, min = 6, message = "Wrong password size")
 	private String password;
 
