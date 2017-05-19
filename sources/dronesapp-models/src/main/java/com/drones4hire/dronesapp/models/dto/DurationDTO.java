@@ -1,12 +1,12 @@
-package com.drones4hire.dronesapp.models.dto.error;
-
-import com.drones4hire.dronesapp.models.dto.AbstractDTO;
+package com.drones4hire.dronesapp.models.dto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class DurationDTO extends AbstractDTO
 {
+
+	private static final long serialVersionUID = -6156152405878066391L;
 
 	@NotNull(message = "Title shouldn't be null")
 	private String title;
