@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 
 public class BudgetDTO extends AbstractDTO
 {
-
 	private static final long serialVersionUID = -7831240772101353162L;
 
 	@NotNull(message = "Title required")

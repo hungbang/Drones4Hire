@@ -36,5 +36,35 @@
 	    </field>
 	</mapping>
 	
+	<mapping type="one-way" wildcard="false">
+        <class-a>com.drones4hire.dronesapp.models.dto.BudgetDTO</class-a>
+        <class-b>com.drones4hire.dronesapp.models.db.commons.Budget</class-b>
+
+		<field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>title</a>
+            <b>title</b>
+        </field>
+        <field>
+            <a>min</a>
+            <b>min</b>
+        </field>
+        <field>
+            <a>max</a>
+            <b>max</b>
+        </field>
+        <field>
+            <a>currency</a>
+            <b>currency</b>
+        </field>
+        <field>
+            <a>order</a>
+            <b>order</b>
+        </field>
+    </mapping>
+	
 	
 </mappings>
