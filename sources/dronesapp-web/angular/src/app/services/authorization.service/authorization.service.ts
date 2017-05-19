@@ -36,9 +36,6 @@ export class AuthorizationService {
         this.tokenType = res.type;
         this.saveTokens(res);
         return res;
-      })
-      .catch((err) => {
-        return new Error(err);
       });
   }
 

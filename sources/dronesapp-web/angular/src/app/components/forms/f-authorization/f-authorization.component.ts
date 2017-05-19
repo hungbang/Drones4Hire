@@ -49,6 +49,9 @@ export class FAuthorizationComponent implements OnInit {
             this._authorizationService.isUserLogin = true;
             this._router.navigate(['/']);
           });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -57,6 +60,9 @@ export class FAuthorizationComponent implements OnInit {
       .then((res) => {
         this._authorizationService.signUpFormActive = false;
         this._router.navigate(['login']);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 

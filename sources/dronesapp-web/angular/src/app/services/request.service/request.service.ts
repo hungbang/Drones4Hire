@@ -68,7 +68,7 @@ export class RequestService {
                 return Observable.throw(refreshErr);
             });
         }
-        console.log(new Error(err));
+        return Promise.reject(err);
       });
   }
 
