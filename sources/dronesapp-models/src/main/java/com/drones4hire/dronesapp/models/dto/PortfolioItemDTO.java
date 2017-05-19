@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.models.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 import com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem.Type;
@@ -82,5 +83,18 @@ public class PortfolioItemDTO extends AbstractDTO
 	public void setServiceCategories(List<ServiceCategory> serviceCategories)
 	{
 		this.serviceCategories = serviceCategories;
+	}
+
+	@AssertTrue(message = "Type ENUM confirmation not matching")
+	public boolean isConfirmationValid()
+	{
+		try
+		{
+			Type.valueOf(type.name());
+			return true;
+		} catch (IllegalArgumentException e)
+		{
+			return false;
+		}
 	}
 }

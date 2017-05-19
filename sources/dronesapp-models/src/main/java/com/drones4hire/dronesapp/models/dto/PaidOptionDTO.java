@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.models.dto;
 
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -59,5 +60,18 @@ public class PaidOptionDTO extends AbstractDTO
 	public void setCurrency(Currency currency)
 	{
 		this.currency = currency;
+	}
+
+	@AssertTrue(message = "Currency ENUM confirmation not matching")
+	public boolean isConfirmationValid()
+	{
+		try
+		{
+			Currency.valueOf(currency.name());
+			return true;
+		} catch (IllegalArgumentException e)
+		{
+			return false;
+		}
 	}
 }
