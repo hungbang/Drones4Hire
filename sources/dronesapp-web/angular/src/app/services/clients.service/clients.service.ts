@@ -5,7 +5,7 @@ export class ClientsService {
   local = {
     selectedClient: {
       name: 'tester99',
-      img: '../assets/img/photo-profile.jpg',
+      img: './assets/img/photo-profile.jpg',
       status: 'Client',
       registrationDate: '6/30/16',
       walletBalance: '$3157.25',

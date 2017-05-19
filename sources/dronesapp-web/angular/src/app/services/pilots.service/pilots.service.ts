@@ -5,7 +5,7 @@ export class PilotsService {
   local = {
     selectedPilot: {
       name: 'ToddlesMcGoo',
-      img: '../assets/img/photo-profile.jpg',
+      img: './assets/img/photo-profile.jpg',
       status: 'Pilot',
       registrationDate: '12/15/16',
       walletBalance: '$6611.25',

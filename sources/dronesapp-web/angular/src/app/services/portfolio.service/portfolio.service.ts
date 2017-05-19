@@ -26,7 +26,7 @@ export class PortfolioService {
         location: 'University of North Dakota, United States',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project1.jpg',
+        src: './assets/img/project1.jpg',
         highest: '1000$',
         bids: '2',
         colors: ['#0000ff']
@@ -37,7 +37,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project2.jpg',
+        src: './assets/img/project2.jpg',
         highest: '800$',
         bids: '3',
         colors: ['#f7941d', '#000']
@@ -48,7 +48,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project1.jpg',
+        src: './assets/img/project1.jpg',
         highest: '1050$',
         bids: '5',
         colors: []
@@ -59,7 +59,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project2.jpg',
+        src: './assets/img/project2.jpg',
         highest: '1200$',
         bids: '6',
         colors: ['#000', '#959595']
@@ -70,7 +70,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project1.jpg',
+        src: './assets/img/project1.jpg',
         highest: '900$',
         bids: '3',
         colors: []
@@ -81,7 +81,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project2.jpg',
+        src: './assets/img/project2.jpg',
         highest: '1000$',
         bids: '2',
         colors: ['#0000ff', '#f7941d']
@@ -92,7 +92,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project1.jpg',
+        src: './assets/img/project1.jpg',
         highest: '1200$',
         bids: '5',
         colors: ['#3ebcc7']
@@ -103,7 +103,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project2.jpg',
+        src: './assets/img/project2.jpg',
         highest: '1000$',
         bids: '2',
         colors: ['#000', '#959595', '#3ebcc7']
@@ -114,7 +114,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project1.jpg',
+        src: './assets/img/project1.jpg',
         highest: '1000$',
         bids: '2',
         colors: []
@@ -125,7 +125,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project2.jpg',
+        src: './assets/img/project2.jpg',
         highest: '1000$',
         bids: '2',
         colors: ['#000', '#959595', '#3ebcc7', '#f7941d']
@@ -136,7 +136,7 @@ export class PortfolioService {
         location: 'location',
         budget: 'budget',
         date: '19/01/1990',
-        src: '../assets/img/project1.jpg',
+        src: './assets/img/project1.jpg',
         highest: '1000$',
         bids: '2',
         colors: []
