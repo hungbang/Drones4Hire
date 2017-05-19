@@ -73,7 +73,13 @@
             COORDINATES = POINT(#{coordinates.latitude}, #{coordinates.longitude}),
             COUNTRY_ID = #{country.id},
             CITY = #{city},
-            STATE_ID = #{state.id},
+        ]]>
+		<if test="state != null">
+			<![CDATA[
+				STATE_ID = #{state.id},
+			]]>
+		</if>
+		<![CDATA[
             POSTCODE = #{postcode}
           WHERE
 			ID = #{id}
