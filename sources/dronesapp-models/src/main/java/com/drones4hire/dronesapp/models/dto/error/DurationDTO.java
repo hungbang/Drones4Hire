@@ -1,24 +1,20 @@
-package com.drones4hire.dronesapp.models.dto;
+package com.drones4hire.dronesapp.models.dto.error;
 
-import com.drones4hire.dronesapp.models.db.commons.Currency;
+import com.drones4hire.dronesapp.models.dto.AbstractDTO;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
-public class BudgetDTO extends AbstractDTO
+public class DurationDTO extends AbstractDTO
 {
-
-	private static final long serialVersionUID = -7831240772101353162L;
 
 	@NotNull(message = "Title shouldn't be null")
 	private String title;
 	@NotNull(message = "Min shouldn't be null")
 	@Min(value = 0, message = "Min shouldn't be less than '0'")
-	private BigDecimal min;
+	private Integer min;
 	@NotNull(message = "Max shouldn't be null")
-	private BigDecimal max;
-	@NotNull(message = "Currency shouldn't be null")
-	private Currency currency;
+	private Integer max;
 	@NotNull(message = "Order shouldn't be null")
 	private Integer order;
 
@@ -32,34 +28,24 @@ public class BudgetDTO extends AbstractDTO
 		this.title = title;
 	}
 
-	public BigDecimal getMin()
+	public Integer getMin()
 	{
 		return min;
 	}
 
-	public void setMin(BigDecimal min)
+	public void setMin(Integer min)
 	{
 		this.min = min;
 	}
 
-	public BigDecimal getMax()
+	public Integer getMax()
 	{
 		return max;
 	}
 
-	public void setMax(BigDecimal max)
+	public void setMax(Integer max)
 	{
 		this.max = max;
-	}
-
-	public Currency getCurrency()
-	{
-		return currency;
-	}
-
-	public void setCurrency(Currency currency)
-	{
-		this.currency = currency;
 	}
 
 	public Integer getOrder()

@@ -2,11 +2,11 @@ package com.drones4hire.dronesapp.ws.controllers;
 
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Country;
+import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.commons.State;
 import com.drones4hire.dronesapp.models.dto.BudgetDTO;
-import com.drones4hire.dronesapp.services.services.BudgetService;
-import com.drones4hire.dronesapp.services.services.CountryService;
-import com.drones4hire.dronesapp.services.services.StateService;
+import com.drones4hire.dronesapp.models.dto.error.DurationDTO;
+import com.drones4hire.dronesapp.services.services.*;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.*;
 import org.dozer.Mapper;
@@ -33,6 +33,12 @@ public class CommonController extends AbstractController
 
 	@Autowired
 	private BudgetService budgetService;
+
+	@Autowired
+	private DurationService durationService;
+
+	@Autowired
+	private PaidOptionService paidOptionService;
 
 	@Autowired
 	private Mapper mapper;
@@ -77,6 +83,48 @@ public class CommonController extends AbstractController
 			@ApiParam(value = "Id of the budget", required = true) @PathVariable(value = "id") long id)
 	{
 		budgetService.deleteBudget(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create duration", nickname = "createDuration", code = 201, httpMethod = "POST", response = Duration.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "durations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Duration createDuration(@Valid @RequestBody DurationDTO duration)
+	{
+		return durationService.createDuration(mapper.map(duration, Duration.class));
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get duration by id", nickname = "getDurationById", code = 200, httpMethod = "GET", response = Duration.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "durations/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Duration getDurationById(
+			@ApiParam(value = "Id of the duration", required = true) @PathVariable(value = "id") long id)
+	{
+		return durationService.getDurationById(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update duration", nickname = "updateDuration", code = 200, httpMethod = "PUT", response = Duration.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "durations", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Duration updateDuration(@Valid @RequestBody DurationDTO duration)
+	{
+		return durationService.updateDuration(mapper.map(duration, Duration.class));
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete duration", nickname = "deleteDuration", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@RequestMapping(value = "durations/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void deleteDuration(
+			@ApiParam(value = "Id of the duration", required = true) @PathVariable(value = "id") long id)
+	{
+		durationService.deleteDuration(id);
 	}
 
 	@ResponseStatusDetails
