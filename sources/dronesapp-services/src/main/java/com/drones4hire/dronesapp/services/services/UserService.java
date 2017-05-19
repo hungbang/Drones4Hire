@@ -1,6 +1,8 @@
 package com.drones4hire.dronesapp.services.services;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
+import com.drones4hire.dronesapp.services.services.notifications.EmailType;
 
 @Service
 public class UserService
@@ -53,7 +57,10 @@ public class UserService
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
-
+	
+	@Autowired 
+	private AWSEmailService emailService;
+	
 	@Transactional(rollbackFor=Exception.class)
 	public User registerUser(User user, Role role) throws ServiceException
 	{
@@ -100,7 +107,7 @@ public class UserService
 			// Initialize default company
 			companyService.createDefaultCompany(user);
 		}
-
+		emailService.sendConfirmationEmail(user);
 		return user;
 	}
 

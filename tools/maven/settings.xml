@@ -26,10 +26,7 @@
 				<drones4hire.db.jdbc.password>Qxgknp8pTx</drones4hire.db.jdbc.password>
 				<drones4hire.db.c3p0.maxPoolSize>2</drones4hire.db.c3p0.maxPoolSize>
 
-				<mail.host>smtp.gmail.com</mail.host>
-				<mail.port>587</mail.port>
-				<mail.user>{user}</mail.user>
-				<mail.pass>{pass}</mail.pass>
+				<drones4hire.mail.sender>developers@drones4hire.com</drones4hire.mail.sender>
 
 				<drones4hire.amazon.accessKey>AKIAJSPZIDX4XQD766EQ</drones4hire.amazon.accessKey>
 				<drones4hire.amazon.secretKey>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</drones4hire.amazon.secretKey>
