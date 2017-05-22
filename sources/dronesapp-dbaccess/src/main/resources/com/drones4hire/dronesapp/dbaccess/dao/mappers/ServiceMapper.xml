@@ -15,6 +15,20 @@
         ]]>
     </insert>
 
+    <insert id="createUserServices" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+        	INSERT INTO
+        	  drones.USER_SERVICES (USER_ID, SERVICE_ID)
+            VALUES
+        ]]>
+        <foreach collection="services" item="service" index="index" open="" separator="," close=";">
+            (
+            #{userId},
+            #{service.id}
+            )
+        </foreach>
+    </insert>
+
     <sql id="getServices">
         <![CDATA[
           SELECT
@@ -49,6 +63,16 @@
         <include refid="getServices"/>
     </select>
 
+    <select id="getServicesByUserId" resultMap="ServiceResultMap">
+        <include refid="getServices"/>
+        <![CDATA[
+          LEFT JOIN
+            drones.USER_SERVICES US
+          ON
+            US.USER_ID = #{userId}
+        ]]>
+    </select>
+
     <update id="updateService">
         <![CDATA[
           UPDATE
@@ -67,6 +91,24 @@
             drones.SERVICES
           WHERE
             ID = #{id}
+        ]]>
+    </delete>
+
+    <delete id="deleteUserServices">
+        <![CDATA[
+          DELETE FROM
+            drones.USER_SERVICES
+          WHERE
+            USER_ID = #{userId}
+        ]]>
+    </delete>
+
+    <delete id="deleteServicesByCategoryId">
+        <![CDATA[
+          DELETE FROM
+            drones.SERVICES
+          WHERE
+            SERVICE_CATEGORY_ID = #{categoryId}
         ]]>
     </delete>
 

@@ -5,6 +5,8 @@ import com.drones4hire.dronesapp.models.db.commons.Country;
 import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.commons.State;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
+import com.drones4hire.dronesapp.models.db.services.Service;
+import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
 import com.drones4hire.dronesapp.models.dto.BudgetDTO;
 import com.drones4hire.dronesapp.models.dto.DurationDTO;
 import com.drones4hire.dronesapp.models.dto.PaidOptionDTO;
@@ -41,6 +43,12 @@ public class CommonController extends AbstractController
 
 	@Autowired
 	private PaidOptionService paidOptionService;
+
+	@Autowired
+	private ServiceService serviceService;
+
+	@Autowired
+	private ServiceCategoryService serviceCategoryService;
 
 	@Autowired
 	private Mapper mapper;
@@ -199,6 +207,110 @@ public class CommonController extends AbstractController
 			@ApiParam(value = "Id of the paid option", required = true) @PathVariable(value = "id") long id)
 	{
 		paidOptionService.deletePaidOption(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create service", nickname = "createService", code = 201, httpMethod = "POST", response = Service.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "services", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Service createService(@RequestBody Service service)
+	{
+		return serviceService.createService(service);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get service by id", nickname = "getServiceById", code = 200, httpMethod = "GET", response = Service.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Service getServiceById(
+			@ApiParam(value = "Id of the service", required = true) @PathVariable(value = "id") long id)
+	{
+		return serviceService.getServiceById(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get all services", nickname = "getAllServices", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Service> getAllServices()
+	{
+		return serviceService.getAllServices();
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update service", nickname = "updateService", code = 200, httpMethod = "PUT", response = Service.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Service updateService(@RequestBody Service service)
+	{
+		return serviceService.updateService(service);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete service", nickname = "deleteService", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@RequestMapping(value = "services/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void deleteService(
+			@ApiParam(value = "Id of the service", required = true) @PathVariable(value = "id") long id)
+	{
+		serviceService.deleteService(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create service category", nickname = "createServiceCategory", code = 201, httpMethod = "POST", response = ServiceCategory.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "services/groups", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ServiceCategory createServiceCategory(@RequestBody ServiceCategory serviceCategory)
+	{
+		return serviceCategoryService.createServiceCategory(serviceCategory);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get service category by id", nickname = "getServiceCategoryById", code = 200, httpMethod = "GET", response = ServiceCategory.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/groups/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ServiceCategory getServiceCategoryById(
+			@ApiParam(value = "Id of the serviceCategory group", required = true) @PathVariable(value = "id") long id)
+	{
+		return serviceCategoryService.getServiceCategoryById(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get all service categories", nickname = "getAllServiceCategories", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/groups", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<ServiceCategory> getAllServiceCategories()
+	{
+		return serviceCategoryService.getAllServiceCategories();
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update service category", nickname = "updateServiceCategory", code = 200, httpMethod = "PUT", response = ServiceCategory.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/groups", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ServiceCategory updateServiceCategory(@RequestBody ServiceCategory serviceCategory)
+	{
+		return serviceCategoryService.updateServiceCategory(serviceCategory);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete service category", nickname = "deleteServiceCategory", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@RequestMapping(value = "services/groups/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void deleteServiceCategory(
+			@ApiParam(value = "Id of the serviceCategory group", required = true) @PathVariable(value = "id") long id)
+	{
+		serviceCategoryService.deleteServiceCategory(id);
 	}
 
 	@ResponseStatusDetails

@@ -2,6 +2,10 @@ package com.drones4hire.dronesapp.ws.controllers;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.models.db.services.Service;
+import com.drones4hire.dronesapp.models.db.users.PilotLicense;
+import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
+import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +25,14 @@ import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
 import com.drones4hire.dronesapp.models.dto.CompanyDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.CompanyService;
-import com.drones4hire.dronesapp.services.services.LocationService;
-import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+
+import java.util.List;
 
 @Controller
 @Api(value = "Account API")
@@ -45,6 +48,12 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private CompanyService companyService;
+
+	@Autowired
+	private ServiceService serviceService;
+
+	@Autowired
+	private PilotLicenseService licenseService;
 
 	@Autowired
 	private Mapper mapper;
@@ -108,5 +117,51 @@ public class AccountController extends AbstractController
 		company.setCountry(c.getCountry());
 		
 		return mapper.map(companyService.updateCompany(company), CompanyDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get account services", nickname = "getAccountServices", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Service> getAccountServices()
+	{
+		return serviceService.getServicesByUserId(getPrincipal().getId());
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update account service", nickname = "updateAccountService", code = 200, httpMethod = "PUT", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Service> updateAccountService(@RequestBody List<Service> services)
+	{
+		return serviceService.updateUserServices(getPrincipal().getId(), services);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get license for current pilot", nickname = "getLicense", code = 200, httpMethod = "GET", response = PilotLicenseDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "license", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLicenseDTO getLicense()
+	{
+		return mapper.map(licenseService.getPilotLicenseByUserId(getPrincipal().getId()), PilotLicenseDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update pilot license", nickname = "updatePilotLicense", code = 200, httpMethod = "PUT", response = PilotLicenseDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "license", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLicenseDTO updateLicense(@RequestBody @Valid PilotLicenseDTO license)
+	{
+		PilotLicense curLicense = licenseService.getPilotLicenseByUserId(getPrincipal().getId());
+		curLicense.setInsuranceURL(license.getInsuranceURL());
+		curLicense.setLicenseURL(license.getLicenseURL());
+		curLicense.setVerified(license.isVerified());
+		return mapper.map(licenseService.updatePilotLicense(curLicense), PilotLicenseDTO.class);
 	}
 }
