@@ -11,12 +11,12 @@
       display: flex
       justify-content: space-between
       .f-authorization__col
+        width: 48%
         max-width 48%
         flex-basis 48%
     &._top
       margin-bottom 20px
-  input[type='text']
-  input[type='password']
+  &__field
     background-color: #fff;
     width: 100%;
     height: 34px;
@@ -24,7 +24,11 @@
     font-size: 12px;
     font-weight: 400;
     color: #000;
-  h3
+    &._error
+      color: rgb(252, 16, 16);
+      background-color: rgb(250, 197, 197);
+      border: 2px solid rgb(252, 16, 16);
+  &__title
     font-size: 16px;
     font-weight: 600;
     color: #fff;
@@ -39,7 +43,7 @@
       height: 2px
       background rgba(#fff, 0.5)
     span
-      display: inline-block
+      vam()
       padding 0 10px
       background #262626
       position: relative
@@ -100,16 +104,14 @@
       &:hover
         color #23527c
         text-decoration: underline
-  &__label
-    font-size: 14px;
-    font-weight: 400
-    line-height: 16px
-    color: #fff;
-    &-radio
-      &+&
-        margin-left 15px
-    &._radio
-    &._chk
+  &__radio
+    &+&
+      margin-left 15px
+    &-text
+      font-size: 14px;
+      font-weight: 400
+      line-height: 16px
+      color: #fff;
       padding-left 25px
       position: relative
       &:before
@@ -118,25 +120,47 @@
         height: 16px
         left: 0
         top: 0
-      &:after
-        position absolute
-        content ''
-        display none
-        left: 4px
-        top: 4px
-    &._radio
-      &:before
         border-radius 50%
         background #fff
       &:after
+        ps()
+        display none
+        left: 4px
+        top: 4px
         border-radius 50%
         width: 8px
         height: 8px
         background #000
-    &._chk
+    &-input
+      &._error
+        & + .f-authorization
+          &__radio-text
+            &:before
+              border: 2px solid rgb(252, 16, 16);
+              background-color: rgb(250, 197, 197);
+      &:checked
+        & + .f-authorization
+          &__radio-text
+            &:after
+              display: block
+  &__chk
+    &-text
+      font-size: 14px;
+      font-weight: 400
+      line-height: 16px
+      color: #fff;
+      padding-left 25px
+      position: relative
       &:before
+        ps()
+        width: 16px
+        height: 16px
+        left: 0
+        top: 0
         border 1px solid #fff
       &:after
+        ps()
+        display none
         top: 2px
         left: 5px
         width: 6px
@@ -150,10 +174,18 @@
         color #fff
         &:hover
           text-decoration: underline
-  input:checked
-    & + span.f-authorization__label
-      &:after
-        display: block
+    &-input
+      &._error
+        & + .f-authorization
+          &__chk-text
+            &:before
+              border: 2px solid rgb(252, 16, 16);
+              background-color: rgb(250, 197, 197);
+      &:checked
+        & + .f-authorization
+          &__chk-text
+            &:after
+              display: block
   &__button
     background-color: #0fa9ea;
     border-radius: 6px;
