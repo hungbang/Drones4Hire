@@ -4,9 +4,8 @@ import com.drones4hire.dronesapp.models.db.commons.Location;
 
 import javax.validation.constraints.NotNull;
 
-public class AccountDTO
+public class AccountDTO extends AbstractDTO
 {
-
 	private static final long serialVersionUID = -5542006534130010886L;
 
 	@NotNull(message = "First name shouldn't be null")

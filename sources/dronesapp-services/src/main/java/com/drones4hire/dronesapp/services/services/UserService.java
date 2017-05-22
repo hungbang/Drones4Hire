@@ -104,15 +104,15 @@ public class UserService
 			// Initialize default company
 			companyService.createDefaultCompany(user);
 		}
-		emailService.sendConfirmationEmail(user);
+		emailService.sendConfirmationEmail(user, generateConfrimEmailToken(user));
 		return user;
 	}
-
+	
 	@Transactional(rollbackFor=Exception.class)
 	public void confirmUserEmail(Long id, String token) throws ServiceException
 	{
 		User user = getUserById(id);
-		if(user != null && token.equals(generateConfrimEmailToken(user)))
+		if(user != null && passwordEncryptor.checkPassword(user.getEmail(), token))
 		{
 			user.setConfirmed(true);
 			updateUser(user);
@@ -122,7 +122,7 @@ public class UserService
 			throw new UserNotConfirmedException();
 		}
 	}
-
+	
 	@Transactional(readOnly = true)
 	public User getUserById(long id) throws ServiceException
 	{
