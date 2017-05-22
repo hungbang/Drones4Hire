@@ -1,6 +1,6 @@
 package com.drones4hire.dronesapp.services.services.notifications;
 
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.EMAIL_CONFIRMATION;
+import static com.drones4hire.dronesapp.services.services.notifications.EmailType.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,21 @@ public abstract class AbstractEmailService
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(user.getClass().getSimpleName(), user);
 		emailData.put("verifyUrl", "Url");
-		return sendEmail(EMAIL_CONFIRMATION, emailData, user.getEmail());
+		return sendEmail(CONFIRMATION, emailData, user.getEmail());
+	}
+	
+	public String sendChangingEmail(User user) {
+		Map<String, Object> emailData = new HashMap<String, Object>();
+		emailData.put(user.getClass().getSimpleName(), user);
+		emailData.put("verifyUrl", "Url");
+		return sendEmail(CHANGE_EMAIL, emailData, user.getEmail());
+	}
+	
+	public String sendForgotPasswordEmail(User user) {
+		Map<String, Object> emailData = new HashMap<String, Object>();
+		emailData.put(user.getClass().getSimpleName(), user);
+		emailData.put("verifyUrl", "Url");
+		return sendEmail(FORGOT_PASSWORD, emailData, user.getEmail());
 	}
 	
 	protected Content buildBody(String path, Map<String, Object> params)

@@ -2,7 +2,9 @@ package com.drones4hire.dronesapp.services.services.notifications;
 
 public enum EmailType
 {
-	EMAIL_CONFIRMATION("Drones4Hire Account Verification", "EmailConfirmationTemplate.ftl");
+	CONFIRMATION("Drones4Hire Account Verification", "EmailConfirmationTemplate.ftl"),
+	CHANGE_EMAIL("Drones4Hire Account Verification", "EmailChangeTemplate.ftl"),
+	FORGOT_PASSWORD("Drones4Hire Reset Password", "PasswordResetTemplate.ftl");
 
 	private String subject;
 	private String templatePath;
