@@ -91,6 +91,24 @@ public class JWTService
 		return buildToken(claims, refreshTokenExp);
 	}
 	
+	public String generateEmailToken(Long userId, String newEmail)
+	{
+		Claims claims = Jwts.claims().setSubject(userId.toString());
+		claims.put("email", newEmail);
+		return buildToken(claims, authTokenExp * 2);
+	}
+	
+	public User parseEmailToken(String token)
+	{
+		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		
+		User user = new User();
+		user.setId(Long.valueOf(body.getSubject()));
+		user.setEmail((String)body.get("email"));
+		
+		return user;
+	}
+	
 	private String buildToken(Claims claims, Integer exp)
 	{
 		Calendar c = Calendar.getInstance();

@@ -13,8 +13,10 @@ public enum ErrorCode
 	
 	USER_ALREADY_EXIST(1001),
 	USER_NOT_CONFIRMED(1002),
-	INVALID_USER_STATUS(1003);
+	INVALID_USER_STATUS(1003),
 
+	EXTERNAL_SERVICE_EXCEPTION(1500);
+	
 	private int code;
 
 	private ErrorCode(int code)

@@ -1,5 +1,8 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
+import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_EMAIL_PATH;
+import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.EMAIL_CONFIRMATION_PATH;
+
 import javax.validation.Valid;
 
 import org.dozer.Mapper;
@@ -25,6 +28,7 @@ import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
@@ -38,71 +42,103 @@ public class AuthController extends AbstractController
 {
 	@Autowired
 	private JWTService jwtService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private AWSEmailService emailService;
+
 	@Autowired
 	private Mapper mapper;
-	
+
 	@ResponseStatusDetails
 	@ApiOperation(value = "Generate auth token", nickname = "login", code = 200, httpMethod = "POST", response = AuthTokenDTO.class)
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value="login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AuthTokenDTO login(@Valid @RequestBody CredentialsDTO credentials) throws ServiceException
 	{
 		User user = userService.checkUserCredentials(credentials.getEmail(), credentials.getPassword());
-		
-		return new AuthTokenDTO("Bearer", 
-				jwtService.generateAuthToken(user), 
-				jwtService.generateRefreshToken(user), 
+
+		return new AuthTokenDTO("Bearer",
+				jwtService.generateAuthToken(user),
+				jwtService.generateRefreshToken(user),
 				jwtService.getExpiration());
 	}
-	
+
 	@ResponseStatusDetails
 	@ApiOperation(value = "Refresh auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenDTO.class)
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value="refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AuthTokenDTO refreshToken(@RequestBody @Valid RefreshTokenDTO refreshToken) throws ForbiddenOperationException
+	@RequestMapping(value = "refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody AuthTokenDTO refreshToken(@RequestBody @Valid RefreshTokenDTO refreshToken)
+			throws ForbiddenOperationException
 	{
 		AuthTokenDTO authToken = null;
 		try
 		{
 			User jwtUser = jwtService.parseRefreshToken(refreshToken.getRefreshToken());
 			User user = userService.getUserById(jwtUser.getId());
-			if(user == null || !user.getPassword().equals(jwtUser.getPassword()))
+			if (user == null || !user.getPassword().equals(jwtUser.getPassword()))
 			{
 				throw new Exception("User password changed");
 			}
-			
-			authToken = new AuthTokenDTO("Bearer", 
-					jwtService.generateAuthToken(user), 
-					jwtService.generateRefreshToken(user), 
+
+			authToken = new AuthTokenDTO("Bearer",
+					jwtService.generateAuthToken(user),
+					jwtService.generateRefreshToken(user),
 					jwtService.getExpiration());
-		}
-		catch(Exception e)
+		} catch (Exception e)
 		{
 			throw new ForbiddenOperationException(e);
-		}	
-		
+		}
+
 		return authToken;
 	}
-	
+
 	@ResponseStatusDetails
 	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = User.class)
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value="register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User register(@RequestBody @Valid RegistrationDTO user) throws MappingException, ServiceException
+	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody User register(@RequestBody @Valid RegistrationDTO user)
+			throws MappingException, ServiceException
 	{
 		return userService.registerUser(mapper.map(user, User.class), user.getRole());
 	}
-	
+
 	@ResponseStatusDetails
 	@ApiOperation(value = "Confirm email", nickname = "confirm", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value="register/confirm", method = RequestMethod.GET)
-	public void confirmEmail(@RequestParam(name="id", required=true) long id, @RequestParam(name="token", required=true) String token) throws ServiceException
-	{		
+	@RequestMapping(value = EMAIL_CONFIRMATION_PATH, method = RequestMethod.GET)
+	public void confirmEmail(@RequestParam(name = "id", required = true) long id,
+			@RequestParam(name = "token", required = true) String token) throws ServiceException
+	{
 		userService.confirmUserEmail(id, token);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Change user email", nickname = "changeUserEmail", code = 200, httpMethod = "GET")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = CHANGE_EMAIL_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void changeUserEmail(@RequestParam(name = "token", required = true) String token)
+			throws ServiceException
+	{
+		User userByToken = jwtService.parseEmailToken(token);
+		User user = userService.getUserById(userByToken.getId());
+		user.setEmail(userByToken.getEmail());
+		userService.updateUser(user);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Forgot password", nickname = "forgotPassword", code = 200, httpMethod = "GET", response = AuthTokenDTO.class)
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "password/forgot", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void forgotPassword(@RequestParam(name = "email", required = true) String email) throws ServiceException
+	{
+		User user = userService.getUserByEmail(email);
+		if (user != null)
+		{
+			String token = jwtService.generateAuthToken(user);
+			emailService.sendForgotPasswordEmail(user, token);
+		}
 	}
 }

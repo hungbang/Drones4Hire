@@ -40,22 +40,8 @@
 		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
 	
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="${drones4hire.mail.host}" />
-		<property name="port" value="${drones4hire.mail.port}" />
-		<property name="username" value="${drones4hire.mail.user}" />
-		<property name="password" value="${drones4hire.mail.pass}" />
-		<property name="defaultEncoding" value="UTF-8" />
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.smtp.auth">true</prop>
-       	      	<prop key="mail.smtp.starttls.enable">true</prop>
-			</props>
-		</property>
-	</bean>
-	
 	<bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean"
-		id="freemarkerConfiguration">
+		id="freemarkerEmailConfiguration">
 		<property name="preferFileSystemAccess" value="true" />
 		<property name="templateLoaderPaths" value="classpath:templates" />
 		<property name="defaultEncoding" value="UTF-8"/>
@@ -84,6 +70,10 @@
 	<bean class="com.amazonaws.services.s3.AmazonS3Client">
 		<constructor-arg index="0" ref="amazonCredentials" />
 		<constructor-arg index="1" ref="amazonConfig" />
+	</bean>
+	
+	<bean class="com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient">
+		<constructor-arg index="0" ref="amazonCredentials" />
 	</bean>
 	
 	<bean id="amazonFileService" class="com.drones4hire.dronesapp.services.file.impl.AmazonFileService" />
