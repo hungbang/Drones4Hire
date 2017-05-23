@@ -42,6 +42,6 @@ public class UploadController extends AbstractController
 	public @ResponseBody String uploadFile(@RequestParam("file") MultipartFile file, @RequestHeader("FileType") Type type) throws ServiceException
 	{
 		FileUploadObject fileObject = new FileUploadObject(getPrincipal().getId(), file, type);
-		return fileService.saveImage(fileObject);
+		return String.format("{\"url\": \"%s\"}", fileService.saveImage(fileObject));
 	}
 }
