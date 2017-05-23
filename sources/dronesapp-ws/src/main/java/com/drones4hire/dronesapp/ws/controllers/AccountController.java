@@ -192,11 +192,11 @@ public class AccountController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Update user email", nickname = "updateUserEmail", code = 200, httpMethod = "POST")
+	@ApiOperation(value = "Update user email", nickname = "updateUserEmail", code = 200, httpMethod = "PUT")
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "email", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "email", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void updateUserEmail(@RequestBody ChangeEmailDTO email)
 			throws ServiceException
 	{
@@ -207,11 +207,11 @@ public class AccountController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Change password", nickname = "changePassword", code = 200, httpMethod = "POST")
+	@ApiOperation(value = "Change password", nickname = "changePassword", code = 200, httpMethod = "PUT")
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = CHANGE_PASSWORD_PATH, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = CHANGE_PASSWORD_PATH, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void changePassword(@Valid @RequestBody ChangePasswordDTO changePassword) throws ServiceException
 	{
 		User user = userService.getUserById(getPrincipal().getId());

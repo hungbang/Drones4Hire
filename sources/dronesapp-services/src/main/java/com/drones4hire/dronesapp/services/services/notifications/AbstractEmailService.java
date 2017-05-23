@@ -25,7 +25,7 @@ public abstract class AbstractEmailService
 {
 	public final static String EMAIL_CONFIRMATION_PATH = "register/confirm";
 	public final static String CHANGE_EMAIL_PATH = "email";
-	public final static String CHANGE_PASSWORD_PATH = "password/change";
+	public final static String CHANGE_PASSWORD_PATH = "password";
 
 	@Autowired
 	@Qualifier("freemarkerEmailConfiguration")
