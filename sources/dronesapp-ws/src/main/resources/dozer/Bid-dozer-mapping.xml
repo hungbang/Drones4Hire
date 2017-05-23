@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping type="one-way" wildcard="false">
+        <class-a>com.drones4hire.dronesapp.models.dto.BidDTO</class-a>
+        <class-b>com.drones4hire.dronesapp.models.db.projects.Bid</class-b>
+
+        <field>
+            <a>projectId</a>
+            <b>projectId</b>
+        </field>
+        <field>
+            <a>comment</a>
+            <b>comment</b>
+        </field>
+        <field>
+            <a>amount</a>
+            <b>amount</b>
+        </field>
+        <field>
+            <a>currency</a>
+            <b>currency</b>
+        </field>
+    </mapping>
+</mappings>

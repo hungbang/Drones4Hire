@@ -1,6 +1,9 @@
 package com.drones4hire.dronesapp.services.services;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,19 @@ public class ProjectService
 	public Project getProjectById(long id)
 	{
 		return projectMapper.getProjectById(id);
+	}
+
+	@Transactional(readOnly = true)
+	public SearchResult<Project> searchProjects(ProjectSearchCriteria sc)
+	{
+		SearchResult<Project> results = new SearchResult<>();
+		results.setPage(sc.getPage());
+		results.setPageSize(sc.getPageSize());
+		results.setSortOrder(sc.getSortOrder());
+		List<Project> projects = projectMapper.searchProjects(sc);
+		results.setResults(projects);
+		results.setTotalResults(projects.size());
+		return results;
 	}
 
 	@Transactional(readOnly = true)

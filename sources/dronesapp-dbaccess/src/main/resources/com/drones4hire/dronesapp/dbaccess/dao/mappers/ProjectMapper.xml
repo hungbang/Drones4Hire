@@ -158,6 +158,42 @@
 		<include refid="getProject" />
 	</select>
 
+	<select id="searchProjects" resultMap="ProjectResultMap">
+		<include refid="getProject" />
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != title">
+				<![CDATA[
+				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
+				]]>
+			</if>
+			<if test="null != serviceCategoryId">
+				<![CDATA[
+				   AND SC.ID = #{serviceCategoryId}
+				]]>
+			</if>
+			<if test="null != durationId">
+				<![CDATA[
+				   AND D.ID = #{durationId}
+				]]>
+			</if>
+			<if test="null != locationId">
+				<![CDATA[
+				   AND L.ID = #{locationId}
+				]]>
+			</if>
+			<if test="null != budgetId">
+				<![CDATA[
+				   AND B.ID = #{budgetId}
+				]]>
+			</if>
+			<if test="null != clientId">
+				<![CDATA[
+				   AND P.CLIENT_ID = #{clientId}
+				]]>
+			</if>
+		</trim>
+	</select>
+
 	<update id="updateProject">
         <![CDATA[
           UPDATE

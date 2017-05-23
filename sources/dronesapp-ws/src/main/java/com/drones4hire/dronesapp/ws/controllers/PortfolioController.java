@@ -79,18 +79,13 @@ public class PortfolioController extends AbstractController
 			throws ForbiddenOperationException
 	{
 		PortfolioItem portfolioItem = portfolioService.getPortfolioItemById(pi.getId());
-		if (portfolioItem.getUserId() == getPrincipal().getId())
-		{
-			portfolioItem.setName(pi.getName());
-			portfolioItem.setTitle(pi.getTitle());
-			portfolioItem.setSummary(pi.getSummary());
-			portfolioItem.setType(pi.getType());
-			portfolioItem.setItemURL(pi.getItemURL());
-			portfolioItem.setServiceCategories(pi.getServiceCategories());
-		} else
-		{
-			throw new ForbiddenOperationException("Invalid user");
-		}
+		checkPrincipalPermissions(portfolioItem.getUserId());
+		portfolioItem.setName(pi.getName());
+		portfolioItem.setTitle(pi.getTitle());
+		portfolioItem.setSummary(pi.getSummary());
+		portfolioItem.setType(pi.getType());
+		portfolioItem.setItemURL(pi.getItemURL());
+		portfolioItem.setServiceCategories(pi.getServiceCategories());
 		return mapper.map(portfolioService.updatePortfolioItem(portfolioItem), PortfolioItemDTO.class);
 	}
 
@@ -104,12 +99,7 @@ public class PortfolioController extends AbstractController
 			throws ForbiddenOperationException
 	{
 		PortfolioItem portfolioItem = portfolioService.getPortfolioItemById(id);
-		if (portfolioItem.getUserId() == getPrincipal().getId())
-		{
-			portfolioService.deletePortfolioItem(id);
-		} else
-		{
-			throw new ForbiddenOperationException("Invalid user");
-		}
+		checkPrincipalPermissions(portfolioItem.getUserId());
+		portfolioService.deletePortfolioItem(id);
 	}
 }

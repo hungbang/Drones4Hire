@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping type="one-way" wildcard="false">
+        <class-a>com.drones4hire.dronesapp.models.dto.ProjectDTO</class-a>
+        <class-b>com.drones4hire.dronesapp.models.db.projects.Project</class-b>
+
+        <field>
+            <a>title</a>
+            <b>title</b>
+        </field>
+        <field>
+            <a>summary</a>
+            <b>summary</b>
+        </field>
+        <field>
+            <a>pilotId</a>
+            <b>pilotId</b>
+        </field>
+        <field>
+            <a>service</a>
+            <b>service</b>
+        </field>
+        <field>
+            <a>duration</a>
+            <b>duration</b>
+        </field>
+        <field>
+            <a>location</a>
+            <b>location</b>
+        </field>
+        <field>
+            <a>budget</a>
+            <b>budget</b>
+        </field>
+        <field>
+            <a>imageURL</a>
+            <b>imageURL</b>
+        </field>
+        <field>
+            <a>postProductionRequired</a>
+            <b>postProductionRequired</b>
+        </field>
+        <field>
+            <a>startDate</a>
+            <b>startDate</b>
+        </field>
+        <field>
+            <a>finishDate</a>
+            <b>finishDate</b>
+        </field>
+        <field>
+            <a>status</a>
+            <b>status</b>
+        </field>
+        <field>
+            <a>paidOptions</a>
+            <b>paidOptions</b>
+        </field>
+    </mapping>
+</mappings>
