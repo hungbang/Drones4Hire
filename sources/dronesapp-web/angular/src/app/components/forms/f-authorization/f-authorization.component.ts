@@ -75,7 +75,7 @@ export class FAuthorizationComponent implements OnInit {
     this._authorizationService.sendSignUpData(this.formData)
       .then((res) => {
         this._authorizationService.signUpFormActive = false;
-        this._router.navigate(['login']);
+        this.sendLoginRequest(e, form);
       })
       .catch((err) => {
         console.log(err);
