@@ -9,7 +9,7 @@ public interface ServiceMapper {
 
     void createService(Service service);
 
-    void createUserServices(@Param("userId") long userId, @Param("services") List<Service> services);
+    void createUserServices(@Param("userId") long userId, @Param("serviceIds") List<Long> serviceIds);
 
     Service getServiceById(long id);
 

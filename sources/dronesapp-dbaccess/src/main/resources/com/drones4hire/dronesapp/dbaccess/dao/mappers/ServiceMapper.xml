@@ -21,10 +21,10 @@
         	  drones.USER_SERVICES (USER_ID, SERVICE_ID)
             VALUES
         ]]>
-        <foreach collection="services" item="service" index="index" open="" separator="," close=";">
+        <foreach collection="serviceIds" item="serviceId" index="index" open="" separator="," close=";">
             (
             #{userId},
-            #{service.id}
+            #{serviceId}
             )
         </foreach>
     </insert>

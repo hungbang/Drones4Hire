@@ -134,9 +134,9 @@ public class AccountController extends AbstractController
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "services", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Service> updateAccountService(@RequestBody List<Service> services)
+	public @ResponseBody List<Service> updateAccountService(@RequestBody List<Long> serviceIds)
 	{
-		return serviceService.updateUserServices(getPrincipal().getId(), services);
+		return serviceService.updateUserServices(getPrincipal().getId(), serviceIds);
 	}
 
 	@ResponseStatusDetails

@@ -22,10 +22,10 @@ public class ServiceService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public List<Service> createUserServices(long userId, List<Service> services)
+	public List<Service> createUserServices(long userId, List<Long> serviceIds)
 	{
-		serviceMapper.createUserServices(userId, services);
-		return services;
+		serviceMapper.createUserServices(userId, serviceIds);
+		return getServicesByUserId(userId);
 	}
 
 	@Transactional(readOnly = true)
@@ -54,11 +54,10 @@ public class ServiceService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public List<Service> updateUserServices(long userId, List<Service> services)
+	public List<Service> updateUserServices(long userId, List<Long> serviceIds)
 	{
 		deleteUserServices(userId);
-		createUserServices(userId, services);
-		return services;
+		return createUserServices(userId, serviceIds);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
