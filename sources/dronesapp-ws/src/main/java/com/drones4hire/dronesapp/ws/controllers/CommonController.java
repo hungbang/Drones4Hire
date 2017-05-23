@@ -1,27 +1,42 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import com.drones4hire.dronesapp.models.db.commons.Budget;
-import com.drones4hire.dronesapp.models.db.commons.Country;
-import com.drones4hire.dronesapp.models.db.commons.Duration;
-import com.drones4hire.dronesapp.models.db.commons.State;
-import com.drones4hire.dronesapp.models.db.projects.PaidOption;
-import com.drones4hire.dronesapp.models.db.services.Service;
-import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
-import com.drones4hire.dronesapp.models.dto.BudgetDTO;
-import com.drones4hire.dronesapp.models.dto.DurationDTO;
-import com.drones4hire.dronesapp.models.dto.PaidOptionDTO;
-import com.drones4hire.dronesapp.services.services.*;
-import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
-import io.swagger.annotations.*;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.validation.Valid;
-import java.util.List;
+import com.drones4hire.dronesapp.models.db.commons.Budget;
+import com.drones4hire.dronesapp.models.db.commons.Country;
+import com.drones4hire.dronesapp.models.db.commons.Duration;
+import com.drones4hire.dronesapp.models.db.commons.State;
+import com.drones4hire.dronesapp.models.db.services.Service;
+import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
+import com.drones4hire.dronesapp.models.dto.BudgetDTO;
+import com.drones4hire.dronesapp.models.dto.DurationDTO;
+import com.drones4hire.dronesapp.services.services.BudgetService;
+import com.drones4hire.dronesapp.services.services.CountryService;
+import com.drones4hire.dronesapp.services.services.DurationService;
+import com.drones4hire.dronesapp.services.services.ServiceCategoryService;
+import com.drones4hire.dronesapp.services.services.ServiceService;
+import com.drones4hire.dronesapp.services.services.StateService;
+import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Controller
 @Api(value = "Common API")
@@ -40,9 +55,6 @@ public class CommonController extends AbstractController
 
 	@Autowired
 	private DurationService durationService;
-
-	@Autowired
-	private PaidOptionService paidOptionService;
 
 	@Autowired
 	private ServiceService serviceService;
@@ -155,58 +167,6 @@ public class CommonController extends AbstractController
 			@ApiParam(value = "Id of the duration", required = true) @PathVariable(value = "id") long id)
 	{
 		durationService.deleteDuration(id);
-	}
-
-	@ResponseStatusDetails
-	@ApiOperation(value = "Create paid option", nickname = "createPaidOption", code = 201, httpMethod = "POST", response = PaidOption.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "paidoptions", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody PaidOption createPaidOption(@Valid @RequestBody PaidOptionDTO paidOption)
-	{
-		return paidOptionService.createPaidOption(mapper.map(paidOption, PaidOption.class));
-	}
-
-	@ResponseStatusDetails
-	@ApiOperation(value = "Get paid option by id", nickname = "getPaidOptionById", code = 200, httpMethod = "GET", response = PaidOption.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "paidoptions/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody PaidOption getPaidOptionById(
-			@ApiParam(value = "Id of the paid option", required = true) @PathVariable(value = "id") long id)
-	{
-		return paidOptionService.getPaidOptionById(id);
-	}
-
-	@ResponseStatusDetails
-	@ApiOperation(value = "Get all paid options", nickname = "getAllPaidOptions", code = 200, httpMethod = "GET", response = List.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "paidoptions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<PaidOption> getAllPaidOptions()
-	{
-		return paidOptionService.getAllPaidOptions();
-	}
-
-	@ResponseStatusDetails
-	@ApiOperation(value = "Update paid option", nickname = "updatePaidOption", code = 200, httpMethod = "PUT", response = PaidOption.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "paidoptions", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody PaidOption updatePaidOption(@Valid @RequestBody PaidOptionDTO paidOption)
-	{
-		return paidOptionService.updatePaidOption(mapper.map(paidOption, PaidOption.class));
-	}
-
-	@ResponseStatusDetails
-	@ApiOperation(value = "Delete paid option", nickname = "deletePaidOption", code = 204, httpMethod = "DELETE")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(value = "paidoptions/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void deletePaidOption(
-			@ApiParam(value = "Id of the paid option", required = true) @PathVariable(value = "id") long id)
-	{
-		paidOptionService.deletePaidOption(id);
 	}
 
 	@ResponseStatusDetails

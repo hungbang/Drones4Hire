@@ -7,13 +7,16 @@ import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.Comment;
+import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.dto.BidDTO;
 import com.drones4hire.dronesapp.models.dto.CommentDTO;
+import com.drones4hire.dronesapp.models.dto.PaidOptionDTO;
 import com.drones4hire.dronesapp.models.dto.ProjectDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.services.BidService;
 import com.drones4hire.dronesapp.services.services.CommentService;
+import com.drones4hire.dronesapp.services.services.PaidOptionService;
 import com.drones4hire.dronesapp.services.services.ProjectService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.*;
@@ -43,6 +46,9 @@ public class ProjectController extends AbstractController
 
 	@Autowired
 	private BidService bidService;
+	
+	@Autowired
+	private PaidOptionService paidOptionService;
 
 	@Autowired
 	private Mapper mapper;
@@ -163,5 +169,57 @@ public class ProjectController extends AbstractController
 			bidDTOs.add(mapper.map(bid, BidDTO.class));
 		}
 		return bidDTOs;
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create paid option", nickname = "createPaidOption", code = 201, httpMethod = "POST", response = PaidOption.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "paidoptions", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PaidOption createPaidOption(@Valid @RequestBody PaidOptionDTO paidOption)
+	{
+		return paidOptionService.createPaidOption(mapper.map(paidOption, PaidOption.class));
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get paid option by id", nickname = "getPaidOptionById", code = 200, httpMethod = "GET", response = PaidOption.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "paidoptions/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PaidOption getPaidOptionById(
+			@ApiParam(value = "Id of the paid option", required = true) @PathVariable(value = "id") long id)
+	{
+		return paidOptionService.getPaidOptionById(id);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get all paid options", nickname = "getAllPaidOptions", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "paidoptions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<PaidOption> getAllPaidOptions()
+	{
+		return paidOptionService.getAllPaidOptions();
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update paid option", nickname = "updatePaidOption", code = 200, httpMethod = "PUT", response = PaidOption.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "paidoptions", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PaidOption updatePaidOption(@Valid @RequestBody PaidOptionDTO paidOption)
+	{
+		return paidOptionService.updatePaidOption(mapper.map(paidOption, PaidOption.class));
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete paid option", nickname = "deletePaidOption", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@RequestMapping(value = "paidoptions/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void deletePaidOption(
+			@ApiParam(value = "Id of the paid option", required = true) @PathVariable(value = "id") long id)
+	{
+		paidOptionService.deletePaidOption(id);
 	}
 }
