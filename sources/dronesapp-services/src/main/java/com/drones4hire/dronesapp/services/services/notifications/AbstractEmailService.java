@@ -31,7 +31,7 @@ public abstract class AbstractEmailService
 	@Qualifier("freemarkerEmailConfiguration")
 	private Configuration configuration;
 
-	@Value("#{environmentProperties['drones4hire.ws.url']}")
+	@Value("#{environmentProperties['drones4hire.url']}")
 	private String domain;
 
 	@Value("#{environmentProperties['drones4hire.tomcat.ws.path']}")
