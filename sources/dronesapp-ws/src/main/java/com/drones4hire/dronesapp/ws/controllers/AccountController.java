@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.ws.controllers;
 
 import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_PASSWORD_PATH;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.dozer.Mapper;
@@ -18,15 +20,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.drones4hire.dronesapp.models.db.commons.Location;
+import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.users.Company;
+import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
 import com.drones4hire.dronesapp.models.dto.ChangeEmailDTO;
 import com.drones4hire.dronesapp.models.dto.CompanyDTO;
+import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
 import com.drones4hire.dronesapp.models.dto.auth.ChangePasswordDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CompanyService;
+import com.drones4hire.dronesapp.services.services.LocationService;
+import com.drones4hire.dronesapp.services.services.PilotLicenseService;
+import com.drones4hire.dronesapp.services.services.ServiceService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
@@ -44,20 +52,29 @@ import io.swagger.annotations.ApiOperation;
 public class AccountController extends AbstractController
 {
 	@Autowired
-	private JWTService jwtService;
-
-	@Autowired
 	private UserService userService;
 
 	@Autowired
+	private LocationService locationService;
+
+	@Autowired
 	private CompanyService companyService;
+
+	@Autowired
+	private ServiceService serviceService;
+
+	@Autowired
+	private PilotLicenseService licenseService;
+
+	@Autowired
+	private JWTService jwtService;
 
 	@Autowired
 	private AWSEmailService emailService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
-	
+
 	@Autowired
 	private Mapper mapper;
 
@@ -67,9 +84,9 @@ public class AccountController extends AbstractController
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User getUserAccount() throws MappingException, ServiceException
+	public @ResponseBody AccountDTO getUserAccount() throws MappingException, ServiceException
 	{
-		return userService.getUserById(getPrincipal().getId());
+		return mapper.map(userService.getUserById(getPrincipal().getId()), AccountDTO.class);
 	}
 
 	@ResponseStatusDetails
@@ -78,16 +95,19 @@ public class AccountController extends AbstractController
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AccountDTO updateUserAccount(@RequestBody AccountDTO account)
-			throws ServiceException
+	public @ResponseBody AccountDTO updateUserAccount(@Valid @RequestBody AccountDTO account) throws ServiceException
 	{
 		User user = userService.getUserById(getPrincipal().getId());
 		user.setFirstName(account.getFirstName());
 		user.setLastName(account.getLastName());
-		user.setLocation(account.getLocation());
 		user.setPhotoURL(account.getPhotoURL());
 		user.setIntroduction(account.getIntroduction());
 		user.setSummary(account.getSummary());
+
+		Location location = mapper.map(account.getLocation(), Location.class);
+		location.setId(user.getLocation().getId());
+		user.setLocation(locationService.updateLocation(location));
+
 		return mapper.map(userService.updateUser(user), AccountDTO.class);
 	}
 
@@ -108,22 +128,67 @@ public class AccountController extends AbstractController
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "company", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody CompanyDTO updateUserCompany(@RequestBody CompanyDTO c)
+	public @ResponseBody CompanyDTO updateUserCompany(@Valid @RequestBody CompanyDTO c)
 			throws ServiceException
 	{
 		Company company = companyService.getCompanyById(c.getId());
-		if (company.getUserId() == getPrincipal().getId())
-		{
-			company.setName(c.getName());
-			company.setWebURL(c.getWebURL());
-			company.setContactName(c.getContactName());
-			company.setContactEmail(c.getContactEmail());
-			company.setCountry(c.getCountry());
-		} else
-		{
-			throw new ForbiddenOperationException("Invalid user");
-		}
+		checkPrincipalPermissions(company.getUserId());
+
+		company.setName(c.getName());
+		company.setWebURL(c.getWebURL());
+		company.setContactName(c.getContactName());
+		company.setContactEmail(c.getContactEmail());
+		company.setCountry(c.getCountry());
+
 		return mapper.map(companyService.updateCompany(company), CompanyDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get account services", nickname = "getAccountServices", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Service> getAccountServices()
+	{
+		return serviceService.getServicesByUserId(getPrincipal().getId());
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update account service", nickname = "updateAccountService", code = 200, httpMethod = "PUT", response = List.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Service> updateAccountService(@RequestBody List<Service> services)
+	{
+		return serviceService.updateUserServices(getPrincipal().getId(), services);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get license for current pilot", nickname = "getLicense", code = 200, httpMethod = "GET", response = PilotLicenseDTO.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "license", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLicenseDTO getLicense()
+	{
+		return mapper.map(licenseService.getPilotLicenseByUserId(getPrincipal().getId()), PilotLicenseDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update pilot license", nickname = "updatePilotLicense", code = 200, httpMethod = "PUT", response = PilotLicenseDTO.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "license", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLicenseDTO updateLicense(@RequestBody @Valid PilotLicenseDTO license)
+	{
+		PilotLicense curLicense = licenseService.getPilotLicenseByUserId(getPrincipal().getId());
+		curLicense.setInsuranceURL(license.getInsuranceURL());
+		curLicense.setLicenseURL(license.getLicenseURL());
+		curLicense.setVerified(license.isVerified());
+		return mapper.map(licenseService.updatePilotLicense(curLicense), PilotLicenseDTO.class);
 	}
 
 	@ResponseStatusDetails
@@ -140,11 +205,11 @@ public class AccountController extends AbstractController
 		user.setEmail(email.getEmail());
 		emailService.sendChangingEmail(user, jwtService.generateEmailToken(user.getId(), email.getEmail()));
 	}
-	
+
 	@ResponseStatusDetails
 	@ApiOperation(value = "Change password", nickname = "changePassword", code = 200, httpMethod = "POST")
 	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = CHANGE_PASSWORD_PATH, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void changePassword(@Valid @RequestBody ChangePasswordDTO changePassword) throws ServiceException
