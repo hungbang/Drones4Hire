@@ -18,6 +18,7 @@ public class AccountDTO extends AbstractDTO
 	private String photoURL;
 	private String introduction;
 	private String summary;
+	private String username;
 
 	public String getFirstName()
 	{
@@ -77,5 +78,15 @@ public class AccountDTO extends AbstractDTO
 	public void setSummary(String summary)
 	{
 		this.summary = summary;
+	}
+
+	public String getUsername()
+	{
+		return username;
+	}
+
+	public void setUsername(String username)
+	{
+		this.username = username;
 	}
 }
