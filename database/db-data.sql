@@ -107,6 +107,12 @@ DELIMITER ;
 
 call drones.setServicesAndCategories();
 
+INSERT INTO drones.PAID_OPTIONS(TITLE, DESCRIPTION, PRICE, CURRENCY) VALUES
+	('Featured Project', 'I want my project to be listed as a featured project. Featured projects attract more, higher-quality bids and are displayed prominently on the \'Featured Jobs\' page.', 29.00, 'USD'),
+	('Sealed Project', 'I want all bids to be sealed so that drone pilots cannot see what others are bidding, leading to more accurate, higher quality proposals.', 9.00, 'USD'),
+	('Urgent Project', 'I want my project to be marked as an urgent project. Receive a faster response from drone pilots to get your project started within 24 - 48 hours!', 15.00, 'USD'),
+	('Private Project', 'I want to hide project details from search engines and users that are not logged in. This feature is recommended for projects where confidentiality is a must.', 19.00, 'USD');
+
 INSERT INTO drones.COUNTRIES (NAME) VALUES
 	('Afghanistan'),
 	('Albania'),
