@@ -24,11 +24,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Uploading files API")
+@Api(value = "Upload files API")
 @Controller
 @CrossOrigin
 @RequestMapping("api/v1/upload")
-public class UploadingController extends AbstractController
+public class UploadController extends AbstractController
 {
 	@Autowired
 	private AmazonFileService fileService;
@@ -42,6 +42,6 @@ public class UploadingController extends AbstractController
 	public @ResponseBody String uploadFile(@RequestParam("file") MultipartFile file, @RequestHeader("FileType") Type type) throws ServiceException
 	{
 		FileUploadObject fileObject = new FileUploadObject(getPrincipal().getId(), file, type);
-		return fileService.saveImage(fileObject);
+		return String.format("{\"url\": \"%s\"}", fileService.saveImage(fileObject));
 	}
 }
