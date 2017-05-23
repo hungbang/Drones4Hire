@@ -1,8 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
-import { AppService } from '../../../services/app.service/app.service';
-import { User } from '../../../classes/User.class/User.class';
-import { AuthorizationService } from '../../../services/authorization.service/authorization.service';
+import {AppService} from '../../../services/app.service/app.service';
+import {User} from '../../../classes/User.class/User.class';
+import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
+import {FileItem, FileUploader} from 'ng2-file-upload';
+import {RequestService} from '../../../services/request.service/request.service';
 
 @Component({
   selector: 'f-profile',
@@ -14,11 +16,46 @@ export class FClientProfileComponent implements OnInit {
   account: any;
   uploadedPhoto: any;
 
-  constructor(
-    private _accountService: AccountService,
-    private _authorizationService: AuthorizationService,
-    public _appService: AppService
-  ) { }
+  public uploader: FileUploader = new FileUploader({
+    url: `${this._requestService.apiUrl}/upload`,
+    authToken: this._requestService.getCurrentToken(),
+    headers: [{
+      name: 'FileType',
+      value: 'USER_PHOTO'
+    }]
+  });
+
+  constructor(private _accountService: AccountService,
+              private _authorizationService: AuthorizationService,
+              public _appService: AppService,
+              private _requestService: RequestService) {
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      console.log('onSuccessItem', response);
+      console.log(JSON.parse(response));
+      this.account['photoURL'] = JSON.parse(response)['url'];
+      this.uploader.clearQueue();
+      return {item, response, status, headers};
+    };
+
+    this.uploader.onErrorItem = (item, response, status, headers) => {
+      console.log('problem with upload image');
+      this.uploader.clearQueue();
+      return {item, response, status, headers};
+    };
+
+    this.uploader.onAfterAddingFile = (item) => {
+      console.log('onAfterAddingFile');
+      this.uploader.queue[0].upload();
+      return {item};
+    };
+
+    this.uploader.onCancelItem = (item, response, status, headers) => {
+      console.log('onWhenAddingFileFailed');
+      this.uploader.clearQueue();
+      return {item, response, status, headers};
+    };
+  }
 
   ngOnInit() {
     this.account = new User().getInitialUser();
@@ -36,17 +73,14 @@ export class FClientProfileComponent implements OnInit {
     return account;
   }
 
-  handlePhotoUpload(e) {
-    const a = e.target.files;
+  handlePhotoUpload() {
+    this.uploader.uploadAll();
   }
 
   saveChanges() {
     this._accountService.saveUserData(this.account)
       .then((res) => {
-        console.log('success');
+        console.log(res);
       });
-  }
-
-  onSubmit() {
   }
 }

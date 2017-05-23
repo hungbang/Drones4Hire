@@ -37,6 +37,7 @@ export class RequestService {
     if (this._tokenService.accessToken) {
       const headers = new Headers({
         'Authorization': this.getCurrentToken()
+
       });
       return new RequestOptions({ headers: headers });
     }

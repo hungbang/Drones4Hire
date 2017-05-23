@@ -1,4 +1,4 @@
-<form novalidate (submit)="onSubmit()" class="f-profile f-default">
+<form novalidate (submit)="saveChanges()" class="f-profile f-default">
   <div class="f-default__inner">
     <div class="f-default__col">
       <div class="f-default__row">
@@ -23,14 +23,16 @@
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Address:</span>
-          <input class="f-default__field" type="text" name="address" [(ngModel)]="account.location && account.location.address" required/>
+          <input class="f-default__field" type="text" name="address"
+                 [(ngModel)]="account.location && account.location.address" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Country:</span>
-          <select class="f-default__field" name="country" [(ngModel)]="account.location && account.location.country && account.location.country.name" required>
+          <select class="f-default__field" name="country"
+                  [(ngModel)]="account.location && account.location.country && account.location.country.name" required>
             <option value="USA">USA</option>
             <option value="France">France</option>
           </select>
@@ -40,14 +42,16 @@
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">State:</span>
-          <input class="f-default__field" type="text" name="state" [(ngModel)]="account.location && account.location.state && account.location.state.name" required/>
+          <input class="f-default__field" type="text" name="state"
+                 [(ngModel)]="account.location && account.location.state && account.location.state.name" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">City:</span>
-          <input class="f-default__field" type="text" name="city" [(ngModel)]="account.location && account.location.city" required/>
+          <input class="f-default__field" type="text" name="city"
+                 [(ngModel)]="account.location && account.location.city" required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
@@ -70,12 +74,21 @@
       <div class="f-default__row">
         <label class="f-default__label _top">
           <span class="f-default__text _req">Upload Image:</span>
-          <input class="f-default__field _file" type="file" name="profileImage" (change)="handlePhotoUpload($event)" required/>
+          <input class="f-default__field _file"
+                 type="file"
+                 accept="image/jpeg,image/jpg,image/png"
+                 name="profileImage"
+                 (change)="handlePhotoUpload($event)"
+                 ng2FileSelect
+                 [uploader]="uploader"
+                 required/>
           <span class="f-default__error">This field is required</span>
         </label>
       </div>
       <div class="f-default__row" *ngIf="account.photoURL">
-        <img src="{{account.photoURL}}" alt="">
+        <div class="f-default__avatar">
+          <img src="{{account.photoURL}}" alt="avatar">
+        </div>
       </div>
       <div class="f-default__row">
         <label class="f-default__label _top">
@@ -85,5 +98,5 @@
       </div>
     </div>
   </div>
-  <button type="button" class="f-default__button" (click)="saveChanges()">Save Changes</button>
+  <button class="f-default__button">Save Changes</button>
 </form>
