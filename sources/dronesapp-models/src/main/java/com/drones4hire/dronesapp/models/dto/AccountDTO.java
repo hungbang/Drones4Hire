@@ -1,57 +1,23 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.drones4hire.dronesapp.models.db.commons.Location;
 
 import javax.validation.constraints.NotNull;
-
-import com.drones4hire.dronesapp.models.db.users.Group;
 
 public class AccountDTO extends AbstractDTO
 {
 	private static final long serialVersionUID = -5542006534130010886L;
 
-	private String username;
-	
-	private String email;
-	
-	@NotNull(message = "First name required")
+	@NotNull(message = "First name shouldn't be null")
 	private String firstName;
-	
-	@NotNull(message = "Last name required")
+	@NotNull(message = "Last name shouldn't be null")
 	private String lastName;
-	
-	@NotNull(message = "Location required")
-	private LocationDTO location;
-	
-	@NotNull(message = "Photo URL required")
+	@NotNull(message = "Location shouldn't be null")
+	private Location location;
+	@NotNull(message = "Photo URL shouldn't be null")
 	private String photoURL;
-	
 	private String introduction;
-	
 	private String summary;
-	
-	private List<Group> groups = new ArrayList<>();
-
-	public String getUsername()
-	{
-		return username;
-	}
-
-	public void setUsername(String username)
-	{
-		this.username = username;
-	}
-
-	public String getEmail()
-	{
-		return email;
-	}
-
-	public void setEmail(String email)
-	{
-		this.email = email;
-	}
 
 	public String getFirstName()
 	{
@@ -73,12 +39,12 @@ public class AccountDTO extends AbstractDTO
 		this.lastName = lastName;
 	}
 
-	public LocationDTO getLocation()
+	public Location getLocation()
 	{
 		return location;
 	}
 
-	public void setLocation(LocationDTO location)
+	public void setLocation(Location location)
 	{
 		this.location = location;
 	}
@@ -111,15 +77,5 @@ public class AccountDTO extends AbstractDTO
 	public void setSummary(String summary)
 	{
 		this.summary = summary;
-	}
-
-	public List<Group> getGroups()
-	{
-		return groups;
-	}
-
-	public void setGroups(List<Group> groups)
-	{
-		this.groups = groups;
 	}
 }

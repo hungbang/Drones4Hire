@@ -22,6 +22,7 @@ import com.drones4hire.dronesapp.models.dto.error.AdditionalErrorData;
 import com.drones4hire.dronesapp.models.dto.error.Error;
 import com.drones4hire.dronesapp.models.dto.error.ErrorCode;
 import com.drones4hire.dronesapp.models.dto.error.ErrorResponse;
+import com.drones4hire.dronesapp.services.exceptions.AWSException;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
@@ -55,6 +56,16 @@ public abstract class AbstractController
 		}
 	}
 
+	@ExceptionHandler(AWSException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handleAWSException(AWSException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.EXTERNAL_SERVICE_EXCEPTION));
+		return result;
+	}
+	
 	@ExceptionHandler(InvalidUserCredentialsException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ResponseBody

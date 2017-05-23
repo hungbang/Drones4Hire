@@ -19,6 +19,7 @@ import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Service
 public class UserService
@@ -53,7 +54,10 @@ public class UserService
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
-
+	
+	@Autowired 
+	private AWSEmailService emailService;
+	
 	@Transactional(rollbackFor=Exception.class)
 	public User registerUser(User user, Role role) throws ServiceException
 	{
@@ -100,15 +104,15 @@ public class UserService
 			// Initialize default company
 			companyService.createDefaultCompany(user);
 		}
-
+		emailService.sendConfirmationEmail(user, generateConfrimEmailToken(user));
 		return user;
 	}
-
+	
 	@Transactional(rollbackFor=Exception.class)
 	public void confirmUserEmail(Long id, String token) throws ServiceException
 	{
 		User user = getUserById(id);
-		if(user != null && token.equals(generateConfrimEmailToken(user)))
+		if(user != null && passwordEncryptor.checkPassword(user.getEmail(), token))
 		{
 			user.setConfirmed(true);
 			updateUser(user);
@@ -118,7 +122,7 @@ public class UserService
 			throw new UserNotConfirmedException();
 		}
 	}
-
+	
 	@Transactional(readOnly = true)
 	public User getUserById(long id) throws ServiceException
 	{
