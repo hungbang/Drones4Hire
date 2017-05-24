@@ -15,7 +15,8 @@
           <input class="f-default__field"
                  type="text"
                  name="firstName"
-                 [(ngModel)]="accountService.account.firstName"
+                 [ngModel]="accountService.account?.firstName"
+                 (ngModelChange)="accountService.account.firstName = $event"
                  required
                  #firstNameRef="ngModel"
                  [ngClass]="{'_error': submitted && firstNameRef.errors?.required}"/>

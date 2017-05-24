@@ -50,7 +50,9 @@ export class AccountService {
   getUserCompany() {
     return this._requestService.fetch('get', '/account/company')
       .then((res) => {
-        this.company = res.json();
+        if (res._body) {
+          this.company = res.json();
+        }
 
         console.log(this.company);
 

@@ -30,17 +30,16 @@ export const ROUTES: Routes = [
   },
   {
     path: 'profile',
-    canActivate: [AuthGuard, PilotGuard],
+    canActivate: [PilotGuard],
     component: ProfileComponent
   },
   {
     path: 'my-projects',
-    canActivate: [AuthGuard, ClientGuard],
+    canActivate: [ClientGuard],
     component: MyProjectsComponent
   },
   {
     path: 'project',
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -72,7 +71,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'dashboard',
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -100,7 +98,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'account',
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -132,7 +129,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'search',
-    canActivate: [AuthGuard, PilotGuard],
+    canActivate: [PilotGuard],
     component: SearchComponent
   }
 ];
