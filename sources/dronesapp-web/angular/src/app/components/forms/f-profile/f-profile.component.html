@@ -29,7 +29,8 @@
           <input class="f-default__field"
                  type="text"
                  name="lastName"
-                 [(ngModel)]="accountService.account.lastName"
+                 [ngModel]="accountService.account?.lastName"
+                 (ngModelChange)="accountService.account.lastName = $event"
                  required
                  #lastNameRef="ngModel"
                  [ngClass]="{'_error': submitted && lastNameRef.errors?.required}"/>
@@ -42,7 +43,8 @@
           <input class="f-default__field"
                  type="text"
                  name="address"
-                 [(ngModel)]="accountService.account.location.address"
+                 [ngModel]="accountService.account?.location?.address"
+                 (ngModelChange)="accountService.account.location.address = $event"
                  required
                  #addressRef="ngModel"
                  [ngClass]="{'_error': submitted && addressRef.errors?.required}"/>
@@ -96,7 +98,8 @@
           <input class="f-default__field"
                  type="text"
                  name="city"
-                 [(ngModel)]="accountService.account.location && accountService.account.location.city"
+                 [ngModel]="accountService.account?.location?.city"
+                 (ngModelChange)="accountService.account.location.city = $event"
                  required
                  #cityRef="ngModel"
                  [ngClass]="{'_error': submitted && cityRef.errors?.required}">
@@ -109,7 +112,8 @@
           <input class="f-default__field"
                  type="text"
                  name="postalCode"
-                 [(ngModel)]="accountService.account.location.postcode"
+                 [ngModel]="accountService.account?.location?.postcode"
+                 (ngModelChange)="accountService.account.location.postcode = $event"
                  required
                  #postalCodeRef="ngModel"
                  [ngClass]="{'_error': submitted && postalCodeRef.errors?.required}">
@@ -140,7 +144,7 @@
       </div>
       <div class="f-default__row" *ngIf="accountService.account.photoURL">
         <div class="f-default__avatar">
-          <img src="{{accountService.account.photoURL}}" alt="avatar">
+          <img src="{{accountService.account.photoURL}}" *ngIf="accountService.account?.photoURL" alt="avatar">
         </div>
       </div>
       <div class="f-default__row">
@@ -148,7 +152,9 @@
           <span class="f-default__text _lh">Introduction:</span>
           <textarea class="f-default__field _area"
                     name="introduction"
-                    [(ngModel)]="accountService.account.summary"></textarea>
+                    [ngModel]="accountService.account?.summary"
+                    (ngModelChange)="accountService.account.summary = $event"
+          ></textarea>
         </label>
       </div>
     </div>

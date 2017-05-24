@@ -72,13 +72,15 @@ export class FAuthorizationComponent implements OnInit {
     }
 
     this._authorizationService.signUp(this.formData)
-      .subscribe(() => {
-        this._authorizationService.signUpFormActive = false;
-        this.sendLoginRequest(e, form);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .subscribe(
+        () => {
+          this._authorizationService.signUpFormActive = false;
+          this.sendLoginRequest(e, form);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
 }

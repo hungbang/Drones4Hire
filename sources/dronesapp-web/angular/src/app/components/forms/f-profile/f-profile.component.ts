@@ -66,12 +66,14 @@ export class FClientProfileComponent implements OnInit {
       .subscribe(() => {
         this.countries = [...this.commonService.countries];
 
-        this.commonService.accountCountry = this.countries.filter((country) => {
+        let filtered = this.countries.filter((country) => {
           if (this.accountService.account.location.country) {
             return country.id === this.accountService.account.location.country.id;
           }
           return false;
-        })[0].name;
+        });
+
+        filtered.length && (this.commonService.accountCountry = filtered[0].name);
 
         if (this.commonService.checkCountry('accountCountry')) {
           this.getListOfStates();

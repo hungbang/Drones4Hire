@@ -9,7 +9,8 @@
       <input class="f-default__field"
              type="text"
              name="name"
-             [(ngModel)]="accountService.company && accountService.company.name"
+             [ngModel]="accountService.company?.name"
+             (ngModelChange)="accountService.company.name = $event"
              [required]="accountService.isUserPilot()"
              #nameRef="ngModel"
              [ngClass]="{'_error': submitted && nameRef.errors?.required}">
@@ -23,7 +24,8 @@
       <input class="f-default__field"
              type="text"
              name="url"
-             [(ngModel)]="accountService.company && accountService.company.webURL"/>
+             [ngModel]="accountService.company?.webURL"
+             (ngModelChange)="accountService.company.webURL = $event"/>
     </label>
   </div>
 
@@ -33,11 +35,13 @@
       <input class="f-default__field"
              type="text"
              name="contactName"
-             [(ngModel)]="accountService.company && accountService.company.contactName"
+             [ngModel]="accountService.company?.contactName"
+             (ngModelChange)="accountService.company.contactName = $event"
              [required]="accountService.isUserPilot()"
              #contactNameRef="ngModel"
              [ngClass]="{'_error': submitted && contactNameRef.errors?.required}">
-      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && contactNameRef.errors?.required">This field is required</span>
+      <span class="f-default__error"
+            *ngIf="accountService.isUserPilot() && submitted && contactNameRef.errors?.required">This field is required</span>
     </label>
   </div>
 
@@ -47,11 +51,13 @@
       <input class="f-default__field"
              type="text"
              name="contactEmail"
-             [(ngModel)]="accountService.company && accountService.company.contactEmail"
+             [ngModel]="accountService.company?.contactEmail"
+             (ngModelChange)="accountService.company.contactEmail = $event"
              [required]="accountService.isUserPilot()"
              #contactEmailRef="ngModel"
              [ngClass]="{'_error': submitted && contactEmailRef.errors?.required}">
-      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && contactEmailRef.errors?.required">This field is required</span>
+      <span class="f-default__error"
+            *ngIf="accountService.isUserPilot() && submitted && contactEmailRef.errors?.required">This field is required</span>
     </label>
   </div>
   <div class="f-default__row">
@@ -71,7 +77,8 @@
           {{option.name}}
         </option>
       </select>
-      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && countryRef.errors?.required">This field is required</span>
+      <span class="f-default__error"
+            *ngIf="accountService.isUserPilot() && submitted && countryRef.errors?.required">This field is required</span>
     </label>
   </div>
 

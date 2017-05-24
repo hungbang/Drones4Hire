@@ -21,7 +21,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'sign-up',
-    canActivate: [AuthGuard],
     component: SAuthorizationComponent
   },
   {

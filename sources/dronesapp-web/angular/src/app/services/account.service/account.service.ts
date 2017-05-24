@@ -34,7 +34,7 @@ export class AccountService {
   getUserData() {
     return this._requestService.fetch('get', '/account')
       .map((res) => {
-        this.account = res;
+        this.account = {...this.setAccount(), ...res};
 
         console.log(this.account);
 
@@ -69,5 +69,44 @@ export class AccountService {
 
   isAuthorized() {
     return this._tokenService.accessToken && this._tokenService.refreshToken;
+  }
+
+  private setAccount(): AccountModel {
+    return {
+      email: '',
+      firstName: '',
+      groups: [
+        {
+          id: null,
+          name: '',
+          role: '',
+        }
+      ],
+      id: null,
+      introduction: '',
+      lastName: '',
+      location: {
+        address: '',
+        city: '',
+        coordinates: {
+          latitude: null,
+          longitude: null
+        },
+        country: {
+          id: null,
+          name: ''
+        },
+        id: null,
+        postcode: null,
+        state: {
+          code: '',
+          id: null,
+          name: ''
+        }
+      },
+      photoURL: '',
+      summary: '',
+      username: ''
+    };
   }
 }

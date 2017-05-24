@@ -35,12 +35,14 @@ export class FClientCompanyComponent implements OnInit {
   }
 
   selectCompanyCountry() {
-    this.commonService.companyCountry = this.countries.filter((country) => {
+    let filtered = this.countries.filter((country) => {
       if (this.accountService.company.country) {
         return country.id === this.accountService.company.country.id;
       }
       return false;
-    })[0].name;
+    });
+
+    filtered.length && (this.commonService.companyCountry = filtered[0].name);
   }
 
   saveChanges(e, form) {

@@ -44,7 +44,7 @@ export class AuthorizationService {
 
   signUp(formData) {
     return this._requestService.fetch('post', '/auth/register', formData)
-      .subscribe((res) => {
+      .map((res) => {
         return res;
       });
   }
