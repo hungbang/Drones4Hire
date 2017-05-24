@@ -8,6 +8,7 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,16 +66,9 @@ public class CommonController extends AbstractController
 	@Autowired
 	private Mapper mapper;
 
-	@ResponseStatusDetails
-	@ApiOperation(value = "Create budget", nickname = "createBudget", code = 201, httpMethod = "POST", response = Budget.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "budgets", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Budget createBudget(@Valid @RequestBody BudgetDTO budget)
-	{
-		return budgetService.createBudget(mapper.map(budget, Budget.class));
-	}
-
+	/**
+	 * --------------- Budgets API ---------------
+	 */
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get budget by id", nickname = "getBudgetById", code = 200, httpMethod = "GET", response = Budget.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
@@ -95,11 +89,23 @@ public class CommonController extends AbstractController
 	{
 		return budgetService.getAllBudgets();
 	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create budget (admin)", nickname = "createBudget", code = 201, httpMethod = "POST", response = Budget.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_ADMIN"})
+	@RequestMapping(value = "budgets", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Budget createBudget(@Valid @RequestBody BudgetDTO budget)
+	{
+		return budgetService.createBudget(mapper.map(budget, Budget.class));
+	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Update budget", nickname = "updateBudget", code = 200, httpMethod = "PUT", response = Budget.class)
+	@ApiOperation(value = "Update budget (admin)", nickname = "updateBudget", code = 200, httpMethod = "PUT", response = Budget.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "budgets", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Budget updateBudget(@Valid @RequestBody BudgetDTO budget)
 	{
@@ -107,9 +113,10 @@ public class CommonController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Delete budget", nickname = "deleteBudget", code = 204, httpMethod = "DELETE")
+	@ApiOperation(value = "Delete budget (admin)", nickname = "deleteBudget", code = 204, httpMethod = "DELETE")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "budgets/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteBudget(
 			@ApiParam(value = "Id of the budget", required = true) @PathVariable(value = "id") long id)
@@ -117,16 +124,10 @@ public class CommonController extends AbstractController
 		budgetService.deleteBudget(id);
 	}
 
-	@ResponseStatusDetails
-	@ApiOperation(value = "Create duration", nickname = "createDuration", code = 201, httpMethod = "POST", response = Duration.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "durations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Duration createDuration(@Valid @RequestBody DurationDTO duration)
-	{
-		return durationService.createDuration(mapper.map(duration, Duration.class));
-	}
 
+	/**
+	 * --------------- Durations API ---------------
+	 */
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get duration by id", nickname = "getDurationById", code = 200, httpMethod = "GET", response = Duration.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
@@ -147,11 +148,23 @@ public class CommonController extends AbstractController
 	{
 		return durationService.getAllDurations();
 	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create duration (admin)", nickname = "createDuration", code = 201, httpMethod = "POST", response = Duration.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_ADMIN"})
+	@RequestMapping(value = "durations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Duration createDuration(@Valid @RequestBody DurationDTO duration)
+	{
+		return durationService.createDuration(mapper.map(duration, Duration.class));
+	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Update duration", nickname = "updateDuration", code = 200, httpMethod = "PUT", response = Duration.class)
+	@ApiOperation(value = "Update duration (admin)", nickname = "updateDuration", code = 200, httpMethod = "PUT", response = Duration.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "durations", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Duration updateDuration(@Valid @RequestBody DurationDTO duration)
 	{
@@ -159,7 +172,7 @@ public class CommonController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Delete duration", nickname = "deleteDuration", code = 204, httpMethod = "DELETE")
+	@ApiOperation(value = "Delete duration (admin)", nickname = "deleteDuration", code = 204, httpMethod = "DELETE")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@RequestMapping(value = "durations/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -169,16 +182,10 @@ public class CommonController extends AbstractController
 		durationService.deleteDuration(id);
 	}
 
-	@ResponseStatusDetails
-	@ApiOperation(value = "Create service", nickname = "createService", code = 201, httpMethod = "POST", response = Service.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "services", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Service createService(@RequestBody Service service)
-	{
-		return serviceService.createService(service);
-	}
-
+	
+	/**
+	 * --------------- Services API ---------------
+	 */
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get service by id", nickname = "getServiceById", code = 200, httpMethod = "GET", response = Service.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
@@ -199,11 +206,23 @@ public class CommonController extends AbstractController
 	{
 		return serviceService.getAllServices();
 	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create service (admin)", nickname = "createService", code = 201, httpMethod = "POST", response = Service.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_ADMIN"})
+	@RequestMapping(value = "services", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Service createService(@RequestBody Service service)
+	{
+		return serviceService.createService(service);
+	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Update service", nickname = "updateService", code = 200, httpMethod = "PUT", response = Service.class)
+	@ApiOperation(value = "Update service (admin)", nickname = "updateService", code = 200, httpMethod = "PUT", response = Service.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "services", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Service updateService(@RequestBody Service service)
 	{
@@ -211,9 +230,10 @@ public class CommonController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Delete service", nickname = "deleteService", code = 204, httpMethod = "DELETE")
+	@ApiOperation(value = "Delete service (admin)", nickname = "deleteService", code = 204, httpMethod = "DELETE")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "services/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteService(
 			@ApiParam(value = "Id of the service", required = true) @PathVariable(value = "id") long id)
@@ -222,20 +242,10 @@ public class CommonController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Create service category", nickname = "createServiceCategory", code = 201, httpMethod = "POST", response = ServiceCategory.class)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "services/groups", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ServiceCategory createServiceCategory(@RequestBody ServiceCategory serviceCategory)
-	{
-		return serviceCategoryService.createServiceCategory(serviceCategory);
-	}
-
-	@ResponseStatusDetails
 	@ApiOperation(value = "Get service category by id", nickname = "getServiceCategoryById", code = 200, httpMethod = "GET", response = ServiceCategory.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "services/groups/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "services/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ServiceCategory getServiceCategoryById(
 			@ApiParam(value = "Id of the serviceCategory group", required = true) @PathVariable(value = "id") long id)
 	{
@@ -246,35 +256,52 @@ public class CommonController extends AbstractController
 	@ApiOperation(value = "Get all service categories", nickname = "getAllServiceCategories", code = 200, httpMethod = "GET", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "services/groups", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "services/categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<ServiceCategory> getAllServiceCategories()
 	{
 		return serviceCategoryService.getAllServiceCategories();
 	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create service category (admin)", nickname = "createServiceCategory", code = 201, httpMethod = "POST", response = ServiceCategory.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_ADMIN"})
+	@RequestMapping(value = "services/categories", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ServiceCategory createServiceCategory(@RequestBody ServiceCategory serviceCategory)
+	{
+		return serviceCategoryService.createServiceCategory(serviceCategory);
+	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Update service category", nickname = "updateServiceCategory", code = 200, httpMethod = "PUT", response = ServiceCategory.class)
+	@ApiOperation(value = "Update service category (admin)", nickname = "updateServiceCategory", code = 200, httpMethod = "PUT", response = ServiceCategory.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "services/groups", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Secured({"ROLE_ADMIN"})
+	@RequestMapping(value = "services/categories", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ServiceCategory updateServiceCategory(@RequestBody ServiceCategory serviceCategory)
 	{
 		return serviceCategoryService.updateServiceCategory(serviceCategory);
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Delete service category", nickname = "deleteServiceCategory", code = 204, httpMethod = "DELETE")
+	@ApiOperation(value = "Delete service category (admin)", nickname = "deleteServiceCategory", code = 204, httpMethod = "DELETE")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(value = "services/groups/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Secured({"ROLE_ADMIN"})
+	@RequestMapping(value = "services/categories/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteServiceCategory(
 			@ApiParam(value = "Id of the serviceCategory group", required = true) @PathVariable(value = "id") long id)
 	{
 		serviceCategoryService.deleteServiceCategory(id);
 	}
 
+	/**
+	 * --------------- Countries/States API ---------------
+	 */
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get countries", nickname = "getCountries", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "countries", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Country> getCountries()
@@ -284,6 +311,7 @@ public class CommonController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get states", nickname = "getStates", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "states", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<State> getStates()
