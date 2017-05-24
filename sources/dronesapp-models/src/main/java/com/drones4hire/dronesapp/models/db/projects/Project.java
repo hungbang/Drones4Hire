@@ -15,7 +15,7 @@ public class Project extends AbstractEntity
 
 	public enum Status
 	{
-		NEW, IN_PROGRESS, COMPLETED, CANCELLED
+		NEW, IN_PROGRESS, COMPLETED, CANCELLED, PENDING
 	}
 
 	private String title;
