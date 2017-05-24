@@ -23,6 +23,7 @@
         <![CDATA[
           SELECT
 	        L.ID AS LOCATION_ID,
+	        L.ADDRESS AS LOCATION_ADDRESS,
 	        X(L.COORDINATES) AS LOCATION_X_COORDINATE,
 	        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
 	        L.CITY AS LOCATION_CITY,
@@ -98,6 +99,7 @@
 
     <resultMap id="LocationResultMap" type="com.drones4hire.dronesapp.models.db.commons.Location" autoMapping="false">
         <id column="LOCATION_ID" property="id"/>
+        <result column="LOCATION_ADDRESS" property="address"/>
         <result column="LOCATION_X_COORDINATE" property="coordinates.latitude"/>
         <result column="LOCATION_Y_COORDINATE" property="coordinates.longitude"/>
         <result column="LOCATION_CITY" property="city"/>
