@@ -186,9 +186,10 @@
 				   AND B.ID = #{budgetId}
 				]]>
 			</if>
-			<if test="null != clientId">
+			<if test="null != clientId AND null != pilotId AND (status == 'PENDING' OR status == 'IN_PROGRESS')">
 				<![CDATA[
 				   AND P.CLIENT_ID = #{clientId}
+				   AND P.PILOT_ID = #{pilotId}
 				]]>
 			</if>
 		</trim>

@@ -135,19 +135,6 @@ public class ProjectController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Create comment", nickname = "createComment", code = 201, httpMethod = "POST", response = CommentDTO.class)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "{id}/comments", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody CommentDTO createComment(@Valid @RequestBody CommentDTO c)
-	{
-		Comment comment = mapper.map(c, Comment.class);
-		comment.setUserId(getPrincipal().getId());
-		return mapper.map(commentService.createComment(comment), CommentDTO.class);
-	}
-
-	@ResponseStatusDetails
 	@ApiOperation(value = "Get comments by project id", nickname = "getCommentsByProjectId", code = 200, httpMethod = "GET", response = List.class)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
@@ -155,8 +142,9 @@ public class ProjectController extends AbstractController
 	@RequestMapping(value = "{id}/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<CommentDTO> getCommentsByProjectId(
 			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
+			throws ForbiddenOperationException
 	{
-		List<Comment> comments = commentService.getCommentsByProjectId(id);
+		List<Comment> comments = commentService.getCommentsByProjectId(id, getPrincipal().getId());
 		List<CommentDTO> commentDTOs = new ArrayList<>();
 		for (Comment comment : comments)
 		{

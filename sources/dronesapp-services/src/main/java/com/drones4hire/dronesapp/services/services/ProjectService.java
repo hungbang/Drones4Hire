@@ -2,7 +2,6 @@ package com.drones4hire.dronesapp.services.services;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
