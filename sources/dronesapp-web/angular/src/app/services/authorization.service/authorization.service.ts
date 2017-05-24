@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { TokenService } from '../token.service/token.service';
 import { AccountService } from '../account.service/account.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthorizationService {
@@ -31,18 +32,19 @@ export class AuthorizationService {
 
   signIn(formData) {
     return this._requestService.fetch('post', '/auth/login', formData)
-      .then((res) => {
-        res = res.json();
+      .map((res) => {
         this.tokenType = res.type;
         this.saveTokens(res);
         this.isUserLogin = true;
         return res;
       });
+
+
   }
 
   signUp(formData) {
     return this._requestService.fetch('post', '/auth/register', formData)
-      .then((res) => {
+      .subscribe((res) => {
         return res;
       });
   }

@@ -63,7 +63,7 @@ export class FClientProfileComponent implements OnInit {
 
   ngOnInit() {
     this.commonService.getListOfCountries()
-      .then(() => {
+      .subscribe(() => {
         this.countries = [...this.commonService.countries];
 
         this.commonService.accountCountry = this.countries.filter((country) => {
@@ -93,8 +93,8 @@ export class FClientProfileComponent implements OnInit {
     }
 
     this.accountService.setUserData(this.accountService.account)
-      .then((res) => {
-        console.log(res.json(), '-save account');
+      .subscribe((res) => {
+        console.log(res, '-save account');
       });
   }
 
@@ -137,7 +137,7 @@ export class FClientProfileComponent implements OnInit {
     }
 
     this.commonService.getListOfStates()
-      .then(() => {
+      .subscribe(() => {
         this.states = [...this.commonService.states];
 
          let filtered = this.states.filter((state) => {

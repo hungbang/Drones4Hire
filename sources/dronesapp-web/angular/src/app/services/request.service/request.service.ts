@@ -44,22 +44,25 @@ export class RequestService {
     return new RequestOptions();
   }
 
+  private extractData(res: Response) {
+    let body = res.json();
+    return body || {};
+  }
+
   fetch(method, url, body = {}) {
     return this.requests[method](url, body)
-      .toPromise()
-      .then((res) => {
-        return res;
-      })
+      .map(this.extractData)
       .catch((err) => {
+        debugger;
         if (err.status === 401 && localStorage.getItem('refreshToken')) {
           return this.refreshToken(localStorage.getItem('refreshToken'))
-            .then(
+            .map(
               (refreshRes) => {
                 refreshRes = refreshRes.json();
                 this._tokenService.setAccessToken((refreshRes as any).accessToken);
                 this._tokenService.setRefreshToken((refreshRes as any).refreshToken);
                 return this.requests[method](url, body)
-                  .then((res) => {
+                  .map((res) => {
                     return res.json();
                   });
             })
@@ -69,13 +72,13 @@ export class RequestService {
                 return Observable.throw(refreshErr);
             });
         }
-        return Promise.reject(err);
+        return Observable.throw(err);
       });
   }
 
 
   get(url: string) {
-    return this._http.get(this.apiUrl + url, this.prepareOptions());
+    return this._http.get(this.apiUrl + url, this.prepareOptions())
   }
 
   post(url: string, body: {}, customHeader: any) {

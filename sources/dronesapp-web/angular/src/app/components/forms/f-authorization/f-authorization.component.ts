@@ -50,15 +50,17 @@ export class FAuthorizationComponent implements OnInit {
     }
 
     this._authorizationService.signIn({email: this.formData.email, password: this.formData.password})
-      .then(() => {
-        this._accountService.getUserData()
-          .then(() => {
-            this._router.navigate(['/']);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .subscribe(
+        () => {
+          this._accountService.getUserData()
+            .subscribe(() => {
+              this._router.navigate(['/']);
+            });
+        },
+        (err) => {
+          console.log(err);
+        }
+      )
   }
 
   sendSignUpRequest(e, form) {
@@ -70,7 +72,7 @@ export class FAuthorizationComponent implements OnInit {
     }
 
     this._authorizationService.signUp(this.formData)
-      .then((res) => {
+      .subscribe(() => {
         this._authorizationService.signUpFormActive = false;
         this.sendLoginRequest(e, form);
       })

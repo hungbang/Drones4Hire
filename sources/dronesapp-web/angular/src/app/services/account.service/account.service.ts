@@ -33,14 +33,14 @@ export class AccountService {
 
   getUserData() {
     return this._requestService.fetch('get', '/account')
-      .then((res) => {
-        this.account = res.json();
+      .map((res) => {
+        this.account = res;
 
         console.log(this.account);
 
         // sessionStorage.setItem('user', JSON.stringify(this.account));
         return this.account;
-      });
+      })
   }
 
   setUserData(data: AccountModel) {
@@ -49,10 +49,8 @@ export class AccountService {
 
   getUserCompany() {
     return this._requestService.fetch('get', '/account/company')
-      .then((res) => {
-        if (res._body) {
-          this.company = res.json();
-        }
+      .map((res) => {
+        this.company = res;
 
         console.log(this.company);
 

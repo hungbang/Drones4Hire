@@ -20,13 +20,13 @@ export class FClientCompanyComponent implements OnInit {
 
   ngOnInit() {
     this.accountService.getUserCompany()
-      .then(() => {
+      .subscribe(() => {
         if (this.commonService.countries.length) {
           this.countries = [...this.commonService.countries];
           this.selectCompanyCountry();
         } else {
           this.commonService.getListOfCountries()
-            .then(() => {
+            .subscribe(() => {
               this.countries = [...this.commonService.countries];
               this.selectCompanyCountry();
             })
@@ -53,8 +53,8 @@ export class FClientCompanyComponent implements OnInit {
     }
 
     this.accountService.setUserCompany(this.accountService.company)
-      .then((res) => {
-        console.log(res.json(), '-save company');
+      .subscribe((res) => {
+        console.log(res, '-save company');
       });
   }
 

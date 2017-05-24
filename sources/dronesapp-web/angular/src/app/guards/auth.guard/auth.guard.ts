@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
       if (this._accountService.isAuthorized()) {
         if (!this._accountService.account) {
           return this._accountService.getUserData()
-            .then(() => {
+            .subscribe(() => {
               this._authorizationService.isUserLogin = true;
               observer.next(true);
               observer.complete();

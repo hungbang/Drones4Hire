@@ -17,16 +17,16 @@ export class CommonService {
 
   getListOfCountries() {
     return this._requestService.fetch('get', '/common/countries')
-      .then((res) => {
-        this.countries = res.json();
+      .map((res) => {
+        this.countries = res;
         return this.countries;
       })
   }
 
   getListOfStates() {
     return this._requestService.fetch('get', '/common/states')
-      .then((res) => {
-        this.states = res.json();
+      .map((res) => {
+        this.states = res;
         return this.states;
       })
   }

@@ -24,7 +24,7 @@ export class FEmailComponent {
     }
 
     this._accountService.setEmailAdress({email: this.email, password: this.password})
-      .then(() => {
+      .subscribe(() => {
         console.log('email is updated');
       });
   }
