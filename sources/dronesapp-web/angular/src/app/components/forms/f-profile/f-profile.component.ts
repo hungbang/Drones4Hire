@@ -1,10 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
 import {AppService} from '../../../services/app.service/app.service';
-import {User} from '../../../classes/User.class/User.class';
-import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
-import {FileItem, FileUploader} from 'ng2-file-upload';
+import {FileUploader} from 'ng2-file-upload';
 import {RequestService} from '../../../services/request.service/request.service';
+import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
+import {CommonService} from '../../../services/common.service/common.service';
+import {CountryModel} from '../../../services/common.service/country.interface';
+import {StateModel} from '../../../services/common.service/state.interface';
 
 @Component({
   selector: 'f-profile',
@@ -13,9 +15,6 @@ import {RequestService} from '../../../services/request.service/request.service'
   encapsulation: ViewEncapsulation.None
 })
 export class FClientProfileComponent implements OnInit {
-  account: any;
-  uploadedPhoto: any;
-
   public uploader: FileUploader = new FileUploader({
     url: `${this._requestService.apiUrl}/upload`,
     authToken: this._requestService.getCurrentToken(),
@@ -25,15 +24,20 @@ export class FClientProfileComponent implements OnInit {
     }]
   });
 
-  constructor(private _accountService: AccountService,
-              private _authorizationService: AuthorizationService,
-              public _appService: AppService,
-              private _requestService: RequestService) {
+  submitted: boolean = false;
+  countries: CountryModel[] = [];
+  states: StateModel[] = [];
+
+  constructor(public accountService: AccountService,
+              public appService: AppService,
+              private _requestService: RequestService,
+              public authorizationService: AuthorizationService,
+              public commonService: CommonService) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       console.log('onSuccessItem', response);
       console.log(JSON.parse(response));
-      this.account['photoURL'] = JSON.parse(response)['url'];
+      this.accountService.account['photoURL'] = JSON.parse(response)['url'];
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
@@ -58,29 +62,107 @@ export class FClientProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.account = new User().getInitialUser();
-    this.account = Object.assign(this.account, this._accountService.currentUser);
-    this.account = this.deleteUnusedProperty(Object.assign({}, this.account));
-  }
+    this.commonService.getListOfCountries()
+      .then(() => {
+        this.countries = [...this.commonService.countries];
 
-  deleteUnusedProperty(account) {
-    delete account.groups;
-    delete account.email;
-    delete account.confirmed;
-    delete account.enabled;
-    delete account.username;
-    delete account.id;
-    return account;
+        this.commonService.accountCountry = this.countries.filter((country) => {
+          if (this.accountService.account.location.country) {
+            return country.id === this.accountService.account.location.country.id;
+          }
+          return false;
+        })[0].name;
+
+        if (this.commonService.checkCountry('accountCountry')) {
+          this.getListOfStates();
+        }
+      })
   }
 
   handlePhotoUpload() {
     this.uploader.uploadAll();
   }
 
-  saveChanges() {
-    this._accountService.saveUserData(this.account)
+  saveChanges(e, form) {
+    e.preventDefault();
+
+    this.submitted = true;
+
+    if (form.invalid) {
+      return;
+    }
+
+    this.accountService.setUserData(this.accountService.account)
       .then((res) => {
-        console.log(res);
+        console.log(res.json(), '-save account');
       });
+  }
+
+  selectCountry(name: string) {
+    let location = this.countries.filter((country) => {
+      return name === country.name;
+    })[0];
+
+    if (!this.accountService.account.location.country) {
+      this.setCountry();
+    }
+
+    this.accountService.account.location.country.name = location['name'];
+    this.accountService.account.location.country.id = location['id'];
+
+    if (!this.commonService.checkCountry('accountCountry')) {
+      this.setState();
+    } else {
+      this.getListOfStates();
+    }
+  }
+
+  selectState(name: string) {
+    let location = this.states.filter((state) => {
+      return name === state.name;
+    })[0];
+
+    if (!this.accountService.account.location.state) {
+      this.setState();
+    }
+
+    this.accountService.account.location.state.name = location['name'];
+    this.accountService.account.location.state.id = location['id'];
+    this.accountService.account.location.state.code = location['code'];
+  }
+
+  private getListOfStates() {
+    if (this.commonService.states.length) {
+      return;
+    }
+
+    this.commonService.getListOfStates()
+      .then(() => {
+        this.states = [...this.commonService.states];
+
+         let filtered = this.states.filter((state) => {
+          if (this.accountService.account.location.state) {
+            return state.id === this.accountService.account.location.state.id;
+          }
+          return false;
+        });
+
+        filtered.length && (this.commonService.accountState = filtered[0].name);
+      })
+  }
+
+  private setCountry() {
+    this.accountService.account.location.country = {
+      id: null,
+      name: null
+    };
+  }
+
+  private setState() {
+    this.accountService.account.location.state = {
+      id: null,
+      name: null,
+      code: null
+    };
   }
 }

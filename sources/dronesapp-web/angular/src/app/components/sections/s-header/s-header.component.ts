@@ -7,12 +7,11 @@ import { Component, HostListener, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
-
   isScroll = false;
 
   constructor() {}
 
-  @HostListener('window:scroll') onScroll() {
-    this.isScroll = window.pageYOffset > 80;
-  }
+  // @HostListener('window:scroll') onScroll() {
+  //   //this.isScroll = window.pageYOffset > 80;
+  // }
 }

@@ -1,42 +1,99 @@
-<form (submit)="onSubmit()" class="f-company f-default">
+<form novalidate
+      #companyForm="ngForm"
+      (submit)="saveChanges($event, companyForm)"
+      class="f-company f-default">
+
   <div class="f-default__row">
     <label class="f-default__label">
-      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Company Display Name:</span>
-      <input class="f-default__field" type="text" placeholder="Tester1" name="name" [(ngModel)]="company.name" [required]="_appService.isUserPilot"/>
-      <span class="f-default__error" *ngIf="isPilot">This field is required</span>
+      <span class="f-default__text" [ngClass]="{'_req': accountService.isUserPilot()}">Company Display Name:</span>
+      <input class="f-default__field"
+             type="text"
+             name="name"
+             [(ngModel)]="accountService.company && accountService.company.name"
+             [required]="accountService.isUserPilot()"
+             #nameRef="ngModel"
+             [ngClass]="{'_error': submitted && nameRef.errors?.required}">
+      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && nameRef.errors?.required">This field is required</span>
     </label>
   </div>
+
   <div class="f-default__row">
     <label class="f-default__label">
       <span class="f-default__text">Web Url:</span>
-      <input class="f-default__field" type="text" placeholder="www.Test1.com" name="url" [(ngModel)]="company.url"/>
+      <input class="f-default__field"
+             type="text"
+             name="url"
+             [(ngModel)]="accountService.company && accountService.company.webURL"/>
+    </label>
+  </div>
+
+  <div class="f-default__row">
+    <label class="f-default__label">
+      <span class="f-default__text" [ngClass]="{'_req': accountService.isUserPilot()}">Contact Name:</span>
+      <input class="f-default__field"
+             type="text"
+             name="contactName"
+             [(ngModel)]="accountService.company && accountService.company.contactName"
+             [required]="accountService.isUserPilot()"
+             #contactNameRef="ngModel"
+             [ngClass]="{'_error': submitted && contactNameRef.errors?.required}">
+      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && contactNameRef.errors?.required">This field is required</span>
+    </label>
+  </div>
+
+  <div class="f-default__row">
+    <label class="f-default__label">
+      <span class="f-default__text" [ngClass]="{'_req': accountService.isUserPilot()}">Contact Email:</span>
+      <input class="f-default__field"
+             type="text"
+             name="contactEmail"
+             [(ngModel)]="accountService.company && accountService.company.contactEmail"
+             [required]="accountService.isUserPilot()"
+             #contactEmailRef="ngModel"
+             [ngClass]="{'_error': submitted && contactEmailRef.errors?.required}">
+      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && contactEmailRef.errors?.required">This field is required</span>
     </label>
   </div>
   <div class="f-default__row">
     <label class="f-default__label">
-      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Contact Name:</span>
-      <input class="f-default__field" type="text" placeholder="Tester1" name="contactName" [(ngModel)]="company.contactName" [required]="_appService.isUserPilot"/>
-      <span class="f-default__error" *ngIf="_appService.isUserPilot">This field is required</span>
-    </label>
-  </div>
-  <div class="f-default__row">
-    <label class="f-default__label">
-      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Contact Email:</span>
-      <input class="f-default__field" type="text" placeholder="iuhui@uihv.com" name="contactEmail" [(ngModel)]="company.contactEmail" [required]="_appService.isUserPilot"/>
-      <span class="f-default__error" *ngIf="_appService.isUserPilot">This field is required</span>
-    </label>
-  </div>
-  <div class="f-default__row">
-    <label class="f-default__label">
-      <span class="f-default__text" [ngClass]="{'_req': _appService.isUserPilot}">Country:</span>
-      <select class="f-default__field" name="country" [(ngModel)]="company.country" [required]="_appService.isUserPilot">
-        <option>USA</option>
-        <option>France</option>
+      <span class="f-default__text" [ngClass]="{'_req': accountService.isUserPilot()}">Country:</span>
+
+      <select class="f-default__field"
+              name="country"
+              [(ngModel)]="commonService.companyCountry"
+              (ngModelChange)="selectCountry($event)"
+              [required]="accountService.isUserPilot()"
+              #countryRef="ngModel"
+              [ngClass]="{'_error': submitted && countryRef.errors?.required}">
+
+        <option *ngFor="let option of countries"
+                [value]="option.name">
+          {{option.name}}
+        </option>
       </select>
-      <span class="f-default__error" *ngIf="_appService.isUserPilot">This field is required</span>
+      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && countryRef.errors?.required">This field is required</span>
     </label>
   </div>
 
-  <button type="submit" class="f-default__button f-client-company__button">Save Changes</button>
+  <div class="f-default__row" *ngIf="commonService.checkCountry('companyCountry')">
+    <label class="f-default__label">
+      <span class="f-default__text" [ngClass]="{'_req': accountService.isUserPilot()}">State:</span>
+      <select class="f-default__field"
+              name="state"
+              [(ngModel)]="commonService.companyState"
+              (ngModelChange)="selectState($event)"
+              [required]="accountService.isUserPilot()"
+              #stateRef="ngModel"
+              [ngClass]="{'_error': submitted && stateRef.errors?.required}">
 
+        <option *ngFor="let option of states"
+                [value]="option.name">
+          {{option.name}}
+        </option>
+      </select>
+      <span class="f-default__error" *ngIf="accountService.isUserPilot() && submitted && stateRef.errors?.required">This field is required</span>
+    </label>
+  </div>
+
+  <button class="f-default__button f-client-company__button">Save Changes</button>
 </form>

@@ -1,59 +1,73 @@
-import { Injectable } from '@angular/core';
-import { RequestService } from '../request.service/request.service';
+import {Injectable} from '@angular/core';
+import {RequestService} from '../request.service/request.service';
 import 'rxjs/add/operator/map';
-import { RequestOptions, Headers } from '@angular/http';
+import {AccountModel} from './account.interface';
+import {TokenService} from '../token.service/token.service';
+import {AccountCompanyModel} from './accountCompany.interface';
 
 @Injectable()
 export class AccountService {
-  currentUser: any;
-  account = {
-      '_id': '58fa06d5070639d287c1e697',
-      general: {
-        firstName: 'Marlene',
-        lastName: 'Wise',
-        address: '605 Borinquen Pl',
-        country: 'USA',
-        state: 'Colorado',
-        city: 'Stollings',
-        postalCode: 708011,
-        flightHours: 5,
-        profileImage: 'http://placehold.it/256x256',
-        introduction: 'Nostrud qui reprehenderit qui tempor id esse ad deserunt elit cupidatat aute quis. Irure dolor exercitation culpa ex id do eiusmod aliquip consequat ad nulla et. Quis eiusmod nulla ad nulla cillum labore consectetur voluptate officia. Amet dolore consequat consequat cupidatat id deserunt sunt velit. Ad adipisicing mollit fugiat veniam duis deserunt laboris ea minim exercitation ad magna. Commodo ea officia cupidatat et nisi est aliqua ex est deserunt ipsum. Velit Lorem amet commodo eu est nulla culpa pariatur ea.',
-      },
-      company: {
-        name: 'NSPIRE',
-        url: 'http://beta.json-generator.com/',
-        contactName: 'Susanna Shaw',
-        contactEmail: 'Carroll.Griffith@example.com',
-        country: 'USA'
-      }
-    };
+  account: AccountModel = null;
+  company: AccountCompanyModel = null;
 
-  constructor(
-    private _requestService: RequestService
-  ) {}
+  constructor(private _requestService: RequestService,
+              private _tokenService: TokenService) {
+  }
 
   isUserClient() {
-    return this.currentUser.groups.map((group) => group.role).pop() === 'ROLE_CLIENT';
+    // console.log('-check is client');
+
+    if (!this.account) {
+      return false;
+    }
+    return this.account.groups.map((group) => group.role).pop() === 'ROLE_CLIENT';
   }
 
   isUserPilot() {
-    return this.currentUser.groups.map((group) => group.role).pop() === 'ROLE_PILOT';
+    // console.log('-check is pilot');
+    if (!this.account) {
+      return false;
+    }
+    return this.account.groups.map((group) => group.role).pop() === 'ROLE_PILOT';
   }
 
   getUserData() {
-    return this._requestService.fetch('get', '/account');
+    return this._requestService.fetch('get', '/account')
+      .then((res) => {
+        this.account = res.json();
+
+        console.log(this.account);
+
+        // sessionStorage.setItem('user', JSON.stringify(this.account));
+        return this.account;
+      });
   }
 
-  saveUserPhoto(file) {
-    const headers = new Headers({
-      'Authorization': this._requestService.getCurrentToken()
-    });
-    return new RequestOptions({ headers: headers });
+  setUserData(data: AccountModel) {
+    return this._requestService.fetch('put', '/account', data)
   }
 
-  saveUserData(data) {
-    return this._requestService.fetch('put', '/account', data);
+  getUserCompany() {
+    return this._requestService.fetch('get', '/account/company')
+      .then((res) => {
+        this.company = res.json();
+
+        console.log(this.company);
+
+        // sessionStorage.setItem('user', JSON.stringify(this.account));
+        return this.company;
+      });
   }
 
+  setUserCompany(data: AccountCompanyModel) {
+    return this._requestService.fetch('put', '/account/company', data);
+  }
+
+  setEmailAdress(data: {email: string, password: string}) {
+    return this._requestService.fetch('put', '/account/email', data);
+  }
+
+  isAuthorized() {
+    return this._tokenService.accessToken && this._tokenService.refreshToken;
+  }
 }

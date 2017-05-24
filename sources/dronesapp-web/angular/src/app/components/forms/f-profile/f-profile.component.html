@@ -1,4 +1,7 @@
-<form novalidate (submit)="saveChanges()" class="f-profile f-default">
+<form novalidate
+      #profileForm="ngForm"
+      (submit)="saveChanges($event, profileForm)"
+      class="f-profile f-default">
   <div class="f-default__inner">
     <div class="f-default__col">
       <div class="f-default__row">
@@ -9,60 +12,110 @@
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">First Name:</span>
-          <input class="f-default__field" type="text" name="firstName" [(ngModel)]="account.firstName" required/>
-          <span class="f-default__error">This field is required</span>
+          <input class="f-default__field"
+                 type="text"
+                 name="firstName"
+                 [(ngModel)]="accountService.account.firstName"
+                 required
+                 #firstNameRef="ngModel"
+                 [ngClass]="{'_error': submitted && firstNameRef.errors?.required}"/>
+          <span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Last Name:</span>
-          <input class="f-default__field" type="text" name="lastName" [(ngModel)]="account.lastName" required/>
-          <span class="f-default__error">This field is required</span>
+          <input class="f-default__field"
+                 type="text"
+                 name="lastName"
+                 [(ngModel)]="accountService.account.lastName"
+                 required
+                 #lastNameRef="ngModel"
+                 [ngClass]="{'_error': submitted && lastNameRef.errors?.required}"/>
+          <span class="f-default__error" *ngIf="submitted && lastNameRef.errors?.required">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Address:</span>
-          <input class="f-default__field" type="text" name="address"
-                 [(ngModel)]="account.location && account.location.address" required/>
-          <span class="f-default__error">This field is required</span>
+          <input class="f-default__field"
+                 type="text"
+                 name="address"
+                 [(ngModel)]="accountService.account.location.address"
+                 required
+                 #addressRef="ngModel"
+                 [ngClass]="{'_error': submitted && addressRef.errors?.required}"/>
+          <span class="f-default__error" *ngIf="submitted && addressRef.errors?.required">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Country:</span>
-          <select class="f-default__field" name="country"
-                  [(ngModel)]="account.location && account.location.country && account.location.country.name" required>
-            <option value="USA">USA</option>
-            <option value="France">France</option>
+          <select class="f-default__field"
+                  name="country"
+                  [(ngModel)]="commonService.accountCountry"
+                  (ngModelChange)="selectCountry($event)"
+                  required
+                  #countryRef="ngModel"
+                  [ngClass]="{'_error': submitted && countryRef.errors?.required}">
+
+            <option *ngFor="let option of countries"
+                    [value]="option.name">
+              {{option.name}}
+            </option>
           </select>
-          <span class="f-default__error">This field is required</span>
+
+          <span class="f-default__error" *ngIf="submitted && countryRef.errors?.required">This field is required</span>
         </label>
       </div>
-      <div class="f-default__row">
+
+      <div class="f-default__row" *ngIf="commonService.checkCountry('accountCountry')">
         <label class="f-default__label">
           <span class="f-default__text _req">State:</span>
-          <input class="f-default__field" type="text" name="state"
-                 [(ngModel)]="account.location && account.location.state && account.location.state.name" required/>
-          <span class="f-default__error">This field is required</span>
+          <select class="f-default__field"
+                  name="state"
+                  [(ngModel)]="commonService.accountState"
+                  (ngModelChange)="selectState($event)"
+                  required
+                  #stateRef="ngModel"
+                  [ngClass]="{'_error': submitted && stateRef.errors?.required}">
+
+            <option *ngFor="let option of states"
+                    [value]="option.name">
+              {{option.name}}
+            </option>
+          </select>
+          <span class="f-default__error" *ngIf="submitted && stateRef.errors?.required">This field is required</span>
         </label>
       </div>
+
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">City:</span>
-          <input class="f-default__field" type="text" name="city"
-                 [(ngModel)]="account.location && account.location.city" required/>
-          <span class="f-default__error">This field is required</span>
+          <input class="f-default__field"
+                 type="text"
+                 name="city"
+                 [(ngModel)]="accountService.account.location && accountService.account.location.city"
+                 required
+                 #cityRef="ngModel"
+                 [ngClass]="{'_error': submitted && cityRef.errors?.required}">
+          <span class="f-default__error" *ngIf="submitted && cityRef.errors?.required">This field is required</span>
         </label>
       </div>
       <div class="f-default__row">
         <label class="f-default__label">
           <span class="f-default__text _req">Postal Code:</span>
-          <input class="f-default__field" type="text" name="postalCode" [(ngModel)]="account.postcode" required/>
-          <span class="f-default__error">This field is required</span>
+          <input class="f-default__field"
+                 type="text"
+                 name="postalCode"
+                 [(ngModel)]="accountService.account.location.postcode"
+                 required
+                 #postalCodeRef="ngModel"
+                 [ngClass]="{'_error': submitted && postalCodeRef.errors?.required}">
+          <span class="f-default__error" *ngIf="submitted && postalCodeRef.errors?.required">This field is required</span>
         </label>
       </div>
-      <div class="f-default__row" *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()">
+      <div class="f-default__row" *ngIf="false && authorizationService.isUserLogin && accountService.isUserPilot()">
         <label class="f-default__label">
           <span class="f-default__text">Flight Hours:</span>
           <input class="f-default__field" type="text" name="flightHours"/>
@@ -80,20 +133,21 @@
                  name="profileImage"
                  (change)="handlePhotoUpload($event)"
                  ng2FileSelect
-                 [uploader]="uploader"
-                 required/>
-          <span class="f-default__error">This field is required</span>
+                 [uploader]="uploader">
+          <!--<span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>-->
         </label>
       </div>
-      <div class="f-default__row" *ngIf="account.photoURL">
+      <div class="f-default__row" *ngIf="accountService.account.photoURL">
         <div class="f-default__avatar">
-          <img src="{{account.photoURL}}" alt="avatar">
+          <img src="{{accountService.account.photoURL}}" alt="avatar">
         </div>
       </div>
       <div class="f-default__row">
         <label class="f-default__label _top">
           <span class="f-default__text _lh">Introduction:</span>
-          <textarea class="f-default__field _area" name="introduction" [(ngModel)]="account.summary"></textarea>
+          <textarea class="f-default__field _area"
+                    name="introduction"
+                    [(ngModel)]="accountService.account.summary"></textarea>
         </label>
       </div>
     </div>

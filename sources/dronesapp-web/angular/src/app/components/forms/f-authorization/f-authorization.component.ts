@@ -49,13 +49,10 @@ export class FAuthorizationComponent implements OnInit {
       return;
     }
 
-    this._authorizationService.sendLoginData({email: this.formData.email, password: this.formData.password})
-      .then((res) => {
+    this._authorizationService.signIn({email: this.formData.email, password: this.formData.password})
+      .then(() => {
         this._accountService.getUserData()
-          .then((userData) => {
-            this._accountService.currentUser = userData.json();
-            sessionStorage.setItem('user', JSON.stringify(this._accountService.currentUser));
-            this._authorizationService.isUserLogin = true;
+          .then(() => {
             this._router.navigate(['/']);
           });
       })
@@ -72,7 +69,7 @@ export class FAuthorizationComponent implements OnInit {
       return;
     }
 
-    this._authorizationService.sendSignUpData(this.formData)
+    this._authorizationService.signUp(this.formData)
       .then((res) => {
         this._authorizationService.signUpFormActive = false;
         this.sendLoginRequest(e, form);

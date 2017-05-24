@@ -1,0 +1,9 @@
+<form class="f-notifications"
+      novalidate
+      #notifyForm="ngForm"
+      (ngSubmit)="changeSettings($event, notifyForm)">
+
+  <button class="f-default__button"
+          [disabled]="submitted && !notifyForm.form.valid">{{ getButtonTitle() }}
+  </button>
+</form>

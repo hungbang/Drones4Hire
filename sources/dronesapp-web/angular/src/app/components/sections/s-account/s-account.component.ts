@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { AppService } from '../../../services/app.service/app.service';
 import { AccountService } from '../../../services/account.service/account.service';
 import { AuthorizationService } from '../../../services/authorization.service/authorization.service';
+import {CommonService} from '../../../services/common.service/common.service';
 
 @Component({
   selector: 's-account',

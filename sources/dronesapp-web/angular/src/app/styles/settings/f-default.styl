@@ -103,11 +103,15 @@
     &._submit.ng-invalid
       +.f-profile__error
         opacity 1
+    &._error
+      &+.f-default
+        &__error
+          opacity: 1
   &__error
     position: absolute
     font-size 1.2rem
     color red
-    bottom: -5px
+    bottom: 0
     left: 0
     opacity 0
   &__text

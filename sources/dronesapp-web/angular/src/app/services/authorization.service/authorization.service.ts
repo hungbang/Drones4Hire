@@ -26,20 +26,21 @@ export class AuthorizationService {
     this.isUserLogin = false;
     this._tokenService.removeTokensFromLocalStorage();
     sessionStorage.removeItem('user');
-    this._accountService.currentUser = null;
+    this._accountService.account = null;
   }
 
-  sendLoginData(formData) {
+  signIn(formData) {
     return this._requestService.fetch('post', '/auth/login', formData)
       .then((res) => {
         res = res.json();
         this.tokenType = res.type;
         this.saveTokens(res);
+        this.isUserLogin = true;
         return res;
       });
   }
 
-  sendSignUpData(formData) {
+  signUp(formData) {
     return this._requestService.fetch('post', '/auth/register', formData)
       .then((res) => {
         return res;

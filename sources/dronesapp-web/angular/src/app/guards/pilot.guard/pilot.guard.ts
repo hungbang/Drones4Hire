@@ -1,26 +1,21 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { AccountService } from '../../services/account.service/account.service';
-import { AuthorizationService } from '../../services/authorization.service/authorization.service';
-import { TokenService } from '../../services/token.service/token.service';
+import {Injectable} from '@angular/core';
+import {CanActivate, Router} from '@angular/router';
+import {AccountService} from '../../services/account.service/account.service';
 
 @Injectable()
 export class PilotGuard implements CanActivate {
-  constructor(
-    private _authorizationService: AuthorizationService,
-    private _accountService: AccountService,
-    private _tokenService: TokenService,
-    private _router: Router
-    ) {
+  constructor(private _accountService: AccountService,
+              private _router: Router) {
   }
 
   canActivate() {
-    if (this._accountService.currentUser && this._accountService.isUserPilot()) {
+    console.log('-activate pilot guard');
+
+    if (this._accountService.account && this._accountService.isUserPilot()) {
       return true;
-    } else if (this._tokenService.accessToken && this._tokenService.refreshToken) {
+    } else if (this._accountService.isAuthorized()) {
       return this._accountService.getUserData()
-        .then((res) => {
-          this._accountService.currentUser = res.json();
+        .then(() => {
           if (this._accountService.isUserPilot()) {
             return true;
           } else {
