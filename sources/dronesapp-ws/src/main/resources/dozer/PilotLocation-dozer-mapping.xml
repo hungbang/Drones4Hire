@@ -3,32 +3,28 @@
           xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
     <mapping type="bi-directional" wildcard="false">
-        <class-a>com.drones4hire.dronesapp.models.dto.ProfileDTO</class-a>
-        <class-b>com.drones4hire.dronesapp.models.db.users.Profile</class-b>
+        <class-a>com.drones4hire.dronesapp.models.dto.PilotLocationDTO</class-a>
+        <class-b>com.drones4hire.dronesapp.models.db.users.PilotLocation</class-b>
 
         <field>
             <a>id</a>
             <b>id</b>
         </field>
         <field>
-            <a>tagline</a>
-            <b>tagline</b>
+            <a>office</a>
+            <b>office</b>
         </field>
         <field>
-            <a>bio</a>
-            <b>bio</b>
+            <a>phone</a>
+            <b>phone</b>
         </field>
         <field>
-            <a>webURL</a>
-            <b>webURL</b>
+            <a>alternativePhone</a>
+            <b>alternativePhone</b>
         </field>
         <field>
-            <a>companyLogoURL</a>
-            <b>companyLogoURL</b>
-        </field>
-        <field>
-            <a>coverPhotoURL</a>
-            <b>coverPhotoURL</b>
+            <a>location</a>
+            <b>location</b>
         </field>
     </mapping>
 </mappings>

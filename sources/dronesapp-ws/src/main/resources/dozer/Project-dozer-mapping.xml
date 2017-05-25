@@ -7,6 +7,10 @@
         <class-b>com.drones4hire.dronesapp.models.db.projects.Project</class-b>
 
         <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
             <a>title</a>
             <b>title</b>
         </field>

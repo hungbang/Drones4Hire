@@ -11,6 +11,8 @@ public interface PilotLocationMapper {
 
     List<PilotLocation> getAllPilotLocations();
 
+    List<PilotLocation> getPilotLocationsByUserId(long userId);
+
     void updatePilotLocation(PilotLocation pilotLocation);
 
     void deletePilotLocation(long id);

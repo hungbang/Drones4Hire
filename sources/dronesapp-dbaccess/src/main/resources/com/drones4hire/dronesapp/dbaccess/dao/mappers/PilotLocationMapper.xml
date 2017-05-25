@@ -75,6 +75,14 @@
         <include refid="getPilotLocations"/>
     </select>
 
+    <select id="getPilotLocationsByUserId" resultMap="PilotLocationResultMap">
+        <include refid="getPilotLocations"/>
+        <![CDATA[
+          WHERE
+            PL.USER_ID = #{userId}
+        ]]>
+    </select>
+
     <update id="updatePilotLocation">
         <![CDATA[
           UPDATE

@@ -2,13 +2,17 @@ package com.drones4hire.dronesapp.ws.controllers;
 
 import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_PASSWORD_PATH;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
-import com.drones4hire.dronesapp.models.db.users.Profile;
+import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.users.*;
 import com.drones4hire.dronesapp.models.dto.*;
+import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.services.*;
+import io.swagger.annotations.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -17,28 +21,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.services.Service;
-import com.drones4hire.dronesapp.models.db.users.Company;
-import com.drones4hire.dronesapp.models.db.users.PilotLicense;
-import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.auth.ChangePasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 
 @Controller
 @Api(value = "Account API")
@@ -51,6 +42,9 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private LocationService locationService;
+
+	@Autowired
+	private PilotLocationService pilotLocationService;
 
 	@Autowired
 	private CompanyService companyService;
@@ -248,5 +242,71 @@ public class AccountController extends AbstractController
 		profile.setCompanyLogoURL(p.getCompanyLogoURL());
 		profile.setCoverPhotoURL(p.getCoverPhotoURL());
 		return mapper.map(profileService.updateProfile(profile), ProfileDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create pilot location", nickname = "createPilotLocation", code = 201, httpMethod = "POST", response = PilotLocationDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@RequestMapping(value = "locations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLocationDTO createPilotLocation(@Valid @RequestBody PilotLocationDTO pl)
+	{
+		PilotLocation pilotLocation = mapper.map(pl, PilotLocation.class);
+		pilotLocation.setUserId(getPrincipal().getId());
+		return mapper.map(pilotLocationService.createPilotLocation(pilotLocation), PilotLocationDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get pilot locations", nickname = "getPilotLocations", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@RequestMapping(value = "locations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<PilotLocationDTO> getPilotLocations()
+	{
+		List<PilotLocation> pilotLocations = pilotLocationService.getPilotLocationsByUserId(getPrincipal().getId());
+		List<PilotLocationDTO> pilotLocationDTOs = new ArrayList<>();
+		for(PilotLocation pilotLocation : pilotLocations)
+		{
+			pilotLocationDTOs.add(mapper.map(pilotLocation, PilotLocationDTO.class));
+		}
+		return pilotLocationDTOs;
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Change pilot location", nickname = "changePilotLocation", code = 200, httpMethod = "PUT", response = PilotLocationDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@RequestMapping(value = "locations", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLocationDTO changePilotLocation(@Valid @RequestBody PilotLocationDTO pl) throws ServiceException
+	{
+		PilotLocation pilotLocation = pilotLocationService.getPilotLocationById(pl.getId());
+		checkPrincipalPermissions(pilotLocation.getUserId());
+		pilotLocation.setOffice(pl.getOffice());
+		pilotLocation.setPhone(pl.getPhone());
+		pilotLocation.setAlternativePhone(pl.getAlternativePhone());
+		pilotLocation.setLocation(mapper.map(pl.getLocation(), Location.class));
+		return mapper.map(pilotLocationService.updatePilotLocation(pilotLocation), PilotLocationDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete pilot location", nickname = "deletePilotLocation", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@RequestMapping(value = "locations/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void deletePilotLocation(
+			@ApiParam(value = "Id of the pilot location", required = true) @PathVariable(value = "id") long id)
+			throws ForbiddenOperationException
+	{
+		PilotLocation pilotLocation = pilotLocationService.getPilotLocationById(id);
+		checkPrincipalPermissions(pilotLocation.getUserId());
+		pilotLocationService.deletePilotLocation(pilotLocation);
 	}
 }
