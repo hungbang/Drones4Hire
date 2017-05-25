@@ -23,7 +23,7 @@ export class FEmailComponent {
       return;
     }
 
-    this._accountService.setEmailAdress({email: this.email, password: this.password})
+    this._accountService.setEmailAddress({email: this.email, password: this.password})
       .subscribe(() => {
         console.log('email is updated');
       });

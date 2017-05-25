@@ -7,6 +7,7 @@ import {StateModel} from './state.interface';
 export class CommonService {
   public countries: CountryModel[] = [];
   public states: StateModel[] = [];
+
   public accountCountry: string = null;
   public accountState: string = null;
   public companyCountry: string = null;

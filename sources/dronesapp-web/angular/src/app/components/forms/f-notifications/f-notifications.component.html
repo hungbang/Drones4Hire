@@ -1,9 +1,228 @@
-<form class="f-notifications"
+<form class="f-notifications f-default"
       novalidate
       #notifyForm="ngForm"
-      (ngSubmit)="changeSettings($event, notifyForm)">
+      (ngSubmit)="changeSettings()">
 
-  <button class="f-default__button"
-          [disabled]="submitted && !notifyForm.form.valid">{{ getButtonTitle() }}
+  <div class="f-default__row">
+    <h3 class="f-default__title">I Want To Receive Email</h3>
+  </div>
+
+  <div class="f-default__row f-notifications__row">
+    <span class="f-default__text">
+      Email Format:
+    </span>
+
+    <div class="f-default__labels">
+      <label class="f-default__radio _invert">
+        <input class="f-default__radio-input"
+               type="radio"
+               [ngModel]="accountService.notifications?.plainEmail"
+               (ngModelChange)="accountService.notifications.plainEmail = $event"
+               [value]="true"
+               name="type">
+        <span class="f-default__radio-text">HTML</span>
+      </label>
+
+      <label class="f-default__radio _invert">
+        <input class="f-default__radio-input"
+               type="radio"
+               [ngModel]="accountService.notifications?.plainEmail"
+               (ngModelChange)="accountService.notifications.plainEmail = $event"
+               [value]="false"
+               name="type"/>
+        <span class="f-default__radio-text">Plain Text</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        when a bid is placed/updated.
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="bidPlaced"
+               [ngModel]="accountService.notifications?.bidPlaced"
+               (ngModelChange)="accountService.notifications.bidPlaced = $event"
+               [attr.checked]="accountService.notifications?.bidPlaced"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        When I receive payment
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="paymentReceived"
+               [ngModel]="accountService.notifications?.paymentReceived"
+               (ngModelChange)="accountService.notifications.paymentReceived = $event"
+               [attr.checked]="accountService.notifications?.paymentReceived"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        When you receive a message about a project
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="projectUpdate"
+               [ngModel]="accountService.notifications?.projectUpdate"
+               (ngModelChange)="accountService.notifications.projectUpdate = $event"
+               [attr.checked]="accountService.notifications?.projectUpdate"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        When you receive a message from Drones4Hire.com staff
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="staff"
+               [ngModel]="accountService.notifications?.staff"
+               (ngModelChange)="accountService.notifications.staff = $event"
+               [attr.checked]="accountService.notifications?.staff"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        News and announcements from Drones4Hire.com
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="dronesNews"
+               [ngModel]="accountService.notifications?.dronesNews"
+               (ngModelChange)="accountService.notifications.dronesNews = $event"
+               [attr.checked]="accountService.notifications?.dronesNews"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        A client awards you a project
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="projectAward"
+               [ngModel]="accountService.notifications?.projectAward"
+               (ngModelChange)="accountService.notifications.projectAward = $event"
+               [attr.checked]="accountService.notifications?.projectAward"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="f-default__row">
+    <h3 class="f-default__title">Other Notifications</h3>
+  </div>
+
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        Marketing emails
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="marketing"
+               [ngModel]="accountService.notifications?.marketing"
+               (ngModelChange)="accountService.notifications.marketing = $event"
+               [attr.checked]="accountService.notifications?.marketing"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        Drones4Hire.com deals
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="deals"
+               [ngModel]="accountService.notifications?.deals"
+               (ngModelChange)="accountService.notifications.deals = $event"
+               [attr.checked]="accountService.notifications?.deals"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+  <div class="f-default__row">
+    <div class="f-default__check">
+      <span class="f-default__text">
+        Monthly newsletter
+      </span>
+
+      <label class="f-default__checkbox">
+        <input class="f-default__input"
+               type="checkbox"
+               name="monthlyNews"
+               [ngModel]="accountService.notifications?.monthlyNews"
+               (ngModelChange)="accountService.notifications.monthlyNews = $event"
+               [attr.checked]="accountService.notifications?.monthlyNews"/>
+
+        <span class="f-default__slider"></span>
+        <span class="f-default__toggle _on">ON</span>
+        <span class="f-default__toggle _off">OFF</span>
+      </label>
+    </div>
+  </div>
+
+  <button class="f-default__button" [disabled]="submitted">Save settings
   </button>
 </form>

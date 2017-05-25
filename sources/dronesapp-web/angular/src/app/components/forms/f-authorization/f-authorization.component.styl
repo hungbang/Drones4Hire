@@ -104,45 +104,6 @@
       &:hover
         color #23527c
         text-decoration: underline
-  &__radio
-    &+&
-      margin-left 15px
-    &-text
-      font-size: 14px;
-      font-weight: 400
-      line-height: 16px
-      color: #fff;
-      padding-left 25px
-      position: relative
-      &:before
-        ps()
-        width: 16px
-        height: 16px
-        left: 0
-        top: 0
-        border-radius 50%
-        background #fff
-      &:after
-        ps()
-        display none
-        left: 4px
-        top: 4px
-        border-radius 50%
-        width: 8px
-        height: 8px
-        background #000
-    &-input
-      &._error
-        & + .f-authorization
-          &__radio-text
-            &:before
-              border: 2px solid rgb(252, 16, 16);
-              background-color: rgb(250, 197, 197);
-      &:checked
-        & + .f-authorization
-          &__radio-text
-            &:after
-              display: block
   &__chk
     &-text
       font-size: 14px;

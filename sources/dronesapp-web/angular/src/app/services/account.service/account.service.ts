@@ -5,15 +5,19 @@ import {AccountModel} from './account.interface';
 import {TokenService} from '../token.service/token.service';
 import {AccountCompanyModel} from './accountCompany.interface';
 import {AccountLicenseModel} from './accountLicense.interface';
+import {AccountNotificationsModel} from './accountNotifications.interface';
+import {AppService} from '../app.service/app.service';
 
 @Injectable()
 export class AccountService {
   account: AccountModel = null;
   company: AccountCompanyModel = null;
   license: AccountLicenseModel = null;
+  notifications: AccountNotificationsModel = null;
 
   constructor(private _requestService: RequestService,
-              private _tokenService: TokenService) {
+              private _tokenService: TokenService,
+              private _appService: AppService) {
   }
 
   isUserClient() {
@@ -36,7 +40,7 @@ export class AccountService {
   getUserData() {
     return this._requestService.fetch('get', '/account')
       .map((res) => {
-        this.account = {...this.setAccount(), ...res};
+        this.account = this._appService.mergeDeep(this.setAccount(), res);
 
         console.log(this.account);
 
@@ -80,8 +84,20 @@ export class AccountService {
     return this._requestService.fetch('put', '/account/license', data);
   }
 
-  setEmailAdress(data: {email: string, password: string}) {
+  setEmailAddress(data: {email: string, password: string}) {
     return this._requestService.fetch('put', '/account/email', data);
+  }
+
+  getUserNotifications() {
+    return this._requestService.fetch('get', '/account/notifications')
+      .subscribe(res => {
+        console.log('user notifications', res);
+        this.notifications = res;
+      })
+  }
+
+  setUserNotifications(data: AccountNotificationsModel) {
+    return this._requestService.fetch('put', '/account/notifications', data);
   }
 
   isAuthorized() {

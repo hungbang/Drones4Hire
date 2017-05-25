@@ -1,36 +1,36 @@
 export interface AccountModel {
-  email: string,
-  firstName: string,
+  email: string;
+  firstName: string;
   groups: [
     {
-      id: number,
-      name: string,
-      role: string,
+      id: number;
+      name: string;
+      role: string;
     }
-    ],
-  id: number,
-  introduction: string,
-  lastName: string,
+  ];
+  id: number;
+  introduction: string;
+  lastName: string;
   location: {
-    address: string,
-    city: string,
+    address: string;
+    city: string;
     coordinates: {
-      latitude: number,
+      latitude: number;
       longitude: number
-    },
+    };
     country: {
-      id: number,
+      id: number;
       name: string
-    },
-    id: number,
-    postcode: number,
+    };
+    id: number;
+    postcode: number;
     state: {
-      code: string,
-      id: number,
+      code: string;
+      id: number;
       name: string
     }
-  },
-  photoURL: string,
-  summary: string,
-  username: string
+  };
+  photoURL: string;
+  summary: string;
+  username: string;
 }

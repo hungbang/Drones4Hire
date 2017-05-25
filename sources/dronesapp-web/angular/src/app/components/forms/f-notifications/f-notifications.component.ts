@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 'f-notifications',
@@ -6,8 +7,23 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
   styleUrls: ['./f-notifications.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class FNotificationsComponent {
+export class FNotificationsComponent implements OnInit{
+  private submitted: boolean = false;
 
-  constructor() {
+  constructor(public accountService: AccountService) {
+  }
+
+  ngOnInit() {
+    this.accountService.getUserNotifications();
+  }
+
+  changeSettings() {
+    this.accountService.setUserNotifications(this.accountService.notifications)
+      .subscribe(res => {
+        console.log(res, '-update notifications');
+        this.submitted = false;
+      });
+
+    this.submitted = true;
   }
 }

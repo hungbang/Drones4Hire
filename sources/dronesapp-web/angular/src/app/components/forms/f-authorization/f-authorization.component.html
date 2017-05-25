@@ -1,4 +1,4 @@
-<form class="f-authorization"
+<form class="f-authorization f-default"
       novalidate
       #authForm="ngForm"
       (ngSubmit)="sendAuthorizationRequest($event, authForm)">
@@ -105,9 +105,9 @@
     <div class="f-authorization__col">
       <div class="f-authorization__name">Sign up As</div>
 
-      <div class="f-authorization__labels">
-        <label class="f-authorization__radio">
-          <input class="f-authorization__radio-input"
+      <div class="f-default__labels">
+        <label class="f-default__radio">
+          <input class="f-default__radio-input"
                  type="radio"
                  [(ngModel)]="formData.role"
                  value="ROLE_PILOT"
@@ -115,11 +115,11 @@
                  required
                  #roleRef="ngModel"
                  [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
-          <span class="f-authorization__radio-text">Drone Pilot</span>
+          <span class="f-default__radio-text">Drone Pilot</span>
         </label>
 
-        <label class="f-authorization__radio">
-          <input class="f-authorization__radio-input"
+        <label class="f-default__radio">
+          <input class="f-default__radio-input"
                  type="radio"
                  [(ngModel)]="formData.role"
                  value="ROLE_CLIENT"
@@ -127,7 +127,7 @@
                  required
                  #roleRef="ngModel"
                  [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
-          <span class="f-authorization__radio-text">Client</span>
+          <span class="f-default__radio-text">Client</span>
         </label>
       </div>
     </div>

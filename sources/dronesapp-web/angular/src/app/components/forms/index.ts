@@ -9,6 +9,7 @@ import { FTransactionsSearchComponent } from './f-transactions-search/f-transact
 import { FProjectAddComponent } from './f-project-add/f-project-add.component';
 import { FAuthorizationComponent } from './f-authorization/f-authorization.component';
 import {FEmailComponent} from './f-email/f-email.component';
+import {FNotificationsComponent} from './f-notifications/f-notifications.component';
 
 export const FORMS = [
   FAuthorizationComponent,
@@ -22,5 +23,6 @@ export const FORMS = [
   FSearchComponent,
   FTransactionsSearchComponent,
   FProjectAddComponent,
-  FEmailComponent
+  FEmailComponent,
+  FNotificationsComponent
 ];
