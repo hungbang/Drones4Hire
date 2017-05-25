@@ -4,11 +4,13 @@ import 'rxjs/add/operator/map';
 import {AccountModel} from './account.interface';
 import {TokenService} from '../token.service/token.service';
 import {AccountCompanyModel} from './accountCompany.interface';
+import {AccountLicenseModel} from './accountLicense.interface';
 
 @Injectable()
 export class AccountService {
   account: AccountModel = null;
   company: AccountCompanyModel = null;
+  license: AccountLicenseModel = null;
 
   constructor(private _requestService: RequestService,
               private _tokenService: TokenService) {
@@ -61,6 +63,21 @@ export class AccountService {
 
   setUserCompany(data: AccountCompanyModel) {
     return this._requestService.fetch('put', '/account/company', data);
+  }
+
+  getUserLicense() {
+    return this._requestService.fetch('get', '/account/license')
+      .map((res) => {
+        this.license = res;
+
+        console.log(this.license);
+
+        return this.license;
+      });
+  }
+
+  setUserLicense(data: AccountLicenseModel) {
+    return this._requestService.fetch('put', '/account/license', data);
   }
 
   setEmailAdress(data: {email: string, password: string}) {

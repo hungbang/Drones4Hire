@@ -1,15 +1,45 @@
-<form class="f-default f-license">
-    <div class="f-default__row">
-      <label class="f-default__label _top">
-        <span class="f-default__text _req">Pilot License:</span>
-        <input class="f-default__field _file" type="file"/>
-      </label>
+<form class="f-default f-license"
+      novalidate
+      #licenceForm="ngForm"
+      (submit)="saveChanges($event, licenceForm)">
+
+  <div class="f-default__row">
+    <label class="f-default__label _top">
+      <span class="f-default__text _req">Pilot License:</span>
+      <input class="f-default__field _file"
+             type="file"
+             accept="image/jpeg,image/jpg,image/png"
+             name="pilotLicenceImage"
+             ng2FileSelect
+             [uploader]="uploader">
+      <!--<span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>-->
+    </label>
+  </div>
+
+  <div class="f-default__row" *ngIf="accountService.license?.licenseURL">
+    <div class="f-default__avatar">
+      <img src="{{accountService.license.licenseURL}}" alt="pilotLicenceImage">
     </div>
-    <div class="f-default__row">
-      <label class="f-default__label _top">
-        <span class="f-default__text _req">Insurance Certificate:</span>
-        <input class="f-default__field _file" type="file"/>
-      </label>
+  </div>
+
+  <div class="f-default__row">
+    <label class="f-default__label _top">
+      <span class="f-default__text _req">Insurance Certificate:</span>
+      <input class="f-default__field _file"
+             type="file"
+             accept="image/jpeg,image/jpg,image/png"
+             name="certificateImage"
+             ng2FileSelect
+             [uploader]="uploader">
+      <!--<span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>-->
+    </label>
+  </div>
+
+  <div class="f-default__row" *ngIf="accountService.license?.insuranceURL">
+    <div class="f-default__avatar">
+      <img src="{{accountService.license.insuranceURL}}" alt="certificateImage">
     </div>
-    <button type="button" class="f-default__button f-license__button">Submit for Review</button>
+  </div>
+
+  <button class="f-default__button f-license__button">Submit for Review</button>
 </form>

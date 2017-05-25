@@ -142,9 +142,10 @@
           <!--<span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>-->
         </label>
       </div>
-      <div class="f-default__row" *ngIf="accountService.account.photoURL">
+
+      <div class="f-default__row" *ngIf="accountService.account?.photoURL">
         <div class="f-default__avatar">
-          <img src="{{accountService.account.photoURL}}" *ngIf="accountService.account?.photoURL" alt="avatar">
+          <img src="{{accountService.account.photoURL}}" alt="avatar">
         </div>
       </div>
       <div class="f-default__row">
