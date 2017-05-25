@@ -1,12 +1,14 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper;
-import com.drones4hire.dronesapp.models.db.projects.Bid;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
+import com.drones4hire.dronesapp.models.db.projects.Bid;
 
 @Service
 public class BidService
@@ -14,6 +16,9 @@ public class BidService
 
 	@Autowired
 	private BidMapper bidMapper;
+	
+	@Autowired
+	private ProjectMapper projectMapper;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Bid createBid(Bid bid)

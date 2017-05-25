@@ -61,7 +61,7 @@
           	CURRENCY = #{currency},
           	COMMENT = #{comment}
           WHERE
-		  		ID = #{id}
+		  		ID = #{id} 
         ]]>
     </update>
 
