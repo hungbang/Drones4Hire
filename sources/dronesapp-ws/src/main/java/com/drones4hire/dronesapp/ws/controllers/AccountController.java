@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.models.db.users.Profile;
+import com.drones4hire.dronesapp.models.dto.*;
+import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -26,17 +29,8 @@ import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.User;
-import com.drones4hire.dronesapp.models.dto.AccountDTO;
-import com.drones4hire.dronesapp.models.dto.ChangeEmailDTO;
-import com.drones4hire.dronesapp.models.dto.CompanyDTO;
-import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
 import com.drones4hire.dronesapp.models.dto.auth.ChangePasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.CompanyService;
-import com.drones4hire.dronesapp.services.services.LocationService;
-import com.drones4hire.dronesapp.services.services.PilotLicenseService;
-import com.drones4hire.dronesapp.services.services.ServiceService;
-import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
@@ -72,6 +66,9 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private AWSEmailService emailService;
+
+	@Autowired
+	private ProfileService profileService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
@@ -220,5 +217,36 @@ public class AccountController extends AbstractController
 		User user = userService.getUserById(getPrincipal().getId());
 		user.setPassword(passwordEncryptor.encryptPassword(changePassword.getPassword()));
 		userService.updateUser(user);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get public profile", nickname = "getPublicProfile", code = 200, httpMethod = "GET", response = ProfileDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ProfileDTO getPublicProfile()
+	{
+		return mapper.map(profileService.getProfileByUserId(getPrincipal().getId()), ProfileDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Change public profile", nickname = "changeProfile", code = 200, httpMethod = "PUT", response = ProfileDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@RequestMapping(value = "profile", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ProfileDTO changeProfile(@Valid @RequestBody ProfileDTO p) throws ServiceException
+	{
+		Profile profile = profileService.getProfileById(p.getId());
+		checkPrincipalPermissions(profile.getUserId());
+		profile.setTagline(p.getTagline());
+		profile.setBio(p.getBio());
+		profile.setWebURL(p.getWebURL());
+		profile.setCompanyLogoURL(p.getCompanyLogoURL());
+		profile.setCoverPhotoURL(p.getCoverPhotoURL());
+		return mapper.map(profileService.updateProfile(profile), ProfileDTO.class);
 	}
 }

@@ -38,6 +38,12 @@ public class ProfileService
 	}
 
 	@Transactional(readOnly = true)
+	public Profile getProfileByUserId(long userId)
+	{
+		return profileMapper.getProfileByUserId(userId);
+	}
+
+	@Transactional(readOnly = true)
 	public List<Profile> getAllProfiles()
 	{
 		return profileMapper.getAllProfiles();

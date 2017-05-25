@@ -35,6 +35,7 @@
 				<value>dozer/Project-dozer-mapping.xml</value>
 				<value>dozer/Comment-dozer-mapping.xml</value>
 				<value>dozer/Wallet-dozer-mapping.xml</value>
+				<value>dozer/Profile-dozer-mapping.xml</value>
 				<value>dozer/Bid-dozer-mapping.xml</value>
 			</list>
 		</property>

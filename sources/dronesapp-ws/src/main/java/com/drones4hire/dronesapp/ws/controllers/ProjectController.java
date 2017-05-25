@@ -67,6 +67,7 @@ public class ProjectController extends AbstractController
 		Project project = mapper.map(p, Project.class);
 		project.setClientId(getPrincipal().getId());
 		project.setPilotId(null);
+		// TODO: 05/25/2017
 		return mapper.map(projectService.createProject(project), ProjectDTO.class);
 	}
 

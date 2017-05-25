@@ -16,8 +16,10 @@ public class WalletDTO extends AbstractDTO
 	@NotNull(message = "Balance required")
 	@Min(value = 0, message = "Balance should be positive")
 	private BigDecimal balance;
+
 	@NotNull(message = "Currency required")
 	private Currency currency;
+
 	@JsonIgnore
 	private String paymentToken;
 
