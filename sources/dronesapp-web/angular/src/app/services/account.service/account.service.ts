@@ -7,6 +7,7 @@ import {AccountCompanyModel} from './accountCompany.interface';
 import {AccountLicenseModel} from './accountLicense.interface';
 import {AccountNotificationsModel} from './accountNotifications.interface';
 import {AppService} from '../app.service/app.service';
+import {CommonService} from '../common.service/common.service';
 
 @Injectable()
 export class AccountService {
@@ -14,10 +15,12 @@ export class AccountService {
   company: AccountCompanyModel = null;
   license: AccountLicenseModel = null;
   notifications: AccountNotificationsModel = null;
+  services: Array<number> = [];
 
   constructor(private _requestService: RequestService,
               private _tokenService: TokenService,
-              private _appService: AppService) {
+              private _appService: AppService,
+              private _commonService: CommonService) {
   }
 
   isUserClient() {
@@ -84,11 +87,11 @@ export class AccountService {
     return this._requestService.fetch('put', '/account/license', data);
   }
 
-  setEmailAddress(data: {email: string, password: string}) {
+  setEmailAddress(data: { email: string, password: string }) {
     return this._requestService.fetch('put', '/account/email', data);
   }
 
-  setPassword(data: {confirmPassword: string, password: string}) {
+  setPassword(data: { confirmPassword: string, password: string }) {
     return this._requestService.fetch('put', '/account/password', data);
   }
 
@@ -102,6 +105,22 @@ export class AccountService {
 
   setUserNotifications(data: AccountNotificationsModel) {
     return this._requestService.fetch('put', '/account/notifications', data);
+  }
+
+  getUserServices() {
+    this._requestService.fetch('get', '/account/services')
+      .map(res => {
+        this.services = res.map((service) => service.id);
+        console.log('user services', this.services);
+        return res;
+      })
+      .subscribe(() => {
+        this._commonService.getListOfServices(this.services);
+      });
+  }
+
+  setUserServices(data: Array<number>) {
+    return this._requestService.fetch('put', '/account/services', data);
   }
 
   isAuthorized() {

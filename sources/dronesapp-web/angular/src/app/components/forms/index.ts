@@ -11,6 +11,7 @@ import { FAuthorizationComponent } from './f-authorization/f-authorization.compo
 import {FEmailComponent} from './f-email/f-email.component';
 import {FNotificationsComponent} from './f-notifications/f-notifications.component';
 import {FChangePasswordComponent} from './f-change-password/f-change-password.component';
+import {FServicesComponent} from './f-services/f-services.component';
 
 export const FORMS = [
   FAuthorizationComponent,
@@ -26,5 +27,6 @@ export const FORMS = [
   FProjectAddComponent,
   FEmailComponent,
   FNotificationsComponent,
-  FChangePasswordComponent
+  FChangePasswordComponent,
+  FServicesComponent
 ];
