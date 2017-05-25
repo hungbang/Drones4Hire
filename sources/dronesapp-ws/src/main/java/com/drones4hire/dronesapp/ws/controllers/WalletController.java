@@ -1,26 +1,34 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.TransactionSearchCriteria;
-import com.drones4hire.dronesapp.models.db.payments.Transaction;
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.projects.Comment;
-import com.drones4hire.dronesapp.models.dto.CommentDTO;
-import com.drones4hire.dronesapp.models.dto.WalletDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
-import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.TransactionService;
-import com.drones4hire.dronesapp.services.services.WalletService;
-import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
-import io.swagger.annotations.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.TransactionSearchCriteria;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.dto.WalletDTO;
+import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.services.TransactionService;
+import com.drones4hire.dronesapp.services.services.WalletService;
+import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Controller
 @Api(value = "Wallet API")
