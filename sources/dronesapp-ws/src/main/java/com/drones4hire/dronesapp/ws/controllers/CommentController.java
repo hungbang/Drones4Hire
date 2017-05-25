@@ -2,7 +2,6 @@ package com.drones4hire.dronesapp.ws.controllers;
 
 import com.drones4hire.dronesapp.models.db.projects.Comment;
 import com.drones4hire.dronesapp.models.dto.CommentDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CommentService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;

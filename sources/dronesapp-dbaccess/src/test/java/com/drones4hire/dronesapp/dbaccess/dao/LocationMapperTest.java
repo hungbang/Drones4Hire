@@ -39,6 +39,7 @@ public class LocationMapperTest extends AbstractTestNGSpringContextTests {
         private static final long serialVersionUID = 1L;
         {
             setName("n1" + DataGenerator.generateNumber(10000));
+            setCode("c1" + DataGenerator.generateNumber(10000));
         }
     };
 

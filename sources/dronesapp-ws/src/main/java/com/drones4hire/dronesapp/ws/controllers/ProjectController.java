@@ -124,15 +124,17 @@ public class ProjectController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Search projects", nickname = "searchProjects", code = 201, httpMethod = "POST", response = List.class)
+	@ApiOperation(value = "Search projects", nickname = "searchProjects", code = 201, httpMethod = "POST", response = SearchResult.class)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody SearchResult<Project> searchProjects(@RequestBody ProjectSearchCriteria sc)
+			throws ServiceException
 	{
-		sc.setClientId(getPrincipal().getId());
-		return projectService.searchProjects(sc);
+		sc.setPilotId(null);
+		sc.setClientId(null);
+		return projectService.searchProjects(sc, getPrincipal().getId());
 	}
 
 	@ResponseStatusDetails

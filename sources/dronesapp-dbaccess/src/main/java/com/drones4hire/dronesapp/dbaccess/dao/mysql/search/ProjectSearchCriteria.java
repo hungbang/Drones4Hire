@@ -4,7 +4,8 @@ public class ProjectSearchCriteria extends SearchCriteria
 {
 
 	private String title;
-	private long clientId;
+	private Long clientId;
+	private Long pilotId;
 	private long serviceCategoryId;
 	private long durationId;
 	private long locationId;
@@ -25,9 +26,19 @@ public class ProjectSearchCriteria extends SearchCriteria
 		return clientId;
 	}
 
-	public void setClientId(long clientId)
+	public void setClientId(Long clientId)
 	{
 		this.clientId = clientId;
+	}
+
+	public long getPilotId()
+	{
+		return pilotId;
+	}
+
+	public void setPilotId(Long pilotId)
+	{
+		this.pilotId = pilotId;
 	}
 
 	public long getServiceCategoryId()
