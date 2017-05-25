@@ -251,16 +251,23 @@ public class AccountController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Change public profile", nickname = "changeProfile", code = 200, httpMethod = "PUT", response = ProfileDTO.class)
+	@ApiOperation(value = "Change public profile", nickname = "updateProfile", code = 200, httpMethod = "PUT", response = ProfileDTO.class)
 	@ApiImplicitParams(
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
 	@RequestMapping(value = "profile", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ProfileDTO changeProfile(@Valid @RequestBody ProfileDTO p) throws ServiceException
+	public @ResponseBody ProfileDTO updateProfile(@Valid @RequestBody ProfileDTO p) throws ServiceException
 	{
-		Profile profile = profileService.getProfileByUserId(getPrincipal().getId());
-		checkPrincipalPermissions(profile.getUserId());
+		Profile profile = null;
+		if(getPrincipal().getAuthorities().contains(ADMIN))
+		{
+			profile = profileService.getProfileByUserId(p.getId());
+		}
+		else
+		{
+			profile = profileService.getProfileByUserId(getPrincipal().getId());
+		}
 		profile.setTagline(p.getTagline());
 		profile.setBio(p.getBio());
 		profile.setWebURL(p.getWebURL());

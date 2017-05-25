@@ -32,7 +32,7 @@ import com.drones4hire.dronesapp.ws.security.SecuredUser;
 
 public abstract class AbstractController
 {
-	private static final GrantedAuthority ADMIN = new SimpleGrantedAuthority(Role.ROLE_ADMIN.name());
+	protected static final GrantedAuthority ADMIN = new SimpleGrantedAuthority(Role.ROLE_ADMIN.name());
 	
 	@Resource(name = "messageSource")
 	protected MessageSource messageSource;
