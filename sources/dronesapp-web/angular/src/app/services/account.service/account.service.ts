@@ -88,6 +88,10 @@ export class AccountService {
     return this._requestService.fetch('put', '/account/email', data);
   }
 
+  setPassword(data: {confirmPassword: string, password: string}) {
+    return this._requestService.fetch('put', '/account/password', data);
+  }
+
   getUserNotifications() {
     return this._requestService.fetch('get', '/account/notifications')
       .subscribe(res => {

@@ -45,7 +45,10 @@ export class RequestService {
   }
 
   private extractData(res: Response) {
-    let body = res.json();
+    let body;
+    if (res['_body']) {
+      body = res.json();
+    }
     return body || {};
   }
 

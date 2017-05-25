@@ -11,7 +11,7 @@
               [ngClass]="{ '_active': activeTabName === 'preference' }"
               (click)="showTab('preference')">Account Preferences
       </button>
-      <button type="button" class="s-account__tab _disabled"
+      <button type="button" class="s-account__tab"
               [ngClass]="{ '_active': activeTabName === 'security' }" (click)="showTab('security')">Account Security
       </button>
       <button type="button" class="s-account__tab"
@@ -55,11 +55,8 @@
 
       <div class="s-account__content-item" *ngIf="activeTabName === 'security'">
         <div class="s-account__item">
-          <h3 class="s-account__subtitle">Security Details</h3>
-          <p class="s-account__text">Lorem sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut
-            perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            Nemo enim ipsam voluptatem quia voluptas. sit.aspernatur aut odit aut fugit</p>
+          <h3 class="s-account__subtitle">Details</h3>
+          <f-change-password></f-change-password>
         </div>
       </div>
 
