@@ -15,7 +15,7 @@
         ]]>
     </insert>
 
-    <insert id="createUserServices" useGeneratedKeys="true" keyProperty="id">
+    <insert id="createUserServices">
         <![CDATA[
         	INSERT INTO
         	  drones.USER_SERVICES (USER_ID, SERVICE_ID)

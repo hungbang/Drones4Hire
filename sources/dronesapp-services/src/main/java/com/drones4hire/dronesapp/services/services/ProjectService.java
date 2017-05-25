@@ -1,5 +1,15 @@
 package com.drones4hire.dronesapp.services.services;
 
+import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
@@ -7,15 +17,6 @@ import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 @Service
 public class ProjectService
