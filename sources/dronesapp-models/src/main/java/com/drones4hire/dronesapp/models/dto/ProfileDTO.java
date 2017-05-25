@@ -1,12 +1,22 @@
 package com.drones4hire.dronesapp.models.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class ProfileDTO extends AbstractDTO
 {
-
+	private static final long serialVersionUID = -4834910299805231694L;
+	
+	@NotNull(message="Tagline required")
 	private String tagline;
+	
+	@NotNull(message="Bio required")
 	private String bio;
+	
+	@NotNull(message="Web URL required")
 	private String webURL;
+	
 	private String companyLogoURL;
+	
 	private String coverPhotoURL;
 
 	public String getTagline()
