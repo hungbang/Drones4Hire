@@ -30,7 +30,6 @@ import com.drones4hire.dronesapp.models.dto.AccountDTO;
 import com.drones4hire.dronesapp.models.dto.ChangeEmailDTO;
 import com.drones4hire.dronesapp.models.dto.CompanyDTO;
 import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
-import com.drones4hire.dronesapp.models.dto.PilotServicesDTO;
 import com.drones4hire.dronesapp.models.dto.auth.ChangePasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CompanyService;
@@ -162,9 +161,9 @@ public class AccountController extends AbstractController
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "services", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Service> updateAccountService(@Valid @RequestBody PilotServicesDTO pilotServices)
+	public @ResponseBody List<Service> updateAccountService(@RequestBody List<Long> serviceIds)
 	{
-		return serviceService.updateUserServices(getPrincipal().getId(), pilotServices.getServiceIds());
+		return serviceService.updateUserServices(getPrincipal().getId(), serviceIds);
 	}
 
 	@ResponseStatusDetails
