@@ -9,16 +9,19 @@
       <input class="f-default__field _file"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
-             name="pilotLicenceImage"
+             name="license"
              ng2FileSelect
-             [uploader]="uploader">
-      <!--<span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>-->
+             [uploader]="uploader"
+             (change)="handlePhotoUpload('license')"
+             [ngClass]="{'_error': submitted && !accountService.license?.licenseURL}">
+      <span class="f-default__error"
+            *ngIf="submitted && !accountService.license?.licenseURL">This field is required</span>
     </label>
   </div>
 
   <div class="f-default__row" *ngIf="accountService.license?.licenseURL">
     <div class="f-default__avatar">
-      <img src="{{accountService.license.licenseURL}}" alt="pilotLicenceImage">
+      <img src="{{accountService.license.licenseURL}}" alt="license">
     </div>
   </div>
 
@@ -28,18 +31,23 @@
       <input class="f-default__field _file"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
-             name="certificateImage"
+             name="insurance"
              ng2FileSelect
-             [uploader]="uploader">
-      <!--<span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>-->
+             [uploader]="uploader"
+             (change)="handlePhotoUpload('insurance')"
+             [ngClass]="{'_error': submitted && !accountService.license?.insuranceURL}">
+      <span class="f-default__error"
+            *ngIf="submitted && !accountService.license?.insuranceURL">This field is required</span>
     </label>
   </div>
 
   <div class="f-default__row" *ngIf="accountService.license?.insuranceURL">
     <div class="f-default__avatar">
-      <img src="{{accountService.license.insuranceURL}}" alt="certificateImage">
+      <img src="{{accountService.license.insuranceURL}}" alt="insurance">
     </div>
   </div>
 
-  <button class="f-default__button f-license__button">Submit for Review</button>
+  <button class="f-default__button f-license__button"
+          [disabled]="submitted && (!accountService.license?.licenseURL || !accountService.license?.insuranceURL)">Submit for Review
+  </button>
 </form>

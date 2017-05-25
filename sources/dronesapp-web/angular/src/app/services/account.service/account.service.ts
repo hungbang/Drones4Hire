@@ -71,10 +71,10 @@ export class AccountService {
 
   getUserLicense() {
     return this._requestService.fetch('get', '/account/license')
-      .map((res) => {
-        this.license = res;
+      .subscribe((res) => {
+        this.license = {...res, verified: true};
 
-        console.log(this.license);
+        console.log('user license', this.license);
 
         return this.license;
       });

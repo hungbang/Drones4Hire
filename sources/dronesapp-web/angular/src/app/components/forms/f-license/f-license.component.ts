@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
-import {FileUploader} from 'ng2-file-upload';
+import {FileItem, FileUploader} from 'ng2-file-upload';
 import {RequestService} from '../../../services/request.service/request.service';
 
 @Component({
@@ -11,19 +11,19 @@ import {RequestService} from '../../../services/request.service/request.service'
 })
 export class FPilotLicenseComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({
-    url: `${this._requestService.apiUrl}/license`,
-    authToken: this._requestService.getCurrentToken()
+    url: `${this._requestService.apiUrl}/upload`,
+    authToken: this._requestService.getCurrentToken(),
+    removeAfterUpload: true
   });
+
+  private fileItem: any = null;
 
   public submitted: boolean = false;
 
   constructor(public accountService: AccountService, private _requestService: RequestService) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      debugger;
-      console.log('onSuccessItem', response);
-      console.log(JSON.parse(response));
-      this.accountService.account['photoURL'] = JSON.parse(response)['url'];
-      this.uploader.clearQueue();
+      let type = `${item.formData[0].type}URL`;
+      this.accountService.license[type] = JSON.parse(response)['url'];
       return {item, response, status, headers};
     };
 
@@ -35,24 +35,19 @@ export class FPilotLicenseComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
-      debugger;
-      // this.uploader.queue[0].upload();
+      this.fileItem = item;
       return {item};
     };
 
     this.uploader.onCancelItem = (item, response, status, headers) => {
       console.log('onWhenAddingFileFailed');
-      debugger;
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
   }
 
   ngOnInit() {
-    this.accountService.getUserLicense()
-      .subscribe((res) => {
-        console.log(res)
-      });
+    this.accountService.getUserLicense();
   }
 
   saveChanges(e, form) {
@@ -60,19 +55,23 @@ export class FPilotLicenseComponent implements OnInit {
 
     this.submitted = true;
 
-    if (form.invalid) {
+    if (!this.accountService.license || !this.accountService.license.insuranceURL || !this.accountService.license.licenseURL) {
       return;
     }
 
-    this.uploader.uploadAll();
-
-    // this.accountService.setUserLicense(this.accountService.license)
-    //   .subscribe((res) => {
-    //     console.log(res, '-save license');
-    //   });
+    this.accountService.setUserLicense(this.accountService.license)
+      .subscribe((res) => {
+        console.log('-save license', res);
+      });
   }
 
-  handlePhotoUpload() {
+  handlePhotoUpload(type: string) {
+    this.fileItem.formData.push({type});
+    this.fileItem.headers.push({
+      name: 'FileType',
+      value: type.toUpperCase()
+    });
+
     this.uploader.uploadAll();
   }
 }
