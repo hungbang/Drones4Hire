@@ -66,10 +66,12 @@
     <select id="getServicesByUserId" resultMap="ServiceResultMap">
         <include refid="getServices"/>
         <![CDATA[
-          LEFT JOIN
+          INNER JOIN
             drones.USER_SERVICES US
           ON
-            US.USER_ID = #{userId}
+            US.SERVICE_ID = S.ID
+          WHERE 
+          	US.USER_ID = #{userId}
         ]]>
     </select>
 
