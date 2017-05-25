@@ -11,7 +11,7 @@ export class HeaderComponent {
 
   constructor() {}
 
-  // @HostListener('window:scroll') onScroll() {
-  //   //this.isScroll = window.pageYOffset > 80;
-  // }
+  @HostListener('window:scroll') onScroll() {
+    this.isScroll = window.pageYOffset > 80;
+  }
 }

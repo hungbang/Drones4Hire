@@ -10,9 +10,12 @@ export class TokenService {
     this.refreshToken = localStorage.getItem('refreshToken');
   }
 
-  removeTokensFromLocalStorage() {
+  removeTokens() {
+    console.log('tokens are removed');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    this.accessToken = null;
+    this.refreshToken = null;
   }
 
   setAccessToken(token) {

@@ -8,6 +8,7 @@ import {AccountLicenseModel} from './accountLicense.interface';
 import {AccountNotificationsModel} from './accountNotifications.interface';
 import {AppService} from '../app.service/app.service';
 import {CommonService} from '../common.service/common.service';
+import {AccountProfileModel} from './accountProfile.interface';
 
 @Injectable()
 export class AccountService {
@@ -16,6 +17,7 @@ export class AccountService {
   license: AccountLicenseModel = null;
   notifications: AccountNotificationsModel = null;
   services: Array<number> = [];
+  profile: AccountProfileModel = null;
 
   constructor(private _requestService: RequestService,
               private _tokenService: TokenService,
@@ -123,7 +125,21 @@ export class AccountService {
     return this._requestService.fetch('put', '/account/services', data);
   }
 
+  getAccountProfile() {
+    this._requestService.fetch('get', '/account/profile')
+      .subscribe(res => {
+        this.profile = res;
+        console.log('user profile', this.profile);
+        return res;
+      });
+  }
+
+  setAccountProfile(data) {
+    return this._requestService.fetch('put', '/account/profile', data);
+  }
+
   isAuthorized() {
+    console.log(this._tokenService.accessToken && this._tokenService.refreshToken, '-auth');
     return this._tokenService.accessToken && this._tokenService.refreshToken;
   }
 

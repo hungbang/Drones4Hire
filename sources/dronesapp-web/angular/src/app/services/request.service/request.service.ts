@@ -70,7 +70,7 @@ export class RequestService {
                   });
             })
             .catch((refreshErr) => {
-                this._tokenService.removeTokensFromLocalStorage();
+                this._tokenService.removeTokens();
                 window.location.reload();
                 return Observable.throw(refreshErr);
             });

@@ -25,8 +25,8 @@ export class AuthorizationService {
 
   logout() {
     this.isUserLogin = false;
-    this._tokenService.removeTokensFromLocalStorage();
-    sessionStorage.removeItem('user');
+    this._tokenService.removeTokens();
+    // sessionStorage.removeItem('user');
     this._accountService.account = null;
   }
 
@@ -38,8 +38,6 @@ export class AuthorizationService {
         this.isUserLogin = true;
         return res;
       });
-
-
   }
 
   signUp(formData) {

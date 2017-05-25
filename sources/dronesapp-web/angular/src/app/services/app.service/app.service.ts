@@ -59,7 +59,7 @@ export class AppService {
     return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
   }
 
-  mergeDeep(target, source) {
+  public mergeDeep(target, source) {
     let output = Object.assign({}, target);
     if (this.isObject(target) && this.isObject(source)) {
       Object.keys(source).forEach(key => {
@@ -74,5 +74,14 @@ export class AppService {
       });
     }
     return output;
+  }
+
+  public toCamelCase(str) {
+    return str.split('_').map(function (word, index) {
+      if (index == 0) {
+        return word.toLowerCase();
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join('');
   }
 }
