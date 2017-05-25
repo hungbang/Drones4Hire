@@ -14,6 +14,7 @@ import com.drones4hire.dronesapp.models.dto.CommentDTO;
 import com.drones4hire.dronesapp.models.dto.PaidOptionDTO;
 import com.drones4hire.dronesapp.models.dto.ProjectDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.BidService;
 import com.drones4hire.dronesapp.services.services.CommentService;
 import com.drones4hire.dronesapp.services.services.PaidOptionService;
@@ -59,7 +60,7 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
-	@Secured({"ROLE_PILOT"})
+	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ProjectDTO createProject(@Valid @RequestBody ProjectDTO p)
 	{
@@ -86,7 +87,7 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@Secured({"ROLE_CLIENT", "ROLE_ADMIN"})
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ProjectDTO updateProject(@Valid @RequestBody ProjectDTO p) throws ForbiddenOperationException
 	{
@@ -111,7 +112,7 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
+	@Secured({"ROLE_CLIENT", "ROLE_ADMIN"})
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteProject(
 			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
@@ -142,7 +143,7 @@ public class ProjectController extends AbstractController
 	@RequestMapping(value = "{id}/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<CommentDTO> getCommentsByProjectId(
 			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
-			throws ForbiddenOperationException
+			throws ServiceException
 	{
 		List<Comment> comments = commentService.getCommentsByProjectId(id, getPrincipal().getId());
 		List<CommentDTO> commentDTOs = new ArrayList<>();

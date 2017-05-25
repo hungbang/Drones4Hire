@@ -1,14 +1,11 @@
 package com.drones4hire.dronesapp.services.services;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.CommentMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.GroupMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
 import com.drones4hire.dronesapp.models.db.projects.Comment;
 import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,16 +24,13 @@ public class CommentService
 	private CommentMapper commentMapper;
 
 	@Autowired
-	private UserMapper userMapper;
+	private UserService userService;
 
 	@Autowired
-	private ProjectMapper projectMapper;
-
-	@Autowired
-	private GroupMapper groupMapper;
+	private ProjectService projectService;
 
 	@Transactional(rollbackFor = Exception.class)
-	public Comment createComment(Comment comment, long principalId) throws ForbiddenOperationException
+	public Comment createComment(Comment comment, long principalId) throws ServiceException
 	{
 		checkAuthorities(comment.getProjectId(), principalId);
 		commentMapper.createComment(comment);
@@ -50,7 +44,7 @@ public class CommentService
 	}
 
 	@Transactional(readOnly = true)
-	public List<Comment> getCommentsByProjectId(long projectId, long principalId) throws ForbiddenOperationException
+	public List<Comment> getCommentsByProjectId(long projectId, long principalId) throws ServiceException
 	{
 		checkAuthorities(projectId, principalId);
 		return commentMapper.getCommentsByProjectId(projectId);
@@ -69,10 +63,10 @@ public class CommentService
 		commentMapper.deleteComment(id);
 	}
 
-	private void checkAuthorities(long projectId, long principalId) throws ForbiddenOperationException
+	private void checkAuthorities(long projectId, long principalId) throws ServiceException
 	{
-		User user = userMapper.getUserById(principalId);
-		Project project = projectMapper.getProjectById(projectId);
+		User user = userService.getUserById(principalId);
+		Project project = projectService.getProjectById(projectId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
 			if (principalId != project.getClientId())

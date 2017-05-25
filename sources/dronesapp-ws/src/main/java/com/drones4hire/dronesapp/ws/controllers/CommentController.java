@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.ws.controllers;
 import com.drones4hire.dronesapp.models.db.projects.Comment;
 import com.drones4hire.dronesapp.models.dto.CommentDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CommentService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.*;
@@ -35,7 +36,7 @@ public class CommentController extends AbstractController
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody CommentDTO createComment(@Valid @RequestBody CommentDTO c) throws ForbiddenOperationException
+	public @ResponseBody CommentDTO createComment(@Valid @RequestBody CommentDTO c) throws ServiceException
 	{
 		Comment comment = mapper.map(c, Comment.class);
 		comment.setUserId(getPrincipal().getId());
