@@ -1,9 +1,11 @@
 import {NoIndexComponent} from './no-index/no-index.component';
 import {SvgUseComponent} from './svg-use/svg-use.component';
-import {StateListenerDirective} from './state-listener/state-listener.directive';
+import {RouterClassDirective} from './router-class/router-class.directive';
+import {EqualValidator} from './equal-validator/equal-validator.directive';
 
 export const AppShared = [
   NoIndexComponent,
-  StateListenerDirective,
-  SvgUseComponent
+  SvgUseComponent,
+  RouterClassDirective,
+  EqualValidator
 ];

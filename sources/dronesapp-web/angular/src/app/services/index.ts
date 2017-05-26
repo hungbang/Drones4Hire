@@ -16,7 +16,7 @@ import {RequestService} from './request.service/request.service';
 import {TokenService} from './token.service/token.service';
 import {CommonService} from './common.service/common.service';
 
-export const Services = [
+export const AppServices = [
   AppService,
   AuthorizationService,
   BidService,

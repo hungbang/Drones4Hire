@@ -2,26 +2,25 @@ import {BrowserModule} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {RouterModule} from '@angular/router';
+import {ROUTES} from './app.routes';
+
+import {FileSelectDirective} from 'ng2-file-upload';
 
 import {AppComponent} from './app.component';
 import {AppComponents} from './components/index';
 import {AppContainers} from './containers/index';
 import {AppShared} from './shared/index';
 import {AppPipes} from './pipes/index';
-import {RouterModule} from '@angular/router';
-import {ROUTES} from './app.routes';
-import {Services} from './services/index';
 import {AppResolves} from './resolves/index';
-import {AppDirectives} from './directives/index';
-import {Guards} from './guards/index';
-import {FileSelectDirective} from 'ng2-file-upload';
+import {AppServices} from './services/index';
+import {AppGuards} from './guards/index';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppComponents,
     AppContainers,
-    AppDirectives,
     AppPipes,
     AppShared,
     FileSelectDirective,
@@ -30,15 +29,15 @@ import {FileSelectDirective} from 'ng2-file-upload';
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, {useHash: true})
+    RouterModule.forRoot(ROUTES, {useHash: true}),
   ],
   providers: [
-    Services,
-    Guards,
-    AppResolves
+    AppServices,
+    AppGuards,
+    AppResolves,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }

@@ -16,25 +16,40 @@ import { PilotGuard } from './guards/pilot.guard/pilot.guard';
 export const ROUTES: Routes = [
   {
     path: '',
-    component: IndexComponent
+    component: IndexComponent,
+    data: {
+      className: 'p-index'
+    }
   },
   {
     path: 'sign-up',
-    component: SAuthorizationComponent
+    component: SAuthorizationComponent,
+    data: {
+      className: 'p-signup'
+    }
   },
   {
     path: 'login',
-    component: SAuthorizationComponent
+    component: SAuthorizationComponent,
+    data: {
+      className: 'p-login'
+    }
   },
   {
     path: 'profile',
     canActivate: [PilotGuard],
-    component: ProfileComponent
+    component: ProfileComponent,
+    data: {
+      className: 'p-profile'
+    }
   },
   {
     path: 'my-projects',
     canActivate: [ClientGuard],
-    component: MyProjectsComponent
+    component: MyProjectsComponent,
+    data: {
+      className: 'p-projects'
+    }
   },
   {
     path: 'project',
@@ -49,7 +64,8 @@ export const ROUTES: Routes = [
         component: ProjectComponent,
         canActivate: [PilotGuard],
         data: {
-          isPilotPage: true
+          isPilotPage: true,
+          className: 'p-project'
         }
       },
       {
@@ -57,13 +73,18 @@ export const ROUTES: Routes = [
         component: ProjectComponent,
         canActivate: [ClientGuard],
         data: {
-          isClientPage: true
+          isClientPage: true,
+          className: 'p-project'
         }
       },
       {
         path: 'add',
         canActivate: [ClientGuard],
-        component: ProjectAddComponent
+        component: ProjectAddComponent,
+        data: {
+          isClientPage: true,
+          className: 'p-project'
+        }
       }
     ]
   },
@@ -80,7 +101,8 @@ export const ROUTES: Routes = [
         component: DashboardComponent,
         canActivate: [ClientGuard],
         data: {
-          isClientPage: true
+          isClientPage: true,
+          className: 'p-dashboard'
         }
       },
       {
@@ -89,7 +111,7 @@ export const ROUTES: Routes = [
         canActivate: [PilotGuard],
         data: {
           isPilotPage: true,
-          className: 'pilot-dashboard'
+          className: 'p-dashboard'
         }
       }
     ]
@@ -107,7 +129,8 @@ export const ROUTES: Routes = [
         component: AccountComponent,
         canActivate: [PilotGuard],
         data: {
-          isPilotPage: true
+          isPilotPage: true,
+          className: 'p-account'
         }
       },
       {
@@ -115,7 +138,8 @@ export const ROUTES: Routes = [
         component: AccountComponent,
         canActivate: [ClientGuard],
         data: {
-          isClientPage: true
+          isClientPage: true,
+          className: 'p-account'
         }
       }
     ]
@@ -123,11 +147,17 @@ export const ROUTES: Routes = [
   {
     path: 'transactions',
     canActivate: [AuthGuard],
-    component: TransactionsComponent
+    component: TransactionsComponent,
+    data: {
+      className: 'p-transactions'
+    }
   },
   {
     path: 'search',
     canActivate: [PilotGuard],
-    component: SearchComponent
+    component: SearchComponent,
+    data: {
+      className: 'p-search'
+    }
   }
 ];

@@ -14,7 +14,7 @@ export class RouterClassDirective implements AfterViewInit {
     el: ElementRef,
     public route: ActivatedRoute,
     public router: Router) {
-    this.element = document.getElementsByTagName('html');
+    this.element = document.body;
   }
 
   ngAfterViewInit() {
@@ -26,8 +26,8 @@ export class RouterClassDirective implements AfterViewInit {
       if (val instanceof NavigationStart) {
         this.previousRouteClassName = currentRoute.snapshot.data['className'];
       } else if (val instanceof NavigationEnd) {
-        this.element[0]['classList'].remove(this.previousRouteClassName);
-        this.element[0]['classList'].add(currentRoute.snapshot.data['className']);
+        this.element['classList'].remove(this.previousRouteClassName);
+        this.element['classList'].add(currentRoute.snapshot.data['className']);
       }
     });
   }
