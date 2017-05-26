@@ -86,7 +86,7 @@ export class FClientProfileComponent implements OnInit {
       return;
     }
 
-    this.accountService.setUserData(this.accountService.account)
+    this.accountService.setAccountData(this.accountService.account)
       .subscribe((res) => {
         console.log(res, '-save account');
       });

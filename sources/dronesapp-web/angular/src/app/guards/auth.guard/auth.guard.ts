@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     return Observable.create(observer => {
       if (this._accountService.isAuthorized()) {
         if (!this._accountService.account) {
-          return this._accountService.getUserData()
+          return this._accountService.getAccountData()
             .subscribe(() => {
               this._authorizationService.isUserLogin = true;
               observer.next(true);

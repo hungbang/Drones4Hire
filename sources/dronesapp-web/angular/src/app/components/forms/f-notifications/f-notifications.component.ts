@@ -17,11 +17,11 @@ export class FNotificationsComponent implements OnInit{
     if (this.accountService.notifications) {
       return;
     }
-    this.accountService.getUserNotifications();
+    this.accountService.getAccountNotifications();
   }
 
   changeSettings() {
-    this.accountService.setUserNotifications(this.accountService.notifications)
+    this.accountService.setAccountNotifications(this.accountService.notifications)
       .subscribe(res => {
         console.log(res, '-update notifications');
         this.submitted = false;

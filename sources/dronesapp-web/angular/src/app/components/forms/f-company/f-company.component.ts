@@ -19,7 +19,7 @@ export class FClientCompanyComponent implements OnInit {
 
   ngOnInit() {
     if (!this.accountService.company) {
-      this.accountService.getUserCompany()
+      this.accountService.getAccountCompany()
         .subscribe(() => {
           if (this.commonService.countries.length) {
             this.selectCompanyCountry();
@@ -57,7 +57,7 @@ export class FClientCompanyComponent implements OnInit {
       return;
     }
 
-    this.accountService.setUserCompany(this.accountService.company)
+    this.accountService.setAccountCompany(this.accountService.company)
       .subscribe((res) => {
         console.log(res, '-save company');
       });

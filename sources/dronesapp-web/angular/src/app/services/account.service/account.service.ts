@@ -42,7 +42,7 @@ export class AccountService {
     return this.account.groups.map((group) => group.role).pop() === 'ROLE_PILOT';
   }
 
-  getUserData() {
+  getAccountData() {
     return this._requestService.fetch('get', '/account')
       .map((res) => {
         this.account = this._appService.mergeDeep(this.setAccount(), res);
@@ -54,11 +54,11 @@ export class AccountService {
       })
   }
 
-  setUserData(data: AccountModel) {
+  setAccountData(data: AccountModel) {
     return this._requestService.fetch('put', '/account', data)
   }
 
-  getUserCompany() {
+  getAccountCompany() {
     return this._requestService.fetch('get', '/account/company')
       .map((res) => {
         this.company = res;
@@ -70,11 +70,11 @@ export class AccountService {
       });
   }
 
-  setUserCompany(data: AccountCompanyModel) {
+  setAccountCompany(data: AccountCompanyModel) {
     return this._requestService.fetch('put', '/account/company', data);
   }
 
-  getUserLicense() {
+  getAccountLicense() {
     return this._requestService.fetch('get', '/account/license')
       .subscribe((res) => {
         this.license = {...res, verified: true};
@@ -85,19 +85,19 @@ export class AccountService {
       });
   }
 
-  setUserLicense(data: AccountLicenseModel) {
+  setAccountLicense(data: AccountLicenseModel) {
     return this._requestService.fetch('put', '/account/license', data);
   }
 
-  setEmailAddress(data: { email: string, password: string }) {
+  setAccountEmail(data: { email: string, password: string }) {
     return this._requestService.fetch('put', '/account/email', data);
   }
 
-  setPassword(data: { confirmPassword: string, password: string }) {
+  setAccountPassword(data: { confirmPassword: string, password: string }) {
     return this._requestService.fetch('put', '/account/password', data);
   }
 
-  getUserNotifications() {
+  getAccountNotifications() {
     return this._requestService.fetch('get', '/account/notifications')
       .subscribe(res => {
         console.log('user notifications', res);
@@ -105,11 +105,11 @@ export class AccountService {
       })
   }
 
-  setUserNotifications(data: AccountNotificationsModel) {
+  setAccountNotifications(data: AccountNotificationsModel) {
     return this._requestService.fetch('put', '/account/notifications', data);
   }
 
-  getUserServices() {
+  getAccountServices() {
     this._requestService.fetch('get', '/account/services')
       .map(res => {
         this.services = res.map((service) => service.id);
@@ -121,7 +121,7 @@ export class AccountService {
       });
   }
 
-  setUserServices(data: Array<number>) {
+  setAccountServices(data: Array<number>) {
     return this._requestService.fetch('put', '/account/services', data);
   }
 

@@ -18,7 +18,7 @@ export class FServicesComponent implements OnInit {
     if (this._accountService.services.length) {
       return;
     }
-    this._accountService.getUserServices();
+    this._accountService.getAccountServices();
   }
 
   toggleService(data: {id: number, name: string; checked: boolean}) {
@@ -34,7 +34,7 @@ export class FServicesComponent implements OnInit {
   }
 
   changeServices() {
-    this._accountService.setUserServices(this._accountService.services)
+    this._accountService.setAccountServices(this._accountService.services)
       .subscribe(() => {
         console.log('services are updated');
 

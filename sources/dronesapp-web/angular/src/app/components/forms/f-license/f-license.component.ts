@@ -48,7 +48,7 @@ export class FPilotLicenseComponent implements OnInit {
 
   ngOnInit() {
     if (!this.accountService.license) {
-      this.accountService.getUserLicense();
+      this.accountService.getAccountLicense();
     }
   }
 
@@ -61,7 +61,7 @@ export class FPilotLicenseComponent implements OnInit {
       return;
     }
 
-    this.accountService.setUserLicense(this.accountService.license)
+    this.accountService.setAccountLicense(this.accountService.license)
       .subscribe((res) => {
         console.log('-save license', res);
       });

@@ -52,7 +52,7 @@ export class FAuthorizationComponent implements OnInit {
     this._authorizationService.signIn({email: this.formData.email, password: this.formData.password})
       .subscribe(
         () => {
-          this._accountService.getUserData()
+          this._accountService.getAccountData()
             .subscribe(() => {
               this._router.navigate(['/']);
             });

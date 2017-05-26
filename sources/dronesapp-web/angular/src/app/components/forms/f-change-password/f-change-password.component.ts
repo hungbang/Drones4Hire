@@ -24,7 +24,7 @@ export class FChangePasswordComponent {
       return;
     }
 
-    this._accountService.setPassword({password: this.password, confirmPassword: this.repassword})
+    this._accountService.setAccountPassword({password: this.password, confirmPassword: this.repassword})
       .subscribe(() => {
         console.log('password is updated');
       });
