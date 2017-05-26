@@ -2,77 +2,10 @@
   <div class="container">
     <h2 class="s-account__title">Account Settings</h2>
     <div class="s-account__tabs">
-      <button type="button" class="s-account__tab"
-              [ngClass]="{ '_active': activeTabName === 'details' }"
-              (click)="showTab('details')">Account Details
-      </button>
-      <button type="button" class="s-account__tab"
-              *ngIf="_appService.isUserPilot"
-              [ngClass]="{ '_active': activeTabName === 'preference' }"
-              (click)="showTab('preference')">Account Preferences
-      </button>
-      <button type="button" class="s-account__tab"
-              [ngClass]="{ '_active': activeTabName === 'security' }"
-              (click)="showTab('security')">Account Security
-      </button>
-      <button type="button" class="s-account__tab"
-              [ngClass]="{ '_active': activeTabName === 'notification' }"
-              (click)="showTab('notification')">Notifications
-      </button>
+      <b-tabs [tabs]="tabs"></b-tabs>
     </div>
     <div class="s-account__content">
-      <div class="s-account__content-item" *ngIf="activeTabName === 'details'">
-        <div class="s-account__item">
-          <h3 class="s-account__subtitle">Profile Details</h3>
-          <f-profile></f-profile>
-        </div>
-
-        <div class="s-account__item">
-          <h3 class="s-account__subtitle">Company Details</h3>
-          <f-company></f-company>
-        </div>
-
-        <div class="s-account__item" *ngIf="_accountService.isUserPilot()">
-          <h3 class="s-account__subtitle">License & Insurance Info</h3>
-          <f-license></f-license>
-        </div>
-
-        <div class="s-account__item">
-          <h3 class="s-account__subtitle">Financial Preferences</h3>
-        </div>
-      </div>
-
-      <div class="s-account__content-item"
-           *ngIf="_accountService.isUserPilot() && activeTabName === 'preference'">
-        <div class="s-account__item">
-          <h3 class="s-account__subtitle">Service Details</h3>
-          <f-services></f-services>
-        </div>
-
-        <div class="s-account__item">
-          <h3 class="s-account__subtitle">Update your public profile</h3>
-          <f-public></f-public>
-        </div>
-      </div>
-
-      <div class="s-account__content-item" *ngIf="activeTabName === 'security'">
-        <div class="s-account__item">
-          <h3 class="s-account__subtitle">Details</h3>
-          <f-change-password></f-change-password>
-        </div>
-      </div>
-
-      <div class="s-account__content-item" *ngIf="activeTabName === 'notification'">
-        <div class="s-account__item">
-          <h3 class="s-account__subtitle">Details</h3>
-          <f-email></f-email>
-        </div>
-
-        <div class="s-account__item">
-          <f-notifications></f-notifications>
-        </div>
-      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-

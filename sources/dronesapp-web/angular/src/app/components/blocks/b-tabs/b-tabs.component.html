@@ -1,0 +1,10 @@
+<ul class="b-tabs">
+  <li class="b-tabs__item" *ngFor="let tab of tabs">
+    <a [routerLink]="tab['link']"
+       [routerLinkActive]="'_active'"
+       *ngIf="tab['visibility']"
+       class="b-tabs__link">{{tab['text']}}</a>
+  </li>
+</ul>
+
+

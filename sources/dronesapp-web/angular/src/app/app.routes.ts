@@ -3,20 +3,27 @@ import {IndexComponent} from './containers/index/index.component';
 import {ProfileComponent} from './containers/profile/profile.component';
 import {SearchComponent} from './containers/search/search.component';
 import {MyProjectsComponent} from './containers/my-projects/my-projects.component';
-import { TransactionsComponent } from './containers/transactions/transactions.component';
-import { ProjectComponent } from './containers/project/project.component';
-import { DashboardComponent } from './containers/dashboard/dashboard.component';
-import { AccountComponent } from './containers/account/account.component';
-import { ProjectAddComponent } from './containers/project-add/project-add.component';
-import { SAuthorizationComponent } from './components/sections/s-authorization/s-authorization.component';
-import { AuthGuard } from './guards/auth.guard/auth.guard';
-import { ClientGuard } from './guards/client.guard/client.guard';
-import { PilotGuard } from './guards/pilot.guard/pilot.guard';
+import {TransactionsComponent} from './containers/transactions/transactions.component';
+import {ProjectComponent} from './containers/project/project.component';
+import {DashboardComponent} from './containers/dashboard/dashboard.component';
+import {AccountComponent} from './containers/account/account.component';
+import {ProjectAddComponent} from './containers/project-add/project-add.component';
+import {SAuthorizationComponent} from './components/sections/s-authorization/s-authorization.component';
+import {DetailsComponent} from './containers/details/details.component';
+import {PreferencesComponent} from './containers/preferences/preferences.component';
+
+import {AuthGuard} from './guards/auth.guard/auth.guard';
+import {ClientGuard} from './guards/client.guard/client.guard';
+import {PilotGuard} from './guards/pilot.guard/pilot.guard';
+import {SecurityComponent} from './containers/security/security.component';
+import {NotificationsComponent} from './containers/notifications/notifications.component';
+import {NotFoundComponent} from './containers/not-found/not-found.component';
 
 export const ROUTES: Routes = [
   {
     path: '',
     component: IndexComponent,
+    canActivate: [AuthGuard],
     data: {
       className: 'p-index'
     }
@@ -127,18 +134,109 @@ export const ROUTES: Routes = [
         component: AccountComponent,
         canActivate: [PilotGuard],
         data: {
-          isPilotPage: true,
           className: 'p-account'
-        }
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: 'details',
+            pathMatch: 'full'
+          },
+          {
+            path: 'details',
+            component: DetailsComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'preferences',
+            component: PreferencesComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            },
+            children: [
+              {
+                path: '',
+                redirectTo: 'photo',
+                pathMatch: 'full'
+              },
+              {
+                path: 'photo',
+                component: NotFoundComponent,
+                canActivate: [PilotGuard],
+                data: {
+                  className: 'p-account'
+                }
+              },
+              {
+                path: 'video',
+                component: NotFoundComponent,
+                canActivate: [PilotGuard],
+                data: {
+                  className: 'p-account'
+                }
+              }
+            ]
+          },
+          {
+            path: 'security',
+            component: SecurityComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'notifications',
+            component: NotificationsComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          }
+        ]
       },
       {
         path: 'client',
         component: AccountComponent,
         canActivate: [ClientGuard],
         data: {
-          isClientPage: true,
           className: 'p-account'
-        }
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: 'details',
+            pathMatch: 'full'
+          },
+          {
+            path: 'details',
+            component: DetailsComponent,
+            canActivate: [ClientGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'security',
+            component: SecurityComponent,
+            canActivate: [ClientGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'notifications',
+            component: NotificationsComponent,
+            canActivate: [ClientGuard],
+            data: {
+              className: 'p-account'
+            }
+          }
+        ]
       }
     ]
   },

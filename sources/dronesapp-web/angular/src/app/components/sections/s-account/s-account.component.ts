@@ -1,8 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { AppService } from '../../../services/app.service/app.service';
-import { AccountService } from '../../../services/account.service/account.service';
-import { AuthorizationService } from '../../../services/authorization.service/authorization.service';
-import {CommonService} from '../../../services/common.service/common.service';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 's-account',
@@ -11,17 +8,30 @@ import {CommonService} from '../../../services/common.service/common.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SAccountComponent {
+  tabs: Array<Object> = null;
 
-  // todo Make tab with routing
-  activeTabName = 'details';
-
-  constructor(
-    public _appService: AppService,
-    private _authorizationService: AuthorizationService,
-    public _accountService: AccountService
-  ) {}
-
-  showTab(tabName) {
-    this.activeTabName = tabName;
+  constructor(private _accountService: AccountService) {
+    this.tabs = [
+      {
+        link: 'details',
+        text: 'Account Details',
+        visibility: true
+      },
+      {
+        link: 'preferences',
+        text: 'Account Preferences',
+        visibility: this._accountService.isUserPilot()
+      },
+      {
+        link: 'security',
+        text: 'Account Security',
+        visibility: true
+      },
+      {
+        link: 'notifications',
+        text: 'Notifications',
+        visibility: true
+      },
+    ]
   }
 }
