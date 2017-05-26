@@ -39,7 +39,7 @@ public class BidController extends AbstractController
 
 	@Autowired
 	private Mapper mapper;
-
+	
 	@ResponseStatusDetails
 	@ApiOperation(value = "Create bid", nickname = "createBid", code = 201, httpMethod = "POST", response = BidDTO.class)
 	@ApiImplicitParams(
@@ -47,11 +47,11 @@ public class BidController extends AbstractController
 	@ResponseStatus(HttpStatus.CREATED)
 	@Secured({"ROLE_PILOT"})
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody BidDTO createBid(@Valid @RequestBody BidDTO bidDTO)
+	public @ResponseBody BidDTO createBid(@Valid @RequestBody BidDTO bidDTO) throws ServiceException
 	{
 		Bid bid = mapper.map(bidDTO, Bid.class);
 		bid.setUserId(getPrincipal().getId());
-		return mapper.map(bidService.createBid(bid), BidDTO.class);
+		return mapper.map(bidService.createBid(bid, getPrincipal().getId()), BidDTO.class);
 	}
 
 	@ResponseStatusDetails
@@ -63,8 +63,7 @@ public class BidController extends AbstractController
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BidDTO updateBid(@Valid @RequestBody BidDTO bidDTO) throws ServiceException
 	{
-		Bid bid = bidService.getBidById(bidDTO.getId());
-		Bid result = bidService.updateBid(mapper.map(bidDTO, Bid.class));
+		Bid result = bidService.updateBid(mapper.map(bidDTO, Bid.class), getPrincipal().getId());
 		return mapper.map(result, BidDTO.class);
 	}
 
@@ -73,10 +72,58 @@ public class BidController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void deleteBid(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "id") long id) throws ServiceException
+	@RequestMapping(value = "{id}/retract", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void deleteBid(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "id") long bidId) throws ServiceException
 	{
-		Bid bid = bidService.getBidById(id);
-		bidService.deleteBid(id);
+		bidService.deleteBid(bidId, getPrincipal().getId());
+	}
+	
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Award bid", nickname = "awardBid", code = 201, httpMethod = "POST", response = BidDTO.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "{id}/award", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody BidDTO awardBid(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "id") long bidId) throws ServiceException
+	{
+		return mapper.map(bidService.awardBid(bidId, getPrincipal().getId()), BidDTO.class);
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Rewoke bid", nickname = "rewokeBid", code = 201, httpMethod = "POST", response = BidDTO.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "{id}/rewoke", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody BidDTO rewokeBid(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "id") long bidId) throws ServiceException
+	{
+		return mapper.map(bidService.rewokeBid(bidId, getPrincipal().getId()), BidDTO.class);
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Accept bid", nickname = "acceptBid", code = 201, httpMethod = "POST", response = BidDTO.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_PILOT"})
+	@RequestMapping(value = "{id}/accept", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody BidDTO acceptBid(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "id") long bidId) throws ServiceException
+	{
+		return mapper.map(bidService.acceptBid(bidId, getPrincipal().getId()), BidDTO.class);
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Reject bid", nickname = "rejectBid", code = 201, httpMethod = "POST", response = BidDTO.class)
+	@ApiImplicitParams(
+	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_PILOT"})
+	@RequestMapping(value = "{id}/reject", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody BidDTO rejectBid(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "id") long bidId) throws ServiceException
+	{
+		return mapper.map(bidService.rejectBid(bidId, getPrincipal().getId()), BidDTO.class);
 	}
 }

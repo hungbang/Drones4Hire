@@ -6,6 +6,10 @@
         <class-a>com.drones4hire.dronesapp.models.dto.BidDTO</class-a>
         <class-b>com.drones4hire.dronesapp.models.db.projects.Bid</class-b>
 
+		 <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
         <field>
             <a>projectId</a>
             <b>projectId</b>

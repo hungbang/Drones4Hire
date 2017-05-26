@@ -11,7 +11,7 @@ public interface BidMapper
 	Bid getBidById(long id);
 
 	List<Bid> getBidsByProjectId(Long projectId);
-	
+
 	void updateBid(Bid bid);
 
 	void deleteBid(long id);
