@@ -16,7 +16,6 @@ import { PilotGuard } from './guards/pilot.guard/pilot.guard';
 export const ROUTES: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
     component: IndexComponent
   },
   {

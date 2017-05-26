@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {AccountService} from '../../services/account.service/account.service';
 import {AuthGuard} from '../auth.guard/auth.guard';
 
@@ -10,10 +10,10 @@ export class ClientGuard implements CanActivate {
               private _authGuard: AuthGuard) {
   }
 
-  canActivate() {
+  canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('-activate client guard');
 
-    return this._authGuard.canActivate()
+    return this._authGuard.canActivate(_route, state)
       .map((auth: boolean) => {
         if (!auth) {
           return false;
