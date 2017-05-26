@@ -51,6 +51,9 @@ export class FPublicComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.accountService.profile) {
+      return;
+    }
     this.accountService.getAccountProfile();
   }
 

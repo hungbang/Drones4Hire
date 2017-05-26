@@ -138,8 +138,10 @@
                  name="profileImage"
                  (change)="handlePhotoUpload($event)"
                  ng2FileSelect
-                 [uploader]="uploader">
-          <!--<span class="f-default__error" *ngIf="submitted && firstNameRef.errors?.required">This field is required</span>-->
+                 [uploader]="uploader"
+                 [ngClass]="{'_error': submitted && !accountService.account?.photoURL}">
+          <span class="f-default__error"
+                *ngIf="submitted && !accountService.account?.photoURL">This field is required</span>
         </label>
       </div>
 

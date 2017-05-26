@@ -14,6 +14,9 @@ export class FNotificationsComponent implements OnInit{
   }
 
   ngOnInit() {
+    if (this.accountService.notifications) {
+      return;
+    }
     this.accountService.getUserNotifications();
   }
 

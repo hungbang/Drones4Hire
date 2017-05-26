@@ -15,6 +15,9 @@ export class FServicesComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this._accountService.services.length) {
+      return;
+    }
     this._accountService.getUserServices();
   }
 

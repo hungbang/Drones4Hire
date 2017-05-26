@@ -1,8 +1,7 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
 import {CommonService} from '../../../services/common.service/common.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
-import {StateModel} from '../../../services/common.service/state.interface';
 
 @Component({
   selector: 'f-company',
@@ -19,22 +18,26 @@ export class FClientCompanyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accountService.getUserCompany()
-      .subscribe(() => {
-        if (this.commonService.countries.length) {
-          this.countries = [...this.commonService.countries];
-          this.selectCompanyCountry();
-        } else {
-          this.commonService.getListOfCountries()
-            .subscribe(() => {
-              this.countries = [...this.commonService.countries];
-              this.selectCompanyCountry();
-            })
-        }
-      });
+    if (!this.accountService.company) {
+      this.accountService.getUserCompany()
+        .subscribe(() => {
+          if (this.commonService.countries.length) {
+            this.selectCompanyCountry();
+          } else {
+            this.commonService.getListOfCountries()
+              .subscribe(() => {
+                this.selectCompanyCountry();
+              })
+          }
+        });
+    } else {
+      this.selectCompanyCountry();
+    }
   }
 
   selectCompanyCountry() {
+    this.countries = [...this.commonService.countries];
+
     let filtered = this.countries.filter((country) => {
       if (this.accountService.company.country) {
         return country.id === this.accountService.company.country.id;

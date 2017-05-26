@@ -62,22 +62,14 @@ export class FClientProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.commonService.countries.length) {
+      this.setCountries();
+      return;
+    }
+
     this.commonService.getListOfCountries()
       .subscribe(() => {
-        this.countries = [...this.commonService.countries];
-
-        let filtered = this.countries.filter((country) => {
-          if (this.accountService.account.location.country) {
-            return country.id === this.accountService.account.location.country.id;
-          }
-          return false;
-        });
-
-        filtered.length && (this.commonService.accountCountry = filtered[0].name);
-
-        if (this.commonService.checkCountry('accountCountry')) {
-          this.getListOfStates();
-        }
+        this.setCountries();
       })
   }
 
@@ -90,7 +82,7 @@ export class FClientProfileComponent implements OnInit {
 
     this.submitted = true;
 
-    if (form.invalid) {
+    if (form.invalid || (!this.accountService.account && !this.accountService.account.photoURL)) {
       return;
     }
 
@@ -133,23 +125,45 @@ export class FClientProfileComponent implements OnInit {
     this.accountService.account.location.state.code = location['code'];
   }
 
+  private setCountries() {
+    this.countries = [...this.commonService.countries];
+
+    let filtered = this.countries.filter((country) => {
+      if (this.accountService.account.location.country) {
+        return country.id === this.accountService.account.location.country.id;
+      }
+      return false;
+    });
+
+    filtered.length && (this.commonService.accountCountry = filtered[0].name);
+
+    if (this.commonService.checkCountry('accountCountry')) {
+      this.getListOfStates();
+    }
+  }
+
+  private setStates() {
+    this.states = [...this.commonService.states];
+
+    let filtered = this.states.filter((state) => {
+      if (this.accountService.account.location.state) {
+        return state.id === this.accountService.account.location.state.id;
+      }
+      return false;
+    });
+
+    filtered.length && (this.commonService.accountState = filtered[0].name);
+  }
+
   private getListOfStates() {
     if (this.commonService.states.length) {
+      this.setStates();
       return;
     }
 
     this.commonService.getListOfStates()
       .subscribe(() => {
-        this.states = [...this.commonService.states];
-
-         let filtered = this.states.filter((state) => {
-          if (this.accountService.account.location.state) {
-            return state.id === this.accountService.account.location.state.id;
-          }
-          return false;
-        });
-
-        filtered.length && (this.commonService.accountState = filtered[0].name);
+        this.setStates()
       })
   }
 

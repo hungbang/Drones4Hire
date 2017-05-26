@@ -47,10 +47,12 @@ export class FPilotLicenseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accountService.getUserLicense();
+    if (!this.accountService.license) {
+      this.accountService.getUserLicense();
+    }
   }
 
-  saveChanges(e, form) {
+  saveChanges(e) {
     e.preventDefault();
 
     this.submitted = true;

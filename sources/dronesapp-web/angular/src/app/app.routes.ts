@@ -101,7 +101,6 @@ export const ROUTES: Routes = [
         component: DashboardComponent,
         canActivate: [ClientGuard],
         data: {
-          isClientPage: true,
           className: 'p-dashboard'
         }
       },
@@ -110,7 +109,6 @@ export const ROUTES: Routes = [
         component: DashboardComponent,
         canActivate: [PilotGuard],
         data: {
-          isPilotPage: true,
           className: 'p-dashboard'
         }
       }
