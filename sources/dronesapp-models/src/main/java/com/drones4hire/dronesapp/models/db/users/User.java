@@ -151,7 +151,7 @@ public class User extends AbstractEntity
 	{
 		this.groups = groups;
 	}
-	
+
 	public Location getLocation()
 	{
 		return location;
