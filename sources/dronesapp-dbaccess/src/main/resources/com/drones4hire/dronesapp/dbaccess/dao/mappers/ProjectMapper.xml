@@ -166,35 +166,45 @@
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
 				]]>
 			</if>
-			<if test="null != serviceCategoryId">
+			<if test="0 != serviceCategoryId">
 				<![CDATA[
 				   AND SC.ID = #{serviceCategoryId}
 				]]>
 			</if>
-			<if test="null != durationId">
+			<if test="0 != durationId">
 				<![CDATA[
 				   AND D.ID = #{durationId}
 				]]>
 			</if>
-			<if test="null != locationId">
+			<if test="0 != locationId">
 				<![CDATA[
 				   AND L.ID = #{locationId}
 				]]>
 			</if>
-			<if test="null != budgetId">
+			<if test="0 != budgetId">
 				<![CDATA[
 				   AND B.ID = #{budgetId}
 				]]>
 			</if>
-			<if test="null != clientId AND (status == 'PENDING' OR status == 'IN_PROGRESS')">
+			<if test="0 != clientId">
 				<![CDATA[
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="null != pilotId AND (status == 'PENDING' OR status == 'IN_PROGRESS')">
+			<if test="0 != pilotId">
 				<![CDATA[
 				   AND P.PILOT_ID = #{pilotId}
 				]]>
+			</if>
+			<if test="sortOrder.toString() == 'ASC'">
+				<![CDATA[
+				ORDER BY P.START_DATE ASC
+			]]>
+			</if>
+			<if test="sortOrder.toString() == 'DESC'">
+				<![CDATA[
+				ORDER BY P.START_DATE DESC
+			]]>
 			</if>
 		</trim>
 	</select>

@@ -98,7 +98,12 @@ public class ProjectController extends AbstractController
 		project.setSummary(p.getSummary());
 		project.setService(p.getService());
 		project.setDuration(mapper.map(p.getDuration(), Duration.class));
-		project.setLocation(mapper.map(p.getLocation(), Location.class));
+		project.getLocation().setAddress(p.getLocation().getAddress());
+		project.getLocation().setCoordinates(p.getLocation().getCoordinates());
+		project.getLocation().setCountry(p.getLocation().getCountry());
+		project.getLocation().setState(p.getLocation().getState());
+		project.getLocation().setCity(p.getLocation().getCity());
+		project.getLocation().setPostcode(p.getLocation().getPostcode());
 		project.setBudget(mapper.map(p.getBudget(), Budget.class));
 		project.setImageURL(p.getImageURL());
 		project.setPostProductionRequired(p.getPostProductionRequired());
@@ -133,8 +138,6 @@ public class ProjectController extends AbstractController
 	public @ResponseBody SearchResult<Project> searchProjects(@RequestBody ProjectSearchCriteria sc)
 			throws ServiceException
 	{
-		sc.setPilotId(null);
-		sc.setClientId(null);
 		return projectService.searchProjects(sc, getPrincipal().getId());
 	}
 

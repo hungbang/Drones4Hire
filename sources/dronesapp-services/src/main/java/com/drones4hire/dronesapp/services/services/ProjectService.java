@@ -28,9 +28,13 @@ public class ProjectService
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private LocationService locationService;
+
 	@Transactional(rollbackFor = Exception.class)
 	public Project createProject(Project project)
 	{
+		locationService.createLocation(project.getLocation());
 		projectMapper.createProject(project);
 		return project;
 	}
@@ -78,6 +82,7 @@ public class ProjectService
 	@Transactional(rollbackFor = Exception.class)
 	public Project updateProject(Project project)
 	{
+		locationService.updateLocation(project.getLocation());
 		projectMapper.updateProject(project);
 		return project;
 	}

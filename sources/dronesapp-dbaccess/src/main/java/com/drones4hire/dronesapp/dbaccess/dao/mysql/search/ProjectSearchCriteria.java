@@ -1,15 +1,18 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
+import com.drones4hire.dronesapp.models.db.projects.Project.Status;
+
 public class ProjectSearchCriteria extends SearchCriteria
 {
 
 	private String title;
-	private Long clientId;
-	private Long pilotId;
+	private long clientId;
+	private long pilotId;
 	private long serviceCategoryId;
 	private long durationId;
 	private long locationId;
 	private long budgetId;
+	private Status status;
 
 	public String getTitle()
 	{
@@ -26,7 +29,7 @@ public class ProjectSearchCriteria extends SearchCriteria
 		return clientId;
 	}
 
-	public void setClientId(Long clientId)
+	public void setClientId(long clientId)
 	{
 		this.clientId = clientId;
 	}
@@ -36,7 +39,7 @@ public class ProjectSearchCriteria extends SearchCriteria
 		return pilotId;
 	}
 
-	public void setPilotId(Long pilotId)
+	public void setPilotId(long pilotId)
 	{
 		this.pilotId = pilotId;
 	}
@@ -79,5 +82,15 @@ public class ProjectSearchCriteria extends SearchCriteria
 	public void setBudgetId(long budgetId)
 	{
 		this.budgetId = budgetId;
+	}
+
+	public Status getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(Status status)
+	{
+		this.status = status;
 	}
 }
