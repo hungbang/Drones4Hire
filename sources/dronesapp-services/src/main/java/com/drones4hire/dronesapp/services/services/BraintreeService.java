@@ -1,21 +1,30 @@
 package com.drones4hire.dronesapp.services.services;
 
 import com.braintreegateway.*;
+import com.braintreegateway.MerchantAccount;
+import com.braintreegateway.test.*;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.util.List;
 
+@Service
 public class BraintreeService
 {
 
 	private static enum EnvironmentType
 	{
 		SANDBOX, DEVELOPMENT, PRODUCTION
-	};
+	}
+
+	;
 
 	@Value("${drones4hire.braintree.environment}")
 	private String environment;
@@ -50,14 +59,44 @@ public class BraintreeService
 		case PRODUCTION:
 			env = Environment.PRODUCTION;
 			break;
+		default:
+			break;
 		}
 		braintreeGateway = new BraintreeGateway(env, merchantId, publicKey, privateKey);
 	}
 
-	public Transaction sale(User user, String paymentMethodNonce, BigDecimal amount) throws ServiceException
+	public String generateClientToken(Wallet wallet) throws ServiceException
 	{
-		createPaymentMethod(user, paymentMethodNonce);
-		return sale(amount, paymentMethodNonce);
+		String clientToken = null;
+		if (wallet.getPaymentToken() != null)
+		{
+			ClientTokenRequest request = null;
+			try
+			{
+				if(getCustomer(wallet.getPaymentToken()) != null)
+				{
+					request = new ClientTokenRequest()
+							.customerId(wallet.getPaymentToken());
+					clientToken = braintreeGateway.clientToken().generate(request);
+				} else
+				{
+					throw new UserNotFoundException("Invalid customer id");
+				}
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		} else
+		{
+			clientToken = braintreeGateway.clientToken().generate();
+		}
+		return clientToken;
+	}
+
+	public PaymentMethod getPaymentMethod(User user, String paymentMethodNonce) throws ServiceException
+	{
+		Customer customer = createCustomer(user);
+		return createPaymentMethod(customer.getId(), paymentMethodNonce);
 	}
 
 	public Customer createCustomer(User user) throws ServiceException
@@ -77,7 +116,7 @@ public class BraintreeService
 			}
 		} catch (Exception e)
 		{
-			throw new ServiceException("Can't create payment customer: " + e.getMessage());
+			throw new ServiceException("Can't create customer: " + e.getMessage());
 		}
 		return result.getTarget();
 	}
@@ -102,7 +141,7 @@ public class BraintreeService
 			}
 		} catch (Exception e)
 		{
-			throw new ServiceException("Can't update payment customer: " + e.getMessage());
+			throw new ServiceException("Can't update customer: " + e.getMessage());
 		}
 		return result.getTarget();
 	}
@@ -117,12 +156,12 @@ public class BraintreeService
 				customer = braintreeGateway.customer().find(customerId);
 				if (customer == null)
 				{
-					throw new Exception("Customer with id '" + customerId + "' is not found");
+					throw new UserNotFoundException("Customer with id '" + customerId + "' is not found");
 				}
 			}
 		} catch (Exception e)
 		{
-			throw new ServiceException("Can't find customer by id: " + e.getMessage());
+			throw new UserNotFoundException("Can't find customer by id: " + e.getMessage());
 		}
 		return customer;
 	}
@@ -157,6 +196,9 @@ public class BraintreeService
 				PaymentMethodRequest request = new PaymentMethodRequest()
 						.customerId(customerId)
 						.paymentMethodNonce(paymentMethodNonce);
+				request.options()
+						.makeDefault(true)
+						.done();
 				result = braintreeGateway.paymentMethod().create(request);
 				if (!result.isSuccess())
 				{
@@ -170,20 +212,61 @@ public class BraintreeService
 		return result.getTarget();
 	}
 
-	public PaymentMethod createPaymentMethod(User user, String paymentMethodNonce) throws ServiceException
+	public PaymentMethod makePaymentMethodDefault(String paymentToken) throws ServiceException
 	{
-		return createPaymentMethod(createCustomer(user).getId(), paymentMethodNonce);
+		Result<? extends PaymentMethod> result = null;
+		try
+		{
+			if (!StringUtils.isEmpty(paymentToken))
+			{
+				PaymentMethodRequest request = new PaymentMethodRequest()
+						.token(paymentToken);
+				request.options()
+						.makeDefault(true)
+						.done();
+				result = braintreeGateway.paymentMethod().update(paymentToken, request);
+				if (!result.isSuccess())
+				{
+					throw new Exception(result.getMessage());
+				}
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't create payment method: " + e.getMessage());
+		}
+		return result.getTarget();
 	}
 
-	public Transaction sale(BigDecimal amount, String paymentMethodNonce) throws ServiceException
+	public PaymentMethod findPaymentMethodByToken(String paymentMethodToken) throws ServiceException
+	{
+		PaymentMethod result = null;
+		try
+		{
+			if (!StringUtils.isEmpty(paymentMethodToken))
+			{
+				result = braintreeGateway.paymentMethod().find(paymentMethodToken);
+				if (result == null)
+				{
+					throw new Exception("Payment method is not found");
+				}
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't find payment method: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public Transaction sale(String customerId, BigDecimal amount, String paymentMethodToken) throws ServiceException
 	{
 		Result<Transaction> result = null;
 		try
 		{
 			TransactionRequest request = new TransactionRequest()
 					.amount(amount)
-					.paymentMethodNonce(paymentMethodNonce)
-					.options()
+					.customerId(customerId)
+					.paymentMethodToken(paymentMethodToken);
+			request.options()
 					.submitForSettlement(true)
 					.done();
 			result = braintreeGateway.transaction().sale(request);
@@ -266,7 +349,7 @@ public class BraintreeService
 				result = braintreeGateway.transaction().find(transactionId);
 				if (result == null)
 				{
-					throw new Exception("Transaction with id '" + transactionId + "' is not found");
+					throw new ServiceException("Transaction with id '" + transactionId + "' is not found");
 				}
 			}
 		} catch (Exception e)
@@ -274,5 +357,124 @@ public class BraintreeService
 			throw new ServiceException("Can't refund transaction: " + e.getMessage());
 		}
 		return result;
+	}
+
+	public CreditCard addCreditCard(String customerId, String number, String expirationMonth, String expirationYear, String cvv)
+			throws ServiceException
+	{
+		Result<CreditCard> result = null;
+		try
+		{
+			CreditCardRequest request = new CreditCardRequest()
+					.customerId(customerId)
+					.number(number)
+					.expirationMonth(expirationMonth)
+					.expirationYear(expirationYear)
+					.cvv(cvv);
+			request
+					.options()
+					.verifyCard(true)
+					.makeDefault(true);
+			result = braintreeGateway.creditCard().create(request);
+			if (!result.isSuccess())
+			{
+				throw new Exception(result.getMessage());
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't add credit card: " + e.getMessage());
+		}
+		return result.getTarget();
+	}
+
+	public List<CreditCard> getCreditCardsByCustomerId(String customerId)
+			throws ServiceException
+	{
+		List<CreditCard> creditCards = null;
+		try
+		{
+			creditCards = getCustomer(customerId).getCreditCards();
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't add credit card: " + e.getMessage());
+		}
+		return creditCards;
+	}
+
+	public CreditCard getCreditCard(String token) throws ServiceException
+	{
+		CreditCard creditCard = null;
+		try
+		{
+			creditCard = braintreeGateway.creditCard().find(token);
+			if (creditCard == null)
+			{
+				throw new Exception("Not found by card token.");
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't find credit card: " + e.getMessage());
+		}
+		return creditCard;
+	}
+
+	public CreditCard updateCreditCard(String token, String expirationMonth, String expirationYear) throws ServiceException
+	{
+		Result<CreditCard> result = null;
+		try
+		{
+			CreditCardRequest request = new CreditCardRequest()
+					.token(token)
+					.expirationMonth(expirationMonth)
+					.expirationYear(expirationYear);
+			request.options()
+					.verifyCard(true);
+			result = braintreeGateway.creditCard().update(token, request);
+			if (!result.isSuccess())
+			{
+				throw new Exception(result.getMessage());
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't update credit card: " + e.getMessage());
+		}
+		return result.getTarget();
+	}
+
+	public CreditCard makeCreditCardDefault(String token) throws ServiceException
+	{
+		Result<CreditCard> result = null;
+		try
+		{
+			CreditCardRequest request = new CreditCardRequest()
+					.token(token);
+			request.options().makeDefault(true);
+			result = braintreeGateway.creditCard().update(token, request);
+			if (!result.isSuccess())
+			{
+				throw new Exception(result.getMessage());
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't update credit card: " + e.getMessage());
+		}
+		return result.getTarget();
+	}
+
+	public CreditCard deleteCreditCard(String token) throws ServiceException
+	{
+		Result<CreditCard> result = null;
+		try
+		{
+			result = braintreeGateway.creditCard().delete(token);
+			if (!result.isSuccess())
+			{
+				throw new Exception(result.getMessage());
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't delete credit card: " + e.getMessage());
+		}
+		return result.getTarget();
 	}
 }

@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.services.services;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +19,19 @@ public class WalletService
 	@Autowired
 	private WalletMapper walletMapper;
 
+	@Autowired
+	private BraintreeService braintreeService;
+
+	@Autowired
+	private UserService userService;
+
 	@Transactional(rollbackFor = Exception.class)
 	public Wallet createWallet(Wallet wallet)
 	{
 		walletMapper.createWallet(wallet);
 		return wallet;
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	public Wallet createDefaultWallet(User user)
 	{

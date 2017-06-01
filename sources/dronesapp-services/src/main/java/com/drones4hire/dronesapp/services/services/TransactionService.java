@@ -1,8 +1,13 @@
 package com.drones4hire.dronesapp.services.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.braintreegateway.PaymentMethod;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.TransactionMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.TransactionSearchCriteria;
-import com.drones4hire.dronesapp.models.db.payments.Transaction;
 
 @Service
 public class TransactionService
@@ -53,6 +57,7 @@ public class TransactionService
 		return transactionMapper.getAllTransactions();
 	}
 
+	@Transactional(readOnly = true)
 	public SearchResult<Transaction> searchTransactions(TransactionSearchCriteria sc)
 	{
 		SearchResult<Transaction> results = new SearchResult<>();
