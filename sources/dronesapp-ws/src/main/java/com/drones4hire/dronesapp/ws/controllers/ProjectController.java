@@ -135,10 +135,22 @@ public class ProjectController extends AbstractController
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<Project> searchProjects(@RequestBody ProjectSearchCriteria sc)
+	public @ResponseBody SearchResult<ProjectDTO> searchProjects(@RequestBody ProjectSearchCriteria sc)
 			throws ServiceException
 	{
-		return projectService.searchProjects(sc, getPrincipal().getId());
+		SearchResult<ProjectDTO> results = new SearchResult<>();
+		results.setPage(sc.getPageSize() * (sc.getPage() - 1));
+		results.setPageSize(sc.getPageSize());
+		results.setSortOrder(sc.getSortOrder());
+		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
+		List<ProjectDTO> projectDTOs = new ArrayList<>();
+		for(Project project : projects)
+		{
+			projectDTOs.add(mapper.map(project, ProjectDTO.class));
+		}
+		results.setResults(projectDTOs);
+		results.setTotalResults(projects.size());
+		return results;
 	}
 
 	@ResponseStatusDetails

@@ -55,7 +55,7 @@ public class ProjectService
 	}
 
 	@Transactional(readOnly = true)
-	public SearchResult<Project> searchProjects(ProjectSearchCriteria sc, long principalId) throws ServiceException
+	public List<Project> searchProjects(ProjectSearchCriteria sc, long principalId) throws ServiceException
 	{
 		User user = userService.getUserById(principalId);
 		if (user.getRoles().contains(ROLE_CLIENT))
@@ -65,14 +65,7 @@ public class ProjectService
 		{
 			sc.setPilotId(principalId);
 		}
-		SearchResult<Project> results = new SearchResult<>();
-		results.setPage(sc.getPage());
-		results.setPageSize(sc.getPageSize());
-		results.setSortOrder(sc.getSortOrder());
-		List<Project> projects = projectMapper.searchProjects(sc);
-		results.setResults(projects);
-		results.setTotalResults(projects.size());
-		return results;
+		return projectMapper.searchProjects(sc);
 	}
 
 	@Transactional(readOnly = true)
