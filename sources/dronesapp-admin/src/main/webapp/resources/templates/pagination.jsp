@@ -5,11 +5,11 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/fragments/taglibs.jsp" %>
 
-<div class="copper-pagination">
+<div class="drones-pagination">
 	<form name="searchForm" class="form-horizontal">
 		<div class="row">
 			<label class="col-sm-1 col-md-offset-7 control-label">
-				<spring:message code="copper.admin.pages.common.paging.page"/>
+				<spring:message code="drones.admin.pages.common.paging.page"/>
 			</label>
 			<div class="col-sm-1">
 				<select class="form-control input" style="padding-left: 0;"
@@ -20,7 +20,7 @@
 				</select>
 			</div>
 			<label class="col-sm-2 control-label">
-				<spring:message code="copper.admin.pages.common.paging.perpage"/>
+				<spring:message code="drones.admin.pages.common.paging.perpage"/>
 			</label>
 			<div class="col-sm-1">
 				<select class="form-control input" style="padding-left: 0;"

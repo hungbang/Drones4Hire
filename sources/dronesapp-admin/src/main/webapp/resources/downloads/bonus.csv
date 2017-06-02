@@ -1,4 +1,0 @@
-role,email,amount,currency
-DRIVER,npetrov.test@gmail.com,15,USD
-PASSENGER,vvolkov.test@gmail.com,100,UAH
-DRIVER,dtkachev.test@gmail.com,50000,BYR

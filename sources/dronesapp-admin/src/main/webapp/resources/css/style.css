@@ -37,7 +37,7 @@ input.validation.ng-valid, select.validation.ng-valid {
 	margin-bottom: 15px;
 }
 
-.copper-pagination {
+.drones-pagination {
 	margin: 3px 0;
 }
 
@@ -474,9 +474,9 @@ small.dashboard
 }
 
 .logo {
-	background: url(../img/logo.png);
-	width: 23px;
-	height: 36px;
+	background: url(../img/small_logo.png);
+	width: 32px;
+	height: 32px;
 	position: absolute;
 	top: 7px;
 	left: 15px;

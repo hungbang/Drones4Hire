@@ -82,4 +82,4 @@ Thumbs.db
 npm-debug.log.*
 
 sources/dronesapp-web/angular/node
-
+/sources/pom.xml
