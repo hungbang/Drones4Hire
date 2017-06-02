@@ -198,21 +198,24 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId and 'NEW' != status">
+			<if test="0 != pilotId and 'NEW' != status.toString()">
 				<![CDATA[
 				   AND P.PILOT_ID = #{pilotId}
 				]]>
 			</if>
 			<if test="sortOrder.toString() == 'ASC'">
 				<![CDATA[
-				ORDER BY P.START_DATE ASC
+				ORDER BY P.CREATED_AT ASC
 			]]>
 			</if>
 			<if test="sortOrder.toString() == 'DESC'">
 				<![CDATA[
-				ORDER BY P.START_DATE DESC
+				ORDER BY P.CREATED_AT DESC
 			]]>
 			</if>
+			<![CDATA[
+				LIMIT #{pageSize} OFFSET #{page}
+			]]>
 		</trim>
 	</select>
 

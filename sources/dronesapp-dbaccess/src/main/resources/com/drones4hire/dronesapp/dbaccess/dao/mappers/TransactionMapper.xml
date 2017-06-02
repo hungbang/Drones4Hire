@@ -88,6 +88,19 @@
 				   AND T.STATUS = #{status}
 				]]>
             </if>
+            <if test="sortOrder.toString() == 'ASC'">
+                <![CDATA[
+				ORDER BY T.CREATED_AT ASC
+			]]>
+            </if>
+            <if test="sortOrder.toString() == 'DESC'">
+                <![CDATA[
+				ORDER BY T.CREATED_AT DESC
+			]]>
+            </if>
+            <![CDATA[
+				LIMIT #{pageSize} OFFSET #{page}
+			]]>
         </trim>
     </select>
 
