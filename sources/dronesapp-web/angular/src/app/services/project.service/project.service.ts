@@ -9,6 +9,8 @@ export class ProjectService {
   paidOptions: PaidOptionModel[] = [];
   paidOptionsClasses = ['_featured', '_urgent', '_sealed', '_private'];
 
+  public projects;
+
   local = {
     myProjects: [
       {
@@ -107,10 +109,6 @@ export class ProjectService {
   ) {
   }
 
-  get myProjects() {
-    return this.local.myProjects;
-  }
-
   getPaidOptions() {
     if(this.paidOptions.length) {
       return createObservable(this.paidOptions);
@@ -127,11 +125,22 @@ export class ProjectService {
       });
   }
 
+  public getProjects(search = {}) {
+    return this._requestService.fetch('post', '/projects/search', search)
+      .map(res => {
+        this.projects = res.results;
+        console.log(res);
+        return res;
+      })
+      .catch((error) => {});
+  }
+
+  // todo add notification
   public postProjects(data: any) {
     return this._requestService.fetch('post', '/projects', data)
       .map(res => {
         return res;
       })
-      .catch((error) => {})
+      .catch((error) => {});
   }
 }

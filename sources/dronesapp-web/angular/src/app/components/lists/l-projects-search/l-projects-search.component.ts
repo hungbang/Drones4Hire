@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
 import { ProjectService } from '../../../services/project.service/project.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { ProjectService } from '../../../services/project.service/project.servic
 })
 export class LProjectsSearchComponent implements OnInit {
 
-  constructor(
-    private _projectService: ProjectService
-  ) {
+  @Input() projects;
+
+  constructor() {
   }
 
   ngOnInit() {

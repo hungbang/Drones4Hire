@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {ProjectService} from '../../../services/project.service/project.service';
 
 @Component({
   selector: 'b-projects-search',
@@ -8,9 +9,15 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class BProjectsSearchComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private projectService: ProjectService
+  ) { }
 
   ngOnInit() {
+  }
+
+  get projects() {
+    return this.projectService.projects;
   }
 
 }
