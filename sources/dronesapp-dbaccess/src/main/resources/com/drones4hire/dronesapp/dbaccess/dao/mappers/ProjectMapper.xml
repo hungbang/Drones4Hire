@@ -198,7 +198,7 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId">
+			<if test="0 != pilotId and 'NEW' != status">
 				<![CDATA[
 				   AND P.PILOT_ID = #{pilotId}
 				]]>
