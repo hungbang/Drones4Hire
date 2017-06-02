@@ -1,5 +1,8 @@
 package com.drones4hire.admin.controller.projects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +19,7 @@ import com.drones4hire.admin.controller.AbstractController;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.dto.ProjectDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.ProjectService;
 
@@ -42,9 +46,17 @@ public class ProjectsController extends AbstractController
 	
 	@RequestMapping(value = "searchProjects", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	SearchResult<Project> searchProjects(@RequestBody ProjectSearchCriteria searchCriteria) throws Exception
+	SearchResult<Project> searchProjects(@RequestBody ProjectSearchCriteria sc) throws Exception
 	{
-		return projectService.searchProjects(searchCriteria, getPrincipal().getId());
+		SearchResult<Project> results = new SearchResult<>();
+		results.setPage(sc.getPage());
+		results.setPageSize(sc.getPageSize());
+		results.setSortOrder(sc.getSortOrder());
+		sc.setPage(sc.getPageSize() * (sc.getPage() - 1));
+		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
+		results.setResults(projects);
+		results.setTotalResults(projects.size());
+		return results;
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
