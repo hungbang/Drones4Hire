@@ -1,6 +1,7 @@
-export interface NormalizedServiceModel {
+export interface ServiceModel {
   id: number;
   name: string;
+  checked?: boolean;
   category: {
     id: number;
     name: string;
@@ -8,14 +9,14 @@ export interface NormalizedServiceModel {
   }
 }
 
-export interface ServiceModel {
+export interface NormalizedServiceModel {
   id: number;
   name: string;
   order: number;
-  category: ServiceCategoryModel[];
+  category: NormalizedServiceCategoryModel[];
 }
 
-interface ServiceCategoryModel {
+interface NormalizedServiceCategoryModel {
   id: number;
   name: string;
   checked?: boolean;

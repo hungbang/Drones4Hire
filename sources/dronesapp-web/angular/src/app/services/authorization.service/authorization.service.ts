@@ -15,7 +15,7 @@ export class AuthorizationService {
   constructor(
     private _accountService: AccountService,
     private _requestService: RequestService,
-    private _tokenService: TokenService
+    private _tokenService: TokenService,
   ) {}
 
   saveTokens(res: any) {
@@ -27,7 +27,7 @@ export class AuthorizationService {
     this.isUserLogin = false;
     this._tokenService.removeTokens();
     // sessionStorage.removeItem('user');
-    this._accountService.account = null;
+    this.clearData();
   }
 
   signIn(formData) {
@@ -45,5 +45,9 @@ export class AuthorizationService {
       .map((res) => {
         return res;
       });
+  }
+
+  private clearData() {
+    this._accountService.clearData();
   }
 }

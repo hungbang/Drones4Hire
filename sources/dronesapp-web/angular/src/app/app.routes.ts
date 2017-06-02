@@ -18,6 +18,11 @@ import {PilotGuard} from './guards/pilot.guard/pilot.guard';
 import {SecurityComponent} from './containers/security/security.component';
 import {NotificationsComponent} from './containers/notifications/notifications.component';
 import {NotFoundComponent} from './containers/not-found/not-found.component';
+import {CountriesResolve} from './resolves/countries/countries.resolve';
+import {BudgetsResolve} from './resolves/budgets/budgets.resolve';
+import {ServicesResolve} from './resolves/services/budgets.resolve';
+import {DurationsResolve} from './resolves/durations/durations.resolve';
+import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
 
 export const ROUTES: Routes = [
   {
@@ -91,6 +96,13 @@ export const ROUTES: Routes = [
         data: {
           isClientPage: true,
           className: 'p-project'
+        },
+        resolve: {
+          countries: CountriesResolve,
+          budgets: BudgetsResolve,
+          services: ServicesResolve,
+          durations: DurationsResolve,
+          paidoptions: PaidOptionsResolve
         }
       }
     ]

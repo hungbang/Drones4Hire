@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
-import {AppService} from '../../../services/app.service/app.service';
 import {FileUploader} from 'ng2-file-upload';
 import {RequestService} from '../../../services/request.service/request.service';
 import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {CommonService} from '../../../services/common.service/common.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
 import {StateModel} from '../../../services/common.service/state.interface';
+import {extend} from '../../../shared/common/common-methods';
 
 @Component({
   selector: 'f-profile',
@@ -29,7 +29,6 @@ export class FClientProfileComponent implements OnInit {
   states: StateModel[] = [];
 
   constructor(public accountService: AccountService,
-              public appService: AppService,
               private _requestService: RequestService,
               public authorizationService: AuthorizationService,
               public commonService: CommonService) {
@@ -62,15 +61,8 @@ export class FClientProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.commonService.countries.length) {
-      this.setCountries();
-      return;
-    }
-
-    this.commonService.getListOfCountries()
-      .subscribe(() => {
-        this.setCountries();
-      })
+    this.commonService.getCountries()
+      .subscribe((countries) => this.setCountries(countries));
   }
 
   handlePhotoUpload() {
@@ -93,16 +85,16 @@ export class FClientProfileComponent implements OnInit {
   }
 
   selectCountry(name: string) {
-    let location = this.countries.filter((country) => {
-      return name === country.name;
-    })[0];
+    this.countries.filter((country) => {
+      if (name === country.name) {
+        this.accountService.account.location.country.name = country['name'];
+        this.accountService.account.location.country.id = country['id'];
+      }
+    });
 
     if (!this.accountService.account.location.country) {
       this.setCountry();
     }
-
-    this.accountService.account.location.country.name = location['name'];
-    this.accountService.account.location.country.id = location['id'];
 
     if (!this.commonService.checkCountry('accountCountry')) {
       this.setState();
@@ -112,59 +104,48 @@ export class FClientProfileComponent implements OnInit {
   }
 
   selectState(name: string) {
-    let location = this.states.filter((state) => {
-      return name === state.name;
-    })[0];
+    this.states.filter((state) => {
+      if (name === state.name) {
+        this.accountService.account.location.state.name = state['name'];
+        this.accountService.account.location.state.id = state['id'];
+        this.accountService.account.location.state.code = state['code'];
+      }
+    });
 
     if (!this.accountService.account.location.state) {
       this.setState();
     }
-
-    this.accountService.account.location.state.name = location['name'];
-    this.accountService.account.location.state.id = location['id'];
-    this.accountService.account.location.state.code = location['code'];
   }
 
-  private setCountries() {
-    this.countries = [...this.commonService.countries];
+  private setCountries(countries) {
+    this.countries = extend([], countries);
 
-    let filtered = this.countries.filter((country) => {
-      if (this.accountService.account.location.country) {
-        return country.id === this.accountService.account.location.country.id;
+    this.countries.filter((country) => {
+      if (this.accountService.account.location.country
+        && (country.id === this.accountService.account.location.country.id)) {
+        this.commonService.accountCountry = country.name;
       }
-      return false;
     });
-
-    filtered.length && (this.commonService.accountCountry = filtered[0].name);
 
     if (this.commonService.checkCountry('accountCountry')) {
       this.getListOfStates();
     }
   }
 
-  private setStates() {
-    this.states = [...this.commonService.states];
+  private setStates(states) {
+    this.states = extend([], states);
 
-    let filtered = this.states.filter((state) => {
-      if (this.accountService.account.location.state) {
-        return state.id === this.accountService.account.location.state.id;
+    this.states.filter((state) => {
+      if (this.accountService.account.location.state
+        && (state.id === this.accountService.account.location.state.id)) {
+        this.commonService.accountState = state.name;
       }
-      return false;
     });
-
-    filtered.length && (this.commonService.accountState = filtered[0].name);
   }
 
   private getListOfStates() {
-    if (this.commonService.states.length) {
-      this.setStates();
-      return;
-    }
-
-    this.commonService.getListOfStates()
-      .subscribe(() => {
-        this.setStates()
-      })
+    this.commonService.getStates()
+      .subscribe((states) => this.setStates(states));
   }
 
   private setCountry() {

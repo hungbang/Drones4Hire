@@ -15,6 +15,8 @@ import {AppPipes} from './pipes/index';
 import {AppResolves} from './resolves/index';
 import {AppServices} from './services/index';
 import {AppGuards} from './guards/index';
+import {NguiDatetimePickerModule} from '@ngui/datetime-picker';
+import {Daterangepicker} from 'ng2-daterangepicker';
 
 @NgModule({
   declarations: [
@@ -23,9 +25,11 @@ import {AppGuards} from './guards/index';
     AppContainers,
     AppPipes,
     AppShared,
-    FileSelectDirective,
+    FileSelectDirective
   ],
   imports: [
+    NguiDatetimePickerModule,
+    Daterangepicker,
     BrowserModule,
     FormsModule,
     HttpModule,

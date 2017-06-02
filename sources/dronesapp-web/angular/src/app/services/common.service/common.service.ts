@@ -2,14 +2,20 @@ import {Injectable} from '@angular/core';
 import {RequestService} from '../request.service/request.service';
 import {CountryModel} from './country.interface';
 import {StateModel} from './state.interface';
-import {NormalizedServiceModel, ServiceModel} from './services.interface';
+import {ServiceModel} from './services.interface';
+import {BudgetModel} from './budget.interface';
+import {createObservable} from '../../shared/common/common-methods';
+import {DurationModel} from './duration.interface';
 
 @Injectable()
 export class CommonService {
   public countries: CountryModel[] = [];
   public states: StateModel[] = [];
   public services: ServiceModel[] = [];
+  public budgets: BudgetModel[] = [];
+  public durations: DurationModel[] = [];
 
+  //toDo: move to account service
   public accountCountry: string = null;
   public accountState: string = null;
   public companyCountry: string = null;
@@ -18,7 +24,19 @@ export class CommonService {
   constructor(private _requestService: RequestService) {
   }
 
-  private normalizeServices(services: NormalizedServiceModel[]) {
+  private fillCategory(data: {id: number; name: string; checked?: boolean}) {
+    let category = {};
+    category['id'] = data.id;
+    category['name'] = data.name;
+
+    if (typeof data['checked'] !== 'undefined') {
+      category['checked'] = data.checked;
+    }
+
+    return category;
+  }
+
+  public normalizeServices(services: ServiceModel[]) {
     if (!services.length) {
       return [];
     }
@@ -27,25 +45,17 @@ export class CommonService {
 
     services.reduce((initialValue, currentValue) => {
       if (initialValue && initialValue.category.id === currentValue.category.id) {
-        let filtered = normalizedServices.filter((service) => {
-          return currentValue.category.id === service.id;
-        });
-
-        filtered[0]['category'].push({
-          id: currentValue.id,
-          name: currentValue.name,
-          checked: currentValue['checked']
+        normalizedServices.filter((service) => {
+          if (currentValue.category.id === service.id) {
+            service['category'].push(this.fillCategory(currentValue));
+          }
         });
       } else {
         normalizedServices.push({
           id: currentValue.category.id,
           name: currentValue.category.name,
           order: currentValue.category.order,
-          category: [{
-            id: currentValue.id,
-            name: currentValue.name,
-            checked: currentValue['checked']
-          }]
+          category: [this.fillCategory(currentValue)]
         });
       }
 
@@ -55,6 +65,13 @@ export class CommonService {
     return normalizedServices.sort((objA, objB) => objA.id - objB.id);
   }
 
+  getCountries() {
+    if (this.countries.length) {
+      return createObservable(this.countries);
+    }
+
+    return this.getListOfCountries();
+  }
   getListOfCountries() {
     return this._requestService.fetch('get', '/common/countries')
       .map((res) => {
@@ -63,7 +80,14 @@ export class CommonService {
       })
   }
 
-  getListOfStates() {
+  getStates() {
+    if (this.states.length) {
+      return createObservable(this.states);
+    }
+
+    return this.getListOfStates();
+  }
+  private getListOfStates() {
     return this._requestService.fetch('get', '/common/states')
       .map((res) => {
         this.states = res;
@@ -71,21 +95,52 @@ export class CommonService {
       })
   }
 
-  getListOfServices(activeServices: Array<number>) {
+  getServices() {
+    if(this.services.length) {
+      return createObservable(this.services);
+    }
+
+    return this.getListOfServices();
+  }
+  private getListOfServices() {
     return this._requestService.fetch('get', '/common/services')
-      .subscribe(res => {
-        res.forEach((service) => {
-          if (activeServices.indexOf(service.id) !== -1) {
-            return service.checked = true;
-          }
-          return service.checked = false;
-        });
-
-        this.services = this.normalizeServices(res);
-
+      .map(res => {
+        this.services = res;
         console.log('common services', this.services);
         return this.services;
       })
+  }
+
+  getDurations() {
+    if(this.durations.length) {
+      return createObservable(this.durations);
+    }
+
+    return this.getListOfDurations();
+  }
+  private getListOfDurations() {
+    return this._requestService.fetch('get', '/common/durations')
+      .map(res => {
+        this.durations = res;
+        console.log('common durations', this.durations);
+        return this.durations;
+      })
+  }
+
+  getBudgets() {
+    if (this.budgets.length) {
+      return createObservable(this.budgets);
+    }
+
+    return this.getListOfBudgets();
+  }
+  private getListOfBudgets() {
+    return this._requestService.fetch('get', '/common/budgets')
+      .map(res => {
+        this.budgets = res;
+        console.log('common budgets', this.budgets);
+        return this.budgets;
+      });
   }
 
   checkCountry(type: string) {

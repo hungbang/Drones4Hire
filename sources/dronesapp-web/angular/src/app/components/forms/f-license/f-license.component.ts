@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
-import {FileItem, FileUploader} from 'ng2-file-upload';
+import {FileUploader} from 'ng2-file-upload';
 import {RequestService} from '../../../services/request.service/request.service';
 
 @Component({

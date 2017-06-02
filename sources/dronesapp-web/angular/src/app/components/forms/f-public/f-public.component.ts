@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
 import {FileUploader} from 'ng2-file-upload';
 import {RequestService} from '../../../services/request.service/request.service';
-import {AppService} from '../../../services/app.service/app.service';
+import {toCamelCase} from '../../../shared/common/common-methods';
 
 @Component({
   selector: 'f-public',
@@ -22,11 +22,10 @@ export class FPublicComponent implements OnInit {
   public submitted: boolean = false;
 
   constructor(public accountService: AccountService,
-              private _requestService: RequestService,
-              private _appService: AppService) {
+              private _requestService: RequestService) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      let type = `${this._appService.toCamelCase(item.formData[0].type)}URL`;
+      let type = `${toCamelCase(item.formData[0].type)}URL`;
       this.accountService.profile[type] = JSON.parse(response)['url'];
       return {item, response, status, headers};
     };

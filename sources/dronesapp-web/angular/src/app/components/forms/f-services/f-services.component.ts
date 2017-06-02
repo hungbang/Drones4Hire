@@ -10,34 +10,32 @@ import {CommonService} from '../../../services/common.service/common.service';
 })
 export class FServicesComponent implements OnInit {
   submitted: boolean = false;
-  constructor(private _accountService: AccountService,
-              public commonService: CommonService) {
+  constructor(public accountService: AccountService) {
   }
 
   ngOnInit() {
-    if (this._accountService.services.length) {
+    if (this.accountService.activeServices.length) {
       return;
     }
-    this._accountService.getAccountServices();
+    this.accountService.getAccountServices();
   }
 
   toggleService(data: {id: number, name: string; checked: boolean}) {
     data.checked = !data.checked;
 
-    let pos = this._accountService.services.indexOf(data.id);
+    let pos = this.accountService.activeServices.indexOf(data.id);
 
     if (pos !== -1) {
-      this._accountService.services.splice(pos, 1);
+      this.accountService.activeServices.splice(pos, 1);
     } else {
-      this._accountService.services.push(data.id);
+      this.accountService.activeServices.push(data.id);
     }
   }
 
   changeServices() {
-    this._accountService.setAccountServices(this._accountService.services)
+    this.accountService.setAccountServices(this.accountService.activeServices)
       .subscribe(() => {
         console.log('services are updated');
-
         this.submitted = false;
       });
 

@@ -6,9 +6,10 @@ import {TokenService} from '../token.service/token.service';
 import {AccountCompanyModel} from './accountCompany.interface';
 import {AccountLicenseModel} from './accountLicense.interface';
 import {AccountNotificationsModel} from './accountNotifications.interface';
-import {AppService} from '../app.service/app.service';
 import {CommonService} from '../common.service/common.service';
 import {AccountProfileModel} from './accountProfile.interface';
+import {NormalizedServiceModel} from '../common.service/services.interface';
+import {mergeDeep, extend} from '../../shared/common/common-methods';
 
 @Injectable()
 export class AccountService {
@@ -16,12 +17,12 @@ export class AccountService {
   company: AccountCompanyModel = null;
   license: AccountLicenseModel = null;
   notifications: AccountNotificationsModel = null;
-  services: Array<number> = [];
+  services: NormalizedServiceModel[] = [];
+  activeServices: Array<number> = [];
   profile: AccountProfileModel = null;
 
   constructor(private _requestService: RequestService,
               private _tokenService: TokenService,
-              private _appService: AppService,
               private _commonService: CommonService) {
   }
 
@@ -45,7 +46,7 @@ export class AccountService {
   getAccountData() {
     return this._requestService.fetch('get', '/account')
       .map((res) => {
-        this.account = this._appService.mergeDeep(this.setAccount(), res);
+        this.account = mergeDeep(this.setAccount(), res);
 
         console.log(this.account);
 
@@ -112,12 +113,13 @@ export class AccountService {
   getAccountServices() {
     this._requestService.fetch('get', '/account/services')
       .map(res => {
-        this.services = res.map((service) => service.id);
-        console.log('user services', this.services);
+        this.activeServices = res.map((service) => service.id);
+        console.log('user services', this.activeServices);
         return res;
       })
       .subscribe(() => {
-        this._commonService.getListOfServices(this.services);
+        this._commonService.getServices()
+          .subscribe((services) => this.setServices(services));
       });
   }
 
@@ -139,8 +141,21 @@ export class AccountService {
   }
 
   isAuthorized() {
-    console.log(this._tokenService.accessToken && this._tokenService.refreshToken, '-auth');
+    console.log(this._tokenService.accessToken, '-auth');
     return this._tokenService.accessToken && this._tokenService.refreshToken;
+  }
+
+  private setServices(_services) {
+    let services = extend([], _services);
+
+    services.forEach((service) => {
+      if (this.activeServices.indexOf(service.id) !== -1) {
+        return service.checked = true;
+      }
+      return service.checked = false;
+    });
+
+    this.services = this._commonService.normalizeServices(services);
   }
 
   private setAccount(): AccountModel {
@@ -180,5 +195,15 @@ export class AccountService {
       summary: '',
       username: ''
     };
+  }
+
+  clearData() {
+    this.account = null;
+    this.company = null;
+    this.license = null;
+    this.notifications = null;
+    this.services = [];
+    this.activeServices = [];
+    this.profile = null;
   }
 }

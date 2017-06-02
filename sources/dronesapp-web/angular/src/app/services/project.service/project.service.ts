@@ -1,7 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {NormalizedServiceModel} from '../common.service/services.interface';
+import {PaidOptionModel} from './paid-option.interface';
+import {createObservable} from '../../shared/common/common-methods';
+import {RequestService} from '../request.service/request.service';
 
 @Injectable()
 export class ProjectService {
+  paidOptions: PaidOptionModel[] = [];
+  paidOptionsClasses = ['_featured', '_urgent', '_sealed', '_private'];
+
   local = {
     myProjects: [
       {
@@ -95,10 +102,36 @@ export class ProjectService {
   limitProjectsToShow: number = 10;
   nameFilter: string;
 
-  constructor() {
+  constructor(
+    private _requestService: RequestService
+  ) {
   }
 
   get myProjects() {
     return this.local.myProjects;
+  }
+
+  getPaidOptions() {
+    if(this.paidOptions.length) {
+      return createObservable(this.paidOptions);
+    }
+
+    return this.getListOfPaidOptions();
+  }
+  private getListOfPaidOptions() {
+    return this._requestService.fetch('get', '/projects/paidoptions')
+      .map(res => {
+        this.paidOptions = res;
+        console.log(res);
+        return this.paidOptions;
+      });
+  }
+
+  public postProjects(data: any) {
+    return this._requestService.fetch('post', '/projects', data)
+      .map(res => {
+        return res;
+      })
+      .catch((error) => {})
   }
 }

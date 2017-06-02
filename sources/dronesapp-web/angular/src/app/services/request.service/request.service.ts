@@ -56,7 +56,6 @@ export class RequestService {
     return this.requests[method](url, body)
       .map(this.extractData)
       .catch((err) => {
-        debugger;
         if (err.status === 401 && localStorage.getItem('refreshToken')) {
           return this.refreshToken(localStorage.getItem('refreshToken'))
             .map(

@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
 import {CommonService} from '../../../services/common.service/common.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
+import {extend} from '../../../shared/common/common-methods';
 
 @Component({
   selector: 'f-company',
@@ -21,22 +22,16 @@ export class FClientCompanyComponent implements OnInit {
     if (!this.accountService.company) {
       this.accountService.getAccountCompany()
         .subscribe(() => {
-          if (this.commonService.countries.length) {
-            this.selectCompanyCountry();
-          } else {
-            this.commonService.getListOfCountries()
-              .subscribe(() => {
-                this.selectCompanyCountry();
-              })
-          }
+          this.commonService.getCountries()
+            .subscribe((countries) => this.selectCompanyCountry(countries));
         });
     } else {
-      this.selectCompanyCountry();
+      this.selectCompanyCountry(this.commonService.countries);
     }
   }
 
-  selectCompanyCountry() {
-    this.countries = [...this.commonService.countries];
+  selectCompanyCountry(countries) {
+    this.countries = extend([], countries);
 
     let filtered = this.countries.filter((country) => {
       if (this.accountService.company.country) {
