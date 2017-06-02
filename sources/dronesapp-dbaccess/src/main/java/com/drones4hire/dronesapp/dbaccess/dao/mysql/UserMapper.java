@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.User;
 
@@ -19,6 +20,8 @@ public interface UserMapper
 	
 	User getUserByEmail(String email);
 
+	List<User> searchUsers(UserSearchCriteria sc);
+	
 	List<User> getAllUsers();
 	
 	void updateUser(User user);

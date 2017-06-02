@@ -22,6 +22,10 @@
 /sources/dronesapp-ws/target
 /sources/dronesapp-ws/.project
 /sources/dronesapp-ws/.classpath
+/sources/dronesapp-ws/.settings
+/sources/dronesapp-admin/target
+/sources/dronesapp-admin/.project
+/sources/dronesapp-admin/.classpath
 /sources/dronesapp-web/target
 /sources/.project
 /sources/.settings/org.eclipse.core.resources.prefs
@@ -78,4 +82,4 @@ Thumbs.db
 npm-debug.log.*
 
 sources/dronesapp-web/angular/node
-/sources/pom.xml
+

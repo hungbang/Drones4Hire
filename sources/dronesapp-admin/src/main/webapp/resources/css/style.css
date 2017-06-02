@@ -1,0 +1,620 @@
+th.c-id {
+	width: 50px;
+}
+
+th.c-common {
+	width: 110px;
+}
+
+th.header {
+	min-width: 50px;
+}
+
+.submit {
+	float: right;
+}
+
+.center {
+	text-align: center;
+}
+
+input.validation.ng-valid, select.validation.ng-valid {
+	background: #CCFF99;
+}
+
+.success {
+	color: green;
+}
+
+.error {
+	color: red;
+}
+
+.view-wrapper {
+}
+
+.sparsed-row {
+	margin-bottom: 15px;
+}
+
+.copper-pagination {
+	margin: 3px 0;
+}
+
+textarea.comment {
+	width: 100%;
+	height: 100px;
+}
+
+a.clear-form {
+	color: red;
+	margin-right: 5px
+}
+
+td.no-results {
+	text-align: center;
+}
+
+button.action {
+	margin-bottom: 10px;
+}
+
+font.tip {
+	font-size: 8pt;
+}
+
+#center-form {
+	font-family: 'Roboto', sans-serif;
+	width: 232px;
+	font-size: 10pt;
+}
+
+#center-form .title {
+	font-size: 15pt;
+	margin-bottom: 8px;
+}
+
+#center-form span.label {
+	padding-bottom: 5px;
+}
+
+#center-form span.password {
+	border-style: solid;
+	border-width: 1px;
+	display: inline-block;
+	padding-left: 30px;
+	margin-bottom: 10px;
+	background-image: url(../img/key.png);
+}
+
+#center-form span.email {
+	border-style: solid;
+	border-width: 1px;
+	display: inline-block;
+	padding-left: 30px;
+	margin-bottom: 10px;
+	background-image: url(../img/email.png);
+}
+
+#center-form span.personal {
+	border-style: solid;
+	border-width: 1px;
+	display: inline-block;
+	padding-left: 30px;
+	margin-bottom: 10px;
+	background-image: url(../img/person.png);
+}
+
+#center-form span.suitcase {
+	border-style: solid;
+	border-width: 1px;
+	display: inline-block;
+	padding-left: 30px;
+	margin-bottom: 10px;
+	background-image: url(../img/suitcase.png);
+}
+
+#center-form span.phone {
+	border-style: solid;
+	border-width: 1px;
+	display: inline-block;
+	padding-left: 30px;
+	margin-bottom: 10px;
+	background-image: url(../img/phone.png);
+}
+
+#center-form button {
+	font-family: 'Roboto', sans-serif;
+	border: none;
+	background: none;
+	width: 232px;
+	height: 32px;
+}
+
+#center-form input {
+	border: none;
+	background-color: #F8F8F8;
+	height: 30px;
+	width: 200px;
+}
+
+#center-form .errors {
+	background: #FFE6E6;
+	padding: 10px;
+	border-top: 1px solid;
+	margin-bottom: 5px;
+}
+
+#center-form .notes {
+	background: #E6E6E6;
+	padding: 10px;
+	border-top: 1px solid;
+	margin-bottom: 5px;
+}
+
+#center-form a.button {
+	background-color: black;
+	display: block;
+	background: #FEE500;
+	width: 232px;
+	height: 32px;
+	border-top: solid 1px;
+}
+
+#center-form a:hover {
+	background: yellow;
+}
+
+.fullhight {
+	height: 100%;
+}
+
+body.form {
+	background-color: #F8F8F8;
+	min-width: 240px;
+	padding: 180px 0 0 0;
+	margin: 0;
+}
+
+body.form.signup {
+	padding: 80px 0 0 0;
+}
+
+div.signup_form {
+	position:absolute;
+    top:50%;
+    right:0;
+    left:0;
+}
+
+.centering {
+	float: none;
+	margin: 0 auto;
+}
+
+.feedback {
+	font-style: italic;
+}
+
+.support-message {
+	font-style: italic;
+}
+
+.btn-black {
+	color: white;
+	background: black;
+}
+
+.btn-black:hover {
+	color: white;
+	background: gray;
+}
+
+.label-black {
+	color: white;
+	background: black;
+}
+
+.graph-criteria a {
+	color: white;
+	cursor: hand;
+	cursor: pointer;
+}
+
+.graph-criteria a:hover {
+	color: white;
+}
+
+.clearfix {
+	clear: both;
+}
+
+.angular-google-map-container {
+	position: fixed !important;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.map-label {
+	position: absolute;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	background: #8CD1A3;
+	padding: 3px;
+}
+
+.tab-container {
+	position: absolute;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+}
+
+.tab-container-operator {
+	position: absolute;
+	z-index: 1000;
+	top: 7px;
+	right: 10px;
+}
+
+.map-tab {
+	background: white;
+	color: black;
+	padding: 3px;
+	margin: 0;
+}
+
+.map-tab.active {
+	background: #8CD1A3;
+}
+
+.map-select {
+	padding: 2px;
+	width: 110px;
+}
+
+button.fullscreen {
+	position: absolute;
+	z-index: 1000;
+	top: 0;
+	right: 0;
+	width: 30px;
+	height: 30px;
+}
+
+.order-side-area {
+	background: #23231B; 
+	width: 20%;
+	min-width: 250px;
+	height: 100%;
+	position: fixed; 
+	right: 0; 
+	top: 50px; 
+	padding: 0 10px;
+	color: white;
+}
+
+.resizable-bottom-area {
+	position: fixed; 
+	width: 100%;
+	background: #61615B; 
+	bottom: 0; 
+	left: 0; 
+	height: 200px;
+	filter: alpha(opacity=90); /* internet explorer */
+	-khtml-opacity: 0.90;      /* khtml, old safari */
+	-moz-opacity: 0.90;       /* mozilla, netscape */
+	opacity: 0.90;           /* fx, safari, opera */
+}
+
+.resizer {
+	background: #23231B; 
+	height: 35px;
+	background-image: url(../img/handle.png);
+	background-repeat: no-repeat;
+	background-position: center; 
+	color: white;
+	padding: 2px 10px;
+}
+
+.car_search {
+	color: black; 
+	padding: 5px;  
+	border-bottom: solid 1px; 
+	background: #F5E331;
+	display: block;
+}
+
+.car_found {
+	color: black; 
+	padding: 5px;  
+	border-bottom: solid 1px; 
+	background: #5CB85C;
+	display: block;
+	height: 62px;
+}
+
+.processing {
+	color: black; 
+	padding: 5px;  
+	border-bottom: solid 1px; 
+	background: #5CB85C;
+	display: block;
+}
+
+.car_not_found {
+	color: black; 
+	padding: 5px;  
+	border-bottom: solid 1px; 
+	display: block;
+}
+
+.info_row {
+	color: #EEF2ED; 
+	padding: 5px;  
+	border-bottom: solid 1px black; 
+	display: block;
+}
+
+.current_order {
+	color: white; 
+	padding: 5px;  
+	border-bottom: solid 1px black; 
+	display: block;
+}
+
+img.small_car {
+	width: 50px; 
+	height: 50px; 
+	float: right;
+	border: solid 1px black; 
+}
+
+.driver_info
+{
+	width: 250px; 
+	height: 250px;
+	margin: 5px;
+	border: solid 5px gray; 
+}
+
+.huge-text {
+	font-size: 45pt; 
+}
+
+.medium-text {
+	font-size: 15pt; 
+}
+
+.forgot_password {
+	margin-top: 10px; 
+	text-align: center;
+}
+
+a.options,button.options {
+	width: 40px;
+}
+
+.estimate
+{
+	color: white;
+}
+
+a.tab
+{
+	color: white;
+	display: block;
+	float: left;
+	padding: 0 5px;
+	line-height: 30px;
+}
+
+a.tab.active
+{
+	color: black;
+	background-color: white;
+}
+
+a.tab2
+{
+	font-size: 22px;
+	color: grey;
+	display: block;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
+a.tab2.active
+{
+	color: black;
+	text-decoration: underline;
+}
+
+a.tab:hover
+{
+	color: black;
+	background-color: white;
+	text-decoration: none;
+}
+
+span.counters {
+	padding: 1px 8px; 
+	position: absolute;
+	right: 0;
+	color: white;
+	text-align: center;
+}
+
+input.filter
+{
+	width: 100%;
+}
+
+small.dashboard
+{
+	font-size: 26pt;
+}
+
+.required
+{
+	color: red;
+}
+
+.orange {
+	background-color: orange;
+}
+
+.green {
+ color: #5cb85c;
+}
+
+.logo {
+	background: url(../img/logo.png);
+	width: 23px;
+	height: 36px;
+	position: absolute;
+	top: 7px;
+	left: 15px;
+}
+
+.minw60 {
+	min-width: 60px;
+}
+
+.minw80 {
+	min-width: 80px;
+}
+
+.minw100 {
+	min-width: 100px;
+}
+
+.minw120 {
+	min-width: 120px;
+}
+
+label.search {
+	float: right; 
+	line-height: 22pt;
+} 
+
+span.tag {
+	margin: 2px;
+}
+
+span.tag_add {
+	cursor: pointer;
+}
+
+button.tag {
+   padding: 0 0 0 3px;
+   cursor: pointer;
+   background: transparent;
+   border: 0;
+   float: right;
+   font-size: 13px;
+   font-weight: bold;
+   color: white;
+}
+
+td.long {
+	word-wrap:break-word; 
+	max-width: 120px;
+}
+
+.btn-circle 
+{
+  width: 40px;
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 15px;
+  line-height: 1.2;
+  border-radius: 20px;
+  border: 2px;
+  outline:0;
+ 
+}
+
+.btn-swipe-order 
+{
+  position: absolute; 
+  top: 2px; 
+  right: 6px; 
+  z-index: 1010;
+}
+
+.btn-swipe-settings
+{
+  position: absolute; 
+  top: 50px; 
+  right: 6px; 
+  z-index: 1010;
+}
+
+.btn-swipe-legend
+{
+  position: absolute; 
+  top: 98px; 
+  right: 6px; 
+  z-index: 1010;
+}
+
+.pointer {
+	cursor: pointer;
+	color: black;
+	text-decoration: underline;
+}
+
+.pointer:visited {
+    color: black;
+}
+
+.info_row .pointer {
+	cursor: pointer;
+	color: #EEF2ED;
+	text-decoration: underline;
+}
+
+.info_row .pointer:visited {
+	color: #EEF2ED;
+}
+
+.form_block {
+	border: dashed grey 1px;
+}
+
+.payments_enabled {
+	background: #F0FFEB;
+}
+
+.payments_disabled {
+	background: #FFF0EB;
+}
+
+.tab_block {
+	border-top: dashed grey 1px;
+	margin-top: 20px; 
+	padding: 10px;
+}
+
+.small-map-icon {
+	width: 30px;
+	height: 30px;
+}
+
+.receipt-details p {
+	margin: 0px;
+}
+
+.yellow-highlight {
+	color: yellow;
+}
+
+.line-item {
+	padding-right: 5px;
+}

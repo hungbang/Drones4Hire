@@ -1,6 +1,10 @@
 package com.drones4hire.dronesapp.services.services;
 
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
+
 import java.util.Arrays;
+import java.util.List;
 
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
 import com.drones4hire.dronesapp.models.db.commons.Location;
+import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
@@ -155,6 +162,18 @@ public class UserService
 		return user;
 	}
 
+	@Transactional(readOnly = true)
+	public SearchResult<User> searchUsers(UserSearchCriteria sc) throws ServiceException {
+		SearchResult<User> results = new SearchResult<>();
+		results.setPage(sc.getPage());
+		results.setPageSize(sc.getPageSize());
+		results.setSortOrder(sc.getSortOrder());
+		List<User> users = userMapper.searchUsers(sc);
+		results.setResults(users);
+		results.setTotalResults(users.size());
+		return results;
+	}
+	
 	public User checkUserCredentials(String email, String password) throws ServiceException
 	{
 		User user = getUserByEmail(email);

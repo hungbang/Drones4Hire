@@ -27,7 +27,7 @@
 		<spring-data-mongodb.version>1.9.2.RELEASE</spring-data-mongodb.version>
 		<spring-security.version>4.1.3.RELEASE</spring-security.version>
 		<springfox.version>2.6.0</springfox.version>
-
+		<tuckey.version>4.0.3</tuckey.version>
 		<aspectj.version>1.8.10</aspectj.version>
 
 		<mysql-connector-java.version>5.1.27</mysql-connector-java.version>
@@ -116,7 +116,8 @@
 		<module>dronesapp-services</module>
 		<module>dronesapp-ws</module>
 		<module>dronesapp-batch-services</module>
-		<!--module>dronesapp-web</module-->
+		<module>dronesapp-admin</module>
+		<module>dronesapp-web</module>
 	</modules>
 
 	<dependencyManagement>
@@ -151,6 +152,11 @@
 				<artifactId>dronesapp-batch-services</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>dronesapp-admin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -180,14 +186,14 @@
 				<version>${javax.mail-api.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.springframework</groupId>
-			    <artifactId>spring-messaging</artifactId>
-			    <version>${spring.version}</version>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-messaging</artifactId>
+				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.springframework</groupId>
-			    <artifactId>spring-websocket</artifactId>
-			    <version>${spring.version}</version>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-websocket</artifactId>
+				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -339,19 +345,19 @@
 			</dependency>
 
 			<dependency>
-			    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-lang3</artifactId>
-			    <version>${commons-lang3.version}</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
 			</dependency>
 			<dependency>
-		    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-collections4</artifactId>
-			    <version>${commons-collections4.version}</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>${commons-collections4.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-io</artifactId>
-			    <version>${apache-commons-io.version}</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${apache-commons-io.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
@@ -535,15 +541,15 @@
 			</dependency>
 
 			<dependency>
-			  <groupId>com.amazonaws</groupId>
-			  <artifactId>aws-java-sdk</artifactId>
-			  <version>${aws-java-sdk.version}</version>
-		  </dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk</artifactId>
+				<version>${aws-java-sdk.version}</version>
+			</dependency>
 
 			<dependency>
-			    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-configuration2</artifactId>
-			    <version>${commons-configuration2.version}</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-configuration2</artifactId>
+				<version>${commons-configuration2.version}</version>
 			</dependency>
 
 			<dependency>
@@ -553,15 +559,20 @@
 			</dependency>
 
 			<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt</artifactId>
-		    <version>${jjwt.version}</version>
-		</dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>${jjwt.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>in.ashwanthkumar</groupId>
 				<artifactId>slack-java-webhook</artifactId>
 				<version>${slack-java-webhook.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.tuckey</groupId>
+				<artifactId>urlrewritefilter</artifactId>
+				<version>${tuckey.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

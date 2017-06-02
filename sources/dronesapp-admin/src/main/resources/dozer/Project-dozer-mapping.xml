@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping type="bi-directional" wildcard="false">
+		<class-a>com.copper.admin.dto.json.order.InitiateOrderType</class-a>
+		<class-b>com.copper.dbaccess.model.order.InitiateOrder</class-b>
+
+		<field>
+			<a>passengerId</a>
+			<b>passengerId</b>
+		</field>
+		<field>
+			<a>coordinatesFrom</a>
+			<b>coordinatesFrom</b>
+		</field>
+		<field>
+			<a>coordinatesTo</a>
+			<b>coordinatesTo</b>
+		</field>
+		<field>
+			<a>addressFrom</a>
+			<b>addressFrom</b>
+		</field>
+		<field>
+			<a>addressTo</a>
+			<b>addressTo</b>
+		</field>
+		<field>
+			<a>comment</a>
+			<b>comment</b>
+		</field>
+		<field>
+			<a>operatorComment</a>
+			<b>operatorComment</b>
+		</field>
+		<field>
+			<a>options</a>
+			<b>options</b>
+		</field>
+		<field>
+			<a>driverId</a>
+			<b>driverId</b>
+		</field>
+	</mapping>
+
+</mappings>

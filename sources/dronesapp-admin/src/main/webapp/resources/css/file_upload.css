@@ -1,0 +1,32 @@
+.drop-box {
+	background: #F8F8F8;
+	border: 5px dashed #DDD;
+	text-align: center;
+	padding: 20px;
+	width: 100%;
+}
+
+.drop-box.dragover {
+	border: 5px dashed black;
+}
+
+.response {
+	padding: 0;
+	padding-top: 10px;
+	margin: 3px 0;
+	clear: both;
+}
+
+.upload-text {
+	position: absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+	color: #DDD;
+	display: none;
+}
+
+.drop-box-img:hover {
+	-webkit-filter: brightness(30%);
+}
+

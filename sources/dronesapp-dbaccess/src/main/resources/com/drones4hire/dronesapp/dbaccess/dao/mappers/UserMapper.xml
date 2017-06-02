@@ -104,6 +104,42 @@
         ]]>
     </sql>
 
+	<select id="searchUsers" resultMap="UserResultMap">
+		<include refid="getUser" />
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != lastName">
+				<![CDATA[
+				   AND LOWER(U.LAST_NAME) LIKE LOWER(CONCAT('%', #{lastName}, '%'))
+				]]>
+			</if>
+			<if test="null != firstName">
+				<![CDATA[
+				    AND LOWER(U.FIRST_NAME) LIKE LOWER(CONCAT('%', #{firstName}, '%'))
+				]]>
+			</if>
+			<if test="null != email">
+				<![CDATA[
+				    AND LOWER(U.EMAIL) LIKE LOWER(CONCAT('%', #{email}, '%'))
+				]]>
+			</if>
+			<if test="null != username">
+				<![CDATA[
+					AND LOWER(U.USERNAME) LIKE LOWER(CONCAT('%', #{username}, '%'))
+				]]>
+			</if>
+			<if test="null != confirmed">
+				<![CDATA[
+				   AND U.CONFIRMED = #{confirmed}
+				]]>
+			</if>
+			<if test="null != enabled">
+				<![CDATA[
+				   AND U.ENABLED = #{enabled}
+				]]>
+			</if>
+		</trim>
+	</select>
+
     <select id="getUserById" resultMap="UserResultMap">
         <include refid="getUser"/>
         <![CDATA[

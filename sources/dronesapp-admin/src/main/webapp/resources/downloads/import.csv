@@ -1,0 +1,4 @@
+role,firstName,lastName,email,phone,cityId,locale
+DRIVER,Nikolai,Petrov,npetrov.test@gmail.com,375291111111,1,ru
+PASSENGER,Vitaliy,Volkov,vvolkov.test@gmail.com,375292222222,2,en
+OPERATOR,Dmitriy,Tkachev,dtkachev.test@gmail.com,375293333333,1,ru
