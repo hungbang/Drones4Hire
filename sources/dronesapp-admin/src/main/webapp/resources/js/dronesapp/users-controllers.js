@@ -4,7 +4,7 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$location', 
 	var DEFAULT_USER_SEARCH_CRITERIA = {
 			'rating' : 5,
 			'pageSize' : PAGE_SIZES[0],
-			'roles' : ['PILOT', 'CLIENT'],
+			'roles' : ['PILOT', 'CLIENT']
 	};
 	$scope.userSearchCriteria = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
 	$scope.userListPageSizes = PAGE_SIZES;

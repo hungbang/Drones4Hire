@@ -138,6 +138,19 @@
 				]]>
 			</if>
 		</trim>
+		<if test="sortOrder.toString() == 'ASC'">
+				<![CDATA[
+				ORDER BY U.ID ASC
+			]]>
+			</if>
+			<if test="sortOrder.toString() == 'DESC'">
+				<![CDATA[
+				ORDER BY U.ID DESC
+			]]>
+			</if>
+		<![CDATA[
+			LIMIT #{pageSize} OFFSET #{page}
+		]]>
 	</select>
 
     <select id="getUserById" resultMap="UserResultMap">

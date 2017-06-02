@@ -21,7 +21,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 			$scope.projectSearchCriteria.pageSize = pageSize;
 		}
 		
-		$http.post('projects/search', $scope.projectSearchCriteria).success(function(data) {
+		$http.post('projects/searchProjects', $scope.projectSearchCriteria).success(function(data) {
 			$scope.projectSearchResult = data;
 			$scope.projectSearchCriteria.page = data.page;
 			$scope.projectSearchCriteria.pageSize = data.pageSize;
@@ -62,7 +62,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 	})();
 	
 	$scope.editProject = function(id){
-		$http.put('projects/' + id, $scope.user).success(function(data) {
+		$http.put('projects/' + id, $scope.project).success(function(data) {
 			alert('Success, changes were saved.');
 		}).error(function(data, status) {
 			alert('Failed to save changes!');

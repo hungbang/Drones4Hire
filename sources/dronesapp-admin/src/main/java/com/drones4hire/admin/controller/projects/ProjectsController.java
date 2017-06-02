@@ -40,7 +40,7 @@ public class ProjectsController extends AbstractController
 		return new ModelAndView("projects/view");
 	}
 	
-	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "searchProjects", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	SearchResult<Project> searchProjects(@RequestBody ProjectSearchCriteria searchCriteria) throws Exception
 	{
