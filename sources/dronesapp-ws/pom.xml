@@ -201,6 +201,9 @@
 					<url>${drones4hire.tomcat.url}</url>
 					<path>${drones4hire.tomcat.ws.path}</path>
 					<server>TomcatServer</server>
+					<systemProperties>
+						<JAVA_OPTS>-Xms512m -Xmx1024m -XX:MaxPermSize=512m</JAVA_OPTS>
+					</systemProperties>
 				</configuration>
 			</plugin>
 			<plugin>
