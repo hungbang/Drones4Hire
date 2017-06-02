@@ -1,53 +1,21 @@
-<ul role="list" class="m-site" [ngClass]="{ _profile: _authorizationService.isUserLogin }">
-  <li *ngIf="_authorizationService.isUserLogin" class="m-site__item">
-    <a href="#" class="m-site__link" [routerLink]="['/dashboard/' + getCurrentUserType()]">Dashboard
-      <span class="m-site__num">7</span>
+<ul role="list" class="m-site">
+  <li class="m-site__item" *ngFor="let item of menu">
+    <a href="#" class="m-site__link"
+       (click)="item.action && item.action(item)"
+       [routerLink]="item.link ? [item.link] : []"
+       [ngClass]="item.classes">
+      {{ item.title }}
     </a>
-  </li>
-  <li class="m-site__item _margin">
-    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link _project" href="#" [routerLink]="[_authorizationService.isUserLogin ? '/project/add' : 'sign-up']">Post A Project</a>
-    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" [routerLink]="['/search']" class="m-site__link">Job Board</a>
-    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserClient()" class="m-site__link" [routerLink]="['/my-projects']">My projects</a>
-  </li>
-  <li class="m-site__item _margin-left">
-    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link" href="#">Blog</a>
-    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" href="#" class="m-site__link" [routerLink]="['/']">Home</a>
-    <a *ngIf="isPilot && isClient" class="m-site__link" [routerLink]="['/project/add']"> New Project</a>
-  </li>
-  <li class="m-site__item">
-    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link" [routerLink]="['/']">How it works</a>
-    <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserClient()" class="m-site__link" [routerLink]="['project/add']"> New Project</a>
-    <ul *ngIf="!_authorizationService.isUserLogin" class="m-site__sub">
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Drone Pilot</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Client</a>
+
+    <ul class="m-site__sub"
+        *ngIf="item.children">
+      <li class="m-site__sub-item"
+          *ngFor="let subitem of item.children"
+          (click)="subitem.action && subitem.action(subitem)">
+        <a href="#"
+           class="m-site__sub-link"
+           [routerLink]="subitem.link ? [subitem.link] : []">{{ subitem.title }}</a>
       </li>
     </ul>
-  </li>
-  <li class="m-site__item">
-    <a *ngIf="!_authorizationService.isUserLogin" class="m-site__link" (click)="setActiveLoginForm('sign-up')" [routerLink]="['/sign-up']">Sign up</a>
-    <a *ngIf="_authorizationService.isUserLogin" class="m-site__link _last">Account</a>
-    <ul *ngIf="_authorizationService.isUserLogin" class="m-site__sub _last">
-      <li class="m-site__sub-item">
-        <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" href="#" class="m-site__link" [routerLink]="['/profile']">View/edit profile</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link" [routerLink]="['/account/' + getCurrentUserType()]">Account settings</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a *ngIf="_authorizationService.isUserLogin && _accountService.isUserPilot()" href="#" class="m-site__link" [routerLink]="['/withdrawal']">Withdrawal request</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link" [routerLink]="['/transactions']">Transactions</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link" (click)="logout()">Sign out</a>
-      </li>
-    </ul>
-  </li>
-  <li *ngIf="!_authorizationService.isUserLogin" class="m-site__item">
-    <a class="m-site__link" [routerLink]="['login']">Login</a>
   </li>
 </ul>

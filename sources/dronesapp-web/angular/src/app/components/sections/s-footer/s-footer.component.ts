@@ -8,9 +8,33 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 export class FooterComponent {
 
-  isNav: boolean = true;
-  isSupport: boolean = true;
-  isTouch: boolean = true;
+  // todo take to service/class
+  private _menus = {
+    company: [
+      { title: 'About Us', link: '' },
+      { title: 'Team', link: '' },
+      { title: 'Media', link: '' },
+      { title: 'Blog', link: '' }
+    ],
+    clients: [
+      { title: 'How it Works', link: '' },
+      { title: 'Sign Up', link: '' }
+    ],
+    pilots: [
+      { title: 'How it Works', link: '' },
+      { title: 'Sign Up', link: '' }
+    ],
+    support: [
+      { title: 'Faq\'s', link: '' },
+      { title: 'Terms & Conditions', link: '' },
+      { title: 'Privacy Policy', link: '' },
+      { title: 'Contact Us', link: '' }
+    ]
+  };
 
   constructor() {}
+
+  get menus() {
+    return this._menus;
+  }
 }

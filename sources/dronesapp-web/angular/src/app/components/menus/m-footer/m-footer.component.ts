@@ -9,9 +9,8 @@ import { AuthorizationService } from '../../../services/authorization.service/au
 })
 export class MFooterComponent implements OnInit {
 
-  @Input() isNav: boolean ;
-  @Input() isSupport: boolean ;
-  @Input() isTouch: boolean ;
+  @Input() title: string;
+  @Input() menu: any[];
 
   constructor(
     private _authorizationService: AuthorizationService,

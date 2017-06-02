@@ -1,11 +1,13 @@
-<div scroll class="s-header" [ngClass]="{ _small: isScroll }" >
+<div scroll class="s-header _small">
   <div class="container">
-    <a class="s-header__logo" [routerLink]="['/']">
-      <img class="s-header__logo-img _top" src="./assets/img/logo-top.png">
-      <img class="s-header__logo-img _bottom" src="./assets/img/logo-bottom.png">
-    </a>
-    <div class="s-header__menu">
-      <m-site></m-site>
+    <div class="s-header__container">
+      <a class="s-header__logo" [routerLink]="['/']">
+        <img class="s-header__logo-img" src="./assets/img/new-logo-top.png">
+      </a>
+
+      <div class="s-header__menu">
+        <m-site [menu]="menu"></m-site>
+      </div>
     </div>
   </div>
 </div>

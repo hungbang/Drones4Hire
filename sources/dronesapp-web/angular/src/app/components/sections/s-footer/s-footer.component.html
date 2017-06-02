@@ -1,25 +1,33 @@
 <div class="s-footer">
   <div class="container">
-    <a class="s-footer__logo" href="#" [routerLink]="['/']">
-      <img class="s-footert__img" src="./assets/img/logo-footer.png">
-    </a>
-    <div class="s-footer__nav">
-      <div class="s-footer__item _min-width">
-        <h5 class="s-footer__title">NAVIGATE</h5>
-        <m-footer [isNav]="isNav"></m-footer>
+    <div class="s-footer__container">
+
+      <div class="s-footer__top">
+        <div class="s-footer__public">
+          <a href="#" [routerLink]="['/']" class="s-footer__logo">
+            <img class="s-footert__img" src="./assets/img/logo-footer.png">
+          </a>
+          <l-social></l-social>
+        </div>
+
+        <div class="s-footer__item _min-width">
+          <m-footer [menu]="menus.company" title="Company"></m-footer>
+        </div>
+        <div class="s-footer__item _min-width">
+          <m-footer [menu]="menus.clients" title="Clients"></m-footer>
+        </div>
+        <div class="s-footer__item _min-width">
+          <m-footer [menu]="menus.pilots" title="Pilots"></m-footer>
+        </div>
+        <div class="s-footer__item _min-width">
+          <m-footer [menu]="menus.support" title="Support"></m-footer>
+        </div>
       </div>
-      <div class="s-footer__item">
-        <h5 class="s-footer__title">GET IN TOUCH</h5>
-        <m-footer [isTouch]="isTouch"></m-footer>
+
+      <div class="s-footer__bottom">
+        <div class="s-footer__copy">© 2016 Drones 4 Hire, LLC All Rights Reserved</div>
       </div>
-      <div class="s-footer__item _min-width">
-        <h5 class="s-footer__title">SUPPORT</h5>
-        <m-footer [isSupport]="isSupport"></m-footer>
-      </div>
-    </div>
-    <div class="s-footer__bottom">
-      <l-social></l-social>
-      <div class="s-footer__copy">© 2016 Drones 4 Hire, LLC All Rights Reserved</div>
+
     </div>
   </div>
 </div>
