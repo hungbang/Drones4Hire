@@ -14,7 +14,7 @@
         <div class="f-project-add__caption">What type of work do you require?</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label">
+        <label class="f-default__label _select">
           <select class="f-default__field"
                   name="service"
                   [(ngModel)]="service"
@@ -38,7 +38,7 @@
       <div class="f-default__col">
       </div>
       <div class="f-default__col">
-        <label class="f-default__label">
+        <label class="f-default__label _select">
           <select class="f-default__field"
                   name="category"
                   [(ngModel)]="category"
@@ -95,8 +95,7 @@
                     name="projectSummary"
                     [(ngModel)]="formData.summary"
                     required
-                    placeholder="Describe your project here. Please provide as much information about your project
-                  (venue type, special instructions, etc.)"
+                    placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
                     #projectSummaryRef="ngModel"
                     [ngClass]="{'_error': submitted && projectSummaryRef.errors?.required}"></textarea>
           <span class="f-default__error"
@@ -137,7 +136,7 @@
       </div>
       <div class="f-default__col">
         <div class="f-default__col-inner">
-          <label class="f-default__label">
+          <label class="f-default__label _select">
             <select class="f-default__field"
                     [(ngModel)]="budget"
                     #budgetRef="ngModel"
@@ -163,7 +162,7 @@
         <div class="f-project-add__caption">Country</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label">
+        <label class="f-default__label _select">
           <select class="f-default__field"
                   name="country"
                   [(ngModel)]="country"
@@ -190,7 +189,7 @@
 
       <div class="f-default__col">
         <label class="f-default__label">
-          <select class="f-default__field"
+          <select class="f-default__field _select"
                   name="state"
                   [(ngModel)]="state"
                   (ngModelChange)="selectState($event)"
@@ -259,7 +258,7 @@
           <!--<option value="">item2</option>-->
         <!--</select>-->
 
-        <label class="f-default__label">
+        <label class="f-default__label _select">
           <select class="f-default__field"
                   name="duration"
                   [(ngModel)]="duration"
@@ -301,22 +300,24 @@
       <span class="_small">(optional)</span>
     </h3>
     <div class="f-default__row _flex _wrap">
-
-
       <div *ngFor="let paidOption of paidOptions; let i = index;"
-           class="f-default__col" [ngClass]="paidOptionsClasses[i]">
-        <label class="f-default__label _chk">
-          <input class="f-default__chk-input"
-                 type="checkbox"
-                 name="projectFeatured"
-                 value=""
-                 [(ngModel)]="paidOptionsChecked[i]"
-                 checked
-                 (change)="selectPaidOption($event.target.checked, paidOption)"/>
-          <span class="f-default__chk">{{ paidOption.title }}</span>
-        </label>
-        <p class="f-default__text">{{ paidOption.description }}</p>
-        <div class="f-default__price">{{ paidOption.price }}</div>
+           [ngClass]="{ _active: paidOptionsChecked[i] }"
+           class="f-project-add__paidoption">
+        <div class="f-project-add__paidoption-wrapper"
+             [ngClass]="paidOptionsClasses[i]">
+          <label class="f-default__label _chk">
+            <input class="f-default__chk-input"
+                   type="checkbox"
+                   name="projectFeatured"
+                   value=""
+                   [(ngModel)]="paidOptionsChecked[i]"
+                   checked
+                   (change)="selectPaidOption($event.target.checked, paidOption)"/>
+            <span class="f-default__chk">{{ paidOption.title }}</span>
+          </label>
+          <p class="f-default__text">{{ paidOption.description }}</p>
+          <div class="f-default__price f-project-add__price">{{ paidOption.price }}</div>
+        </div>
       </div>
     </div>
   </div>

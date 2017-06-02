@@ -1,3 +1,5 @@
+@import './mixin.styl'
+
 // TODO: refactoring
 .f-default
   &__title
@@ -35,18 +37,6 @@
     &-inner
       display: flex
       justify-content: space-between
-    &._featured
-      .f-default__chk
-        color: #1440be
-    &._urgent
-      .f-default__chk
-        color: #de3c3c
-    &._sealed
-      .f-default__chk
-        color: #ff8a00
-    &._private
-      .f-default__chk
-        color: #4cb741
   &__row
     &._flex
       display: flex
@@ -68,6 +58,20 @@
       margin-bottom: 20px
     &._top
       align-items flex-start
+    &._select
+      position: relative
+      select
+        padding-right: 40px
+      &:after
+        pointer-events: none
+        v()
+        width: 0
+        right: 20px
+        height: 0
+        top: 6px
+        border-style: solid
+        border-width: 6px 5px
+        border-color: #000 transparent transparent transparent
     &._checkbox
       justify-content flex-start
       [type="checkbox"]
