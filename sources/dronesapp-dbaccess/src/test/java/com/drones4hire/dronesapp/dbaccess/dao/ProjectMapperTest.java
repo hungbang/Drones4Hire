@@ -4,9 +4,11 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -62,7 +64,11 @@ public class ProjectMapperTest extends AbstractTestNGSpringContextTests
 	@Test(enabled = ENABLED, dependsOnMethods = { "testCreateProject" })
 	public void createProjectPaidOption()
 	{
-		projectMapper.createProjectPaidOption(PROJECT.getId(), 1L);
+		List<PaidOption> paidOptions = new ArrayList<>();
+		PaidOption paidOption = new PaidOption();
+		paidOption.setId(1L);
+		paidOptions.add(paidOption);
+		projectMapper.createProjectPaidOption(PROJECT.getId(), paidOptions);
 		assertEquals(projectMapper.getProjectById(PROJECT.getId()).getPaidOptions().size() , 1, "Project paid option not created");
 	}
 

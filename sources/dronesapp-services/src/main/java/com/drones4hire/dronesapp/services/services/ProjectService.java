@@ -6,6 +6,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,13 +37,14 @@ public class ProjectService
 	{
 		locationService.createLocation(project.getLocation());
 		projectMapper.createProject(project);
+		createProjectPaidOption(project.getId(), project.getPaidOptions());
 		return project;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public long createProjectPaidOption(long projectId, long paidOptionId)
+	public long createProjectPaidOption(long projectId, List<PaidOption> paidOptions)
 	{
-		projectMapper.createProjectPaidOption(projectId, paidOptionId);
+		projectMapper.createProjectPaidOption(projectId, paidOptions);
 		return projectId;
 	}
 

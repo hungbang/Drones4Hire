@@ -27,15 +27,17 @@
 	</insert>
 	
 	<insert id="createProjectPaidOption" useGeneratedKeys="true">
-        <![CDATA[
-          INSERT
+		<![CDATA[
+        	INSERT
           		INTO drones.PROJECTS_PAID_OPTIONS (PROJECT_ID, PAID_OPTION_ID)
-          VALUES 
-	           (
-	            #{projectId},
-	            #{paidOptionId}
-	           )
+          VALUES
         ]]>
+		<foreach collection="paidOptions" item="paidOption" index="index" open="" separator="," close=";">
+			(
+				#{projectId},
+				#{paidOption.id}
+			)
+		</foreach>
 	</insert>
 
 
