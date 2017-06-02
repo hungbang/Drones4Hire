@@ -1,5 +1,5 @@
 <!-- CSS styles -->
-<link href="<spring:url value="/resources/img/favicon.ico" />" rel="icon" type="image/x-icon" />
+<link href="<spring:url value="/resources/img/favicon.png" />" rel="icon" type="image/x-icon" />
 <link href="<spring:url value="/resources/css/style.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/font-awesome.min.css" />" rel="stylesheet" type="text/css" />
