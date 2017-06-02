@@ -52,7 +52,7 @@ public class ProjectsController extends AbstractController
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		sc.setPage(sc.getPageSize() * (sc.getPage() - 1));
+		sc.setPage(sc.getPageSize() * (sc.getPage()));
 		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
 		results.setResults(projects);
 		results.setTotalResults(projects.size());
