@@ -1,5 +1,11 @@
+@import '../../../styles/settings/mixin.styl'
+
+m-site
+  display: flex
+  justify-content: flex-end
+  align-items: stretch
+
 .m-site
-  height: 100%
   display: flex
   justify-content: flex-end
   align-items: stretch
@@ -18,6 +24,7 @@
     padding 15px
   &__sub-link
   &__link
+    osans(400)
     display: block
     font-size 1.4rem
     line-height: 1.6rem
@@ -43,8 +50,9 @@
     display: inline-block
     padding 8px 20px
     top: 100%
-    background rgba(#353945, 0.9)
+    background rgba(#1f2532, 0.9)
     opacity 0
+    left: 0
     pointer-events none
     transition opacity 0.25s
     transform translateZ(0)
