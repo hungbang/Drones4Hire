@@ -168,6 +168,11 @@
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
 				]]>
 			</if>
+			<if test="null != status">
+				<![CDATA[
+				   AND P.STATUS = #{status}
+				]]>
+			</if>
 			<if test="0 != serviceCategoryId">
 				<![CDATA[
 				   AND SC.ID = #{serviceCategoryId}
