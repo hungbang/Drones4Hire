@@ -24,6 +24,7 @@ import {ServicesResolve} from './resolves/services/budgets.resolve';
 import {DurationsResolve} from './resolves/durations/durations.resolve';
 import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
 import {ProjectsResolve} from './resolves/projects/projects.resolve';
+import {BProjectsSearchComponent} from './components/blocks/b-projects-search/b-projects-search.component';
 
 export const ROUTES: Routes = [
   {
@@ -60,12 +61,46 @@ export const ROUTES: Routes = [
     path: 'my-projects',
     canActivate: [ClientGuard],
     component: MyProjectsComponent,
-    resolve: {
-      projects: ProjectsResolve
-    },
     data: {
       className: 'p-projects'
-    }
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: 'bidding',
+        pathMatch: 'full'
+      },
+      {
+        path: 'bidding',
+        component: BProjectsSearchComponent,
+        resolve: {
+          projects: ProjectsResolve
+        },
+        data: {
+          status: 'NEW'
+        }
+      },
+      {
+        path: 'progress',
+        component: BProjectsSearchComponent,
+        resolve: {
+          projects: ProjectsResolve
+        },
+        data: {
+          status: 'NEW'
+        }
+      },
+      {
+        path: 'past',
+        component: BProjectsSearchComponent,
+        resolve: {
+          projects: ProjectsResolve
+        },
+        data: {
+          status: 'NEW'
+        }
+      }
+    ]
   },
   {
     path: 'project',

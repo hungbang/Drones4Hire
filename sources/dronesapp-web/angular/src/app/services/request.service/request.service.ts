@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
-import { TokenService } from '../token.service/token.service';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import {TokenService} from '../token.service/token.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class RequestService {
@@ -23,11 +23,10 @@ export class RequestService {
     head: this.head.bind(this)
   };
 
-  constructor(
-    public _http: Http,
-    private _router: Router,
-    private _tokenService: TokenService
-  ) {}
+  constructor(public _http: Http,
+              private _router: Router,
+              private _tokenService: TokenService) {
+  }
 
   getCurrentToken() {
     return `${this.authorizationType} ${this._tokenService.accessToken}`;
@@ -39,7 +38,7 @@ export class RequestService {
         'Authorization': this.getCurrentToken()
 
       });
-      return new RequestOptions({ headers: headers });
+      return new RequestOptions({headers: headers});
     }
     return new RequestOptions();
   }
@@ -67,11 +66,11 @@ export class RequestService {
                   .map((res) => {
                     return res.json();
                   });
-            })
+              })
             .catch((refreshErr) => {
-                this._tokenService.removeTokens();
-                window.location.reload();
-                return Observable.throw(refreshErr);
+              this._tokenService.removeTokens();
+              window.location.reload();
+              return Observable.throw(refreshErr);
             });
         }
         return Observable.throw(err);
@@ -104,6 +103,6 @@ export class RequestService {
   }
 
   refreshToken(token) {
-    return this.fetch('post', '/auth/refresh', { refreshToken: token });
+    return this.fetch('post', '/auth/refresh', {refreshToken: token});
   }
 }

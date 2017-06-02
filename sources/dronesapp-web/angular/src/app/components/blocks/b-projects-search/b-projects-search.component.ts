@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {ProjectService} from '../../../services/project.service/project.service';
+import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'b-projects-search',
@@ -9,15 +9,13 @@ import {ProjectService} from '../../../services/project.service/project.service'
 })
 export class BProjectsSearchComponent implements OnInit {
 
+  public projects;
+
   constructor(
-    private projectService: ProjectService
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.projects = this.route.snapshot.data['projects'];
   }
-
-  get projects() {
-    return this.projectService.projects;
-  }
-
 }

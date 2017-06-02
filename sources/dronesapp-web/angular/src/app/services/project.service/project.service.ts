@@ -129,10 +129,8 @@ export class ProjectService {
     return this._requestService.fetch('post', '/projects/search', search)
       .map(res => {
         this.projects = res.results;
-        console.log(res);
-        return res;
-      })
-      .catch((error) => {});
+        return this.projects;
+      });
   }
 
   // todo add notification

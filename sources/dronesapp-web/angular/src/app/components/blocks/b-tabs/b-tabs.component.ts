@@ -1,5 +1,4 @@
 import {Component, Input, ViewEncapsulation} from '@angular/core';
-import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 'b-tabs',
@@ -9,6 +8,7 @@ import {AccountService} from '../../../services/account.service/account.service'
 })
 export class BTabsComponent {
   @Input() tabs: Array<Object>;
+  @Input() classes: string;
 
   constructor() {
   }

@@ -9,6 +9,9 @@ export class ProjectsResolve implements Resolve<any> {
   constructor(public projectService: ProjectService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    return this.projectService.getProjects();
+    const status = route.data['status'];
+    const pageSize = this.projectService.limitProjectsToShow;
+
+    return this.projectService.getProjects({ status, pageSize });
   }
 }

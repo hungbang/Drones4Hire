@@ -1,1 +1,14 @@
-<s-my-projects></s-my-projects>
+<!--<s-my-projects></s-my-projects>-->
+
+<div class="my-projects">
+  <div class="container">
+    <div class="my-projects__wrapper">
+      <div class="my-projects__title">My Projects</div>
+      <button class="my-projects__btn">Start a Project</button>
+    </div>
+    <b-tabs [tabs]="tabs" classes="_small"></b-tabs>
+    <f-projects-search></f-projects-search>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>

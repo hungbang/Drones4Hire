@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
-import { ProjectService } from '../../../services/project.service/project.service';
 
 @Component({
   selector: 'l-projects-search',
