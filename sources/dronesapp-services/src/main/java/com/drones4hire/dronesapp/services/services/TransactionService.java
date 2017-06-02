@@ -40,9 +40,10 @@ public class TransactionService
 	public SearchResult<Transaction> searchTransactions(TransactionSearchCriteria sc)
 	{
 		SearchResult<Transaction> results = new SearchResult<>();
-		results.setPage(sc.getPageSize() * (sc.getPage() - 1));
+		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
+		sc.setPage(sc.getPageSize() * (sc.getPage() - 1));
 		List<Transaction> transactions = transactionMapper.searchTransactions(sc);
 		results.setResults(transactions);
 		results.setTotalResults(transactions.size());

@@ -139,9 +139,10 @@ public class ProjectController extends AbstractController
 			throws ServiceException
 	{
 		SearchResult<ProjectDTO> results = new SearchResult<>();
-		results.setPage(sc.getPageSize() * (sc.getPage() - 1));
+		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
+		sc.setPage(sc.getPageSize() * (sc.getPage() - 1));
 		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
 		List<ProjectDTO> projectDTOs = new ArrayList<>();
 		for(Project project : projects)
