@@ -30,6 +30,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import javax.validation.Valid;
+
 @Controller
 @Api(value = "Wallet API")
 @CrossOrigin
@@ -63,7 +65,7 @@ public class WalletController extends AbstractController
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "transactions/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<Transaction> searchWalletTransactions(@RequestBody TransactionSearchCriteria sc)
+	public @ResponseBody SearchResult<Transaction> searchWalletTransactions(@Valid @RequestBody TransactionSearchCriteria sc)
 			throws ForbiddenOperationException
 	{
 		Wallet wallet = walletService.getWalletByUserId(getPrincipal().getId());

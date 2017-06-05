@@ -52,6 +52,49 @@
         ]]>
     </select>
 
+    <select id="getBidInfosByClientId" resultMap="BidInfoResultMap">
+        <![CDATA[
+          SELECT
+            B.PROJECT_ID AS BID_PROJECT_ID,
+            P.TITLE AS BID_PROJECT_TITLE,
+            B.CURRENCY AS BID_CURRENCY,
+            COUNT(B.ID) AS BID_COUNT,
+            AVG(B.AMOUNT) AS BID_AVG
+          FROM
+            drones.BIDS B
+          INNER JOIN
+            drones.PROJECTS P
+          ON
+            B.PROJECT_ID = P.ID
+          GROUP BY
+            B.PROJECT_ID
+          HAVING
+            B.PROJECT_ID
+          IN
+          (
+            SELECT
+              P.ID
+            FROM
+              drones.PROJECTS P
+            WHERE
+              P.CLIENT_ID = #{clientId}
+          )
+        ]]>
+          <if test="sortOrder.toString() == 'ASC'">
+			<![CDATA[
+				ORDER BY P.CREATED_AT ASC
+			]]>
+		</if>
+        <if test="sortOrder.toString() == 'DESC'">
+            <![CDATA[
+                ORDER BY P.CREATED_AT DESC
+            ]]>
+        </if>
+        <![CDATA[
+          LIMIT #{pageSize} OFFSET #{page};
+        ]]>
+    </select>
+
     <update id="updateBid">
         <![CDATA[
           UPDATE
@@ -84,6 +127,14 @@
         <result column="BID_USER_ID" property="userId" />
         <result column="BID_MODIFIED_AT" property="modifiedAt" />
 		<result column="BID_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+    <resultMap id="BidInfoResultMap" type="com.drones4hire.dronesapp.models.db.projects.BidInfo" autoMapping="false">
+        <result column="BID_PROJECT_ID" property="projectId" />
+        <result column="BID_PROJECT_TITLE" property="projectTitle" />
+        <result column="BID_CURRENCY" property="currency" />
+        <result column="BID_COUNT" property="bidsCount" />
+        <result column="BID_AVG" property="bidsAvg" />
     </resultMap>
 
 </mapper>

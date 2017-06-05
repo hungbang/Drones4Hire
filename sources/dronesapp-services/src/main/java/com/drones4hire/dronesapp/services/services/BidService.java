@@ -5,6 +5,8 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.BidInfoSearchCriteria;
+import com.drones4hire.dronesapp.models.db.projects.BidInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +60,13 @@ public class BidService
 	public List<Bid> getBidsByProjectId(long projectId)
 	{
 		return bidMapper.getBidsByProjectId(projectId);
+	}
+
+	@Transactional(readOnly = true)
+	public List<BidInfo> getBidInfos(BidInfoSearchCriteria sc)
+	{
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
+		return bidMapper.getBidInfosByClientId(sc);
 	}
 
 	@Transactional(rollbackFor = Exception.class)

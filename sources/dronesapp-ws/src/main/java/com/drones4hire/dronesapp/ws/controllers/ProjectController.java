@@ -1,14 +1,11 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.BidInfoSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Duration;
-import com.drones4hire.dronesapp.models.db.commons.Location;
-import com.drones4hire.dronesapp.models.db.projects.Bid;
-import com.drones4hire.dronesapp.models.db.projects.Comment;
-import com.drones4hire.dronesapp.models.db.projects.PaidOption;
-import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.projects.*;
 import com.drones4hire.dronesapp.models.dto.BidDTO;
 import com.drones4hire.dronesapp.models.dto.CommentDTO;
 import com.drones4hire.dronesapp.models.dto.PaidOptionDTO;
@@ -135,14 +132,14 @@ public class ProjectController extends AbstractController
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<ProjectDTO> searchProjects(@RequestBody ProjectSearchCriteria sc)
+	public @ResponseBody SearchResult<ProjectDTO> searchProjects(@Valid @RequestBody ProjectSearchCriteria sc)
 			throws ServiceException
 	{
 		SearchResult<ProjectDTO> results = new SearchResult<>();
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		sc.setPage(sc.getPageSize() * (sc.getPage() - 1));
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
 		List<ProjectDTO> projectDTOs = new ArrayList<>();
 		for(Project project : projects)
@@ -189,6 +186,19 @@ public class ProjectController extends AbstractController
 			bidDTOs.add(mapper.map(bid, BidDTO.class));
 		}
 		return bidDTOs;
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get bid infos", nickname = "getBidInfos", code = 200, httpMethod = "POST", response = List.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "bids/info", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<BidInfo> getBidInfos(@Valid @RequestBody BidInfoSearchCriteria sc)
+	{
+		sc.setClientId(getPrincipal().getId());
+		return bidService.getBidInfos(sc);
 	}
 
 	@ResponseStatusDetails

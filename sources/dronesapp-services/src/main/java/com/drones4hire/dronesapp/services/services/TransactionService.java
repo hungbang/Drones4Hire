@@ -43,7 +43,7 @@ public class TransactionService
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		sc.setPage(sc.getPageSize() * (sc.getPage() - 1));
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<Transaction> transactions = transactionMapper.searchTransactions(sc);
 		results.setResults(transactions);
 		results.setTotalResults(transactions.size());
