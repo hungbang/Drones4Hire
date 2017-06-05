@@ -86,9 +86,6 @@ public class BraintreeService
 			{
 				e.printStackTrace();
 			}
-		} else
-		{
-			clientToken = braintreeGateway.clientToken().generate();
 		}
 		return clientToken;
 	}

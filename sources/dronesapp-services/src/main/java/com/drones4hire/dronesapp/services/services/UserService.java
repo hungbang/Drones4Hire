@@ -3,6 +3,8 @@ package com.drones4hire.dronesapp.services.services;
 import java.util.Arrays;
 import java.util.List;
 
+import com.braintreegateway.Customer;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -60,6 +62,9 @@ public class UserService
 	
 	@Autowired 
 	private AWSEmailService emailService;
+
+	@Autowired
+	private BraintreeService braintreeService;
 	
 	@Transactional(rollbackFor=Exception.class)
 	public User registerUser(User user, Role role) throws ServiceException
@@ -106,6 +111,13 @@ public class UserService
 
 			// Initialize default company
 			companyService.createDefaultCompany(user);
+		} else if(Role.ROLE_CLIENT.equals(role))
+		{
+			// Initialize customer in braintree service
+			Customer customer = braintreeService.createCustomer(user);
+			Wallet wallet = walletService.getWalletByUserId(user.getId());
+			wallet.setPaymentToken(customer.getId());
+			walletService.updateWallet(wallet);
 		}
 		emailService.sendConfirmationEmail(user, generateConfrimEmailToken(user));
 		return user;

@@ -62,7 +62,7 @@ public class ProjectService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public long createProjectPaidOption(long projectId, List<PaidOption> paidOptions)
+	public long createProjectPaidOptions(long projectId, List<PaidOption> paidOptions)
 	{
 		if(!paidOptions.isEmpty()) {
 			projectMapper.createProjectPaidOption(projectId, paidOptions);
