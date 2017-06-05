@@ -571,18 +571,19 @@
 				<artifactId>slack-java-webhook</artifactId>
 				<version>${slack-java-webhook.version}</version>
 			</dependency>
-			
-			<dependency>
-				<groupId>org.tuckey</groupId>
-				<artifactId>urlrewritefilter</artifactId>
-				<version>${tuckey.version}</version>
-			</dependency>
 
 			<dependency>
 				<groupId>com.braintreepayments.gateway</groupId>
 				<artifactId>braintree-java</artifactId>
 				<version>${braintree.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.tuckey</groupId>
+				<artifactId>urlrewritefilter</artifactId>
+				<version>${tuckey.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
