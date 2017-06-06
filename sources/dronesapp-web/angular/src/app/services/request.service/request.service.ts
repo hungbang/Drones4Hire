@@ -59,7 +59,6 @@ export class RequestService {
           return this.refreshToken(localStorage.getItem('refreshToken'))
             .map(
               (refreshRes) => {
-                refreshRes = refreshRes.json();
                 this._tokenService.setAccessToken((refreshRes as any).accessToken);
                 this._tokenService.setRefreshToken((refreshRes as any).refreshToken);
                 return this.requests[method](url, body)
