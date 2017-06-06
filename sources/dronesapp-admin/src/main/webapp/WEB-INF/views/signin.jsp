@@ -11,7 +11,7 @@
 	<head>
 		<%@ include file="/WEB-INF/fragments/meta.jsp" %>
 		
-		<link href="<spring:url value="/resources/img/favicon.ico" />" rel="icon" type="image/x-icon" />
+		<link href="<spring:url value="/resources/img/favicon.png" />" rel="icon" type="image/x-icon" />
 		<link href="<spring:url value="/resources/css/style.css" />" rel="stylesheet" type="text/css" />
 		<link href="<spring:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" type="text/css" />
 		<link href="<spring:url value="/resources/css/font-awesome.min.css" />" rel="stylesheet" type="text/css" />
@@ -21,30 +21,30 @@
 		<title><spring:message code="drones.admin.views.signin.title" /></title>
 	</head>
 	<body class="form fullhight">
-		<div class="container-fluid">
+		<div class="main-logo"></div>
+		<div class="container-fluid" style="padding-top: 150px;">
 			<div class="row-fluid">
 				<div id="center-form" class="centering">
 					<spring:url var="actionUrl" value="/login" />
 					<form:form modelAttribute="signinForm" action="${actionUrl}" method="POST">
 						<fieldset style="border: none;">
-							<div class="title"><spring:message code="drones.admin.views.signin.form.title" /></div>
 							<c:if test="${signinForm.signinFailed == true}">
 								<div class="errors"><spring:message code="drones.admin.views.signin.form.credentials.invalid" /></div>
 							</c:if>
-							<span><spring:message code="drones.admin.pages.common.form.field.email.label" /></span><br /> 
+							<span><b><spring:message code="drones.admin.pages.common.form.field.email.label" /></b></span><br /> 
 							<span  class="email">
 								<input type="text" name="username" id="username" />
 							</span><br /> 
-							<span><spring:message code="drones.admin.pages.common.form.field.password.label" /></span><br /> 
+							<span><b><spring:message code="drones.admin.pages.common.form.field.password.label" /></b></span><br /> 
 							<span class="password">
 								<input type="password" name="password" id="password" />
 							</span><br /> 
 							<a class="button">
-								<button type="submit"><spring:message code="drones.admin.views.signin.form.button.submit" /></button>
+								<button type="submit"><b><spring:message code="drones.admin.views.signin.form.button.submit" /></b></button>
 							</a>
-							<div class="forgot_password">
+							<!-- div class="forgot_password">
 								<a href="${signinForm.passwordResetLink}"><spring:message code="drones.admin.views.signin.form.forgot_password.link" /></a>
-							</div>
+							</div-->
 						</fieldset>
 					</form:form>
 				</div>

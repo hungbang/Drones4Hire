@@ -25,7 +25,7 @@ public class SigninController
 		return new ModelAndView("signin", "signinForm", new SigninForm("url", false));
 	}
 
-	@RequestMapping(value = "/signin/failed", method = RequestMethod.GET)
+	@RequestMapping(value = "/signin/failed", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView signinFailed(ModelMap model) throws ServiceException
 	{
 		return new ModelAndView("signin", "signinForm", new SigninForm("url", true));
