@@ -3,7 +3,11 @@ package com.drones4hire.dronesapp.ws.controllers;
 import com.braintreegateway.CreditCard;
 import com.drones4hire.dronesapp.models.dto.CreditCardDTO;
 import com.drones4hire.dronesapp.services.services.CreditCardService;
+import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +32,10 @@ public class CreditCardController extends AbstractController
 	@Autowired
 	private Mapper mapper;
 
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get user credit cards", nickname = "getUserCreditCards", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
@@ -42,6 +50,10 @@ public class CreditCardController extends AbstractController
 		return result;
 	}
 
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get credit card by token", nickname = "getCreditCardByToken", code = 200, httpMethod = "GET", response = CreditCardDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{token}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
@@ -50,26 +62,38 @@ public class CreditCardController extends AbstractController
 		return mapper.map(creditCardService.getCreditCardByToken(token), CreditCardDTO.class);
 	}
 
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create credit card", nickname = "addCreditCard", code = 201, httpMethod = "POST", response = CreditCardDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	CreditCardDTO addCreditCard(@RequestBody @Valid CreditCardDTO creditCard) throws Exception
 	{
 		return mapper.map(creditCardService.addCreditCard(getPrincipal().getId(), creditCard.getNumber(),
-				creditCard.getExpirationMonth(), creditCard.getExpirationYear(), creditCard.getCvv()),
+				creditCard.getExpirationMonth(), creditCard.getExpirationYear(), creditCard.getCvv(), creditCard.getCardholderName()),
 				CreditCardDTO.class);
 	}
 
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update credit card", nickname = "updateCreditCard", code = 200, httpMethod = "PUT", response = CreditCardDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "{token}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	CreditCardDTO updateCreditCard(@PathVariable("token") String token, @RequestBody @Valid CreditCardDTO creditCard)
+	CreditCardDTO updateCreditCard(@RequestBody @Valid CreditCardDTO creditCard)
 			throws Exception
 	{
-		return mapper.map(creditCardService.updateCreditCard(getPrincipal().getId(), token,
-				creditCard.getExpirationMonth(), creditCard.getExpirationYear()), CreditCardDTO.class);
+		return mapper.map(creditCardService.updateCreditCard(getPrincipal().getId(), creditCard.getToken(),
+				creditCard.getExpirationMonth(), creditCard.getExpirationYear(), creditCard.getCardholderName()), CreditCardDTO.class);
 	}
 
+	@ResponseStatusDetails
+	@ApiOperation(value = "Make credit card default", nickname = "makeCreditCardDefault", code = 200, httpMethod = "PUT", response = CreditCardDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{token}/default", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
@@ -78,7 +102,11 @@ public class CreditCardController extends AbstractController
 		return mapper.map(creditCardService.makeCreditCardDefault(token), CreditCardDTO.class);
 	}
 
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete credit card", nickname = "deleteCreditCard", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@RequestMapping(value = "{token}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
 	void deleteCreditCard(@PathVariable("token") String token) throws Exception

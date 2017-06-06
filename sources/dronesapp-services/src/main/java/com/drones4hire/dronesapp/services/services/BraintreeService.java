@@ -356,7 +356,7 @@ public class BraintreeService
 		return result;
 	}
 
-	public CreditCard addCreditCard(String customerId, String number, String expirationMonth, String expirationYear, String cvv)
+	public CreditCard addCreditCard(String customerId, String number, String expirationMonth, String expirationYear, String cvv, String cardholderName)
 			throws ServiceException
 	{
 		Result<CreditCard> result = null;
@@ -367,6 +367,7 @@ public class BraintreeService
 					.number(number)
 					.expirationMonth(expirationMonth)
 					.expirationYear(expirationYear)
+					.cardholderName(cardholderName)
 					.cvv(cvv);
 			request
 					.options()
@@ -415,7 +416,7 @@ public class BraintreeService
 		return creditCard;
 	}
 
-	public CreditCard updateCreditCard(String token, String expirationMonth, String expirationYear) throws ServiceException
+	public CreditCard updateCreditCard(String token, String expirationMonth, String expirationYear, String cardholderName) throws ServiceException
 	{
 		Result<CreditCard> result = null;
 		try
@@ -423,7 +424,8 @@ public class BraintreeService
 			CreditCardRequest request = new CreditCardRequest()
 					.token(token)
 					.expirationMonth(expirationMonth)
-					.expirationYear(expirationYear);
+					.expirationYear(expirationYear)
+					.cardholderName(cardholderName);
 			request.options()
 					.verifyCard(true);
 			result = braintreeGateway.creditCard().update(token, request);

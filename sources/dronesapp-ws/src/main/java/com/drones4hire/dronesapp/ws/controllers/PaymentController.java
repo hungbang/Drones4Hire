@@ -16,6 +16,7 @@ import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
 import com.drones4hire.dronesapp.models.dto.BidDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.BraintreeService;
 import com.drones4hire.dronesapp.services.services.PaymentService;
 import com.drones4hire.dronesapp.services.services.WalletService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
@@ -29,6 +30,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @Controller
 @Api(value = "Payment API")
@@ -58,8 +61,10 @@ public class PaymentController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get client token", nickname = "getClientToken", code = 200, httpMethod = "GET", response = String.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "client_token", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "client_token", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	public @ResponseBody String getClientToken() throws ServiceException
 	{
 		return paymentService.generateClientToken(getPrincipal().getId());
@@ -67,6 +72,8 @@ public class PaymentController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Create payment token", nickname = "createPaymentToken", code = 201, httpMethod = "POST", response = String.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "checkout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String createPaymentToken(@RequestParam(name = "payment_method_nonce", required = true) String paymentMethodNonce) throws ServiceException
@@ -76,11 +83,13 @@ public class PaymentController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Pay transaction", nickname = "saleTransaction", code = 200, httpMethod = "POST")
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{token}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody void saleTransaction(@PathVariable("token") String token, @RequestBody Transaction transaction) throws ServiceException
+	public @ResponseBody com.braintreegateway.Transaction saleTransaction(@PathVariable("token") String token, @RequestBody BigDecimal amount) throws ServiceException
 	{
-		Wallet wallet = walletService.getWalletById(transaction.getWalletId());
-		paymentService.saleTransaction(wallet.getPaymentToken(), token, transaction.getAmount());
+		Wallet wallet = walletService.getWalletByUserId(getPrincipal().getId());
+		return paymentService.saleTransaction(wallet.getPaymentToken(), token, amount);
 	}
 }

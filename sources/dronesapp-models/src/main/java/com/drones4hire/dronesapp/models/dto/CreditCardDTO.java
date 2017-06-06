@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -11,20 +12,26 @@ public class CreditCardDTO extends AbstractDTO
 {
 
 	private String token;
-	@NotNull(message = "Card number required")
+
 	private String number;
+
+	private String last4;
+
 	@NotNull(message = "Card expiration month required")
-	@Size(max = 2, min = 2, message = "Wrong expiration month size")
+	@Size(max = 2, min = 1, message = "Wrong expiration month size")
 	@Pattern(regexp = "^(1[0-2]|[1-9])$", message = "Invalid month")
 	private String expirationMonth;
+
 	@NotNull(message = "Card expiration year required")
 	@Size(max = 4, min = 2, message = "Wrong expiration year size")
 	private String expirationYear;
-	@NotNull(message = "Card cvv number required")
-	@Size(max = 4, min = 3, message = "Wrong cvv size")
+
 	private String cvv;
+
 	private String cardholderName;
+
 	private String imageUrl;
+
 	private boolean isDefault;
 
 	public String getToken()
@@ -45,6 +52,16 @@ public class CreditCardDTO extends AbstractDTO
 	public void setNumber(String number)
 	{
 		this.number = number;
+	}
+
+	public String getLast4()
+	{
+		return last4;
+	}
+
+	public void setLast4(String last4)
+	{
+		this.last4 = last4;
 	}
 
 	public String getExpirationMonth()
@@ -105,5 +122,17 @@ public class CreditCardDTO extends AbstractDTO
 	public void setDefault(boolean isDefault)
 	{
 		this.isDefault = isDefault;
+	}
+
+	@AssertTrue(message = "Card number required")
+	public boolean isCardNumberValid()
+	{
+		return token != null ? true : number != null;
+	}
+
+	@AssertTrue(message = "Card cvv number required")
+	public boolean isCvvNumberValid()
+	{
+		return token != null ? true : cvv != null && (cvv.length() == 3 || cvv.length() == 4);
 	}
 }

@@ -66,7 +66,7 @@ public class CreditCardService
 
 	@Transactional
 	public CreditCard addCreditCard(long userId, String number, String expirationMonth, String expirationYear,
-			String cvv)
+			String cvv, String cardholderName)
 			throws ServiceException
 	{
 		User user = userService.getUserById(userId);
@@ -77,7 +77,7 @@ public class CreditCardService
 		if (wallet.getPaymentToken() == null)
 			throw new ServiceException("Payment token is null");
 
-		return braintreeService.addCreditCard(wallet.getPaymentToken(), number, expirationMonth, expirationYear, cvv);
+		return braintreeService.addCreditCard(wallet.getPaymentToken(), number, expirationMonth, expirationYear, cvv, cardholderName);
 	}
 
 	@Transactional
@@ -98,7 +98,7 @@ public class CreditCardService
 	}
 
 	@Transactional
-	public CreditCard updateCreditCard(long userId, String token, String expirationMonth, String expirationYear)
+	public CreditCard updateCreditCard(long userId, String token, String expirationMonth, String expirationYear, String cardholderName)
 			throws ServiceException
 	{
 		List<CreditCard> creditCards = getCreditCardsByUserId(userId);
@@ -107,7 +107,7 @@ public class CreditCardService
 		{
 			if (creditCard.getToken().equals(token))
 			{
-				return braintreeService.updateCreditCard(token, expirationMonth, expirationYear);
+				return braintreeService.updateCreditCard(token, expirationMonth, expirationYear, cardholderName);
 			}
 		}
 		throw new ServiceException("Credit card not found by token: " + token);
