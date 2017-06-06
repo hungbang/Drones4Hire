@@ -162,6 +162,14 @@
 
 	<select id="searchProjects" resultMap="ProjectResultMap">
 		<include refid="getProject" />
+		<![CDATA[
+			INNER JOIN
+			(
+				SELECT
+					P.ID
+				FROM
+					drones.PROJECTS P
+		]]>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="null != title">
 				<![CDATA[
@@ -216,7 +224,11 @@
 		</if>
 		<![CDATA[
 				LIMIT #{pageSize} OFFSET #{page}
-			]]>
+			)
+			AS PID
+			ON
+				P.ID = PID.ID
+		]]>
 	</select>
 
 	<update id="updateProject">
