@@ -92,8 +92,8 @@
 </div>
 
 <br/>
-<input class="btn btn-block btn-primary" type="submit" value="Add new card" data-ng-click="changeNewCardStatus()">
-<input class="btn" type="submit" value="Close" data-ng-click="changeNewCardStatus()" data-ng-if="newCard">
+<input class="btn btn-block btn-primary" type="submit" value="Add new card"  data-ng-show="!newCard" data-ng-click="changeNewCardStatus()">
+<input class="btn btn-block btn-primary" type="submit" value="Close New Card form"  data-ng-show="newCard" data-ng-click="changeNewCardStatus()">
 
 <div class="row" data-ng-if="newCard">
     <div class="col-lg-12" style="align-content: center">
@@ -117,6 +117,20 @@
         <div class="col-lg-12">
             <input class="btn btn-primary" type="submit" id="submit1" data-ng-click="createCard(card)" value="Create">
         </div>
+    </div>
+</div>
+<br/>
+<h1>Projects</h1>
+<span style="background-color: yellow">Create new project</span>
+<div class="row" class="col-lg-12" style="align-content: center; margin-left: 10px">
+    <textarea cols="100" rows="20" data-ng-model="projectToJson" width="100px"></textarea><br/>
+    <input class="btn btn-primary" type="submit" data-ng-click="createProject(projectToJson)" value="Create new project">
+</div>
+<div class="row" data-ng-repeat="project in projects | orderBy: '-id'">
+    <div class="col-lg-12" style="align-content: center">
+        <span>ID: {{ project.id}} </span>
+        <span>Title: {{ project.title}} </span>
+        <input class="btn btn-danger" type="submit" data-ng-click="deleteProject(project.id)" value="Delete project">
     </div>
 </div>
 

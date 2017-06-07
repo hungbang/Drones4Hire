@@ -416,6 +416,31 @@ public class BraintreeService
 		return creditCard;
 	}
 
+	public CreditCard getDefaultCreditCard(String customerId) throws ServiceException
+	{
+		CreditCard creditCard = null;
+		Customer customer = null;
+		try
+		{
+			customer = braintreeGateway.customer().find(customerId);
+			for(CreditCard cc : customer.getCreditCards())
+			{
+				if(cc.isDefault())
+				{
+					creditCard = cc;
+				}
+			}
+			if (creditCard == null)
+			{
+				throw new Exception("Not found by card token.");
+			}
+		} catch (Exception e)
+		{
+			throw new ServiceException("Can't find credit card: " + e.getMessage());
+		}
+		return creditCard;
+	}
+
 	public CreditCard updateCreditCard(String token, String expirationMonth, String expirationYear, String cardholderName) throws ServiceException
 	{
 		Result<CreditCard> result = null;

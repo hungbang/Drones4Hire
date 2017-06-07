@@ -1,6 +1,8 @@
 package com.drones4hire.dronesapp.services.services;
 
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.CANCELLED;
+import static com.drones4hire.dronesapp.models.db.payments.Transaction.Status.COMPLETED;
+import static com.drones4hire.dronesapp.models.db.payments.Transaction.Type.PAID_OPTION;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
@@ -12,6 +14,12 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,9 +59,19 @@ public class ProjectService
 	@Autowired
 	private PaidOptionService paidOptionService;
 
+	@Autowired
+	private WalletService walletService;
+
+	@Autowired
+	private PaymentService paymentService;
+
 	@Transactional(rollbackFor = Exception.class)
-	public Project createProject(Project project)
+	public Project createProject(Project project) throws ServiceException
 	{
+		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
+		Transaction transaction = new Transaction(wallet.getId(), project.getPaidPotionsSumAmount(), wallet.getCurrency(), PAID_OPTION, "",
+				project.getId(), COMPLETED);
+		paymentService.saleTransactionWithDefaultCard(transaction);
 		locationService.createLocation(project.getLocation());
 		projectMapper.createProject(project);
 		createProjectPaidOption(project.getId(), project.getPaidOptions());

@@ -2,7 +2,7 @@ var DronesApp = angular.module('DronesApp', ['ngAria', 'ngAnimate',  'ngMessages
 
 DronesApp.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.common['Authorization'] = 'Bearer ' +
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidXNlcm5hbWUiOiJjbGllbnQiLCJlbWFpbCI6ImNsaWVudEBnbWFpbC5jb20iLCJlbmFibGVkIjp0cnVlLCJyb2xlcyI6WyJST0xFX0NMSUVOVCJdLCJleHAiOjE0OTY3NjQ2NDV9.jH3-uK4j5QnekiS9sbt7AQgrOnrDW5KhOamVFzUmIoyQD-QaI05z4Iwc97h-WKvbgvtTRduFVMsNNK1p2uNdKQ';
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidXNlcm5hbWUiOiJjbGllbnQiLCJlbWFpbCI6ImNsaWVudEBnbWFpbC5jb20iLCJlbmFibGVkIjp0cnVlLCJyb2xlcyI6WyJST0xFX0NMSUVOVCJdLCJleHAiOjE0OTY4NDUzNTV9.YBYCroXeR1mpp65B8RtbPRCYWcfshx34aObSXAka0pk7jezkV-czi2WLm3MQ8qPk02QI6NtX4GniheRPX9l69w';
 }]);
 
 DronesApp.controller('PaymentController', [ '$scope', '$http', '$location',
@@ -62,7 +62,33 @@ DronesApp.controller('PaymentController', [ '$scope', '$http', '$location',
         });
     };
 
+    var criteria = {};
+    $scope.projectToJson = "";
+
+    $scope.getUserProjects = function () {
+        $http.post('http://localhost:8080/drones-api/api/v1/projects/search', criteria).then(function successCallback(rs) {
+            $scope.projects = rs.data.results;
+            if(rs.data.results.length) {
+                $scope.projectToJson = JSON.stringify(rs.data.results[0]).split('{').join('\n{\n').split('}').join('\n}\n')
+                    .split('[').join('\n[\n').split(']').join('\n]\n');
+            }
+        });
+    };
+
+    $scope.createProject = function(projectInJson) {
+        $http.post('http://localhost:8080/drones-api/api/v1/projects', projectInJson).then(function successCallback(rs) {
+            alertify.success('Project was created');
+        });
+    };
+
+    $scope.deleteProject = function(id) {
+        $http.delete('http://localhost:8080/drones-api/api/v1/projects/' + id).then(function successCallback(rs) {
+            alertify.success('Project was deleted');
+        });
+    };
+
     (function init() {
         $scope.getCreditCards();
+        $scope.getUserProjects();
     })();
 }]);

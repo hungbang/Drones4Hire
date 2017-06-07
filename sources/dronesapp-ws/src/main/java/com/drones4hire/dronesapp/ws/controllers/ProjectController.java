@@ -82,7 +82,7 @@ public class ProjectController extends AbstractController
 	@ResponseStatus(HttpStatus.CREATED)
 	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ProjectDTO createProject(@Valid @RequestBody ProjectDTO p)
+	public @ResponseBody ProjectDTO createProject(@Valid @RequestBody ProjectDTO p) throws ServiceException
 	{
 		Project project = mapper.map(p, Project.class);
 		project.setClientId(getPrincipal().getId());

@@ -8,6 +8,7 @@ import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.braintreegateway.PaymentMethod;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -103,10 +104,37 @@ public class PaymentService
 		try
 		{
 			transaction = braintreeService.sale(customerId, amount, paymentMethodToken);
+			if(! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SETTLED)
+					&& ! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SUBMITTED_FOR_SETTLEMENT))
+			{
+				throw new ServiceException("Braintree transaction has status '" + transaction.getStatus() + "'");
+			}
 		} catch (Exception e)
 		{
 			braintreeService.voidTransaction(transaction.getId());
 		}
+		return transaction;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public com.braintreegateway.Transaction saleTransactionWithDefaultCard(Transaction tr)
+			throws ServiceException
+	{
+		Wallet wallet = walletService.getWalletById(tr.getWalletId());
+		com.braintreegateway.Transaction transaction = null;
+		try
+		{
+			transaction = braintreeService.sale(wallet.getPaymentToken(), tr.getAmount(), braintreeService.getDefaultCreditCard(wallet.getPaymentToken()).getToken());
+			if(! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SETTLED)
+					&& ! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SUBMITTED_FOR_SETTLEMENT))
+			{
+				throw new ServiceException("Braintree transaction has status '" + transaction.getStatus() + "'");
+			}
+		} catch (Exception e)
+		{
+			braintreeService.voidTransaction(transaction.getId());
+		}
+		transactionService.createTransaction(tr);
 		return transaction;
 	}
 
