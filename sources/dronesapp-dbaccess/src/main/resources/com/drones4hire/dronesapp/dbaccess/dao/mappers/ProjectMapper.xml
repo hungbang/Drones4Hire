@@ -169,6 +169,28 @@
 					P.ID
 				FROM
 					drones.PROJECTS P
+				LEFT JOIN
+	      			drones.LOCATIONS L
+	      		ON
+          			P.LOCATION_ID = L.ID
+          		LEFT JOIN
+	      			drones.BUDGETS B
+	      		ON
+          			P.BUDGET_ID = B.ID
+
+          		LEFT JOIN
+	      			drones.DURATIONS D
+	      		ON
+          			P.DURATION_ID = D.ID
+
+          		LEFT JOIN
+	      			drones.SERVICES S
+	      		ON
+          			P.SERVICE_ID = S.ID
+          		LEFT JOIN
+	      			drones.SERVICE_CATEGORIES SC
+	      		ON
+          			S.SERVICE_CATEGORY_ID = SC.ID
 		]]>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="null != title">
