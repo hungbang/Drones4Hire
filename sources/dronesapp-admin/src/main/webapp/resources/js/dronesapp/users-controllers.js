@@ -39,6 +39,7 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$location', 
 	
 	$scope.resetSearchCriteria = function(){
 		$scope.userSearchCriteria = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
+		$scope.searchUsers(0);
 	};
 		
 	$scope.openViewPage = function(id){
@@ -54,7 +55,20 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$location', 
 
 DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location', '$routeParams', '$modal', '$route', '$upload', function($scope, $http, $location, $routeParams, $modal, $route, $upload) {
 	
-	$scope.loadUser = function(){
+	$scope.loadLocationsData = function() {
+		$http.get('locations/states').success(function(data) {
+			$scope.listSatesResult = data;
+		}).error(function(data, status) {
+			alert('Failed to load states');
+		});
+		$http.get('locations/countries').success(function(data) {
+			$scope.listCountriesResult = data;
+		}).error(function(data, status) {
+			alert('Failed to load countries');
+		});
+	};
+	
+	$scope.loadUser = function() {
 		$http.get('users/' + $routeParams.id).success(function(data) {
 			$scope.user = data;
 		}).error(function(data, status) {
@@ -62,13 +76,39 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		});
 	};
 	
+	$scope.loadCompanyData = function() {
+		$http.get('users/' + $routeParams.id + '/companies').success(function(data) {
+			$scope.company = data;
+		}).error(function(data, status) {
+			alert('Failed to load company');
+		});
+	};
+	
 	(function init(){
+		$scope.loadLocationsData();
 		$scope.loadUser();
+		$scope.loadCompanyData();
 	})();
 	
 	$scope.editUser = function(id){
 		$http.put('users/' + id, $scope.user).success(function(data) {
-			alert('Success, changes were saved.');
+			alert('Success, user changes were saved.');
+		}).error(function(data, status) {
+			alert('Failed to save changes!');
+		});
+	};
+	
+	$scope.editLocation = function(id) {
+		$http.put('locations/' + id, $scope.user.location).success(function(data) {
+			alert('Success, location changes were saved.');
+		}).error(function(data, status) {
+			alert('Failed to save changes!');
+		});
+	};
+	
+	$scope.editCompany = function(userId) {
+		$http.put('users/' + userId + "/companies", $scope.company).success(function(data) {
+			alert('Success, company changes were saved.');
 		}).error(function(data, status) {
 			alert('Failed to save changes!');
 		});

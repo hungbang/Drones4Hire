@@ -34,6 +34,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 	
 	$scope.resetSearchCriteria = function(){
 		$scope.projectSearchCriteria = angular.copy(DEFAULT_PROJECTS_SEARCH_CRITERIA);
+		$scope.searchProjects(0);
 	};
 		
 	$scope.openViewPage = function(id){

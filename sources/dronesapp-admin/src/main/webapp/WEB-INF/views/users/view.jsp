@@ -57,17 +57,78 @@
 				</div>
 				<div class="form-group">
 					<label><spring:message code="drones.admin.pages.common.form.field.summary.label"/></label> 
-					<input class="form-control" data-ng-model="user.summary" type="text"/>
+					<textarea class="form-control" data-ng-model="user.summary"/>
+				</div>
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.introduction.label"/></label> 
+					<textarea class="form-control" data-ng-model="user.introduction"/>
 				</div>
 				<div class="form-group">
 					<label><spring:message code="drones.admin.pages.common.form.field.enabled.label"/></label> 
-					<input type="checkbox" data-ng-model="user.enabled" />
-				</div>
-				<div class="form-group">
-					<label><spring:message code="drones.admin.pages.common.form.field.email.label"/></label> 
+					<input type="checkbox" data-ng-model="user.enabled" /> &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.confirmed.label"/></label> 
 					<input type="checkbox" data-ng-model="user.confirmed" />
 				</div>
 				<button class="btn btn-primary action pull-right" data-ng-click="editUser(user.id)"><spring:message code="drones.admin.pages.common.button.save"/></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.country.label"/></label><br/> 										
+					<select name="countryId" class="form-control" data-ng-model="user.location.country.id" data-ng-options="country.id as country.name for country in listCountriesResult"></select>
+				</div>	
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.state.label"/></label><br/> 										
+					<select name="stateId" class="form-control" data-ng-model="user.location.state.id" data-ng-options="state.id as state.name for state in listSatesResult"></select>
+				</div>
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.city.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="user.location.city" />
+				</div>	
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.address.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="user.location.address" />
+				</div>					
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.postcode.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="user.location.postcode" />
+				</div>	
+				<button class="btn btn-primary action pull-right" data-ng-click="editLocation(user.location.id)"><spring:message code="drones.admin.pages.common.button.save"/></button>
+			</div>
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.company.name.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="company.name" />
+				</div>	
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.company.webURL.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="company.webURL" />
+					<a href="{{company.webURL}}" target="_blank">{{company.webURL}}</a>
+				</div>					
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.company.contactName.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="company.contactName" />
+				</div>
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.company.email.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="company.contactEmail" />
+				</div>	
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.country.label"/></label><br/> 										
+					<select name="company.countryId" class="form-control" data-ng-model="company.country.id" data-ng-options="country.id as country.name for country in listCountriesResult"></select>
+				</div>	
+				<button class="btn btn-primary action pull-right" data-ng-click="editCompany(company.userId)"><spring:message code="drones.admin.pages.common.button.save"/></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.enabled.label"/></label> 
+					<input type="checkbox" data-ng-model="user.enabled" /> &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.confirmed.label"/></label> 
+					<input type="checkbox" data-ng-model="user.confirmed" />
+				</div>	
 			</div>
 		</div>
 	</form>

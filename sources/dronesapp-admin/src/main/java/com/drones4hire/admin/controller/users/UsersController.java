@@ -15,8 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.drones4hire.admin.controller.AbstractController;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
+import com.drones4hire.dronesapp.models.db.settings.NotificationSettings;
+import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.CompanyService;
+import com.drones4hire.dronesapp.services.services.NotificationSettingService;
 import com.drones4hire.dronesapp.services.services.UserService;
 
 @Controller
@@ -25,7 +29,13 @@ public class UsersController extends AbstractController
 {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CompanyService companyService;
 
+	@Autowired
+	private NotificationSettingService settingsService;
+	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView openUsersPage() throws ServiceException
@@ -54,6 +64,20 @@ public class UsersController extends AbstractController
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/companies", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Company getCompany(@PathVariable long id) throws ServiceException
+	{
+		return companyService.getCompanyByUserId(id);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/notifications", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody NotificationSettings getSettings(@PathVariable long id) throws ServiceException
+	{
+		return settingsService.getNotificationSettingsByUserId(id);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User updateUser(@RequestBody User user, @PathVariable long id) throws ServiceException
 	{
@@ -65,5 +89,36 @@ public class UsersController extends AbstractController
 		currUser.setLastName(user.getLastName());
 		currUser.setSummary(user.getSummary());
 		return userService.updateUser(currUser);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/companies", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Company updateCompany(@RequestBody Company company, @PathVariable long id) throws ServiceException
+	{
+		Company currCompany = companyService.getCompanyByUserId(id);
+		currCompany.setContactEmail(company.getContactEmail());
+		currCompany.setContactName(company.getContactName());
+		currCompany.setCountry(company.getCountry());
+		currCompany.setName(company.getName());
+		currCompany.setWebURL(company.getWebURL());
+		return companyService.updateCompany(currCompany);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/notofocations", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody NotificationSettings updateCompany(@RequestBody NotificationSettings settings, @PathVariable long id) throws ServiceException
+	{
+		NotificationSettings currSettings = settingsService.getNotificationSettingsByUserId(id);
+		currSettings.setPlainEmail(settings.isPlainEmail());
+		currSettings.setBidPlaced(settings.isBidPlaced());
+		currSettings.setPaymentReceived(settings.isPaymentReceived());
+		currSettings.setProjectUpdate(settings.isProjectUpdate());
+		currSettings.setStaff(settings.isStaff());
+		currSettings.setDronesNews(settings.isDronesNews());
+		currSettings.setProjectAward(settings.isProjectAward());
+		currSettings.setMarketing(settings.isMarketing());
+		currSettings.setDeals(settings.isDeals());
+		currSettings.setMonthlyNews(settings.isMonthlyNews());
+		return settingsService.updateNotificationSettings(currSettings);
 	}
 }
