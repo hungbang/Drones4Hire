@@ -24,13 +24,13 @@ export class SAccountComponent {
       },
       {
         link: 'security',
-        text: 'Account Security',
+        text: 'Password reset',
         visibility: true
       },
       {
         link: 'notifications',
         text: 'Notifications',
-        visibility: true
+        visibility: false // TODO: temporary hidden
       },
     ]
   }
