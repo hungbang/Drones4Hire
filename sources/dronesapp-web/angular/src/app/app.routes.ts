@@ -25,6 +25,7 @@ import {DurationsResolve} from './resolves/durations/durations.resolve';
 import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
 import {ProjectsResolve} from './resolves/projects/projects.resolve';
 import {BProjectsSearchComponent} from './components/blocks/b-projects-search/b-projects-search.component';
+import {ProfileResolve} from './resolves/profile/profile.resolve';
 
 export const ROUTES: Routes = [
   {
@@ -51,8 +52,21 @@ export const ROUTES: Routes = [
   },
   {
     path: 'profile',
-    canActivate: [PilotGuard],
-    component: ProfileComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: '/',
+        pathMatch: 'full'
+      },
+      {
+        path: ':profile_id',
+        component: ProfileComponent,
+        resolve: {
+          profile: ProfileResolve
+        },
+      }
+    ],
     data: {
       className: 'p-profile'
     }
@@ -305,6 +319,13 @@ export const ROUTES: Routes = [
     component: SearchComponent,
     data: {
       className: 'p-search'
+    }
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+    data: {
+      className: 'p-404'
     }
   }
 ];

@@ -7,7 +7,7 @@
       <div class="s-preview__info">
         <div class="s-preview__left" [ngClass]="{ '_no-description': !showDescription}">
           <b-profile [profile]="profile" [showDescription]="showDescription"></b-profile>
-          <a class="s-preview__link" href="#" *ngIf="showDescription">edit profile</a>
+          <a class="s-preview__link" [routerLink]="['/account', 'pilot']" *ngIf="showDescription && canEdit">edit profile</a>
         </div>
         <div class="s-preview__right" *ngIf="showDescription">
           <b-description [profile]="profile"></b-description>
