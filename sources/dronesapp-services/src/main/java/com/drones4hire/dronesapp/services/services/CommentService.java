@@ -75,7 +75,7 @@ public class CommentService
 			}
 		} else if (!project.getStatus().equals(NEW) && user.getRoles().contains(ROLE_PILOT))
 		{
-			if (principalId != project.getClientId())
+			if (principalId != project.getPilotId())
 			{
 				throw new ForbiddenOperationException();
 			}
