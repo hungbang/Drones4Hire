@@ -9,7 +9,7 @@ import {AccountService} from '../../../services/account.service/account.service'
   styleUrls: ['./s-header.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderComponent {git
+export class HeaderComponent {
   private _menus = {
     guest: [
       { title: 'Blog', link: '/' },
@@ -25,7 +25,7 @@ export class HeaderComponent {git
     ],
     client: [
       { title: 'Dashboard', link: '/dashboard/client' },
-      { title: 'My projects', link: '/my-projects' },
+      { title: 'My projects', link: '/my-projects/bidding' },
       {
         title: 'Account',
         children: [

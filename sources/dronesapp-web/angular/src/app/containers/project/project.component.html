@@ -1,1 +1,42 @@
-<s-project></s-project>
+<div class="project">
+  <div class="container">
+    <h1 class="project__title">{{project.title}}</h1>
+    <div class="project__wrapper">
+      <div class="project__left">
+        <b-project-details [project]="project"></b-project-details>
+        <b-photos></b-photos>
+      </div>
+      <div class="project__right">
+        <b-project-description [description]="project.summary"></b-project-description>
+        <b-bid-info [bidInfo]="bidsInfo"></b-bid-info>
+        <l-bids *ngIf="isClient"
+                [disabled]="!!project.pilotId"
+                [bids]="bids"
+                [activeId]="activeId"
+                (award)="award($event)"></l-bids>
+        <pr-bid *ngIf="isPilot && pilotBid"
+                [bid]="pilotBid">
+          <bid-buttons>
+            <button class="project__bid-btn _fill"
+                    (click)="edit()"
+                    *ngIf="!project.pilotId && !isEdit">Edit</button>
+            <button class="project__bid-btn _fill"
+                    (click)="acceptFromPilot(pilotBid.id)"
+                    *ngIf="false && project.pilotId === pilotBid.pilotId">Accept</button>
+            <button class="project__bid-btn _fill"
+                    (click)="rejectFromPilot(pilotBid.id)"
+                    *ngIf="false && project.pilotId === pilotBid.pilotId">Reject</button>
+          </bid-buttons>
+        </pr-bid>
+        <f-bid (send)="isEdit ? editBid($event) : submitBid($event)"
+               [bid]="pilotBid"
+               *ngIf="isPilot && !pilotBid || isEdit"></f-bid>
+        <b-comments [comments]="comments"></b-comments>
+      </div>
+    </div>
+    <div class="project__similar">
+      <div class="project__similar-title">similar projects</div>
+      <l-similar></l-similar>
+    </div>
+  </div>
+</div>

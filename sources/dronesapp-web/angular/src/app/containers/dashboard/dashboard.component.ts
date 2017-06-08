@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { AppService } from '../../services/app.service/app.service';
 import { PilotsService } from '../../services/pilots.service/pilots.service';
 import { ClientsService } from '../../services/clients.service/clients.service';
+import {AccountService} from '../../services/account.service/account.service';
 
 @Component({
   selector: 'dashboard-page',
@@ -12,13 +12,13 @@ import { ClientsService } from '../../services/clients.service/clients.service';
 export class DashboardComponent implements OnInit {
   profile: Object;
   constructor(
-    public _appService: AppService,
+    public _accountService: AccountService,
     public _pilotsService: PilotsService,
     public _clientsService: ClientsService
   ) { }
 
   ngOnInit() {
-    this.profile = this._appService.isUserPilot ? this._pilotsService.selectedPilot : this._clientsService.selectedClient; // todo add selected Client
+    this.profile = this._accountService.isUserClient() ? this._pilotsService.selectedPilot : this._clientsService.selectedClient; // todo add selected Client
   }
 
 }

@@ -1,4 +1,4 @@
-<table class="t-dashboard _client" *ngIf="_appService.isUserClient">
+<table class="t-dashboard _client" *ngIf="isClient">
   <tr>
     <th class="t-dashboard__th">Project Name</th>
     <th class="t-dashboard__th">Project Bid placed</th>
@@ -20,7 +20,7 @@
   </tr>
 </table>
 
-<table class="t-dashboard _pilot" *ngIf="_appService.isUserPilot">
+<table class="t-dashboard _pilot" *ngIf="isPilot">
   <tr>
     <th class="t-dashboard__th">Project Name / Client name</th>
     <th class="t-dashboard__th">Project Bid placed</th>

@@ -1,28 +1,18 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { BidService } from '../../../services/bid.service/bid.service';
+import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
+import {BidModel} from '../../../services/bid.service/bid.interface';
 
 @Component({
   selector: 'pr-bid',
   templateUrl: './pr-bid.component.html',
   styleUrls: ['./pr-bid.component.styl'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class PrBindComponent implements OnInit {
-  @Input() bid: Object;
-  isAccepted: boolean = false;
-  buttAcceptName: string = 'Accept';
+  @Input() bid: BidModel;
 
-  constructor(
-    public _bidService: BidService
-  ) {
+  constructor() {
   }
 
   ngOnInit() {
-  }
-
-  accept(): void {
-    this.isAccepted = true;
-    this._bidService.isAccepted = true;
-    this.buttAcceptName = 'Accepted';
   }
 }

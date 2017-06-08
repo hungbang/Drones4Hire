@@ -25,7 +25,10 @@ import {DurationsResolve} from './resolves/durations/durations.resolve';
 import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
 import {ProjectsResolve} from './resolves/projects/projects.resolve';
 import {BProjectsSearchComponent} from './components/blocks/b-projects-search/b-projects-search.component';
+import {ProjectResolve} from './resolves/project/project.resolve';
 import {ProfileResolve} from './resolves/profile/profile.resolve';
+import {BidsResolve} from './resolves/bids/bids';
+import {CommentsResolve} from './resolves/comments/comments';
 
 export const ROUTES: Routes = [
   {
@@ -118,6 +121,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'project',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -125,21 +129,12 @@ export const ROUTES: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'pilot',
+        path: 'client/:projectId',
         component: ProjectComponent,
-        canActivate: [PilotGuard],
-        data: {
-          isPilotPage: true,
-          className: 'p-project'
-        }
-      },
-      {
-        path: 'client',
-        component: ProjectComponent,
-        canActivate: [ClientGuard],
-        data: {
-          isClientPage: true,
-          className: 'p-project'
+        resolve: {
+          project: ProjectResolve,
+          bids: BidsResolve
+          // comments: CommentsResolve
         }
       },
       {
@@ -147,7 +142,6 @@ export const ROUTES: Routes = [
         canActivate: [ClientGuard],
         component: ProjectAddComponent,
         data: {
-          isClientPage: true,
           className: 'p-project'
         },
         resolve: {

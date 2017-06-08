@@ -1,14 +1,14 @@
-<form class="f-bid">
+<form class="f-bid" novalidate (submit)="onSubmit()">
   <div class="f-bid__title">Bid</div>
   <div class="f-bid__row">
     <div class="f-bid__text">Bid Proposal:</div>
-    <textarea class="f-bid__textarea"></textarea>
+    <textarea class="f-bid__textarea" [(ngModel)]="model.comment" name="proposal"></textarea>
   </div>
   <div class="f-bid__row">
     <div class="f-bid__text">Bid Amount:</div>
     <div class="f-bid__wrapper">
       <div class="f-bid__col _amount">
-        <input class="f-bid__field" type="text"/>
+        <input class="f-bid__field" type="text" [(ngModel)]="model.amount" name="amount"/>
         <span class="f-bid__field-span">$</span>
       </div>
       <div class="f-bid__col">
@@ -20,5 +20,5 @@
       </div>
     </div>
   </div>
-  <button class="f-bid__button">enter bid</button>
+  <button type="submit" class="f-bid__button">enter bid</button>
 </form>

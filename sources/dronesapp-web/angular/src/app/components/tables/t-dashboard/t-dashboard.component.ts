@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { AppService } from '../../../services/app.service/app.service';
 import { PilotsService } from '../../../services/pilots.service/pilots.service';
+import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 't-dashboard',
@@ -11,12 +11,20 @@ import { PilotsService } from '../../../services/pilots.service/pilots.service';
 export class TDashboardComponent implements OnInit {
   dashboard: Object;
   constructor(
-    public _appService: AppService,
+    public _accountService: AccountService,
     public _pilotsService: PilotsService
   ) { }
 
   ngOnInit() {
     this.dashboard = this._pilotsService.selectedPilot.dashboard;
+  }
+
+  get isClient() {
+    return this._accountService.isUserClient();
+  }
+
+  get isPilot() {
+    return this._accountService.isUserPilot();
   }
 
 }

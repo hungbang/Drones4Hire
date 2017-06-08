@@ -6,7 +6,6 @@ import {SServicesComponent} from './s-services/s-services.component';
 import {SHowitComponent} from './s-howit/s-howit.component';
 import {SGoingComponent} from './s-going/s-going.component';
 import {SPreviewComponent} from './s-preview/s-preview.component';
-import {SProjectComponent } from './s-project/s-project.component';
 import {SSayingComponent} from './s-saying/s-saying.component';
 import {SPortfolioComponent} from './s-portfolio/s-portfolio.component';
 import {SSearchComponent} from './s-search/s-search.component';
@@ -29,7 +28,6 @@ export const SECTIONS = [
   SGoingComponent,
   SPreviewComponent,
   SDashboardComponent,
-  SProjectComponent,
   SSayingComponent,
   SSearchComponent,
   SAccountComponent,

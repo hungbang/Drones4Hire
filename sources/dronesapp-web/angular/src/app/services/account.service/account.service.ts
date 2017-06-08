@@ -78,7 +78,7 @@ export class AccountService {
   getAccountLicense() {
     return this._requestService.fetch('get', '/account/license')
       .subscribe((res) => {
-        this.license = {...res, verified: true};
+        this.license = Object.assign({}, res, { verified: true });
 
         console.log('user license', this.license);
 
@@ -207,3 +207,5 @@ export class AccountService {
     this.profile = null;
   }
 }
+
+

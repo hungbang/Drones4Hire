@@ -7,7 +7,6 @@ import {BPhotosComponent} from './b-photos/b-photos.component';
 import {BProjectDescriptionComponent} from './b-project-description/b-project-description.component';
 import {BBidInfoComponent} from './b-bid-info/b-bid-info.component';
 import {BCommentsComponent} from './b-comments/b-comments.component';
-import {BBidsComponent} from './b-bids/b-bids.component';
 import {BMyProjectsComponent} from './b-my-projects/b-my-projects.component';
 import {BProjectSearchComponent} from './b-project-search/b-project-search.component';
 import {BProjectsSearchComponent} from './b-projects-search/b-projects-search.component';
@@ -33,7 +32,6 @@ export const BLOCKS = [
   BProjectDescriptionComponent,
   BBidInfoComponent,
   BCommentsComponent,
-  BBidsComponent,
   BMyProjectsComponent,
   BProjectSearchComponent,
   BProjectsSearchComponent,

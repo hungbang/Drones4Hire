@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import {RequestService} from '../request.service/request.service';
+import {CommentModel} from './comment.interface';
 
 @Injectable()
 export class CommentsService {
@@ -35,6 +37,22 @@ export class CommentsService {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private requestService: RequestService
+  ) { }
+
+  fetchComment(id: number|string) {
+    return this.requestService.fetch('get', `/projects/${id}/comments`);
+  }
+
+  createComment(comment: CommentModel) {
+    const data = Object.assign({
+      comment: '',
+      id: 0,
+      projectId: 0
+    }, comment);
+
+    return this.requestService.fetch('post', '/comments', data);
+  }
 
 }

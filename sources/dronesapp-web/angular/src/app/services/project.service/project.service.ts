@@ -135,10 +135,10 @@ export class ProjectService {
 
   // todo add notification
   public postProjects(data: any) {
-    return this._requestService.fetch('post', '/projects', data)
-      .map(res => {
-        return res;
-      })
-      .catch((error) => {});
+    return this._requestService.fetch('post', '/projects', data);
+  }
+
+  public getProject(id: string|number) {
+    return this._requestService.fetch('get', `/projects/${id}`);
   }
 }

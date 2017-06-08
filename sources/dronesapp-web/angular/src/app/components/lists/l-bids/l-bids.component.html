@@ -1,6 +1,12 @@
 <ul class="l-bids" >
   <li *ngFor="let bid of bids" class="l-bids__item">
-    <pr-bid [bid]="bid"></pr-bid>
+    <pr-bid [bid]="bid">
+      <bid-buttons>
+        <button class="l-bids__btn _fill" *ngIf="bid.id !== activeId" [disabled]="disabled" (click)="onAward(bid)">Accept</button>
+        <button class="l-bids__btn" *ngIf="bid.id === activeId">Accepted</button>
+        <button class="l-bids__btn _fill" *ngIf="bid.id === activeId">Release Funds</button>
+      </bid-buttons>
+    </pr-bid>
   </li>
 </ul>
 

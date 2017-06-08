@@ -7,7 +7,7 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
   styleUrls: ['./b-project-details.component.styl']
 })
 export class BProjectDetailsComponent implements OnInit {
-  @Input() details: any;
+  @Input() project: any;
 
   constructor() { }
 

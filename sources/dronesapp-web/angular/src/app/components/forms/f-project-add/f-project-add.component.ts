@@ -11,38 +11,8 @@ import {DurationModel} from '../../../services/common.service/duration.interface
 import {ProjectService} from '../../../services/project.service/project.service';
 import {PaidOptionModel} from '../../../services/project.service/paid-option.interface';
 import * as moment from 'moment';
-
-interface CategoryModel {
-  id: number;
-  name: string;
-  order?: number;
-}
-
-interface ServiceModel {
-  name: string;
-  id: number;
-  category: CategoryModel;
-}
-
-interface LocationModel {
-  address: string,
-  city: string,
-  coordinates?: {
-    latitude: number,
-    longitude: number
-  },
-  country: {
-    id: number,
-    name: string
-  },
-  id?: number,
-  postcode: number,
-  state?: {
-    code: string,
-    id: number,
-    name: string
-  }
-}
+import {ProjectModel} from '../../../services/project.service/project.interface';
+import {CategoryModel} from '../../../services/common.service/category.interface';
 
 @Component({
   selector: 'f-project-add',
@@ -81,23 +51,7 @@ export class FProjectAddComponent implements OnInit {
 
   productionRequired: boolean = false;
 
-
-  formData: {
-    confirmationValid: boolean;
-    status: string;
-    finishDate: number;
-    startDate: number;
-    paidOptions: PaidOptionModel[],
-    budget: BudgetModel;
-    duration: DurationModel;
-    service: ServiceModel;
-    title: string;
-    summary: string;
-    imageURL: string;
-    location: LocationModel;
-    postProductionRequired: boolean;
-    pilotId?: number;
-  };
+  formData: ProjectModel;
 
   public uploader: FileUploader = new FileUploader({
     url: `${this._requestService.apiUrl}/upload`,
