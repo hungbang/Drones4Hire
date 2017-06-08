@@ -155,6 +155,7 @@ public class BidService
 				|| !user.getId().equals(bid.getUserId()))
 			new ForbiddenOperationException();
 		project.setStatus(Status.NEW);
+		project.setPilotId(null);
 		projectService.updateProject(project);
 		emailService.sendRejectBidEmail(project, user);
 		return bid;
