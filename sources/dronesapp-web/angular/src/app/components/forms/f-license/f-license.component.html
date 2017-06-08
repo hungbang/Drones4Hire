@@ -3,10 +3,10 @@
       #licenceForm="ngForm"
       (submit)="saveChanges($event, licenceForm)">
 
-  <div class="f-default__row">
-    <label class="f-default__label _top">
-      <span class="f-default__text _req">Pilot License:</span>
-      <input class="f-default__field _file"
+  <div class="f-default__row f-license__row">
+    <label class="f-default__file">
+      <span class="f-default__text">Pilot License:*</span>
+      <input class="f-default__input"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
              name="license"
@@ -14,21 +14,15 @@
              [uploader]="uploader"
              (change)="handlePhotoUpload('license')"
              [ngClass]="{'_error': submitted && !accountService.license?.licenseURL}">
-      <span class="f-default__error"
-            *ngIf="submitted && !accountService.license?.licenseURL">This field is required</span>
+      <span class="f-default__button f-license__button _center">Choose File</span>
+      <span class="f-default__text">No file chosen</span>
     </label>
   </div>
 
-  <div class="f-default__row" *ngIf="accountService.license?.licenseURL">
-    <div class="f-default__avatar">
-      <img src="{{accountService.license.licenseURL}}" alt="license">
-    </div>
-  </div>
-
-  <div class="f-default__row">
-    <label class="f-default__label _top">
-      <span class="f-default__text _req">Insurance Certificate:</span>
-      <input class="f-default__field _file"
+  <div class="f-default__row f-license__row">
+    <label class="f-default__file">
+      <span class="f-default__text">Insurance Certificate:*</span>
+      <input class="f-default__input"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
              name="insurance"
@@ -36,18 +30,12 @@
              [uploader]="uploader"
              (change)="handlePhotoUpload('insurance')"
              [ngClass]="{'_error': submitted && !accountService.license?.insuranceURL}">
-      <span class="f-default__error"
-            *ngIf="submitted && !accountService.license?.insuranceURL">This field is required</span>
+      <span class="f-default__button f-license__button _center">Choose File</span>
+      <span class="f-default__text">No file chosen</span>
     </label>
   </div>
 
-  <div class="f-default__row" *ngIf="accountService.license?.insuranceURL">
-    <div class="f-default__avatar">
-      <img src="{{accountService.license.insuranceURL}}" alt="insurance">
-    </div>
-  </div>
-
-  <button class="f-default__button f-license__button"
+  <button class="f-default__button f-license__button _big"
           [disabled]="submitted && (!accountService.license?.licenseURL || !accountService.license?.insuranceURL)">Submit for Review
   </button>
 </form>

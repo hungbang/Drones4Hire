@@ -15,22 +15,26 @@ export class SAccountComponent {
       {
         link: 'details',
         text: 'Account Details',
-        visibility: true
+        visibility: true,
+        icon: 'user'
       },
       {
         link: 'preferences',
         text: 'Account Preferences',
-        visibility: this._accountService.isUserPilot()
+        visibility: this._accountService.isUserPilot(),
+        icon: 'setting'
       },
       {
         link: 'security',
         text: 'Password reset',
-        visibility: true
+        visibility: true,
+        icon: 'locked'
       },
       {
         link: 'notifications',
         text: 'Notifications',
-        visibility: false // TODO: temporary hidden
+        visibility: false, // TODO: temporary hidden
+        icon: 'portfolio'
       },
     ]
   }

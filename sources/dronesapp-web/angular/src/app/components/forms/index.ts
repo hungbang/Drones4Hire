@@ -13,6 +13,7 @@ import {FNotificationsComponent} from './f-notifications/f-notifications.compone
 import {FChangePasswordComponent} from './f-change-password/f-change-password.component';
 import {FServicesComponent} from './f-services/f-services.component';
 import {FPublicComponent} from './f-public/f-public.component';
+import {FLocationComponent} from './f-location/f-license.component';
 
 export const FORMS = [
   FAuthorizationComponent,
@@ -27,6 +28,7 @@ export const FORMS = [
   FTransactionsSearchComponent,
   FProjectAddComponent,
   FEmailComponent,
+  FLocationComponent,
   FNotificationsComponent,
   FChangePasswordComponent,
   FServicesComponent,
