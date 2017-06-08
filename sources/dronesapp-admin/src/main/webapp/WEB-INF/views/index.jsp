@@ -43,9 +43,9 @@
 	                        <li data-ng-class="{active : isActive('/projects')}">
 	                            <a href="#/projects"><i class="fa fa-fighter-jet"></i> <spring:message code="drones.admin.pages.index.menu.project.caption"/></a>
 	                        </li>
-	                        <li data-ng-class="{active : isActive('/paidoptions')}">
+	                        <!-- li data-ng-class="{active : isActive('/paidoptions')}">
 	                            <a href="#/paidoptions"><i class="fa fa-credit-card"></i> <spring:message code="drones.admin.pages.index.menu.paidoptions.caption"/></a>
-	                        </li>
+	                        </li-->
 	                    </ul>
                     <ul class="nav navbar-nav navbar-right navbar-user" data-ng-controller="NavigationCtrl">
                         <li class="dropdown user-dropdown">

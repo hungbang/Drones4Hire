@@ -84,10 +84,19 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		});
 	};
 	
+	$scope.loadSettingsData = function() {
+		$http.get('users/' + $routeParams.id + '/notifications').success(function(data) {
+			$scope.settings = data;
+		}).error(function(data, status) {
+			alert('Failed to load notification settings');
+		});
+	};
+	
 	(function init(){
 		$scope.loadLocationsData();
 		$scope.loadUser();
 		$scope.loadCompanyData();
+		$scope.loadSettingsData();
 	})();
 	
 	$scope.editUser = function(id){
@@ -109,6 +118,14 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 	$scope.editCompany = function(userId) {
 		$http.put('users/' + userId + "/companies", $scope.company).success(function(data) {
 			alert('Success, company changes were saved.');
+		}).error(function(data, status) {
+			alert('Failed to save changes!');
+		});
+	};
+	
+	$scope.editSettings = function(userId) {
+		$http.put('users/' + userId + "/notifications", $scope.settings).success(function(data) {
+			alert('Success, notification settings changes were saved.');
 		}).error(function(data, status) {
 			alert('Failed to save changes!');
 		});

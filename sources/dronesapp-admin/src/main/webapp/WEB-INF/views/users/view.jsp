@@ -102,11 +102,6 @@
 					<input type="text" class="form-control" data-ng-model="company.name" />
 				</div>	
 				<div class="form-group">
-					<label><spring:message code="drones.admin.pages.common.form.field.company.webURL.label"/></label><br/> 										
-					<input type="text" class="form-control" data-ng-model="company.webURL" />
-					<a href="{{company.webURL}}" target="_blank">{{company.webURL}}</a>
-				</div>					
-				<div class="form-group">
 					<label><spring:message code="drones.admin.pages.common.form.field.company.contactName.label"/></label><br/> 										
 					<input type="text" class="form-control" data-ng-model="company.contactName" />
 				</div>
@@ -118,17 +113,41 @@
 					<label><spring:message code="drones.admin.pages.common.form.field.country.label"/></label><br/> 										
 					<select name="company.countryId" class="form-control" data-ng-model="company.country.id" data-ng-options="country.id as country.name for country in listCountriesResult"></select>
 				</div>	
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.company.webURL.label"/></label><br/> 										
+					<input type="text" class="form-control" data-ng-model="company.webURL" />
+					<a href="{{company.webURL}}" target="_blank">{{company.webURL}}</a>
+				</div>	
 				<button class="btn btn-primary action pull-right" data-ng-click="editCompany(company.userId)"><spring:message code="drones.admin.pages.common.button.save"/></button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-6">
 				<div class="form-group">
-					<label><spring:message code="drones.admin.pages.common.form.field.enabled.label"/></label> 
-					<input type="checkbox" data-ng-model="user.enabled" /> &nbsp; &nbsp; &nbsp;
-					<label><spring:message code="drones.admin.pages.common.form.field.confirmed.label"/></label> 
-					<input type="checkbox" data-ng-model="user.confirmed" />
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.projectAward.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.projectAward" /> &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.bidPlaced.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.bidPlaced" /> &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.paymentReceived.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.paymentReceived" /> &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.projectUpdate.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.projectUpdate" /> &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.staff.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.staff" /> &nbsp; &nbsp; &nbsp;
 				</div>	
+				<div class="form-group">
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.dronesNews.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.dronesNews" /> &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.plainEmail.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.plainEmail" /> &nbsp; &nbsp; &nbsp; 
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.monthlyNews.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.monthlyNews" /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.marketing.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.marketing" /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					<label><spring:message code="drones.admin.pages.common.form.field.settings.deals.label"/></label> 
+					<input type="checkbox" data-ng-model="settings.deals" /> &nbsp; &nbsp; &nbsp;
+				</div>	
+				<button class="btn btn-primary action pull-right" data-ng-click="editSettings(settings.userId)"><spring:message code="drones.admin.pages.common.button.save"/></button>
 			</div>
 		</div>
 	</form>
