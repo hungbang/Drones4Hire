@@ -11,6 +11,10 @@
             <b>id</b>
         </field>
         <field>
+        	<a>userId</a>
+        	<b>userId</b>
+        </field>
+        <field>
             <a>projectId</a>
             <b>projectId</b>
         </field>
