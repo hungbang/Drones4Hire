@@ -230,6 +230,17 @@ public class AccountController extends AbstractController
 	}
 
 	@ResponseStatusDetails
+	@ApiOperation(value = "Get public profile", nickname = "getPublicProfile", code = 200, httpMethod = "GET", response = ProfileDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ProfileDTO getPublicProfile(@ApiParam(value = "User name of the pilot", required = true) @RequestParam("username") String userName)
+	{
+		return mapper.map(profileService.getProfileByUserId(id), ProfileDTO.class);
+	}
+
+	@ResponseStatusDetails
 	@ApiOperation(value = "Change public profile", nickname = "updateProfile", code = 200, httpMethod = "PUT", response = ProfileDTO.class)
 	@ApiImplicitParams(
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })

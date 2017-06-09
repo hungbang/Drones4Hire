@@ -32,6 +32,7 @@ public class Project extends AbstractEntity
 	private Date finishDate;
 	private Status status;
 	private List<PaidOption> paidOptions;
+	private List<Attachments> attachments;
 
 	public Service getService()
 	{
@@ -171,5 +172,15 @@ public class Project extends AbstractEntity
 	public void setPaidOptions(List<PaidOption> paidOptions)
 	{
 		this.paidOptions = paidOptions;
+	}
+
+	public List<Attachments> getAttachments()
+	{
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachments> attachments)
+	{
+		this.attachments = attachments;
 	}
 }
