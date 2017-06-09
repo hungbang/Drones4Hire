@@ -15,13 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.services.Service;
@@ -243,11 +237,10 @@ public class AccountController extends AbstractController
 	@ApiImplicitParams(
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
 	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ProfileDTO getPublicProfile()
+	public @ResponseBody ProfileDTO getPublicProfile(@ApiParam(value = "Id of the pilot", required = true) @RequestParam("id") Long id)
 	{
-		return mapper.map(profileService.getProfileByUserId(getPrincipal().getId()), ProfileDTO.class);
+		return mapper.map(profileService.getProfileByUserId(id), ProfileDTO.class);
 	}
 
 	@ResponseStatusDetails

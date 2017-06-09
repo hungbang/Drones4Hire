@@ -11,6 +11,7 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class PortfolioController extends AbstractController
 	@ApiOperation(value = "Create portfolio item", nickname = "createPortfolioItem", code = 201, httpMethod = "POST", response = PortfolioItemDTO.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_PILOT"})
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody PortfolioItemDTO createPortfolioItem(@Valid @RequestBody PortfolioItemDTO pi)
 	{
@@ -55,13 +57,13 @@ public class PortfolioController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Get user portfolio items", nickname = "getUserPortfolioItems", code = 200, httpMethod = "GET", response = List.class)
+	@ApiOperation(value = "Get user portfolio items", nickname = "getPortfolioItemsByUserId", code = 200, httpMethod = "GET", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<PortfolioItemDTO> getUserPortfolioItems()
+	public @ResponseBody List<PortfolioItemDTO> getPortfolioItemsByUserId(@ApiParam(value = "Id of the pilot", required = true) @RequestParam("id") Long id)
 	{
-		List<PortfolioItem> portfolioItems = portfolioService.getPortfolioItemsByUserId(getPrincipal().getId());
+		List<PortfolioItem> portfolioItems = portfolioService.getPortfolioItemsByUserId(id);
 		List<PortfolioItemDTO> portfolioItemDTOs = new ArrayList<>();
 		for (PortfolioItem portfolioItem : portfolioItems)
 		{
@@ -74,6 +76,7 @@ public class PortfolioController extends AbstractController
 	@ApiOperation(value = "Update portfolio item", nickname = "updatePortfolioItem", code = 200, httpMethod = "PUT", response = PortfolioItemDTO.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_PILOT"})
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody PortfolioItemDTO updatePortfolioItem(@Valid @RequestBody PortfolioItemDTO pi)
 			throws ForbiddenOperationException
@@ -93,6 +96,7 @@ public class PortfolioController extends AbstractController
 	@ApiOperation(value = "Delete portfolio item", nickname = "deletePortfolioItem", code = 204, httpMethod = "DELETE")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Secured({"ROLE_PILOT, ROLE_ADMIN"})
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deletePortfolioItem(
 			@ApiParam(value = "Id of the portfolio", required = true) @PathVariable(value = "id") long id)

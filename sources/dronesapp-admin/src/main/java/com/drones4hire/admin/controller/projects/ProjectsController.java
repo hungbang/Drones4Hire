@@ -63,14 +63,14 @@ public class ProjectsController extends AbstractController
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Project getProject(@PathVariable long id) throws ServiceException
 	{
-		return projectService.getProjectById(id);
+		return projectService.getProjectById(id, getPrincipal().getId());
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Project updateProject(@RequestBody Project project, @PathVariable long id) throws ServiceException
 	{
-		Project currProject = projectService.getProjectById(id);
+		Project currProject = projectService.getProjectById(id, getPrincipal().getId());
 //		currProject.setBudget(project.getBudget());
 		currProject.setStatus(project.getStatus());
 		currProject.setTitle(project.getTitle());

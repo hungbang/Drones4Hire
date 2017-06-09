@@ -17,7 +17,7 @@ public class BidDTO extends AbstractDTO
 
 	private String comment;
 
-	private Long userId;
+	private Long profileId;
 	
 	@NotNull(message="Amount required")
 	@Min(value = 0, message = "Amount should be positive")
@@ -44,6 +44,16 @@ public class BidDTO extends AbstractDTO
 	public void setComment(String comment)
 	{
 		this.comment = comment;
+	}
+
+	public Long getProfileId()
+	{
+		return profileId;
+	}
+
+	public void setProfileId(Long profileId)
+	{
+		this.profileId = profileId;
 	}
 
 	public BigDecimal getAmount()
@@ -77,15 +87,5 @@ public class BidDTO extends AbstractDTO
 		{
 			return false;
 		}
-	}
-
-	public Long getUserId()
-	{
-		return userId;
-	}
-
-	public void setUserId(Long userId)
-	{
-		this.userId = userId;
 	}
 }

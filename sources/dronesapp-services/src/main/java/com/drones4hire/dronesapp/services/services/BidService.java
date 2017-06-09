@@ -39,7 +39,7 @@ public class BidService
 	@Transactional(rollbackFor = Exception.class)
 	public Bid createBid(Bid bid, Long principalId) throws ServiceException
 	{
-		Project project = projectService.getProjectById(bid.getProjectId());
+		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT)
 				|| !user.getId().equals(bid.getUserId()))
@@ -78,7 +78,7 @@ public class BidService
 	@Transactional(rollbackFor = Exception.class)
 	public Bid updateBid(Bid bid, Long principalId) throws ServiceException
 	{
-		Project project = projectService.getProjectById(bid.getProjectId());
+		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT)
 				|| !user.getId().equals(bid.getUserId()))
@@ -96,7 +96,7 @@ public class BidService
 	public void deleteBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId());
+		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT)
 				|| !user.getId().equals(bid.getUserId()))
@@ -109,7 +109,7 @@ public class BidService
 	public Bid awardBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId());
+		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_CLIENT)
 				|| !user.getId().equals(project.getClientId()))
@@ -125,7 +125,7 @@ public class BidService
 	public Bid rewokeBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId());
+		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_CLIENT)
 				|| !user.getId().equals(project.getClientId()))
@@ -140,7 +140,7 @@ public class BidService
 	public Bid acceptBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId());
+		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
 				|| !user.getId().equals(bid.getUserId()))
@@ -155,7 +155,7 @@ public class BidService
 	public Bid rejectBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId());
+		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
 				|| !user.getId().equals(bid.getUserId()))

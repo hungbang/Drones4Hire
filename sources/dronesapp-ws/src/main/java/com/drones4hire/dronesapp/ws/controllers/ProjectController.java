@@ -76,8 +76,15 @@ public class ProjectController extends AbstractController
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ProjectDTO getProjectById(
 			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
+			throws ServiceException
 	{
-		return mapper.map(projectService.getProjectById(id), ProjectDTO.class);
+		Project project = projectService.getProjectById(id, getPrincipal().getId());
+		ProjectDTO projectDTO = mapper.map(project, ProjectDTO.class);
+		if(project.getPilotId() != null)
+		{
+			projectDTO.setBidId(bidService.getBidByProjectIdAndUserId(project.getId(), project.getPilotId()).getId());
+		}
+		return projectDTO;
 	}
 
 	@ResponseStatusDetails
@@ -87,9 +94,9 @@ public class ProjectController extends AbstractController
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_CLIENT", "ROLE_ADMIN"})
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ProjectDTO updateProject(@Valid @RequestBody ProjectDTO p) throws ForbiddenOperationException
+	public @ResponseBody ProjectDTO updateProject(@Valid @RequestBody ProjectDTO p) throws ServiceException
 	{
-		Project project = projectService.getProjectById(p.getId());
+		Project project = projectService.getProjectById(p.getId(), getPrincipal().getId());
 		checkPrincipalPermissions(project.getClientId());
 		project.setTitle(p.getTitle());
 		project.setSummary(p.getSummary());
@@ -119,9 +126,9 @@ public class ProjectController extends AbstractController
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteProject(
 			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
-			throws ForbiddenOperationException
+			throws ServiceException
 	{
-		Project project = projectService.getProjectById(id);
+		Project project = projectService.getProjectById(id, getPrincipal().getId());
 		checkPrincipalPermissions(project.getClientId());
 		projectService.deleteProject(id);
 	}

@@ -49,8 +49,9 @@ public class ProjectService
 	}
 
 	@Transactional(readOnly = true)
-	public Project getProjectById(long id)
+	public Project getProjectById(long id, long principalId) throws ServiceException
 	{
+		checkAuthorities(id, principalId);
 		return projectMapper.getProjectById(id);
 	}
 
@@ -88,10 +89,10 @@ public class ProjectService
 		projectMapper.deleteProject(id);
 	}
 
-	private void checkAuthorities(long projectId, long principalId) throws ServiceException
+	public void checkAuthorities(long projectId, long principalId) throws ServiceException
 	{
 		User user = userService.getUserById(principalId);
-		Project project = getProjectById(projectId);
+		Project project = projectMapper.getProjectById(projectId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
 			if (principalId != project.getClientId())
@@ -100,7 +101,7 @@ public class ProjectService
 			}
 		} else if (!project.getStatus().equals(NEW) && user.getRoles().contains(ROLE_PILOT))
 		{
-			if (principalId != project.getClientId())
+			if (principalId != project.getPilotId())
 			{
 				throw new ForbiddenOperationException();
 			}

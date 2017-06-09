@@ -32,7 +32,7 @@ public class CommentService
 	@Transactional(rollbackFor = Exception.class)
 	public Comment createComment(Comment comment, long principalId) throws ServiceException
 	{
-		checkAuthorities(comment.getProjectId(), principalId);
+		projectService.checkAuthorities(comment.getProjectId(), principalId);
 		commentMapper.createComment(comment);
 		return comment;
 	}
@@ -46,7 +46,7 @@ public class CommentService
 	@Transactional(readOnly = true)
 	public List<Comment> getCommentsByProjectId(long projectId, long principalId) throws ServiceException
 	{
-		checkAuthorities(projectId, principalId);
+		projectService.checkAuthorities(projectId, principalId);
 		return commentMapper.getCommentsByProjectId(projectId);
 	}
 
@@ -61,24 +61,5 @@ public class CommentService
 	public void deleteComment(long id)
 	{
 		commentMapper.deleteComment(id);
-	}
-
-	private void checkAuthorities(long projectId, long principalId) throws ServiceException
-	{
-		User user = userService.getUserById(principalId);
-		Project project = projectService.getProjectById(projectId);
-		if (user.getRoles().contains(ROLE_CLIENT))
-		{
-			if (principalId != project.getClientId())
-			{
-				throw new ForbiddenOperationException();
-			}
-		} else if (!project.getStatus().equals(NEW) && user.getRoles().contains(ROLE_PILOT))
-		{
-			if (principalId != project.getPilotId())
-			{
-				throw new ForbiddenOperationException();
-			}
-		}
 	}
 }
