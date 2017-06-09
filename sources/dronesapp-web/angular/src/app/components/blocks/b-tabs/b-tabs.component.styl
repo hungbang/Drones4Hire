@@ -1,3 +1,5 @@
+@import '../../../styles/settings/mixin.styl'
+
 .b-tabs
   display: flex
   border-bottom 1px solid #999
@@ -33,3 +35,15 @@
       width: 26px
       height: 26px
 
+  &._big &__link
+    font-size: 2.4rem
+    padding: 19px 5px 9px
+    osans(400)
+    &._active
+      color: #1f2532
+      border-bottom: 6px solid #1f2532
+  &._big &__item
+    width: auto
+    flex-basis: auto
+    max-width: none
+    margin-right: 28px

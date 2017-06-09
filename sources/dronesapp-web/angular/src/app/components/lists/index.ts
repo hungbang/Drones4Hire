@@ -6,7 +6,6 @@ import { LGoingComponent } from './l-going/l-going.component';
 import { LSocialComponent } from './l-social/l-social.component';
 import { LCommentsComponent } from './l-comments/l-comments.component';
 import { LBidsComponent } from './l-bids/l-bids.component';
-import { LProjectsSearchComponent } from './l-projects-search/l-projects-search.component';
 import { LTransactionsSearchComponent } from './l-transactions-search/l-transactions-search.component';
 import { LPaginationComponent } from './l-pagination/l-pagination.component';
 import { LAbilitiesComponent } from './l-abilities/l-abilities.component';
@@ -24,7 +23,6 @@ export const LISTS = [
   LSocialComponent,
   LCommentsComponent,
   LBidsComponent,
-  LProjectsSearchComponent,
   LTransactionsSearchComponent,
   LPaginationComponent,
   LSimilarComponent,

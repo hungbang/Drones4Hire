@@ -7,9 +7,6 @@ import {BPhotosComponent} from './b-photos/b-photos.component';
 import {BProjectDescriptionComponent} from './b-project-description/b-project-description.component';
 import {BBidInfoComponent} from './b-bid-info/b-bid-info.component';
 import {BCommentsComponent} from './b-comments/b-comments.component';
-import {BMyProjectsComponent} from './b-my-projects/b-my-projects.component';
-import {BProjectSearchComponent} from './b-project-search/b-project-search.component';
-import {BProjectsSearchComponent} from './b-projects-search/b-projects-search.component';
 import {BTransactionSearchComponent} from './b-transaction-search/b-transaction-search.component';
 import {BTransactionsSearchComponent} from './b-transactions-search/b-transactions-search.component';
 import {BPaginationComponent} from './b-pagination/b-pagination.component';
@@ -34,9 +31,6 @@ export const BLOCKS = [
   BProjectDescriptionComponent,
   BBidInfoComponent,
   BCommentsComponent,
-  BMyProjectsComponent,
-  BProjectSearchComponent,
-  BProjectsSearchComponent,
   BTransactionsComponent,
   BTransactionSearchComponent,
   BTransactionsSearchComponent,

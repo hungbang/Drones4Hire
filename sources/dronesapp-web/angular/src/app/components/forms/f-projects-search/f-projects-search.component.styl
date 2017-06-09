@@ -1,44 +1,55 @@
+@import '../../../styles/settings/mixin.styl'
+
 .f-projects-search
   font-size 1.4rem
   letter-spacing .5px
-  padding-bottom 30px
+  margin-bottom: 22px
   &__wrapper
     display flex
+    justify-content: space-between
   &__input-wrapper
     width 100%
+    max-width: 930px
     display flex
     position relative
+    border 1px solid #1f2532
   &__input
     width 100%
     padding 8px
-    border 1px solid #8a8a8a
+    font-size: 1.8rem
     background-color: #ffffff
   &__btn-search
-    position absolute
-    left calc(100% - 32px)
-    padding 12px 8px
-    background-color #3ebcc7
+    padding 0 33px
+    background: #00bcd4
+    color: #fff
+    osans(400)
+    font-size: 1.8rem
+    letter-spacing: 3px
   &__select
-    padding 11px 5px
-    min-width 200px
+    padding 0 15px
+    min-width 316px
     margin-left 20px
-    border 1px solid #8a8a8a
-    border-radius 5px
-    letter-spacing 1px
+    border 1px solid #1f2532
+    border-radius 2px
+    letter-spacing 3px
     background-color transparent
     appearance: none
+    osans(400)
+    font-size: 18px
+    height: 58px
+
   &__select-wrapper
     position relative
     &:after
-      content '\25bc'
-      font-size .9rem
-      display block
-      position absolute
-      width 5px
-      height 5px
-      top 35%
-      left 90%
+      v()
+      width 0
+      height 0
+      top 5px
+      right: 10px
+      bottom: 0
       pointer-events none
+      border: 5px solid
+      border-color: #1f2532 transparent transparent transparent
   &__btn-refresh
     margin-left 10px
     padding 10px

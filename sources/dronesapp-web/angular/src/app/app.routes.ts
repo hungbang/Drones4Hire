@@ -24,12 +24,12 @@ import {ServicesResolve} from './resolves/services/budgets.resolve';
 import {DurationsResolve} from './resolves/durations/durations.resolve';
 import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
 import {ProjectsResolve} from './resolves/projects/projects.resolve';
-import {BProjectsSearchComponent} from './components/blocks/b-projects-search/b-projects-search.component';
 import {PortfolioComponent} from './containers/portfolio/portfolio.component';
 import {ProjectResolve} from './resolves/project/project.resolve';
 import {ProfileResolve} from './resolves/profile/profile.resolve';
 import {BidsResolve} from './resolves/bids/bids';
 import {CommentsResolve} from './resolves/comments/comments';
+import {TProjectComponent} from './components/tables/t-project/t-project.component';
 
 export const ROUTES: Routes = [
   {
@@ -90,7 +90,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'bidding',
-        component: BProjectsSearchComponent,
+        component: TProjectComponent,
         resolve: {
           projects: ProjectsResolve
         },
@@ -100,7 +100,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'progress',
-        component: BProjectsSearchComponent,
+        component: TProjectComponent,
         resolve: {
           projects: ProjectsResolve
         },
@@ -110,7 +110,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'past',
-        component: BProjectsSearchComponent,
+        component: TProjectComponent,
         resolve: {
           projects: ProjectsResolve
         },

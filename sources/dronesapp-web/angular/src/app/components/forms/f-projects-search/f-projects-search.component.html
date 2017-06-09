@@ -7,7 +7,7 @@
              [(ngModel)]="nameFilter">
       <button type="button" class="f-projects-search__btn-search"
               (click)="filterByName()">
-        <svg-use name="search"></svg-use>
+        Search
       </button>
     </div>
     <div class="f-projects-search__select-wrapper">
@@ -19,9 +19,5 @@
           Show {{value}}</option>
       </select>
     </div>
-    <button type="button" class="f-projects-search__btn-refresh"
-            (click)="refresh(limitProjectsToShow)">
-      <svg-use name="refresh"></svg-use>
-    </button>
   </div>
 </form>

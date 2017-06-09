@@ -1,0 +1,27 @@
+<div class="t-project">
+  <div class="t-project__row _head">
+    <div class="t-project__cell _name">Project name</div>
+    <div class="t-project__cell _bids">Bids</div>
+    <div class="t-project__cell _average-bids">Average bids</div>
+    <div class="t-project__cell _bid-end">Bid end date</div>
+    <div class="t-project__cell _action">Action</div>
+  </div>
+  <div *ngFor="let project of projects"
+       class="t-project__row">
+
+    <div class="t-project__cell _name">{{project.title}}</div>
+    <div class="t-project__cell _bids">0</div>
+    <div class="t-project__cell _average-bids">0.0</div>
+    <div class="t-project__cell _bid-end">2017-06-09</div>
+    <div class="t-project__cell _action">
+      <div class="t-project__select-wrapper">
+        <select name="" id="" class="t-project__select">
+          <option value="">Select</option>
+          <option value="">View</option>
+          <option value="">Edit</option>
+          <option value="">Close</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

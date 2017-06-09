@@ -10,8 +10,6 @@ import {SSayingComponent} from './s-saying/s-saying.component';
 import {SPortfolioComponent} from './s-portfolio/s-portfolio.component';
 import {SSearchComponent} from './s-search/s-search.component';
 import {SAccountComponent} from './s-account/s-account.component';
-import { SMyProjectsComponent } from './s-my-projects/s-my-projects.component';
-import { SProjectsSearchComponent } from './s-projects-search/s-projects-search.component';
 import { SDashboardComponent } from './s-dashboard/s-dashboard.component';
 import { STransactionsComponent } from './s-transactions/s-transactions.component';
 import { SProjectAddComponent } from './s-project-add/s-project-add.component';
@@ -32,8 +30,6 @@ export const SECTIONS = [
   SSearchComponent,
   SAccountComponent,
   SSearchComponent,
-  SMyProjectsComponent,
-  SProjectsSearchComponent,
   STransactionsComponent,
   SPortfolioComponent,
   SProjectAddComponent
