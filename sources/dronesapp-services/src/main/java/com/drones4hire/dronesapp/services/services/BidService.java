@@ -69,10 +69,22 @@ public class BidService
 	}
 
 	@Transactional(readOnly = true)
-	public List<BidInfo> getBidInfos(BidInfoSearchCriteria sc)
+	public List<BidInfo> getBidInfos(BidInfoSearchCriteria sc) throws ServiceException
 	{
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
-		return bidMapper.getBidInfosByClientId(sc);
+		List<BidInfo> bidInfos = bidMapper.getBidInfosByClientId(sc);
+		for(BidInfo bidInfo : bidInfos)
+		{
+			Long pilotId = projectService.getProjectById(bidInfo.getProjectId(), sc.getClientId()).getPilotId();
+			if(pilotId == null)
+			{
+				bidInfo.setEndDate(bidInfo.getCreatedAt());
+			} else
+			{
+				bidInfo.setEndDate(bidInfo.getModifiedAt());
+			}
+		}
+		return bidInfos;
 	}
 
 	@Transactional(rollbackFor = Exception.class)

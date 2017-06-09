@@ -58,5 +58,13 @@
             <a>paidOptions</a>
             <b>paidOptions</b>
         </field>
+        <field>
+            <a>createdAt</a>
+            <b>createdAt</b>
+        </field>
+        <field>
+            <a>modifiedAt</a>
+            <b>modifiedAt</b>
+        </field>
     </mapping>
 </mappings>

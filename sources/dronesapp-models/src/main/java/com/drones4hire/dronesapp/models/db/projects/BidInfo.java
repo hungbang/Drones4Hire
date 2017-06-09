@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.models.db.projects;
 
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 
+import java.util.Date;
+
 public class BidInfo
 {
 
@@ -10,6 +12,9 @@ public class BidInfo
 	private Integer bidsCount;
 	private Double bidsAvg;
 	private Currency currency;
+	private Date endDate;
+	private Date createdAt;
+	private Date modifiedAt;
 
 	public Long getProjectId()
 	{
@@ -59,5 +64,35 @@ public class BidInfo
 	public void setCurrency(Currency currency)
 	{
 		this.currency = currency;
+	}
+
+	public Date getEndDate()
+	{
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate)
+	{
+		this.endDate = endDate;
+	}
+
+	public Date getCreatedAt()
+	{
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt)
+	{
+		this.createdAt = createdAt;
+	}
+
+	public Date getModifiedAt()
+	{
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt)
+	{
+		this.modifiedAt = modifiedAt;
 	}
 }

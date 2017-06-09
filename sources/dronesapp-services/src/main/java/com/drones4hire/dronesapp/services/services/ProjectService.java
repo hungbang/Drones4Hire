@@ -7,6 +7,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
+import com.drones4hire.dronesapp.models.db.users.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,9 +62,11 @@ public class ProjectService
 		User user = userService.getUserById(principalId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
+			checkAuthorities(ROLE_CLIENT, sc);
 			sc.setClientId(principalId);
 		} else if (user.getRoles().contains(ROLE_PILOT))
 		{
+			checkAuthorities(ROLE_PILOT, sc);
 			sc.setPilotId(principalId);
 		}
 		return projectMapper.searchProjects(sc);
@@ -105,6 +108,25 @@ public class ProjectService
 			{
 				throw new ForbiddenOperationException();
 			}
+		}
+	}
+
+	private void checkAuthorities(Group.Role role, ProjectSearchCriteria sc) throws ForbiddenOperationException
+	{
+		switch (role)
+		{
+		case ROLE_CLIENT:
+			break;
+		case ROLE_PILOT:
+			if(sc.getStatus() == null)
+			{
+				throw new ForbiddenOperationException();
+			}
+			break;
+		case ROLE_ADMIN:
+			break;
+		default:
+			throw new ForbiddenOperationException();
 		}
 	}
 }

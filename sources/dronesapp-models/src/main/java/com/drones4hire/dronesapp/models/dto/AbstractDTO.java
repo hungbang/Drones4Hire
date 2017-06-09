@@ -1,6 +1,7 @@
 package com.drones4hire.dronesapp.models.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -12,6 +13,10 @@ public class AbstractDTO implements Serializable
 
 	private Long id;
 
+	private Date modifiedAt;
+
+	private Date createdAt;
+
 	public Long getId()
 	{
 		return id;
@@ -20,5 +25,25 @@ public class AbstractDTO implements Serializable
 	public void setId(Long id)
 	{
 		this.id = id;
+	}
+
+	public Date getModifiedAt()
+	{
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt)
+	{
+		this.modifiedAt = modifiedAt;
+	}
+
+	public Date getCreatedAt()
+	{
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt)
+	{
+		this.createdAt = createdAt;
 	}
 }

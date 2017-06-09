@@ -208,7 +208,7 @@ public class ProjectController extends AbstractController
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(value = "bids/info", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<BidInfo> getBidInfos(@Valid @RequestBody BidInfoSearchCriteria sc)
+	public @ResponseBody List<BidInfo> getBidInfos(@Valid @RequestBody BidInfoSearchCriteria sc) throws ServiceException
 	{
 		sc.setClientId(getPrincipal().getId());
 		return bidService.getBidInfos(sc);
