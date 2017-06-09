@@ -105,8 +105,8 @@ public class UsersController extends AbstractController
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "{id}/notofocations", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody NotificationSettings updateCompany(@RequestBody NotificationSettings settings, @PathVariable long id) throws ServiceException
+	@RequestMapping(value = "{id}/notifications", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody NotificationSettings updateSettings(@RequestBody NotificationSettings settings, @PathVariable long id) throws ServiceException
 	{
 		NotificationSettings currSettings = settingsService.getNotificationSettingsByUserId(id);
 		currSettings.setPlainEmail(settings.isPlainEmail());
