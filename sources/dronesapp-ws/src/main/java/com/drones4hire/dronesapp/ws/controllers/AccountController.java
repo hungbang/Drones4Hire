@@ -98,22 +98,6 @@ public class AccountController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Get account by username", nickname = "getAccountByUsername", code = 200, httpMethod = "GET", response = AccountDTO.class)
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "public", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AccountDTO getAccountByUsername(@ApiParam(value = "Username", required = true) @RequestParam("username") String username) throws ServiceException
-	{
-		User user = userService.getUserByUsername(username);
-		if(! user.getRoles().contains(ROLE_PILOT))
-		{
-			throw new ForbiddenOperationException();
-		}
-		return mapper.map(user, AccountDTO.class);
-	}
-
-	@ResponseStatusDetails
 	@ApiOperation(value = "Update user account", nickname = "updateUserAccount", code = 200, httpMethod = "PUT", response = AccountDTO.class)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })

@@ -57,9 +57,15 @@ public class BidService
 	}
 
 	@Transactional(readOnly = true)
-	public List<Bid> getBidsByProjectId(long projectId)
+	public List<Bid> getBidsByProjectId(long projectId, long principalId) throws ServiceException
 	{
-		return bidMapper.getBidsByProjectId(projectId);
+		User user = userService.getUserById(principalId);
+		Long pilotId = null;
+		if(user.getRoles().contains(ROLE_PILOT))
+		{
+			pilotId = principalId;
+		}
+		return bidMapper.getBidsByProjectIdAndPilotId(projectId, pilotId);
 	}
 
 	@Transactional(readOnly = true)

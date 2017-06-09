@@ -191,8 +191,9 @@ public class ProjectController extends AbstractController
 	@RequestMapping(value = "{id}/bids", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<BidDTO> getBidsByProjectId(
 			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
+			throws ServiceException
 	{
-		List<Bid> bids = bidService.getBidsByProjectId(id);
+		List<Bid> bids = bidService.getBidsByProjectId(id, getPrincipal().getId());
 		List<BidDTO> bidDTOs = new ArrayList<>();
 		for (Bid bid : bids)
 		{

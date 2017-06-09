@@ -57,7 +57,7 @@ public class BidMapperTest extends AbstractTestNGSpringContextTests
 	@Test(enabled = ENABLED, dependsOnMethods = { "testGetBidById" })
 	public void getBidsByProjectId()
 	{
-		List<Bid> bids = bidMapper.getBidsByProjectId(1L);
+		List<Bid> bids = bidMapper.getBidsByProjectIdAndPilotId(1L, 1L);
 		check(bids.get(0));
 	}
 

@@ -13,7 +13,7 @@ public interface BidMapper
 
 	Bid getBidById(long id);
 
-	List<Bid> getBidsByProjectId(Long projectId);
+	List<Bid> getBidsByProjectIdAndPilotId(@Param("projectId") Long projectId, @Param("pilotId") Long pilotId);
 
 	Bid getBidByProjectIdAndUserId(@Param("projectId") Long projectId, @Param("userId") Long userId);
 

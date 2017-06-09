@@ -44,12 +44,17 @@
         ]]>
     </select>
 
-    <select id="getBidsByProjectId" resultMap="BidResultMap">
+    <select id="getBidsByProjectIdAndPilotId" resultMap="BidResultMap">
         <include refid="getBid"/>
         <![CDATA[
           WHERE
 			B.PROJECT_ID = #{projectId}
-        ]]>
+		]]>
+        <if test="null != pilotId">
+        <![CDATA[
+               AND B.USER_ID = #{pilotId}
+            ]]>
+        </if>
     </select>
 
     <select id="getBidByProjectIdAndUserId" resultMap="BidResultMap">
@@ -90,6 +95,18 @@
               drones.PROJECTS P
             WHERE
               P.CLIENT_ID = #{clientId}
+         ]]>
+            <if test="null != title">
+                <![CDATA[
+                  AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
+                ]]>
+            </if>
+            <if test="null != status">
+                <![CDATA[
+                  AND P.STATUS = #{status}
+                ]]>
+            </if>
+        <![CDATA[
           )
         ]]>
           <if test="sortOrder.toString() == 'ASC'">
