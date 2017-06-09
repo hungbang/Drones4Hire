@@ -1,13 +1,27 @@
+@import '../../../styles/settings/mixin.styl'
+
 .m-footer
   display: block
-  &__item
-    margin-bottom: 10px
-  &__text
-  &__link
-    font-size 1.4rem
+  &__title
+    letter-spacing: 1px
+    text-transform: uppercase
+    font-size 1.8rem
     font-weight: 400
-    color #fff
+    color #3ebcc7
+    osans(400)
+    margin-bottom: 10px
+  &__list
+    display: block
+  &__item
+    text-transform: uppercase
   &__link
+    letter-spacing: 1px
+    font-size 1.4rem
+    color #fff
+    padding: 3px 0
+    display: block
+    osans(400)
     transition 0.25s
     &:hover
-      color #3ebcc7;
+      color #3ebcc7
+

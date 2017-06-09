@@ -1,0 +1,31 @@
+<form class="f-services f-default"
+      novalidate
+      (ngSubmit)="changeServices()">
+
+  <div class="f-default__wrapper">
+    <div class="f-default__row f-services__row">
+      <p class="f-default__text _req">
+        What Services Do You Offer?
+      </p>
+    </div>
+
+    <div class="f-default__row f-services__row" *ngFor="let service of accountService.services">
+      <p class="f-default__subtitle">{{service.name}}</p>
+
+      <ul class="f-services__list">
+        <li class="f-services__item" *ngFor="let category of service.category; let index = index">
+          <label class="f-default__label _checkbox">
+            <input class="f-default__chk"
+                   type="checkbox"
+                   [checked]="category.checked"
+                   (change)="toggleService(category)"/>
+            <span class="f-default__chk-span"></span>
+            <span class="f-default__text _light">{{category.name}}</span>
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <button class="f-default__button" [disabled]="submitted">Change Services</button>
+</form>

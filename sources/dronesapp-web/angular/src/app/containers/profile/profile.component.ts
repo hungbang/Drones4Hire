@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { PilotsService } from '../../services/pilots.service/pilots.service';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'profile-page',
@@ -9,12 +9,13 @@ import { PilotsService } from '../../services/pilots.service/pilots.service';
 })
 export class ProfileComponent implements OnInit {
   profile: Object;
+
   constructor(
-    public _pilotsService: PilotsService
+    private _route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.profile = this._pilotsService.selectedPilot;
+    this.profile = this._route.snapshot.data['profile'];
   }
 
 }

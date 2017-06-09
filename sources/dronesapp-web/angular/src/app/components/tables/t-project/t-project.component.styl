@@ -1,0 +1,74 @@
+@import '../../../styles/settings/mixin.styl'
+.t-project
+  display: table
+  width: 100%
+  padding-bottom: 50px
+  &__row
+    display table-row
+    &._head
+      .t-project
+        &__cell
+          border: 0
+          font-size: 1.6rem
+          letter-spacing: 1px
+          osans(400)
+          height: 75px
+          vertical-align: middle
+          color #fff
+          &._name
+            background: #1f2532
+          &._bids
+          &._bid-end
+            background: #3fb6c0
+          &._average-bids
+          &._action
+            background: #159aa5
+
+  &__cell
+    display table-cell
+    text-align: center
+    padding: 15px 0
+    font-size 1.6rem
+    osans(400)
+    text-transform: uppercase
+    border-bottom 1px solid #b7b7b7
+    letter-spacing: 2px
+    color: #454545
+    &._name
+      width: 33%
+    &._bids
+    &._average-bids
+    &._bid-end
+    &._action
+      width: 16%
+
+  &__select-wrapper
+    display inline-block
+    position relative
+    margin-left 10px
+    &:after
+      v()
+      width 0
+      height 0
+      top 5px
+      right: 10px
+      bottom: 0
+      pointer-events none
+      border: 5px solid
+      border-color: #1f2532 transparent transparent transparent
+  &__select
+    min-width: 115px
+    cursor: pointer
+    padding: 5px 12px
+    background-color transparent
+    border 1px solid #8a8a8a
+    border-radius 2px
+    appearance: none
+    letter-spacing: 2px
+    color: #454545
+    font-size: 1.6rem
+    osans(400)
+
+  &__link
+    color: #32afff
+    osans(600)

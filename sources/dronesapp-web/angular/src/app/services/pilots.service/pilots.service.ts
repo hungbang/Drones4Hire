@@ -100,4 +100,8 @@ export class PilotsService {
   get selectedPilot() {
     return this.local.selectedPilot;
   }
+
+  getPilotByID(id) {
+    return this.local.selectedPilot;
+  }
 }

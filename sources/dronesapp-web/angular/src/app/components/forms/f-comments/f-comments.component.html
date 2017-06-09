@@ -1,7 +1,8 @@
-<form class="f-comments">
-  <div class="f-comments__title">cOMMENT / aSK QUESTIONS</div>
+<form class="f-comments" novalidate (submit)="onSubmit()">
+  <div class="f-comments__title">Comment / Ask questions</div>
   <div class="f-comments__wrapper">
-    <textarea class="f-comments__textarea"></textarea>
+    <textarea class="f-comments__textarea" [(ngModel)]="comment" name="comment"></textarea>
   </div>
-  <button class="f-comments__button">Enter comment</button>
+  <button class="f-comments__button"
+          type="submit">Enter comment</button>
 </form>

@@ -230,3 +230,13 @@ customScroll_2(width = 15px)
     &::-webkit-scrollbar-thumb
       border-left 3px solid #fff
       border-right 3px solid #fff
+
+fc($width)
+  width: $width;
+  max-width: $width;
+  flex-basis: $width;
+  
+osans(weight = null)
+  font-family 'Open Sans', sans-serif
+  if weight
+    font-weight weight

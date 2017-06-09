@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
+import {PortfolioService} from '../../../services/portfolio.service/portfolio.service';
+
 @Component({
   selector: 's-portfolio',
   templateUrl: './s-portfolio.component.html',
@@ -8,9 +10,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class SPortfolioComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public portfolioService: PortfolioService
+  ) { }
 
   ngOnInit() {
+    if (!this.portfolioService.items) {
+      this.portfolioService.getPortfolios();
+    }
   }
 
 }

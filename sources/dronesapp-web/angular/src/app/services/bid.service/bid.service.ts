@@ -1,41 +1,49 @@
 import { Injectable } from '@angular/core';
+import {RequestService} from '../request.service/request.service';
+import {BidModel} from './bid.interface';
 
 @Injectable()
 export class BidService {
-  local = {
-    bids: [
-      {
-        id: 1,
-        name: 'Pilot_Test',
-        img: '',
-        propolsal: 'I can do this job for $750 flat. Local',
-        amount: 750.00,
-        age: 0
-      },
-      {
-        id: 2,
-        name: 'Pilot_Test',
-        img: '',
-        propolsal: 'I can do this job for $750 flat. Local',
-        amount: 750.00,
-        age: 0
-      },
-      {
-        id: 3,
-        name: 'Pilot_Test',
-        img: '',
-        propolsal: 'I can do this job for $750 flat. Local',
-        amount: 750.00,
-        age: 0
-      }
-    ]
-  };
+  public countPerPage = 10;
 
-  isAccepted: boolean = false;
-  constructor() {
+  constructor(
+    private requestService: RequestService
+  ) {
+
   }
 
-  get bids() {
-    return this.local.bids;
+  fetchBids(projectId: string|number) {
+    return this.requestService
+      .fetch('get', `/projects/${projectId}/bids`);
+  }
+
+  fetchBidsInfo(data = {}) {
+    return this.requestService
+      .fetch('post', '/projects/bids/info', data);
+  }
+
+  createBid(bid) {
+    return this.requestService
+      .fetch('post', '/bids', bid);
+  }
+
+  editBid(bid) {
+    return this.requestService
+      .fetch('put', '/bids', bid);
+  }
+
+  accept(id: number) {
+    return this.requestService
+      .fetch('post', `/bids/${id}/accept`);
+  }
+
+  reject(id: number) {
+    return this.requestService
+      .fetch('post', `/bids/${id}/reject`);
+  }
+
+  award(id: number) {
+    return this.requestService
+      .fetch('post', `/bids/${id}/award`);
   }
 }

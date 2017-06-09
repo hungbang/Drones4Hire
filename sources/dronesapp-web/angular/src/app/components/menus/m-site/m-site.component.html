@@ -1,54 +1,21 @@
-<ul role="list" class="m-site" [ngClass]="{ _profile: isProfile }">
-  <li *ngIf="isProfile" class="m-site__item">
-    <a href="#" class="m-site__link">Dashboard
-      <span class="m-site__num">7</span>
+<ul role="list" class="m-site">
+  <li class="m-site__item" *ngFor="let item of menu">
+    <a href="#" class="m-site__link"
+       (click)="item.action && item.action(item)"
+       [routerLink]="item.link ? [item.link] : []"
+       [ngClass]="item.classes">
+      {{ item.title }}
     </a>
-  </li>
-  <li *ngIf="isProfile" class="m-site__item">
-    <a href="#" class="m-site__link">my projects</a>
-  </li>
-  <li class="m-site__item _margin">
-    <a *ngIf="isIndex" class="m-site__link _project" href="https://www.drones4hire.com/projects/create_project">Post A Project</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link">Inbox</a>
-  </li>
-  <li class="m-site__item _margin-left">
-    <a *ngIf="isIndex" class="m-site__link" href="http://drones4hire.wordpress.com">Blog</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link">Payment</a>
-  </li>
-  <li class="m-site__item">
-    <a *ngIf="isIndex" class="m-site__link" href="#">How it works</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link"> New Project</a>
-    <ul *ngIf="isIndex" class="m-site__sub">
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Drone Pilot</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Client</a>
+
+    <ul class="m-site__sub"
+        *ngIf="item.children">
+      <li class="m-site__sub-item"
+          *ngFor="let subitem of item.children"
+          (click)="subitem.action && subitem.action(subitem)">
+        <a href="#"
+           class="m-site__sub-link"
+           [routerLink]="subitem.link ? [subitem.link] : []">{{ subitem.title }}</a>
       </li>
     </ul>
-  </li>
-  <li class="m-site__item">
-    <a *ngIf="isIndex" class="m-site__link" href="https://www.drones4hire.com/signup/pilot_signup">Sign up</a>
-    <a *ngIf="isProfile" href="#" class="m-site__link _last">Account</a>
-    <ul *ngIf="isProfile" class="m-site__sub _last">
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">View/edit profile</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Account settings</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Withdrawal request</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Transactions</a>
-      </li>
-      <li class="m-site__sub-item">
-        <a href="#" class="m-site__link">Sign out</a>
-      </li>
-    </ul>
-  </li>
-  <li *ngIf="isIndex" class="m-site__item">
-    <a class="m-site__link" href="https://www.drones4hire.com/login">Login</a>
   </li>
 </ul>

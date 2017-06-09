@@ -1,12 +1,21 @@
+@import "../../../styles/settings/mixin.styl"
+
 .b-project-description
-  margin-bottom: 85px
+  margin-bottom: 25px
   &__title
     text-transform: uppercase
-    font-size 3.6rem
+    font-size 2.8rem
     color #414141
-    margin-bottom: 45px;
+    letter-spacing: 10px;
+    margin-bottom: 5px;
+    line-height: 39px;
+    osans()
   &__text
     p
       font-size 1.8rem
       color #8a8a8a
       line-height: 28px
+      letter-spacing: 1px
+      osans()
+      &:first-letter
+        text-transform: uppercase

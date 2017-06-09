@@ -1,9 +1,60 @@
+@import '../../../styles/settings/mixin.styl'
+
 .f-project-add
   .f-default
     &__field
       max-width none
+      flex-basis auto
       &._area
-        height auto
+        height: 185px
+    &__text
+      font-size 16px
+      margin-bottom: 20px
+      &._center
+        max-width 470px
+        margin: 0 auto
   &__caption
     font-size 2rem
     margin-bottom 1rem
+  &__item
+    margin-bottom: 50px
+  &__bottom
+    padding-top 50px
+    text-align: center
+  &__link
+    font-size 1.8rem
+    color #1093cb
+  &__datepicker
+    display: flex
+    align-items: center
+    cursor: pointer
+
+  &__paidoption
+    max-width 45%
+    flex-basis: 45%
+    padding: 7px
+    &-wrapper
+      display: flex
+      flex-direction: column
+      width: 100%
+      height: 100%
+      padding: 30px
+      border-radius: 5px
+      background: #fcfcfc
+      trbg()
+      &._featured
+        .f-default__chk
+          color: #1440be
+      &._urgent
+        .f-default__chk
+          color: #de3c3c
+      &._sealed
+        .f-default__chk
+          color: #ff8a00
+      &._private
+        .f-default__chk
+          color: #4cb741
+    &._active &-wrapper
+      background: #e9edf9
+  &__price
+    margin-top: auto

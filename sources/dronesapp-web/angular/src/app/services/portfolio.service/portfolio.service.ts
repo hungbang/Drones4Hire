@@ -1,150 +1,65 @@
 import { Injectable } from '@angular/core';
 
-interface Portfolio {
-  title: string;
-  type: string;
-  location: string;
-  budget: string;
-  date: string;
-  src: string;
-  highest: string;
-  bids: string;
-  colors: any[];
-}
+import { PortfolioModel } from './portfolio.interface'
+import {RequestService} from '../request.service/request.service';
 
-interface Portfolios extends Array<Portfolio>{}
+interface Portfolios extends Array<PortfolioModel>{}
 
 @Injectable()
 export class PortfolioService {
   public items: Portfolios = [];
 
-  constructor() {
+  constructor(
+    private _requestService: RequestService
+  ) {
     this.items = [
       {
-        title: 'Humboldt Drone',
-        type: 'Real Estate (I.E. Building/Home)',
-        location: 'University of North Dakota, United States',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project1.jpg',
-        highest: '1000$',
-        bids: '2',
-        colors: ['#0000ff']
+        id: 0,
+        title: 'Title',
+        itemURL: './assets/img/project1.jpg',
+        type: 'PHOTO'
       },
       {
+        id: 1,
         title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project2.jpg',
-        highest: '800$',
-        bids: '3',
-        colors: ['#f7941d', '#000']
+        itemURL: './assets/img/project2.jpg',
+        type: 'PHOTO'
       },
       {
+        id: 2,
         title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project1.jpg',
-        highest: '1050$',
-        bids: '5',
-        colors: []
+        itemURL: './assets/img/project1.jpg',
+        type: 'PHOTO'
       },
       {
+        id: 3,
         title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project2.jpg',
-        highest: '1200$',
-        bids: '6',
-        colors: ['#000', '#959595']
-      },
-      {
-        title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project1.jpg',
-        highest: '900$',
-        bids: '3',
-        colors: []
-      },
-      {
-        title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project2.jpg',
-        highest: '1000$',
-        bids: '2',
-        colors: ['#0000ff', '#f7941d']
-      },
-      {
-        title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project1.jpg',
-        highest: '1200$',
-        bids: '5',
-        colors: ['#3ebcc7']
-      },
-      {
-        title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project2.jpg',
-        highest: '1000$',
-        bids: '2',
-        colors: ['#000', '#959595', '#3ebcc7']
-      },
-      {
-        title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project1.jpg',
-        highest: '1000$',
-        bids: '2',
-        colors: []
-      },
-      {
-        title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project2.jpg',
-        highest: '1000$',
-        bids: '2',
-        colors: ['#000', '#959595', '#3ebcc7', '#f7941d']
-      },
-      {
-        title: 'Title',
-        type: 'Type',
-        location: 'location',
-        budget: 'budget',
-        date: '19/01/1990',
-        src: './assets/img/project1.jpg',
-        highest: '1000$',
-        bids: '2',
-        colors: []
+        itemURL: './assets/img/project2.jpg',
+        type: 'PHOTO'
       }
     ];
   }
-  getItems(): any {
+
+  getPortfolios(): any {
+    // return this._requestService.fetch('get', '/portfolio')
+    //   .subscribe((res) => {
+    //     this.items = res;
+    //
+    //     console.log('portfolios', this.items);
+    //
+    //     return this.items;
+    //   });
     return this.items;
+  }
+
+  deletePortfolio(id: number) {
+    // return this._requestService.fetch('remove', `/portfolio/${id}`)
+    //   .subscribe(
+    //     res => {
+    //       this.items = this.items.filter(el => el.id !== id);
+    //     }
+    //   );
+    this.items = this.items.filter(el => el.id !== id);
   }
 
 }

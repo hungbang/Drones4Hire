@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
+import {BidModel} from '../../../services/bid.service/bid.interface';
 
 @Component({
   selector: 'l-bids',
@@ -7,10 +8,20 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class LBidsComponent implements OnInit {
-  @Input() bids;
+  @Input() bids: BidModel[];
+  @Input() activeId: number;
+  @Input() disabled: boolean;
 
-  constructor(
-  ) { }
+  @Output() award = new EventEmitter<number>();
 
-  ngOnInit() {}
+  constructor() {
+
+  }
+
+  ngOnInit() {
+  }
+
+  onAward(id) {
+    this.award.emit(id);
+  }
 }

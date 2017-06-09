@@ -1,0 +1,44 @@
+<form class="f-default f-project-files"
+      novalidate
+      #licenceForm="ngForm"
+      (submit)="addFile($event)">
+  <div class="f-project-files__row">
+    <div class="f-project-files__col">
+      <label class="f-default__label">
+        <input type="text"
+               placeholder="Title*"
+               required
+               name="title"
+               class="f-default__field">
+      </label>
+    </div>
+    <div class="f-project-files__col">
+      <div class="f-default__filedrop">
+        <div ng2FileDrop
+             [ngClass]="{'_file-over': hasBaseDropZoneOver}"
+             (fileOver)="fileOverBase($event)"
+             (change)="handlePhotoUpload('photo', $event)"
+             [uploader]="uploader"
+             (click)="triggerFileClick()"
+             class="f-default__filedrop-dropzone">
+          <div class="f-default__filedrop-dropzone-text">Upload your Photo</div>
+          <div class="f-default__filedrop-dropzone-text">Drug & Drop file here</div>
+        </div>
+        <div class="f-default__filedrop-or">or</div>
+        <button type="button"
+                (click)="triggerFileClick()"
+                class="f-default__filedrop-button">Choose a file to upload</button>
+        <input type="file"
+               accept="image/jpeg,image/jpg,image/png"
+               name="photo"
+               ng2FileSelect
+               (change)="handlePhotoUpload('photo', $event)"
+               [uploader]="uploader"
+               class="f-default__field _file">
+      </div>
+    </div>
+  </div>
+  <div class="f-project-files__controls">
+    <button class="f-default__button">Add file</button>
+  </div>
+</form>

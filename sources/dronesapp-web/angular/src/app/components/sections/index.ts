@@ -6,34 +6,32 @@ import {SServicesComponent} from './s-services/s-services.component';
 import {SHowitComponent} from './s-howit/s-howit.component';
 import {SGoingComponent} from './s-going/s-going.component';
 import {SPreviewComponent} from './s-preview/s-preview.component';
-import {SProjectComponent } from './s-project/s-project.component';
 import {SSayingComponent} from './s-saying/s-saying.component';
 import {SPortfolioComponent} from './s-portfolio/s-portfolio.component';
 import {SSearchComponent} from './s-search/s-search.component';
 import {SAccountComponent} from './s-account/s-account.component';
-import { SMyProjectsComponent } from './s-my-projects/s-my-projects.component';
-import { SProjectsSearchComponent } from './s-projects-search/s-projects-search.component';
 import { SDashboardComponent } from './s-dashboard/s-dashboard.component';
 import { STransactionsComponent } from './s-transactions/s-transactions.component';
 import { SProjectAddComponent } from './s-project-add/s-project-add.component';
+import { SAuthorizationComponent } from './s-authorization/s-authorization.component';
+import { SProjectComponent } from './s-project/s-project.component';
 
 export const SECTIONS = [
   HeaderComponent,
   FooterComponent,
   SProfileComponent,
+  SAuthorizationComponent,
   SIndexComponent,
   SServicesComponent,
   SHowitComponent,
   SGoingComponent,
   SPreviewComponent,
   SDashboardComponent,
-  SProjectComponent,
   SSayingComponent,
   SSearchComponent,
   SAccountComponent,
   SSearchComponent,
-  SMyProjectsComponent,
-  SProjectsSearchComponent,
+  SProjectComponent,
   STransactionsComponent,
   SPortfolioComponent,
   SProjectAddComponent

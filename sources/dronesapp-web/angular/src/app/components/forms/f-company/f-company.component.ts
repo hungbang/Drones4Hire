@@ -1,6 +1,8 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
-import { AppService } from '../../../services/app.service/app.service';
+import {CommonService} from '../../../services/common.service/common.service';
+import {CountryModel} from '../../../services/common.service/country.interface';
+import {extend} from '../../../shared/common/common-methods';
 
 @Component({
   selector: 'f-company',
@@ -9,18 +11,70 @@ import { AppService } from '../../../services/app.service/app.service';
   encapsulation: ViewEncapsulation.None
 })
 export class FClientCompanyComponent implements OnInit {
-  @Input() isPilot: boolean = false;
-  company = {};
+  public submitted: boolean = false;
+  public countries: CountryModel[] = [];
 
-  constructor(
-    private _accountService: AccountService,
-    public _appService: AppService
-  ) { }
-
-  ngOnInit() {
-    this.company = this._accountService.account.company;
+  constructor(public accountService: AccountService,
+              public commonService: CommonService) {
   }
 
-  onSubmit() {
+  ngOnInit() {
+    if (!this.accountService.company) {
+      this.accountService.getAccountCompany()
+        .subscribe(() => {
+          this.commonService.getCountries()
+            .subscribe((countries) => this.selectCompanyCountry(countries));
+        });
+    } else {
+      this.selectCompanyCountry(this.commonService.countries);
+    }
+  }
+
+  selectCompanyCountry(countries) {
+    this.countries = extend([], countries);
+
+    let filtered = this.countries.filter((country) => {
+      if (this.accountService.company.country) {
+        return country.id === this.accountService.company.country.id;
+      }
+      return false;
+    });
+
+    filtered.length && (this.commonService.companyCountry = filtered[0].name);
+  }
+
+  saveChanges(e, form) {
+    e.preventDefault();
+
+    this.submitted = true;
+
+    if (form.invalid) {
+      return;
+    }
+
+    this.accountService.setAccountCompany(this.accountService.company)
+      .subscribe((res) => {
+        console.log(res, '-save company');
+      });
+  }
+
+  selectCountry(name: string) {
+    let location = this.countries.filter((country) => {
+      return name === country.name;
+    })[0];
+
+    if (!this.accountService.company.country) {
+      this.setCountry();
+    }
+
+    this.accountService.company.country.name = location['name'];
+    this.accountService.company.country.id = location['id'];
+  }
+
+  private setCountry() {
+    this.accountService.company.country = {
+      id: null,
+      name: null
+    };
   }
 }

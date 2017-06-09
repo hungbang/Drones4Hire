@@ -3,27 +3,129 @@ import {IndexComponent} from './containers/index/index.component';
 import {ProfileComponent} from './containers/profile/profile.component';
 import {SearchComponent} from './containers/search/search.component';
 import {MyProjectsComponent} from './containers/my-projects/my-projects.component';
-import { TransactionsComponent } from './containers/transactions/transactions.component';
-import { ProjectComponent } from './containers/project/project.component';
-import { DashboardComponent } from './containers/dashboard/dashboard.component';
-import { AccountComponent } from './containers/account/account.component';
-import { ProjectAddComponent } from './containers/project-add/project-add.component';
+import {TransactionsComponent} from './containers/transactions/transactions.component';
+import {ProjectComponent} from './containers/project/project.component';
+import {DashboardComponent} from './containers/dashboard/dashboard.component';
+import {AccountComponent} from './containers/account/account.component';
+import {ProjectAddComponent} from './containers/project-add/project-add.component';
+import {SAuthorizationComponent} from './components/sections/s-authorization/s-authorization.component';
+import {DetailsComponent} from './containers/details/details.component';
+import {PreferencesComponent} from './containers/preferences/preferences.component';
+
+import {AuthGuard} from './guards/auth.guard/auth.guard';
+import {ClientGuard} from './guards/client.guard/client.guard';
+import {PilotGuard} from './guards/pilot.guard/pilot.guard';
+import {SecurityComponent} from './containers/security/security.component';
+import {NotificationsComponent} from './containers/notifications/notifications.component';
+import {NotFoundComponent} from './containers/not-found/not-found.component';
+import {CountriesResolve} from './resolves/countries/countries.resolve';
+import {BudgetsResolve} from './resolves/budgets/budgets.resolve';
+import {ServicesResolve} from './resolves/services/budgets.resolve';
+import {DurationsResolve} from './resolves/durations/durations.resolve';
+import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
+import {ProjectsResolve} from './resolves/projects/projects.resolve';
+import {PortfolioComponent} from './containers/portfolio/portfolio.component';
+import {ProjectResolve} from './resolves/project/project.resolve';
+import {ProfileResolve} from './resolves/profile/profile.resolve';
+import {BidsResolve} from './resolves/bids/bids';
+import {CommentsResolve} from './resolves/comments/comments';
+import {TProjectComponent} from './components/tables/t-project/t-project.component';
+import {ProjectDescriptionComponent} from './containers/project-description/project-description.component';
+import {ProjectFilesComponent} from './containers/project-files/project-files.component';
+import {MyProjectsResolve} from './resolves/my-projects/my-projects.resolve';
 
 export const ROUTES: Routes = [
   {
     path: '',
-    component: IndexComponent
+    component: IndexComponent,
+    canActivate: [AuthGuard],
+    data: {
+      className: 'p-index'
+    }
+  },
+  {
+    path: 'sign-up',
+    component: SAuthorizationComponent,
+    data: {
+      className: 'p-signup'
+    }
+  },
+  {
+    path: 'login',
+    component: SAuthorizationComponent,
+    data: {
+      className: 'p-login'
+    }
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: '/',
+        pathMatch: 'full'
+      },
+      {
+        path: ':profile_id',
+        component: ProfileComponent,
+        resolve: {
+          profile: ProfileResolve
+        },
+      }
+    ],
+    data: {
+      className: 'p-profile'
+    }
   },
   {
     path: 'my-projects',
-    component: MyProjectsComponent
+    canActivate: [ClientGuard],
+    component: MyProjectsComponent,
+    data: {
+      className: 'p-projects'
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: 'bidding',
+        pathMatch: 'full'
+      },
+      {
+        path: 'bidding',
+        component: TProjectComponent,
+        resolve: {
+          projects: MyProjectsResolve
+        },
+        data: {
+          status: 'NEW'
+        }
+      },
+      {
+        path: 'progress',
+        component: TProjectComponent,
+        resolve: {
+          projects: MyProjectsResolve
+        },
+        data: {
+          status: 'NEW'
+        }
+      },
+      {
+        path: 'past',
+        component: MyProjectsResolve,
+        resolve: {
+          projects: ProjectsResolve
+        },
+        data: {
+          status: 'NEW'
+        }
+      }
+    ]
   },
   {
     path: 'project',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -31,22 +133,43 @@ export const ROUTES: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'pilot',
-        component: ProjectComponent,
-        data: {
-          isPilotPage: true
-        }
-      },
-      {
-        path: 'client',
-        component: ProjectComponent,
-        data: {
-          isClientPage: true
-        }
-      },
-      {
         path: 'add',
-        component: ProjectAddComponent
+        canActivate: [ClientGuard],
+        component: ProjectAddComponent,
+        data: {
+          className: 'p-project'
+        },
+        resolve: {
+          countries: CountriesResolve,
+          budgets: BudgetsResolve,
+          services: ServicesResolve,
+          durations: DurationsResolve,
+          paidoptions: PaidOptionsResolve
+        }
+      },
+      {
+        path: ':projectId',
+        component: ProjectComponent,
+        resolve: {
+          project: ProjectResolve,
+          bids: BidsResolve,
+          comments: CommentsResolve
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: 'description',
+            pathMatch: 'full'
+          },
+          {
+            path: 'description',
+            component: ProjectDescriptionComponent
+          },
+          {
+            path: 'files',
+            component: ProjectFilesComponent
+          }
+        ]
       }
     ]
   },
@@ -61,16 +184,17 @@ export const ROUTES: Routes = [
       {
         path: 'client',
         component: DashboardComponent,
+        canActivate: [ClientGuard],
         data: {
-          isClientPage: true
+          className: 'p-dashboard'
         }
       },
       {
         path: 'pilot',
         component: DashboardComponent,
+        canActivate: [PilotGuard],
         data: {
-          isPilotPage: true,
-          className: 'pilot-dashboard'
+          className: 'p-dashboard'
         }
       }
     ]
@@ -86,25 +210,143 @@ export const ROUTES: Routes = [
       {
         path: 'pilot',
         component: AccountComponent,
+        canActivate: [PilotGuard],
         data: {
-          isPilotPage: true
-        }
+          className: 'p-account'
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: 'details',
+            pathMatch: 'full'
+          },
+          {
+            path: 'details',
+            component: DetailsComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'preferences',
+            component: PreferencesComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            },
+            children: [
+              {
+                path: '',
+                redirectTo: 'photo',
+                pathMatch: 'full'
+              },
+              {
+                path: 'photo',
+                component: NotFoundComponent,
+                canActivate: [PilotGuard],
+                data: {
+                  className: 'p-account'
+                }
+              },
+              {
+                path: 'video',
+                component: NotFoundComponent,
+                canActivate: [PilotGuard],
+                data: {
+                  className: 'p-account'
+                }
+              }
+            ]
+          },
+          {
+            path: 'security',
+            component: SecurityComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'notifications',
+            component: NotificationsComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'portfolio',
+            component: PortfolioComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          }
+        ]
       },
       {
         path: 'client',
         component: AccountComponent,
+        canActivate: [ClientGuard],
         data: {
-          isClientPage: true
-        }
+          className: 'p-account'
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: 'details',
+            pathMatch: 'full'
+          },
+          {
+            path: 'details',
+            component: DetailsComponent,
+            canActivate: [ClientGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'security',
+            component: SecurityComponent,
+            canActivate: [ClientGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'notifications',
+            component: NotificationsComponent,
+            canActivate: [ClientGuard],
+            data: {
+              className: 'p-account'
+            }
+          }
+        ]
       }
     ]
   },
   {
     path: 'transactions',
-    component: TransactionsComponent
+    canActivate: [AuthGuard],
+    component: TransactionsComponent,
+    data: {
+      className: 'p-transactions'
+    }
   },
   {
     path: 'search',
-    component: SearchComponent
+    canActivate: [PilotGuard],
+    component: SearchComponent,
+    data: {
+      className: 'p-search'
+    }
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+    data: {
+      className: 'p-404'
+    }
   }
 ];

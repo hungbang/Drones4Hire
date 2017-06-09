@@ -1,190 +1,333 @@
-<form (submit)="onSubmit()" class="f-project-add f-default">
-  <div class="f-default__row">
-    <div class="f-default__inner">
+<form novalidate
+      (submit)="postProject($event, projectForm)"
+      #projectForm="ngForm"
+      class="f-project-add f-default">
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">1</span>
+      <span> Name of project and Category</span>
+    </h3>
+
+    <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">What type of work do you require?</div>
-          <select class="f-default__field" name="workType">
-            <option value="">type 1</option>
-            <option value="">type 2</option>
+        <div class="f-project-add__caption">What type of work do you require?</div>
+      </div>
+      <div class="f-default__col">
+        <label class="f-default__label _select">
+          <select class="f-default__field"
+                  name="service"
+                  [(ngModel)]="service"
+                  (ngModelChange)="selectService($event)"
+                  required
+                  #serviceRef="ngModel"
+                  [ngClass]="{'_error': submitted && serviceRef.errors?.required}">
+
+            <option *ngFor="let service of services"
+                    [value]="service.name">
+              {{service.name}}
+            </option>
           </select>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Project name. (i.e. Wedding)</div>
-          <input class="f-default__field" type="text" name="projectName" placeholder="What is the Project Title"/>
-        </div>
+          <span class="f-default__error"
+                *ngIf="submitted && serviceRef.errors?.required">This field is required</span>
+        </label>
       </div>
     </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-project-add__caption">Tell us more about your project.</div>
-    <div class="f-default__form-group">
-      <span class="f-default__text">What skills are required?</span>
-      <select multiple class="f-default__field" name="skills">
-        <option value="">Skill 1</option>
-        <option value="">Skill 2</option>
-      </select>
-    </div>
-    <div class="f-default__form-group">
-      <span class="f-default__text _lh">Describe your project</span>
-      <textarea class="f-default__field _area" name="description" rows="3" placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"></textarea>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
+
+    <div class="f-default__row _flex" *ngIf="service">
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">What budget do you have in mind?</div>
-          <div class="f-default__inner">
-            <div class="f-default__col">
-              <select class="f-default__field" name="currency">
-                <option value="">$</option>
-                <option value="">€</option>
-              </select>
-            </div>
-            <div class="f-default__col">
-              <select class="f-default__field" name="budget">
-                <option value="">1000-5000</option>
-                <option value="">5001-10000</option>
-              </select>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Upload your images here</div>
-          <input class="f-default__field _file" type="file" name="projectImages" ngModel required/>
-          <span class="f-default__text">Add images or documents that might help explain your project (Optional)</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Job location</div>
-          <input class="f-default__field" type="text" name="jobLocation" placeholder="Type your location"/>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Country</div>
-          <select class="f-default__field" name="country">
-            <option value="">USA</option>
-            <option value="">Canada</option>
+        <label class="f-default__label _select">
+          <select class="f-default__field"
+                  name="category"
+                  [(ngModel)]="category"
+                  (ngModelChange)="selectCategory($event)"
+                  required
+                  #categoryRef="ngModel"
+                  [ngClass]="{'_error': submitted && categoryRef.errors?.required}">
+
+            <option *ngFor="let category of categories"
+                    [value]="category.name">
+              {{category.name}}
+            </option>
           </select>
+          <span class="f-default__error"
+                *ngIf="submitted && categoryRef.errors?.required">This field is required</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Project name. (i.e. Wedding)</div>
+      </div>
+      <div class="f-default__col">
+        <label class="f-default__label">
+          <input class="f-default__field"
+                 type="text"
+                 name="projectTitle"
+                 [(ngModel)]="formData.title"
+                 required
+                 placeholder="What is the Project Title"
+                 #projectTitleRef="ngModel"
+                 [ngClass]="{'_error': submitted && projectTitleRef.errors?.required}">
+          <span class="f-default__error"
+                *ngIf="submitted && projectTitleRef.errors?.required">This field is required</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">2</span>
+      <span>Tell us more about your project</span>
+    </h3>
+
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Describe your project</div>
+
+        <label class="f-default__label">
+          <textarea class="f-default__field _area"
+                    type="text"
+                    name="projectSummary"
+                    [(ngModel)]="formData.summary"
+                    required
+                    placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
+                    #projectSummaryRef="ngModel"
+                    [ngClass]="{'_error': submitted && projectSummaryRef.errors?.required}"></textarea>
+          <span class="f-default__error"
+                *ngIf="submitted && projectSummaryRef.errors?.required">This field is required</span>
+        </label>
+      </div>
+
+      <div class="f-default__col _flex">
+        <div class="f-project-add__caption">Upload your images here</div>
+        <span class="f-default__text">Add images or documents that might help explain your project (Optional)</span>
+
+        <label class="f-default__label">
+          <input class="f-default__field _file"
+                 type="file"
+                 accept="image/jpeg,image/jpg,image/png"
+                 name="license"
+                 ng2FileSelect
+                 [uploader]="uploader"
+                 (change)="handlePhotoUpload()">
+        </label>
+
+        <div class="f-default__avatar" *ngIf="formData?.imageURL">
+          <img src="{{formData.imageURL}}" alt="license">
         </div>
       </div>
     </div>
   </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">3</span>
+      <span>Budget and Locaticon</span>
+    </h3>
+
+    <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">State</div>
-          <select class="f-default__field" name="country">
-            <option value="">State 1</option>
-            <option value="">State 2</option>
-          </select>
-        </div>
+        <div class="f-project-add__caption">What budget do you have in mind?</div>
       </div>
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Date and time</div>
-          <div class="f-default__inner">
-            <div class="f-default__col">
-              <input type="date" name="date">
-            </div>
-            <div class="f-default__col">
-              <input type="time" name="time">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Expected duration of flight</div>
-          <select class="f-default__field" name="flightDuration">
-            <option value="">10</option>
-            <option value="">20</option>
-          </select>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <div class="f-project-add__caption">Project Post Production/Editing</div>
-          <select class="f-default__field" name="flightDuration">
-            <option value="">Option 1</option>
-            <option value="">Option 2</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="f-default__row">
-    <div class="f-project-add__caption">Get the most from your project!(optional)</div>
-    <div class="f-default__inner">
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
+        <div class="f-default__col-inner">
+          <label class="f-default__label _select">
+            <select class="f-default__field"
+                    [(ngModel)]="budget"
+                    #budgetRef="ngModel"
+                    (ngModelChange)="selectBudget($event)"
+                    required
+                    [ngClass]="{'_error': submitted && budgetRef.errors?.required}"
+                    name="budget">
+
+              <option *ngFor="let budget of budgets"
+                      [value]="budget.title">
+                {{budget.title}}
+              </option>
+            </select>
+            <span class="f-default__error"
+                  *ngIf="submitted && budgetRef.errors?.required">This field is required</span>
           </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
-        </div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
-          </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
         </div>
       </div>
     </div>
-    <div class="f-default__inner">
+
+    <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
-          </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
-        </div>
+        <div class="f-project-add__caption">Country</div>
       </div>
       <div class="f-default__col">
-        <div class="f-default__form-group">
-          <label class="f-default__label _checkbox">
-            <input class="f-default__chk-input" type="checkbox" name="projectFeatured" value=""/>
-            <span class="f-default__chk-span"></span>
-            <span class="f-default__text">Featured project</span>
+        <label class="f-default__label _select">
+          <select class="f-default__field"
+                  name="country"
+                  [(ngModel)]="country"
+                  (ngModelChange)="selectCountry($event)"
+                  required
+                  #countryRef="ngModel"
+                  [ngClass]="{'_error': submitted && countryRef.errors?.required}">
+
+            <option *ngFor="let option of countries"
+                    [value]="option.name">
+              {{option.name}}
+            </option>
+          </select>
+          <span class="f-default__error"
+                *ngIf="submitted && countryRef.errors?.required">This field is required</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="f-default__row _flex" *ngIf="checkCountry()">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">State</div>
+      </div>
+
+      <div class="f-default__col">
+        <label class="f-default__label">
+          <select class="f-default__field _select"
+                  name="state"
+                  [(ngModel)]="state"
+                  (ngModelChange)="selectState($event)"
+                  required=""
+                  #stateRef="ngModel"
+                  [ngClass]="{'_error': submitted && stateRef.errors?.required}">
+
+            <option *ngFor="let option of states"
+                    [value]="option.name">
+              {{option.name}}
+            </option>
+          </select>
+          <span class="f-default__error" *ngIf="submitted && stateRef.errors?.required">This field is required</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">City</div>
+      </div>
+      <div class="f-default__col">
+        <input class="f-default__field" type="text" [(ngModel)]="formData.location.city" name="projectCity" placeholder="Type your city"/>
+      </div>
+    </div>
+
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Address</div>
+      </div>
+      <div class="f-default__col">
+        <input class="f-default__field" type="text" [(ngModel)]="formData.location.address" name="projectAddress" placeholder="Type your address"/>
+      </div>
+    </div>
+
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Postcode</div>
+      </div>
+      <div class="f-default__col">
+        <input class="f-default__field" type="text" [(ngModel)]="formData.location.postcode" name="projectPostcode" placeholder="Type your postcode"/>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Date and time</div>
+      </div>
+      <div class="f-default__col">
+        <div class="f-default__field f-project-add__datepicker"
+             daterangepicker
+             [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'DD-MM-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
+             (selected)="selectedDate($event, date)">
+          <span class="form-control uneditable-input"  name="daterange" >
+              {{ date.start | date:'dd-MM-yyyy hh:mm' }} / {{ date.end| date:'dd-MM-yyyy hh:mm' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Expection duration of flight</div>
+      </div>
+      <div class="f-default__col">
+        <!--<select class="f-default__field" name="">-->
+          <!--<option value="">Select</option>-->
+          <!--<option value="">item2</option>-->
+        <!--</select>-->
+
+        <label class="f-default__label _select">
+          <select class="f-default__field"
+                  name="duration"
+                  [(ngModel)]="duration"
+                  (ngModelChange)="selectDuration($event)"
+                  required
+                  #durationRef="ngModel"
+                  [ngClass]="{'_error': submitted && durationRef.errors?.required}">
+
+            <option *ngFor="let duration of durations"
+                    [value]="duration.title">
+              {{duration.title}}
+            </option>
+          </select>
+          <span class="f-default__error" *ngIf="submitted && stateRef.errors?.required">This field is required</span>
+        </label>
+      </div>
+    </div>
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
+        <div class="f-project-add__caption">Project Post Production (Editing)</div>
+      </div>
+      <div class="f-default__col">
+        <label class="f-default__label _checkbox">
+          <input class="f-default__chk"
+                 type="checkbox"
+                 [checked]="productionRequired"
+                 (change)="setProductionRequired(productionRequired)"/>
+          <span class="f-default__chk-span"></span>
+          <span class="f-default__text _light">Example</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">4</span>
+      <span>Get the most from your project!</span>
+      <span class="_small">(optional)</span>
+    </h3>
+    <div class="f-default__row _flex _wrap">
+      <div *ngFor="let paidOption of paidOptions; let i = index;"
+           [ngClass]="{ _active: paidOptionsChecked[i] }"
+           class="f-project-add__paidoption">
+        <div class="f-project-add__paidoption-wrapper"
+             [ngClass]="paidOptionsClasses[i]">
+          <label class="f-default__label _chk">
+            <input class="f-default__chk-input"
+                   type="checkbox"
+                   name="projectFeatured"
+                   value=""
+                   [(ngModel)]="paidOptionsChecked[i]"
+                   checked
+                   (change)="selectPaidOption($event.target.checked, paidOption)"/>
+            <span class="f-default__chk">{{ paidOption.title }}</span>
           </label>
-          <div class="f-default__text">$ 20</div>
-          <div class="f-default__text">Description</div>
+          <p class="f-default__text">{{ paidOption.description }}</p>
+          <div class="f-default__price f-project-add__price">{{ paidOption.price }}</div>
         </div>
       </div>
     </div>
   </div>
-  <div class="f-default__row">
+
+  <div class="f-project-add__bottom">
     <button class="f-default__button">Post Project now</button>
     <div class="f-default__text _center">
-      <div>By clicking 'Post Project Now', you are indicating that you have reed and agree to the</div>
-      <div><a href="#">Terms & Conditions</a></div>
+      <div>By clicking 'Post Project Now', you are indicating that you have reed and agree to the
+        <a href="#" class="f-project-add__link">Terms & Conditions</a>
+      </div>
     </div>
   </div>
 </form>

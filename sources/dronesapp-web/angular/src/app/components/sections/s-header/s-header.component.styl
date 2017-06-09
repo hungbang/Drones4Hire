@@ -1,44 +1,21 @@
 .s-header
-  background rgba(55, 55, 55, 0.85)
-  height 185px
+  background #1f2532
   position: fixed
   width: 100%
   top: 0
   left: 0
   z-index: 3
-  transition transform 0.3s
-  &._small
-    transform translateY(-100px)
-    .s-header
-      &__menu
-        transform translateY(50px)
-      &__logo-img
-        &._bottom
-          transform translateY(70px) scale(0)
-        &._top
-          transform translateY(70px) scale(0.6)
-  .container
-    height: 100%
+  &__container
+    height 90px
     display: flex
     align-items: center
   &__menu
-    width: 100%
-    transition transform 0.3s
+    justify-content: flex-end
+    display: flex
+    flex-grow: 1
+    align-self: stretch
   &__logo
-    display: inline-block
-    position: absolute
-    top: 50%
-    left: 50%
-    transform translate(-50%, -50%)
     &-img
       object-fit cover
       display: block
       margin: 0 auto
-      transition transform 0.3s
-      &._top
-        width: 90px
-        height: 88px
-        margin-bottom: 8px
-      &._bottom
-        width: 154px
-        height: 38px

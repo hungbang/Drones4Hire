@@ -1,24 +1,79 @@
+@import './mixin.styl'
+
 // TODO: refactoring
 .f-default
-  padding 0 20px
+  &__title
+    font-size 30px
+    margin-bottom 50px
+    line-height: 6rem
+    position: relative
+    ._number
+      position: absolute
+      width: 60px
+      height: 60px
+      border-radius 50%
+      left: -95px
+      top: 0
+      display: block
+      text-align: center
+      background #3ebcc7
+      font-size 3.5rem
+      color #fff
+    ._small
+      display: block
+      font-size 20px
+      margin-top -24px
   &__inner
     display: flex
     margin 0 -30px 40px
+    &._margin-small
+      margin-bottom: 20px
   &__col
     max-width 45%
     flex-basis: 45%
     padding 0 30px
+    &._flex
+      display: flex
+      flex-direction column
+      justify-content flex-end
+    &-inner
+      display: flex
+      justify-content: space-between
   &__row
+    &._flex
+      display: flex
+      margin: 0 -30px
+      .f-default__col
+        max-width 50%
+        flex-basis: 50%
+      &._wrap
+        flex-wrap wrap
+        .f-default__col
+          padding 30px
     &+&
-      margin-top 20px
+      margin-top 15px
   &__label
-    display: flex
+    display: block
     width: 100%
-    justify-content: space-between
-    align-items: center
     position: relative
+    &._chk
+      margin-bottom: 20px
     &._top
       align-items flex-start
+    &._select
+      position: relative
+      select
+        padding-right: 40px
+      &:after
+        pointer-events: none
+        v()
+        width: 0
+        right: 20px
+        height: 0
+        top: 6px
+        border-style: solid
+        border-width: 6px 5px
+        border-color: #000 transparent transparent transparent
     &._checkbox
       justify-content flex-start
       [type="checkbox"]
@@ -29,42 +84,72 @@
           top: 50%;
           left: 50%;
           transform translate(-50%, -50%);
+    &-placeholder
+      position: absolute
+      top: 50%
+      left: 16px
+      font-size: 1.8em
+      transform: translateY(-50%);
+      pointer-events: none
+      color: #8f8f8f
+  &__example
+    padding-left: 5px
+    margin-top: 5px
+    color: #8f8f8f
+    font-size: 1.2rem
+  &__file
+    display: flex
+    align-items center
+
   &__field
     display: block
     width: 100%
-    max-width 65%
-    flex-basis: 65%
+    max-width 500px
+    flex-basis: 400px
     height: 5rem
-    background #eee
+    background #fff
     border-radius 5px
     padding 0 15px
     font-size 1.8rem
     font-weight: 400
     color #4d4d4f
+    border: 2px solid #e4e4e4
+    transition: border-color .3s
+    &[type="text"]
+      text-transform: capitalize
+    &[placeholder]._error
+      border-color: red
     &::placeholder
-      color #4d4d4f
+      color #8f8f8f
+      font-weight: 300
     &._area
       height 200px
       padding 10px 15px
     &._file
       background none
+      border: none
     &.ng-invalid.ng-touched
       +.f-profile__error
         opacity 1
     &._submit.ng-invalid
       +.f-profile__error
         opacity 1
+    &._error
+      &+.f-default
+        &__error
+          opacity: 1
   &__error
     position: absolute
     font-size 1.2rem
     color red
-    bottom: -5px
+    bottom: 0
     left: 0
     opacity 0
   &__text
     font-size 1.8rem
     font-weight: 400
-    color #4d4d4f
+    color #8f8f8f
+    margin-right: 22px
     &._req
       &:after
         content '*'
@@ -83,6 +168,10 @@
       line-height 5rem
     &._center
       text-align center
+      max-width 470px
+    &._light
+      font-weight: 300
+      font-size: 1.5rem
   &__chk-span
     display inline-block
     width 13px
@@ -92,14 +181,245 @@
     border 1px solid darken(#eee, 25%)
     position relative
     margin-right .5rem
+  &__upload
+    display: flex
+    margin-bottom: 30px
+    .f-default
+      &__label
+        display: flex
+        flex-direction column
+        justify-content center
+      &__text
+        margin-bottom: 10px
+        font-size: 1.8rem
+        color: #8f8f8f
+  &__img
+    position: relative
+    width: 120px
+    height: 120px
+    margin-right: 25px
+    flex: none
+    overflow hidden
+    border-radius 50%
+    background-color: #969696
+    img
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 100%
+      height: 100%
+      object-fit: cover
+      transform: translate(-50%, -50%);
   &__button
     display: inline-block
     border-radius 5px
-    font-size 1.4rem
+    font-size 1.8rem
     font-weight: 400
     color #fff
-    text-transform: uppercase
     min-width 150px
     height: 4rem
-    background #3ebcc7
+    background #3fb6c0
+    text-transform: capitalize
     margin-bottom: 30px
+    cursor: pointer
+    &._center
+      display: inline-flex
+      justify-content center
+      align-items center
+      margin-bottom: 0
+    &._big
+      max-width: 215px
+      width: 100%
+      height: 6rem
+    &._red,
+    &._error
+      color: red
+  &__chk
+    font-size 2.6rem
+    line-height: 36px
+    padding-left 40px
+    &:before
+      ps()
+      left: 0
+      top: 0
+      width: 34px
+      height: 34px
+      border-radius 50%
+      border 1px solid #bbb
+    &:after
+      ps()
+      left: 15px
+      top: -12px
+      width: 16px
+      height: 34px
+      border-bottom 4px solid #3ebcc7
+      border-right 4px solid #3ebcc7
+      transform rotate(50deg) skew(15deg)
+      display: none
+    &-input
+      &:checked + .f-default__chk:after
+        display: block
+  &__price
+    font-size 2rem
+    font-weight: 700
+  &__avatar
+    width: 100px
+    height: 100px
+    img
+      width: 100%
+      height: 100%
+      max-height 100%
+      max-width 100%
+      object-fit cover
+  &__check
+    display: flex
+    align-items: center
+    justify-content: space-between
+  &__checkbox
+    position: relative
+    padding-right: 50px
+    display: block
+    cursor: pointer
+  &__toggle
+    position: absolute
+    top: 50%
+    left: 10px
+    z-index -1
+    font-weight: 300
+    font-size: 20px
+    transform: translate(0, -50%)
+    cursor: pointer
+    transition: transform .3s
+    &._on
+      color: #3ebcc7
+    &._off
+      transform: translate(70px , -50%)
+  &__slider
+    position: relative
+    display: block
+    width: 70px
+    height: 40px
+    border-radius: 25px
+    background-color: #000
+    transition: background-color .3s
+    &:before
+      content ''
+      position: absolute
+      top: 50%
+      left: 3px
+      width: 35px
+      height: 35px
+      border-radius: 50%
+      transform: translateY(-50%)
+      cursor: pointer
+      background-color: white
+      transition: transform .3s
+  &__input
+    display: none
+    &._error + .f-default__button
+      background-color: red
+    &:checked
+      & ~ .f-default
+        &__slider
+          background-color: #3ebcc7
+          &:before
+            transform: translate(29px , -50%)
+      & ~ .f-default
+        &__toggle
+          &._on
+            transform: translate(70px , -50%)
+          &._off
+            transform: translate(10px , -50%)
+  &__radio
+    &._invert
+      .f-default
+        &__radio
+          &-text
+            color: #000000
+            &:before
+              background: #000
+            &:after
+              background: #fff
+    &+&
+      margin-left 15px
+    &-text
+      font-size: 14px;
+      font-weight: 400
+      line-height: 16px
+      color: #fff;
+      padding-left 25px
+      position: relative
+      &:before
+        ps()
+        width: 16px
+        height: 16px
+        left: 0
+        top: 0
+        border-radius 50%
+        background #fff
+      &:after
+        ps()
+        display none
+        left: 4px
+        top: 4px
+        border-radius 50%
+        width: 8px
+        height: 8px
+        background #000
+    &-input
+      &._error
+        & + .f-default
+          &__radio-text
+            &:before
+              border: 2px solid rgb(252, 16, 16);
+              background-color: rgb(250, 197, 197);
+      &:checked
+        & + .f-default
+          &__radio-text
+            &:after
+              display: block
+  &__subtitle
+    margin-bottom: 15px
+    font-size: 1.8rem
+    line-height: 1
+  &__wrapper
+    margin-bottom: 20px
+
+  &__filedrop // TODO: add vertical layout
+    background-color $gray1f
+    padding 20px 10px
+    display flex
+    justify-content space-around
+    align-items center
+    color #fff
+    font-size 1.6rem
+    overflow hidden
+    position relative
+    &-dropzone
+      border 1px dashed transparent
+      padding 5px
+      &-text
+        &:first-child
+          font-size 1.8rem
+        & + &
+          margin-top 5px
+      &._file-over
+        border-color #959595
+    &-or
+      margin 10px
+    &-button
+      font-size 1.8rem
+      border 1px solid #959595
+      border-radius 4px
+      color $black1f
+      background-color #fff
+      padding 10px 5px
+      line-height 3rem
+      white-space nowrap
+    input
+      position absolute
+      left 110%
+      top 110%
+      width 0
+      height 0
+      opacity 0

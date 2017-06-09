@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { AppService } from '../../../services/app.service/app.service';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 's-account',
@@ -8,15 +8,40 @@ import { AppService } from '../../../services/app.service/app.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SAccountComponent {
+  tabs: Array<Object> = null;
 
-  // todo Make tab with routing
-  activeTabName = 'details';
-
-  constructor(
-    public _appService: AppService
-  ) {}
-
-  showTab(tabName) {
-    this.activeTabName = tabName;
+  constructor(private _accountService: AccountService) {
+    this.tabs = [
+      {
+        link: 'details',
+        text: 'Account Details',
+        visibility: true,
+        icon: 'user'
+      },
+      {
+        link: 'preferences',
+        text: 'Account Preferences',
+        visibility: this._accountService.isUserPilot(),
+        icon: 'setting'
+      },
+      {
+        link: 'security',
+        text: 'Password reset',
+        visibility: true,
+        icon: 'locked'
+      },
+      {
+        link: 'notifications',
+        text: 'Notifications',
+        visibility: false, // TODO: temporary hidden
+        icon: 'portfolio'
+      },
+      {
+        link: 'portfolio',
+        text: 'Portfolio',
+        visibility: this._accountService.isUserPilot(),
+        icon: 'profile'
+      },
+    ]
   }
 }

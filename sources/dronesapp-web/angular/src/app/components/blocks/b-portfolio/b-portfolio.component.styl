@@ -1,31 +1,7 @@
 .b-portfolio
   position: relative
   padding-top: 100%;
-  &._active
-    .b-portfolio__img-wrapper
-      opacity: 0
-  &__wrapper
-    border 1px solid #cdcdcd
-    position: absolute
-    top 0
-    left: 0
-    right: 0
-    bottom: 0
-    margin: auto;
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-  &__title
-    text-transform: uppercase
-    color #464646
-    margin-bottom: 15px
-  &__description
-    margin-bottom: 20px
-  &__subtitle
-    margin-bottom: 10px
-    color #acacac
-  &__text
-    color #2f2f2f
+
   &__img
     width: 100%
     max-width: 100%
@@ -41,10 +17,3 @@
       right: 0
       bottom: 0
       margin: auto;
-
-@media only screen and (min-width: 1025px)
-  .b-portfolio
-    &:hover
-      .b-portfolio__img-wrapper
-        opacity: 0
-

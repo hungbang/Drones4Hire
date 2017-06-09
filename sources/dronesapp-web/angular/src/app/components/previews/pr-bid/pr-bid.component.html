@@ -2,29 +2,33 @@
   <div class="pr-bid__wrapper">
     <div class="pr-bid__left">
       <div class="pr-bid__user">
+        <!-- todo wait to API implements img -->
         <div *ngIf="bid.img; else elseBlock">
           <img src="{{bid.img}}" alt="user icon">
-          dfdcdc
         </div>
         <ng-template #elseBlock>
           <div *ngIf="!bid.img">
             <svg-use name="usericon"></svg-use>
           </div>
         </ng-template>
-        <div class="pr-bid__name">{{bid.name}}</div>
       </div>
+      <!-- todo wait to API implements name-->
       <div class="pr-bid__propolsal">
-        <p>Propolsal:</p>
-        <p>{{bid.propolsal}}</p>
+        <div class="pr-bid__top">
+          <p class="pr-bid__name">Tod Paker</p>
+          <p class="pr-bid__date">16/09/2017</p>
+        </div>
+        <p>Proposal:</p>
+        <p>{{bid.comment}} I can do this job for $750 flat. local</p>
       </div>
     </div>
     <div class="pr-bid__right">
       <div class="pr-bid__amount">Bid Amount:
         <span class="pr-bid__count">${{bid.amount}}</span>
       </div>
-      <div class="pr-bid__age">Bid Age: {{bid.age}} days</div>
-      <button class="pr-bid__btn" [ngClass]="{ '_fill': !isAccepted }" (click)="accept()">{{buttAcceptName}}</button>
-      <button class="pr-bid__btn _fill" *ngIf="isAccepted === true">Release Funds</button>
+      <!-- todo wait to API implements date-->
+      <div class="pr-bid__age">Bid Age: 0 days</div>
+      <ng-content select="bid-buttons"></ng-content>
     </div>
   </div>
   <hr class="pr-bid__line">

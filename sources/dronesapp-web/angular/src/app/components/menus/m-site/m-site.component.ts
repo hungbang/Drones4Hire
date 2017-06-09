@@ -1,28 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {Component, Input, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'm-site',
   templateUrl: './m-site.component.html',
-  styleUrls: ['./m-site.component.styl']
+  styleUrls: ['./m-site.component.styl'],
+  encapsulation: ViewEncapsulation.None
 })
-export class MSiteComponent implements OnInit {
+export class MSiteComponent {
+  @Input() menu: any[];
 
-  isIndex: boolean;
-  isProfile: boolean;
+  constructor() {
 
-  constructor(
-    public _router: Router
-  ) { }
-
-  ngOnInit() {
-    this._router.events.subscribe((date) => {
-      if (date instanceof NavigationEnd) {
-        this.isIndex = date.url === '/';
-        this.isProfile = (date.url !== '/');
-      }
-    });
   }
-
 }
-

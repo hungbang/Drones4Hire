@@ -1,47 +1,9 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class AppService {
-  local: any;
-  constructor(
-    private _router: Router,
-    private _activatedRouter: ActivatedRoute
-  ) {
-    this.local = {
-      isUserPilot: false,
-      isUserClient: false
-    };
-    this._router.events
-      .subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          let currentRoute = this._activatedRouter.snapshot;
-          while (currentRoute.children.length) {
-            currentRoute = currentRoute.children[0];
-          }
-          if (currentRoute.data.isPilotPage) {
-            this.isUserPilot = true;
-          } else if (currentRoute.data.isClientPage) {
-            this.isUserClient = true;
-          }
-        }
-      });
-  }
+  constructor() {
 
-  set isUserPilot(value) {
-    this.local.isUserPilot = value;
-  }
-
-  set isUserClient(value) {
-    this.local.isUserClient = value;
-  }
-
-  get isUserPilot() {
-    return this.local.isUserPilot;
-  }
-
-  get isUserClient() {
-    return this.local.isUserClient;
   }
 
   detectScrollBarWidth() {
@@ -55,5 +17,4 @@ export class AppService {
     document.body.removeChild(div);
     return scrollWidth + 'px';
   }
-
 }

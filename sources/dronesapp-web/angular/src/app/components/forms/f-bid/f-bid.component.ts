@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, ViewEncapsulation, Input, EventEmitter, Output} from '@angular/core';
+import {BidModel} from '../../../services/bid.service/bid.interface';
 
 @Component({
   selector: 'f-bid',
@@ -6,11 +7,19 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./f-bid.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class FBidComponent implements OnInit {
+export class FBidComponent {
+  public model: BidModel|{} = {};
+  @Output() send = new EventEmitter<BidModel|{}>();
 
-  constructor() { }
-
-  ngOnInit() {
+  @Input()
+  set bid(bid) {
+    this.model = Object.assign({}, bid);
   }
 
+  constructor() {
+  }
+
+  onSubmit() {
+    this.send.emit(this.model);
+  }
 }

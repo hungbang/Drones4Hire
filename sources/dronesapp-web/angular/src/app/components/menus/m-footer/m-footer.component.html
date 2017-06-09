@@ -1,21 +1,11 @@
-<ul role="list" class="m-footer">
-  <li class="m-footer__item">
-    <a href="#" class="m-footer__link" *ngIf="isNav">Home</a>
-    <a href="#" class="m-footer__link" *ngIf="isSupport">FAQ’s</a>
-    <a href="#" class="m-footer__link" *ngIf="isTouch">877.577.1782</a>
-  </li>
-  <li class="m-footer__item">
-    <a href="#" class="m-footer__link" *ngIf="isNav">Dashboard</a>
-    <a href="#" class="m-footer__link" *ngIf="isSupport">Contact Us</a>
-    <span class="m-footer__text" *ngIf="isTouch">923 NE Woods Chapel Rd.</span>
-  </li>
-  <li class="m-footer__item">
-    <a href="#" class="m-footer__link" *ngIf="isNav">Browse Projects</a>
-    <a href="#" class="m-footer__link" *ngIf="isSupport">Privacy Policy</a>
-    <span class="m-footer__text" *ngIf="isTouch">Suite 358, Lee's Summit, MO 64064</span>
-  </li>
-  <li class="m-footer__item">
-    <a href="#" class="m-footer__link" *ngIf="isNav">About Us</a>
-    <a href="#" class="m-footer__link" *ngIf="isSupport">Terms & Conditions</a>
-  </li>
-</ul>
+<div class="m-footer">
+  <h5 class="m-footer__title">{{ title }}</h5>
+  <ul role="list" class="m-footer-list">
+    <li class="m-footer__item"
+        *ngFor="let item of menu">
+      <a href="#" class="m-footer__link"
+         *ngIf="!item.isText"
+         [routerLink]="item.link ? [item.link] : []">{{ item.title }}</a>
+    </li>
+  </ul>
+</div>

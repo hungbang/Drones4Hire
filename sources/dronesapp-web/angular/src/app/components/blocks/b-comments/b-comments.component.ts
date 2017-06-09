@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'b-comments',
@@ -8,10 +8,15 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 })
 export class BCommentsComponent implements OnInit {
   @Input() comments: Array<{}>;
+  @Output() send = new EventEmitter<any>();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  onSend(data) {
+    this.send.emit(data);
+  }
 }
