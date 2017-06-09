@@ -146,7 +146,12 @@ public class UserService
 	@Transactional(readOnly = true)
 	public User getUserByUsername(String username) throws ServiceException
 	{
-		return userMapper.getUserByUsername(username);
+		User user = userMapper.getUserByUsername(username);
+		if(user == null)
+		{
+			throw new ServiceException("User with username: " + username + " not found.");
+		}
+		return user;
 	}
 
 	@Transactional(readOnly = true)

@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_PASSWORD_PATH;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.models.db.users.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -19,11 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.services.Service;
-import com.drones4hire.dronesapp.models.db.users.Company;
-import com.drones4hire.dronesapp.models.db.users.PilotLicense;
-import com.drones4hire.dronesapp.models.db.users.PilotLocation;
-import com.drones4hire.dronesapp.models.db.users.Profile;
-import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
 import com.drones4hire.dronesapp.models.dto.ChangeEmailDTO;
 import com.drones4hire.dronesapp.models.dto.CompanyDTO;
@@ -90,7 +87,7 @@ public class AccountController extends AbstractController
 	private Mapper mapper;
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Get user account", nickname = "getUserAccount", code = 200, httpMethod = "GET", response = User.class)
+	@ApiOperation(value = "Get user account", nickname = "getUserAccount", code = 200, httpMethod = "GET", response = AccountDTO.class)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
@@ -98,6 +95,22 @@ public class AccountController extends AbstractController
 	public @ResponseBody AccountDTO getUserAccount() throws MappingException, ServiceException
 	{
 		return mapper.map(userService.getUserById(getPrincipal().getId()), AccountDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get account by username", nickname = "getAccountByUsername", code = 200, httpMethod = "GET", response = AccountDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "public", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody AccountDTO getAccountByUsername(@ApiParam(value = "Username", required = true) @RequestParam("username") String username) throws ServiceException
+	{
+		User user = userService.getUserByUsername(username);
+		if(! user.getRoles().contains(ROLE_PILOT))
+		{
+			throw new ForbiddenOperationException();
+		}
+		return mapper.map(user, AccountDTO.class);
 	}
 
 	@ResponseStatusDetails
