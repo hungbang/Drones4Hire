@@ -14,6 +14,8 @@ public interface BidMapper
 
 	List<Bid> getBidsByProjectId(Long projectId);
 
+	Bid getBidByProjectIdAndUserId(Long projectId, Long userId);
+
 	List<BidInfo> getBidInfosByClientId(BidInfoSearchCriteria sc);
 
 	void updateBid(Bid bid);

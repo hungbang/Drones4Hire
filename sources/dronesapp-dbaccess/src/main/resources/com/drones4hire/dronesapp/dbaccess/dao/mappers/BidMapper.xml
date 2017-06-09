@@ -52,6 +52,16 @@
         ]]>
     </select>
 
+    <select id="getBidByProjectIdAndUserId" resultMap="BidResultMap">
+        <include refid="getBid"/>
+        <![CDATA[
+          WHERE
+			B.PROJECT_ID = #{projectId}
+          AND
+            B.USER_ID = #{userId}
+        ]]>
+    </select>
+
     <select id="getBidInfosByClientId" resultMap="BidInfoResultMap">
         <![CDATA[
           SELECT

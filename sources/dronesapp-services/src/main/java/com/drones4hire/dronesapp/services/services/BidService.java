@@ -63,6 +63,12 @@ public class BidService
 	}
 
 	@Transactional(readOnly = true)
+	public Bid getBidByProjectIdAndUserId(long projectId, long userId)
+	{
+		return bidMapper.getBidByProjectIdAndUserId(projectId, userId);
+	}
+
+	@Transactional(readOnly = true)
 	public List<BidInfo> getBidInfos(BidInfoSearchCriteria sc)
 	{
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());

@@ -1,6 +1,5 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.services.Service;
 
@@ -19,7 +18,7 @@ public class ProjectDTO extends AbstractDTO
 
 	private String summary;
 
-	private Long pilotId;
+	private Long bidId;
 
 	@NotNull(message = "Service required")
 	private Service service;
@@ -69,16 +68,6 @@ public class ProjectDTO extends AbstractDTO
 		this.summary = summary;
 	}
 
-	public Long getPilotId()
-	{
-		return pilotId;
-	}
-
-	public void setPilotId(Long pilotId)
-	{
-		this.pilotId = pilotId;
-	}
-
 	public Service getService()
 	{
 		return service;
@@ -107,6 +96,16 @@ public class ProjectDTO extends AbstractDTO
 	public void setLocation(LocationDTO location)
 	{
 		this.location = location;
+	}
+
+	public Long getBidId()
+	{
+		return bidId;
+	}
+
+	public void setBidId(Long bidId)
+	{
+		this.bidId = bidId;
 	}
 
 	public BudgetDTO getBudget()

@@ -142,9 +142,15 @@ public class ProjectController extends AbstractController
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
 		List<ProjectDTO> projectDTOs = new ArrayList<>();
+		ProjectDTO projectDTO = null;
 		for(Project project : projects)
 		{
-			projectDTOs.add(mapper.map(project, ProjectDTO.class));
+			projectDTO = mapper.map(project, ProjectDTO.class);
+			if(project.getPilotId() != null)
+			{
+				projectDTO.setBidId(bidService.getBidByProjectIdAndUserId(project.getId(), project.getPilotId()).getId());
+			}
+			projectDTOs.add(projectDTO);
 		}
 		results.setResults(projectDTOs);
 		results.setTotalResults(projects.size());

@@ -19,10 +19,6 @@
             <b>summary</b>
         </field>
         <field>
-            <a>pilotId</a>
-            <b>pilotId</b>
-        </field>
-        <field>
             <a>service</a>
             <b>service</b>
         </field>
