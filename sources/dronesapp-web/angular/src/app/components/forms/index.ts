@@ -14,6 +14,7 @@ import {FChangePasswordComponent} from './f-change-password/f-change-password.co
 import {FServicesComponent} from './f-services/f-services.component';
 import {FPublicComponent} from './f-public/f-public.component';
 import {FLocationComponent} from './f-location/f-license.component';
+import { FPortfolioUploadComponent } from './f-portfolio-upload/f-portfolio-upload.component';
 
 export const FORMS = [
   FAuthorizationComponent,
@@ -32,5 +33,6 @@ export const FORMS = [
   FNotificationsComponent,
   FChangePasswordComponent,
   FServicesComponent,
-  FPublicComponent
+  FPublicComponent,
+  FPortfolioUploadComponent,
 ];

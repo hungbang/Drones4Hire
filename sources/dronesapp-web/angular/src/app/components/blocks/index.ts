@@ -21,6 +21,8 @@ import {BPreferencesComponent} from './b-preferences/b-preferences.component';
 import {BSecurityComponent} from './b-security/b-security.component';
 import {BNotificationsComponent} from './b-notifications/b-notifications.component';
 import {BTabsComponent} from './b-tabs/b-tabs.component';
+import { BAccountPortfolioComponent } from './b-account-portfolio/b-account-portfolio.component';
+import { BPortfolioFilesComponent } from './b-portfolio-files/b-portfolio-files.component';
 
 export const BLOCKS = [
   BProfileComponent,
@@ -45,5 +47,7 @@ export const BLOCKS = [
   BPreferencesComponent,
   BSecurityComponent,
   BNotificationsComponent,
-  BTabsComponent
+  BTabsComponent,
+  BAccountPortfolioComponent,
+  BPortfolioFilesComponent,
 ];

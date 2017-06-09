@@ -13,6 +13,7 @@ import {PreferencesComponent} from './preferences/preferences.component';
 import {SecurityComponent} from './security/security.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {NotFoundComponent} from './not-found/not-found.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 export const AppContainers = [
   AccountComponent,
@@ -29,5 +30,6 @@ export const AppContainers = [
   PreferencesComponent,
   SecurityComponent,
   NotificationsComponent,
-  NotFoundComponent
+  NotFoundComponent,
+  PortfolioComponent,
 ];

@@ -1,0 +1,50 @@
+@import '../../../styles/settings/variables.styl';
+@import '../../../styles/settings/mixin.styl';
+
+.l-portfolio-files
+  osans()
+
+  &__item
+    display flex
+    align-items stretch
+    font-size 1.6rem
+    border-bottom 1px solid $gray1f
+    &:last-child
+      border-bottom-width 2px
+    &._header
+      border-bottom 0
+
+  &__title
+    flex auto
+    padding 10px
+
+  &__action
+    flex none
+    width 90px
+    display flex
+    justify-content center
+    align-items center
+    background-color #eaeaea
+    .svg-download
+    .svg-rubbish-bin
+      width 24px
+      height 24px
+      fill $gray1f
+
+  &__link
+  &__button
+    padding 5px
+    display flex
+    justify-content center
+    align-items center
+    width 30px
+    height 30px
+
+  ._header &
+    &__title
+      background-color $gray1f
+      font-size 1.8rem
+      line-height 2rem
+      color #fff
+    &__action
+      background-color #159aa5

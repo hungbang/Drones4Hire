@@ -36,6 +36,12 @@ export class SAccountComponent {
         visibility: false, // TODO: temporary hidden
         icon: 'portfolio'
       },
+      {
+        link: 'portfolio',
+        text: 'Portfolio',
+        visibility: this._accountService.isUserPilot(),
+        icon: 'profile'
+      },
     ]
   }
 }

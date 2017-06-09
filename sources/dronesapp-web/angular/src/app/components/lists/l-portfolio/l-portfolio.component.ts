@@ -9,9 +9,10 @@ import {PortfolioService} from '../../../services/portfolio.service/portfolio.se
 })
 export class LPortfolioComponent implements OnInit {
 
-  constructor(public portFolioService: PortfolioService) { }
+  constructor(
+    public portfolioService: PortfolioService
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

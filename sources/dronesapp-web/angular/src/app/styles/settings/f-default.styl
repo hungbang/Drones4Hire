@@ -384,3 +384,42 @@
     line-height: 1
   &__wrapper
     margin-bottom: 20px
+
+  &__filedrop // TODO: add vertical layout
+    background-color $gray1f
+    padding 20px 10px
+    display flex
+    justify-content space-around
+    align-items center
+    color #fff
+    font-size 1.6rem
+    overflow hidden
+    position relative
+    &-dropzone
+      border 1px dashed transparent
+      padding 5px
+      &-text
+        &:first-child
+          font-size 1.8rem
+        & + &
+          margin-top 5px
+      &._file-over
+        border-color #959595
+    &-or
+      margin 10px
+    &-button
+      font-size 1.8rem
+      border 1px solid #959595
+      border-radius 4px
+      color $black1f
+      background-color #fff
+      padding 10px 5px
+      line-height 3rem
+      white-space nowrap
+    input
+      position absolute
+      left 110%
+      top 110%
+      width 0
+      height 0
+      opacity 0

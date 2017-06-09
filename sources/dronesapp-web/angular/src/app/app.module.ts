@@ -5,7 +5,7 @@ import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {ROUTES} from './app.routes';
 
-import {FileSelectDirective} from 'ng2-file-upload';
+import {FileSelectDirective, FileDropDirective} from 'ng2-file-upload';
 
 import {AppComponent} from './app.component';
 import {AppComponents} from './components/index';
@@ -25,7 +25,8 @@ import {Daterangepicker} from 'ng2-daterangepicker';
     AppContainers,
     AppPipes,
     AppShared,
-    FileSelectDirective
+    FileSelectDirective,
+    FileDropDirective,
   ],
   imports: [
     NguiDatetimePickerModule,

@@ -11,6 +11,7 @@ import { LTransactionsSearchComponent } from './l-transactions-search/l-transact
 import { LPaginationComponent } from './l-pagination/l-pagination.component';
 import { LAbilitiesComponent } from './l-abilities/l-abilities.component';
 import {LSimilarComponent} from './l-similar/l-similar.component';
+import { LPortfolioFilesComponent } from './l-portfolio-files/l-portfolio-files.component';
 
 export const LISTS = [
   LAbilitiesComponent,
@@ -26,5 +27,6 @@ export const LISTS = [
   LProjectsSearchComponent,
   LTransactionsSearchComponent,
   LPaginationComponent,
-  LSimilarComponent
+  LSimilarComponent,
+  LPortfolioFilesComponent,
 ];

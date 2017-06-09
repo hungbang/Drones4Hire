@@ -1,0 +1,27 @@
+<ul class="l-portfolio-files">
+  <li class="l-portfolio-files__item _header">
+    <div class="l-portfolio-files__title">
+      <div class="l-portfolio-files__title-text">Title</div>
+    </div>
+    <div class="l-portfolio-files__action"></div>
+  </li>
+  <li class="l-portfolio-files__item" *ngFor="let file of files">
+    <div class="l-portfolio-files__title">
+      <div class="l-portfolio-files__title-text">{{ file.title }}</div>
+    </div>
+    <div class="l-portfolio-files__action" *ngIf="accountService.isUserPilot()">
+      <button type="button"
+              (click)="deleteFunc(file.id)"
+              class="l-portfolio-files__button _delete">
+        <svg-use name="rubbish-bin"></svg-use>
+      </button>
+    </div>
+    <div class="l-portfolio-files__action" *ngIf="accountService.isUserClient()">
+      <a href="{{ file.itemURL }}"
+         download
+         class="l-portfolio-files__link _download">
+        <svg-use name="download"></svg-use>
+      </a>
+    </div>
+  </li>
+</ul>

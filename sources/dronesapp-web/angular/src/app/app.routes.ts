@@ -25,6 +25,7 @@ import {DurationsResolve} from './resolves/durations/durations.resolve';
 import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
 import {ProjectsResolve} from './resolves/projects/projects.resolve';
 import {BProjectsSearchComponent} from './components/blocks/b-projects-search/b-projects-search.component';
+import {PortfolioComponent} from './containers/portfolio/portfolio.component';
 import {ProjectResolve} from './resolves/project/project.resolve';
 import {ProfileResolve} from './resolves/profile/profile.resolve';
 import {BidsResolve} from './resolves/bids/bids';
@@ -251,6 +252,14 @@ export const ROUTES: Routes = [
           {
             path: 'notifications',
             component: NotificationsComponent,
+            canActivate: [PilotGuard],
+            data: {
+              className: 'p-account'
+            }
+          },
+          {
+            path: 'portfolio',
+            component: PortfolioComponent,
             canActivate: [PilotGuard],
             data: {
               className: 'p-account'
