@@ -18,6 +18,6 @@ export interface ProjectModel {
   imageURL: string;
   location: LocationModel;
   postProductionRequired: boolean;
-  pilotId?: number;
   id?: number;
+  bidId?: number;
 }

@@ -1,3 +1,5 @@
+@import "./../../../styles/settings/mixin.styl";
+
 .pr-bid
   font-size 1.6rem
   line-height 14px
@@ -7,27 +9,48 @@
     display flex
     justify-content space-between
   &__right
-    text-align right
+    text-align left
+    width: 260px
+    flex: none
+    osans()
+    font-size: 1.8rem
+    text-transform: uppercase
+    color: #464646
   &__left
     display flex
+  &__top
+    display: flex
+    padding-top: 7px
+    margin-bottom: 13px
+  &__name
+    font-size: 2.4rem
+    color: #464646
+    osans()
+    font-weight bold
+    text-transform: uppercase
+    margin-right: 15px
+  &__date
+    color: #8a8a8a
+    font-size: 2rem
   &__user
     text-align center
     cursor pointer
-  &__name
-    margin-top 15px
-    font-size 1.4rem
   &__propolsal
-    margin-left 20px
-    p
-      &:first-child
-        margin-bottom 15px
+    margin-left 40px
+    > p
+      osans()
+      font-size: 1.8rem
+      text-transform: uppercase
+      letter-spacing: 2px
+      max-width 400px
+      line-height: 30px
+      &:first-of-type
+        margin-bottom 0px
+        max-width none
   &__age
     margin-bottom 15px
   &__amount
     margin-bottom 15px
-  &__count
-    font-weight 600
-    color #000000
   &__line
     height 1px
     width 100%
@@ -35,7 +58,7 @@
     margin 25px 0
 
 .svg-usericon
-  width 100px
-  height 100px
+  width 113px
+  height 113px
 
 

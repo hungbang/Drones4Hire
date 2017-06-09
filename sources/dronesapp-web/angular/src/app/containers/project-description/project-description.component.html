@@ -1,0 +1,57 @@
+<div class="project-description">
+  <div class="project-description__wrapper">
+    <div class="project-description__left">
+      <b-project-details [project]="project"></b-project-details>
+      <b-bid-info [bidInfo]="bidsInfo"></b-bid-info>
+    </div>
+    <div class="project-description__right">
+      <b-project-description [description]="project.summary"></b-project-description>
+      <div class="project-description__files">
+        <p class="project-description__files-title">
+          Attached files:
+        </p>
+        <ul class="project-description__files-list">
+          <li class="project-description__files-item">
+            <a href="" class="project-description__files-link">Video of the house</a>
+          </li>
+          <li class="project-description__files-item">
+            <a href="" class="project-description__files-link">J commercial</a>
+          </li>
+          <li class="project-description__files-item">
+            <a href="" class="project-description__files-link">Photo of the house</a>
+          </li>
+        </ul>
+      </div>
+      <div class="project-description__win-title">Winning Bid</div>
+      <l-bids *ngIf="isClient"
+              [disabled]="!!project.bidId"
+              [bids]="bids"
+              [activeId]="activeBidId"
+              (award)="award($event)"></l-bids>
+
+      <pr-bid *ngIf="isPilot && pilotBid"
+              [bid]="pilotBid">
+        <bid-buttons>
+          <button class="project-description__bid-btn _fill"
+                  (click)="edit()"
+                  *ngIf="!project.bidId && !isEdit">Edit</button>
+          <button class="project-description__bid-btn _fill"
+                  (click)="acceptFromPilot(pilotBid.id)"
+                  *ngIf="project.bidId === pilotBid.id">Accept</button>
+          <button class="project-description__bid-btn _fill"
+                  (click)="rejectFromPilot(pilotBid.id)"
+                  *ngIf="project.bidId === pilotBid.id">Reject</button>
+        </bid-buttons>
+      </pr-bid>
+
+      <f-bid (send)="isEdit ? editBid($event) : submitBid($event)"
+             [bid]="pilotBid"
+             *ngIf="isPilot && !pilotBid || isEdit"></f-bid>
+      <b-comments (send)="send($event)" [comments]="comments"></b-comments>
+    </div>
+  </div>
+  <div class="project-description__similar">
+    <div class="project-description__similar-title">similar projects</div>
+    <l-similar></l-similar>
+  </div>
+</div>

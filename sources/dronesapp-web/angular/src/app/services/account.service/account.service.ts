@@ -27,20 +27,19 @@ export class AccountService {
   }
 
   isUserClient() {
-    // console.log('-check is client');
-
     if (!this.account) {
       return false;
     }
-    return this.account.groups.map((group) => group.role).pop() === 'ROLE_CLIENT';
+
+    return !!this.account.groups.find((group) => group.role === 'ROLE_CLIENT');
   }
 
   isUserPilot() {
-    // console.log('-check is pilot');
     if (!this.account) {
       return false;
     }
-    return this.account.groups.map((group) => group.role).pop() === 'ROLE_PILOT';
+
+    return !!this.account.groups.find((group) => group.role === 'ROLE_PILOT');
   }
 
   getAccountData() {
@@ -48,15 +47,12 @@ export class AccountService {
       .map((res) => {
         this.account = mergeDeep(this.setAccount(), res);
 
-        console.log(this.account);
-
-        // sessionStorage.setItem('user', JSON.stringify(this.account));
         return this.account;
-      })
+      });
   }
 
   setAccountData(data: AccountModel) {
-    return this._requestService.fetch('put', '/account', data)
+    return this._requestService.fetch('put', '/account', data);
   }
 
   getAccountCompany() {
@@ -64,9 +60,6 @@ export class AccountService {
       .map((res) => {
         this.company = res;
 
-        console.log(this.company);
-
-        // sessionStorage.setItem('user', JSON.stringify(this.account));
         return this.company;
       });
   }
@@ -79,8 +72,6 @@ export class AccountService {
     return this._requestService.fetch('get', '/account/license')
       .subscribe((res) => {
         this.license = Object.assign({}, res, { verified: true });
-
-        console.log('user license', this.license);
 
         return this.license;
       });
@@ -101,9 +92,8 @@ export class AccountService {
   getAccountNotifications() {
     return this._requestService.fetch('get', '/account/notifications')
       .subscribe(res => {
-        console.log('user notifications', res);
         this.notifications = res;
-      })
+      });
   }
 
   setAccountNotifications(data: AccountNotificationsModel) {
@@ -114,7 +104,7 @@ export class AccountService {
     this._requestService.fetch('get', '/account/services')
       .map(res => {
         this.activeServices = res.map((service) => service.id);
-        console.log('user services', this.activeServices);
+
         return res;
       })
       .subscribe(() => {
@@ -131,7 +121,7 @@ export class AccountService {
     this._requestService.fetch('get', '/account/profile')
       .subscribe(res => {
         this.profile = res;
-        console.log('user profile', this.profile);
+
         return res;
       });
   }
@@ -148,11 +138,8 @@ export class AccountService {
   private setServices(_services) {
     let services = extend([], _services);
 
-    services.forEach((service) => {
-      if (this.activeServices.indexOf(service.id) !== -1) {
-        return service.checked = true;
-      }
-      return service.checked = false;
+    services.forEach((service: any) => {
+      service.checked = this.activeServices.indexOf(service.id) !== -1;
     });
 
     this.services = this._commonService.normalizeServices(services);
@@ -207,5 +194,3 @@ export class AccountService {
     this.profile = null;
   }
 }
-
-

@@ -20,6 +20,7 @@ import {BNotificationsComponent} from './b-notifications/b-notifications.compone
 import {BTabsComponent} from './b-tabs/b-tabs.component';
 import { BAccountPortfolioComponent } from './b-account-portfolio/b-account-portfolio.component';
 import { BPortfolioFilesComponent } from './b-portfolio-files/b-portfolio-files.component';
+import { BProjectFilesComponent } from './b-project-files/b-project-files.component';
 
 export const BLOCKS = [
   BProfileComponent,
@@ -31,6 +32,7 @@ export const BLOCKS = [
   BProjectDescriptionComponent,
   BBidInfoComponent,
   BCommentsComponent,
+  BProjectFilesComponent,
   BTransactionsComponent,
   BTransactionSearchComponent,
   BTransactionsSearchComponent,

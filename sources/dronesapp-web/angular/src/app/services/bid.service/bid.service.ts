@@ -4,6 +4,8 @@ import {BidModel} from './bid.interface';
 
 @Injectable()
 export class BidService {
+  public countPerPage = 10;
+
   constructor(
     private requestService: RequestService
   ) {
@@ -13,6 +15,11 @@ export class BidService {
   fetchBids(projectId: string|number) {
     return this.requestService
       .fetch('get', `/projects/${projectId}/bids`);
+  }
+
+  fetchBidsInfo(data = {}) {
+    return this.requestService
+      .fetch('post', '/projects/bids/info', data);
   }
 
   createBid(bid) {

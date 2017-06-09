@@ -1,0 +1,11 @@
+<div class="s-project">
+  <div class="container">
+    <h2 class="s-project__title">{{ project.title }}</h2>
+    <div class="s-project__tabs">
+      <b-tabs [tabs]="tabs"></b-tabs>
+    </div>
+    <div class="s-project__content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -42,7 +42,8 @@ export class CommentsService {
   ) { }
 
   fetchComment(id: number|string) {
-    return this.requestService.fetch('get', `/projects/${id}/comments`);
+    return this.requestService.fetch('get', `/projects/${id}/comments`)
+      .catch(() => []);
   }
 
   createComment(comment: CommentModel) {

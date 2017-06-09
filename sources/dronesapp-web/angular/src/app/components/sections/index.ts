@@ -14,6 +14,7 @@ import { SDashboardComponent } from './s-dashboard/s-dashboard.component';
 import { STransactionsComponent } from './s-transactions/s-transactions.component';
 import { SProjectAddComponent } from './s-project-add/s-project-add.component';
 import { SAuthorizationComponent } from './s-authorization/s-authorization.component';
+import { SProjectComponent } from './s-project/s-project.component';
 
 export const SECTIONS = [
   HeaderComponent,
@@ -30,6 +31,7 @@ export const SECTIONS = [
   SSearchComponent,
   SAccountComponent,
   SSearchComponent,
+  SProjectComponent,
   STransactionsComponent,
   SPortfolioComponent,
   SProjectAddComponent

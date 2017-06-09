@@ -1,6 +1,6 @@
 <div class="b-comments" *ngIf="comments">
   <div class="b-comments__title">Comments</div>
-  <f-comments></f-comments>
+  <f-comments (send)="onSend($event)"></f-comments>
   <div class="b-comments__subtitle">Previous comments:</div>
   <l-comments [comments]="comments"></l-comments>
 </div>

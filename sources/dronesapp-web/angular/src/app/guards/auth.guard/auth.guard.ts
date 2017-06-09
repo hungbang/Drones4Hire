@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {AccountService} from '../../services/account.service/account.service';
 import {AuthorizationService} from '../../services/authorization.service/authorization.service';
 import {Observable} from 'rxjs/Observable';
@@ -7,8 +7,7 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private _authorizationService: AuthorizationService,
-              private _accountService: AccountService,
-              private _router: Router) {
+              private _accountService: AccountService) {
   }
 
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -33,6 +32,6 @@ export class AuthGuard implements CanActivate {
           observer.next(true);
         }
       }
-    })
+    });
   }
 }

@@ -71,6 +71,8 @@ export class FAuthorizationComponent implements OnInit {
       return;
     }
 
+    this.formData.username = this.formData.username.toLowerCase();
+
     this._authorizationService.signUp(this.formData)
       .subscribe(
         () => {

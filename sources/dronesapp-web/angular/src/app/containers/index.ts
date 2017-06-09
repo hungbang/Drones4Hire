@@ -14,6 +14,8 @@ import {SecurityComponent} from './security/security.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
+import { ProjectDescriptionComponent } from './project-description/project-description.component';
+import { ProjectFilesComponent } from './project-files/project-files.component';
 
 export const AppContainers = [
   AccountComponent,
@@ -26,6 +28,8 @@ export const AppContainers = [
   ProjectComponent,
   SearchComponent,
   ProjectAddComponent,
+  ProjectDescriptionComponent,
+  ProjectFilesComponent,
   DetailsComponent,
   PreferencesComponent,
   SecurityComponent,

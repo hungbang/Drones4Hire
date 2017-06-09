@@ -30,6 +30,9 @@ import {ProfileResolve} from './resolves/profile/profile.resolve';
 import {BidsResolve} from './resolves/bids/bids';
 import {CommentsResolve} from './resolves/comments/comments';
 import {TProjectComponent} from './components/tables/t-project/t-project.component';
+import {ProjectDescriptionComponent} from './containers/project-description/project-description.component';
+import {ProjectFilesComponent} from './containers/project-files/project-files.component';
+import {MyProjectsResolve} from './resolves/my-projects/my-projects.resolve';
 
 export const ROUTES: Routes = [
   {
@@ -92,7 +95,7 @@ export const ROUTES: Routes = [
         path: 'bidding',
         component: TProjectComponent,
         resolve: {
-          projects: ProjectsResolve
+          projects: MyProjectsResolve
         },
         data: {
           status: 'NEW'
@@ -102,7 +105,7 @@ export const ROUTES: Routes = [
         path: 'progress',
         component: TProjectComponent,
         resolve: {
-          projects: ProjectsResolve
+          projects: MyProjectsResolve
         },
         data: {
           status: 'NEW'
@@ -110,7 +113,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'past',
-        component: TProjectComponent,
+        component: MyProjectsResolve,
         resolve: {
           projects: ProjectsResolve
         },
@@ -130,15 +133,6 @@ export const ROUTES: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'client/:projectId',
-        component: ProjectComponent,
-        resolve: {
-          project: ProjectResolve,
-          bids: BidsResolve
-          // comments: CommentsResolve
-        }
-      },
-      {
         path: 'add',
         canActivate: [ClientGuard],
         component: ProjectAddComponent,
@@ -152,6 +146,30 @@ export const ROUTES: Routes = [
           durations: DurationsResolve,
           paidoptions: PaidOptionsResolve
         }
+      },
+      {
+        path: ':projectId',
+        component: ProjectComponent,
+        resolve: {
+          project: ProjectResolve,
+          bids: BidsResolve,
+          comments: CommentsResolve
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: 'description',
+            pathMatch: 'full'
+          },
+          {
+            path: 'description',
+            component: ProjectDescriptionComponent
+          },
+          {
+            path: 'files',
+            component: ProjectFilesComponent
+          }
+        ]
       }
     ]
   },

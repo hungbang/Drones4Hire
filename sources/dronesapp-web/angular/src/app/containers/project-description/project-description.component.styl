@@ -1,0 +1,65 @@
+@import './../../styles/settings/mixin.styl'
+
+.project-description
+  &__wrapper
+    display flex
+    margin-bottom 130px
+
+  &__left
+    flex-basis 25%
+    max-width 25%
+    padding-right 65px
+
+  &__right
+    padding-left: 110px
+    border-left 1px solid #414141
+    flex-basis 75%
+    max-width 75%
+
+  &__similar
+    text-align center
+    &-title
+      font-size 36px
+      margin-bottom 65px
+      letter-spacing: 15px
+      color #414141
+      text-transform uppercase;
+  &__win-title
+    font-size: 3.6rem
+    text-transform: uppercase
+    letter-spacing: 15px
+    osans()
+    margin-bottom: 30px
+
+  &__bid
+    &-btn
+      height: 46px
+      display block
+      min-width 160px
+      background #fff
+      font-size 1.8rem
+      color #3ebcc7
+      margin-bottom 6px
+      border 1px solid #3ebcc7
+      &._fill
+        background #3ebcc7
+        color #fff
+
+  &__files
+    margin-bottom: 50px
+    &-title
+      font-size: 2rem
+      text-transform: uppercase
+      letter-spacing: 3px
+      margin-bottom: 5px
+      osans()
+    &-item
+      margin-bottom: 5px
+    &-link
+      font-size: 1.8rem
+      color: #8a8a8a
+      transition: color .3s
+      text-decoration: underline
+      &:hover
+        color: #3ebcc7
+

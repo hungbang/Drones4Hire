@@ -9,9 +9,12 @@
   <div *ngFor="let project of projects"
        class="t-project__row">
 
-    <div class="t-project__cell _name">{{project.title}}</div>
-    <div class="t-project__cell _bids">0</div>
-    <div class="t-project__cell _average-bids">0.0</div>
+    <div class="t-project__cell _name">
+      <a class="t-project__link"
+         [routerLink]="['/project', project.projectId]">{{project.projectTitle}}</a>
+    </div>
+    <div class="t-project__cell _bids">{{ project.bidsCount }}</div>
+    <div class="t-project__cell _average-bids">{{ project.bidsAvg | number:'1.2' }}</div>
     <div class="t-project__cell _bid-end">2017-06-09</div>
     <div class="t-project__cell _action">
       <div class="t-project__select-wrapper">

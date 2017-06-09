@@ -8,6 +8,7 @@ import {ProjectResolve} from './project/project.resolve';
 import {BidsResolve} from './bids/bids';
 import { ProfileResolve } from './profile/profile.resolve'
 import {CommentsResolve} from './comments/comments';
+import {MyProjectsResolve} from './my-projects/my-projects.resolve';
 
 export const AppResolves = [
   BidsResolve,
@@ -15,6 +16,7 @@ export const AppResolves = [
   CommentsResolve,
   CountriesResolve,
   DurationsResolve,
+  MyProjectsResolve,
   PaidOptionsResolve,
   ProjectResolve,
   ProjectsResolve,
