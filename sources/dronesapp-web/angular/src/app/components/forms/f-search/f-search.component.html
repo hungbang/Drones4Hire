@@ -1,27 +1,29 @@
-<form class="f-search">
+<form class="f-search" novalidate (submit)="onSubmit()">
   <div class="f-search__row">
     <div class="f-search__col">
       <select class="f-search__field _select">
-        <option>Category</option>
-        <option>Category1</option>
+        <option>Service</option>
         <option>Category2</option>
       </select>
     </div>
     <div class="f-search__col">
-      <select class="f-search__field _select">
-        <option>Budget range</option>
-        <option>< 1000</option>
-        <option>> 1000</option>
+      <select class="f-search__field _select"
+              name="budget"
+              [(ngModel)]="budget">
+        <option value="-1">Price Range</option>
+        <option *ngFor="let budget of budgets"
+                [value]="budget.value">{{ budget.text }}</option>
       </select>
     </div>
     <div class="f-search__col">
-      <span class="f-search__text">Location</span>
-      <input class="f-search__field" type="text" name="location" placeholder="ex. 555555"/>
-    </div>
-    <div class="f-search__col">
-      <span class="f-search__text">Within # miles</span>
-      <input class="f-search__field" type="text" name="range" placeholder="ex. 150"/>
+      <span class="f-search__text">Zip Code</span>
+      <input class="f-search__field"
+             type="text"
+             name="code"
+             [(ngModel)]="zipCode"
+             placeholder="ex. 150"/>
     </div>
   </div>
-  <button class="f-search__button" type="button">Submit</button>
+
+  <button class="f-search__button" type="submit">Submit</button>
 </form>

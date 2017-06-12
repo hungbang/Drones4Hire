@@ -4,13 +4,8 @@
       <div class="my-projects__title">My Projects</div>
       <a [routerLink]="['/project/add']" class="my-projects__btn">Post a Project</a>
     </div>
-    <div class="my-projects__tabs">
-      <b-tabs [tabs]="tabs" classes="_big"></b-tabs>
-      <button type="button" class="my-projects__update">
-        <svg-use name="update"></svg-use>
-      </button>
-    </div>
-    <f-projects-search></f-projects-search>
+
+    <b-tabs [tabs]="tabs" classes="_big"></b-tabs>
 
     <router-outlet></router-outlet>
   </div>

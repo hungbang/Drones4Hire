@@ -5,6 +5,7 @@ import {BidModel} from './bid.interface';
 @Injectable()
 export class BidService {
   public countPerPage = 10;
+  public countOfItemsSelection = [10, 20, 30];
 
   constructor(
     private requestService: RequestService

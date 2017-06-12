@@ -11,6 +11,7 @@ import { LPaginationComponent } from './l-pagination/l-pagination.component';
 import { LAbilitiesComponent } from './l-abilities/l-abilities.component';
 import {LSimilarComponent} from './l-similar/l-similar.component';
 import { LPortfolioFilesComponent } from './l-portfolio-files/l-portfolio-files.component';
+import {LProjectPaginationComponent} from "./l-project-pagination/l-project-pagination.component";
 
 export const LISTS = [
   LAbilitiesComponent,
@@ -19,6 +20,7 @@ export const LISTS = [
   LHowitComponent,
   LRatingComponent,
   LPortfolioComponent,
+  LProjectPaginationComponent,
   LGoingComponent,
   LSocialComponent,
   LCommentsComponent,

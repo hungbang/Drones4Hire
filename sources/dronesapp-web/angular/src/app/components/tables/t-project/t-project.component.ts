@@ -1,5 +1,4 @@
-import {Component, ViewEncapsulation, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, ViewEncapsulation, Input} from '@angular/core';
 
 @Component({
   selector: 't-project',
@@ -7,14 +6,9 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./t-project.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class TProjectComponent implements OnInit {
+export class TProjectComponent {
   @Input() projects;
 
-  constructor(
-    private route: ActivatedRoute
-  ) { }
-
-  ngOnInit() {
-    this.projects = this.route.snapshot.data['projects'];
+  constructor() {
   }
 }

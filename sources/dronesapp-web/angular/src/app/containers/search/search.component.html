@@ -1,1 +1,6 @@
-<s-search></s-search>
+<div class="search">
+  <div class="container">
+    <f-search [budgets]="budgets" (send)="send($event)"></f-search>
+    <t-search></t-search>
+  </div>
+</div>

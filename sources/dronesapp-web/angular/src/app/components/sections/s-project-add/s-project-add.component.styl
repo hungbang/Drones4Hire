@@ -1,9 +1,63 @@
-.s-project-add
-  padding: 255px 0 100px
-  .container
-    max-width 1060px
-    padding 0 115px
-  &__title
-    font-size 5rem
-    margin-bottom 70px
+@import "./../../../styles/settings/mixin.styl";
 
+.s-project-add
+  padding: 150px 0 100px
+  .container
+    max-width 1600px
+    padding 0 30px
+  &__title
+    font-size 4.8rem
+    margin-bottom 70px
+    osans(400)
+    padding-top: 2px;
+    padding-left: 24px;
+    letter-spacing: -1.5px;
+  &__wrapper
+    display: flex
+    justify-content space-between
+  &__banner
+    width: 445px
+    border-radius 0 0 3px 3px
+    box-shadow: 0 3px 6px 0 #b8b8b8;
+    overflow hidden
+    flex: none
+    align-self: flex-start;
+    &-title
+      background-color: #1f2532
+      color: white
+      font-size: 3.1rem
+      padding: 27px 27px 34px;
+      osans(400)
+  &__list
+    padding: 18px 30px 32px 25px
+    background-color: #fbfafa
+    &-item
+      position: relative
+      font-size: 18px;
+      margin-bottom: 6px;
+      line-height: 37px;
+      padding-left: 20px
+      osans()
+      &:before
+        content: ''
+        position: absolute
+        top: 16px;
+        left: 5px;
+        width: 6px
+        height: 6px
+        border-radius: 50%
+        background-color: #1f2532
+  &__form
+    width: calc(100% - 525px)
+    flex-shrink 2
+
+  @media(max-width: 1600px)
+    &__title
+      padding: 0
+      margin-bottom: 50px
+    &__wrap
+      display: block
+    &__banner
+      display: none
+    &__form
+      width: 100%
