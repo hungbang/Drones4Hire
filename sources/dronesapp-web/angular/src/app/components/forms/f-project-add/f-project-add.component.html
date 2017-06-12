@@ -11,6 +11,26 @@
 
     <div class="f-default__row _flex">
       <div class="f-default__col">
+        <div class="f-project-add__caption">Project name. (i.e. Wedding)</div>
+      </div>
+      <div class="f-default__col">
+        <label class="f-default__label">
+          <input class="f-default__field"
+                 type="text"
+                 name="projectTitle"
+                 [(ngModel)]="formData.title"
+                 required
+                 placeholder="What is the Project Title"
+                 #projectTitleRef="ngModel"
+                 [ngClass]="{'_error': submitted && projectTitleRef.errors?.required}">
+          <span class="f-default__error"
+                *ngIf="submitted && projectTitleRef.errors?.required">This field is required</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="f-default__row _flex">
+      <div class="f-default__col">
         <div class="f-project-add__caption">What type of work do you require?</div>
       </div>
       <div class="f-default__col">
@@ -58,26 +78,6 @@
         </label>
       </div>
     </div>
-
-    <div class="f-default__row _flex">
-      <div class="f-default__col">
-        <div class="f-project-add__caption">Project name. (i.e. Wedding)</div>
-      </div>
-      <div class="f-default__col">
-        <label class="f-default__label">
-          <input class="f-default__field"
-                 type="text"
-                 name="projectTitle"
-                 [(ngModel)]="formData.title"
-                 required
-                 placeholder="What is the Project Title"
-                 #projectTitleRef="ngModel"
-                 [ngClass]="{'_error': submitted && projectTitleRef.errors?.required}">
-          <span class="f-default__error"
-                *ngIf="submitted && projectTitleRef.errors?.required">This field is required</span>
-        </label>
-      </div>
-    </div>
   </div>
 
   <div class="f-project-add__item">
@@ -86,11 +86,11 @@
       <span>Tell us more about your project</span>
     </h3>
 
-    <div class="f-default__row _flex">
-      <div class="f-default__col">
-        <div class="f-project-add__caption">Describe your project</div>
-
-        <label class="f-default__label">
+    <div class="f-default__row">
+      <div>
+        <div class="f-project-add__caption _margin">Describe your project</div>
+        <div class="f-default__row f-project-add__row _flex">
+          <label class="f-default__label f-default__col f-project-add__col">
           <textarea class="f-default__field _area"
                     type="text"
                     name="projectSummary"
@@ -99,39 +99,43 @@
                     placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
                     #projectSummaryRef="ngModel"
                     [ngClass]="{'_error': submitted && projectSummaryRef.errors?.required}"></textarea>
-          <span class="f-default__error"
-                *ngIf="submitted && projectSummaryRef.errors?.required">This field is required</span>
-        </label>
-      </div>
+            <span class="f-default__error"
+                  *ngIf="submitted && projectSummaryRef.errors?.required">This field is required</span>
+          </label>
 
-      <div class="f-default__col _flex">
-        <div class="f-default__filedrop _vertical">
-          <div ng2FileDrop
-               [ngClass]="{'_file-over': hasBaseDropZoneOver}"
-               (fileOver)="fileOverBase($event)"
-               (change)="handlePhotoUpload()"
-               [uploader]="uploader"
-               (click)="triggerFileClick()"
-               class="f-default__filedrop-dropzone">
-            <div class="f-default__filedrop-dropzone-text">Upload your files here</div>
-            <div class="f-default__filedrop-dropzone-text _small">Add images or documents that might help explain your project (Optional)</div>
-            <div class="f-default__filedrop-dropzone-text">Drag & Drop files here</div>
+          <div class="f-default__col f-project-add__col">
+            <div class="f-default__filedrop f-project-add__filedrop _vertical">
+              <div ng2FileDrop
+                   [ngClass]="{'_file-over': hasBaseDropZoneOver}"
+                   (fileOver)="fileOverBase($event)"
+                   (change)="handlePhotoUpload()"
+                   [uploader]="uploader"
+                   (click)="triggerFileClick()"
+                   class="f-default__filedrop-dropzone">
+                <div class="f-default__filedrop-dropzone-text _title">Upload your files here</div>
+                <div class="f-default__filedrop-dropzone-text _small">Add images or documents that might help explain
+                  your project (Optional)
+                </div>
+                <div class="f-default__filedrop-dropzone-text _description">Drag & Drop files here</div>
+              </div>
+              <div class="f-default__filedrop-or">or</div>
+              <button type="button"
+                      (click)="triggerFileClick()"
+                      class="f-default__filedrop-button">Choose a file to upload
+              </button>
+              <input type="file"
+                     accept="image/jpeg,image/jpg,image/png"
+                     name="photo"
+                     ng2FileSelect
+                     (change)="handlePhotoUpload()"
+                     [uploader]="uploader"
+                     class="f-default__field _file">
+              <!--TODO: change to correct filetypes -->
+            </div>
+            <div class="f-project-add__messages">
+              <!--TODO: Error and chosen file messages here-->
+            </div>
           </div>
-          <div class="f-default__filedrop-or">or</div>
-          <button type="button"
-                  (click)="triggerFileClick()"
-                  class="f-default__filedrop-button">Choose a file to upload</button>
-          <input type="file"
-                 accept="image/jpeg,image/jpg,image/png"
-                 name="photo"
-                 ng2FileSelect
-                 (change)="handlePhotoUpload()"
-                 [uploader]="uploader"
-                 class="f-default__field _file">
-          <!--TODO: change to correct filetypes -->
-        </div>
-        <div class="f-project-add__messages">
-          <!--TODO: Error and chosen file messages here-->
         </div>
       </div>
     </div>
@@ -225,7 +229,8 @@
         <div class="f-project-add__caption">City</div>
       </div>
       <div class="f-default__col">
-        <input class="f-default__field" type="text" [(ngModel)]="formData.location.city" name="projectCity" placeholder="Type your city"/>
+        <input class="f-default__field" type="text" [(ngModel)]="formData.location.city" name="projectCity"
+               placeholder="Type your city"/>
       </div>
     </div>
 
@@ -234,7 +239,8 @@
         <div class="f-project-add__caption">Address</div>
       </div>
       <div class="f-default__col">
-        <input class="f-default__field" type="text" [(ngModel)]="formData.location.address" name="projectAddress" placeholder="Type your address"/>
+        <input class="f-default__field" type="text" [(ngModel)]="formData.location.address" name="projectAddress"
+               placeholder="Type your address"/>
       </div>
     </div>
 
@@ -243,7 +249,8 @@
         <div class="f-project-add__caption">Postcode</div>
       </div>
       <div class="f-default__col">
-        <input class="f-default__field" type="text" [(ngModel)]="formData.location.postcode" name="projectPostcode" placeholder="Type your postcode"/>
+        <input class="f-default__field" type="text" [(ngModel)]="formData.location.postcode" name="projectPostcode"
+               placeholder="Type your postcode"/>
       </div>
     </div>
     <div class="f-default__row _flex">
@@ -255,7 +262,7 @@
              daterangepicker
              [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'DD-MM-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
              (selected)="selectedDate($event, date)">
-          <span class="form-control uneditable-input"  name="daterange" >
+          <span class="form-control uneditable-input" name="daterange">
               {{ date.start | date:'dd-MM-yyyy hh:mm' }} / {{ date.end| date:'dd-MM-yyyy hh:mm' }}
           </span>
         </div>
@@ -267,8 +274,8 @@
       </div>
       <div class="f-default__col">
         <!--<select class="f-default__field" name="">-->
-          <!--<option value="">Select</option>-->
-          <!--<option value="">item2</option>-->
+        <!--<option value="">Select</option>-->
+        <!--<option value="">item2</option>-->
         <!--</select>-->
 
         <label class="f-default__label _select">
@@ -300,7 +307,6 @@
                  [checked]="productionRequired"
                  (change)="setProductionRequired(productionRequired)"/>
           <span class="f-default__chk-span"></span>
-          <span class="f-default__text _light">Example</span>
         </label>
       </div>
     </div>
@@ -312,7 +318,7 @@
       <span>Get the most from your project!</span>
       <span class="_small">(optional)</span>
     </h3>
-    <div class="f-default__row _flex _wrap">
+    <div class="f-default__row f-project-add__row _flex _wrap">
       <div *ngFor="let paidOption of paidOptions; let i = index;"
            [ngClass]="{ _active: paidOptionsChecked[i] }"
            class="f-project-add__paidoption">
@@ -328,15 +334,15 @@
                    (change)="selectPaidOption($event.target.checked, paidOption)"/>
             <span class="f-default__chk">{{ paidOption.title }}</span>
           </label>
-          <p class="f-default__text">{{ paidOption.description }}</p>
-          <div class="f-default__price f-project-add__price">{{ paidOption.price }}</div>
+          <p class="f-default__text f-project-add__text">{{ paidOption.description }}</p>
+          <div class="f-default__price f-project-add__price">${{ paidOption.price }}.00</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="f-project-add__bottom">
-    <button class="f-default__button">Post Project now</button>
+    <button class="f-default__button _big">Post Project now</button>
     <div class="f-default__text _center">
       <div>By clicking 'Post Project Now', you are indicating that you have reed and agree to the
         <a href="#" class="f-project-add__link">Terms & Conditions</a>
