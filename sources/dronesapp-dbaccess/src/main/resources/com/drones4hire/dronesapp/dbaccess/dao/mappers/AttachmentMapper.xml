@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.AttachmentMapper">
+
+    <insert id="createAttachment" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT
+          INTO 
+          		drones.ATTACHMENTS (ATTACHMENT_URL, TYPE, PROJECT_ID)
+          VALUES 
+	          (
+	            #{attachmentURL},
+	            #{type},
+	            #{projectId}
+	          )
+        ]]>
+    </insert>
+    
+	<insert id="createAttachments" useGeneratedKeys="true">
+		<![CDATA[
+        	INSERT
+          		drones.ATTACHMENTS (ATTACHMENT_URL, TYPE, PROJECT_ID)
+          VALUES
+        ]]>
+		<foreach collection="attachments" item="attachment" index="index" open="" separator="," close=";">
+			(
+				#{attachment.attachmentURL},
+	            #{attachment.type},
+	            #{projectId}
+			)
+		</foreach>
+	</insert>
+
+    <sql id="getAttachment">
+        <![CDATA[
+          SELECT
+	      		A.ID AS ATTACHMENT_ID,
+	      		A.ATTACHMENT_URL AS ATTACHMENT_ATTACHMENT_URL,
+		        A.TYPE AS ATTACHMENT_TYPE,
+		        A.PROJECT_ID AS ATTACHMENT_PROJECT_ID,
+		        A.MODIFIED_AT AS ATTACHMENT_MODIFIED_AT,
+		        A.CREATED_AT AS ATTACHMENT_CREATED_AT
+          FROM
+	            drones.ATTACHMENTS A
+        ]]>
+    </sql>
+
+    <select id="getAttachmentsByProjectId" resultMap="AttachmentResultMap">
+        <include refid="getAttachment"/>
+        <![CDATA[
+          WHERE
+          		A.PROJECT_ID = #{projectId}
+        ]]>
+    </select>
+    
+    <select id="getAttachmentById" resultMap="AttachmentResultMap">
+        <include refid="getAttachment"/>
+        <![CDATA[
+          WHERE
+          		A.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllAttachments" resultMap="AttachmentResultMap">
+        <include refid="getAttachment"/>
+    </select>
+
+    <update id="updateAttachment">
+        <![CDATA[
+          UPDATE
+          		drones.ATTACHMENTS
+          SET
+          		ATTACHMENT_URL = #{attachmentURL},
+          		TYPE = #{type},
+          		PROJECT_ID = #{projectId},
+          WHERE
+		  		ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteAttachment">
+        <![CDATA[
+          DELETE
+          FROM 
+          		drones.ATTACHMENTS
+          WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="AttachmentResultMap" type="com.drones4hire.dronesapp.models.db.projects.Attachment" autoMapping="false">
+        <id column="ATTACHMENT_ID" property="id"/>
+        <result column="ATTACHMENT_ATTACHMENT_URL" property="attachmentURL" />
+        <result column="ATTACHMENT_TYPE" property="type" />
+        <result column="ATTACHMENT_PROJECT_ID" property="projectId" />
+        <result column="ATTACHMENT_MODIFIED_AT" property="modifiedAt" />
+		<result column="ATTACHMENT_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

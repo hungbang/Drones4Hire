@@ -2,17 +2,18 @@ package com.drones4hire.dronesapp.models.db.projects;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 
-public class Attachments extends AbstractEntity
+public class Attachment extends AbstractEntity
 {
 	private static final long serialVersionUID = -6905100677668763047L;
 	
-	public enum TYPE
+	public enum Type
 	{
-		PROJECT_ATTACH, RESULT_ATTACH
+		PROJECT_ATTACHMENT, PROJECT_RESULT
 	}
 	
 	private String attachmentURL;
 	private Long projectId;
+	private Type type;
 
 	public String getAttachmentURL()
 	{
@@ -34,4 +35,13 @@ public class Attachments extends AbstractEntity
 		this.projectId = projectId;
 	}
 
+	public Type getType()
+	{
+		return type;
+	}
+
+	public void setType(Type type)
+	{
+		this.type = type;
+	}
 }

@@ -46,7 +46,6 @@ public class ProjectMapperTest extends AbstractTestNGSpringContextTests
 			setDuration(new Duration(1L));
 			setLocation(new Location(1L));
 			setBudget(new Budget(1L));
-			setImageURL("U1");
 			setPostProductionRequired(true);
 			setStatus(Status.NEW);
 			setStartDate(new Date());
@@ -92,7 +91,6 @@ public class ProjectMapperTest extends AbstractTestNGSpringContextTests
 		PROJECT.setSummary("S2");
 		PROJECT.setClientId(1L);
 		PROJECT.setPilotId(1L);
-		PROJECT.setImageURL("U2");
 		PROJECT.setPostProductionRequired(false);
 		PROJECT.setStatus(Status.IN_PROGRESS);
 		PROJECT.setStartDate(new Date());
@@ -116,7 +114,6 @@ public class ProjectMapperTest extends AbstractTestNGSpringContextTests
 		assertEquals(project.getSummary(), PROJECT.getSummary(), "Project summary must match");
 		assertEquals(project.getClientId(), PROJECT.getClientId(), "Project client ID must match");
 		assertEquals(project.getPilotId(), PROJECT.getPilotId(), "Project pilot ID must match");
-		assertEquals(project.getImageURL(), PROJECT.getImageURL(), "Project image URL must match");
 		assertEquals(project.getPostProductionRequired(), PROJECT.getPostProductionRequired(), "Project post production required must match");
 		assertEquals(project.getStatus(), PROJECT.getStatus(), "Project status must match");
 //		assertEquals(project.getStartDate(), PROJECT.getStartDate(), "Project start date must match");

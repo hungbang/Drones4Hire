@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.models.dto;
 
+import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.services.Service;
 
@@ -32,8 +33,6 @@ public class ProjectDTO extends AbstractDTO
 	@NotNull(message = "Budget required")
 	private BudgetDTO budget;
 
-	private String imageURL;
-
 	@NotNull(message = "Post production required")
 	private Boolean postProductionRequired;
 
@@ -45,9 +44,10 @@ public class ProjectDTO extends AbstractDTO
 	@NotNull(message = "Status required")
 	private Project.Status status;
 
-	@NotNull(message = "Paid options required")
 	private List<PaidOptionDTO> paidOptions;
 
+	private List<Attachment> attachments;
+	
 	public String getTitle()
 	{
 		return title;
@@ -118,16 +118,6 @@ public class ProjectDTO extends AbstractDTO
 		this.budget = budget;
 	}
 
-	public String getImageURL()
-	{
-		return imageURL;
-	}
-
-	public void setImageURL(String imageURL)
-	{
-		this.imageURL = imageURL;
-	}
-
 	public Boolean getPostProductionRequired()
 	{
 		return postProductionRequired;
@@ -176,6 +166,16 @@ public class ProjectDTO extends AbstractDTO
 	public void setPaidOptions(List<PaidOptionDTO> paidOptions)
 	{
 		this.paidOptions = paidOptions;
+	}
+
+	public List<Attachment> getAttachments()
+	{
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments)
+	{
+		this.attachments = attachments;
 	}
 
 	@AssertTrue(message = "Type ENUM confirmation not matching")
