@@ -18,6 +18,8 @@ public interface ProjectMapper
 
 	List<Project> searchProjects(ProjectSearchCriteria sc);
 
+	Integer getProjectsSearchCount(ProjectSearchCriteria sc);
+
 	List<Project> getAllProjects();
 
 	void updateProject(Project project);

@@ -46,7 +46,7 @@ public class TransactionService
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<Transaction> transactions = transactionMapper.searchTransactions(sc);
 		results.setResults(transactions);
-		results.setTotalResults(transactions.size());
+		results.setTotalResults(transactionMapper.getTransactionsSearchCount(sc));
 		return results;
 	}
 

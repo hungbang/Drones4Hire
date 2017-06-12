@@ -14,6 +14,8 @@ public interface TransactionMapper {
 
     List<Transaction> searchTransactions(TransactionSearchCriteria sc);
 
+    Integer getTransactionsSearchCount(TransactionSearchCriteria sc);
+
     void updateTransaction(Transaction transaction);
 
     void deleteTransaction(long id);

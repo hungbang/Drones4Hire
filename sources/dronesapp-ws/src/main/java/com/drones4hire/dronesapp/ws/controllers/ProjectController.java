@@ -10,7 +10,6 @@ import com.drones4hire.dronesapp.models.dto.BidDTO;
 import com.drones4hire.dronesapp.models.dto.CommentDTO;
 import com.drones4hire.dronesapp.models.dto.PaidOptionDTO;
 import com.drones4hire.dronesapp.models.dto.ProjectDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.BidService;
 import com.drones4hire.dronesapp.services.services.CommentService;
@@ -146,11 +145,10 @@ public class ProjectController extends AbstractController
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
-		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
+		SearchResult<Project> searchResult = projectService.searchProjects(sc, getPrincipal().getId());
 		List<ProjectDTO> projectDTOs = new ArrayList<>();
 		ProjectDTO projectDTO = null;
-		for(Project project : projects)
+		for(Project project : searchResult.getResults())
 		{
 			projectDTO = mapper.map(project, ProjectDTO.class);
 			if(project.getPilotId() != null)
@@ -159,8 +157,8 @@ public class ProjectController extends AbstractController
 			}
 			projectDTOs.add(projectDTO);
 		}
+		results.setTotalResults(searchResult.getTotalResults());
 		results.setResults(projectDTOs);
-		results.setTotalResults(projects.size());
 		return results;
 	}
 

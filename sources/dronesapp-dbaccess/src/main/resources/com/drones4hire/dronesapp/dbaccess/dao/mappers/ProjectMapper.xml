@@ -255,6 +255,79 @@
 		]]>
 	</select>
 
+	<select id="getProjectsSearchCount" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM
+				drones.PROJECTS P
+			LEFT JOIN
+				drones.LOCATIONS L
+			ON
+				P.LOCATION_ID = L.ID
+			LEFT JOIN
+				drones.BUDGETS B
+			ON
+				P.BUDGET_ID = B.ID
+
+			LEFT JOIN
+				drones.DURATIONS D
+			ON
+				P.DURATION_ID = D.ID
+
+			LEFT JOIN
+				drones.SERVICES S
+			ON
+				P.SERVICE_ID = S.ID
+			LEFT JOIN
+				drones.SERVICE_CATEGORIES SC
+			ON
+				S.SERVICE_CATEGORY_ID = SC.ID
+		]]>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != title">
+				<![CDATA[
+				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
+				]]>
+			</if>
+			<if test="null != status">
+				<![CDATA[
+				   AND P.STATUS = #{status}
+				]]>
+			</if>
+			<if test="0 != serviceCategoryId">
+				<![CDATA[
+				   AND SC.ID = #{serviceCategoryId}
+				]]>
+			</if>
+			<if test="0 != durationId">
+				<![CDATA[
+				   AND D.ID = #{durationId}
+				]]>
+			</if>
+			<if test="0 != locationId">
+				<![CDATA[
+				   AND L.ID = #{locationId}
+				]]>
+			</if>
+			<if test="0 != budgetId">
+				<![CDATA[
+				   AND B.ID = #{budgetId}
+				]]>
+			</if>
+			<if test="0 != clientId">
+				<![CDATA[
+				   AND P.CLIENT_ID = #{clientId}
+				]]>
+			</if>
+			<if test="0 != pilotId and 'NEW' != status.toString()">
+				<![CDATA[
+				   AND P.PILOT_ID = #{pilotId}
+				]]>
+			</if>
+		</trim>
+	</select>
+
 	<update id="updateProject">
         <![CDATA[
           UPDATE

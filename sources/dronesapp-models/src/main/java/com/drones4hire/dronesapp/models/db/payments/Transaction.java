@@ -11,7 +11,7 @@ public class Transaction extends AbstractEntity
 
 	public enum Type
 	{
-		WITHDRAW, SERVICE_FEE
+		WITHDRAW, SERVICE_FEE, PAID_OPTION
 	}
 
 	public enum Status

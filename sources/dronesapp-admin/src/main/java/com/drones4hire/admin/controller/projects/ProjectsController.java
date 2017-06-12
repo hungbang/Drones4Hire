@@ -1,7 +1,5 @@
 package com.drones4hire.admin.controller.projects;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,10 +48,9 @@ public class ProjectsController extends AbstractController
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		sc.setPage(sc.getPageSize() * (sc.getPage()));
-		List<Project> projects = projectService.searchProjects(sc, getPrincipal().getId());
-		results.setResults(projects);
-		results.setTotalResults(projects.size());
+		SearchResult<Project> searchResult = projectService.searchProjects(sc, getPrincipal().getId());
+		results.setResults(searchResult.getResults());
+		results.setTotalResults(searchResult.getTotalResults());
 		return results;
 	}
 	

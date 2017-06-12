@@ -104,6 +104,52 @@
 			]]>
     </select>
 
+    <select id="getTransactionsSearchCount" resultType="java.lang.Integer">
+        <![CDATA[
+          SELECT
+	        COUNT(*)
+          FROM
+	        drones.TRANSACTIONS T
+        ]]>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != walletId">
+                <![CDATA[
+				   AND T.WALLET_ID = #{walletId}
+				]]>
+            </if>
+            <if test="null != amount">
+                <![CDATA[
+				   AND T.AMOUNT = #{amount}
+				]]>
+            </if>
+            <if test="null != currency">
+                <![CDATA[
+				   AND T.CURRENCY = #{currency}
+				]]>
+            </if>
+            <if test="null != type">
+                <![CDATA[
+				   AND T.TYPE = #{type}
+				]]>
+            </if>
+            <if test="null != purpose">
+                <![CDATA[
+				   AND T.PURPOSE = #{purpose}
+				]]>
+            </if>
+            <if test="null != projectId">
+                <![CDATA[
+				   AND T.PROJECT_ID = #{projectId}
+				]]>
+            </if>
+            <if test="null != status">
+                <![CDATA[
+				   AND T.STATUS = #{status}
+				]]>
+            </if>
+        </trim>
+    </select>
+
     <update id="updateTransaction">
         <![CDATA[
           UPDATE
