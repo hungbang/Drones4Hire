@@ -37,8 +37,15 @@ public class UsersController extends AbstractController
 	private NotificationSettingService settingsService;
 	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView openUsersPage() throws ServiceException
+	@RequestMapping(value = "clients", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+	public ModelAndView openClientsPage() throws ServiceException
+	{
+		return new ModelAndView("users/index");
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "pilots", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+	public ModelAndView openPilotsPage() throws ServiceException
 	{
 		return new ModelAndView("users/index");
 	}
@@ -50,10 +57,10 @@ public class UsersController extends AbstractController
 		return new ModelAndView("users/view");
 	}
 	
-	@RequestMapping(value = "searchUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<User> searchUsers(@RequestBody UserSearchCriteria userSearchCriteria) throws Exception
+	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody SearchResult<User> search(@RequestBody UserSearchCriteria userSearchCriteria) throws Exception
 	{
-		return userService.searchUsers(userSearchCriteria);
+		return userService.search(userSearchCriteria);
 	}
 	
 	@ResponseStatus(HttpStatus.OK)

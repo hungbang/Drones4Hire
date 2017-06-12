@@ -15,7 +15,7 @@ public abstract class AbstractEntity implements Serializable
 	private Long id;
 	@JsonIgnore
 	private Date modifiedAt;
-	@JsonIgnore
+//	@JsonIgnore
 	private Date createdAt;
 	
 	protected String EMPTY = "";

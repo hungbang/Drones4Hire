@@ -126,7 +126,7 @@ font.tip {
 #center-form button {
 	font-family: 'Roboto', sans-serif;
 	border: none;
-	background: none;
+	background: #3fbdc7;
 	width: 232px;
 	height: 32px;
 }
@@ -174,11 +174,18 @@ input:-webkit-autofill {
 }
 
 .main-logo {
-	background: url(../img/large_logo.png);
+	background: url(../img/logo.png);
 	display: block;
 	width: 175px;
 	height: 158px; 
 	margin: 0 auto;
+}
+
+.menu-logo {
+	float: left;
+	width: 25px;
+	height: 25px;
+	margin-right: 5px;
 }
 
 body.form {

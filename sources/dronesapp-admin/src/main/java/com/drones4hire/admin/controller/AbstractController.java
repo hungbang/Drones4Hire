@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.drones4hire.admin.security.SecuredUser;
-import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 
 public abstract class AbstractController

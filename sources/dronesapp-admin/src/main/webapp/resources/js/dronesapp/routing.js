@@ -5,9 +5,14 @@ DronesAdmin.constant('ROUTES', [
 		templateUrl : 'dashboard'
 	}
 }, {
-	url : '/users',
+	url : '/users/clients',
 	config : {
-		templateUrl : 'users'
+		templateUrl : 'users/clients'
+	}
+}, {
+	url : '/users/pilots',
+	config : {
+		templateUrl : 'users/pilots'
 	}
 }, {
 	url : '/users/:id/view',

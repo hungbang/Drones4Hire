@@ -137,6 +137,11 @@
 				   AND U.ENABLED = #{enabled}
 				]]>
 			</if>
+			<if test="null != role">
+				<![CDATA[
+				   AND G.ROLE = #{role}
+				]]>
+			</if>
 		</trim>
 		<if test="sortOrder.toString() == 'ASC'">
 				<![CDATA[
@@ -151,6 +156,72 @@
 		<![CDATA[
 			LIMIT #{pageSize} OFFSET #{page}
 		]]>
+	</select>
+	
+	<select id="getSearchUsersCount" resultType="java.lang.Integer">
+	    <![CDATA[
+            SELECT
+                COUNT(*)
+            FROM
+	          	drones.USERS U
+		        LEFT JOIN 
+		        	drones.LOCATIONS L 
+		        ON 
+		        	U.LOCATION_ID = L.ID
+		        LEFT JOIN
+	            	drones.COUNTRIES C
+	          	ON
+	            	L.COUNTRY_ID = C.ID
+	          	LEFT JOIN
+	            	drones.STATES S
+	          	ON
+	            	L.STATE_ID = S.ID
+	            LEFT JOIN
+	            	drones.USER_GROUPS UG
+	            ON
+	            	UG.USER_ID = U.ID
+	            LEFT JOIN
+		        	drones.GROUPS G
+		        ON
+		        	G.ID = UG.GROUP_ID
+	    ]]>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != lastName">
+				<![CDATA[
+				   AND LOWER(U.LAST_NAME) LIKE LOWER(CONCAT('%', #{lastName}, '%'))
+				]]>
+			</if>
+			<if test="null != firstName">
+				<![CDATA[
+				    AND LOWER(U.FIRST_NAME) LIKE LOWER(CONCAT('%', #{firstName}, '%'))
+				]]>
+			</if>
+			<if test="null != email">
+				<![CDATA[
+				    AND LOWER(U.EMAIL) LIKE LOWER(CONCAT('%', #{email}, '%'))
+				]]>
+			</if>
+			<if test="null != username">
+				<![CDATA[
+					AND LOWER(U.USERNAME) LIKE LOWER(CONCAT('%', #{username}, '%'))
+				]]>
+			</if>
+			<if test="null != confirmed">
+				<![CDATA[
+				   AND U.CONFIRMED = #{confirmed}
+				]]>
+			</if>
+			<if test="null != enabled">
+				<![CDATA[
+				   AND U.ENABLED = #{enabled}
+				]]>
+			</if>
+			<if test="null != role">
+				<![CDATA[
+				   AND G.ROLE = #{role}
+				]]>
+			</if>
+		</trim>
 	</select>
 
     <select id="getUserById" resultMap="UserResultMap">

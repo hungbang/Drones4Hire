@@ -22,6 +22,8 @@ public interface UserMapper
 
 	List<User> searchUsers(UserSearchCriteria sc);
 	
+	Integer getSearchUsersCount(UserSearchCriteria searchCriteria);
+	
 	List<User> getAllUsers();
 	
 	void updateUser(User user);

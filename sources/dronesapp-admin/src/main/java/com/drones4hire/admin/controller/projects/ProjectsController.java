@@ -1,6 +1,5 @@
 package com.drones4hire.admin.controller.projects;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import com.drones4hire.admin.controller.AbstractController;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.dto.ProjectDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.ProjectService;
 

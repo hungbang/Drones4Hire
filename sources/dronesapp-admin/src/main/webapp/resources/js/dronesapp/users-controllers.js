@@ -1,57 +1,44 @@
 'use strict';
 
-DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$location', '$modal', '$upload', '$route', 'PAGE_SIZES', '$cookieStore', 'LocaleProvider', function($scope, $http, $location, $modal, $upload, $route, PAGE_SIZES, $cookieStore, LocaleProvider) {
-	var DEFAULT_USER_SEARCH_CRITERIA = {
-			'rating' : 5,
-			'pageSize' : PAGE_SIZES[0],
-			'roles' : ['PILOT', 'CLIENT']
-	};
-	$scope.userSearchCriteria = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
-	$scope.userListPageSizes = PAGE_SIZES;
+DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$route', 'PAGE_SIZES', function($scope, $http, $route, PAGE_SIZES) {
 	
-	$scope.loadRoles = function(){
-		$scope.roles = ["ROLE_ADMIN", "ROLE_PILOT", "ROLE_CLIENT"];
+	var DEFAULT_USER_SEARCH_CRITERIA = {
+			'pageSize' : PAGE_SIZES[0],
+			'role' : (isPilot() ? "ROLE_PILOT" : "ROLE_CLIENT")
 	};
-
-	$scope.searchUsers = function(page, pageSize){
-
-		var OFFSET = new Date().getTimezoneOffset()*60*1000;
-		$scope.userSearchCriteria.page = page;
-		if(pageSize){
-			$scope.userSearchCriteria.pageSize = pageSize;
-		}
-//
-//		if($scope.userSearchCriteria.role != null)
-//		{
-//			$scope.userSearchCriteria.roles = null;
-//		}
-		
-		$http.post('users/searchUsers', $scope.userSearchCriteria).success(function(data) {
-			$scope.userSearchResult = data;
-			$scope.userSearchCriteria.page = data.page;
-			$scope.userSearchCriteria.pageSize = data.pageSize;
+	
+	$scope.sc = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
+	$scope.pageSizes = PAGE_SIZES;
+	$scope.title = isPilot() ? "Pilots" : "Clients";
+	
+	$scope.searchUsers = function(page, pageSize)
+	{
+		$scope.sc.page = page;
+		if(pageSize) $scope.sc.pageSize = pageSize;
+		$http.post('users/search', $scope.sc).success(function(data) 
+		{
+			$scope.sr = data;
+			$scope.sc.page = data.page;
+			$scope.sc.pageSize = data.pageSize;
 		}).error(function() {
 			console.error('Failed to search users');
 		});
 	};
-
-	var it = $scope;
 	
-	$scope.resetSearchCriteria = function(){
-		$scope.userSearchCriteria = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
+	function isPilot() {
+		return $route.current.loadedTemplateUrl.endsWith('pilots');
+	};
+
+	$scope.resetSearchCriteria = function() {
+		$scope.sc = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
 		$scope.searchUsers(0);
 	};
 		
-	$scope.openViewPage = function(id){
-		$location.path('/users/' + id + '/view');
-	};
-	
-	(function init(){
-		$scope.loadRoles();
+	(function init() {
 		$scope.searchUsers(0);
 	})();
 	
-} ]);
+}]);
 
 DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location', '$routeParams', '$modal', '$route', '$upload', function($scope, $http, $location, $routeParams, $modal, $route, $upload) {
 	

@@ -3,7 +3,7 @@
 <link href="<spring:url value="/resources/css/style.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/font-awesome.min.css" />" rel="stylesheet" type="text/css" />
-<link href="<spring:url value="/resources/css/layout.css" />" rel="stylesheet" type="text/css" />
+<link href="<spring:url value="/resources/css/sb-admin.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/angular-multi-select.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/spinner.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/file_upload.css" />" rel="stylesheet" type="text/css" />
