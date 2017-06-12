@@ -200,12 +200,12 @@ public class ProjectController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Get bid infos", nickname = "getBidInfos", code = 200, httpMethod = "POST", response = List.class)
+	@ApiOperation(value = "Get bid infos", nickname = "getBidInfos", code = 200, httpMethod = "POST", response = SearchResult.class)
 	@ApiImplicitParams(
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "bids/info", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<BidInfo> getBidInfos(@Valid @RequestBody BidInfoSearchCriteria sc) throws ServiceException
+	public @ResponseBody SearchResult<BidInfo> getBidInfos(@Valid @RequestBody BidInfoSearchCriteria sc) throws ServiceException
 	{
 		return bidService.getBidInfos(sc, getPrincipal().getId());
 	}

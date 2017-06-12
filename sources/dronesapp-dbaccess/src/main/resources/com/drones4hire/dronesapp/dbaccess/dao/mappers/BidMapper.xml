@@ -67,7 +67,7 @@
         ]]>
     </select>
 
-    <select id="getBidInfosByClientId" resultMap="BidInfoResultMap">
+    <select id="searchBidInfos" resultMap="BidInfoResultMap">
         <![CDATA[
           SELECT
             B.PROJECT_ID AS BID_PROJECT_ID,
@@ -132,6 +132,51 @@
         </if>
         <![CDATA[
           LIMIT #{pageSize} OFFSET #{page};
+        ]]>
+    </select>
+
+    <select id="getBidInfosCount" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT
+        COUNT(*)
+        FROM
+          (
+            SELECT
+              B.ID
+            FROM
+              drones.BIDS B
+            INNER JOIN
+              drones.PROJECTS P
+            ON
+              B.PROJECT_ID = P.ID
+         ]]>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != clientId">
+                <![CDATA[
+                  AND P.CLIENT_ID = #{clientId}
+                ]]>
+            </if>
+            <if test="null != pilotId">
+                <![CDATA[
+                  AND P.PILOT_ID = #{pilotId}
+                ]]>
+            </if>
+            <if test="null != title">
+                <![CDATA[
+                  AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
+                ]]>
+            </if>
+            <if test="null != status">
+                <![CDATA[
+                  AND P.STATUS = #{status}
+                ]]>
+            </if>
+        </trim>
+        <![CDATA[
+          GROUP BY
+              P.ID
+            )
+            AS PID
         ]]>
     </select>
 

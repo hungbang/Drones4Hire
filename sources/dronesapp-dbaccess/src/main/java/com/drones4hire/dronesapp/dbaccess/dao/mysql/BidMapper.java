@@ -17,7 +17,9 @@ public interface BidMapper
 
 	Bid getBidByProjectIdAndUserId(@Param("projectId") Long projectId, @Param("userId") Long userId);
 
-	List<BidInfo> getBidInfosByClientId(BidInfoSearchCriteria sc);
+	List<BidInfo> searchBidInfos(BidInfoSearchCriteria sc);
+
+	Integer getBidInfosCount(BidInfoSearchCriteria sc);
 
 	void updateBid(Bid bid);
 

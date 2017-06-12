@@ -1,12 +1,12 @@
 package com.drones4hire.dronesapp.services.services;
 
-import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.util.List;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.BidInfoSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.BidInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,8 +76,12 @@ public class BidService
 	}
 
 	@Transactional(readOnly = true)
-	public List<BidInfo> getBidInfos(BidInfoSearchCriteria sc, Long principalId) throws ServiceException
+	public SearchResult<BidInfo> getBidInfos(BidInfoSearchCriteria sc, Long principalId) throws ServiceException
 	{
+		SearchResult<BidInfo> results = new SearchResult<>();
+		results.setSortOrder(sc.getSortOrder());
+		results.setPageSize(sc.getPageSize());
+		results.setPage(sc.getPage());
 		User user = userService.getUserById(principalId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
@@ -87,7 +91,7 @@ public class BidService
 			sc.setPilotId(principalId);
 		}
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
-		List<BidInfo> bidInfos = bidMapper.getBidInfosByClientId(sc);
+		List<BidInfo> bidInfos = bidMapper.searchBidInfos(sc);
 		for(BidInfo bidInfo : bidInfos)
 		{
 			Long pilotId = projectService.getProjectById(bidInfo.getProjectId(), sc.getClientId()).getPilotId();
@@ -100,7 +104,9 @@ public class BidService
 				bidInfo.setEndDate(bidInfo.getModifiedAt());
 			}
 		}
-		return bidInfos;
+		results.setResults(bidInfos);
+		results.setTotalResults(bidMapper.getBidInfosCount(sc));
+		return results;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
