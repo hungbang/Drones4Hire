@@ -234,30 +234,7 @@ export const ROUTES: Routes = [
             canActivate: [PilotGuard],
             data: {
               className: 'p-account'
-            },
-            children: [
-              {
-                path: '',
-                redirectTo: 'photo',
-                pathMatch: 'full'
-              },
-              {
-                path: 'photo',
-                component: NotFoundComponent,
-                canActivate: [PilotGuard],
-                data: {
-                  className: 'p-account'
-                }
-              },
-              {
-                path: 'video',
-                component: NotFoundComponent,
-                canActivate: [PilotGuard],
-                data: {
-                  className: 'p-account'
-                }
-              }
-            ]
+            }
           },
           {
             path: 'security',
