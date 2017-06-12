@@ -8,11 +8,18 @@ export class MyProjectsResolve implements Resolve<any> {
   constructor(private bidService: BidService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    // todo add filter to request
     const status = route.data['status'];
-    const page = route.params['page'];
+    const page = parseInt(route.params['page'], 10);
+
+    const title = route.queryParams['title'];
+    const countOfItemsPerPage = route.queryParams['count'];
+
+    if (countOfItemsPerPage) {
+      this.bidService.countPerPage = parseInt(countOfItemsPerPage, 10);
+    }
+
     const pageSize = this.bidService.countPerPage;
 
-    return this.bidService.fetchBidsInfo({ page, pageSize });
+    return this.bidService.fetchBidsInfo({ page, pageSize, status, title });
   }
 }

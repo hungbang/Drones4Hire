@@ -103,6 +103,7 @@ export const ROUTES: Routes = [
             data: {
               status: 'NEW'
             },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
               projects: MyProjectsResolve
             },
@@ -121,8 +122,9 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
-              status: 'NEW'
+              status: 'IN_PROGRESS'
             },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
               projects: MyProjectsResolve
             },
@@ -141,8 +143,9 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
-              status: 'NEW'
+              status: 'COMPLETED'
             },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
               projects: MyProjectsResolve
             },

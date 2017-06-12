@@ -13,7 +13,6 @@
       background #159aa5
   tr
     td:first-child
-      text-align: left;
       ._client &
         width: 33.333%
     .t-dashboard__td:nth-child(2n)
@@ -24,14 +23,23 @@
   &__th
     color #fff
     font-weight: 500
-    padding: 18px 10px 16px;
+    padding: 27px 10px 25px
   &__td
-    padding: 15px 10px;
+    display table-cell
+    text-align: center
+    padding: 25px 0
+    font-size 1.6rem
+    osans(400)
+    text-transform: uppercase
+    border-bottom 1px solid #b7b7b7
+    letter-spacing: 2px
+    color: #454545
     border-bottom: 1px solid #d3d3d3;
   &__link
     &-name
       color #454545
-      border-bottom: 1px solid #454545;
+      display: inline-block
+      font-weight: 600
     ._client &
       &-review
         color #397eb9

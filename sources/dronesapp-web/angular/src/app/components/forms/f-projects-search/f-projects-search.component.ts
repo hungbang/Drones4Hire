@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ProjectService } from '../../../services/project.service/project.service';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {BidService} from "../../../services/bid.service/bid.service";
 
 @Component({
   selector: 'f-projects-search',
@@ -7,21 +7,34 @@ import { ProjectService } from '../../../services/project.service/project.servic
   styleUrls: ['./f-projects-search.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class FProjectsSearchComponent implements OnInit {
-  limitProjectsToShow: number = 10;
-  nameFilter: string;
+export class FProjectsSearchComponent {
+  @Input()
+  set countPerPage(value: number) {
+    this._countPerPage = value;
+  }
+  @Input()
+  set title(value: string) {
+    this._title = value;
+  }
+  @Output() search = new EventEmitter<any>();
 
-  constructor(private _projectService: ProjectService) {
+  public _title: string;
+  public _countPerPage: number;
+
+  constructor(private bidService: BidService) {
   }
 
-  ngOnInit() {
+  get countOfItemsSelection() {
+    return this.bidService.countOfItemsSelection;
   }
 
-  refresh(limit: number): void {
-    this._projectService.limitProjectsToShow = limit;
-  }
+  onSearch() {
+    const search = Object.assign({}, {
+      title: this._title,
+      countPerPage: this._countPerPage
+    });
 
-  filterByName(): void {
-    this._projectService.nameFilter = this.nameFilter;
+
+    this.search.emit(search);
   }
 }

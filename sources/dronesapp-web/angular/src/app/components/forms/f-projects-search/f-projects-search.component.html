@@ -1,20 +1,23 @@
-<form action="" class="f-projects-search">
+<form action="" class="f-projects-search" novalidate (submit)="onSearch()">
   <div class="f-projects-search__wrapper">
     <div class="f-projects-search__input-wrapper">
-      <input name="nameFilter" type="text"
+      <input name="title"
+             type="text"
              class="f-projects-search__input"
              placeholder="Enter the project name"
-             [(ngModel)]="nameFilter">
-      <button type="button" class="f-projects-search__btn-search"
-              (click)="filterByName()">
+             [(ngModel)]="_title">
+      <button type="button"
+              class="f-projects-search__btn-search"
+              (click)="onSearch()">
         Search
       </button>
     </div>
     <div class="f-projects-search__select-wrapper">
-      <select [(ngModel)]="limitProjectsToShow"
-              name="filterByCount" id=""
+      <select [(ngModel)]="_countPerPage"
+              name="filterByCount"
+              (change)="onSearch()"
               class="f-projects-search__select">
-        <option [value]="value" *ngFor="let value of _projectService.countProjectsToShow"
+        <option [value]="value" *ngFor="let value of countOfItemsSelection"
                 class="f-projects-search__option">
           Show {{value}}</option>
       </select>

@@ -1,4 +1,10 @@
 <div class="s-my-projects">
+  <button type="button" class="s-my-projects__update">
+    <svg-use name="update"></svg-use>
+  </button>
+  <f-projects-search (search)="search($event)"
+                     [countPerPage]="countPerPage"
+                     [title]="title"></f-projects-search>
   <t-project [projects]="projects"></t-project>
   <l-project-pagination class="s-my-projects__pagination"
                         (changePage)="changePage($event)"
