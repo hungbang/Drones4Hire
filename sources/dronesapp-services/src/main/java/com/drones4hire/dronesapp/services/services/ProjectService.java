@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.AttachmentMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.projects.Project;
