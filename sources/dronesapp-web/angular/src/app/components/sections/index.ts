@@ -15,6 +15,7 @@ import { STransactionsComponent } from './s-transactions/s-transactions.componen
 import { SProjectAddComponent } from './s-project-add/s-project-add.component';
 import { SAuthorizationComponent } from './s-authorization/s-authorization.component';
 import { SProjectComponent } from './s-project/s-project.component';
+import {SMyProjectsComponent} from "./s-my-projects/s-my-projects.component";
 
 export const SECTIONS = [
   HeaderComponent,
@@ -22,6 +23,7 @@ export const SECTIONS = [
   SProfileComponent,
   SAuthorizationComponent,
   SIndexComponent,
+  SMyProjectsComponent,
   SServicesComponent,
   SHowitComponent,
   SGoingComponent,

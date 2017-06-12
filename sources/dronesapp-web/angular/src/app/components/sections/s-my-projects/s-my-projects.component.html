@@ -1,0 +1,8 @@
+<div class="s-my-projects">
+  <t-project [projects]="projects"></t-project>
+  <l-project-pagination class="s-my-projects__pagination"
+                        (changePage)="changePage($event)"
+                        [min]="minPage"
+                        [max]="maxPage"
+                        [current]="currentPage"></l-project-pagination>
+</div>

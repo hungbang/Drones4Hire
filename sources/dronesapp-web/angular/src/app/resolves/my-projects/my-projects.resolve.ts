@@ -13,6 +13,6 @@ export class MyProjectsResolve implements Resolve<any> {
     const page = route.params['page'];
     const pageSize = this.bidService.countPerPage;
 
-    return this.bidService.fetchBidsInfo({ page: 1, pageSize });
+    return this.bidService.fetchBidsInfo({ page, pageSize });
   }
 }
