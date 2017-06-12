@@ -6,16 +6,18 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.util.List;
 
-import com.drones4hire.dronesapp.models.db.projects.PaidOption;
-import com.drones4hire.dronesapp.models.db.users.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.AttachmentMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
+import com.drones4hire.dronesapp.models.db.projects.Attachment;
+import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -32,6 +34,9 @@ public class ProjectService
 
 	@Autowired
 	private LocationService locationService;
+	
+	@Autowired
+	private AttachmentMapper attachmentMapper;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Project createProject(Project project)
@@ -39,16 +44,28 @@ public class ProjectService
 		locationService.createLocation(project.getLocation());
 		projectMapper.createProject(project);
 		createProjectPaidOption(project.getId(), project.getPaidOptions());
+		createAttachment(project.getId(), project.getAttachments());
 		return project;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
 	public long createProjectPaidOption(long projectId, List<PaidOption> paidOptions)
 	{
-		projectMapper.createProjectPaidOption(projectId, paidOptions);
+		if(!paidOptions.isEmpty()) {
+			projectMapper.createProjectPaidOption(projectId, paidOptions);
+		}
 		return projectId;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public long createAttachment(long projectId, List<Attachment> attachments)
+	{
+		if(!attachments.isEmpty()) {
+			attachmentMapper.createAttachments(attachments, projectId);
+		}
+		return projectId;
+	}
+	
 	@Transactional(readOnly = true)
 	public Project getProjectById(long id, long principalId) throws ServiceException
 	{

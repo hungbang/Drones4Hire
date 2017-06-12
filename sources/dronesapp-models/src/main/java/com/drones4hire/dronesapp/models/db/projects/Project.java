@@ -26,12 +26,12 @@ public class Project extends AbstractEntity
 	private Duration duration;
 	private Location location;
 	private Budget budget;
-	private String imageURL;
 	private Boolean postProductionRequired;
 	private Date startDate;
 	private Date finishDate;
 	private Status status;
 	private List<PaidOption> paidOptions;
+	private List<Attachment> attachments;
 
 	public Service getService()
 	{
@@ -113,16 +113,6 @@ public class Project extends AbstractEntity
 		this.budget = budget;
 	}
 
-	public String getImageURL()
-	{
-		return imageURL;
-	}
-
-	public void setImageURL(String imageURL)
-	{
-		this.imageURL = imageURL;
-	}
-
 	public Boolean getPostProductionRequired()
 	{
 		return postProductionRequired;
@@ -171,5 +161,15 @@ public class Project extends AbstractEntity
 	public void setPaidOptions(List<PaidOption> paidOptions)
 	{
 		this.paidOptions = paidOptions;
+	}
+
+	public List<Attachment> getAttachments()
+	{
+		return attachments;
+	}
+
+	public void setAttachments(List<Attachment> attachments)
+	{
+		this.attachments = attachments;
 	}
 }

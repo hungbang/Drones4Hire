@@ -35,10 +35,6 @@
             <b>budget</b>
         </field>
         <field>
-            <a>imageURL</a>
-            <b>imageURL</b>
-        </field>
-        <field>
             <a>postProductionRequired</a>
             <b>postProductionRequired</b>
         </field>
@@ -57,6 +53,10 @@
         <field>
             <a>paidOptions</a>
             <b>paidOptions</b>
+        </field>
+        <field>
+            <a>attachments</a>
+            <b>attachments</b>
         </field>
         <field>
             <a>createdAt</a>

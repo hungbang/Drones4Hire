@@ -108,7 +108,6 @@ public class ProjectController extends AbstractController
 		project.getLocation().setCity(p.getLocation().getCity());
 		project.getLocation().setPostcode(p.getLocation().getPostcode());
 		project.setBudget(mapper.map(p.getBudget(), Budget.class));
-		project.setImageURL(p.getImageURL());
 		project.setPostProductionRequired(p.getPostProductionRequired());
 		project.setStartDate(p.getStartDate());
 		project.setFinishDate(p.getFinishDate());

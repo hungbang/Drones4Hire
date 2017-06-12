@@ -6,7 +6,7 @@
 	<insert id="createProject" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT
-          		INTO drones.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, IMAGE_URL, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
+          		INTO drones.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
           VALUES 
 	           (
 	            #{title},
@@ -17,7 +17,6 @@
 	            #{duration.id},
 	            #{location.id},
 	            #{budget.id},
-	            #{imageURL},
 	            #{postProductionRequired},
 	            #{status},
 	            #{startDate},
@@ -49,7 +48,6 @@
 	        	P.SUMMARY AS PROJECT_SUMMARY,
 	        	P.CLIENT_ID AS PROJECT_CLIENT_ID,
 	        	P.PILOT_ID AS PROJECT_PILOT_ID,
-	        	P.IMAGE_URL AS PROJECT_IMAGE_URL,
 	        	P.POST_PRODUCTION_REQUIRED AS PROJECT_POST_PRODUCTION_REQUIRED,
 	        	P.STATUS AS PROJECT_STATUS,
 	        	P.START_DATE AS PROJECT_START_DATE,
@@ -106,7 +104,14 @@
 	            SC.NAME AS SERVICE_CATEGORY_NAME,
 	            SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
 	            SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
-	            SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT
+	            SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT,
+	            
+	            A.ID AS ATTACHMENT_ID,
+	      		A.ATTACHMENT_URL AS ATTACHMENT_ATTACHMENT_URL,
+		        A.TYPE AS ATTACHMENT_TYPE,
+		        A.PROJECT_ID AS ATTACHMENT_PROJECT_ID,
+		        A.MODIFIED_AT AS ATTACHMENT_MODIFIED_AT,
+		        A.CREATED_AT AS ATTACHMENT_CREATED_AT
           FROM
 	      		drones.PROJECTS P
 	      LEFT JOIN
@@ -146,7 +151,11 @@
           LEFT JOIN
 	      		drones.SERVICE_CATEGORIES SC
 	      ON
-          		S.SERVICE_CATEGORY_ID = SC.ID		
+          		S.SERVICE_CATEGORY_ID = SC.ID	
+          LEFT JOIN
+	      		 drones.ATTACHMENTS A
+	      ON
+          		A.PROJECT_ID = P.ID		
         ]]>
 	</sql>
 
@@ -337,7 +346,6 @@
           	 	SUMMARY = #{summary},
           	 	CLIENT_ID = #{clientId},
           	 	PILOT_ID = #{pilotId},
-          	 	IMAGE_URL = #{imageURL},
           	 	POST_PRODUCTION_REQUIRED = #{postProductionRequired},
           	 	STATUS = #{status},
           	 	START_DATE = #{startDate},
@@ -363,7 +371,6 @@
 		<result column="PROJECT_SUMMARY" property="summary" />
 		<result column="PROJECT_CLIENT_ID" property="clientId" />
 		<result column="PROJECT_PILOT_ID" property="pilotId" />
-		<result column="PROJECT_IMAGE_URL" property="imageURL" />
 		<result column="PROJECT_POST_PRODUCTION_REQUIRED" property="postProductionRequired" />
 		<result column="PROJECT_STATUS" property="status" />
 		<result column="PROJECT_START_DATE" property="startDate" />
@@ -377,6 +384,9 @@
 		<collection property="paidOptions"
 			ofType="com.drones4hire.dronesapp.models.db.projects.PaidOption"
 			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.PaidOptionMapper.PaidOptionResultMap" />
+		<collection property="attachments"
+			ofType="com.drones4hire.dronesapp.models.db.projects.Attachment"
+			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.AttachmentMapper.AttachmentResultMap" />
 	</resultMap>
 
 </mapper>

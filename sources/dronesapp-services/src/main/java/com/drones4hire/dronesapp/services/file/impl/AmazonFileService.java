@@ -97,6 +97,6 @@ public class AmazonFileService extends FileService
 		String dir = env + SEPARATOR + file.getUserId();
 		MultipartFile multipartFile = file.getFile();
 		String hash = file.getType() + DASH + UUID.randomUUID().toString().replaceAll(DASH, StringUtils.EMPTY);
-		return dir + SEPARATOR + hash + DOT + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+		return dir + SEPARATOR + hash + DASH + multipartFile.getOriginalFilename();
 	}
 }
