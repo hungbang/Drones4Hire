@@ -28,9 +28,7 @@ export class SMyProjectsComponent implements OnInit {
     this.currentPage = parseInt(this.route.snapshot.params['page'], 10);
 
     this.route.params.subscribe(() => {
-      this.projects = this.route.snapshot.data['projects'];
-      this.countPerPage = this.bidService.countPerPage;
-      this.title = this.route.snapshot.queryParams['title'];
+      this.update();
     });
   }
 
@@ -55,9 +53,17 @@ export class SMyProjectsComponent implements OnInit {
     this.router.navigate(['/my-projects/bidding', this.currentPage], {
       queryParams
     }).then(() => {
-      this.projects = this.route.snapshot.data['projects'];
-      this.countPerPage = this.bidService.countPerPage;
-      this.title = this.route.snapshot.queryParams['title'];
+      this.update();
     })
+  }
+
+  update() {
+    const res = this.route.snapshot.data['projects'];
+
+    this.projects = res.results;
+    this.countPerPage = this.bidService.countPerPage;
+    this.title = this.route.snapshot.queryParams['title'];
+
+    this.maxPage = Math.floor(res.totalResults / this.countPerPage);
   }
 }

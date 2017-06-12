@@ -12,7 +12,7 @@ export class MyProjectsResolve implements Resolve<any> {
     const page = parseInt(route.params['page'], 10);
 
     const title = route.queryParams['title'];
-    const countOfItemsPerPage = route.queryParams['count'];
+    const countOfItemsPerPage = route.queryParams['count'] || 10;
 
     if (countOfItemsPerPage) {
       this.bidService.countPerPage = parseInt(countOfItemsPerPage, 10);
