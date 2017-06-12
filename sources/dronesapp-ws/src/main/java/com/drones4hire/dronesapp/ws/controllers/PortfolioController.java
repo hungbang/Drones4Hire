@@ -96,7 +96,7 @@ public class PortfolioController extends AbstractController
 	@ApiOperation(value = "Delete portfolio item", nickname = "deletePortfolioItem", code = 204, httpMethod = "DELETE")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@Secured({"ROLE_PILOT, ROLE_ADMIN"})
+	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deletePortfolioItem(
 			@ApiParam(value = "Id of the portfolio", required = true) @PathVariable(value = "id") long id)
