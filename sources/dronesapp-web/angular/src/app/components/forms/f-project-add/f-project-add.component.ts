@@ -62,13 +62,15 @@ export class FProjectAddComponent implements OnInit {
     }]
   });
 
+  public hasBaseDropZoneOver = false;
+
   constructor(public commonService: CommonService,
               private projectService: ProjectService,
               private _requestService: RequestService) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       console.log('onSuccessItem', response);
-      this.formData.imageURL = JSON.parse(response)['url'];
+      this.formData.imageURL = JSON.parse(response)['url']; // TODO: array of docs when API will provided
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
@@ -322,5 +324,9 @@ export class FProjectAddComponent implements OnInit {
 
   get now() {
     return this._now;
+  }
+
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
   }
 }

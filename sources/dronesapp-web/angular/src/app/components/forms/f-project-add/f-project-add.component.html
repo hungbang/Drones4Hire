@@ -14,6 +14,7 @@
         <div class="f-project-add__caption">What type of work do you require?</div>
       </div>
       <div class="f-default__col">
+
         <label class="f-default__label _select">
           <select class="f-default__field"
                   name="service"
@@ -104,21 +105,33 @@
       </div>
 
       <div class="f-default__col _flex">
-        <div class="f-project-add__caption">Upload your images here</div>
-        <span class="f-default__text">Add images or documents that might help explain your project (Optional)</span>
-
-        <label class="f-default__label">
-          <input class="f-default__field _file"
-                 type="file"
+        <div class="f-default__filedrop _vertical">
+          <div ng2FileDrop
+               [ngClass]="{'_file-over': hasBaseDropZoneOver}"
+               (fileOver)="fileOverBase($event)"
+               (change)="handlePhotoUpload()"
+               [uploader]="uploader"
+               (click)="triggerFileClick()"
+               class="f-default__filedrop-dropzone">
+            <div class="f-default__filedrop-dropzone-text">Upload your files here</div>
+            <div class="f-default__filedrop-dropzone-text _small">Add images or documents that might help explain your project (Optional)</div>
+            <div class="f-default__filedrop-dropzone-text">Drag & Drop files here</div>
+          </div>
+          <div class="f-default__filedrop-or">or</div>
+          <button type="button"
+                  (click)="triggerFileClick()"
+                  class="f-default__filedrop-button">Choose a file to upload</button>
+          <input type="file"
                  accept="image/jpeg,image/jpg,image/png"
-                 name="license"
+                 name="photo"
                  ng2FileSelect
+                 (change)="handlePhotoUpload()"
                  [uploader]="uploader"
-                 (change)="handlePhotoUpload()">
-        </label>
-
-        <div class="f-default__avatar" *ngIf="formData?.imageURL">
-          <img src="{{formData.imageURL}}" alt="license">
+                 class="f-default__field _file">
+          <!--TODO: change to correct filetypes -->
+        </div>
+        <div class="f-project-add__messages">
+          <!--TODO: Error and chosen file messages here-->
         </div>
       </div>
     </div>
