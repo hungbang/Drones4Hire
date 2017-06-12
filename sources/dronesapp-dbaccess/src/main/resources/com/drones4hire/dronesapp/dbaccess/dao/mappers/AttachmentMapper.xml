@@ -7,9 +7,10 @@
         <![CDATA[
           INSERT
           INTO 
-          		drones.ATTACHMENTS (ATTACHMENT_URL, TYPE, PROJECT_ID)
+          		drones.ATTACHMENTS (TITLE, ATTACHMENT_URL, TYPE, PROJECT_ID)
           VALUES 
 	          (
+	          	#{title},
 	            #{attachmentURL},
 	            #{type},
 	            #{projectId}
@@ -20,11 +21,12 @@
 	<insert id="createAttachments" useGeneratedKeys="true">
 		<![CDATA[
         	INSERT
-          		drones.ATTACHMENTS (ATTACHMENT_URL, TYPE, PROJECT_ID)
+          		drones.ATTACHMENTS (TITLE, ATTACHMENT_URL, TYPE, PROJECT_ID)
           VALUES
         ]]>
 		<foreach collection="attachments" item="attachment" index="index" open="" separator="," close=";">
 			(
+				#{title},
 				#{attachment.attachmentURL},
 	            #{attachment.type},
 	            #{projectId}
@@ -36,6 +38,7 @@
         <![CDATA[
           SELECT
 	      		A.ID AS ATTACHMENT_ID,
+	      		A.TITLE AS ATTACHMENT_TITLE,
 	      		A.ATTACHMENT_URL AS ATTACHMENT_ATTACHMENT_URL,
 		        A.TYPE AS ATTACHMENT_TYPE,
 		        A.PROJECT_ID AS ATTACHMENT_PROJECT_ID,
@@ -66,19 +69,6 @@
         <include refid="getAttachment"/>
     </select>
 
-    <update id="updateAttachment">
-        <![CDATA[
-          UPDATE
-          		drones.ATTACHMENTS
-          SET
-          		ATTACHMENT_URL = #{attachmentURL},
-          		TYPE = #{type},
-          		PROJECT_ID = #{projectId},
-          WHERE
-		  		ID = #{id}
-        ]]>
-    </update>
-
     <delete id="deleteAttachment">
         <![CDATA[
           DELETE
@@ -91,6 +81,7 @@
 
     <resultMap id="AttachmentResultMap" type="com.drones4hire.dronesapp.models.db.projects.Attachment" autoMapping="false">
         <id column="ATTACHMENT_ID" property="id"/>
+        <result column="ATTACHMENT_TITLE" property="title" />
         <result column="ATTACHMENT_ATTACHMENT_URL" property="attachmentURL" />
         <result column="ATTACHMENT_TYPE" property="type" />
         <result column="ATTACHMENT_PROJECT_ID" property="projectId" />

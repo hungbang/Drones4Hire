@@ -1,28 +1,51 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import com.drones4hire.dronesapp.models.db.commons.Currency;
-
 import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
+
+import com.drones4hire.dronesapp.models.db.projects.Attachment.Type;
 
 public class AttachmentDTO extends AbstractDTO
 {
-	private static final long serialVersionUID = 229985081766669727L;
-
-	@NotNull(message = "Title required")
+	private static final long serialVersionUID = -6905100677668763047L;
+	
 	private String title;
-	
-	@NotNull(message = "Description required")
-	private String description;
-	
-	@NotNull(message = "Price required")
-	@Min(value = 0, message = "Price should be positive")
-	private BigDecimal price;
-	
-	@NotNull(message = "Currency required")
-	private Currency currency;
+	@NotNull(message = "Attachment URL required")
+	private String attachmentURL;
+	@NotNull(message = "Project Id required")
+	private Long projectId;
+	@NotNull(message = "Type required")
+	private Type type;
+
+	public String getAttachmentURL()
+	{
+		return attachmentURL;
+	}
+
+	public void setAttachmentURL(String attachmentURL)
+	{
+		this.attachmentURL = attachmentURL;
+	}
+
+	public Long getProjectId()
+	{
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId)
+	{
+		this.projectId = projectId;
+	}
+
+	public Type getType()
+	{
+		return type;
+	}
+
+	public void setType(Type type)
+	{
+		this.type = type;
+	}
 
 	public String getTitle()
 	{
@@ -33,47 +56,13 @@ public class AttachmentDTO extends AbstractDTO
 	{
 		this.title = title;
 	}
-
-	public String getDescription()
+	
+	@AssertTrue(message = "Title is required")
+	public boolean isTitleValid()
 	{
-		return description;
-	}
-
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
-
-	public BigDecimal getPrice()
-	{
-		return price;
-	}
-
-	public void setPrice(BigDecimal price)
-	{
-		this.price = price;
-	}
-
-	public Currency getCurrency()
-	{
-		return currency;
-	}
-
-	public void setCurrency(Currency currency)
-	{
-		this.currency = currency;
-	}
-
-	@AssertTrue(message = "Currency ENUM confirmation not matching")
-	public boolean isConfirmationValid()
-	{
-		try
-		{
-			Currency.valueOf(currency.name());
+		if(type.equals(Type.PROJECT_RESULT))
+			return title != null;
+		else 
 			return true;
-		} catch (IllegalArgumentException e)
-		{
-			return false;
-		}
 	}
 }

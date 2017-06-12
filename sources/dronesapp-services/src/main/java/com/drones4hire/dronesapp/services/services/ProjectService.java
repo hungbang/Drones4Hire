@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.AttachmentMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
@@ -36,7 +35,7 @@ public class ProjectService
 	private LocationService locationService;
 	
 	@Autowired
-	private AttachmentMapper attachmentMapper;
+	private AttachmentService attachmentService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Project createProject(Project project)
@@ -61,7 +60,7 @@ public class ProjectService
 	public long createAttachment(long projectId, List<Attachment> attachments)
 	{
 		if(!attachments.isEmpty()) {
-			attachmentMapper.createAttachments(attachments, projectId);
+			attachmentService.createAttachments(attachments, projectId);
 		}
 		return projectId;
 	}
