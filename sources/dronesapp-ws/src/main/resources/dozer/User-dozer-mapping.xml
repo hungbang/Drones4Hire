@@ -32,6 +32,10 @@
         <class-a>com.drones4hire.dronesapp.models.dto.AccountDTO</class-a>
         <class-b>com.drones4hire.dronesapp.models.db.users.User</class-b>
 
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
 		<field>
             <a>username</a>
             <b>username</b>
