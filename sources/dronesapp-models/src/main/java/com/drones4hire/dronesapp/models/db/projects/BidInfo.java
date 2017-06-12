@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.models.db.projects;
 
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class BidInfo
@@ -11,6 +12,8 @@ public class BidInfo
 	private String projectTitle;
 	private Integer bidsCount;
 	private Double bidsAvg;
+	private BigDecimal bidsMax;
+	private BigDecimal bidAmount;
 	private Currency currency;
 	private Date endDate;
 	private Date createdAt;
@@ -54,6 +57,26 @@ public class BidInfo
 	public void setBidsAvg(Double bidsAvg)
 	{
 		this.bidsAvg = bidsAvg;
+	}
+
+	public BigDecimal getBidsMax()
+	{
+		return bidsMax;
+	}
+
+	public void setBidsMax(BigDecimal bidsMax)
+	{
+		this.bidsMax = bidsMax;
+	}
+
+	public BigDecimal getBidAmount()
+	{
+		return bidAmount;
+	}
+
+	public void setBidAmount(BigDecimal bidAmount)
+	{
+		this.bidAmount = bidAmount;
 	}
 
 	public Currency getCurrency()

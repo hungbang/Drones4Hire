@@ -205,12 +205,10 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams(
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(value = "bids/info", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<BidInfo> getBidInfos(@Valid @RequestBody BidInfoSearchCriteria sc) throws ServiceException
 	{
-		sc.setClientId(getPrincipal().getId());
-		return bidService.getBidInfos(sc);
+		return bidService.getBidInfos(sc, getPrincipal().getId());
 	}
 
 	@ResponseStatusDetails

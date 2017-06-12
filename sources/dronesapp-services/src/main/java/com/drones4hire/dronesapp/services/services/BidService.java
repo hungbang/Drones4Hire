@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.services.services;
 
+import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
@@ -75,8 +76,16 @@ public class BidService
 	}
 
 	@Transactional(readOnly = true)
-	public List<BidInfo> getBidInfos(BidInfoSearchCriteria sc) throws ServiceException
+	public List<BidInfo> getBidInfos(BidInfoSearchCriteria sc, Long principalId) throws ServiceException
 	{
+		User user = userService.getUserById(principalId);
+		if (user.getRoles().contains(ROLE_CLIENT))
+		{
+			sc.setClientId(principalId);
+		} else if (user.getRoles().contains(ROLE_PILOT))
+		{
+			sc.setPilotId(principalId);
+		}
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<BidInfo> bidInfos = bidMapper.getBidInfosByClientId(sc);
 		for(BidInfo bidInfo : bidInfos)
@@ -87,6 +96,7 @@ public class BidService
 				bidInfo.setEndDate(bidInfo.getCreatedAt());
 			} else
 			{
+				bidInfo.setBidAmount(getBidByProjectIdAndUserId(bidInfo.getProjectId(), pilotId).getAmount());
 				bidInfo.setEndDate(bidInfo.getModifiedAt());
 			}
 		}

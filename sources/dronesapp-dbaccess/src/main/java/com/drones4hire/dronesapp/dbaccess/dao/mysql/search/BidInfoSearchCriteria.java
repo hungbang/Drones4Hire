@@ -8,6 +8,9 @@ public class BidInfoSearchCriteria extends SearchCriteria
 	@JsonIgnore
 	private Long clientId;
 
+	@JsonIgnore
+	private Long pilotId;
+
 	private Project.Status status;
 
 	private String title;
@@ -20,6 +23,16 @@ public class BidInfoSearchCriteria extends SearchCriteria
 	public void setClientId(Long clientId)
 	{
 		this.clientId = clientId;
+	}
+
+	public Long getPilotId()
+	{
+		return pilotId;
+	}
+
+	public void setPilotId(Long pilotId)
+	{
+		this.pilotId = pilotId;
 	}
 
 	public Project.Status getStatus()

@@ -76,7 +76,8 @@
             P.MODIFIED_AT AS BID_PROJECT_MODIFIED_AT,
             B.CURRENCY AS BID_CURRENCY,
             COUNT(B.ID) AS BID_COUNT,
-            AVG(B.AMOUNT) AS BID_AVG
+            AVG(B.AMOUNT) AS BID_AVG,
+            MAX(B.AMOUNT) AS BID_MAX
           FROM
             drones.BIDS B
           INNER JOIN
@@ -93,9 +94,18 @@
               P.ID
             FROM
               drones.PROJECTS P
-            WHERE
-              P.CLIENT_ID = #{clientId}
          ]]>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != clientId">
+                <![CDATA[
+                  AND P.CLIENT_ID = #{clientId}
+                ]]>
+            </if>
+            <if test="null != pilotId">
+                <![CDATA[
+                  AND P.PILOT_ID = #{pilotId}
+                ]]>
+            </if>
             <if test="null != title">
                 <![CDATA[
                   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
@@ -106,6 +116,7 @@
                   AND P.STATUS = #{status}
                 ]]>
             </if>
+        </trim>
         <![CDATA[
           )
         ]]>
@@ -166,6 +177,7 @@
         <result column="BID_CURRENCY" property="currency" />
         <result column="BID_COUNT" property="bidsCount" />
         <result column="BID_AVG" property="bidsAvg" />
+        <result column="BID_MAX" property="bidsMax" />
     </resultMap>
 
 </mapper>
