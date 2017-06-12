@@ -20,7 +20,7 @@ import {NotificationsComponent} from './containers/notifications/notifications.c
 import {NotFoundComponent} from './containers/not-found/not-found.component';
 import {CountriesResolve} from './resolves/countries/countries.resolve';
 import {BudgetsResolve} from './resolves/budgets/budgets.resolve';
-import {ServicesResolve} from './resolves/services/budgets.resolve';
+import {ServicesResolve} from './resolves/services/services.resolve';
 import {DurationsResolve} from './resolves/durations/durations.resolve';
 import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
 import {PortfolioComponent} from './containers/portfolio/portfolio.component';
@@ -347,6 +347,10 @@ export const ROUTES: Routes = [
     path: 'search',
     canActivate: [PilotGuard],
     component: SearchComponent,
+    resolve: {
+      services: ServicesResolve,
+      budgets: BudgetsResolve
+    },
     data: {
       className: 'p-search'
     }

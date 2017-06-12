@@ -8,7 +8,6 @@ import {SGoingComponent} from './s-going/s-going.component';
 import {SPreviewComponent} from './s-preview/s-preview.component';
 import {SSayingComponent} from './s-saying/s-saying.component';
 import {SPortfolioComponent} from './s-portfolio/s-portfolio.component';
-import {SSearchComponent} from './s-search/s-search.component';
 import {SAccountComponent} from './s-account/s-account.component';
 import { SDashboardComponent } from './s-dashboard/s-dashboard.component';
 import { STransactionsComponent } from './s-transactions/s-transactions.component';
@@ -30,9 +29,7 @@ export const SECTIONS = [
   SPreviewComponent,
   SDashboardComponent,
   SSayingComponent,
-  SSearchComponent,
   SAccountComponent,
-  SSearchComponent,
   SProjectComponent,
   STransactionsComponent,
   SPortfolioComponent,
