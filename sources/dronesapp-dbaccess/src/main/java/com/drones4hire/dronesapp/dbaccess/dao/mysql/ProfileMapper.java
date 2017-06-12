@@ -14,6 +14,8 @@ public interface ProfileMapper
 
 	List<Profile> getAllProfiles();
 
+	List<Profile> getAllPublicProfiles();
+
 	void updateProfile(Profile profile);
 
 	void deleteProfile(long id);

@@ -57,6 +57,22 @@
         <include refid="getProfile"/>
     </select>
 
+    <select id="getAllPublicProfiles" resultMap="ProfileResultMap">
+        <include refid="getProfile"/>
+        <![CDATA[
+            INNER JOIN
+              drones.USER_GROUPS UG
+            ON
+              P.USER_ID = UG.USER_ID
+            INNER JOIN
+              drones.GROUPS G
+            ON
+              G.ID = UG.GROUP_ID
+        	WHERE
+          	  G.ROLE = 'ROLE_PILOT'
+        ]]>
+    </select>
+
     <update id="updateProfile">
         <![CDATA[
         	UPDATE

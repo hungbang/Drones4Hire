@@ -11,6 +11,10 @@
             <b>id</b>
         </field>
         <field>
+            <a>userId</a>
+            <b>userId</b>
+        </field>
+        <field>
             <a>tagline</a>
             <b>tagline</b>
         </field>

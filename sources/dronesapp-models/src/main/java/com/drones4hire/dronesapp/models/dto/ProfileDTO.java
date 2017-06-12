@@ -5,6 +5,8 @@ import javax.validation.constraints.NotNull;
 public class ProfileDTO extends AbstractDTO
 {
 	private static final long serialVersionUID = -4834910299805231694L;
+
+	private Long userId;
 	
 	@NotNull(message="Tagline required")
 	private String tagline;
@@ -18,6 +20,16 @@ public class ProfileDTO extends AbstractDTO
 	private String companyLogoURL;
 	
 	private String coverPhotoURL;
+
+	public Long getUserId()
+	{
+		return userId;
+	}
+
+	public void setUserId(Long userId)
+	{
+		this.userId = userId;
+	}
 
 	public String getTagline()
 	{

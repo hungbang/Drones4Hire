@@ -44,9 +44,9 @@ public class ProfileService
 	}
 
 	@Transactional(readOnly = true)
-	public List<Profile> getAllProfiles()
+	public List<Profile> getAllPublicProfiles()
 	{
-		return profileMapper.getAllProfiles();
+		return profileMapper.getAllPublicProfiles();
 	}
 
 	@Transactional(rollbackFor = Exception.class)
