@@ -386,7 +386,7 @@
 			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.PaidOptionMapper.PaidOptionResultMap" />
 		<collection property="attachments"
 			ofType="com.drones4hire.dronesapp.models.db.projects.Attachment"
-			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectAttachmentMapper.AttachmentResultMap" />
+			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.AttachmentMapper.AttachmentResultMap" />
 	</resultMap>
 
 </mapper>
