@@ -113,8 +113,6 @@
 		        A.MODIFIED_AT AS ATTACHMENT_MODIFIED_AT,
 		        A.CREATED_AT AS ATTACHMENT_CREATED_AT
           FROM
-	            drones.ATTACHMENTS A
-          FROM
 	      		drones.PROJECTS P
 	      LEFT JOIN
 	      		drones.PROJECTS_PAID_OPTIONS PPO		
