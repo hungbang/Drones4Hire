@@ -94,7 +94,7 @@ public class BidService
 		List<BidInfo> bidInfos = bidMapper.searchBidInfos(sc);
 		for(BidInfo bidInfo : bidInfos)
 		{
-			Long pilotId = projectService.getProjectById(bidInfo.getProjectId(), sc.getClientId()).getPilotId();
+			Long pilotId = projectService.getProjectById(bidInfo.getProjectId(), principalId).getPilotId();
 			if(pilotId == null)
 			{
 				bidInfo.setEndDate(bidInfo.getCreatedAt());
