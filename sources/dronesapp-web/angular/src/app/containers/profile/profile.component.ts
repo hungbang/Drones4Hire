@@ -15,7 +15,11 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.profile = this._route.snapshot.data['profile'];
+    this._route.params.subscribe(
+      () => {
+        this.profile = this._route.snapshot.data['profile'];
+      }
+    );
   }
 
 }

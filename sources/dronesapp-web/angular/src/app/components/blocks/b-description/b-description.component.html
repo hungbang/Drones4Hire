@@ -1,8 +1,7 @@
 <div class="b-description">
-  <div class="b-description__title">I’ll give you lower rates; <br>I’ll get you higher shots.</div>
-  <div class="b-description__subtitle">pilot bio</div>
-  <div class="b-description__text">{{profile.bio}}</div>
-  <div class="b-description__rating">
+  <div class="b-description__subtitle">Bio</div>
+  <div class="b-description__text">{{profile.summary}}</div>
+  <div class="b-description__rating" *ngIf="profile.rating">
     <div class="b-description__rating-title">pilot rating</div>
     <div class="b-description__rating-value">
       <l-rating [rating]="profile.rating"></l-rating>

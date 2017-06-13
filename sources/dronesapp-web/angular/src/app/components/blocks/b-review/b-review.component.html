@@ -1,9 +1,11 @@
 <div class="b-review">
   <div class="b-review__left">
-    <l-abilities [abilities]="profile.abilities"></l-abilities>
+    <l-abilities [abilities]="abilities"></l-abilities>
   </div>
   <div class="b-review__right">
     <div class="b-review__title">Reviews</div>
-    <l-comments [showRating]="true" [comments]="profile.reviews"></l-comments>
+    <div class="b-review__text">No reviews at this moment</div>
+    <l-comments [showRating]="true" [comments]="profile.reviews" *ngIf="false"></l-comments>
+    <!--TODO: Fix reviews in next round-->
   </div>
 </div>

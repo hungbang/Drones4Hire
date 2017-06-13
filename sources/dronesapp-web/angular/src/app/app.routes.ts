@@ -32,6 +32,8 @@ import {ProjectDescriptionComponent} from './containers/project-description/proj
 import {ProjectFilesComponent} from './containers/project-files/project-files.component';
 import {MyProjectsResolve} from './resolves/my-projects/my-projects.resolve';
 import {SMyProjectsComponent} from "./components/sections/s-my-projects/s-my-projects.component";
+import {PortfolioResolve} from './resolves/portfolio/portfolio.resolve';
+import {ProfileServicesResolve} from './resolves/profile-services/profile-services.resolve';
 
 export const ROUTES: Routes = [
   {
@@ -66,10 +68,12 @@ export const ROUTES: Routes = [
         pathMatch: 'full'
       },
       {
-        path: ':profile_id',
+        path: ':user_id',
         component: ProfileComponent,
         resolve: {
-          profile: ProfileResolve
+          profile: ProfileResolve,
+          portfolio: PortfolioResolve,
+          services: ProfileServicesResolve
         },
       }
     ],

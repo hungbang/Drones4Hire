@@ -9,6 +9,8 @@ import {BidsResolve} from './bids/bids';
 import { ProfileResolve } from './profile/profile.resolve'
 import {CommentsResolve} from './comments/comments';
 import {MyProjectsResolve} from './my-projects/my-projects.resolve';
+import { PortfolioResolve } from './portfolio/portfolio.resolve';
+import { ProfileServicesResolve } from './profile-services/profile-services.resolve';
 
 export const AppResolves = [
   BidsResolve,
@@ -18,8 +20,10 @@ export const AppResolves = [
   DurationsResolve,
   MyProjectsResolve,
   PaidOptionsResolve,
+  PortfolioResolve,
+  ProfileResolve,
+  ProfileServicesResolve,
   ProjectResolve,
   ProjectsResolve,
   ServicesResolve,
-  ProfileResolve,
 ];

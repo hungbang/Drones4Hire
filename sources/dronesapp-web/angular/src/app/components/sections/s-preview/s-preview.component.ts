@@ -14,11 +14,11 @@ export class SPreviewComponent implements OnInit {
   canEdit: boolean|null;
 
   constructor(
-    private _accountService: AccountService
+    public _accountService: AccountService,
   ) { }
 
   ngOnInit() {
-    this.canEdit = this._accountService.isUserPilot(); // TODO: add condition: is this profile own to this pilot?
+    this.canEdit = this._accountService.isUserPilot() && this._accountService.account && this._accountService.account.email === this.profile.email;
   }
 
 }

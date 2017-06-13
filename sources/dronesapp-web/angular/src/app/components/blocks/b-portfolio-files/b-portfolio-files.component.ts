@@ -16,9 +16,6 @@ export class BPortfolioFilesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (!this.portfolioService.items) {
-      this.portfolioService.getPortfolios();
-    }
   }
 
   deletePortfolio(id: number) {

@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+
 import {PortfolioService} from '../../../services/portfolio.service/portfolio.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class LPortfolioComponent implements OnInit {
     public portfolioService: PortfolioService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }

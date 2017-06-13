@@ -1,5 +1,4 @@
-import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
-import { PilotsService } from '../../../services/pilots.service/pilots.service';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 's-profile',
@@ -8,13 +7,9 @@ import { PilotsService } from '../../../services/pilots.service/pilots.service';
   styleUrls: ['./s-profile.component.styl']
 })
 export class SProfileComponent implements OnInit {
-  @Input() profile;
-  constructor(
-    public _pilotsService: PilotsService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
-    this.profile = this._pilotsService.selectedPilot;
   }
 
 }

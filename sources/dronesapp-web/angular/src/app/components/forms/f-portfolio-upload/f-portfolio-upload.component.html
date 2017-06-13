@@ -1,6 +1,6 @@
 <form class="f-default f-portfolio-upload"
       novalidate
-      #licenceForm="ngForm"
+      #portfolioForm="ngForm"
       (submit)="addFile($event)">
   <div class="f-portfolio-upload__row">
     <div class="f-portfolio-upload__col">
@@ -8,6 +8,9 @@
         <input type="text"
                placeholder="Title*"
                required
+               [(ngModel)]="title"
+               #titleRef="ngModel"
+               [ngClass]="{'_error': submitted && titleRef.errors?.required}"
                name="title"
                class="f-default__field">
       </label>
@@ -17,7 +20,6 @@
         <div ng2FileDrop
              [ngClass]="{'_file-over': hasBaseDropZoneOver}"
              (fileOver)="fileOverBase($event)"
-             (change)="handlePhotoUpload('photo', $event)"
              [uploader]="uploader"
              (click)="triggerFileClick()"
              class="f-default__filedrop-dropzone">
@@ -32,9 +34,16 @@
                accept="image/jpeg,image/jpg,image/png"
                name="photo"
                ng2FileSelect
-               (change)="handlePhotoUpload('photo', $event)"
                [uploader]="uploader"
                class="f-default__field _file">
+      </div>
+      <div class="f-portfolio-upload__messages">
+        <div class="f-portfolio-upload__message _error" *ngIf="submitted && (fileName === '')">
+          No file chosen
+        </div>
+        <div class="f-portfolio-upload__message" *ngIf="(fileName !== '') && fileURL">
+          Chosen file: {{ fileName }}
+        </div>
       </div>
     </div>
   </div>

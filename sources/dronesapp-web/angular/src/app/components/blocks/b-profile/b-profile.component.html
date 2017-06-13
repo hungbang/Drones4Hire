@@ -1,21 +1,19 @@
 <div class="b-profile">
-  <div class="b-profile__img-wrapper">
-    <div *ngIf="profile.img; else elseBlock">
-      <img src="{{profile.img}}" alt="user icon" class="b-profile__img">
+  <div class="b-profile__img-wrapper" [ngClass]="{'_image': profile.photoURL}">
+    <div *ngIf="profile.photoURL; else elseBlock">
+      <img src="{{profile.photoURL}}" alt="user icon" class="b-profile__img">
     </div>
     <ng-template #elseBlock>
-      <div class="b-profile__img-wrapper">
-        <svg-use name="usericon"></svg-use>
-      </div>
+      <svg-use name="usericon"></svg-use>
     </ng-template>
   </div>
-  <div class="b-profile__title">{{profile.name}}</div>
-  <div class="b-profile__subtitle">{{profile.status}}</div>
+  <div class="b-profile__title">{{ profile.firstName + ' ' + profile.lastName }}</div>
+  <div class="b-profile__subtitle" *ngIf="status !== ''">{{ status }}</div>
   <div class="b-profile__dron-wrapper">
     <img class="b-profile__dron-img" src="./assets/img/dron.png">
   </div>
   <div class="b-profile__wrapper">
-    <div class="b-profile__col" *ngIf="showDescription">
+    <div class="b-profile__col" *ngIf="showDescription && profile.flightHours">
       <div class="b-profile__col-title">Flight Hours</div>
       <div class="b-profile__col-text">{{profile.flightHours}}</div>
     </div>
@@ -23,9 +21,9 @@
       <div class="b-profile__col-title">Wallet Balance</div>
       <div class="b-profile__col-text">{{profile.walletBalance}}</div>
     </div>
-    <div class="b-profile__col" *ngIf="showDescription">
+    <div class="b-profile__col" *ngIf="showDescription && (profile.location?.city || profile.location?.country?.name)">
       <div class="b-profile__col-title">Location</div>
-      <div class="b-profile__col-text">{{profile.location}}</div>
+      <div class="b-profile__col-text">{{ profile.location.city }}{{ (profile.location.city && profile.location.country?.name) ? ', ' : '' }} {{ profile.location.country?.name }}</div>
     </div>
     <div class="b-profile__col" *ngIf="!showDescription">
       <div class="b-profile__col-title">Member Since</div>
