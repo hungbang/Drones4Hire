@@ -1,4 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {ProjectModel} from "../../../services/project.service/project.interface";
+import {ProjectService} from "../../../services/project.service/project.service";
 
 @Component({
   selector: 's-dashboard',
@@ -7,10 +10,44 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
   styleUrls: ['./s-dashboard.component.styl']
 })
 export class SDashboardComponent implements OnInit {
+  public currentPage: number;
+  public projects: ProjectModel[];
 
-  constructor() { }
+  private pageLink: string;
+
+  public minPage = 1;
+  public maxPage = 1;
+
+  constructor(
+    private projectService: ProjectService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(() => {
+      const res = this.route.snapshot.data['projects'];
+      const projects = res.results;
+
+      if (!projects || !projects.length) {
+        return this.router.navigate(['/']);
+      }
+
+      this.update(res, projects);
+
+      this.pageLink = this.route.snapshot.data['pageLink'];
+      this.currentPage = parseInt(this.route.snapshot.params['page'], 10);
+    });
   }
 
+  update(res, projects) {
+    this.projects = projects;
+
+    this.maxPage = Math.ceil(res.totalResults / this.projectService.limitProjectsToShow);
+  }
+
+  changePage(page) {
+    this.currentPage = page;
+    this.router.navigate([this.pageLink, this.currentPage]);
+  }
 }

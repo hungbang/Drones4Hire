@@ -7,18 +7,24 @@
     <th class="t-dashboard__th">STATUS</th>
     <th class="t-dashboard__th">Payment released</th>
   </tr>
-  <tr *ngFor="let item of dashboard">
+  <tr *ngFor="let project of projects">
     <td class="t-dashboard__td">
-      <a class="t-dashboard__link-name" href="#" [routerLink]="['/project/client']">
-        <span class="t-dashboard__project-name">{{item.projectName}} /</span>
-        <span class="t-dashboard__project-name">{{item.clientName}}</span>
+      <a class="t-dashboard__link-name" href="#" [routerLink]="['/project/', project.projectId]">
+        <span class="t-dashboard__project-name">{{project.projectTitle}}</span>
       </a>
     </td>
-    <td class="t-dashboard__td">{{item.projectBidPlaced}}</td>
-    <td class="t-dashboard__td">{{item.projectAwarded}}</td>
-    <td class="t-dashboard__td">{{item.paymentCreated}}</td>
+
+    <td class="t-dashboard__td">
+      <a class="t-dashboard__link" *ngIf="project.bidAmount > 0" href="#" [routerLink]="['/project/', project.projectId]">
+        Review Bids
+      </a>
+      <span *ngIf="!project.bidAmount">{{project.createdAt | date:'d/M/yy'}}</span>
+    </td>
+
     <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td">{{item.paymentReleased}}</td>
+    <td class="t-dashboard__td"></td>
+    <td class="t-dashboard__td"></td>
+    <td class="t-dashboard__td"></td>
   </tr>
 </table>
 

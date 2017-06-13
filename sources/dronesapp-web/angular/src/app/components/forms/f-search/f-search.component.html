@@ -1,9 +1,12 @@
 <form class="f-search" novalidate (submit)="onSubmit()">
   <div class="f-search__row">
     <div class="f-search__col">
-      <select class="f-search__field _select">
-        <option>Service</option>
-        <option>Category2</option>
+      <select class="f-search__field _select"
+              name="category"
+              [(ngModel)]="category">
+        <option value="-1">Project Type</option>
+        <option *ngFor="let category of categories"
+                [value]="category.id">{{ category.name }}</option>
       </select>
     </div>
     <div class="f-search__col">

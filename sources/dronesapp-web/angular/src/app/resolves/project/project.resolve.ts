@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
 import {ProjectService} from '../../services/project.service/project.service';
-import {Observable} from 'rxjs';
 
 @Injectable()
 export class ProjectResolve implements Resolve<any> {
@@ -11,7 +10,7 @@ export class ProjectResolve implements Resolve<any> {
     public projectService: ProjectService
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, ...b) {
+  resolve(route: ActivatedRouteSnapshot) {
     const id = route.params['projectId'];
 
     return this.projectService.getProject(id);

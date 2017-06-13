@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import { PilotsService } from '../../../services/pilots.service/pilots.service';
 import {AccountService} from '../../../services/account.service/account.service';
 
@@ -9,6 +9,8 @@ import {AccountService} from '../../../services/account.service/account.service'
   styleUrls: ['./t-dashboard.component.styl']
 })
 export class TDashboardComponent implements OnInit {
+  @Input() projects;
+
   dashboard: Object;
   constructor(
     public _accountService: AccountService,
@@ -26,5 +28,4 @@ export class TDashboardComponent implements OnInit {
   get isPilot() {
     return this._accountService.isUserPilot();
   }
-
 }

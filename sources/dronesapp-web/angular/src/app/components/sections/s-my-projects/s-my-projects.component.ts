@@ -14,9 +14,12 @@ export class SMyProjectsComponent implements OnInit {
   public minPage = 1;
   public maxPage = 1;
   public rows;
+  private refresh = 1;
 
   public countPerPage: number;
   public title: string;
+
+  private pageLink: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,49 +28,66 @@ export class SMyProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentPage = parseInt(this.route.snapshot.params['page'], 10);
-
     this.route.params.subscribe(() => {
-      this.update();
+      const res = this.route.snapshot.data['projects'];
+      const projects = res.results;
+
+      if (!projects || !projects.length) {
+        return this.router.navigate(['/']);
+      }
+
+      this.pageLink = this.route.snapshot.data['pageLink'];
+      this.currentPage = parseInt(this.route.snapshot.params['page'], 10);
+
+      this.update(res, projects);
     });
   }
 
   changePage(page) {
     this.currentPage = page;
 
-    this.router.navigate(['/my-projects/bidding', this.currentPage], { queryParams: this.route.snapshot.queryParams });
+    this.router.navigate([this.pageLink, this.currentPage], { queryParams: this.route.snapshot.queryParams });
   }
 
   search({ title, countPerPage }) {
     this.title = title;
     this.countPerPage = countPerPage;
 
+    this.refresh = this.refresh ? null : 1;
+
     const queryParams = {
-      title, count: countPerPage
+      title, count: countPerPage, refresh: this.refresh
     };
 
+    if (!queryParams.refresh) {
+      delete queryParams.refresh;
+    }
     if (!title) {
       delete queryParams.title;
     }
 
-    this.router.navigate(['/my-projects/bidding', 1], {
+    const page = this.currentPage;
+
+    this.router.navigate([this.pageLink, page], {
       queryParams
     }).then(() => {
-      this.update();
+      const res = this.route.snapshot.data['projects'];
+      const projects = res.results;
+
+      this.update(res, projects);
+
       this.currentPage = 0;
       setTimeout(() => {
-        this.currentPage = 1;
+        this.currentPage = page;
       });
     })
   }
 
-  update() {
-    const res = this.route.snapshot.data['projects'];
-
-    this.projects = res.results;
+  update(res, projects) {
+    this.projects = projects;
     this.countPerPage = this.bidService.countPerPage;
     this.title = this.route.snapshot.queryParams['title'];
 
-    this.maxPage = Math.floor(res.totalResults / this.countPerPage);
+    this.maxPage = Math.ceil(res.totalResults / this.countPerPage);
   }
 }

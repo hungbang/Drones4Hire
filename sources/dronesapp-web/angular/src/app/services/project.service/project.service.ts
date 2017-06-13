@@ -42,7 +42,7 @@ export class ProjectService {
     return this._requestService.fetch('post', '/projects/search', search)
       .map(res => {
         this.projects = res.results;
-        return this.projects;
+        return res;
       });
   }
 

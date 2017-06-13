@@ -55,3 +55,11 @@ export function createObservable(data) {
     obs.complete();
   });
 }
+
+export function deleteNullOrNaN(obj, field) {
+  if (!obj) { return; }
+
+  if (isNaN(obj[field]) || !obj[field]) {
+    delete obj[field];
+  }
+}

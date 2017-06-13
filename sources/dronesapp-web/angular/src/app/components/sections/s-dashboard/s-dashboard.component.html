@@ -1,5 +1,10 @@
 <section class="s-dashboard">
   <div class="container">
-    <t-dashboard></t-dashboard>
+    <t-dashboard [projects]="projects"></t-dashboard>
+    <l-project-pagination class="s-dashboard__pagination"
+                          (changePage)="changePage($event)"
+                          [min]="minPage"
+                          [max]="maxPage"
+                          [current]="currentPage"></l-project-pagination>
   </div>
 </section>

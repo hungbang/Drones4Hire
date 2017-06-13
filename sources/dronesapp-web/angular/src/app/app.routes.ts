@@ -34,6 +34,9 @@ import {MyProjectsResolve} from './resolves/my-projects/my-projects.resolve';
 import {SMyProjectsComponent} from "./components/sections/s-my-projects/s-my-projects.component";
 import {PortfolioResolve} from './resolves/portfolio/portfolio.resolve';
 import {ProfileServicesResolve} from './resolves/profile-services/profile-services.resolve';
+import {FindProjectsResolve} from "./resolves/find-projects/find-projects.resolve";
+import {ClientProjectsResolve} from "./resolves/client-projects/client-projects.resolve";
+import {SDashboardComponent} from "./components/sections/s-dashboard/s-dashboard.component";
 
 export const ROUTES: Routes = [
   {
@@ -105,6 +108,7 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
+              pageLink: '/my-projects/bidding',
               status: 'NEW'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
@@ -126,6 +130,7 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
+              pageLink: '/my-projects/progress',
               status: 'IN_PROGRESS'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
@@ -147,6 +152,7 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
+              pageLink: '/my-projects/past',
               status: 'COMPLETED'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
@@ -211,6 +217,9 @@ export const ROUTES: Routes = [
   },
   {
     path: 'dashboard',
+    data: {
+      className: 'p-dashboard'
+    },
     children: [
       {
         path: '',
@@ -221,9 +230,24 @@ export const ROUTES: Routes = [
         path: 'client',
         component: DashboardComponent,
         canActivate: [ClientGuard],
-        data: {
-          className: 'p-dashboard'
-        }
+        children: [
+          {
+            path: '',
+            redirectTo: '1',
+            pathMatch: 'full'
+          },
+          {
+            path: ':page',
+            resolve: {
+              projects: ClientProjectsResolve
+            },
+            data: {
+              pageLink: '/dashboard/client'
+            },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+            component: SDashboardComponent
+          }
+        ]
       },
       {
         path: 'pilot',
@@ -353,7 +377,8 @@ export const ROUTES: Routes = [
     component: SearchComponent,
     resolve: {
       services: ServicesResolve,
-      budgets: BudgetsResolve
+      budgets: BudgetsResolve,
+      projects: FindProjectsResolve
     },
     data: {
       className: 'p-search'
