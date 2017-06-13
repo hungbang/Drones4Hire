@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {NormalizedServiceModel} from '../common.service/services.interface';
 import {PaidOptionModel} from './paid-option.interface';
 import {createObservable} from '../../shared/common/common-methods';
 import {RequestService} from '../request.service/request.service';

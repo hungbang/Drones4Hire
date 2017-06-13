@@ -1,6 +1,6 @@
 import {CountriesResolve} from './countries/countries.resolve';
 import {BudgetsResolve} from './budgets/budgets.resolve';
-import {ServicesResolve} from './services/budgets.resolve';
+import {ServicesResolve} from './services/services.resolve';
 import {DurationsResolve} from './durations/durations.resolve';
 import {PaidOptionsResolve} from './paid-options/paid-options.resolve';
 import {ProjectsResolve} from './projects/projects.resolve';

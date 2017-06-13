@@ -4,6 +4,7 @@
     <th class="t-dashboard__th">Project Bid placed</th>
     <th class="t-dashboard__th">Project awarded</th>
     <th class="t-dashboard__th">Payment created</th>
+    <th class="t-dashboard__th">STATUS</th>
     <th class="t-dashboard__th">Payment released</th>
   </tr>
   <tr *ngFor="let item of dashboard">
@@ -16,6 +17,7 @@
     <td class="t-dashboard__td">{{item.projectBidPlaced}}</td>
     <td class="t-dashboard__td">{{item.projectAwarded}}</td>
     <td class="t-dashboard__td">{{item.paymentCreated}}</td>
+    <td class="t-dashboard__td"></td>
     <td class="t-dashboard__td">{{item.paymentReleased}}</td>
   </tr>
 </table>

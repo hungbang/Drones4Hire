@@ -20,19 +20,18 @@ import {NotificationsComponent} from './containers/notifications/notifications.c
 import {NotFoundComponent} from './containers/not-found/not-found.component';
 import {CountriesResolve} from './resolves/countries/countries.resolve';
 import {BudgetsResolve} from './resolves/budgets/budgets.resolve';
-import {ServicesResolve} from './resolves/services/budgets.resolve';
+import {ServicesResolve} from './resolves/services/services.resolve';
 import {DurationsResolve} from './resolves/durations/durations.resolve';
 import {PaidOptionsResolve} from './resolves/paid-options/paid-options.resolve';
-import {ProjectsResolve} from './resolves/projects/projects.resolve';
 import {PortfolioComponent} from './containers/portfolio/portfolio.component';
 import {ProjectResolve} from './resolves/project/project.resolve';
 import {ProfileResolve} from './resolves/profile/profile.resolve';
 import {BidsResolve} from './resolves/bids/bids';
 import {CommentsResolve} from './resolves/comments/comments';
-import {TProjectComponent} from './components/tables/t-project/t-project.component';
 import {ProjectDescriptionComponent} from './containers/project-description/project-description.component';
 import {ProjectFilesComponent} from './containers/project-files/project-files.component';
 import {MyProjectsResolve} from './resolves/my-projects/my-projects.resolve';
+import {SMyProjectsComponent} from "./components/sections/s-my-projects/s-my-projects.component";
 
 export const ROUTES: Routes = [
   {
@@ -93,33 +92,66 @@ export const ROUTES: Routes = [
       },
       {
         path: 'bidding',
-        component: TProjectComponent,
-        resolve: {
-          projects: MyProjectsResolve
-        },
-        data: {
-          status: 'NEW'
-        }
+        children: [
+          {
+            path: '',
+            redirectTo: '1',
+            pathMatch: 'full'
+          },
+          {
+            path: ':page',
+            data: {
+              status: 'NEW'
+            },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+            resolve: {
+              projects: MyProjectsResolve
+            },
+            component: SMyProjectsComponent
+          }
+        ]
       },
       {
         path: 'progress',
-        component: TProjectComponent,
-        resolve: {
-          projects: MyProjectsResolve
-        },
-        data: {
-          status: 'NEW'
-        }
+        children: [
+          {
+            path: '',
+            redirectTo: '1',
+            pathMatch: 'full'
+          },
+          {
+            path: ':page',
+            data: {
+              status: 'IN_PROGRESS'
+            },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+            resolve: {
+              projects: MyProjectsResolve
+            },
+            component: SMyProjectsComponent
+          }
+        ]
       },
       {
         path: 'past',
-        component: MyProjectsResolve,
-        resolve: {
-          projects: ProjectsResolve
-        },
-        data: {
-          status: 'NEW'
-        }
+        children: [
+          {
+            path: '',
+            redirectTo: '1',
+            pathMatch: 'full'
+          },
+          {
+            path: ':page',
+            data: {
+              status: 'COMPLETED'
+            },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+            resolve: {
+              projects: MyProjectsResolve
+            },
+            component: SMyProjectsComponent
+          }
+        ]
       }
     ]
   },
@@ -234,30 +266,7 @@ export const ROUTES: Routes = [
             canActivate: [PilotGuard],
             data: {
               className: 'p-account'
-            },
-            children: [
-              {
-                path: '',
-                redirectTo: 'photo',
-                pathMatch: 'full'
-              },
-              {
-                path: 'photo',
-                component: NotFoundComponent,
-                canActivate: [PilotGuard],
-                data: {
-                  className: 'p-account'
-                }
-              },
-              {
-                path: 'video',
-                component: NotFoundComponent,
-                canActivate: [PilotGuard],
-                data: {
-                  className: 'p-account'
-                }
-              }
-            ]
+            }
           },
           {
             path: 'security',
@@ -338,6 +347,10 @@ export const ROUTES: Routes = [
     path: 'search',
     canActivate: [PilotGuard],
     component: SearchComponent,
+    resolve: {
+      services: ServicesResolve,
+      budgets: BudgetsResolve
+    },
     data: {
       className: 'p-search'
     }

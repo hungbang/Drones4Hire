@@ -11,6 +11,7 @@ public class Attachment extends AbstractEntity
 		PROJECT_ATTACHMENT, PROJECT_RESULT
 	}
 	
+	private String title;
 	private String attachmentURL;
 	private Long projectId;
 	private Type type;
@@ -43,5 +44,15 @@ public class Attachment extends AbstractEntity
 	public void setType(Type type)
 	{
 		this.type = type;
+	}
+
+	public String getTitle()
+	{
+		return title;
+	}
+
+	public void setTitle(String title)
+	{
+		this.title = title;
 	}
 }

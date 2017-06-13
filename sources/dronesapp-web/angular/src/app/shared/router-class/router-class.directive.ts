@@ -23,11 +23,13 @@ export class RouterClassDirective implements AfterViewInit {
       while (currentRoute.children[0] !== undefined) {
         currentRoute = currentRoute.children[0];
       }
-      if (val instanceof NavigationStart) {
-        this.previousRouteClassName = currentRoute.snapshot.data['className'];
-      } else if (val instanceof NavigationEnd) {
-        this.element['classList'].remove(this.previousRouteClassName);
-        this.element['classList'].add(currentRoute.snapshot.data['className']);
+      if (currentRoute.snapshot && currentRoute.snapshot.data) {
+        if (val instanceof NavigationStart) {
+          this.previousRouteClassName = currentRoute.snapshot.data['className'];
+        } else if (val instanceof NavigationEnd) {
+          this.element['classList'].remove(this.previousRouteClassName);
+          currentRoute.snapshot.data['className'] && this.element['classList'].add(currentRoute.snapshot.data['className']);
+        }
       }
     });
   }
