@@ -80,7 +80,7 @@
             MAX(B.AMOUNT) AS BID_MAX
           FROM
             drones.BIDS B
-          INNER JOIN
+          LEFT JOIN
             drones.PROJECTS P
           ON
             B.PROJECT_ID = P.ID
@@ -145,7 +145,7 @@
               B.ID
             FROM
               drones.BIDS B
-            INNER JOIN
+            LEFT JOIN
               drones.PROJECTS P
             ON
               B.PROJECT_ID = P.ID
