@@ -11,6 +11,7 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.Attachment.Type;
 import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
@@ -58,6 +59,8 @@ public class AttachmentService
 	private void checkAuthorities(Attachment attachment, long principalId) throws ServiceException
 	{
 		Project project = projectMapper.getProjectById(attachment.getProjectId());
+		if(!project.getStatus().equals(Status.IN_PROGRESS))
+			throw new ForbiddenOperationException();
 		if(attachment.getType().equals(Type.PROJECT_RESULT)) {
 			if (project.getPilotId() != principalId)
 			{
