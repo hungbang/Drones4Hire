@@ -27,7 +27,8 @@ public class AttachmentService
 	@Transactional(rollbackFor = Exception.class)
 	public Attachment createAttachment(Attachment attachment, long principalId) throws ServiceException {
 		checkAuthorities(attachment, principalId);
-		return attachMapper.createAttachment(attachment);
+		attachMapper.createAttachment(attachment);
+		return attachment;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -59,10 +60,8 @@ public class AttachmentService
 	private void checkAuthorities(Attachment attachment, long principalId) throws ServiceException
 	{
 		Project project = projectMapper.getProjectById(attachment.getProjectId());
-		if(!project.getStatus().equals(Status.IN_PROGRESS))
-			throw new ForbiddenOperationException();
 		if(attachment.getType().equals(Type.PROJECT_RESULT)) {
-			if (project.getPilotId() != principalId)
+			if (project.getPilotId() != principalId && !project.getStatus().equals(Status.IN_PROGRESS))
 			{
 				throw new ForbiddenOperationException();
 			}

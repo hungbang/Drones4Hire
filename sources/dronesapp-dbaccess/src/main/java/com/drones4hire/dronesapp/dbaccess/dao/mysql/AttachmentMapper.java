@@ -8,7 +8,7 @@ import com.drones4hire.dronesapp.models.db.projects.Attachment;
 
 public interface AttachmentMapper
 {
-	Attachment createAttachment(Attachment attachemnt);
+	void createAttachment(Attachment attachemnt);
 
 	void createAttachments(@Param("attachments") List<Attachment> attachments, @Param("projectId") long projectId);
 	
