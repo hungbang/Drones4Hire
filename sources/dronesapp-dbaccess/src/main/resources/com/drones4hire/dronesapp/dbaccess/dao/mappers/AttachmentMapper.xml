@@ -26,7 +26,7 @@
         ]]>
 		<foreach collection="attachments" item="attachment" index="index" open="" separator="," close=";">
 			(
-				#{title},
+				#{attachment.title},
 				#{attachment.attachmentURL},
 	            #{attachment.type},
 	            #{projectId}
