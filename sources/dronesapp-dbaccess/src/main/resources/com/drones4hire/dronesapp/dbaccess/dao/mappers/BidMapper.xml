@@ -70,7 +70,7 @@
     <select id="searchBidInfos" resultMap="BidInfoResultMap">
         <![CDATA[
           SELECT
-            B.PROJECT_ID AS BID_PROJECT_ID,
+            P.ID AS BID_PROJECT_ID,
             P.TITLE AS BID_PROJECT_TITLE,
             P.CREATED_AT AS BID_PROJECT_CREATED_AT,
             P.MODIFIED_AT AS BID_PROJECT_MODIFIED_AT,
@@ -79,15 +79,15 @@
             AVG(B.AMOUNT) AS BID_AVG,
             MAX(B.AMOUNT) AS BID_MAX
           FROM
-            drones.BIDS B
-          LEFT JOIN
             drones.PROJECTS P
+          LEFT JOIN
+            drones.BIDS B
           ON
             B.PROJECT_ID = P.ID
           GROUP BY
-            B.PROJECT_ID
+            P.ID
           HAVING
-            B.PROJECT_ID
+            P.ID
           IN
           (
             SELECT
@@ -144,9 +144,9 @@
             SELECT
               B.ID
             FROM
-              drones.BIDS B
-            LEFT JOIN
               drones.PROJECTS P
+            LEFT JOIN
+              drones.BIDS B
             ON
               B.PROJECT_ID = P.ID
          ]]>
