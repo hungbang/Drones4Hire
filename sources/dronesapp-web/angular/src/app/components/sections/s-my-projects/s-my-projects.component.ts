@@ -12,7 +12,7 @@ export class SMyProjectsComponent implements OnInit {
   public projects;
   public currentPage = 1;
   public minPage = 1;
-  public maxPage = 2;
+  public maxPage = 1;
   public rows;
 
   public countPerPage: number;
@@ -32,8 +32,8 @@ export class SMyProjectsComponent implements OnInit {
     });
   }
 
-  changePage(offset) {
-    this.currentPage += offset;
+  changePage(page) {
+    this.currentPage = page;
 
     this.router.navigate(['/my-projects/bidding', this.currentPage], { queryParams: this.route.snapshot.queryParams });
   }
@@ -50,10 +50,14 @@ export class SMyProjectsComponent implements OnInit {
       delete queryParams.title;
     }
 
-    this.router.navigate(['/my-projects/bidding', this.currentPage], {
+    this.router.navigate(['/my-projects/bidding', 1], {
       queryParams
     }).then(() => {
       this.update();
+      this.currentPage = 0;
+      setTimeout(() => {
+        this.currentPage = 1;
+      });
     })
   }
 

@@ -20,4 +20,5 @@ export interface ProjectModel {
   postProductionRequired: boolean;
   id?: number;
   bidId?: number;
+  attachments?: any[];
 }

@@ -94,6 +94,7 @@ export class FProjectAddComponent implements OnInit {
     };
 
     this.formData = {
+      attachments: [],
       confirmationValid: true,
       finishDate: parseInt(this.date.end.format('x'), 10),
       startDate: parseInt(this.date.start.format('x'), 10),

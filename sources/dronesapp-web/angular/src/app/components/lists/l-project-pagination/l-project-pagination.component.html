@@ -1,8 +1,24 @@
-<ul class="l-project-pagination">
-  <li class="l-project-pagination__item">
-    <a href="#" class="l-project-pagination__link" (click)="onChangePage(-1, $event)">Prev</a>
+<ul class="l-project-pagination" *ngIf="max !== min">
+  <li class="l-project-pagination__item"
+      *ngIf="min < currentPage">
+    <a href="#" class="l-project-pagination__link _start" (click)="onChangePage(min, $event)"></a>
   </li>
-  <li class="l-project-pagination__item">
-    <a href="#" class="l-project-pagination__link" (click)="onChangePage(1, $event)">Next</a>
+  <li class="l-project-pagination__item"
+      *ngIf="min < currentPage">
+    <a href="#" class="l-project-pagination__link _prev" (click)="onChangePage(currentPage - 1, $event)"></a>
+  </li>
+  <li class="l-project-pagination__item"
+      *ngFor="let page of pages">
+    <a href="#" class="l-project-pagination__link"
+       [ngClass]="{ _active: page === currentPage }"
+       (click)="onChangePage(page, $event)">{{ page }}</a>
+  </li>
+  <li class="l-project-pagination__item"
+      *ngIf="max > currentPage">
+    <a href="#" class="l-project-pagination__link _next" (click)="onChangePage(currentPage + 1, $event)"></a>
+  </li>
+  <li class="l-project-pagination__item"
+      *ngIf="max > currentPage">
+    <a href="#" class="l-project-pagination__link _end" (click)="onChangePage(max, $event)"></a>
   </li>
 </ul>
