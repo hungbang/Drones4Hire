@@ -2,6 +2,7 @@
 
 .b-project-details
   margin-bottom: 60px
+
   &__title
     font-size 3.6rem
     color #414141
@@ -9,6 +10,7 @@
     margin-bottom: 32px;
     letter-spacing: 13px;
     osans()
+
   &__button
     max-width: 225px
     width: 100%
@@ -18,12 +20,14 @@
     letter-spacing: 3.5px;
     margin-bottom: 20px
     osans()
+
   &__subtitle
     font-size 1.8rem
     color #acacac
     margin-bottom: 5px
     letter-spacing: 3.5px;
     osans()
+
   &__text
     osans()
     font-size 1.8rem
@@ -31,3 +35,14 @@
     margin-bottom: 10px
     letter-spacing: 3.5px;
     line-height: 3rem
+
+  @media screen and (max-width: 1024px)
+    &__wrapper
+      display flex
+      margin 0 -10px
+      flex-wrap wrap
+
+    &__item
+      flex auto
+      width calc(50% - 20px)
+      margin 0 10px 10px

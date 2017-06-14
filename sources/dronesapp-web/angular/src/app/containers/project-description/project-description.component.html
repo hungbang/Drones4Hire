@@ -12,11 +12,20 @@
         </p>
         <ul class="project-description__files-list">
           <li class="project-description__files-item" *ngFor="let attach of attachments">
-            <a href="{{ attach.attachmentURL }}" class="project-description__files-link" download>{{ attach.title }}</a>
+            <a href="{{ attach.attachmentURL }}" class="project-description__files-link" download *ngIf="isPilot">
+              <svg-use name="download"></svg-use>
+            </a>
+            <span class="project-description__files-text">{{ attach.title }}</span>
+            <button type="button"
+                    *ngIf="isClient"
+                    (click)="deleteFile(attach.id)"
+                    class="project-description__files-button">
+              <svg-use name="rubbish-bin"></svg-use>
+            </button>
           </li>
         </ul>
       </div>
-      <div class="project-description__win-title">Winning Bid</div>
+      <div class="project-description__win-title" *ngIf="bids.length || (isPilot && pilotBid)">Winning Bid</div>
       <l-bids *ngIf="isClient"
               [disabled]="!!project.bidId"
               [bids]="bids"

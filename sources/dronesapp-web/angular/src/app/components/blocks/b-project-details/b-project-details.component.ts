@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 
+import {ProjectService} from '../../../services/project.service/project.service';
+
 @Component({
   selector: 'b-project-details',
   templateUrl: './b-project-details.component.html',
@@ -9,7 +11,9 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 export class BProjectDetailsComponent implements OnInit {
   @Input() project: any;
 
-  constructor() { }
+  constructor(
+    public projectService: ProjectService
+  ) { }
 
   ngOnInit() {
   }

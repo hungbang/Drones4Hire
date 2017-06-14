@@ -1,3 +1,4 @@
+@import './../../styles/settings/variables.styl'
 @import './../../styles/settings/mixin.styl'
 
 .project-description
@@ -53,13 +54,38 @@
       letter-spacing: 3px
       margin-bottom: 5px
       osans()
+    &-list
+      display flex
+      flex-direction column
+      max-width 350px
     &-item
-      margin-bottom: 5px
+      padding 8px 0
+      border-top 1px solid $gray1f
+      display flex
+      align-items flex-end
     &-link
+      margin-right 10px
+    &-text
       font-size: 1.8rem
       color: #8a8a8a
-      transition: color .3s
-      text-decoration: underline
-      &:hover
-        color: #3ebcc7
+      margin-right 10px
+    &-button
+      margin-left auto
+    .svg-rubbish-bin
+    .svg-download
+      width 24px
+      height 24px
+      fill $gray1f
 
+  @media screen and (max-width: 1024px)
+    &__wrapper
+      display block
+
+    &__left
+    &__right
+      margin-bottom 25px
+      max-width none
+      padding 0
+    &__right
+      margin-bottom 0
+      border 0

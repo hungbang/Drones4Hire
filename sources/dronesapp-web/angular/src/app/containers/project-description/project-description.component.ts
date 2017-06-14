@@ -7,6 +7,7 @@ import {AccountService} from '../../services/account.service/account.service';
 import {BidService} from '../../services/bid.service/bid.service';
 import {CommentsService} from '../../services/comments.service/comments.service';
 import {ProjectAttachmentModel} from '../../services/project.service/project-attacment.interface';
+import {ProjectService} from "../../services/project.service/project.service";
 
 @Component({
   selector: 'project-description',
@@ -40,7 +41,8 @@ export class ProjectDescriptionComponent implements OnInit {
     private _accountService: AccountService,
     private _bidService: BidService,
     private _commentsService: CommentsService,
-    private _router: Router
+    private _router: Router,
+    private projectService: ProjectService
   ) { }
 
   ngOnInit() {
@@ -139,4 +141,15 @@ export class ProjectDescriptionComponent implements OnInit {
     this.attachments = this.project.attachments.filter(el => el.type === 'PROJECT_ATTACHMENT');
   }
 
+  deleteFile(id: number) {
+    this.projectService.deleteAttachment(id)
+      .subscribe(
+        () => {
+          this.attachments = this.attachments.filter(attach => attach.id !== id);
+        },
+        err => {
+          console.log('delete attached file error', err);
+        }
+      );
+  }
 }

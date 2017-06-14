@@ -2,24 +2,28 @@
   <div class="pr-bid__wrapper">
     <div class="pr-bid__left">
       <div class="pr-bid__user">
-        <!-- todo wait to API implements img -->
-        <div *ngIf="bid.img; else elseBlock">
-          <img src="{{bid.img}}" alt="user icon">
-        </div>
-        <ng-template #elseBlock>
-          <div *ngIf="!bid.img">
-            <svg-use name="usericon"></svg-use>
+        <a [routerLink]="['/profile', bid.userId]">
+          <!-- todo wait to API implements img -->
+          <div *ngIf="bid.img; else elseBlock">
+            <img src="{{bid.img}}" alt="user icon">
           </div>
-        </ng-template>
+          <ng-template #elseBlock>
+            <div *ngIf="!bid.img">
+              <svg-use name="usericon"></svg-use>
+            </div>
+          </ng-template>
+        </a>
+
       </div>
       <!-- todo wait to API implements name-->
       <div class="pr-bid__propolsal">
         <div class="pr-bid__top">
-          <p class="pr-bid__name">Tod Paker</p>
-          <p class="pr-bid__date">16/09/2017</p>
+          <a [routerLink]="['/profile', bid.userId]">
+            <p class="pr-bid__name">Tod Paker</p>
+          </a>
         </div>
         <p>Proposal:</p>
-        <p>{{bid.comment}} I can do this job for $750 flat. local</p>
+        <p>{{ bid.comment }}</p>
       </div>
     </div>
     <div class="pr-bid__right">
