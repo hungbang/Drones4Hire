@@ -6,19 +6,13 @@
     </div>
     <div class="project-description__right">
       <b-project-description [description]="project.summary"></b-project-description>
-      <div class="project-description__files">
+      <div class="project-description__files" *ngIf="attachments.length">
         <p class="project-description__files-title">
           Attached files:
         </p>
         <ul class="project-description__files-list">
-          <li class="project-description__files-item">
-            <a href="" class="project-description__files-link">Video of the house</a>
-          </li>
-          <li class="project-description__files-item">
-            <a href="" class="project-description__files-link">J commercial</a>
-          </li>
-          <li class="project-description__files-item">
-            <a href="" class="project-description__files-link">Photo of the house</a>
+          <li class="project-description__files-item" *ngFor="let attach of attachments">
+            <a href="{{ attach.attachmentURL }}" class="project-description__files-link" download>{{ attach.title }}</a>
           </li>
         </ul>
       </div>

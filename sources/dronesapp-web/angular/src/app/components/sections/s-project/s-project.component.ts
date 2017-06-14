@@ -8,13 +8,19 @@ import {ActivatedRoute} from "@angular/router";
   encapsulation: ViewEncapsulation.None
 })
 export class SProjectComponent implements OnInit {
-  tabs: Array<Object> = null;
+  tabs: Array<any> = null;
   project: any;
+  canUpload: boolean = false;
   approvedStatuses = ['IN_PROGRESS', 'COMPLETED'];
 
   constructor(
     private _route: ActivatedRoute
-  ) {
+  ) { }
+
+  ngOnInit() {
+    this.project = this._route.snapshot.data['project'];
+    this.checkUploadAccess();
+
     this.tabs = [
       {
         link: 'description',
@@ -25,18 +31,14 @@ export class SProjectComponent implements OnInit {
       {
         link: 'files',
         text: 'Project files',
-        visibility: !this.canUpload(), // TODO: invert after this tab ready
+        visibility: this.canUpload,
         icon: 'folder'
       }
     ]
   }
 
-  ngOnInit() {
-    this.project = this._route.snapshot.data['project'];
-  }
-
-  private canUpload() {
-    return (this.project && this.project.status && this.approvedStatuses.indexOf(this.project.status) !== -1)
+  private checkUploadAccess() {
+    this.canUpload = (this.project && this.project.status && this.approvedStatuses.indexOf(this.project.status) !== -1);
   }
 
 }

@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 import {AccountService} from '../../../services/account.service/account.service';
-import {ActivatedRoute} from "@angular/router";
+import {ProjectModel} from '../../../services/project.service/project.interface';
+import {ProjectAttachmentModel} from '../../../services/project.service/project-attacment.interface';
+import {ProjectService} from '../../../services/project.service/project.service';
 
 @Component({
   selector: 'b-project-files',
@@ -11,19 +14,58 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class BProjectFilesComponent implements OnInit {
   files: Array<any> = [];
-
+  project: ProjectModel;
+  public deleteFunc = (e) => { this.deleteFile(e) };
 
   constructor(
     public accountService: AccountService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private projectService: ProjectService
   ) { }
 
   ngOnInit() {
-    console.log(this._route.snapshot.parent.data['project']);
+    this._route.params.subscribe(
+      () => {
+        this.project = this._route.snapshot.parent.data['project'];
+        this.fetchProjectFiles();
+      }
+    );
+  }
+
+  private fetchProjectFiles() {
+    if (this.project && this.project.attachments && this.project.attachments.length) {
+      this.files = this.project.attachments.reduce((arr, el) => {
+        if (el.type = 'PROJECT_RESULTS') {
+          arr.push({
+            itemURL: el.attachmentURL,
+            title: el.title,
+            id: el.id
+          });
+          return arr;
+        }
+      }, []);
+    }
+  }
+
+  addFile(attachment: ProjectAttachmentModel) {
+    const fileItem = {
+      itemURL: attachment.attachmentURL,
+      title: attachment.title,
+      id: attachment.id
+    };
+    this.files.push(fileItem);
   }
 
   deleteFile(id) {
-    // TODO: connect API
+    this.projectService.deleteAttachment(id)
+      .subscribe(
+        () => {
+          this.files = this.files.filter(file => file.id !== id);
+        },
+        err => {
+          console.log('delete attachment error:', err);
+        }
+      );
   }
 
 }

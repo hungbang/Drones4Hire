@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {BidModel} from "../../services/bid.service/bid.interface";
-import {ProjectModel} from "../../services/project.service/project.interface";
-import {AccountService} from "../../services/account.service/account.service";
-import {BidService} from "../../services/bid.service/bid.service";
-import {CommentsService} from "../../services/comments.service/comments.service";
+
+import {BidModel} from '../../services/bid.service/bid.interface';
+import {ProjectModel} from '../../services/project.service/project.interface';
+import {AccountService} from '../../services/account.service/account.service';
+import {BidService} from '../../services/bid.service/bid.service';
+import {CommentsService} from '../../services/comments.service/comments.service';
+import {ProjectAttachmentModel} from '../../services/project.service/project-attacment.interface';
 
 @Component({
   selector: 'project-description',
@@ -19,6 +21,7 @@ export class ProjectDescriptionComponent implements OnInit {
   public comments: Array<{}>;
   public pilotBid: BidModel|{} = {};
   public isEdit = false;
+  public attachments: ProjectAttachmentModel[] = [];
 
   get isClient() {
     return this._accountService.isUserClient();
@@ -50,6 +53,9 @@ export class ProjectDescriptionComponent implements OnInit {
     this.project = project;
     this.bids = this._route.snapshot.parent.data['bids'];
     this.comments = this._route.snapshot.parent.data['comments'];
+    if (this.project.attachments.length) {
+      this.fetchAttachments();
+    }
 
     if (this.isPilot) {
       this.pilotBid = this.bids.pop();
@@ -127,6 +133,10 @@ export class ProjectDescriptionComponent implements OnInit {
         this.createBidsInfo(this.bids);
         this.isEdit = false;
       });
+  }
+
+  fetchAttachments() {
+    this.attachments = this.project.attachments.filter(el => el.type === 'PROJECT_ATTACHMENT');
   }
 
 }

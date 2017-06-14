@@ -1,6 +1,7 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {CommonService} from '../../../services/common.service/common.service';
+import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
+
+import {CommonService} from '../../../services/common.service/common.service';
 import {RequestService} from '../../../services/request.service/request.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
 import {StateModel} from '../../../services/common.service/state.interface';
@@ -22,6 +23,18 @@ import {CategoryModel} from '../../../services/common.service/category.interface
 })
 export class FProjectAddComponent implements OnInit {
   private _now = moment();
+  attachmentsLimit = 8;
+  acceptedFormats = [
+    'image/jpeg',
+    'image/png',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/pdf',
+    'application/msword',
+    'application/vnd.ms-excel'
+  ];
+  isNotAcceptedFormat: boolean = false;
+  isLimitReached: boolean = false;
 
   date = {
     start: moment(),
@@ -58,19 +71,23 @@ export class FProjectAddComponent implements OnInit {
     authToken: this._requestService.getCurrentToken(),
     headers: [{
       name: 'FileType',
-      value: 'PROJECT_IMAGE_URL'
+      value: 'PROJECT_ATTACHMENT'
     }]
   });
 
   public hasBaseDropZoneOver = false;
 
-  constructor(public commonService: CommonService,
-              private projectService: ProjectService,
-              private _requestService: RequestService) {
+  constructor(
+    public commonService: CommonService,
+    private projectService: ProjectService,
+    private _requestService: RequestService,
+    private _elementRef: ElementRef
+  ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      console.log('onSuccessItem', response);
-      this.formData.imageURL = JSON.parse(response)['url']; // TODO: array of docs when API will provided
+      console.log('onSuccessItem', response, item);
+      const attachment = this.makeAttachment(JSON.parse(response)['url'], item.file.name);
+      this.formData.attachments.push(attachment);
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
@@ -82,8 +99,19 @@ export class FProjectAddComponent implements OnInit {
     };
 
     this.uploader.onAfterAddingFile = (item) => {
-      console.log('onAfterAddingFile');
-      this.uploader.queue[0].upload();
+      console.log('onAfterAddingFile', item);
+
+      this.isNotAcceptedFormat = false;
+      if (this.formData.attachments.length < this.attachmentsLimit) {
+        if (this.acceptedFormats.indexOf(item.file.type) !== -1) {
+          this.uploader.uploadAll();
+        } else {
+          this.isNotAcceptedFormat = true;
+        }
+      } else {
+        this.isLimitReached = true;
+        this.uploader.clearQueue();
+      }
       return {item};
     };
 
@@ -288,10 +316,6 @@ export class FProjectAddComponent implements OnInit {
       })
   }
 
-  handlePhotoUpload() {
-    this.uploader.uploadAll();
-  }
-
   private setStates(states) {
     this.states = extend([], states);
   }
@@ -329,5 +353,20 @@ export class FProjectAddComponent implements OnInit {
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
+  }
+
+  triggerFileClick() {
+    if (this._elementRef && this._elementRef.nativeElement !== null) {
+      this._elementRef.nativeElement.querySelector('[type="file"]').click();
+    }
+  }
+
+  private makeAttachment(url: string, filename: string) {
+    return {
+      attachmentURL: url,
+      projectId: null,
+      title: filename,
+      type: 'PROJECT_ATTACHMENT'
+    }
   }
 }

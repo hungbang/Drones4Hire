@@ -30,7 +30,7 @@ export class FPortfolioUploadComponent implements OnInit {
 
   constructor(
     private _elementRef: ElementRef,
-    private _portfolioServcie: PortfolioService,
+    private _portfolioService: PortfolioService,
     private _requestService: RequestService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -76,7 +76,7 @@ export class FPortfolioUploadComponent implements OnInit {
       itemURL: this.fileURL,
       type: 'PHOTO'
     };
-    this._portfolioServcie.addPortfolio(portfolio);
+    this._portfolioService.addPortfolio(portfolio);
   }
 
   triggerFileClick() {

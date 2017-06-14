@@ -19,3 +19,21 @@
     justify-content flex-end
     button
       margin-bottom 0
+
+  &__message
+    padding 5px 10px
+    font-size 1.6rem
+    &._error
+      color red
+
+  @media screen and (max-width: 768px)
+    &__row
+      display block
+      margin 0
+
+    &__col
+      flex-basis 100%
+      width 100%
+      margin 0
+      & + &
+        margin-top 10px
