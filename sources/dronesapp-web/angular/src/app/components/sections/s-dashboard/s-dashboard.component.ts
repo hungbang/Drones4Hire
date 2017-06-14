@@ -26,22 +26,27 @@ export class SDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(() => {
+      const page = Number(this.route.snapshot.params['page']);
+      const pageLink = this.route.snapshot.data['pageLink'];
       const res = this.route.snapshot.data['projects'];
-      const projects = res.results;
 
-      if (!projects || !projects.length) {
-        return this.router.navigate(['/']);
+      const projects = res && res.results;
+
+      if ((!projects || !projects.length) && !isNaN(page) && page > 1 || isNaN(page)) {
+        return this.router.navigate([pageLink, 1]);
       }
 
       this.update(res, projects);
 
-      this.pageLink = this.route.snapshot.data['pageLink'];
-      this.currentPage = parseInt(this.route.snapshot.params['page'], 10);
+      this.pageLink = pageLink;
+      this.currentPage = page;
     });
   }
 
   update(res, projects) {
-    this.projects = projects;
+    this.projects = this.projectService.formatClientDashboardProjects(projects);
+
+    console.log(this.projects);
 
     this.maxPage = Math.ceil(res.totalResults / this.projectService.limitProjectsToShow);
   }

@@ -9,12 +9,14 @@
        [ngClass]="{ _inactive: min >= currentPage }"
        (click)="onChangePage(currentPage - 1, $event)"></a>
   </li>
+
   <li class="l-project-pagination__item"
       *ngFor="let page of pages">
     <a href="#" class="l-project-pagination__link"
        [ngClass]="{ _active: page === currentPage }"
        (click)="onChangePage(page, $event)">{{ page }}</a>
   </li>
+
   <li class="l-project-pagination__item">
     <a href="#" class="l-project-pagination__link _next"
        [ngClass]="{ _inactive: max <= currentPage }"

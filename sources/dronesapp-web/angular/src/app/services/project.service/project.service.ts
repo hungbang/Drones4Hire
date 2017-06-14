@@ -54,6 +54,25 @@ export class ProjectService {
     return sum / bids.length;
   }
 
+  formatClientDashboardProjects(projects) {
+    return projects.map((data) => {
+      const project = data.project;
+      const bids = data.bids.sort((a, b) => a.createdAt - b.createdAt);
+
+      return {
+        id: project.id,
+        name: project.title,
+        bidPlaced: bids.length > 0 ? moment(bids[0].createdAt, 'x') : null,
+        awardedDate: null,
+        paymentCreated: null,
+        paymentReleased: null,
+
+        attachmentLength: project.attachments.length,
+        status: project.status
+      };
+    });
+  }
+
   formatProjects(projects) {
     return projects.map((data) => {
       if (!data) { return {}; }

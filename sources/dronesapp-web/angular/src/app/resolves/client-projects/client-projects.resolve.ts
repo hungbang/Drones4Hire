@@ -1,23 +1,30 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
-import {BidService} from "../../services/bid.service/bid.service";
 import {ProjectService} from "../../services/project.service/project.service";
+import {AccountService} from "../../services/account.service/account.service";
+import {createObservable} from "../../shared/common/common-methods";
 
 @Injectable()
 export class ClientProjectsResolve implements Resolve<any> {
   constructor(
-    private bidService: BidService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private accountService: AccountService
   ) {
 
   }
 
   resolve(route: ActivatedRouteSnapshot) {
-    const page = parseInt(route.params['page'], 10);
+    let page = Number(route.params['page']);
 
-    const sendObj = {page, pageSize: this.projectService.limitProjectsToShow};
+    if (isNaN(page)) {
+      return createObservable(null);
+    }
 
-    return this.bidService.fetchBidsInfo(sendObj);
+    const clientId = this.accountService.account.id;
+
+    const sendObj = {page, pageSize: this.projectService.limitProjectsToShow, clientId};
+
+    return this.projectService.getProjects(sendObj);
   }
 }

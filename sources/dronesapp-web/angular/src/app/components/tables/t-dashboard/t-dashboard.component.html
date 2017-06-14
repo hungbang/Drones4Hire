@@ -8,23 +8,42 @@
     <th class="t-dashboard__th">Payment released</th>
   </tr>
   <tr *ngFor="let project of projects">
-    <td class="t-dashboard__td">
-      <a class="t-dashboard__link-name" href="#" [routerLink]="['/project/', project.projectId]">
-        <span class="t-dashboard__project-name">{{project.projectTitle}}</span>
+    <td class="t-dashboard__td _name">
+      <a class="t-dashboard__link-name" href="#" [routerLink]="['/project/', project.id]">
+        <span class="t-dashboard__project-name">{{project.name}}</span>
       </a>
     </td>
 
     <td class="t-dashboard__td">
-      <a class="t-dashboard__link" *ngIf="project.bidAmount > 0" href="#" [routerLink]="['/project/', project.projectId]">
+      <a class="t-dashboard__link" *ngIf="!project.bidPlaced" href="#" [routerLink]="['/project/', project.id]">
         Review Bids
       </a>
-      <span *ngIf="!project.bidAmount">{{project.createdAt | date:'d/M/yy'}}</span>
+      <span *ngIf="project.bidPlaced">{{project.bidPlaced | date:'d/M/yy'}}</span>
     </td>
 
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td"></td>
-    <td class="t-dashboard__td"></td>
+    <td class="t-dashboard__td">
+      <a class="t-dashboard__link" *ngIf="project.bidPlaced && (project.status === 'NEW' || project.status === 'PENDING')" href="#" [routerLink]="['/project/', project.id]">
+        Pending
+      </a>
+      <span *ngIf="project.bidPlaced"></span>
+    </td>
+    <td class="t-dashboard__td">
+      <a class="t-dashboard__link" *ngIf="project.status !== 'NEW' && project.status !== 'PENDING'" href="#" [routerLink]="['/project/', project.id]">
+        PAYMENT RESERVED
+      </a>
+    </td>
+    <td class="t-dashboard__td">
+
+    </td>
+    <td class="t-dashboard__td">
+      <a class="t-dashboard__link"
+         *ngIf="project.status !== 'NEW' && project.status !== 'PENDING'"
+         [ngClass]="{ _inactive: project.status !== 'COMPLETED' }"
+         (click)="release(project, $event)"
+         [routerLink]="['/project/', project.id]">
+        RELEASE PAYMENTS
+      </a>
+    </td>
   </tr>
 </table>
 

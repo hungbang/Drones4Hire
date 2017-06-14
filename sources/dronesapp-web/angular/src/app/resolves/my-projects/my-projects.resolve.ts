@@ -2,15 +2,20 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
 import {ProjectService} from "../../services/project.service/project.service";
+import {createObservable} from "../../shared/common/common-methods";
 
 @Injectable()
 export class MyProjectsResolve implements Resolve<any> {
   constructor(private projectService: ProjectService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    const status = route.data['status'];
-    const page = parseInt(route.params['page'], 10);
+    let page = Number(route.params['page']);
 
+    if (isNaN(page)) {
+      return createObservable(null);
+    }
+
+    const status = route.data['status'];
     const title = route.queryParams['title'];
     const countOfItemsPerPage = route.queryParams['count'] || 10;
 

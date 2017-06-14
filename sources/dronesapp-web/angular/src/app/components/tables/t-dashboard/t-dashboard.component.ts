@@ -28,4 +28,8 @@ export class TDashboardComponent implements OnInit {
   get isPilot() {
     return this._accountService.isUserPilot();
   }
+
+  release(project, event) {
+    event.preventDefault();
+  }
 }
