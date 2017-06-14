@@ -16,10 +16,10 @@
     <div class="l-comments__right">
       <div class="l-comments__top">
         <a class="l-comments__name">Lorem Ipsum</a>
-        <div class="l-comments__date">9/16/16</div>
+        <div class="l-comments__date">{{ comment.createdAt | date:'d/M/yy' }}</div>
       </div>
       <div class="l-comments__bottom">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. </p>
+        <p>{{ comment.comment }}</p>
       </div>
     </div>
   </li>

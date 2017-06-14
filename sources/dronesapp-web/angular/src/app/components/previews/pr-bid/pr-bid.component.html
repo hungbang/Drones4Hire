@@ -31,7 +31,7 @@
         <span class="pr-bid__count">${{bid.amount}}</span>
       </div>
       <!-- todo wait to API implements date-->
-      <div class="pr-bid__age">Bid Age: 0 days</div>
+      <div class="pr-bid__age">Bid Age: {{ diff }} day(s)</div>
       <ng-content select="bid-buttons"></ng-content>
     </div>
   </div>

@@ -25,24 +25,26 @@
           </li>
         </ul>
       </div>
-      <div class="project-description__win-title" *ngIf="bids.length || (isPilot && pilotBid)">Winning Bid</div>
       <l-bids *ngIf="isClient"
               [disabled]="!!project.bidId"
               [bids]="bids"
               [activeId]="activeBidId"
               (award)="award($event)"></l-bids>
 
+      <div class="project-description__win-title" *ngIf="isPilot && pilotBid && project.bidId === pilotBid?.id">Winning Bid</div>
       <pr-bid *ngIf="isPilot && pilotBid"
               [bid]="pilotBid">
         <bid-buttons>
           <button class="project-description__bid-btn _fill"
                   (click)="edit()"
                   *ngIf="!project.bidId && !isEdit">Edit</button>
-          <button class="project-description__bid-btn _fill"
-                  (click)="acceptFromPilot(pilotBid.id)"
+          <button class="project-description__bid-btn"
+                  (click)="acceptFromPilot(pilotBid.id, project.status === 'IN_PROGRESS')"
+                  [ngClass]="{ _fill: project.status !== 'IN_PROGRESS', _disabled: project.status === 'IN_PROGRESS' }"
                   *ngIf="project.bidId === pilotBid.id">Accept</button>
-          <button class="project-description__bid-btn _fill"
-                  (click)="rejectFromPilot(pilotBid.id)"
+          <button class="project-description__bid-btn"
+                  (click)="rejectFromPilot(pilotBid.id, project.status === 'IN_PROGRESS')"
+                  [ngClass]="{ _fill: project.status !== 'IN_PROGRESS', _disabled: project.status === 'IN_PROGRESS' }"
                   *ngIf="project.bidId === pilotBid.id">Reject</button>
         </bid-buttons>
       </pr-bid>

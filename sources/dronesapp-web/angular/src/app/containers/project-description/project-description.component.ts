@@ -94,9 +94,11 @@ export class ProjectDescriptionComponent implements OnInit {
       .subscribe(() => {});
   }
 
-  rejectFromPilot(id: number) {
-    this._bidService.reject(id)
-      .subscribe(() => {});
+  rejectFromPilot(id: number, isProgress: boolean) {
+    if (!isProgress) {
+      this._bidService.reject(id)
+        .subscribe(() => {});
+    }
   }
 
   submitBid(bid: BidModel) {
