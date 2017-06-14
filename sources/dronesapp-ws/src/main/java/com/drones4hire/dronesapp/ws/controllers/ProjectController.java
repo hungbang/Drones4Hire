@@ -186,6 +186,19 @@ public class ProjectController extends AbstractController
 	}
 
 	@ResponseStatusDetails
+	@ApiOperation(value = "Cancel project", nickname = "cancelProject", code = 200, httpMethod = "POST")
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void cancelProject(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
+			throws ServiceException
+	{
+		projectService.cancelProject(id, getPrincipal().getId());
+	}
+
+	@ResponseStatusDetails
 	@ApiOperation(value = "Get comments by project id", nickname = "getCommentsByProjectId", code = 200, httpMethod = "GET", response = List.class)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })

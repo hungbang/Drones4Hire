@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.services.services;
 
+import static com.drones4hire.dronesapp.models.db.projects.Project.Status.CANCELLED;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
@@ -7,6 +8,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import java.util.List;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
+import com.drones4hire.dronesapp.models.db.projects.Bid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +36,9 @@ public class ProjectService
 
 	@Autowired
 	private LocationService locationService;
+
+	@Autowired
+	private BidService bidService;
 	
 	@Autowired
 	private AttachmentService attachmentService;
@@ -109,6 +114,27 @@ public class ProjectService
 		locationService.updateLocation(project.getLocation());
 		projectMapper.updateProject(project);
 		return project;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public void cancelProject(long id, long principalId) throws ServiceException
+	{
+		Project project = getProjectById(id, principalId);
+		if(project == null)
+		{
+			throw new ServiceException("Project with id: " + id + " not found.");
+		}
+		if(! project.getStatus().equals(NEW))
+		{
+			throw new ForbiddenOperationException();
+		}
+		project.setStatus(CANCELLED);
+		projectMapper.updateProject(project);
+		List<Bid> bids = bidService.getBidsByProjectId(id, principalId);
+		for(Bid bid: bids)
+		{
+			bidService.deleteBid(bid.getId(), principalId);
+		}
 	}
 
 	@Transactional(rollbackFor = Exception.class)
