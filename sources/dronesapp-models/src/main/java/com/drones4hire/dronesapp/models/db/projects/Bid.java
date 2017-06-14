@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Currency;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 public class Bid extends AbstractEntity
 {
 	private static final long serialVersionUID = -6358248317808730305L;
 
-	private Long userId;
+	private User user;
 	private Long projectId;
 	private String comment;
 	private BigDecimal amount;
@@ -24,15 +25,6 @@ public class Bid extends AbstractEntity
 		this.setId(id);
 	}
 
-	public Long getUserId()
-	{
-		return userId;
-	}
-
-	public void setUserId(Long userId)
-	{
-		this.userId = userId;
-	}
 
 	public Long getProjectId()
 	{
@@ -72,5 +64,15 @@ public class Bid extends AbstractEntity
 	public void setAmount(BigDecimal amount)
 	{
 		this.amount = amount;
+	}
+
+	public User getUser()
+	{
+		return user;
+	}
+
+	public void setUser(User user)
+	{
+		this.user = user;
 	}
 }

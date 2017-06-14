@@ -8,6 +8,8 @@ public class CommentDTO extends AbstractDTO
 
 	private static final long serialVersionUID = 5121831616695982618L;
 
+	private AccountDTO account;
+	
 	@NotNull(message = "Project id required")
 	private Long projectId;
 
@@ -33,5 +35,15 @@ public class CommentDTO extends AbstractDTO
 	public void setComment(String comment)
 	{
 		this.comment = comment;
+	}
+
+	public AccountDTO getAccount()
+	{
+		return account;
+	}
+
+	public void setAccount(AccountDTO account)
+	{
+		this.account = account;
 	}
 }

@@ -2,7 +2,7 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-    <mapping type="one-way" wildcard="false">
+    <mapping type="bi-directional" wildcard="false">
         <class-a>com.drones4hire.dronesapp.models.dto.CommentDTO</class-a>
         <class-b>com.drones4hire.dronesapp.models.db.projects.Comment</class-b>
 
@@ -17,6 +17,34 @@
         <field>
             <a>comment</a>
             <b>comment</b>
+        </field>
+        <field>
+            <a>account.username</a>
+            <b>user.username</b>
+        </field>
+        <field>
+            <a>account.email</a>
+            <b>user.email</b>
+        </field>
+        <field>
+            <a>account.firstName</a>
+            <b>user.firstName</b>
+        </field>
+        <field>
+            <a>account.lastName</a>
+            <b>user.lastName</b>
+        </field>
+        <field>
+            <a>account.photoURL</a>
+            <b>user.photoURL</b>
+        </field>
+         <field>
+            <a>createdAt</a>
+            <b>createdAt</b>
+        </field>
+        <field>
+            <a>modifiedAt</a>
+            <b>modifiedAt</b>
         </field>
     </mapping>
 </mappings>

@@ -1,20 +1,15 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.CommentMapper;
-import com.drones4hire.dronesapp.models.db.projects.Comment;
-import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.db.users.User;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
-import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.CommentMapper;
+import com.drones4hire.dronesapp.models.db.projects.Comment;
+import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 @Service
 public class CommentService
@@ -24,15 +19,15 @@ public class CommentService
 	private CommentMapper commentMapper;
 
 	@Autowired
-	private UserService userService;
-
-	@Autowired
 	private ProjectService projectService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Comment createComment(Comment comment, long principalId) throws ServiceException
 	{
 		projectService.checkAuthorities(comment.getProjectId(), principalId);
+		User user = new User();
+		user.setId(principalId);
+		comment.setUser(user);
 		commentMapper.createComment(comment);
 		return comment;
 	}

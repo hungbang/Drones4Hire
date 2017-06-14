@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper;
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 @Test
 @ContextConfiguration("classpath:com/drones4hire/dronesapp/dbaccess/dbaccess-test.xml")
@@ -28,6 +29,13 @@ public class BidMapperTest extends AbstractTestNGSpringContextTests
 	@Autowired
 	private BidMapper bidMapper;
 
+	private static final User USER = new User() {
+	   	 private static final long serialVersionUID = 1L;
+	        {
+	        	setId(1L);
+	        }
+	   };
+	
 	private static final Bid BID = new Bid()
 	{
 
@@ -36,7 +44,7 @@ public class BidMapperTest extends AbstractTestNGSpringContextTests
 			setAmount(new BigDecimal(10.00D));
 			setCurrency(Currency.USD);
 			setComment("C1");
-			setUserId(1L);
+			setUser(USER);
 			setProjectId(1L);
 		}
 	};
@@ -85,6 +93,6 @@ public class BidMapperTest extends AbstractTestNGSpringContextTests
 		assertEquals(bid.getCurrency(), BID.getCurrency(), "Bid currency must match");
 		assertEquals(bid.getComment(), BID.getComment(), "Bid comment must match");
 		assertEquals(bid.getProjectId(), BID.getProjectId(), "Bid project ID must match");
-		assertEquals(bid.getUserId(), BID.getUserId(), "Bid user ID must match");
+		assertEquals(bid.getUser().getId(), BID.getUser().getId(), "Bid user ID must match");
 	}
 }

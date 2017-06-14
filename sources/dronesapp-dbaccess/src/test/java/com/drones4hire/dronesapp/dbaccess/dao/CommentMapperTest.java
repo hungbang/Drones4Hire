@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.CommentMapper;
 import com.drones4hire.dronesapp.models.db.projects.Comment;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 @Test
 @ContextConfiguration("classpath:com/drones4hire/dronesapp/dbaccess/dbaccess-test.xml")
@@ -26,13 +27,20 @@ public class CommentMapperTest extends AbstractTestNGSpringContextTests
 	@Autowired
 	private CommentMapper commentMapper;
 
+	private static final User USER = new User() {
+   	 private static final long serialVersionUID = 1L;
+        {
+        	setId(1L);
+        }
+   };
+	
 	private static final Comment COMMENT = new Comment()
 	{
 
 		private static final long serialVersionUID = 1L;
 		{
 			setComment("C1");
-			setUserId(1L);
+			setUser(USER);
 			setProjectId(1L);
 		}
 	};
@@ -76,6 +84,6 @@ public class CommentMapperTest extends AbstractTestNGSpringContextTests
 	{
 		assertEquals(comment.getId(), COMMENT.getId(), "Comment id must match");
 		assertEquals(comment.getComment(), COMMENT.getComment(), "Comment text must match");
-		assertEquals(comment.getUserId(), COMMENT.getUserId(), "Comment user ID must match");
+		assertEquals(comment.getUser().getId(), COMMENT.getUser().getId(), "Comment user ID must match");
 	}
 }

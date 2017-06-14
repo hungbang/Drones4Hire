@@ -1,23 +1,24 @@
 package com.drones4hire.dronesapp.models.db.projects;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 public class Comment extends AbstractEntity
 {
 	private static final long serialVersionUID = -1084490456033391101L;
 
-	private Long userId;
+	private User user;
 	private Long projectId;
 	private String comment;
 
-	public Long getUserId()
+	public User getUser()
 	{
-		return userId;
+		return user;
 	}
 
-	public void setUserId(Long userId)
+	public void setUser(User user)
 	{
-		this.userId = userId;
+		this.user = user;
 	}
 
 	public Long getProjectId()

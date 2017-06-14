@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.drones4hire.dronesapp.models.db.projects.Bid;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.BidDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.BidService;
@@ -50,7 +51,6 @@ public class BidController extends AbstractController
 	public @ResponseBody BidDTO createBid(@Valid @RequestBody BidDTO bidDTO) throws ServiceException
 	{
 		Bid bid = mapper.map(bidDTO, Bid.class);
-		bid.setUserId(getPrincipal().getId());
 		return mapper.map(bidService.createBid(bid, getPrincipal().getId()), BidDTO.class);
 	}
 

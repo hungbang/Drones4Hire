@@ -48,9 +48,9 @@ public class BidService
 	{
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT)
-				|| !user.getId().equals(bid.getUserId()))
+		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT))
 			new ForbiddenOperationException();
+		bid.setUser(user);
 		bidMapper.createBid(bid);
 		emailService.sendNewBidReceiveEmail(project, user);
 		emailService.sendNewBidPlacedEmail(project, user);
@@ -120,10 +120,10 @@ public class BidService
 	{
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT)
-				|| !user.getId().equals(bid.getUserId()))
-			new ForbiddenOperationException();
 		Bid currentBid = bidMapper.getBidById(bid.getId());
+		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT)
+				|| !principalId.equals(currentBid.getUser().getId()))
+			new ForbiddenOperationException();
 		currentBid.setComment(bid.getComment());
 		currentBid.setAmount(bid.getAmount());
 		currentBid.setCurrency(bid.getCurrency());
@@ -139,7 +139,7 @@ public class BidService
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_PILOT)
-				|| !user.getId().equals(bid.getUserId()))
+				|| !principalId.equals(bid.getUser().getId()))
 			new ForbiddenOperationException();
 		bidMapper.deleteBid(bidId);
 		emailService.sendRetractBidEmail(project, user);
@@ -154,7 +154,7 @@ public class BidService
 		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_CLIENT)
 				|| !user.getId().equals(project.getClientId()))
 			new ForbiddenOperationException();
-		project.setPilotId(bid.getUserId());
+		project.setPilotId(bid.getUser().getId());
 		project.setStatus(Status.PENDING);
 		ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
 		project.setAwardDate(Date.from(utc.toInstant()));
@@ -185,7 +185,7 @@ public class BidService
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
-				|| !user.getId().equals(bid.getUserId()))
+				|| !principalId.equals(bid.getUser().getId()))
 			new ForbiddenOperationException();
 		project.setStatus(Status.IN_PROGRESS);
 		projectService.updateProject(project);
@@ -200,7 +200,7 @@ public class BidService
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
-				|| !user.getId().equals(bid.getUserId()))
+				|| !principalId.equals(bid.getUser().getId()))
 			new ForbiddenOperationException();
 		project.setStatus(Status.NEW);
 		project.setPilotId(null);

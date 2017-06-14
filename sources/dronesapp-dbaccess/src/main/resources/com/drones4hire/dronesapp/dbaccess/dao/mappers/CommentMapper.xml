@@ -10,7 +10,7 @@
 			drones.COMMENTS (USER_ID, PROJECT_ID, COMMENT)
 		VALUES 
 			(
-			#{userId},
+			#{user.id},
 			#{projectId},
 			#{comment}
 		    )
@@ -26,9 +26,24 @@
 			C.PROJECT_ID AS COMMENT_PROJECT_ID,
 			C.COMMENT AS COMMENT_COMMENT,
 			C.MODIFIED_AT AS COMMENT_MODIFIED_AT,
-			C.CREATED_AT AS COMMENT_CREATED_AT
+			C.CREATED_AT AS COMMENT_CREATED_AT,
+			
+			U.ID AS USER_ID,
+			U.USERNAME AS USER_USERNAME,
+			U.EMAIL AS USER_EMAIL,
+			U.FIRST_NAME AS USER_FIRST_NAME,
+			U.LAST_NAME AS USER_LAST_NAME,
+			U.PHOTO_URL AS USER_PHOTO_URL,
+			U.INTRODUCTION AS USER_INTRODUCTION,
+			U.SUMMARY AS USER_SUMMARY,
+			U.MODIFIED_AT AS USER_MODIFIED_AT,
+			U.CREATED_AT AS USER_CREATED_AT
           FROM
 			drones.COMMENTS C
+		  LEFT JOIN 
+	        	drones.USERS U 
+	        ON 
+	        	U.ID = C.USER_ID
         ]]>
     </sql>
 
@@ -72,10 +87,10 @@
     <resultMap id="CommentResultMap" type="com.drones4hire.dronesapp.models.db.projects.Comment" autoMapping="false">
         <id column="COMMENT_ID" property="id"/>
         <result column="COMMENT_COMMENT" property="comment" />
-        <result column="COMMENT_USER_ID" property="userId" />
         <result column="COMMENT_PROJECT_ID" property="projectId" />
         <result column="COMMENT_MODIFIED_AT" property="modifiedAt" />
 		<result column="COMMENT_CREATED_AT" property="createdAt" />
+		<association property="user" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" />
     </resultMap>
 
 </mapper>

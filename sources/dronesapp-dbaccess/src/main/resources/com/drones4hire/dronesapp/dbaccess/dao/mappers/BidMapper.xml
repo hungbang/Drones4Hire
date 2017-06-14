@@ -14,7 +14,7 @@
 			#{currency},
 			#{comment},
 			#{projectId},
-			#{userId}
+			#{user.id}
 		    )
         ]]>
     </insert>
@@ -30,9 +30,24 @@
 			B.PROJECT_ID AS BID_PROJECT_ID,
 			B.USER_ID AS BID_USER_ID,
 			B.MODIFIED_AT AS BID_MODIFIED_AT,
-			B.CREATED_AT AS BID_CREATED_AT
+			B.CREATED_AT AS BID_CREATED_AT,
+			
+			U.ID AS USER_ID,
+			U.USERNAME AS USER_USERNAME,
+			U.EMAIL AS USER_EMAIL,
+			U.FIRST_NAME AS USER_FIRST_NAME,
+			U.LAST_NAME AS USER_LAST_NAME,
+			U.PHOTO_URL AS USER_PHOTO_URL,
+			U.INTRODUCTION AS USER_INTRODUCTION,
+			U.SUMMARY AS USER_SUMMARY,
+			U.MODIFIED_AT AS USER_MODIFIED_AT,
+			U.CREATED_AT AS USER_CREATED_AT
           FROM
 			drones.BIDS B
+		  LEFT JOIN 
+	        drones.USERS U 
+	      ON 
+	      	U.ID = B.USER_ID
         ]]>
     </sql>
 
@@ -209,9 +224,9 @@
         <result column="BID_CURRENCY" property="currency" />
         <result column="BID_COMMENT" property="comment" />
         <result column="BID_PROJECT_ID" property="projectId" />
-        <result column="BID_USER_ID" property="userId" />
         <result column="BID_MODIFIED_AT" property="modifiedAt" />
 		<result column="BID_CREATED_AT" property="createdAt" />
+		 <association property="user" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" />
     </resultMap>
 
     <resultMap id="BidInfoResultMap" type="com.drones4hire.dronesapp.models.db.projects.BidInfo" autoMapping="false">

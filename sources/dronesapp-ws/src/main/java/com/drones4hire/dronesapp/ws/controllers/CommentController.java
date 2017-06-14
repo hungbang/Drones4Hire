@@ -38,7 +38,6 @@ public class CommentController extends AbstractController
 	public @ResponseBody CommentDTO createComment(@Valid @RequestBody CommentDTO c) throws ServiceException
 	{
 		Comment comment = mapper.map(c, Comment.class);
-		comment.setUserId(getPrincipal().getId());
 		return mapper.map(commentService.createComment(comment, getPrincipal().getId()), CommentDTO.class);
 	}
 
