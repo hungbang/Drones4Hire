@@ -33,4 +33,5 @@ export interface AccountModel {
   photoURL: string;
   summary: string;
   username: string;
+  wallet?: any;
 }

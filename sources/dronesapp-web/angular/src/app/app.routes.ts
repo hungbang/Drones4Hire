@@ -38,6 +38,7 @@ import {FindProjectsResolve} from "./resolves/find-projects/find-projects.resolv
 import {ClientProjectsResolve} from "./resolves/client-projects/client-projects.resolve";
 import {SDashboardComponent} from "./components/sections/s-dashboard/s-dashboard.component";
 import {SSearchProjectsComponent} from "./components/sections/s-search-projects/s-search-projects.component";
+import {DashboardProfileResolve} from "./resolves/dashboard-profile/dashboard-profile.resolve";
 
 export const ROUTES: Routes = [
   {
@@ -232,6 +233,9 @@ export const ROUTES: Routes = [
         path: 'client',
         component: DashboardComponent,
         canActivate: [ClientGuard],
+        resolve: {
+          profile: DashboardProfileResolve
+        },
         children: [
           {
             path: '',
@@ -255,6 +259,9 @@ export const ROUTES: Routes = [
         path: 'pilot',
         component: DashboardComponent,
         canActivate: [PilotGuard],
+        resolve: {
+          profile: DashboardProfileResolve
+        },
         children: [
           {
             path: '',

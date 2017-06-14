@@ -11,8 +11,9 @@ import {CommentsResolve} from './comments/comments';
 import {MyProjectsResolve} from './my-projects/my-projects.resolve';
 import {PortfolioResolve} from './portfolio/portfolio.resolve';
 import {ProfileServicesResolve} from './profile-services/profile-services.resolve';
-import {FindProjectsResolve} from "./find-projects/find-projects.resolve";
-import {ClientProjectsResolve} from "./client-projects/client-projects.resolve";
+import {FindProjectsResolve} from './find-projects/find-projects.resolve';
+import {ClientProjectsResolve} from './client-projects/client-projects.resolve';
+import { DashboardProfileResolve } from './dashboard-profile/dashboard-profile.resolve';
 
 export const AppResolves = [
   BidsResolve,
@@ -20,6 +21,7 @@ export const AppResolves = [
   ClientProjectsResolve,
   CommentsResolve,
   CountriesResolve,
+  DashboardProfileResolve,
   DurationsResolve,
   FindProjectsResolve,
   MyProjectsResolve,

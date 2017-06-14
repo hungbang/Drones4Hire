@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {ProjectService} from "../../../services/project.service/project.service";
 
 @Component({
   selector: 'b-review',
@@ -12,7 +13,8 @@ export class BReviewComponent implements OnInit {
   abilities: any;
 
   constructor(
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private projectService: ProjectService
   ) {
     this.abilities = {
       services: [],
@@ -39,8 +41,9 @@ export class BReviewComponent implements OnInit {
       if (this.abilities.services.indexOf(el.name) === -1) {
         this.abilities.services.push(el.name);
       }
-      if (this.abilities.industries.indexOf(el.category.name) === -1) {
-        this.abilities.industries.push(el.category.name);
+      const category = this.projectService.formatType(el.category.name);
+      if (this.abilities.industries.indexOf(category) === -1) {
+        this.abilities.industries.push(category);
       }
     });
   }

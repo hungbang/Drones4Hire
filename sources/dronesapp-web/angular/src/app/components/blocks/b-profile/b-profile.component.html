@@ -17,17 +17,17 @@
       <div class="b-profile__col-title">Flight Hours</div>
       <div class="b-profile__col-text">{{profile.flightHours}}</div>
     </div>
-    <div class="b-profile__col" *ngIf="!showDescription">
+    <div class="b-profile__col" *ngIf="!showDescription && profile.wallet?.balance">
       <div class="b-profile__col-title">Wallet Balance</div>
-      <div class="b-profile__col-text">{{profile.walletBalance}}</div>
+      <div class="b-profile__col-text">${{profile.wallet.balance}}</div>
     </div>
     <div class="b-profile__col" *ngIf="showDescription && (profile.location?.city || profile.location?.country?.name)">
       <div class="b-profile__col-title">Location</div>
       <div class="b-profile__col-text">{{ profile.location.city }}{{ (profile.location.city && profile.location.country?.name) ? ', ' : '' }} {{ profile.location.country?.name }}</div>
     </div>
-    <div class="b-profile__col" *ngIf="!showDescription">
+    <div class="b-profile__col" *ngIf="!showDescription && profile.createdAt">
       <div class="b-profile__col-title">Member Since</div>
-      <div class="b-profile__col-text">{{profile.registrationDate}}</div>
+      <div class="b-profile__col-text">{{profile.createdAt | date : 'MM/dd/y'}}</div>
     </div>
   </div>
 </div>

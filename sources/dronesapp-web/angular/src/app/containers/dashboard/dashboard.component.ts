@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { PilotsService } from '../../services/pilots.service/pilots.service';
-import { ClientsService } from '../../services/clients.service/clients.service';
+import {ActivatedRoute} from "@angular/router";
+
 import {AccountService} from '../../services/account.service/account.service';
 
 @Component({
@@ -12,13 +12,12 @@ import {AccountService} from '../../services/account.service/account.service';
 export class DashboardComponent implements OnInit {
   profile: Object;
   constructor(
+    private route: ActivatedRoute,
     public _accountService: AccountService,
-    public _pilotsService: PilotsService,
-    public _clientsService: ClientsService
   ) { }
 
   ngOnInit() {
-    this.profile = this._accountService.isUserClient() ? this._pilotsService.selectedPilot : this._clientsService.selectedClient; // todo add selected Client
+    this.profile = this.route.snapshot.data['profile']
   }
 
 }

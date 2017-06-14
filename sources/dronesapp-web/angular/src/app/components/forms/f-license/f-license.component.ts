@@ -64,7 +64,11 @@ export class FPilotLicenseComponent implements OnInit {
     this.accountService.setAccountLicense(this.accountService.license)
       .subscribe((res) => {
         console.log('-save license', res);
-      });
+      },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   handlePhotoUpload(type: string) {
