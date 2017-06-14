@@ -1,0 +1,13 @@
+<div class="s-search-projects">
+  <f-search [categories]="categories"
+            [budgets]="budgets"
+            [category]="category"
+            [budget]="budget"
+            (send)="send($event)"></f-search>
+  <t-search [projects]="projects"></t-search>
+  <l-project-pagination class="s-search-projects__pagination"
+                        (changePage)="changePage($event)"
+                        [min]="minPage"
+                        [max]="maxPage"
+                        [current]="currentPage"></l-project-pagination>
+</div>

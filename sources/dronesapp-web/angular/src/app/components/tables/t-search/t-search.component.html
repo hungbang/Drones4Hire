@@ -2,26 +2,24 @@
   <div class="t-search__row _head">
     <div class="t-search__cell">Project name</div>
     <div class="t-search__cell">Type</div>
-    <div class="t-search__cell">Location</div>
     <div class="t-search__cell">Budget</div>
     <div class="t-search__cell">Posted</div>
     <div class="t-search__cell">Highest bid</div>
-    <div class="t-search__cell">Bids</div>
+    <div class="t-search__cell"># PROPOSALS</div>
   </div>
-  <div *ngFor="let item of items" class="t-search__row">
-    <a href="#" class="t-search__cell _first" [routerLink]="['/project/pilot']">
-      <span class="t-search__title">{{item.title}}</span>
-      <ul class="t-search__colors">
-        <li *ngFor="let color of item.colors" class="t-search__color-li">
-          <div class="t-search__color" [ngStyle]="{'background-color': color}"></div>
-        </li>
-      </ul>
-    </a>
+  <div *ngFor="let item of projects" class="t-search__row">
+    <div class="t-search__cell _title">
+      <a href="#" class="t-search__link _title" [routerLink]="['/project/', item.id]">
+        <span class="t-search__title">{{item.name}}</span>
+      </a>
+      <span *ngFor="let paidOption of item.paidOptions" class="t-search__color" [ngStyle]="{'background-color': paidOption.color}">
+        {{ paidOption.title }}
+      </span>
+    </div>
     <div class="t-search__cell">{{item.type}}</div>
-    <div class="t-search__cell">{{item.location}}</div>
     <div class="t-search__cell">{{item.budget}}</div>
-    <div class="t-search__cell">{{item.date}}</div>
-    <div class="t-search__cell">{{item.highest}}</div>
-    <div class="t-search__cell">{{item.bids}}</div>
+    <div class="t-search__cell">{{item.posted | date}}</div>
+    <div class="t-search__cell">{{item.proposals > 0 ? item.highestBid : '-'}}</div>
+    <div class="t-search__cell">{{item.proposals}}</div>
   </div>
 </div>

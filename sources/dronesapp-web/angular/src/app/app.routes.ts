@@ -37,6 +37,7 @@ import {ProfileServicesResolve} from './resolves/profile-services/profile-servic
 import {FindProjectsResolve} from "./resolves/find-projects/find-projects.resolve";
 import {ClientProjectsResolve} from "./resolves/client-projects/client-projects.resolve";
 import {SDashboardComponent} from "./components/sections/s-dashboard/s-dashboard.component";
+import {SSearchProjectsComponent} from "./components/sections/s-search-projects/s-search-projects.component";
 
 export const ROUTES: Routes = [
   {
@@ -253,9 +254,24 @@ export const ROUTES: Routes = [
         path: 'pilot',
         component: DashboardComponent,
         canActivate: [PilotGuard],
-        data: {
-          className: 'p-dashboard'
-        }
+        children: [
+          {
+            path: '',
+            redirectTo: '1',
+            pathMatch: 'full'
+          },
+          {
+            path: ':page',
+            resolve: {
+              projects: ClientProjectsResolve
+            },
+            data: {
+              pageLink: '/dashboard/pilot'
+            },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+            component: SDashboardComponent
+          }
+        ]
       }
     ]
   },
@@ -377,9 +393,23 @@ export const ROUTES: Routes = [
     component: SearchComponent,
     resolve: {
       services: ServicesResolve,
-      budgets: BudgetsResolve,
-      projects: FindProjectsResolve
+      budgets: BudgetsResolve
     },
+    children: [
+      {
+        path: '',
+        redirectTo: '1',
+        pathMatch: 'full'
+      },
+      {
+        path: ':page',
+        component: SSearchProjectsComponent,
+        resolve: {
+          projects: FindProjectsResolve
+        },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+      }
+    ],
     data: {
       className: 'p-search'
     }

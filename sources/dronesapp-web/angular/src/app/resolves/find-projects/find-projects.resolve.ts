@@ -2,23 +2,29 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
 import {ProjectService} from "../../services/project.service/project.service";
-import {deleteNullOrNaN} from "../../shared/common/common-methods";
+import {createObservable, deleteNullOrNaN} from "../../shared/common/common-methods";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class FindProjectsResolve implements Resolve<any> {
   constructor(private projectService: ProjectService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    const page = parseInt(route.params['page'], 10);
+    let page = Number(route.params['page']);
 
-    const category_id = route.queryParams['category_id'];
-    const budget_id = route.queryParams['budget_id'];
+    if (isNaN(page)) {
+      return createObservable(null);
+    }
+
+    const serviceCategoryId = route.queryParams['serviceCategoryId'];
+    const budgetId = route.queryParams['budgetId'];
     const postcode = route.queryParams['postcode'];
+    const status = 'NEW';
 
-    const sendObj = { page: 1, pageSize: 10, category_id, budget_id, postcode };
+    const sendObj = { page, pageSize: this.projectService.limitProjectsToShow, serviceCategoryId, budgetId, postcode, status };
 
-    deleteNullOrNaN(sendObj, 'category_id');
-    deleteNullOrNaN(sendObj, 'budget_id');
+    deleteNullOrNaN(sendObj, 'serviceCategoryId');
+    deleteNullOrNaN(sendObj, 'budgetId');
     deleteNullOrNaN(sendObj, 'postcode');
 
     return this.projectService.getProjects(sendObj);

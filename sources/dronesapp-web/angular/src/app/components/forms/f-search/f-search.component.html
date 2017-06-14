@@ -1,32 +1,36 @@
 <form class="f-search" novalidate (submit)="onSubmit()">
   <div class="f-search__row">
     <div class="f-search__col">
-      <select class="f-search__field _select"
-              name="category"
-              [(ngModel)]="category">
-        <option value="-1">Project Type</option>
-        <option *ngFor="let category of categories"
-                [value]="category.id">{{ category.name }}</option>
-      </select>
+      <label class="f-search__label _select">
+        <select class="f-search__field _select"
+                name="category"
+                [(ngModel)]="_category">
+          <option value="-1">Project Type</option>
+          <option *ngFor="let category of categories"
+                  [value]="category.id">{{ category.name }}</option>
+        </select>
+      </label>
     </div>
     <div class="f-search__col">
-      <select class="f-search__field _select"
-              name="budget"
-              [(ngModel)]="budget">
-        <option value="-1">Price Range</option>
-        <option *ngFor="let budget of budgets"
-                [value]="budget.value">{{ budget.text }}</option>
-      </select>
+      <label class="f-search__label _select">
+        <select class="f-search__field _select"
+                name="budget"
+                [(ngModel)]="_budget">
+          <option value="-1">Price Range</option>
+          <option *ngFor="let budget of budgets"
+                  [value]="budget.value">{{ budget.text }}</option>
+        </select>
+      </label>
     </div>
     <div class="f-search__col">
       <span class="f-search__text">Zip Code</span>
       <input class="f-search__field"
              type="text"
              name="code"
-             [(ngModel)]="zipCode"
-             placeholder="ex. 150"/>
+             [(ngModel)]="_postcode"
+             placeholder="ex. 55555"/>
     </div>
   </div>
 
-  <button class="f-search__button" type="submit">Submit</button>
+  <button class="f-search__button" type="submit">Search</button>
 </form>

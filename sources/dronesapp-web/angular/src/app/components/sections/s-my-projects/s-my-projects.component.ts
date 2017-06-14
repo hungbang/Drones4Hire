@@ -29,15 +29,17 @@ export class SMyProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(() => {
+      const currentPage = parseInt(this.route.snapshot.params['page'], 10);
       const res = this.route.snapshot.data['projects'];
       const projects = res.results;
+      const pageLink = this.route.snapshot.data['pageLink'];
 
-      if (!projects || !projects.length) {
-        return this.router.navigate(['/']);
+      if (!projects || (!projects.length && currentPage > 1)) {
+        return this.router.navigate([pageLink, '1']);
       }
 
-      this.pageLink = this.route.snapshot.data['pageLink'];
-      this.currentPage = parseInt(this.route.snapshot.params['page'], 10);
+      this.pageLink = pageLink;
+      this.currentPage = currentPage;
 
       this.update(res, projects);
     });
