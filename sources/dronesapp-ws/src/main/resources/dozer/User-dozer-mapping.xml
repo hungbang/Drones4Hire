@@ -72,5 +72,9 @@
             <a>groups</a>
             <b>groups</b>
         </field>
+        <field>
+            <a>createdAt</a>
+            <b>createdAt</b>
+        </field>
     </mapping>
 </mappings>
