@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
-import {BidService} from '../../services/bid.service/bid.service';
+import {ProjectService} from "../../services/project.service/project.service";
 
 @Injectable()
 export class MyProjectsResolve implements Resolve<any> {
-  constructor(private bidService: BidService) {}
+  constructor(private projectService: ProjectService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
     const status = route.data['status'];
@@ -15,11 +15,11 @@ export class MyProjectsResolve implements Resolve<any> {
     const countOfItemsPerPage = route.queryParams['count'] || 10;
 
     if (countOfItemsPerPage) {
-      this.bidService.countPerPage = parseInt(countOfItemsPerPage, 10);
+      this.projectService.limitProjectsToShow = parseInt(countOfItemsPerPage, 10);
     }
 
-    const pageSize = this.bidService.countPerPage;
+    const pageSize = this.projectService.limitProjectsToShow;
 
-    return this.bidService.fetchBidsInfo({ page, pageSize, status, title });
+    return this.projectService.getProjects({ page, pageSize, status, title });
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {BidService} from "../../../services/bid.service/bid.service";
+import {ProjectService} from "../../../services/project.service/project.service";
 
 @Component({
   selector: 's-my-projects',
@@ -24,7 +24,7 @@ export class SMyProjectsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private bidService: BidService
+    private projectService: ProjectService
   ) { }
 
   ngOnInit() {
@@ -86,8 +86,8 @@ export class SMyProjectsComponent implements OnInit {
   }
 
   update(res, projects) {
-    this.projects = projects;
-    this.countPerPage = this.bidService.countPerPage;
+    this.projects = this.projectService.formatMyProjects(projects);
+    this.countPerPage = this.projectService.limitProjectsToShow;
     this.title = this.route.snapshot.queryParams['title'];
 
     this.maxPage = Math.ceil(res.totalResults / this.countPerPage);

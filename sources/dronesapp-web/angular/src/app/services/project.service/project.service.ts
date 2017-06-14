@@ -23,6 +23,37 @@ export class ProjectService {
   ) {
   }
 
+  formatMyProjects(projects) {
+    return projects.map((data) => {
+      if (!data) { return {}; }
+
+      const project = data.project;
+      const bids = data.bids;
+
+      return {
+        id: project.id,
+        name: project.title,
+        bidCount: bids.length,
+        averageBid: this.getAverageBidAmount(bids),
+        bidEndDate: this.getBidEndDate(data.pilot, project)
+      };
+    });
+  }
+
+  getBidEndDate(pilot, project) {
+    return moment(project.startDate, 'x');
+  }
+
+  getAverageBidAmount(bids) {
+    if (bids.length === 0) {
+      return 0;
+    }
+
+    const sum = bids.reduce((sum, bid) => sum + bid.amount, 0);
+
+    return sum / bids.length;
+  }
+
   formatProjects(projects) {
     return projects.map((data) => {
       if (!data) { return {}; }

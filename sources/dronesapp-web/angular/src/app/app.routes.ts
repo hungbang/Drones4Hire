@@ -193,6 +193,7 @@ export const ROUTES: Routes = [
       {
         path: ':projectId',
         component: ProjectComponent,
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         resolve: {
           project: ProjectResolve,
           bids: BidsResolve,
