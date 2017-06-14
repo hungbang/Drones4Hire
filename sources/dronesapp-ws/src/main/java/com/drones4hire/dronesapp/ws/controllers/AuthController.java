@@ -49,9 +49,6 @@ public class AuthController extends AbstractController
 	private UserService userService;
 
 	@Autowired
-	private WalletService walletService;
-
-	@Autowired
 	private AWSEmailService emailService;
 
 	@Autowired
@@ -64,12 +61,11 @@ public class AuthController extends AbstractController
 	public @ResponseBody AuthTokenDTO login(@Valid @RequestBody CredentialsDTO credentials) throws ServiceException
 	{
 		User user = userService.checkUserCredentials(credentials.getEmail(), credentials.getPassword());
-		Wallet wallet = walletService.getWalletByUserId(user.getId());
 
 		return new AuthTokenDTO("Bearer",
 				jwtService.generateAuthToken(user),
 				jwtService.generateRefreshToken(user),
-				jwtService.getExpiration(), user, wallet);
+				jwtService.getExpiration());
 	}
 
 	@ResponseStatusDetails
@@ -84,7 +80,6 @@ public class AuthController extends AbstractController
 		{
 			User jwtUser = jwtService.parseRefreshToken(refreshToken.getRefreshToken());
 			User user = userService.getUserById(jwtUser.getId());
-			Wallet wallet = walletService.getWalletByUserId(user.getId());
 			if (user == null || !user.getPassword().equals(jwtUser.getPassword()))
 			{
 				throw new Exception("User password changed");
@@ -93,7 +88,7 @@ public class AuthController extends AbstractController
 			authToken = new AuthTokenDTO("Bearer",
 					jwtService.generateAuthToken(user),
 					jwtService.generateRefreshToken(user),
-					jwtService.getExpiration(), user, wallet);
+					jwtService.getExpiration());
 		} catch (Exception e)
 		{
 			throw new ForbiddenOperationException(e);

@@ -30,6 +30,9 @@ public class AccountDTO extends AbstractDTO
 	private String introduction;
 	
 	private String summary;
+
+	@NotNull(message = "Wallet required")
+	private WalletDTO wallet;
 	
 	private List<Group> groups = new ArrayList<>();
 
@@ -111,6 +114,16 @@ public class AccountDTO extends AbstractDTO
 	public void setSummary(String summary)
 	{
 		this.summary = summary;
+	}
+
+	public WalletDTO getWallet()
+	{
+		return wallet;
+	}
+
+	public void setWallet(WalletDTO wallet)
+	{
+		this.wallet = wallet;
 	}
 
 	public List<Group> getGroups()

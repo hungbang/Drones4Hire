@@ -19,23 +19,17 @@ public class AuthTokenDTO implements Serializable
 	private String refreshToken;
 	
 	private int expiresIn;
-
-	private User user;
-
-	private Wallet wallet;
 	
 	public AuthTokenDTO()
 	{
 	}
 	
-	public AuthTokenDTO(String type, String accessToken, String refreshToken, int expiresIn, User user, Wallet wallet)
+	public AuthTokenDTO(String type, String accessToken, String refreshToken, int expiresIn)
 	{
 		this.type = type;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 		this.expiresIn = expiresIn;
-		this.user = user;
-		this.wallet = wallet;
 	}
 
 	public String getType()
@@ -76,25 +70,5 @@ public class AuthTokenDTO implements Serializable
 	public void setExpiresIn(int expiresIn)
 	{
 		this.expiresIn = expiresIn;
-	}
-
-	public User getUser()
-	{
-		return user;
-	}
-
-	public void setUser(User user)
-	{
-		this.user = user;
-	}
-
-	public Wallet getWallet()
-	{
-		return wallet;
-	}
-
-	public void setWallet(Wallet wallet)
-	{
-		this.wallet = wallet;
 	}
 }

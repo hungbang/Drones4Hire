@@ -19,6 +19,14 @@
             <b>summary</b>
         </field>
         <field>
+            <a>clientId</a>
+            <b>clientId</b>
+        </field>
+        <field>
+            <a>pilotId</a>
+            <b>pilotId</b>
+        </field>
+        <field>
             <a>service</a>
             <b>service</b>
         </field>

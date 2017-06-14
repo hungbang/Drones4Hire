@@ -21,6 +21,10 @@ public class ProjectDTO extends AbstractDTO
 
 	private Long bidId;
 
+	private Long clientId;
+
+	private Long pilotId;
+
 	@NotNull(message = "Service required")
 	private Service service;
 
@@ -56,6 +60,36 @@ public class ProjectDTO extends AbstractDTO
 	public void setTitle(String title)
 	{
 		this.title = title;
+	}
+
+	public Long getBidId()
+	{
+		return bidId;
+	}
+
+	public void setBidId(Long bidId)
+	{
+		this.bidId = bidId;
+	}
+
+	public Long getClientId()
+	{
+		return clientId;
+	}
+
+	public void setClientId(Long clientId)
+	{
+		this.clientId = clientId;
+	}
+
+	public Long getPilotId()
+	{
+		return pilotId;
+	}
+
+	public void setPilotId(Long pilotId)
+	{
+		this.pilotId = pilotId;
 	}
 
 	public String getSummary()
@@ -96,16 +130,6 @@ public class ProjectDTO extends AbstractDTO
 	public void setLocation(LocationDTO location)
 	{
 		this.location = location;
-	}
-
-	public Long getBidId()
-	{
-		return bidId;
-	}
-
-	public void setBidId(Long bidId)
-	{
-		this.bidId = bidId;
 	}
 
 	public BudgetDTO getBudget()

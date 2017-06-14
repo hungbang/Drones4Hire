@@ -9,6 +9,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.drones4hire.dronesapp.models.db.users.*;
+import com.drones4hire.dronesapp.models.dto.*;
+import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -21,22 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.services.Service;
-import com.drones4hire.dronesapp.models.dto.AccountDTO;
-import com.drones4hire.dronesapp.models.dto.ChangeEmailDTO;
-import com.drones4hire.dronesapp.models.dto.CompanyDTO;
-import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
-import com.drones4hire.dronesapp.models.dto.PilotLocationDTO;
-import com.drones4hire.dronesapp.models.dto.ProfileDTO;
 import com.drones4hire.dronesapp.models.dto.auth.ChangePasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.CompanyService;
-import com.drones4hire.dronesapp.services.services.LocationService;
-import com.drones4hire.dronesapp.services.services.PilotLicenseService;
-import com.drones4hire.dronesapp.services.services.PilotLocationService;
-import com.drones4hire.dronesapp.services.services.ProfileService;
-import com.drones4hire.dronesapp.services.services.ServiceService;
-import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
@@ -81,6 +70,9 @@ public class AccountController extends AbstractController
 	private ProfileService profileService;
 
 	@Autowired
+	private WalletService walletService;
+
+	@Autowired
 	private PasswordEncryptor passwordEncryptor;
 
 	@Autowired
@@ -94,7 +86,10 @@ public class AccountController extends AbstractController
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AccountDTO getUserAccount() throws MappingException, ServiceException
 	{
-		return mapper.map(userService.getUserById(getPrincipal().getId()), AccountDTO.class);
+		WalletDTO wallet = mapper.map(walletService.getWalletByUserId(getPrincipal().getId()), WalletDTO.class);
+		AccountDTO account = mapper.map(userService.getUserById(getPrincipal().getId()), AccountDTO.class);
+		account.setWallet(wallet);
+		return account;
 	}
 
 	@ResponseStatusDetails
