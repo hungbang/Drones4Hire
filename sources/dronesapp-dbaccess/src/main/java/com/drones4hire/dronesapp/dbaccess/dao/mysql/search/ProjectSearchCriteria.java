@@ -11,6 +11,7 @@ public class ProjectSearchCriteria extends SearchCriteria
 	private long serviceCategoryId;
 	private long durationId;
 	private long locationId;
+	private Integer postcode;
 	private long budgetId;
 	private Status status;
 
@@ -72,6 +73,16 @@ public class ProjectSearchCriteria extends SearchCriteria
 	public void setLocationId(long locationId)
 	{
 		this.locationId = locationId;
+	}
+
+	public Integer getPostcode()
+	{
+		return postcode;
+	}
+
+	public void setPostcode(Integer postcode)
+	{
+		this.postcode = postcode;
 	}
 
 	public long getBudgetId()

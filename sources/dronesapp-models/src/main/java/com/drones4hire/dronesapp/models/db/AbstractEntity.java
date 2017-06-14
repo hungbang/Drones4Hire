@@ -13,11 +13,11 @@ public abstract class AbstractEntity implements Serializable
 	private static final long serialVersionUID = 6187567312503626298L;
 
 	private Long id;
-	@JsonIgnore
+
 	private Date modifiedAt;
-//	@JsonIgnore
+
 	private Date createdAt;
-	
+
 	protected String EMPTY = "";
 
 	public Long getId()

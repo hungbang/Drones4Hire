@@ -490,6 +490,11 @@
 				   AND L.ID = #{locationId}
 				]]>
 			</if>
+			<if test="null != postcode">
+				<![CDATA[
+				   AND L.POSTCODE = #{postcode}
+				]]>
+			</if>
 			<if test="0 != budgetId">
 				<![CDATA[
 				   AND B.ID = #{budgetId}
@@ -578,6 +583,11 @@
 			<if test="0 != locationId">
 				<![CDATA[
 				   AND L.ID = #{locationId}
+				]]>
+			</if>
+			<if test="null != postcode">
+				<![CDATA[
+				   AND L.POSTCODE = #{postcode}
 				]]>
 			</if>
 			<if test="0 != budgetId">
