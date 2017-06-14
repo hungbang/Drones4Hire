@@ -8,6 +8,7 @@ public class UserSearchCriteria extends SearchCriteria
 	private String email;
 	private String firstName;
 	private String lastName;
+	private Integer flightHours;
 	private Boolean confirmed;
 	private Boolean enabled;
 	private Role role;
@@ -50,6 +51,16 @@ public class UserSearchCriteria extends SearchCriteria
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
+	}
+
+	public Integer getFlightHours()
+	{
+		return flightHours;
+	}
+
+	public void setFlightHours(Integer flightHours)
+	{
+		this.flightHours = flightHours;
 	}
 
 	public Boolean getConfirmed()

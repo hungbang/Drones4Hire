@@ -26,6 +26,7 @@ public class User extends AbstractEntity
 	private String photoURL;
 	private String introduction;
 	private String summary;
+	private Integer flightHours;
 	private Boolean confirmed;
 	private Boolean enabled;
 	private Location location;
@@ -109,6 +110,16 @@ public class User extends AbstractEntity
 	public void setSummary(String summary)
 	{
 		this.summary = summary;
+	}
+
+	public Integer getFlightHours()
+	{
+		return flightHours;
+	}
+
+	public void setFlightHours(Integer flightHours)
+	{
+		this.flightHours = flightHours;
 	}
 
 	public Boolean isConfirmed()

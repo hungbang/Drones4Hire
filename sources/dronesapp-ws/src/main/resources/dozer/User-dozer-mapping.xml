@@ -68,6 +68,10 @@
             <a>summary</a>
             <b>summary</b>
         </field>
+        <field>
+            <a>flightHours</a>
+            <b>flightHours</b>
+        </field>
          <field>
             <a>groups</a>
             <b>groups</b>

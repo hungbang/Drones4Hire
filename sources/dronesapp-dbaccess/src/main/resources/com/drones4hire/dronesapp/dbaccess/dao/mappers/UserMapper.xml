@@ -6,7 +6,7 @@
 	<insert id="createUser" useGeneratedKeys="true" keyProperty="id">
     	<![CDATA[
         	INSERT
-          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, LOCATION_ID, ENABLED, CONFIRMED)
+          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, FLIGHT_HOURS, LOCATION_ID, ENABLED, CONFIRMED)
           	VALUES 
             (
           		#{username},
@@ -17,6 +17,7 @@
             	#{photoURL},
             	#{introduction},
             	#{summary},
+            	#{flightHours},
             	#{location.id},
             	#{enabled},
             	#{confirmed}
@@ -49,6 +50,7 @@
 				U.PHOTO_URL AS USER_PHOTO_URL,
 				U.INTRODUCTION AS USER_INTRODUCTION,
 				U.SUMMARY AS USER_SUMMARY,
+				U.FLIGHT_HOURS AS USER_FLIGHT_HOURS,
 				U.ENABLED AS USER_ENABLED,
 				U.CONFIRMED AS USER_CONFIRMED,
 				U.MODIFIED_AT AS USER_MODIFIED_AT,
@@ -125,6 +127,11 @@
 			<if test="null != username">
 				<![CDATA[
 					AND LOWER(U.USERNAME) LIKE LOWER(CONCAT('%', #{username}, '%'))
+				]]>
+			</if>
+			<if test="null != flightHours">
+				<![CDATA[
+					AND U.FLIGHT_HOURS >= #{flightHours}
 				]]>
 			</if>
 			<if test="null != confirmed">
@@ -206,6 +213,11 @@
 					AND LOWER(U.USERNAME) LIKE LOWER(CONCAT('%', #{username}, '%'))
 				]]>
 			</if>
+			<if test="null != flightHours">
+				<![CDATA[
+					AND U.FLIGHT_HOURS >= #{flightHours}
+				]]>
+			</if>
 			<if test="null != confirmed">
 				<![CDATA[
 				   AND U.CONFIRMED = #{confirmed}
@@ -265,6 +277,7 @@
           		PHOTO_URL = #{photoURL},
           		INTRODUCTION = #{introduction},
           		SUMMARY = #{summary},
+          		FLIGHT_HOURS = #{flightHours},
           		ENABLED = #{enabled},
           		CONFIRMED = #{confirmed},
           		LOCATION_ID = #{location.id}
@@ -305,6 +318,7 @@
         <result column="USER_PHOTO_URL" property="photoURL" />
         <result column="USER_INTRODUCTION" property="introduction" />
         <result column="USER_SUMMARY" property="summary" />
+        <result column="USER_FLIGHT_HOURS" property="flightHours" />
         <result column="USER_ENABLED" property="enabled" />
         <result column="USER_CONFIRMED" property="confirmed" />
 		<result column="USER_MODIFIED_AT" property="modifiedAt" />

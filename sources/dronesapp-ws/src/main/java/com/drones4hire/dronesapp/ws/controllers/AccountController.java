@@ -106,6 +106,7 @@ public class AccountController extends AbstractController
 		user.setPhotoURL(account.getPhotoURL());
 		user.setIntroduction(account.getIntroduction());
 		user.setSummary(account.getSummary());
+		user.setFlightHours(account.getFlightHours());
 
 		Location location = mapper.map(account.getLocation(), Location.class);
 		location.setId(user.getLocation().getId());

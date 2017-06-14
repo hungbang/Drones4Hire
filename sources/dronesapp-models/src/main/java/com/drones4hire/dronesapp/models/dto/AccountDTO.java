@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.models.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.drones4hire.dronesapp.models.db.users.Group;
@@ -30,6 +31,9 @@ public class AccountDTO extends AbstractDTO
 	private String introduction;
 	
 	private String summary;
+
+	@Min(value = 0, message = "Flight hours should be positive")
+	private Integer flightHours;
 
 	@NotNull(message = "Wallet required")
 	private WalletDTO wallet;
@@ -114,6 +118,16 @@ public class AccountDTO extends AbstractDTO
 	public void setSummary(String summary)
 	{
 		this.summary = summary;
+	}
+
+	public Integer getFlightHours()
+	{
+		return flightHours;
+	}
+
+	public void setFlightHours(Integer flightHours)
+	{
+		this.flightHours = flightHours;
 	}
 
 	public WalletDTO getWallet()
