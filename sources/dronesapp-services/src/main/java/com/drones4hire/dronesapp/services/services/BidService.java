@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.services.services;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper;
+import com.drones4hire.dronesapp.models.db.commons.Currency;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Transaction.Type;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
@@ -42,6 +46,9 @@ public class BidService
 	
 	@Autowired 
 	private AWSEmailService emailService;
+	
+	@Autowired 
+	private TransactionService transactionService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Bid createBid(Bid bid, Long principalId) throws ServiceException
@@ -190,6 +197,15 @@ public class BidService
 		project.setStatus(Status.IN_PROGRESS);
 		projectService.updateProject(project);
 		emailService.sendAcceptBidEmail(project, user);
+//		TODO[anazarenko]: create default transaction. Remove it after payments integration.
+		Transaction t = new Transaction();
+		t.setAmount(new BigDecimal("100"));
+		t.setCurrency(Currency.USD);
+		t.setProjectId(project.getId());
+		t.setStatus(Transaction.Status.COMPLETED);
+		t.setPurpose("default");
+		t.setType(Type.PROJECT_PAYMENT);
+		transactionService.createTransaction(t);
 		return bid;
 	}
 	
