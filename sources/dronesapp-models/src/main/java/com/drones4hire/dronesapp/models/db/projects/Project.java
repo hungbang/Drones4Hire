@@ -29,6 +29,7 @@ public class Project extends AbstractEntity
 	private Boolean postProductionRequired;
 	private Date startDate;
 	private Date finishDate;
+	private Date awardDate;
 	private Status status;
 	private List<PaidOption> paidOptions;
 	private List<Attachment> attachments;
@@ -141,6 +142,16 @@ public class Project extends AbstractEntity
 	public void setFinishDate(Date finishDate)
 	{
 		this.finishDate = finishDate;
+	}
+
+	public Date getAwardDate()
+	{
+		return awardDate;
+	}
+
+	public void setAwardDate(Date awardDate)
+	{
+		this.awardDate = awardDate;
 	}
 
 	public Status getStatus()

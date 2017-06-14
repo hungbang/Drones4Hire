@@ -52,6 +52,7 @@
 	        	P.STATUS AS PROJECT_STATUS,
 	        	P.START_DATE AS PROJECT_START_DATE,
 	        	P.FINISH_DATE AS PROJECT_FINISH_DATE,
+	        	P.AWARD_DATE AS PROJECT_AWARD_DATE,
 	        	P.CREATED_AT AS PROJECT_CREATED_AT,
 	        	P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
 	        	
@@ -264,6 +265,7 @@
 	        	P.STATUS AS PROJECT_STATUS,
 	        	P.START_DATE AS PROJECT_START_DATE,
 	        	P.FINISH_DATE AS PROJECT_FINISH_DATE,
+	        	P.AWARD_DATE AS PROJECT_AWARD_DATE,
 	        	P.CREATED_AT AS PROJECT_CREATED_AT,
 	        	P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
 
@@ -621,7 +623,8 @@
           	 	POST_PRODUCTION_REQUIRED = #{postProductionRequired},
           	 	STATUS = #{status},
           	 	START_DATE = #{startDate},
-          	 	FINISH_DATE = #{finishDate}
+          	 	FINISH_DATE = #{finishDate},
+          	 	AWARD_DATE = #{awardDate}
           WHERE
 			 	ID = #{id}
         ]]>
@@ -647,6 +650,7 @@
 		<result column="PROJECT_STATUS" property="status" />
 		<result column="PROJECT_START_DATE" property="startDate" />
 		<result column="PROJECT_FINISH_DATE" property="finishDate" />
+		<result column="PROJECT_AWARD_DATE" property="awardDate" />
 		<result column="PROJECT_MODIFIED_AT" property="modifiedAt" />
 		<result column="PROJECT_CREATED_AT" property="createdAt" />
 		<association property="service" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceMapper.ServiceResultMap"/>

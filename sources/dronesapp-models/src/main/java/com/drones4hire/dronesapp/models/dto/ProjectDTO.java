@@ -45,6 +45,8 @@ public class ProjectDTO extends AbstractDTO
 
 	private Date finishDate;
 
+	private Date awardDate;
+
 	@NotNull(message = "Status required")
 	private Project.Status status;
 
@@ -170,6 +172,16 @@ public class ProjectDTO extends AbstractDTO
 	public void setFinishDate(Date finishDate)
 	{
 		this.finishDate = finishDate;
+	}
+
+	public Date getAwardDate()
+	{
+		return awardDate;
+	}
+
+	public void setAwardDate(Date awardDate)
+	{
+		this.awardDate = awardDate;
 	}
 
 	public Project.Status getStatus()

@@ -3,7 +3,13 @@ package com.drones4hire.dronesapp.services.services;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.BidInfoSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
@@ -150,6 +156,8 @@ public class BidService
 			new ForbiddenOperationException();
 		project.setPilotId(bid.getUserId());
 		project.setStatus(Status.PENDING);
+		ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
+		project.setAwardDate(Date.from(utc.toInstant()));
 		projectService.updateProject(project);
 		emailService.sendAwardBidEmail(project);
 		return bid;

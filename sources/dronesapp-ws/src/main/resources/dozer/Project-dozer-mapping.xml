@@ -55,6 +55,10 @@
             <b>finishDate</b>
         </field>
         <field>
+            <a>awardDate</a>
+            <b>awardDate</b>
+        </field>
+        <field>
             <a>status</a>
             <b>status</b>
         </field>
