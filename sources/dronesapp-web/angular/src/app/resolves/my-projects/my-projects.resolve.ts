@@ -15,6 +15,8 @@ export class MyProjectsResolve implements Resolve<any> {
       return createObservable(null);
     }
 
+    this.projectService.resetLimit();
+
     const status = route.data['status'];
     const title = route.queryParams['title'];
     const countOfItemsPerPage = route.queryParams['count'] || 10;

@@ -21,8 +21,9 @@ export class ClientProjectsResolve implements Resolve<any> {
       return createObservable(null);
     }
 
-    const clientId = this.accountService.account.id;
+    this.projectService.resetLimit();
 
+    const clientId = this.accountService.account.id;
     const sendObj = {page, pageSize: this.projectService.limitProjectsToShow, clientId};
 
     return this.projectService.getProjects(sendObj);

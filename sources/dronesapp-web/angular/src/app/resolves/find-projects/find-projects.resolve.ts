@@ -16,6 +16,8 @@ export class FindProjectsResolve implements Resolve<any> {
       return createObservable(null);
     }
 
+    this.projectService.resetLimit();
+
     const serviceCategoryId = route.queryParams['serviceCategoryId'];
     const budgetId = route.queryParams['budgetId'];
     const postcode = route.queryParams['postcode'];

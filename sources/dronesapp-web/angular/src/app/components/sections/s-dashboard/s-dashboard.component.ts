@@ -46,8 +46,6 @@ export class SDashboardComponent implements OnInit {
   update(res, projects) {
     this.projects = this.projectService.formatClientDashboardProjects(projects);
 
-    console.log(this.projects);
-
     this.maxPage = Math.ceil(res.totalResults / this.projectService.limitProjectsToShow);
   }
 

@@ -23,6 +23,10 @@ export class ProjectService {
   ) {
   }
 
+  resetLimit() {
+    this.limitProjectsToShow = 10;
+  }
+
   formatMyProjects(projects) {
     return projects.map((data) => {
       if (!data) { return {}; }

@@ -1,4 +1,4 @@
-<ul class="l-project-pagination" *ngIf="max !== min">
+<ul class="l-project-pagination" *ngIf="max > min">
   <li class="l-project-pagination__item">
     <a href="#" class="l-project-pagination__link _start"
        [ngClass]="{ _inactive: min >= currentPage }"
