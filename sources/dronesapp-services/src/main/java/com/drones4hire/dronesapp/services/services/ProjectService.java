@@ -6,6 +6,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,9 +74,9 @@ public class ProjectService
 	}
 
 	@Transactional(readOnly = true)
-	public SearchResult<Project> searchProjects(ProjectSearchCriteria sc, long principalId) throws ServiceException
+	public SearchResult<ProjectSearchResult> searchProjects(ProjectSearchCriteria sc, long principalId) throws ServiceException
 	{
-		SearchResult<Project> results = new SearchResult<>();
+		SearchResult<ProjectSearchResult> results = new SearchResult<>();
 		User user = userService.getUserById(principalId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
@@ -90,9 +91,9 @@ public class ProjectService
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
-		List<Project> projects = projectMapper.searchProjects(sc);
+		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjects(sc);
 		results.setTotalResults(projectMapper.getProjectsSearchCount(sc));
-		results.setResults(projects);
+		results.setResults(projectSearchResults);
 		return results;
 	}
 

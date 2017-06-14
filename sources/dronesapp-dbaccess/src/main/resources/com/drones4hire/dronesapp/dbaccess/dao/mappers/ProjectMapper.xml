@@ -172,8 +172,268 @@
 		<include refid="getProject" />
 	</select>
 
-	<select id="searchProjects" resultMap="ProjectResultMap">
-		<include refid="getProject" />
+	<sql id="searchProject">
+		<![CDATA[
+          SELECT
+	      		P.ID AS PROJECT_ID,
+	      		P.TITLE AS PROJECT_TITLE,
+	        	P.SUMMARY AS PROJECT_SUMMARY,
+
+	        	CLIENT.ID AS CLIENT_USER_ID,
+				CLIENT.USERNAME AS CLIENT_USER_USERNAME,
+				CLIENT.EMAIL AS CLIENT_USER_EMAIL,
+				CLIENT.PASSWORD AS CLIENT_USER_PASSWORD,
+				CLIENT.FIRST_NAME AS CLIENT_USER_FIRST_NAME,
+				CLIENT.LAST_NAME AS CLIENT_USER_LAST_NAME,
+				CLIENT.PHOTO_URL AS CLIENT_USER_PHOTO_URL,
+				CLIENT.INTRODUCTION AS CLIENT_USER_INTRODUCTION,
+				CLIENT.SUMMARY AS CLIENT_USER_SUMMARY,
+				CLIENT.ENABLED AS CLIENT_USER_ENABLED,
+				CLIENT.CONFIRMED AS CLIENT_USER_CONFIRMED,
+				CLIENT.MODIFIED_AT AS CLIENT_USER_MODIFIED_AT,
+				CLIENT.CREATED_AT AS CLIENT_USER_CREATED_AT,
+
+				CLIENT_L.ID AS CLIENT_LOCATION_ID,
+				CLIENT_L.ADDRESS AS CLIENT_LOCATION_ADDRESS,
+	        	X(CLIENT_L.COORDINATES) AS CLIENT_LOCATION_X_COORDINATE,
+	        	Y(CLIENT_L.COORDINATES) AS CLIENT_LOCATION_Y_COORDINATE,
+	        	CLIENT_L.CITY AS CLIENT_LOCATION_CITY,
+	        	CLIENT_L.POSTCODE AS CLIENT_LOCATION_POSTCODE,
+	        	CLIENT_L.MODIFIED_AT AS CLIENT_LOCATION_MODIFIED_AT,
+	        	CLIENT_L.CREATED_AT AS CLIENT_LOCATION_CREATED_AT,
+
+	        	CLIENT_G.ID AS CLIENT_GROUP_ID,
+		        CLIENT_G.NAME AS CLIENT_GROUP_NAME,
+		        CLIENT_G.ROLE AS CLIENT_GROUP_ROLE,
+		        CLIENT_G.MODIFIED_AT AS CLIENT_GROUP_MODIFIED_AT,
+		        CLIENT_G.CREATED_AT AS CLIENT_GROUP_CREATED_AT,
+
+	        	CLIENT_C.ID AS CLIENT_COUNTRY_ID,
+	        	CLIENT_C.NAME AS CLIENT_COUNTRY_NAME,
+	        	CLIENT_C.MODIFIED_AT AS CLIENT_COUNTRY_MODIFIED_AT,
+	        	CLIENT_C.CREATED_AT AS CLIENT_COUNTRY_CREATED_AT,
+
+	        	CLIENT_S.ID AS CLIENT_STATE_ID,
+	        	CLIENT_S.NAME AS CLIENT_STATE_NAME,
+	        	CLIENT_S.CODE AS CLIENT_STATE_CODE,
+	        	CLIENT_S.MODIFIED_AT AS CLIENT_STATE_MODIFIED_AT,
+	        	CLIENT_S.CREATED_AT AS CLIENT_STATE_CREATED_AT,
+
+                PILOT.ID AS PILOT_USER_ID,
+				PILOT.USERNAME AS PILOT_USER_USERNAME,
+				PILOT.EMAIL AS PILOT_USER_EMAIL,
+				PILOT.PASSWORD AS PILOT_USER_PASSWORD,
+				PILOT.FIRST_NAME AS PILOT_USER_FIRST_NAME,
+				PILOT.LAST_NAME AS PILOT_USER_LAST_NAME,
+				PILOT.PHOTO_URL AS PILOT_USER_PHOTO_URL,
+				PILOT.INTRODUCTION AS PILOT_USER_INTRODUCTION,
+				PILOT.SUMMARY AS PILOT_USER_SUMMARY,
+				PILOT.ENABLED AS PILOT_USER_ENABLED,
+				PILOT.CONFIRMED AS PILOT_USER_CONFIRMED,
+				PILOT.MODIFIED_AT AS PILOT_USER_MODIFIED_AT,
+				PILOT.CREATED_AT AS PILOT_USER_CREATED_AT,
+
+				PILOT_L.ID AS PILOT_LOCATION_ID,
+				PILOT_L.ADDRESS AS PILOT_LOCATION_ADDRESS,
+	        	X(PILOT_L.COORDINATES) AS PILOT_LOCATION_X_COORDINATE,
+	        	Y(PILOT_L.COORDINATES) AS PILOT_LOCATION_Y_COORDINATE,
+	        	PILOT_L.CITY AS PILOT_LOCATION_CITY,
+	        	PILOT_L.POSTCODE AS PILOT_LOCATION_POSTCODE,
+	        	PILOT_L.MODIFIED_AT AS PILOT_LOCATION_MODIFIED_AT,
+	        	PILOT_L.CREATED_AT AS PILOT_LOCATION_CREATED_AT,
+
+	        	PILOT_G.ID AS PILOT_GROUP_ID,
+		        PILOT_G.NAME AS PILOT_GROUP_NAME,
+		        PILOT_G.ROLE AS PILOT_GROUP_ROLE,
+		        PILOT_G.MODIFIED_AT AS PILOT_GROUP_MODIFIED_AT,
+		        PILOT_G.CREATED_AT AS PILOT_GROUP_CREATED_AT,
+
+	        	PILOT_C.ID AS PILOT_COUNTRY_ID,
+	        	PILOT_C.NAME AS PILOT_COUNTRY_NAME,
+	        	PILOT_C.MODIFIED_AT AS PILOT_COUNTRY_MODIFIED_AT,
+	        	PILOT_C.CREATED_AT AS PILOT_COUNTRY_CREATED_AT,
+
+	        	PILOT_S.ID AS PILOT_STATE_ID,
+	        	PILOT_S.NAME AS PILOT_STATE_NAME,
+	        	PILOT_S.CODE AS PILOT_STATE_CODE,
+	        	PILOT_S.MODIFIED_AT AS PILOT_STATE_MODIFIED_AT,
+	        	PILOT_S.CREATED_AT AS PILOT_STATE_CREATED_AT,
+
+	        	P.POST_PRODUCTION_REQUIRED AS PROJECT_POST_PRODUCTION_REQUIRED,
+	        	P.STATUS AS PROJECT_STATUS,
+	        	P.START_DATE AS PROJECT_START_DATE,
+	        	P.FINISH_DATE AS PROJECT_FINISH_DATE,
+	        	P.CREATED_AT AS PROJECT_CREATED_AT,
+	        	P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
+
+	        	B.ID AS BID_ID,
+				B.AMOUNT AS BID_AMOUNT,
+				B.CURRENCY AS BID_CURRENCY,
+				B.COMMENT AS BID_COMMENT,
+				B.PROJECT_ID AS BID_PROJECT_ID,
+				B.USER_ID AS BID_USER_ID,
+				B.MODIFIED_AT AS BID_MODIFIED_AT,
+				B.CREATED_AT AS BID_CREATED_AT,
+
+	        	PO.ID AS PAID_OPTION_ID,
+		        PO.TITLE AS PAID_OPTION_TITLE,
+		        PO.DESCRIPTION AS PAID_OPTION_DESCRIPTION,
+		        PO.PRICE AS PAID_OPTION_PRICE,
+		        PO.CURRENCY AS PAID_OPTION_CURRENCY,
+		        PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
+		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT,
+
+		        L.ID AS LOCATION_ID,
+		        X(L.COORDINATES) AS LOCATION_X_COORDINATE,
+		        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
+		        L.CITY AS LOCATION_CITY,
+		        L.POSTCODE AS LOCATION_POSTCODE,
+		        L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
+		        L.CREATED_AT AS LOCATION_CREATED_AT,
+		        C.ID AS COUNTRY_ID,
+		        C.NAME AS COUNTRY_NAME,
+		        C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
+		        C.CREATED_AT AS COUNTRY_CREATED_AT,
+		        ST.ID AS STATE_ID,
+		        ST.NAME AS STATE_NAME,
+		        ST.MODIFIED_AT AS STATE_MODIFIED_AT,
+		        ST.CREATED_AT AS STATE_CREATED_AT,
+
+		        D.ID AS DURATION_ID,
+		        D.TITLE AS DURATION_TITLE,
+		        D.MIN AS DURATION_MIN,
+		        D.MAX AS DURATION_MAX,
+		        D.SORT_ORDER AS DURATION_SORT_ORDER,
+		        D.MODIFIED_AT AS DURATION_MODIFIED_AT,
+		        D.CREATED_AT AS DURATION_CREATED_AT,
+
+		        BD.ID AS BUDGET_ID,
+		        BD.TITLE AS BUDGET_TITLE,
+		        BD.MIN AS BUDGET_MIN,
+		        BD.MAX AS BUDGET_MAX,
+		        BD.CURRENCY AS BUDGET_CURRENCY,
+		        BD.SORT_ORDER AS BUDGET_SORT_ORDER,
+		        BD.MODIFIED_AT AS BUDGET_MODIFIED_AT,
+		        BD.CREATED_AT AS BUDGET_CREATED_AT,
+
+		        S.ID AS SERVICE_ID,
+	            S.NAME AS SERVICE_NAME,
+	            S.MODIFIED_AT AS SERVICE_MODIFIED_AT,
+	            S.CREATED_AT AS SERVICE_CREATED_AT,
+	            SC.ID AS SERVICE_CATEGORY_ID,
+	            SC.NAME AS SERVICE_CATEGORY_NAME,
+	            SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
+	            SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
+	            SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT,
+
+	            A.ID AS ATTACHMENT_ID,
+	            A.TITLE AS ATTACHMENT_TITLE,
+	      		A.ATTACHMENT_URL AS ATTACHMENT_ATTACHMENT_URL,
+		        A.TYPE AS ATTACHMENT_TYPE,
+		        A.PROJECT_ID AS ATTACHMENT_PROJECT_ID,
+		        A.MODIFIED_AT AS ATTACHMENT_MODIFIED_AT,
+		        A.CREATED_AT AS ATTACHMENT_CREATED_AT
+          FROM
+	      		drones.PROJECTS P
+		  LEFT JOIN
+	      		drones.BIDS B
+	      ON
+          		P.ID = B.PROJECT_ID
+		  LEFT JOIN
+	      		drones.USERS CLIENT
+	      ON
+          		P.CLIENT_ID = CLIENT.ID
+		  LEFT JOIN
+	        	drones.LOCATIONS CLIENT_L
+	      ON
+	        	CLIENT.LOCATION_ID = CLIENT_L.ID
+	      LEFT JOIN
+            	drones.COUNTRIES CLIENT_C
+          ON
+            	CLIENT_L.COUNTRY_ID = CLIENT_C.ID
+          LEFT JOIN
+            	drones.STATES CLIENT_S
+          ON
+            	CLIENT_L.STATE_ID = CLIENT_S.ID
+          LEFT JOIN
+            	drones.USER_GROUPS CLIENT_UG
+          ON
+            	CLIENT_UG.USER_ID = CLIENT.ID
+          LEFT JOIN
+	        	drones.GROUPS CLIENT_G
+	      ON
+	        	CLIENT_G.ID = CLIENT_UG.GROUP_ID
+		  LEFT JOIN
+	      		drones.USERS PILOT
+	      ON
+          		P.PILOT_ID = PILOT.ID
+		  LEFT JOIN
+	        	drones.LOCATIONS PILOT_L
+	      ON
+	        	PILOT.LOCATION_ID = PILOT_L.ID
+	      LEFT JOIN
+            	drones.COUNTRIES PILOT_C
+          ON
+            	PILOT_L.COUNTRY_ID = PILOT_C.ID
+          LEFT JOIN
+            	drones.STATES PILOT_S
+          ON
+            	PILOT_L.STATE_ID = PILOT_S.ID
+          LEFT JOIN
+            	drones.USER_GROUPS PILOT_UG
+          ON
+            	PILOT_UG.USER_ID = PILOT.ID
+          LEFT JOIN
+	        	drones.GROUPS PILOT_G
+	      ON
+	        	PILOT_G.ID = PILOT_UG.GROUP_ID
+	      LEFT JOIN
+	      		drones.PROJECTS_PAID_OPTIONS PPO
+	      ON
+          		P.ID = PPO.PROJECT_ID
+	      LEFT JOIN
+	      		drones.PAID_OPTIONS PO
+	      ON
+          		PPO.PAID_OPTION_ID = PO.ID
+          LEFT JOIN
+	      		drones.LOCATIONS L
+	      ON
+          		P.LOCATION_ID = L.ID
+          LEFT JOIN
+            	drones.COUNTRIES C
+          ON
+            	L.COUNTRY_ID = C.ID
+          LEFT JOIN
+            	drones.STATES ST
+          ON
+            	L.STATE_ID = ST.ID
+          LEFT JOIN
+	      		drones.BUDGETS BD
+	      ON
+          		P.BUDGET_ID = BD.ID
+
+          LEFT JOIN
+	      		drones.DURATIONS D
+	      ON
+          		P.DURATION_ID = D.ID
+
+          LEFT JOIN
+	      		drones.SERVICES S
+	      ON
+          		P.SERVICE_ID = S.ID
+          LEFT JOIN
+	      		drones.SERVICE_CATEGORIES SC
+	      ON
+          		S.SERVICE_CATEGORY_ID = SC.ID
+          LEFT JOIN
+	      		 drones.ATTACHMENTS A
+	      ON
+          		A.PROJECT_ID = P.ID
+        ]]>
+	</sql>
+
+	<select id="searchProjects" resultMap="ProjectSearchResultMap">
+		<include refid="searchProject" />
 		<![CDATA[
 			INNER JOIN
 			(
@@ -388,6 +648,15 @@
 		<collection property="attachments"
 			ofType="com.drones4hire.dronesapp.models.db.projects.Attachment"
 			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.AttachmentMapper.AttachmentResultMap" />
+	</resultMap>
+
+	<resultMap id="ProjectSearchResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult" autoMapping="false">
+		<id column="PROJECT_ID" property="id" />
+		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
+		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>
+		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
+		<collection property="bids" ofType="com.drones4hire.dronesapp.models.db.projects.Bid"
+					resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper.BidResultMap"/>
 	</resultMap>
 
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -160,17 +161,17 @@ public class ProjectController extends AbstractController
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<ProjectDTO> searchProjects(@Valid @RequestBody ProjectSearchCriteria sc)
+	public @ResponseBody SearchResult<ProjectSearchResult> searchProjects(@Valid @RequestBody ProjectSearchCriteria sc)
 			throws ServiceException
 	{
 		SearchResult<ProjectDTO> results = new SearchResult<>();
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		SearchResult<Project> searchResult = projectService.searchProjects(sc, getPrincipal().getId());
+		SearchResult<ProjectSearchResult> searchResult = projectService.searchProjects(sc, getPrincipal().getId());
 		List<ProjectDTO> projectDTOs = new ArrayList<>();
 		ProjectDTO projectDTO = null;
-		for(Project project : searchResult.getResults())
+		/*for(Project project : searchResult.getResults())
 		{
 			projectDTO = mapper.map(project, ProjectDTO.class);
 			if(project.getPilotId() != null)
@@ -178,10 +179,10 @@ public class ProjectController extends AbstractController
 				projectDTO.setBidId(bidService.getBidByProjectIdAndUserId(project.getId(), project.getPilotId()).getId());
 			}
 			projectDTOs.add(projectDTO);
-		}
+		}*/
 		results.setTotalResults(searchResult.getTotalResults());
 		results.setResults(projectDTOs);
-		return results;
+		return searchResult;
 	}
 
 	@ResponseStatusDetails

@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.dbaccess.dao.mysql;
 import java.util.List;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +17,7 @@ public interface ProjectMapper
 
 	Project getProjectById(long id);
 
-	List<Project> searchProjects(ProjectSearchCriteria sc);
+	List<ProjectSearchResult> searchProjects(ProjectSearchCriteria sc);
 
 	Integer getProjectsSearchCount(ProjectSearchCriteria sc);
 

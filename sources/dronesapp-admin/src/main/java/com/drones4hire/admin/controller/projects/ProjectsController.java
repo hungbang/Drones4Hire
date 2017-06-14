@@ -1,5 +1,6 @@
 package com.drones4hire.admin.controller.projects;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,13 +43,13 @@ public class ProjectsController extends AbstractController
 	
 	@RequestMapping(value = "searchProjects", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	SearchResult<Project> searchProjects(@RequestBody ProjectSearchCriteria sc) throws Exception
+	SearchResult<ProjectSearchResult> searchProjects(@RequestBody ProjectSearchCriteria sc) throws Exception
 	{
-		SearchResult<Project> results = new SearchResult<>();
+		SearchResult<ProjectSearchResult> results = new SearchResult<>();
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		SearchResult<Project> searchResult = projectService.searchProjects(sc, getPrincipal().getId());
+		SearchResult<ProjectSearchResult> searchResult = projectService.searchProjects(sc, getPrincipal().getId());
 		results.setResults(searchResult.getResults());
 		results.setTotalResults(searchResult.getTotalResults());
 		return results;
