@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
+import com.drones4hire.dronesapp.models.db.projects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +23,14 @@ public class CommentService
 	@Autowired
 	private ProjectService projectService;
 
+	@Autowired
+	private ProjectMapper projectMapper;
+
 	@Transactional(rollbackFor = Exception.class)
 	public Comment createComment(Comment comment, long principalId) throws ServiceException
 	{
-		projectService.checkAuthorities(comment.getProjectId(), principalId);
+		Project project = projectMapper.getProjectById(comment.getProjectId());
+		projectService.checkAuthorities(project, principalId);
 		User user = new User();
 		user.setId(principalId);
 		comment.setUser(user);
@@ -41,7 +47,8 @@ public class CommentService
 	@Transactional(readOnly = true)
 	public List<Comment> getCommentsByProjectId(long projectId, long principalId) throws ServiceException
 	{
-		projectService.checkAuthorities(projectId, principalId);
+		Project project = projectMapper.getProjectById(projectId);
+		projectService.checkAuthorities(project, principalId);
 		return commentMapper.getCommentsByProjectId(projectId);
 	}
 

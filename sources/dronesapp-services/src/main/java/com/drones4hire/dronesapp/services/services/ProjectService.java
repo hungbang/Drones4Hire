@@ -36,9 +36,6 @@ public class ProjectService
 
 	@Autowired
 	private LocationService locationService;
-
-	@Autowired
-	private BidService bidService;
 	
 	@Autowired
 	private AttachmentService attachmentService;
@@ -74,8 +71,9 @@ public class ProjectService
 	@Transactional(readOnly = true)
 	public Project getProjectById(long id, long principalId) throws ServiceException
 	{
-		checkAuthorities(id, principalId);
-		return projectMapper.getProjectById(id);
+		Project project = projectMapper.getProjectById(id);
+		checkAuthorities(project, principalId);
+		return project;
 	}
 
 	@Transactional(readOnly = true)
@@ -130,11 +128,6 @@ public class ProjectService
 		}
 		project.setStatus(CANCELLED);
 		projectMapper.updateProject(project);
-		List<Bid> bids = bidService.getBidsByProjectId(id, principalId);
-		for(Bid bid: bids)
-		{
-			bidService.deleteBid(bid.getId(), principalId);
-		}
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -143,10 +136,9 @@ public class ProjectService
 		projectMapper.deleteProject(id);
 	}
 
-	public void checkAuthorities(long projectId, long principalId) throws ServiceException
+	public void checkAuthorities(Project project, long principalId) throws ServiceException
 	{
 		User user = userService.getUserById(principalId);
-		Project project = projectMapper.getProjectById(projectId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
 			if (principalId != project.getClientId())
