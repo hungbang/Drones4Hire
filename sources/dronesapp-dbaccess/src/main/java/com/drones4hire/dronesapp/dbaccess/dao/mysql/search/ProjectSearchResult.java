@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.users.User;
@@ -17,6 +18,7 @@ public class ProjectSearchResult
 	private BigDecimal maxBid;
 	private Integer bidsCount;
 	private Double bidsAvg;
+	private List<Transaction> transactions;
 
 	public Long getId()
 	{
@@ -96,5 +98,15 @@ public class ProjectSearchResult
 	public void setBidsAvg(Double bidsAvg)
 	{
 		this.bidsAvg = bidsAvg;
+	}
+
+	public List<Transaction> getTransactions()
+	{
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions)
+	{
+		this.transactions = transactions;
 	}
 }

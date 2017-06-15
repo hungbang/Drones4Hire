@@ -274,12 +274,23 @@
 				B.CURRENCY AS BID_CURRENCY,
 				B.COMMENT AS BID_COMMENT,
 				B.PROJECT_ID AS BID_PROJECT_ID,
-				B.USER_ID AS BID_USER_ID,
+				B.USER_ID AS USER_ID,
 				B.MODIFIED_AT AS BID_MODIFIED_AT,
 				B.CREATED_AT AS BID_CREATED_AT,
 	        	PID.MAX_BID AS PROJECT_MAX_BID,
 	        	PID.BIDS_COUNT AS PROJECT_BIDS_COUNT,
 	        	PID.BIDS_AVG AS PROJECT_BIDS_AVG,
+
+	        	T.ID AS TRANSACTION_ID,
+				T.WALLET_ID AS TRANSACTION_WALLET_ID,
+				T.AMOUNT AS TRANSACTION_AMOUNT,
+				T.CURRENCY AS TRANSACTION_CURRENCY,
+				T.TYPE AS TRANSACTION_TYPE,
+				T.PURPOSE AS TRANSACTION_PURPOSE,
+				T.PROJECT_ID AS TRANSACTION_PROJECT_ID,
+				T.STATUS AS TRANSACTION_STATUS,
+				T.MODIFIED_AT AS TRANSACTION_MODIFIED_AT,
+				T.CREATED_AT AS TRANSACTION_CREATED_AT,
 
 	        	PO.ID AS PAID_OPTION_ID,
 		        PO.TITLE AS PAID_OPTION_TITLE,
@@ -402,6 +413,10 @@
 	        	drones.GROUPS PILOT_G
 	      ON
 	        	PILOT_G.ID = PILOT_UG.GROUP_ID
+		  LEFT JOIN
+	        	drones.TRANSACTIONS T
+	      ON
+	        	T.PROJECT_ID = P.ID
 	      LEFT JOIN
 	      		drones.PROJECTS_PAID_OPTIONS PPO
 	      ON
@@ -723,6 +738,7 @@
 		<result column="PROJECT_BIDS_COUNT" property="bidsCount"/>
 		<result column="PROJECT_BIDS_AVG" property="bidsAvg"/>
 		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
+		<association property="transactions" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.TransactionMapper.TransactionResultMap"/>
 		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>
 		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
 		<collection property="bids" ofType="com.drones4hire.dronesapp.models.db.projects.Bid"
