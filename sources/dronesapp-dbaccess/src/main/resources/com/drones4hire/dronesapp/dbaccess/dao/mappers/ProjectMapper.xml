@@ -69,6 +69,7 @@
 		        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
 		        L.CITY AS LOCATION_CITY,
 		        L.POSTCODE AS LOCATION_POSTCODE,
+		        L.ADDRESS AS LOCATION_ADDRESS,
 		        L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
 		        L.CREATED_AT AS LOCATION_CREATED_AT,
 		        C.ID AS COUNTRY_ID,
@@ -691,6 +692,7 @@
           	 	FINISH_DATE = #{finishDate},
           	 	SERVICE_ID = #{service.id},
           	 	DURATION_ID = #{duration.id},
+          	 	BUDGET_ID = #{budget.id},
           	 	AWARD_DATE = #{awardDate}
           WHERE
 			 	ID = #{id}
