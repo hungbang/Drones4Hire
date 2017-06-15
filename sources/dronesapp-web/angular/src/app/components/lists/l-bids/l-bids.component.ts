@@ -11,7 +11,7 @@ export class LBidsComponent implements OnInit {
   @Input() bids: BidModel[];
   @Input() activeId: number;
   @Input() disabled: boolean;
-
+  @Input() attachmentsLength: number;
   @Output() award = new EventEmitter<number>();
 
   constructor() {

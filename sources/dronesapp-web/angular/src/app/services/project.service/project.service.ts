@@ -5,6 +5,7 @@ import {createObservable} from '../../shared/common/common-methods';
 import {RequestService} from '../request.service/request.service';
 import {ProjectAttachmentModel} from './project-attacment.interface';
 import * as moment from 'moment';
+import {AccountService} from "../account.service/account.service";
 
 @Injectable()
 export class ProjectService {
@@ -19,7 +20,8 @@ export class ProjectService {
   nameFilter: string;
 
   constructor(
-    private _requestService: RequestService
+    private _requestService: RequestService,
+    private _accountService: AccountService
   ) {
   }
 
@@ -32,49 +34,84 @@ export class ProjectService {
       if (!data) { return {}; }
 
       const project = data.project;
-      const bids = data.bids;
 
       return {
         id: project.id,
         name: project.title,
-        bidCount: bids.length,
-        averageBid: this.getAverageBidAmount(bids),
-        bidEndDate: this.getBidEndDate(data.pilot, project)
+        bidCount: data.bidsCount,
+        averageBid: data.bidsAvg,
+        bidEndDate: this.getBidEndDate(project)
       };
     });
   }
 
-  getBidEndDate(pilot, project) {
-    return moment(project.startDate, 'x');
+  getBidEndDate(project) {
+    return project.awardDate ? moment(project.awardDate, 'x') : moment(project.startDate, 'x');
   }
 
-  getAverageBidAmount(bids) {
-    if (bids.length === 0) {
-      return 0;
-    }
+  formatPilotDashboardProjects(projects) {
+    const currentPilotId = this._accountService.account.id;
 
-    const sum = bids.reduce((sum, bid) => sum + bid.amount, 0);
+    return projects.map((data) => {
+      const project = data.project;
+      const bid = data.bids[0];
+      const client = data.client;
 
-    return sum / bids.length;
+      return {
+        id: project.id,
+        fullName: `${client.firstName} ${client.lastName}`,
+        name: project.title,
+        bidPlaced: bid.createdAt,
+        awardedDate: this.getAwardedDate(data),
+        paymentCreated: this.getAwardedDate(data),
+        paymentReleased: null,
+        status: project.status,
+        amountPaid: bid.amount,
+        pilotId: data.pilot && data.pilot.id,
+        currentPilotId
+      };
+    });
   }
 
   formatClientDashboardProjects(projects) {
     return projects.map((data) => {
       const project = data.project;
-      const bids = data.bids.sort((a, b) => a.createdAt - b.createdAt);
+
+      const pilotAttechments = project.attachments.filter((project) => project.type === 'PROJECT_RESULT');
 
       return {
         id: project.id,
         name: project.title,
-        bidPlaced: bids.length > 0 ? moment(bids[0].createdAt, 'x') : null,
-        awardedDate: null,
-        paymentCreated: null,
+        bidPlaced: this.getBidPlaced(data),
+        awardedDate: this.getAwardedDate(data),
+        paymentCreated: this.getAwardedDate(data),
         paymentReleased: null,
+        bidsCount: data.bidsCount,
+        pilotId: data.pilot && data.pilot.id || null,
 
-        attachmentLength: project.attachments.length,
+        attachmentLength: pilotAttechments.length,
         status: project.status
       };
     });
+  }
+
+  getAwardedDate(data) {
+    if (!data.pilot) {
+      return null;
+    }
+
+    return data.project.awardDate;
+  }
+
+  getBidPlaced(data) {
+    if (data.pilot) {
+      const pilotId = data.pilot.id;
+      const bid = data.bids.find((bid) => bid.user.id === pilotId);
+
+      return bid.createdAt;
+    }
+
+    return null;
   }
 
   formatProjects(projects) {

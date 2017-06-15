@@ -39,6 +39,7 @@ import {ClientProjectsResolve} from './resolves/client-projects/client-projects.
 import {SDashboardComponent} from './components/sections/s-dashboard/s-dashboard.component';
 import {SSearchProjectsComponent} from './components/sections/s-search-projects/s-search-projects.component';
 import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-profile.resolve';
+import {PilotProjectsResolve} from "./resolves/pilot-projects/pilot-projects.resolve";
 
 export const ROUTES: Routes = [
   {
@@ -111,7 +112,7 @@ export const ROUTES: Routes = [
             path: ':page',
             data: {
               pageLink: '/my-projects/bidding',
-              status: 'NEW'
+              status: ['NEW', 'PENDING']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
@@ -133,7 +134,7 @@ export const ROUTES: Routes = [
             path: ':page',
             data: {
               pageLink: '/my-projects/progress',
-              status: 'IN_PROGRESS'
+              status: ['IN_PROGRESS']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
@@ -155,7 +156,7 @@ export const ROUTES: Routes = [
             path: ':page',
             data: {
               pageLink: '/my-projects/past',
-              status: 'COMPLETED'
+              status: ['COMPLETED']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
@@ -248,7 +249,8 @@ export const ROUTES: Routes = [
               projects: ClientProjectsResolve
             },
             data: {
-              pageLink: '/dashboard/client'
+              pageLink: '/dashboard/client',
+              userType: 'client'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             component: SDashboardComponent
@@ -271,10 +273,11 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             resolve: {
-              projects: ClientProjectsResolve
+              projects: PilotProjectsResolve
             },
             data: {
-              pageLink: '/dashboard/pilot'
+              pageLink: '/dashboard/pilot',
+              userType: 'pilot'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             component: SDashboardComponent

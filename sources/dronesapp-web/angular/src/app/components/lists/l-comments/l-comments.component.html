@@ -1,21 +1,22 @@
 <ul class="l-comments">
   <li class="l-comments__item" *ngFor="let comment of comments">
-    <!--<div class="l-comments__top">-->
-      <!--<div class="l-comments__name">{{comment.author}}</div>-->
-      <!--<div class="l-comments__date">{{comment.date}}</div>-->
-      <!--<l-rating *ngIf="showRating" [rating]="comment.rating"></l-rating>-->
-    <!--</div>-->
-    <!--<div class="l-comments__bottom">-->
-      <!--<p>{{comment.comment}}</p>-->
-    <!--</div>-->
     <div class="l-comments__left">
-      <a href="" class="l-comments__link-img">
-        <img src="assets/img/photo-profile.jpg" object-fit="cover" alt="avatar" class="l-comments__img">
+
+      <a href="#" class="l-comments__link-img">
+        <!-- todo wait to API implements img -->
+        <div class="l-comments__photo" *ngIf="comment.photoURL; else elseBlock">
+          <img class="l-comments__photo-img" [src]="comment.photoURL" alt="user icon">
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="!comment.photoURL">
+            <svg-use name="usericon"></svg-use>
+          </div>
+        </ng-template>
       </a>
     </div>
     <div class="l-comments__right">
       <div class="l-comments__top">
-        <a class="l-comments__name">Lorem Ipsum</a>
+        <a class="l-comments__name">{{ comment.firstName }} {{ comment.lastName }}</a>
         <div class="l-comments__date">{{ comment.createdAt | date:'d/M/yy' }}</div>
       </div>
       <div class="l-comments__bottom">

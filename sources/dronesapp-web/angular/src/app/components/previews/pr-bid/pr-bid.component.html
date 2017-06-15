@@ -3,24 +3,23 @@
   <div class="pr-bid__wrapper">
     <div class="pr-bid__left">
       <div class="pr-bid__user">
-        <a [routerLink]="['/profile', bid.userId]">
+        <a href="#">
           <!-- todo wait to API implements img -->
-          <div *ngIf="bid.img; else elseBlock">
-            <img src="{{bid.img}}" alt="user icon">
+          <div class="pr-bid__photo" *ngIf="bid.photoURL; else elseBlock">
+            <img class="pr-bid__photo-img" [src]="bid.photoURL" alt="user icon">
           </div>
           <ng-template #elseBlock>
-            <div *ngIf="!bid.img">
+            <div *ngIf="!bid.photoURL">
               <svg-use name="usericon"></svg-use>
             </div>
           </ng-template>
         </a>
 
       </div>
-      <!-- todo wait to API implements name-->
       <div class="pr-bid__propolsal">
         <div class="pr-bid__top">
-          <a [routerLink]="['/profile', bid.userId]">
-            <p class="pr-bid__name">Tod Paker</p>
+          <a href="#">
+            <p class="pr-bid__name">{{ bid.firstName }} {{ bid.lastName }}</p>
           </a>
         </div>
         <p>Proposal:</p>

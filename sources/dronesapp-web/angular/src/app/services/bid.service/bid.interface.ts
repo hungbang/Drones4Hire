@@ -7,4 +7,5 @@ export interface BidModel {
   projectId: number;
   pilotId: number;
   createdAt: number;
+  account?: any
 }

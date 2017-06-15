@@ -17,6 +17,7 @@ export class SDashboardComponent implements OnInit {
 
   public minPage = 1;
   public maxPage = 1;
+  public userType;
 
   constructor(
     private projectService: ProjectService,
@@ -25,6 +26,7 @@ export class SDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.userType = this.route.snapshot.data['userType'];
     this.route.params.subscribe(() => {
       const page = Number(this.route.snapshot.params['page']);
       const pageLink = this.route.snapshot.data['pageLink'];
@@ -44,7 +46,9 @@ export class SDashboardComponent implements OnInit {
   }
 
   update(res, projects) {
-    this.projects = this.projectService.formatClientDashboardProjects(projects);
+    this.projects = this.userType === 'client'
+      ? this.projectService.formatClientDashboardProjects(projects)
+      : this.projectService.formatPilotDashboardProjects(projects);
 
     this.maxPage = Math.ceil(res.totalResults / this.projectService.limitProjectsToShow);
   }

@@ -9,7 +9,7 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None,
 })
 export class PrBindComponent implements OnInit {
-  @Input() bid: BidModel;
+  @Input() bid;
 
   public diff;
 

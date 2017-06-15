@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from '../request.service/request.service';
 import {BidModel} from './bid.interface';
+import {getFromObjectToObject} from "../../shared/common/common-methods";
 
 @Injectable()
 export class BidService {
@@ -11,6 +12,17 @@ export class BidService {
     private requestService: RequestService
   ) {
 
+  }
+
+  formatBidsToPreview(bids) {
+    return bids.map((bid) => {
+      const newBid: any = getFromObjectToObject(bid, 'account:firstName', 'account:lastName', 'comment', 'amount', 'id', 'createdAt', 'account:photoURL')
+
+      newBid.isConfirmationValid = true;
+      newBid.oldBid = bid;
+
+      return newBid;
+    });
   }
 
   fetchBids(projectId: string|number) {

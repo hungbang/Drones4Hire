@@ -21,7 +21,7 @@ export class FindProjectsResolve implements Resolve<any> {
     const serviceCategoryId = route.queryParams['serviceCategoryId'];
     const budgetId = route.queryParams['budgetId'];
     const postcode = route.queryParams['postcode'];
-    const status = 'NEW';
+    const status = ['NEW'];
 
     const sendObj = { page, pageSize: this.projectService.limitProjectsToShow, serviceCategoryId, budgetId, postcode, status };
 

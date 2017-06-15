@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import { PilotsService } from '../../../services/pilots.service/pilots.service';
 import {AccountService} from '../../../services/account.service/account.service';
+import {PaymentService} from "../../../services/payment.service/payment.service";
 
 @Component({
   selector: 't-dashboard',
@@ -14,7 +15,8 @@ export class TDashboardComponent implements OnInit {
   dashboard: Object;
   constructor(
     public _accountService: AccountService,
-    public _pilotsService: PilotsService
+    public _pilotsService: PilotsService,
+    private _paymentService: PaymentService
   ) { }
 
   ngOnInit() {
@@ -31,5 +33,9 @@ export class TDashboardComponent implements OnInit {
 
   release(project, event) {
     event.preventDefault();
+    // this._paymentService.releasePayment(project.id)
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //   });
   }
 }

@@ -26,6 +26,7 @@
         </ul>
       </div>
       <l-bids *ngIf="isClient"
+              [attachments]="pilotAttachments.length"
               [disabled]="!!project.bidId"
               [bids]="bids"
               [activeId]="activeBidId"
