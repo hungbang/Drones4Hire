@@ -2,15 +2,15 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
-import com.drones4hire.dronesapp.models.db.projects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.CommentMapper;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.models.db.projects.Comment;
-import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 @Service
@@ -21,19 +21,16 @@ public class CommentService
 	private CommentMapper commentMapper;
 
 	@Autowired
-	private ProjectService projectService;
-
-	@Autowired
 	private ProjectMapper projectMapper;
+	
+	@Autowired
+	private UserService userService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Comment createComment(Comment comment, long principalId) throws ServiceException
 	{
-		Project project = projectMapper.getProjectById(comment.getProjectId());
-		projectService.checkAuthorities(project, principalId);
-		User user = new User();
-		user.setId(principalId);
-		comment.setUser(user);
+		checkAuthorities(comment.getProjectId(), principalId);
+		comment.setUser(userService.getUserById(principalId));
 		commentMapper.createComment(comment);
 		return comment;
 	}
@@ -47,14 +44,14 @@ public class CommentService
 	@Transactional(readOnly = true)
 	public List<Comment> getCommentsByProjectId(long projectId, long principalId) throws ServiceException
 	{
-		Project project = projectMapper.getProjectById(projectId);
-		projectService.checkAuthorities(project, principalId);
+		checkAuthorities(projectId, principalId);
 		return commentMapper.getCommentsByProjectId(projectId);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Comment updateComment(Comment comment)
+	public Comment updateComment(Comment comment, long principalId) throws ServiceException
 	{
+		checkAuthorities(comment.getProjectId(), principalId);
 		commentMapper.updateComment(comment);
 		return comment;
 	}
@@ -63,5 +60,19 @@ public class CommentService
 	public void deleteComment(long id)
 	{
 		commentMapper.deleteComment(id);
+	}
+	
+	private void checkAuthorities(long projectId, long principalId) throws ServiceException
+	{
+		Project project = projectMapper.getProjectById(projectId);
+		switch(project.getStatus()) {
+			case NEW: 
+			case PENDING:
+				return;
+			default:
+				if(principalId != project.getClientId() && principalId != project.getPilotId()) {
+					throw new ForbiddenOperationException();
+				}
+		}
 	}
 }

@@ -1,23 +1,17 @@
 package com.drones4hire.dronesapp.models.db.projects;
 
-import com.drones4hire.dronesapp.models.db.commons.Currency;
-
 import java.math.BigDecimal;
-import java.util.Date;
+
+import com.drones4hire.dronesapp.models.db.commons.Currency;
 
 public class BidInfo
 {
 
 	private Long projectId;
-	private String projectTitle;
 	private Integer bidsCount;
 	private Double bidsAvg;
 	private BigDecimal bidsMax;
-	private BigDecimal bidAmount;
 	private Currency currency;
-	private Date endDate;
-	private Date createdAt;
-	private Date modifiedAt;
 
 	public Long getProjectId()
 	{
@@ -27,16 +21,6 @@ public class BidInfo
 	public void setProjectId(Long projectId)
 	{
 		this.projectId = projectId;
-	}
-
-	public String getProjectTitle()
-	{
-		return projectTitle;
-	}
-
-	public void setProjectTitle(String projectTitle)
-	{
-		this.projectTitle = projectTitle;
 	}
 
 	public Integer getBidsCount()
@@ -69,16 +53,6 @@ public class BidInfo
 		this.bidsMax = bidsMax;
 	}
 
-	public BigDecimal getBidAmount()
-	{
-		return bidAmount;
-	}
-
-	public void setBidAmount(BigDecimal bidAmount)
-	{
-		this.bidAmount = bidAmount;
-	}
-
 	public Currency getCurrency()
 	{
 		return currency;
@@ -89,33 +63,4 @@ public class BidInfo
 		this.currency = currency;
 	}
 
-	public Date getEndDate()
-	{
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate)
-	{
-		this.endDate = endDate;
-	}
-
-	public Date getCreatedAt()
-	{
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt)
-	{
-		this.createdAt = createdAt;
-	}
-
-	public Date getModifiedAt()
-	{
-		return modifiedAt;
-	}
-
-	public void setModifiedAt(Date modifiedAt)
-	{
-		this.modifiedAt = modifiedAt;
-	}
 }

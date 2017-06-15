@@ -82,117 +82,19 @@
         ]]>
     </select>
 
-    <select id="searchBidInfos" resultMap="BidInfoResultMap">
+    <select id="getBidInfo" resultMap="BidInfoResultMap">
         <![CDATA[
           SELECT
-            P.ID AS BID_PROJECT_ID,
-            P.TITLE AS BID_PROJECT_TITLE,
-            P.CREATED_AT AS BID_PROJECT_CREATED_AT,
-            P.MODIFIED_AT AS BID_PROJECT_MODIFIED_AT,
+            B.PROJECT_ID AS BID_PROJECT_ID,
             B.CURRENCY AS BID_CURRENCY,
             COUNT(B.ID) AS BID_COUNT,
             AVG(B.AMOUNT) AS BID_AVG,
             MAX(B.AMOUNT) AS BID_MAX
           FROM
-            drones.PROJECTS P
-          LEFT JOIN
             drones.BIDS B
-          ON
-            B.PROJECT_ID = P.ID
-          GROUP BY
-            P.ID
-          HAVING
-            P.ID
-          IN
-          (
-            SELECT
-              P.ID
-            FROM
-              drones.PROJECTS P
-         ]]>
-        <trim prefix="WHERE" prefixOverrides="AND |OR ">
-            <if test="null != clientId">
-                <![CDATA[
-                  AND P.CLIENT_ID = #{clientId}
-                ]]>
-            </if>
-            <if test="null != pilotId">
-                <![CDATA[
-                  AND P.PILOT_ID = #{pilotId}
-                ]]>
-            </if>
-            <if test="null != title">
-                <![CDATA[
-                  AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
-                ]]>
-            </if>
-            <if test="null != status">
-                <![CDATA[
-                  AND P.STATUS = #{status}
-                ]]>
-            </if>
-        </trim>
-        <![CDATA[
-          )
-        ]]>
-          <if test="sortOrder.toString() == 'ASC'">
-			<![CDATA[
-				ORDER BY P.CREATED_AT ASC
-			]]>
-		</if>
-        <if test="sortOrder.toString() == 'DESC'">
-            <![CDATA[
-                ORDER BY P.CREATED_AT DESC
-            ]]>
-        </if>
-        <![CDATA[
-          LIMIT #{pageSize} OFFSET #{page};
-        ]]>
-    </select>
-
-    <select id="getBidInfosCount" resultType="java.lang.Integer">
-        <![CDATA[
-        SELECT
-        COUNT(*)
-        FROM
-          (
-            SELECT
-              B.ID
-            FROM
-              drones.PROJECTS P
-            LEFT JOIN
-              drones.BIDS B
-            ON
-              B.PROJECT_ID = P.ID
-         ]]>
-        <trim prefix="WHERE" prefixOverrides="AND |OR ">
-            <if test="null != clientId">
-                <![CDATA[
-                  AND P.CLIENT_ID = #{clientId}
-                ]]>
-            </if>
-            <if test="null != pilotId">
-                <![CDATA[
-                  AND P.PILOT_ID = #{pilotId}
-                ]]>
-            </if>
-            <if test="null != title">
-                <![CDATA[
-                  AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
-                ]]>
-            </if>
-            <if test="null != status">
-                <![CDATA[
-                  AND P.STATUS = #{status}
-                ]]>
-            </if>
-        </trim>
-        <![CDATA[
-          GROUP BY
-              P.ID
-            )
-            AS PID
-        ]]>
+          WHERE
+            B.PROJECT_ID = #{projectId}
+       ]]>
     </select>
 
     <update id="updateBid">
@@ -231,9 +133,6 @@
 
     <resultMap id="BidInfoResultMap" type="com.drones4hire.dronesapp.models.db.projects.BidInfo" autoMapping="false">
         <result column="BID_PROJECT_ID" property="projectId" />
-        <result column="BID_PROJECT_TITLE" property="projectTitle" />
-        <result column="BID_PROJECT_CREATED_AT" property="createdAt" />
-        <result column="BID_PROJECT_MODIFIED_AT" property="modifiedAt" />
         <result column="BID_CURRENCY" property="currency" />
         <result column="BID_COUNT" property="bidsCount" />
         <result column="BID_AVG" property="bidsAvg" />

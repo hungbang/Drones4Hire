@@ -7,6 +7,7 @@ import com.drones4hire.dronesapp.services.services.CommentService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.*;
 import org.dozer.Mapper;
+import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,11 +49,11 @@ public class CommentController extends AbstractController
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody CommentDTO updateComment(@Valid @RequestBody CommentDTO c)
+	public @ResponseBody CommentDTO updateComment(@Valid @RequestBody CommentDTO c) throws ServiceException
 	{
 		Comment comment = commentService.getCommentById(c.getId());
 		comment.setComment(c.getComment());
-		return mapper.map(commentService.updateComment(comment), CommentDTO.class);
+		return mapper.map(commentService.updateComment(comment, getPrincipal().getId()), CommentDTO.class);
 	}
 
 	@ResponseStatusDetails

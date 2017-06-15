@@ -37,13 +37,27 @@
 			U.INTRODUCTION AS USER_INTRODUCTION,
 			U.SUMMARY AS USER_SUMMARY,
 			U.MODIFIED_AT AS USER_MODIFIED_AT,
-			U.CREATED_AT AS USER_CREATED_AT
+			U.CREATED_AT AS USER_CREATED_AT,
+			 
+			G.ID AS GROUP_ID,
+		    G.NAME AS GROUP_NAME,
+		    G.ROLE AS GROUP_ROLE,
+		    G.MODIFIED_AT AS GROUP_MODIFIED_AT,
+		    G.CREATED_AT AS GROUP_CREATED_AT
           FROM
 			drones.COMMENTS C
 		  LEFT JOIN 
 	        	drones.USERS U 
 	        ON 
 	        	U.ID = C.USER_ID
+	       LEFT JOIN
+            	drones.USER_GROUPS UG
+            ON
+            	UG.USER_ID = U.ID
+            LEFT JOIN
+	        	drones.GROUPS G
+	        ON
+	        	G.ID = UG.GROUP_ID
         ]]>
     </sql>
 
@@ -60,6 +74,7 @@
         <![CDATA[
           WHERE
 			C.PROJECT_ID = #{projectId}
+       	  ORDER BY C.CREATED_AT ASC
         ]]>
     </select>
 

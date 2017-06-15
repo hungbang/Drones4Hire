@@ -4,17 +4,11 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.BidInfoSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
-import com.drones4hire.dronesapp.models.db.projects.BidInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +18,7 @@ import com.drones4hire.dronesapp.models.db.commons.Currency;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Transaction.Type;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
+import com.drones4hire.dronesapp.models.db.projects.BidInfo;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 import com.drones4hire.dronesapp.models.db.users.User;
@@ -49,6 +44,9 @@ public class BidService
 	
 	@Autowired 
 	private TransactionService transactionService;
+	
+	@Autowired
+	private WalletService walletService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Bid createBid(Bid bid, Long principalId) throws ServiceException
@@ -89,37 +87,9 @@ public class BidService
 	}
 
 	@Transactional(readOnly = true)
-	public SearchResult<BidInfo> getBidInfos(BidInfoSearchCriteria sc, Long principalId) throws ServiceException
+	public BidInfo getBidInfo(long projectId) throws ServiceException
 	{
-		SearchResult<BidInfo> results = new SearchResult<>();
-		results.setSortOrder(sc.getSortOrder());
-		results.setPageSize(sc.getPageSize());
-		results.setPage(sc.getPage());
-		User user = userService.getUserById(principalId);
-		if (user.getRoles().contains(ROLE_CLIENT))
-		{
-			sc.setClientId(principalId);
-		} else if (user.getRoles().contains(ROLE_PILOT))
-		{
-			sc.setPilotId(principalId);
-		}
-		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
-		List<BidInfo> bidInfos = bidMapper.searchBidInfos(sc);
-		for(BidInfo bidInfo : bidInfos)
-		{
-			Long pilotId = projectService.getProjectById(bidInfo.getProjectId(), principalId).getPilotId();
-			if(pilotId == null)
-			{
-				bidInfo.setEndDate(bidInfo.getCreatedAt());
-			} else
-			{
-				bidInfo.setBidAmount(getBidByProjectIdAndUserId(bidInfo.getProjectId(), pilotId).getAmount());
-				bidInfo.setEndDate(bidInfo.getModifiedAt());
-			}
-		}
-		results.setResults(bidInfos);
-		results.setTotalResults(bidMapper.getBidInfosCount(sc));
-		return results;
+		return bidMapper.getBidInfo(projectId);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -167,6 +137,16 @@ public class BidService
 		project.setAwardDate(Date.from(utc.toInstant()));
 		projectService.updateProject(project);
 		emailService.sendAwardBidEmail(project);
+//		TODO[anazarenko]: create default transaction. Remove it after payments integration.
+		Transaction t = new Transaction();
+		t.setWalletId(walletService.getWalletByUserId(principalId).getId());
+		t.setAmount(new BigDecimal("100"));
+		t.setCurrency(Currency.USD);
+		t.setProjectId(project.getId());
+		t.setStatus(Transaction.Status.COMPLETED);
+		t.setPurpose("default");
+		t.setType(Type.PROJECT_PAYMENT);
+		transactionService.createTransaction(t);
 		return bid;
 	}
 	
@@ -197,15 +177,6 @@ public class BidService
 		project.setStatus(Status.IN_PROGRESS);
 		projectService.updateProject(project);
 		emailService.sendAcceptBidEmail(project, user);
-//		TODO[anazarenko]: create default transaction. Remove it after payments integration.
-		Transaction t = new Transaction();
-		t.setAmount(new BigDecimal("100"));
-		t.setCurrency(Currency.USD);
-		t.setProjectId(project.getId());
-		t.setStatus(Transaction.Status.COMPLETED);
-		t.setPurpose("default");
-		t.setType(Type.PROJECT_PAYMENT);
-		transactionService.createTransaction(t);
 		return bid;
 	}
 	

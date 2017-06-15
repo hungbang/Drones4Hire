@@ -262,17 +262,6 @@ public class ProjectController extends AbstractController
 	}
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Get bid infos", nickname = "getBidInfos", code = 200, httpMethod = "POST", response = SearchResult.class)
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "bids/info", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<BidInfo> getBidInfos(@Valid @RequestBody BidInfoSearchCriteria sc) throws ServiceException
-	{
-		return bidService.getBidInfos(sc, getPrincipal().getId());
-	}
-
-	@ResponseStatusDetails
 	@ApiOperation(value = "Create paid option (admin)", nickname = "createPaidOption", code = 201, httpMethod = "POST", response = PaidOption.class)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
@@ -330,5 +319,17 @@ public class ProjectController extends AbstractController
 			@ApiParam(value = "Id of the paid option", required = true) @PathVariable(value = "id") long id)
 	{
 		paidOptionService.deletePaidOption(id);
+	}
+	
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get bid info", nickname = "getBidInfo", code = 200, httpMethod = "GET", response = BidInfo.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/bidInfo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody BidInfo getBidInfo(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long projectId) throws ServiceException
+	{
+		return bidService.getBidInfo(projectId);
 	}
 }
