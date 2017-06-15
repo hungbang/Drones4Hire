@@ -5,8 +5,12 @@
         <img class="s-header__logo-img" src="./assets/img/new-logo-top.png">
       </a>
 
+      <div class="s-header__hamburger" (click)="isOpenMenu ? closeMenu() : openMenu()">
+        <svg-use name="hamburger"></svg-use>
+      </div>
+
       <div class="s-header__menu">
-        <m-site [menu]="menu"></m-site>
+        <m-site [menu]="menu" (closeMenu)="closeMenu()" [isOpen]="isOpenMenu"></m-site>
       </div>
     </div>
   </div>

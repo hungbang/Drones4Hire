@@ -1,4 +1,5 @@
 <div class="pr-bid">
+  <ng-content select="bid-head"></ng-content>
   <div class="pr-bid__wrapper">
     <div class="pr-bid__left">
       <div class="pr-bid__user">
@@ -28,7 +29,7 @@
     </div>
     <div class="pr-bid__right">
       <div class="pr-bid__amount">Bid Amount:
-        <span class="pr-bid__count">${{bid.amount}}</span>
+        <span class="pr-bid__count">${{bid.amount|number:'1.2'}}</span>
       </div>
       <!-- todo wait to API implements date-->
       <div class="pr-bid__age">Bid Age: {{ diff }} day(s)</div>

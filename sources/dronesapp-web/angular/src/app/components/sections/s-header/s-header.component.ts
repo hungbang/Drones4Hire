@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, HostListener, ViewEncapsulation} from '@angular/core';
 import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {Router} from '@angular/router';
 import {AccountService} from '../../../services/account.service/account.service';
@@ -10,11 +10,15 @@ import {AccountService} from '../../../services/account.service/account.service'
   encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
+  public isOpenMenu = false;
+  public canCloseMenu = false;
+
   private _menus = {
     guest: [
       { title: 'Blog', link: '/' },
       {
-        title: 'How it works', link: '/',
+        title: 'How it works',
+        isOpened: true,
         children: [
           { title: 'Drone Pilot', link: '/' },
           { title: 'Client', link: '/' },
@@ -28,6 +32,7 @@ export class HeaderComponent {
       { title: 'My projects', link: '/my-projects/bidding' },
       {
         title: 'Account',
+        isOpened: true,
         children: [
           { title: 'Account settings', link: '/account/client' },
           { title: 'Payment Information' },
@@ -42,6 +47,7 @@ export class HeaderComponent {
       { title: 'Dashboard', link: '/dashboard/pilot' },
       {
         title: 'Account',
+        isOpened: true,
         children: [
           { title: 'Account settings', link: '/account/pilot' },
           { title: 'Payment Information' },
@@ -75,5 +81,26 @@ export class HeaderComponent {
     }
 
     return this._menus.client;
+  }
+
+  closeMenu() {
+    this.isOpenMenu = false;
+  }
+
+  openMenu() {
+    this.isOpenMenu = true;
+    this.canCloseMenu = false;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  closeMenuOnResize(event) {
+    this.closeMenu();
+  }
+  @HostListener('document:click', ['$event'])
+  closeMenuOnClick(event) {
+    if (this.canCloseMenu) {
+      this.closeMenu();
+    }
+    this.canCloseMenu = true;
   }
 }

@@ -1,17 +1,31 @@
+@import '../../../styles/settings/mixin.styl'
+
 .l-bids
   list-style-image none
   list-style-type none
 
   &__btn
-    height: 46px
-    display block
+    display: block
+    height: 42px
+    width: 100%
     min-width 160px
+    text-transform: uppercase
     min-height 31px
     background #fff
     color #3ebcc7
     font-size 1.8rem
     margin-bottom 6px
+    letter-spacing: 2px
     border:1px solid #3ebcc7
+    osans(400)
     &._fill
       background #3ebcc7
       color #fff
+
+  &__win-title
+    font-size: 3.6rem
+    text-transform: uppercase
+    letter-spacing: 15px
+    osans()
+    margin-top: 10px
+    margin-bottom: 40px

@@ -31,7 +31,6 @@
               [activeId]="activeBidId"
               (award)="award($event)"></l-bids>
 
-      <div class="project-description__win-title" *ngIf="isPilot && pilotBid && project.bidId === pilotBid?.id">Winning Bid</div>
       <pr-bid *ngIf="isPilot && pilotBid"
               [bid]="pilotBid">
         <bid-buttons>

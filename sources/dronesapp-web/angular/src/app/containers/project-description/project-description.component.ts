@@ -89,16 +89,21 @@ export class ProjectDescriptionComponent implements OnInit {
     this.isEdit = true;
   }
 
-  acceptFromPilot(id: number) {
+  acceptFromPilot(id: number, isProgress: boolean) {
+    if (isProgress) { return; }
+
     this._bidService.accept(id)
       .subscribe(() => {});
   }
 
   rejectFromPilot(id: number, isProgress: boolean) {
-    if (!isProgress) {
-      this._bidService.reject(id)
-        .subscribe(() => {});
-    }
+    if (isProgress) { return; }
+
+    this._bidService.reject(id)
+      .subscribe(() => {
+        this.project.status = 'NEW';
+        delete this.project.bidId;
+      });
   }
 
   submitBid(bid: BidModel) {
