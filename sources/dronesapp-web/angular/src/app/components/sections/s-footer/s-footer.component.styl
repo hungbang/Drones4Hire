@@ -14,6 +14,8 @@
   &__logo
     display: inline-block
     margin-bottom: 30px
+  &__navs
+    display: flex
   &__item
     padding: 0 10px
   &__bottom
@@ -26,3 +28,24 @@
     text-transform: uppercase
     osans(400)
     letter-spacing: 1px
+@media screen and (max-width: 1024px)
+  .s-footer
+    padding: 70px 0 25px
+    &__top
+      margin-bottom: 60px
+    &__public
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+    &__navs
+      flex-wrap: wrap
+    &__item
+      flex-basis: 50%
+      order: 3
+      &._clients
+        order: 1
+        margin-bottom: 50px
+      &._pilots
+        order: 2
+        margin-bottom: 50px
