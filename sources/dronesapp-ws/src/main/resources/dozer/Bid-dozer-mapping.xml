@@ -27,6 +27,10 @@
             <b>currency</b>
         </field>
         <field>
+            <a>account.id</a>
+            <b>user.id</b>
+        </field>
+        <field>
             <a>account.username</a>
             <b>user.username</b>
         </field>
@@ -46,6 +50,10 @@
             <a>account.photoURL</a>
             <b>user.photoURL</b>
         </field>
+         <field>
+            <a>account.groups</a>
+            <b>user.groups</b>
+         </field>
          <field>
             <a>createdAt</a>
             <b>createdAt</b>
