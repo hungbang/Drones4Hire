@@ -269,14 +269,14 @@
 	        	P.CREATED_AT AS PROJECT_CREATED_AT,
 	        	P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
 
-	        	B.ID AS BID_ID,
-				B.AMOUNT AS BID_AMOUNT,
-				B.CURRENCY AS BID_CURRENCY,
-				B.COMMENT AS BID_COMMENT,
-				B.PROJECT_ID AS BID_PROJECT_ID,
-				B.USER_ID AS USER_ID,
-				B.MODIFIED_AT AS BID_MODIFIED_AT,
-				B.CREATED_AT AS BID_CREATED_AT,
+	        	B.ID AS PROJECT_BID_ID,
+				B.AMOUNT AS PROJECT_BID_AMOUNT,
+				B.CURRENCY AS PROJECT_BID_CURRENCY,
+				B.COMMENT AS PROJECT_BID_COMMENT,
+				B.PROJECT_ID AS PROJECT_BID_PROJECT_ID,
+				B.USER_ID AS PROJECT_USER_ID,
+				B.MODIFIED_AT AS PROJECT_BID_MODIFIED_AT,
+				B.CREATED_AT AS PROJECT_BID_CREATED_AT,
 	        	PID.MAX_BID AS PROJECT_MAX_BID,
 	        	PID.BIDS_COUNT AS PROJECT_BIDS_COUNT,
 	        	PID.BIDS_AVG AS PROJECT_BIDS_AVG,
@@ -742,7 +742,7 @@
 		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>
 		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
 		<collection property="bids" ofType="com.drones4hire.dronesapp.models.db.projects.Bid"
-					resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper.BidResultMap"/>
+					resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper.BidResultMap" columnPrefix="PROJECT_"/>
 	</resultMap>
 
 </mapper>
