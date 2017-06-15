@@ -74,7 +74,7 @@
         <![CDATA[
           WHERE
 			C.PROJECT_ID = #{projectId}
-       	  ORDER BY C.CREATED_AT ASC
+       	  ORDER BY C.CREATED_AT DESC
         ]]>
     </select>
 

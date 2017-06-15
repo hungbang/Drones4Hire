@@ -70,6 +70,9 @@
                AND B.USER_ID = #{pilotId}
             ]]>
         </if>
+        <![CDATA[
+       	  ORDER BY B.CREATED_AT DESC
+        ]]>
     </select>
 
     <select id="getBidByProjectIdAndUserId" resultMap="BidResultMap">
