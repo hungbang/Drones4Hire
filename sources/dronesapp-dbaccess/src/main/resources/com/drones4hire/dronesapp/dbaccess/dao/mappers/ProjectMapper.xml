@@ -347,7 +347,7 @@
 	      (
           		P.ID = B.PROJECT_ID
 			]]>
-          		<if test="0 != pilotId">
+          		<if test="0 != pilotId and null == status">
 					<![CDATA[
 				   		AND B.USER_ID = #{pilotId}
 					]]>
@@ -548,18 +548,7 @@
 		</trim>
 		<![CDATA[
 			GROUP BY P.ID
-		]]>
-		<if test="sortOrder.toString() == 'ASC'">
-			<![CDATA[
-				ORDER BY P.CREATED_AT ASC
-			]]>
-		</if>
-		<if test="sortOrder.toString() == 'DESC'">
-			<![CDATA[
 				ORDER BY P.CREATED_AT DESC
-			]]>
-		</if>
-		<![CDATA[
 				LIMIT #{pageSize} OFFSET #{page}
 			)
 			AS PID
@@ -577,7 +566,16 @@
 			LEFT JOIN
 				drones.BIDS B
 			ON
+			(
 				P.ID = B.PROJECT_ID
+			]]>
+				<if test="0 != pilotId and null == status">
+				<![CDATA[
+					AND B.USER_ID = #{pilotId}
+				]]>
+				</if>
+			<![CDATA[
+			 )
 			LEFT JOIN
 				drones.LOCATIONS L
 			ON
@@ -647,9 +645,17 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId">
+			<if test="0 != pilotId and null == status">
 				<![CDATA[
-				   AND B.USER_ID = #{pilotId}
+				   AND P.ID IN
+				   (
+				   		SELECT
+				   			B.PROJECT_ID
+						FROM
+							drones.BIDS B
+						WHERE
+							B.USER_ID = #{pilotId}
+					)
 				]]>
 			</if>
 		</trim>
