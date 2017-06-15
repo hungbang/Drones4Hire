@@ -4,6 +4,7 @@ import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.users.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProjectSearchResult
@@ -13,6 +14,8 @@ public class ProjectSearchResult
 	private List<Bid> bids;
 	private User client;
 	private User pilot;
+	private BigDecimal maxBid;
+	private Integer bidsCount;
 
 	public Long getId()
 	{
@@ -62,5 +65,25 @@ public class ProjectSearchResult
 	public void setPilot(User pilot)
 	{
 		this.pilot = pilot;
+	}
+
+	public BigDecimal getMaxBid()
+	{
+		return maxBid;
+	}
+
+	public void setMaxBid(BigDecimal maxBid)
+	{
+		this.maxBid = maxBid;
+	}
+
+	public Integer getBidsCount()
+	{
+		return bidsCount;
+	}
+
+	public void setBidsCount(Integer bidsCount)
+	{
+		this.bidsCount = bidsCount;
 	}
 }

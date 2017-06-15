@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 
+import java.util.List;
+
 public class ProjectSearchCriteria extends SearchCriteria
 {
 
@@ -13,7 +15,7 @@ public class ProjectSearchCriteria extends SearchCriteria
 	private long locationId;
 	private Integer postcode;
 	private long budgetId;
-	private Status status;
+	private List<Status> statuses;
 
 	public String getTitle()
 	{
@@ -95,13 +97,13 @@ public class ProjectSearchCriteria extends SearchCriteria
 		this.budgetId = budgetId;
 	}
 
-	public Status getStatus()
+	public List<Status> getStatus()
 	{
-		return status;
+		return statuses;
 	}
 
-	public void setStatus(Status status)
+	public void setStatus(List<Status> statuses)
 	{
-		this.status = status;
+		this.statuses = statuses;
 	}
 }

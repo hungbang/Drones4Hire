@@ -83,11 +83,9 @@ public class ProjectService
 		User user = userService.getUserById(principalId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
-			checkAuthorities(ROLE_CLIENT, sc);
 			sc.setClientId(principalId);
 		} else if (user.getRoles().contains(ROLE_PILOT))
 		{
-			checkAuthorities(ROLE_PILOT, sc);
 			sc.setPilotId(principalId);
 		}
 		results.setPage(sc.getPage());
@@ -151,25 +149,6 @@ public class ProjectService
 			{
 				throw new ForbiddenOperationException();
 			}
-		}
-	}
-
-	private void checkAuthorities(Group.Role role, ProjectSearchCriteria sc) throws ForbiddenOperationException
-	{
-		switch (role)
-		{
-		case ROLE_CLIENT:
-			break;
-		case ROLE_PILOT:
-			if(sc.getStatus() == null)
-			{
-				throw new ForbiddenOperationException();
-			}
-			break;
-		case ROLE_ADMIN:
-			break;
-		default:
-			throw new ForbiddenOperationException();
 		}
 	}
 }

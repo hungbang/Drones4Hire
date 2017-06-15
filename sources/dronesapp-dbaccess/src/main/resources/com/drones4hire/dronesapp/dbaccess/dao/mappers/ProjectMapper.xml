@@ -277,6 +277,8 @@
 				B.USER_ID AS BID_USER_ID,
 				B.MODIFIED_AT AS BID_MODIFIED_AT,
 				B.CREATED_AT AS BID_CREATED_AT,
+	        	PID.MAX_BID AS PROJECT_MAX_BID,
+	        	PID.BIDS_COUNT AS PROJECT_BIDS_COUNT,
 
 	        	PO.ID AS PAID_OPTION_ID,
 		        PO.TITLE AS PAID_OPTION_TITLE,
@@ -341,7 +343,16 @@
 		  LEFT JOIN
 	      		drones.BIDS B
 	      ON
+	      (
           		P.ID = B.PROJECT_ID
+			]]>
+          		<if test="null != pilotId">
+					<![CDATA[
+				   		AND B.USER_ID = #{pilotId}
+					]]>
+				</if>
+			<![CDATA[
+		  )
 		  LEFT JOIN
 	      		drones.USERS CLIENT
 	      ON
@@ -441,17 +452,23 @@
 			INNER JOIN
 			(
 				SELECT
-					P.ID
+					P.ID AS PROJECT_ID,
+					MAX(B.AMOUNT) AS MAX_BID,
+					COUNT(B.ID) AS BIDS_COUNT
 				FROM
 					drones.PROJECTS P
+				LEFT JOIN
+	      			drones.BIDS B
+	      		ON
+          			P.ID = B.PROJECT_ID
 				LEFT JOIN
 	      			drones.LOCATIONS L
 	      		ON
           			P.LOCATION_ID = L.ID
           		LEFT JOIN
-	      			drones.BUDGETS B
+	      			drones.BUDGETS BD
 	      		ON
-          			P.BUDGET_ID = B.ID
+          			P.BUDGET_ID = BD.ID
 
           		LEFT JOIN
 	      			drones.DURATIONS D
@@ -475,8 +492,13 @@
 			</if>
 			<if test="null != status">
 				<![CDATA[
-				   AND P.STATUS = #{status}
-				]]>
+				   AND P.STATUS IN
+			   	]]>
+				  	<foreach collection="statuses" item="status" index="index" open="(" separator="," close=")">
+						<![CDATA[
+				   			#{status}
+			   			]]>
+				  	</foreach>
 			</if>
 			<if test="0 != serviceCategoryId">
 				<![CDATA[
@@ -500,7 +522,7 @@
 			</if>
 			<if test="0 != budgetId">
 				<![CDATA[
-				   AND B.ID = #{budgetId}
+				   AND BD.ID = #{budgetId}
 				]]>
 			</if>
 			<if test="0 != clientId">
@@ -508,12 +530,23 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId and 'NEW' != status.toString()">
+			<if test="0 != pilotId">
 				<![CDATA[
-				   AND P.PILOT_ID = #{pilotId}
+				   AND P.ID IN
+				   (
+				   		SELECT
+				   			B.PROJECT_ID
+						FROM
+							drones.BIDS B
+						WHERE
+							B.USER_ID = #{pilotId}
+					)
 				]]>
 			</if>
 		</trim>
+		<![CDATA[
+			GROUP BY P.ID
+		]]>
 		<if test="sortOrder.toString() == 'ASC'">
 			<![CDATA[
 				ORDER BY P.CREATED_AT ASC
@@ -529,24 +562,28 @@
 			)
 			AS PID
 			ON
-				P.ID = PID.ID
+				P.ID = PID.PROJECT_ID
 		]]>
 	</select>
 
 	<select id="getProjectsSearchCount" resultType="java.lang.Integer">
 		<![CDATA[
 			SELECT
-				COUNT(*)
+			  	COUNT(DISTINCT P.ID)
 			FROM
 				drones.PROJECTS P
+			LEFT JOIN
+				drones.BIDS B
+			ON
+				P.ID = B.PROJECT_ID
 			LEFT JOIN
 				drones.LOCATIONS L
 			ON
 				P.LOCATION_ID = L.ID
 			LEFT JOIN
-				drones.BUDGETS B
+				drones.BUDGETS BD
 			ON
-				P.BUDGET_ID = B.ID
+				P.BUDGET_ID = BD.ID
 
 			LEFT JOIN
 				drones.DURATIONS D
@@ -570,8 +607,13 @@
 			</if>
 			<if test="null != status">
 				<![CDATA[
-				   AND P.STATUS = #{status}
-				]]>
+				   AND P.STATUS IN
+			   	]]>
+				<foreach collection="statuses" item="status" index="index" open="(" separator="," close=")">
+					<![CDATA[
+				   			#{status}
+			   			]]>
+				</foreach>
 			</if>
 			<if test="0 != serviceCategoryId">
 				<![CDATA[
@@ -595,7 +637,7 @@
 			</if>
 			<if test="0 != budgetId">
 				<![CDATA[
-				   AND B.ID = #{budgetId}
+				   AND BD.ID = #{budgetId}
 				]]>
 			</if>
 			<if test="0 != clientId">
@@ -603,9 +645,9 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId and 'NEW' != status.toString()">
+			<if test="0 != pilotId">
 				<![CDATA[
-				   AND P.PILOT_ID = #{pilotId}
+				   AND B.USER_ID = #{pilotId}
 				]]>
 			</if>
 		</trim>
@@ -667,6 +709,8 @@
 
 	<resultMap id="ProjectSearchResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult" autoMapping="false">
 		<id column="PROJECT_ID" property="id" />
+		<result column="PROJECT_MAX_BID" property="maxBid"/>
+		<result column="PROJECT_BIDS_COUNT" property="bidsCount"/>
 		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
 		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>
 		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
