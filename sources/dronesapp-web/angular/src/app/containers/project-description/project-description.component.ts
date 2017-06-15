@@ -178,7 +178,7 @@ export class ProjectDescriptionComponent implements OnInit {
       page: 1,
       pageSize: 3,
       serviceCategoryId: this.project.service.category.id,
-      status: 'NEW'
+      status: ['NEW']
     };
 
     this.projectService.getProjects(search).subscribe(
