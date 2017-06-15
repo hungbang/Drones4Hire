@@ -314,7 +314,7 @@
           <input class="f-default__chk"
                  type="checkbox"
                  [checked]="formData.postProductionRequired"
-                 (change)="setProductionRequired(productionRequired)"/>
+                 (change)="formData.postProductionRequired = !formData.postProductionRequired"/>
           <span class="f-default__chk-span"></span>
         </label>
       </div>
@@ -349,8 +349,8 @@
   </div>
 
   <div class="f-project-add__bottom">
-    <button class="f-default__button _big">Post Project now</button>
-    <div class="f-default__text _center">
+    <button class="f-default__button _big">{{ isEditForm ? 'Update Project' : 'Post Project now' }}</button>
+    <div class="f-default__text _center" *ngIf="!isEditForm">
       <div>By clicking 'Post Project Now', you are indicating that you have reed and agree to the
         <a href="#" class="f-project-add__link">Terms & Conditions</a>
       </div>

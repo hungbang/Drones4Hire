@@ -233,4 +233,8 @@ export class ProjectService {
   public deleteAttachment(id: number) {
     return this._requestService.fetch('remove', `/projects/results/${id}`);
   }
+
+  public cancelProject(id: number) {
+    return this._requestService.fetch('post', `/projects/${id}/cancel`);
+  }
 }

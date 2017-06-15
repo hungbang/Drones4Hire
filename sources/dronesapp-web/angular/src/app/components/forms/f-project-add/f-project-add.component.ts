@@ -63,8 +63,6 @@ export class FProjectAddComponent implements OnInit {
   paidOptions: PaidOptionModel[] = [];
   paidOptionsChecked: boolean[] = [];
 
-  productionRequired: boolean = false;
-
   formData: ProjectModel;
   isEditForm: boolean = false;
 
@@ -129,7 +127,7 @@ export class FProjectAddComponent implements OnInit {
       finishDate: parseInt(this.date.end.format('x'), 10),
       startDate: parseInt(this.date.start.format('x'), 10),
       status: 'NEW',
-      postProductionRequired: this.productionRequired,
+      postProductionRequired: false,
       paidOptions: [],
       budget: {
         confirmationValid: null,
@@ -179,7 +177,7 @@ export class FProjectAddComponent implements OnInit {
       this.formData = mergeDeep(this.formData, this.project);
       this.initPaidOptions();
       this.initCategories();
-      console.log(this.formData);
+      this.initDate();
     }
   }
 
@@ -298,32 +296,34 @@ export class FProjectAddComponent implements OnInit {
   }
 
   selectPaidOption(checked, paidOption) {
-    const index = this.formData.paidOptions.indexOf(paidOption);
+    let index = -1;
+    this.formData.paidOptions.some((option, i) => {
+      if (option.id === paidOption.id) {
+        index = i;
+        return true;
+      }
+      return false;
+    });
 
     if (checked) {
       index === -1 && this.formData.paidOptions.push(paidOption);
     } else {
       index >= 0 && this.formData.paidOptions.splice(index, 1);
     }
+
+    this.initPaidOptions();
   }
 
   initPaidOptions() {
-    if (this.formData.paidOptions.length) {
-      this.paidOptionsChecked = this.paidOptions.map((paidOption) => {
-        return this.formData.paidOptions.some(option => option.id === paidOption.id);
-      });
-    }
+    this.paidOptionsChecked = this.paidOptions.map((paidOption) => {
+      return this.formData.paidOptions.some(option => option.id === paidOption.id);
+    });
   }
 
   selectState(name: string) {
     const state = this.states.find((state) => state.name === name);
 
     this.setState(state);
-  }
-
-  setProductionRequired(productionRequired) {
-    this.productionRequired = !productionRequired;
-    this.formData.postProductionRequired = this.productionRequired;
   }
 
   checkCountry() {
@@ -334,11 +334,8 @@ export class FProjectAddComponent implements OnInit {
     e.preventDefault();
 
     if (this.isEditForm) {
-      console.log(this.formData);
       return this.projectService.updateProject(this.formData)
-        .subscribe((data) => {
-          console.log(data);
-        })
+        .subscribe();
     } else {
       this.formData.budget.confirmationValid = true;
       this.formData.confirmationValid = true;
@@ -347,9 +344,7 @@ export class FProjectAddComponent implements OnInit {
       });
 
       return this.projectService.postProjects(this.formData)
-        .subscribe((data) => {
-          console.log(data);
-        })
+        .subscribe()
     }
   }
 
@@ -384,6 +379,12 @@ export class FProjectAddComponent implements OnInit {
     this.formData.startDate = parseInt(date.start.format('x'), 10);
   }
 
+  initDate() {
+    this.date.start = moment(this.formData.startDate, 'x');
+    this.date.end = moment(this.formData.finishDate, 'x');
+  }
+
+
   get now() {
     return this._now;
   }
@@ -408,6 +409,15 @@ export class FProjectAddComponent implements OnInit {
   }
 
   deleteAttachment(id) {
-    this.formData.attachments = this.formData.attachments.filter(attach => attach.id !== id);
+    this.projectService.deleteAttachment(id)
+      .subscribe(
+        () => {
+          this.formData.attachments = this.formData.attachments.filter(attach => attach.id !== id);
+        },
+        err => {
+          console.log('delete attached file error', err);
+        }
+      );
+
   }
 }

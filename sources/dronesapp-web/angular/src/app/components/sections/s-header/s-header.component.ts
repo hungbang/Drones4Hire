@@ -41,7 +41,7 @@ export class HeaderComponent {
           { title: 'Log out', action: this.logout.bind(this) }
         ]
       },
-      { title: 'New project', link: '/project/add', classes: '_active' }
+      { title: 'New project', link: '/project/manage/add', classes: '_active' }
     ],
     pilot: [
       { title: 'Dashboard', link: '/dashboard/pilot' },
