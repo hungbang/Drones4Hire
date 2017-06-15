@@ -1,7 +1,7 @@
-<ul role="list" class="m-site">
-  <li class="m-site__item" *ngFor="let item of menu">
+<ul role="list" class="m-site" [ngClass]="{ _opened: isOpen }" (click)="$event.stopPropagation()">
+  <li class="m-site__item {{ item.classes }}" *ngFor="let item of menu" [ngClass]="{ _opened: item.isOpen, _isParent: item.children }" (click)="item.isOpened ? openSubMenuAction(item) : closeAllSubMenus(item)">
     <a href="#" class="m-site__link"
-       (click)="item.action && item.action(item)"
+       (click)="item.action && item.action(item); !item.children && onCloseMenu()"
        [routerLink]="item.link ? [item.link] : []"
        [ngClass]="item.classes">
       {{ item.title }}
@@ -11,7 +11,7 @@
         *ngIf="item.children">
       <li class="m-site__sub-item"
           *ngFor="let subitem of item.children"
-          (click)="subitem.action && subitem.action(subitem)">
+          (click)="subitem.action && subitem.action(subitem) || onCloseMenu()">
         <a href="#"
            class="m-site__sub-link"
            [routerLink]="subitem.link ? [subitem.link] : []">{{ subitem.title }}</a>

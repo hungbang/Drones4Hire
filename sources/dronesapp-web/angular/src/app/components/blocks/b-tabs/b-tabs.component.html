@@ -1,9 +1,9 @@
 <ul class="b-tabs" [ngClass]="classes">
   <ng-container *ngFor="let tab of tabs">
     <li class="b-tabs__item"
+        [routerLinkActive]="'_active'"
         *ngIf="tab['visibility']">
       <a [routerLink]="tab['link']"
-         [routerLinkActive]="'_active'"
          class="b-tabs__link">
         <svg-use class="b-tabs__svg" *ngIf="tab['icon']" [name]="tab.icon"></svg-use>
         {{tab['text']}}

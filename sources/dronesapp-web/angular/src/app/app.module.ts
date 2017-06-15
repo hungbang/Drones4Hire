@@ -18,6 +18,7 @@ import {AppGuards} from './guards/index';
 import {NguiDatetimePickerModule} from '@ngui/datetime-picker';
 import {Daterangepicker} from 'ng2-daterangepicker';
 import { BProjectFilesComponent } from './components/blocks/b-project-files/b-project-files.component';
+import { SSearchProjectsComponent } from './components/sections/s-search-projects/s-search-projects.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BProjectFilesComponent } from './components/blocks/b-project-files/b-pr
     FileSelectDirective,
     FileDropDirective,
     BProjectFilesComponent,
+    SSearchProjectsComponent,
   ],
   imports: [
     NguiDatetimePickerModule,

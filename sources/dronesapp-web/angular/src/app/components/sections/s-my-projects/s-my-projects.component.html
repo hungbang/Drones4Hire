@@ -1,5 +1,5 @@
 <div class="s-my-projects">
-  <button type="button" class="s-my-projects__update">
+  <button type="button" class="s-my-projects__update" (click)="search({ title: title, countPerPage: countPerPage })">
     <svg-use name="update"></svg-use>
   </button>
   <f-projects-search (search)="search($event)"

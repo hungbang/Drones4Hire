@@ -2,15 +2,14 @@
   display: flex
   margin: 0 -20px;
   &__item
-    flex-basis: 33.333%;
-    max-width: 33.333%;
-    padding: 0 20px;
-    margin-bottom: 38px;
-    .b-similar
-      &__wrapper
-        padding: 60px 10px 35px;
-      &__title
-        font-size 2.4rem
-      &__subtitle
-      &__text
-        font-size 1.8rem
+    flex initial
+    width calc(100% / 3)
+    padding: 50px 20px;
+    margin 0 20px 40px
+    border 1px solid #cdcdcd
+
+  @media screen and (max-width: 1024px)
+    display block
+
+    &__item
+      width auto

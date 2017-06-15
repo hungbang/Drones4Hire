@@ -117,19 +117,6 @@ export class AccountService {
     return this._requestService.fetch('put', '/account/services', data);
   }
 
-  getAccountProfile() {
-    this._requestService.fetch('get', '/account/profile')
-      .subscribe(res => {
-        this.profile = res;
-
-        return res;
-      });
-  }
-
-  setAccountProfile(data) {
-    return this._requestService.fetch('put', '/account/profile', data);
-  }
-
   isAuthorized() {
     console.log(this._tokenService.accessToken, '-auth');
     return this._tokenService.accessToken && this._tokenService.refreshToken;

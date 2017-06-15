@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+
 import {IndexComponent} from './containers/index/index.component';
 import {ProfileComponent} from './containers/profile/profile.component';
 import {SearchComponent} from './containers/search/search.component';
@@ -11,7 +12,6 @@ import {ProjectAddComponent} from './containers/project-add/project-add.componen
 import {SAuthorizationComponent} from './components/sections/s-authorization/s-authorization.component';
 import {DetailsComponent} from './containers/details/details.component';
 import {PreferencesComponent} from './containers/preferences/preferences.component';
-
 import {AuthGuard} from './guards/auth.guard/auth.guard';
 import {ClientGuard} from './guards/client.guard/client.guard';
 import {PilotGuard} from './guards/pilot.guard/pilot.guard';
@@ -31,7 +31,15 @@ import {CommentsResolve} from './resolves/comments/comments';
 import {ProjectDescriptionComponent} from './containers/project-description/project-description.component';
 import {ProjectFilesComponent} from './containers/project-files/project-files.component';
 import {MyProjectsResolve} from './resolves/my-projects/my-projects.resolve';
-import {SMyProjectsComponent} from "./components/sections/s-my-projects/s-my-projects.component";
+import {SMyProjectsComponent} from './components/sections/s-my-projects/s-my-projects.component';
+import {PortfolioResolve} from './resolves/portfolio/portfolio.resolve';
+import {ProfileServicesResolve} from './resolves/profile-services/profile-services.resolve';
+import {FindProjectsResolve} from './resolves/find-projects/find-projects.resolve';
+import {ClientProjectsResolve} from './resolves/client-projects/client-projects.resolve';
+import {SDashboardComponent} from './components/sections/s-dashboard/s-dashboard.component';
+import {SSearchProjectsComponent} from './components/sections/s-search-projects/s-search-projects.component';
+import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-profile.resolve';
+import {PilotProjectsResolve} from "./resolves/pilot-projects/pilot-projects.resolve";
 
 export const ROUTES: Routes = [
   {
@@ -66,10 +74,12 @@ export const ROUTES: Routes = [
         pathMatch: 'full'
       },
       {
-        path: ':profile_id',
+        path: ':user_id',
         component: ProfileComponent,
         resolve: {
-          profile: ProfileResolve
+          profile: ProfileResolve,
+          portfolio: PortfolioResolve,
+          services: ProfileServicesResolve
         },
       }
     ],
@@ -101,7 +111,8 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
-              status: 'NEW'
+              pageLink: '/my-projects/bidding',
+              status: ['NEW', 'PENDING']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
@@ -122,7 +133,8 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
-              status: 'IN_PROGRESS'
+              pageLink: '/my-projects/progress',
+              status: ['IN_PROGRESS']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
@@ -143,7 +155,8 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
-              status: 'COMPLETED'
+              pageLink: '/my-projects/past',
+              status: ['COMPLETED']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {
@@ -182,6 +195,7 @@ export const ROUTES: Routes = [
       {
         path: ':projectId',
         component: ProjectComponent,
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         resolve: {
           project: ProjectResolve,
           bids: BidsResolve,
@@ -207,6 +221,9 @@ export const ROUTES: Routes = [
   },
   {
     path: 'dashboard',
+    data: {
+      className: 'p-dashboard'
+    },
     children: [
       {
         path: '',
@@ -217,17 +234,55 @@ export const ROUTES: Routes = [
         path: 'client',
         component: DashboardComponent,
         canActivate: [ClientGuard],
-        data: {
-          className: 'p-dashboard'
-        }
+        resolve: {
+          profile: DashboardProfileResolve
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: '1',
+            pathMatch: 'full'
+          },
+          {
+            path: ':page',
+            resolve: {
+              projects: ClientProjectsResolve
+            },
+            data: {
+              pageLink: '/dashboard/client',
+              userType: 'client'
+            },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+            component: SDashboardComponent
+          }
+        ]
       },
       {
         path: 'pilot',
         component: DashboardComponent,
         canActivate: [PilotGuard],
-        data: {
-          className: 'p-dashboard'
-        }
+        resolve: {
+          profile: DashboardProfileResolve
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: '1',
+            pathMatch: 'full'
+          },
+          {
+            path: ':page',
+            resolve: {
+              projects: PilotProjectsResolve
+            },
+            data: {
+              pageLink: '/dashboard/pilot',
+              userType: 'pilot'
+            },
+            runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+            component: SDashboardComponent
+          }
+        ]
       }
     ]
   },
@@ -351,6 +406,21 @@ export const ROUTES: Routes = [
       services: ServicesResolve,
       budgets: BudgetsResolve
     },
+    children: [
+      {
+        path: '',
+        redirectTo: '1',
+        pathMatch: 'full'
+      },
+      {
+        path: ':page',
+        component: SSearchProjectsComponent,
+        resolve: {
+          projects: FindProjectsResolve
+        },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+      }
+    ],
     data: {
       className: 'p-search'
     }

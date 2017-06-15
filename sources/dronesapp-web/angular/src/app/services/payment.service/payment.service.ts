@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {RequestService} from "../request.service/request.service";
 
 @Injectable()
 export class PaymentService {
@@ -16,8 +17,14 @@ export class PaymentService {
     }
   };
 
-  constructor() {
+  constructor(
+    private _requestService: RequestService
+  ) {
     this.amount = 3603.44;
+  }
+
+  releasePayment(id) {
+    return this._requestService.fetch('post', `/payments/${id}`);
   }
 
 }

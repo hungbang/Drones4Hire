@@ -44,7 +44,7 @@
         </label>
       </div>
       <div class="f-default__row">
-        <label class="f-default__label">
+        <label class="f-default__label _select">
           <span class="f-default__label-placeholder" *ngIf="!commonService.accountCountry">Country*</span>
           <select class="f-default__field"
                   name="country"
@@ -62,7 +62,7 @@
       </div>
 
       <div class="f-default__row" *ngIf="commonService.checkCountry('accountCountry')">
-        <label class="f-default__label">
+        <label class="f-default__label _select">
           <span class="f-default__label-placeholder" *ngIf="!commonService.accountState">State*</span>
           <select class="f-default__field"
                   name="state"
@@ -105,9 +105,15 @@
                  [ngClass]="{'_error': submitted && postalCodeRef.errors?.required}">
         </label>
       </div>
-      <div class="f-default__row" *ngIf="false && authorizationService.isUserLogin && accountService.isUserPilot()">
+      <div class="f-default__row" *ngIf="accountService.isUserPilot()">
         <label class="f-default__label">
-          <input class="f-default__field" type="text" name="flightHours"/>
+          <input class="f-default__field"
+                 type="text"
+                 name="flightHours"
+                 placeholder="Flight Hours"
+                 [ngModel]="accountService.account?.flightHours"
+                 (ngModelChange)="accountService.account.flightHours = $event"
+                 #flightHoursRef="ngModel">
         </label>
       </div>
     </div>
@@ -136,8 +142,8 @@
       <div class="f-default__row">
         <label class="f-default__label _top">
           <textarea class="f-default__field _area"
-                    name="introduction"
-                    placeholder="Introduction"
+                    name="bio"
+                    placeholder="Bio"
                     [ngModel]="accountService.account?.summary"
                     (ngModelChange)="accountService.account.summary = $event"
           ></textarea>

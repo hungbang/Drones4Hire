@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {SimilarService} from '../../../services/similar.service/similar.service';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'l-similar',
@@ -8,10 +7,9 @@ import {SimilarService} from '../../../services/similar.service/similar.service'
   encapsulation: ViewEncapsulation.None
 })
 export class LSimilarComponent implements OnInit {
+  @Input() similarProjects: any = [];
 
-  constructor(
-    public _similarService: SimilarService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
   }

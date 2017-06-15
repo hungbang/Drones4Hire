@@ -1,7 +1,9 @@
-import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 
 import {RequestService} from '../../../services/request.service/request.service';
+import {ProjectAttachmentModel} from '../../../services/project.service/project-attacment.interface';
+import {ProjectService} from '../../../services/project.service/project.service';
 
 @Component({
   selector: 'f-project-files',
@@ -10,26 +12,33 @@ import {RequestService} from '../../../services/request.service/request.service'
   encapsulation: ViewEncapsulation.None
 })
 export class FProjectFilesComponent implements OnInit {
+  @Input() projectID: number;
+  @Output() fileAttached: EventEmitter<ProjectAttachmentModel> = new EventEmitter();
   public uploader: FileUploader = new FileUploader({
     url: `${this._requestService.apiUrl}/upload`,
     authToken: this._requestService.getCurrentToken(),
-    removeAfterUpload: true
+    removeAfterUpload: true,
+    headers: [{
+      name: 'FileType',
+      value: 'PROJECT_RESULT'
+    }]
   });
 
   private fileItem: any = null;
   public hasBaseDropZoneOver = false;
   public submitted: boolean = false;
+  fileURL: string = '';
+  fileName: string = '';
+  title: string = '';
 
   constructor(
     private _elementRef: ElementRef,
-    // public accountService: AccountService,
-    private _requestService: RequestService
+    private _requestService: RequestService,
+    private projectService: ProjectService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      let type = `${item.formData[0].type}URL`;
-      console.log(JSON.parse(response)['url']);
-
-      // this.accountService.license[type] = JSON.parse(response)['url'];
+      this.fileURL = JSON.parse(response)['url'];
+      this.fileName = this.fileItem.file.name;
       return {item, response, status, headers};
     };
 
@@ -42,6 +51,7 @@ export class FProjectFilesComponent implements OnInit {
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
       this.fileItem = item;
+      this.uploader.uploadAll();
       return {item};
     };
 
@@ -55,22 +65,31 @@ export class FProjectFilesComponent implements OnInit {
   ngOnInit() {
   }
 
-  addFile(e) {
+  addFile(e, form) {
     e.preventDefault();
 
     this.submitted = true;
-  }
 
-  handlePhotoUpload(type: string, e?: any) {
-    console.log(e);
-    console.log(this.fileItem);
-    this.fileItem.formData.push({type});
-    this.fileItem.headers.push({
-      name: 'FileType',
-      value: type.toUpperCase()
-    });
+    if (!this.title || !this.fileURL) {
+      return;
+    }
 
-    this.uploader.uploadAll();
+    const attachment = {
+      attachmentURL: this.fileURL,
+      projectId: this.projectID,
+      title: this.title,
+      type: 'PROJECT_RESULT'
+    };
+    this.projectService.addAttachment(attachment)
+      .subscribe(
+        () => {
+          this.fileAttached.emit(attachment);
+          this.resetForm(form);
+        },
+        err => {
+          console.log('project attachment error', err);
+        }
+      );
   }
 
   triggerFileClick() {
@@ -83,4 +102,11 @@ export class FProjectFilesComponent implements OnInit {
     this.hasBaseDropZoneOver = e;
   }
 
+  private resetForm(form) {
+    form.resetForm();
+    this.fileURL = '';
+    this.fileName = '';
+    this.title = '';
+    this.submitted = false;
+  }
 }

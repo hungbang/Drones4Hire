@@ -108,7 +108,6 @@
               <div ng2FileDrop
                    [ngClass]="{'_file-over': hasBaseDropZoneOver}"
                    (fileOver)="fileOverBase($event)"
-                   (change)="handlePhotoUpload()"
                    [uploader]="uploader"
                    (click)="triggerFileClick()"
                    class="f-default__filedrop-dropzone">
@@ -124,16 +123,24 @@
                       class="f-default__filedrop-button">Choose a file to upload
               </button>
               <input type="file"
-                     accept="image/jpeg,image/jpg,image/png"
                      name="photo"
                      ng2FileSelect
-                     (change)="handlePhotoUpload()"
                      [uploader]="uploader"
                      class="f-default__field _file">
-              <!--TODO: change to correct filetypes -->
             </div>
             <div class="f-project-add__messages">
-              <!--TODO: Error and chosen file messages here-->
+              <div class="f-project-add__message _error" *ngIf="isNotAcceptedFormat">
+                Incorrect file format. You can upload only .pdf, .doc(x), .xls(x), .png, .jpg files
+              </div>
+              <div class="f-project-add__message _error" *ngIf="isLimitReached">
+                You can't attach more than {{ attachmentsLimit }} files
+              </div>
+              <div class="f-project-add__message _error" *ngIf="submitted && !formData.attachments.length">
+                No file chosen
+              </div>
+              <div class="f-project-add__message" *ngIf="formData.attachments.length">
+                <div *ngFor="let attach of formData.attachments">Chosen file: {{ attach.title }}</div>
+              </div>
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ import {AuthorizationService} from './authorization.service/authorization.servic
 import {RequestService} from './request.service/request.service';
 import {TokenService} from './token.service/token.service';
 import {CommonService} from './common.service/common.service';
+import { PublicService } from './public.service/public.service';
 
 export const AppServices = [
   AppService,
@@ -26,6 +27,7 @@ export const AppServices = [
   PilotsService,
   PortfolioService,
   ProjectService,
+  PublicService,
   RequestService,
   SimilarService,
   TokenService,

@@ -1,7 +1,7 @@
 <form class="f-default f-project-files"
       novalidate
-      #licenceForm="ngForm"
-      (submit)="addFile($event)">
+      #filesForm="ngForm"
+      (submit)="addFile($event, filesForm)">
   <div class="f-project-files__row">
     <div class="f-project-files__col">
       <label class="f-default__label">
@@ -9,6 +9,9 @@
                placeholder="Title*"
                required
                name="title"
+               [(ngModel)]="title"
+               #titleRef="ngModel"
+               [ngClass]="{'_error': submitted && titleRef.errors?.required}"
                class="f-default__field">
       </label>
     </div>
@@ -17,7 +20,6 @@
         <div ng2FileDrop
              [ngClass]="{'_file-over': hasBaseDropZoneOver}"
              (fileOver)="fileOverBase($event)"
-             (change)="handlePhotoUpload('photo', $event)"
              [uploader]="uploader"
              (click)="triggerFileClick()"
              class="f-default__filedrop-dropzone">
@@ -29,12 +31,18 @@
                 (click)="triggerFileClick()"
                 class="f-default__filedrop-button">Choose a file to upload</button>
         <input type="file"
-               accept="image/jpeg,image/jpg,image/png"
-               name="photo"
+               name="projectFile"
                ng2FileSelect
-               (change)="handlePhotoUpload('photo', $event)"
                [uploader]="uploader"
                class="f-default__field _file">
+      </div>
+      <div class="f-project-files__messages">
+        <div class="f-project-files__message _error" *ngIf="submitted && (fileName === '')">
+          No file chosen
+        </div>
+        <div class="f-project-files__message" *ngIf="(fileName !== '') && fileURL">
+          Chosen file: {{ fileName }}
+        </div>
       </div>
     </div>
   </div>

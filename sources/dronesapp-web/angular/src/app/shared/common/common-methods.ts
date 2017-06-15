@@ -55,3 +55,33 @@ export function createObservable(data) {
     obs.complete();
   });
 }
+
+export function deleteNullOrNaN(obj, field) {
+  if (!obj) { return; }
+
+  if (isNaN(obj[field]) || !obj[field]) {
+    delete obj[field];
+  }
+}
+
+export function getFromObjectToObject(obj, ...keys) {
+  const result = {};
+
+  keys.forEach((key) => {
+    const innerKeys = key.split(':');
+
+    const value = innerKeys.reduce((value, key) => {
+      if (!value) { return; }
+
+      if (value.hasOwnProperty(key)) {
+        return value[key];
+      }
+
+      return null;
+    }, obj);
+
+    result[innerKeys[innerKeys.length - 1]] = value;
+  });
+
+  return result;
+}

@@ -1,10 +1,9 @@
 <div class="b-project-files b-default">
   <div class="b-default__item">
     <h3 class="b-default__subtitle">Photo</h3>
-    <f-project-files *ngIf="accountService.isUserPilot()"></f-project-files>
+    <f-project-files *ngIf="accountService.isUserPilot()" [projectID]="project.id" (fileAttached)="addFile($event)"></f-project-files>
   </div>
   <div class="b-default__item">
-    <l-portfolio-files [files]="files" *ngIf="files.length"></l-portfolio-files>
-    <!--<div class="b-default__no-files" *ngIf="!files.length">TODO: MESSAGE: No project files yet</div>-->
+    <l-portfolio-files [files]="files" *ngIf="files.length" [deleteFunc]="deleteFunc"></l-portfolio-files>
   </div>
 </div>

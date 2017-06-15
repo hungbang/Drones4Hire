@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 
 import {RequestService} from '../../../services/request.service/request.service';
+import {PortfolioService} from '../../../services/portfolio.service/portfolio.service';
 
 @Component({
   selector: 'f-portfolio-upload',
@@ -13,23 +14,28 @@ export class FPortfolioUploadComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({
     url: `${this._requestService.apiUrl}/upload`,
     authToken: this._requestService.getCurrentToken(),
-    removeAfterUpload: true
+    removeAfterUpload: true,
+    headers: [{
+      name: 'FileType',
+      value: 'PORTFOLIO'
+    }]
   });
 
   private fileItem: any = null;
+  fileURL: string = '';
+  fileName: string = '';
+  title: string = '';
   public hasBaseDropZoneOver = false;
   public submitted: boolean = false;
 
   constructor(
     private _elementRef: ElementRef,
-    // public accountService: AccountService,
+    private _portfolioService: PortfolioService,
     private _requestService: RequestService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      let type = `${item.formData[0].type}URL`;
-      console.log(JSON.parse(response)['url']);
-
-      // this.accountService.license[type] = JSON.parse(response)['url'];
+      this.fileURL = JSON.parse(response)['url'];
+      this.fileName = this.fileItem.file.name;
       return {item, response, status, headers};
     };
 
@@ -42,6 +48,7 @@ export class FPortfolioUploadComponent implements OnInit {
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
       this.fileItem = item;
+      this.uploader.uploadAll();
       return {item};
     };
 
@@ -59,18 +66,17 @@ export class FPortfolioUploadComponent implements OnInit {
     e.preventDefault();
 
     this.submitted = true;
-  }
 
-  handlePhotoUpload(type: string, e?: any) {
-    console.log(e);
-    console.log(this.fileItem);
-    this.fileItem.formData.push({type});
-    this.fileItem.headers.push({
-      name: 'FileType',
-      value: type.toUpperCase()
-    });
+    if (!this.title || !this.fileURL) {
+      return;
+    }
 
-    this.uploader.uploadAll();
+    const portfolio = {
+      title: this.title,
+      itemURL: this.fileURL,
+      type: 'PHOTO'
+    };
+    this._portfolioService.addPortfolio(portfolio);
   }
 
   triggerFileClick() {

@@ -6,7 +6,7 @@
   text-align: center
   tr:first-of-type
     th.t-dashboard__th:first-child
-      background #363636
+      background #1f2532
     .t-dashboard__th:nth-child(2n)
       background #3fb6c0
     .t-dashboard__th:nth-child(2n+1)
@@ -23,19 +23,34 @@
   &__th
     color #fff
     font-weight: 500
+    vertical-align: middle
     padding: 27px 10px 25px
   &__td
     display table-cell
     text-align: center
-    padding: 25px 0
+    padding: 25px 10px
     font-size 1.6rem
+    width: 15%
+    vertical-align: middle
     osans(400)
+    word-break: break-all
     text-transform: uppercase
     border-bottom 1px solid #b7b7b7
     letter-spacing: 2px
     color: #454545
-    border-bottom: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3
+    &._name
+      width: 25%
+    .t-dashboard._pilot &
+      width: 11%
+      &._name
+        width: 34%
   &__link
+    color: #1d90e0
+    &._inactive
+      pointer-events: none
+      cursor: default
+      color: #454545
     &-name
       color #454545
       display: inline-block
@@ -48,7 +63,3 @@
       display: flex
       justify-content: space-between
       align-items: center
-  tr
-    &:hover
-      td
-        background #f8f8f8

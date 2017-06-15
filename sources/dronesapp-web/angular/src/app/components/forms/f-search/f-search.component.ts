@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {CategoryModel} from "../../../services/common.service/category.interface";
 
 @Component({
   selector: 'f-search',
@@ -10,9 +11,25 @@ export class FSearchComponent implements OnInit {
   @Output() send = new EventEmitter<any>();
 
   @Input() budgets;
+  @Input()
+  set budget(value) {
+    this._budget = value;
+  }
 
-  zipCode: string;
-  budget: string = '-1';
+  @Input() categories: CategoryModel[];
+  @Input()
+  set category(value) {
+    this._category = value;
+  }
+
+  @Input()
+  set postcode(value) {
+    this._postcode = value;
+  }
+
+  _postcode: string;
+  _budget: string;
+  _category: string;
 
   constructor() { }
 
@@ -20,11 +37,13 @@ export class FSearchComponent implements OnInit {
   }
 
   onSubmit() {
-    const budget = parseInt(this.budget, 10);
+    const budget = parseInt(this._budget, 10);
+    const category = parseInt(this._category, 10);
 
     this.send.emit({
-      zipCode: parseInt(this.zipCode, 10),
-      budget: budget >= 0 ? budget : null
+      postcode: parseInt(this._postcode, 10),
+      budgetId: budget >= 0 ? budget : null,
+      serviceCategoryId: category >= 0 ? category : null,
     });
   }
 }

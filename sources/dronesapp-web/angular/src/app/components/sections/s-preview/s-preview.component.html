@@ -1,11 +1,12 @@
 <div class="s-preview">
-  <div class="s-preview__bg">
-    <img src="./assets/img/bg-profile.jpg">
-  </div>
   <div class="s-preview__content">
     <div class="container">
       <div class="s-preview__info">
-        <div class="s-preview__left" [ngClass]="{ '_no-description': !showDescription}">
+        <div class="s-preview__left"
+             [ngClass]="{
+              '_no-description': !showDescription,
+              '_can-edit': showDescription && canEdit
+              }">
           <b-profile [profile]="profile" [showDescription]="showDescription"></b-profile>
           <a class="s-preview__link" [routerLink]="['/account', 'pilot']" *ngIf="showDescription && canEdit">edit profile</a>
         </div>

@@ -6,24 +6,27 @@
     </div>
     <div class="project-description__right">
       <b-project-description [description]="project.summary"></b-project-description>
-      <div class="project-description__files">
+      <div class="project-description__files" *ngIf="attachments.length">
         <p class="project-description__files-title">
           Attached files:
         </p>
         <ul class="project-description__files-list">
-          <li class="project-description__files-item">
-            <a href="" class="project-description__files-link">Video of the house</a>
-          </li>
-          <li class="project-description__files-item">
-            <a href="" class="project-description__files-link">J commercial</a>
-          </li>
-          <li class="project-description__files-item">
-            <a href="" class="project-description__files-link">Photo of the house</a>
+          <li class="project-description__files-item" *ngFor="let attach of attachments">
+            <a href="{{ attach.attachmentURL }}" class="project-description__files-link" download *ngIf="isPilot">
+              <svg-use name="download"></svg-use>
+            </a>
+            <span class="project-description__files-text">{{ attach.title }}</span>
+            <button type="button"
+                    *ngIf="isClient"
+                    (click)="deleteFile(attach.id)"
+                    class="project-description__files-button">
+              <svg-use name="rubbish-bin"></svg-use>
+            </button>
           </li>
         </ul>
       </div>
-      <div class="project-description__win-title">Winning Bid</div>
       <l-bids *ngIf="isClient"
+              [attachments]="pilotAttachments.length"
               [disabled]="!!project.bidId"
               [bids]="bids"
               [activeId]="activeBidId"
@@ -35,11 +38,13 @@
           <button class="project-description__bid-btn _fill"
                   (click)="edit()"
                   *ngIf="!project.bidId && !isEdit">Edit</button>
-          <button class="project-description__bid-btn _fill"
-                  (click)="acceptFromPilot(pilotBid.id)"
+          <button class="project-description__bid-btn"
+                  (click)="acceptFromPilot(pilotBid.id, project.status === 'IN_PROGRESS')"
+                  [ngClass]="{ _fill: project.status !== 'IN_PROGRESS', _disabled: project.status === 'IN_PROGRESS' }"
                   *ngIf="project.bidId === pilotBid.id">Accept</button>
-          <button class="project-description__bid-btn _fill"
-                  (click)="rejectFromPilot(pilotBid.id)"
+          <button class="project-description__bid-btn"
+                  (click)="rejectFromPilot(pilotBid.id, project.status === 'IN_PROGRESS')"
+                  [ngClass]="{ _fill: project.status !== 'IN_PROGRESS', _disabled: project.status === 'IN_PROGRESS' }"
                   *ngIf="project.bidId === pilotBid.id">Reject</button>
         </bid-buttons>
       </pr-bid>
@@ -50,8 +55,8 @@
       <b-comments (send)="send($event)" [comments]="comments"></b-comments>
     </div>
   </div>
-  <div class="project-description__similar">
+  <div class="project-description__similar" *ngIf="similarProjects.length">
     <div class="project-description__similar-title">similar projects</div>
-    <l-similar></l-similar>
+    <l-similar [similarProjects]="similarProjects"></l-similar>
   </div>
 </div>

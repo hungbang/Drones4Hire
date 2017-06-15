@@ -15,9 +15,6 @@ export class SPortfolioComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (!this.portfolioService.items) {
-      this.portfolioService.getPortfolios();
-    }
   }
 
 }

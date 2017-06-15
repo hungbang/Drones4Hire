@@ -3,6 +3,7 @@ import {BudgetModel} from '../common.service/budget.interface';
 import {DurationModel} from '../common.service/duration.interface';
 import {LocationModel} from '../common.service/location.interface';
 import {ServiceModel} from '../common.service/services.interface';
+import {ProjectAttachmentModel} from "./project-attacment.interface";
 
 export interface ProjectModel {
   confirmationValid: boolean;
@@ -20,4 +21,5 @@ export interface ProjectModel {
   postProductionRequired: boolean;
   id?: number;
   bidId?: number;
+  attachments?: ProjectAttachmentModel[];
 }

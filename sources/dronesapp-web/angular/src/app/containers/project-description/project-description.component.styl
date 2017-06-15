@@ -1,3 +1,4 @@
+@import './../../styles/settings/variables.styl'
 @import './../../styles/settings/mixin.styl'
 
 .project-description
@@ -8,7 +9,7 @@
   &__left
     flex-basis 25%
     max-width 25%
-    padding-right 65px
+    padding-right 35px
 
   &__right
     padding-left: 110px
@@ -24,26 +25,28 @@
       letter-spacing: 15px
       color #414141
       text-transform uppercase;
-  &__win-title
-    font-size: 3.6rem
-    text-transform: uppercase
-    letter-spacing: 15px
-    osans()
-    margin-bottom: 30px
 
   &__bid
     &-btn
-      height: 46px
-      display block
+      display: block
+      height: 42px
+      width: 100%
       min-width 160px
+      text-transform: uppercase
+      min-height 31px
       background #fff
-      font-size 1.8rem
       color #3ebcc7
+      font-size 1.8rem
       margin-bottom 6px
-      border 1px solid #3ebcc7
+      letter-spacing: 2px
+      border:1px solid #3ebcc7
+      osans(400)
       &._fill
         background #3ebcc7
         color #fff
+      &._disabled
+        cursor: default
+
 
   &__files
     margin-bottom: 50px
@@ -53,13 +56,38 @@
       letter-spacing: 3px
       margin-bottom: 5px
       osans()
+    &-list
+      display flex
+      flex-direction column
+      max-width 350px
     &-item
-      margin-bottom: 5px
+      padding 8px 0
+      border-top 1px solid $gray1f
+      display flex
+      align-items flex-end
     &-link
+      margin-right 10px
+    &-text
       font-size: 1.8rem
       color: #8a8a8a
-      transition: color .3s
-      text-decoration: underline
-      &:hover
-        color: #3ebcc7
+      margin-right 10px
+    &-button
+      margin-left auto
+    .svg-rubbish-bin
+    .svg-download
+      width 24px
+      height 24px
+      fill $gray1f
 
+  @media screen and (max-width: 1024px)
+    &__wrapper
+      display block
+
+    &__left
+    &__right
+      margin-bottom 25px
+      max-width none
+      padding 0
+    &__right
+      margin-bottom 0
+      border 0
