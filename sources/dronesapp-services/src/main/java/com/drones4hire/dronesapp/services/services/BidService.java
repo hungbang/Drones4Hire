@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -189,6 +190,20 @@ public class BidService
 		if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
 				|| !principalId.equals(bid.getUser().getId()))
 			new ForbiddenOperationException();
+
+		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
+		Transaction transaction = new Transaction();
+		transaction.setWalletId(wallet.getId());
+		transaction.setAmount(bid.getAmount());
+		transaction.setType(Type.PROJECT_REJECT);
+		transaction.setProjectId(project.getId());
+		transaction.setStatus(Transaction.Status.COMPLETED);
+		transaction.setPurpose("Project reject");
+		transaction.setCurrency(Currency.USD);
+		transactionService.createTransaction(transaction);
+		wallet.setBalance(wallet.getBalance().add(bid.getAmount()));
+		walletService.updateWallet(wallet);
+
 		project.setStatus(Status.NEW);
 		project.setPilotId(null);
 		projectService.updateProject(project);
