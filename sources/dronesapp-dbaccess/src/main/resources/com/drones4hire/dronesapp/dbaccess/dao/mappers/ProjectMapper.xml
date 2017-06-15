@@ -347,7 +347,7 @@
 	      (
           		P.ID = B.PROJECT_ID
 			]]>
-          		<if test="null != pilotId">
+          		<if test="0 != pilotId">
 					<![CDATA[
 				   		AND B.USER_ID = #{pilotId}
 					]]>
@@ -532,7 +532,7 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId">
+			<if test="0 != pilotId and null == status">
 				<![CDATA[
 				   AND P.ID IN
 				   (
@@ -668,6 +668,8 @@
           	 	STATUS = #{status},
           	 	START_DATE = #{startDate},
           	 	FINISH_DATE = #{finishDate},
+          	 	SERVICE_ID = #{service.id},
+          	 	DURATION_ID = #{duration.id},
           	 	AWARD_DATE = #{awardDate}
           WHERE
 			 	ID = #{id}

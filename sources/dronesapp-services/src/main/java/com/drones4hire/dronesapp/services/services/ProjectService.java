@@ -8,7 +8,6 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import java.util.List;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
-import com.drones4hire.dronesapp.models.db.projects.Bid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
