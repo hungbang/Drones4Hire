@@ -175,7 +175,6 @@ export class ProjectDescriptionComponent implements OnInit {
         if (res.totalResults) {
           this.similarProjects = res.results.map(data => data.project);
         }
-        console.log(this.similarProjects);
       }
     )
   }
