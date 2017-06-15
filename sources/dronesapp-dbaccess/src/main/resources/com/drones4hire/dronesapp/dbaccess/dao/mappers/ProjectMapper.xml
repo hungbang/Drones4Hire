@@ -279,6 +279,7 @@
 				B.CREATED_AT AS BID_CREATED_AT,
 	        	PID.MAX_BID AS PROJECT_MAX_BID,
 	        	PID.BIDS_COUNT AS PROJECT_BIDS_COUNT,
+	        	PID.BIDS_AVG AS PROJECT_BIDS_AVG,
 
 	        	PO.ID AS PAID_OPTION_ID,
 		        PO.TITLE AS PAID_OPTION_TITLE,
@@ -454,7 +455,8 @@
 				SELECT
 					P.ID AS PROJECT_ID,
 					MAX(B.AMOUNT) AS MAX_BID,
-					COUNT(B.ID) AS BIDS_COUNT
+					COUNT(B.ID) AS BIDS_COUNT,
+					AVG(B.AMOUNT) AS BIDS_AVG
 				FROM
 					drones.PROJECTS P
 				LEFT JOIN
@@ -711,6 +713,7 @@
 		<id column="PROJECT_ID" property="id" />
 		<result column="PROJECT_MAX_BID" property="maxBid"/>
 		<result column="PROJECT_BIDS_COUNT" property="bidsCount"/>
+		<result column="PROJECT_BIDS_AVG" property="bidsAvg"/>
 		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
 		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>
 		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>

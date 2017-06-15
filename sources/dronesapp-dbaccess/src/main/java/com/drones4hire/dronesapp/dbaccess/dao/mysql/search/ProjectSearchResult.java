@@ -16,6 +16,7 @@ public class ProjectSearchResult
 	private User pilot;
 	private BigDecimal maxBid;
 	private Integer bidsCount;
+	private Double bidsAvg;
 
 	public Long getId()
 	{
@@ -85,5 +86,15 @@ public class ProjectSearchResult
 	public void setBidsCount(Integer bidsCount)
 	{
 		this.bidsCount = bidsCount;
+	}
+
+	public Double getBidsAvg()
+	{
+		return bidsAvg;
+	}
+
+	public void setBidsAvg(Double bidsAvg)
+	{
+		this.bidsAvg = bidsAvg;
 	}
 }
