@@ -27,7 +27,7 @@ public class PaymentController extends AbstractController
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@Secured({"ROLE_CLIENT"})
-	@RequestMapping(value = "{bidId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "release/{bidId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void releasePayment(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "bidId") long bidId)
 			throws ServiceException
 	{
