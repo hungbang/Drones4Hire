@@ -38,7 +38,7 @@
         <label class="f-default__label _select">
           <select class="f-default__field"
                   name="service"
-                  [(ngModel)]="service"
+                  [(ngModel)]="formData.service.category.name"
                   (ngModelChange)="selectService($event)"
                   required
                   #serviceRef="ngModel"
@@ -55,14 +55,14 @@
       </div>
     </div>
 
-    <div class="f-default__row _flex" *ngIf="service">
+    <div class="f-default__row _flex" *ngIf="service || formData.service.name">
       <div class="f-default__col">
       </div>
       <div class="f-default__col">
         <label class="f-default__label _select">
           <select class="f-default__field"
                   name="category"
-                  [(ngModel)]="category"
+                  [(ngModel)]="formData.service.name"
                   (ngModelChange)="selectCategory($event)"
                   required
                   #categoryRef="ngModel"
@@ -135,13 +135,20 @@
               <div class="f-project-add__message _error" *ngIf="isLimitReached">
                 You can't attach more than {{ attachmentsLimit }} files
               </div>
-              <div class="f-project-add__message _error" *ngIf="submitted && !formData.attachments.length">
+              <div class="f-project-add__message" *ngIf="!formData.attachments.length">
                 No file chosen
               </div>
-              <div class="f-project-add__message" *ngIf="formData.attachments.length">
-                <div *ngFor="let attach of formData.attachments">Chosen file: {{ attach.title }}</div>
-              </div>
             </div>
+            <ul class="f-project-add__files-list" *ngIf="formData.attachments.length">
+              <li class="f-project-add__files-item" *ngFor="let attach of formData.attachments">
+                <span class="f-project-add__files-text">{{ attach.title }}</span>
+                <button type="button"
+                        (click)="deleteAttachment(attach.id)"
+                        class="f-project-add__files-button">
+                  <svg-use name="rubbish-bin"></svg-use>
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -162,7 +169,7 @@
         <div class="f-default__col-inner">
           <label class="f-default__label _select">
             <select class="f-default__field"
-                    [(ngModel)]="budget"
+                    [(ngModel)]="formData.budget.title"
                     #budgetRef="ngModel"
                     (ngModelChange)="selectBudget($event)"
                     required
@@ -189,7 +196,7 @@
         <label class="f-default__label _select">
           <select class="f-default__field"
                   name="country"
-                  [(ngModel)]="country"
+                  [(ngModel)]="formData.location.country.name"
                   (ngModelChange)="selectCountry($event)"
                   required
                   #countryRef="ngModel"
@@ -215,7 +222,7 @@
         <label class="f-default__label">
           <select class="f-default__field _select"
                   name="state"
-                  [(ngModel)]="state"
+                  [(ngModel)]="formData.location.state.name"
                   (ngModelChange)="selectState($event)"
                   required=""
                   #stateRef="ngModel"
@@ -270,7 +277,7 @@
              [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'DD-MM-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
              (selected)="selectedDate($event, date)">
           <span class="form-control uneditable-input" name="daterange">
-              {{ date.start | date:'dd-MM-yyyy hh:mm' }} / {{ date.end| date:'dd-MM-yyyy hh:mm' }}
+              from {{ date.start | date:'dd-MM-yyyy' }} to {{ date.end| date:'dd-MM-yyyy' }}
           </span>
         </div>
       </div>
@@ -280,15 +287,10 @@
         <div class="f-project-add__caption">Expection duration of flight</div>
       </div>
       <div class="f-default__col">
-        <!--<select class="f-default__field" name="">-->
-        <!--<option value="">Select</option>-->
-        <!--<option value="">item2</option>-->
-        <!--</select>-->
-
         <label class="f-default__label _select">
           <select class="f-default__field"
                   name="duration"
-                  [(ngModel)]="duration"
+                  [(ngModel)]="formData.duration.title"
                   (ngModelChange)="selectDuration($event)"
                   required
                   #durationRef="ngModel"
@@ -311,7 +313,7 @@
         <label class="f-default__label _checkbox">
           <input class="f-default__chk"
                  type="checkbox"
-                 [checked]="productionRequired"
+                 [checked]="formData.postProductionRequired"
                  (change)="setProductionRequired(productionRequired)"/>
           <span class="f-default__chk-span"></span>
         </label>
@@ -335,9 +337,7 @@
             <input class="f-default__chk-input"
                    type="checkbox"
                    name="projectFeatured"
-                   value=""
-                   [(ngModel)]="paidOptionsChecked[i]"
-                   checked
+                   [checked]="paidOptionsChecked[i]"
                    (change)="selectPaidOption($event.target.checked, paidOption)"/>
             <span class="f-default__chk">{{ paidOption.title }}</span>
           </label>

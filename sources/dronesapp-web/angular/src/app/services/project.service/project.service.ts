@@ -218,6 +218,10 @@ export class ProjectService {
     return this._requestService.fetch('post', '/projects', data);
   }
 
+  public updateProject(data: any) {
+    return this._requestService.fetch('put', '/projects', data);
+  }
+
   public getProject(id: string|number) {
     return this._requestService.fetch('get', `/projects/${id}`);
   }

@@ -16,6 +16,7 @@ export class BProjectDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.project);
   }
 
 }

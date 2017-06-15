@@ -8,7 +8,7 @@ import {TransactionsComponent} from './containers/transactions/transactions.comp
 import {ProjectComponent} from './containers/project/project.component';
 import {DashboardComponent} from './containers/dashboard/dashboard.component';
 import {AccountComponent} from './containers/account/account.component';
-import {ProjectAddComponent} from './containers/project-add/project-add.component';
+import { ProjectManageComponent } from './containers/project-manage/project-manage.component';
 import {SAuthorizationComponent} from './components/sections/s-authorization/s-authorization.component';
 import {DetailsComponent} from './containers/details/details.component';
 import {PreferencesComponent} from './containers/preferences/preferences.component';
@@ -39,7 +39,9 @@ import {ClientProjectsResolve} from './resolves/client-projects/client-projects.
 import {SDashboardComponent} from './components/sections/s-dashboard/s-dashboard.component';
 import {SSearchProjectsComponent} from './components/sections/s-search-projects/s-search-projects.component';
 import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-profile.resolve';
-import {PilotProjectsResolve} from "./resolves/pilot-projects/pilot-projects.resolve";
+import {PilotProjectsResolve} from './resolves/pilot-projects/pilot-projects.resolve';
+import {SProjectAddComponent} from './components/sections/s-project-add/s-project-add.component';
+import {SProjectEditComponent} from './components/sections/s-project-edit/s-project-edit.component';
 
 export const ROUTES: Routes = [
   {
@@ -178,9 +180,9 @@ export const ROUTES: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'add',
+        path: 'manage',
         canActivate: [ClientGuard],
-        component: ProjectAddComponent,
+        component: ProjectManageComponent,
         data: {
           className: 'p-project'
         },
@@ -190,7 +192,35 @@ export const ROUTES: Routes = [
           services: ServicesResolve,
           durations: DurationsResolve,
           paidoptions: PaidOptionsResolve
-        }
+        },
+        children: [
+          {
+            path: '',
+            redirectTo: 'add',
+            pathMatch: 'full'
+          },
+          {
+            path: 'add',
+            component: SProjectAddComponent
+          },
+          {
+            path: 'edit',
+            children: [
+              {
+                path: '',
+                redirectTo: '', // TODO: why not works?
+                pathMatch: 'full'
+              },
+              {
+                path: ':projectId',
+                resolve: {
+                  project: ProjectResolve
+                },
+                component: SProjectEditComponent
+              },
+            ]
+          },
+        ]
       },
       {
         path: ':projectId',

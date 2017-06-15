@@ -14,7 +14,9 @@ import { STransactionsComponent } from './s-transactions/s-transactions.componen
 import { SProjectAddComponent } from './s-project-add/s-project-add.component';
 import { SAuthorizationComponent } from './s-authorization/s-authorization.component';
 import { SProjectComponent } from './s-project/s-project.component';
-import {SMyProjectsComponent} from "./s-my-projects/s-my-projects.component";
+import {SMyProjectsComponent} from './s-my-projects/s-my-projects.component';
+import { SSearchProjectsComponent } from './s-search-projects/s-search-projects.component';
+import { SProjectEditComponent } from './s-project-edit/s-project-edit.component';
 
 export const SECTIONS = [
   HeaderComponent,
@@ -33,5 +35,7 @@ export const SECTIONS = [
   SProjectComponent,
   STransactionsComponent,
   SPortfolioComponent,
-  SProjectAddComponent
+  SProjectAddComponent,
+  SProjectEditComponent,
+  SSearchProjectsComponent,
 ];

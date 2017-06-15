@@ -6,7 +6,7 @@ import {ProjectComponent} from './project/project.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {TransactionsComponent} from './transactions/transactions.component';
 import {AccountComponent} from './account/account.component';
-import {ProjectAddComponent} from './project-add/project-add.component';
+import { ProjectManageComponent } from './project-manage/project-manage.component';
 import {AuthorizationComponent} from './authorization/authorization.component';
 import {DetailsComponent} from './details/details.component';
 import {PreferencesComponent} from './preferences/preferences.component';
@@ -27,9 +27,9 @@ export const AppContainers = [
   TransactionsComponent,
   ProjectComponent,
   SearchComponent,
-  ProjectAddComponent,
   ProjectDescriptionComponent,
   ProjectFilesComponent,
+  ProjectManageComponent,
   DetailsComponent,
   PreferencesComponent,
   SecurityComponent,
