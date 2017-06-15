@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+
 import {IndexComponent} from './containers/index/index.component';
 import {ProfileComponent} from './containers/profile/profile.component';
 import {SearchComponent} from './containers/search/search.component';
@@ -11,7 +12,6 @@ import {ProjectAddComponent} from './containers/project-add/project-add.componen
 import {SAuthorizationComponent} from './components/sections/s-authorization/s-authorization.component';
 import {DetailsComponent} from './containers/details/details.component';
 import {PreferencesComponent} from './containers/preferences/preferences.component';
-
 import {AuthGuard} from './guards/auth.guard/auth.guard';
 import {ClientGuard} from './guards/client.guard/client.guard';
 import {PilotGuard} from './guards/pilot.guard/pilot.guard';
@@ -31,14 +31,14 @@ import {CommentsResolve} from './resolves/comments/comments';
 import {ProjectDescriptionComponent} from './containers/project-description/project-description.component';
 import {ProjectFilesComponent} from './containers/project-files/project-files.component';
 import {MyProjectsResolve} from './resolves/my-projects/my-projects.resolve';
-import {SMyProjectsComponent} from "./components/sections/s-my-projects/s-my-projects.component";
+import {SMyProjectsComponent} from './components/sections/s-my-projects/s-my-projects.component';
 import {PortfolioResolve} from './resolves/portfolio/portfolio.resolve';
 import {ProfileServicesResolve} from './resolves/profile-services/profile-services.resolve';
-import {FindProjectsResolve} from "./resolves/find-projects/find-projects.resolve";
-import {ClientProjectsResolve} from "./resolves/client-projects/client-projects.resolve";
-import {SDashboardComponent} from "./components/sections/s-dashboard/s-dashboard.component";
-import {SSearchProjectsComponent} from "./components/sections/s-search-projects/s-search-projects.component";
-import {DashboardProfileResolve} from "./resolves/dashboard-profile/dashboard-profile.resolve";
+import {FindProjectsResolve} from './resolves/find-projects/find-projects.resolve';
+import {ClientProjectsResolve} from './resolves/client-projects/client-projects.resolve';
+import {SDashboardComponent} from './components/sections/s-dashboard/s-dashboard.component';
+import {SSearchProjectsComponent} from './components/sections/s-search-projects/s-search-projects.component';
+import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-profile.resolve';
 
 export const ROUTES: Routes = [
   {

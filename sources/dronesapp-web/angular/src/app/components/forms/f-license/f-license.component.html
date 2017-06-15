@@ -15,7 +15,7 @@
              (change)="handlePhotoUpload('license')"
              [ngClass]="{'_error': submitted && !accountService.license?.licenseURL}">
       <span class="f-default__button f-license__button _center">Choose File</span>
-      <span class="f-default__text" *ngIf="false">No file chosen</span>
+      <span class="f-default__text">{{ licFileName ? 'Chosen file: ' + licFileName : 'No file chosen' }}</span>
     </label>
   </div>
 
@@ -31,7 +31,7 @@
              (change)="handlePhotoUpload('insurance')"
              [ngClass]="{'_error': submitted && !accountService.license?.insuranceURL}">
       <span class="f-default__button f-license__button _center">Choose File</span>
-      <span class="f-default__text" *ngIf="false">No file chosen</span>
+      <span class="f-default__text">{{ certFileName ? 'Chosen file: ' + certFileName : 'No file chosen' }}</span>
     </label>
   </div>
 

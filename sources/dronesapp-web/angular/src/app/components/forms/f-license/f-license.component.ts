@@ -17,12 +17,20 @@ export class FPilotLicenseComponent implements OnInit {
   });
 
   private fileItem: any = null;
+  public licFileName: string = '';
+  public certFileName: string = '';
 
   public submitted: boolean = false;
 
   constructor(public accountService: AccountService, private _requestService: RequestService) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       let type = `${item.formData[0].type}URL`;
+
+      if (type === 'licenseURL') {
+        this.licFileName = item.file.name;
+      } else if (type === 'insuranceURL') {
+        this.certFileName = item.file.name;
+      }
       this.accountService.license[type] = JSON.parse(response)['url'];
       return {item, response, status, headers};
     };
@@ -49,6 +57,7 @@ export class FPilotLicenseComponent implements OnInit {
   ngOnInit() {
     if (!this.accountService.license) {
       this.accountService.getAccountLicense();
+      console.log(this.accountService.license);
     }
   }
 
