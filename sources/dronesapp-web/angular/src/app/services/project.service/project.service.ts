@@ -130,6 +130,28 @@ export class ProjectService {
     return `$${budget.min}-$${budget.max}`;
   }
 
+  public formatLocation(location) {
+    const out = [];
+
+    if (location.address) {
+      out.push(location.address);
+    }
+    if (location.city) {
+      out.push(location.city);
+    }
+    if (location.state) {
+      out.push(location.state.name);
+    }
+    if (location.country) {
+      out.push(location.country.name);
+    }
+    if (location.postcode) {
+      out.push(location.postcode);
+    }
+
+    return out.join(', ')
+  }
+
   getPaidOptions() {
     if(this.paidOptions.length) {
       return createObservable(this.paidOptions);

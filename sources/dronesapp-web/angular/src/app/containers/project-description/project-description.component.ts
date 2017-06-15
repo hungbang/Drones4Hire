@@ -23,6 +23,7 @@ export class ProjectDescriptionComponent implements OnInit {
   public pilotBid: BidModel|{} = {};
   public isEdit = false;
   public attachments: ProjectAttachmentModel[] = [];
+  public similarProjects: ProjectModel[] = [];
 
   get isClient() {
     return this._accountService.isUserClient();
@@ -64,6 +65,7 @@ export class ProjectDescriptionComponent implements OnInit {
     }
 
     this.createBidsInfo(this.bids);
+    this.getSimilarProjects();
   }
 
   createBidsInfo(bids) {
@@ -158,5 +160,23 @@ export class ProjectDescriptionComponent implements OnInit {
           console.log('delete attached file error', err);
         }
       );
+  }
+
+  getSimilarProjects() {
+    const search = {
+      page: 1,
+      pageSize: 3,
+      serviceCategoryId: this.project.service.category.id,
+      status: 'NEW'
+    };
+
+    this.projectService.getProjects(search).subscribe(
+      res => {
+        if (res.totalResults) {
+          this.similarProjects = res.results.map(data => data.project);
+        }
+        console.log(this.similarProjects);
+      }
+    )
   }
 }

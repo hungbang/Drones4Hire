@@ -54,8 +54,8 @@
       <b-comments (send)="send($event)" [comments]="comments"></b-comments>
     </div>
   </div>
-  <div class="project-description__similar">
+  <div class="project-description__similar" *ngIf="similarProjects.length">
     <div class="project-description__similar-title">similar projects</div>
-    <l-similar></l-similar>
+    <l-similar [similarProjects]="similarProjects"></l-similar>
   </div>
 </div>
