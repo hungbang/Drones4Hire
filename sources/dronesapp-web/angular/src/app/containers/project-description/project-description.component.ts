@@ -172,9 +172,9 @@ export class ProjectDescriptionComponent implements OnInit {
 
     return this._bidService.editBid(bid.oldBid)
       .subscribe((res) => {
-        this.bids = this._bidService.formatBidsToPreview([res]);
-        this.pilotBid = this.bids[0];
-        this.createBidsInfo(this.bids);
+        this.pilotBid = this._bidService.formatBidsToPreview([res])[0];
+        this.bids.unshift(res);
+        this.createBidsInfo(this._serverBidInfo, this.pilotBid);
         this.isEdit = false;
       });
   }
