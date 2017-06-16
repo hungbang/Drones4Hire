@@ -1,5 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
+import {Router} from '@angular/router';
+import * as moment from 'moment';
 
 import {CommonService} from '../../../services/common.service/common.service';
 import {RequestService} from '../../../services/request.service/request.service';
@@ -11,7 +13,6 @@ import {mergeDeep, extend} from '../../../shared/common/common-methods';
 import {DurationModel} from '../../../services/common.service/duration.interface';
 import {ProjectService} from '../../../services/project.service/project.service';
 import {PaidOptionModel} from '../../../services/project.service/paid-option.interface';
-import * as moment from 'moment';
 import {ProjectModel} from '../../../services/project.service/project.interface';
 import {CategoryModel} from '../../../services/common.service/category.interface';
 
@@ -76,13 +77,26 @@ export class FProjectAddComponent implements OnInit {
     public commonService: CommonService,
     private projectService: ProjectService,
     private _requestService: RequestService,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef,
+    private router: Router
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       console.log('onSuccessItem', response, item);
       const attachment = this.createAttachment(JSON.parse(response)['url'], item.file.name); // TODO: handle same names of files
-      this.formData.attachments.push(attachment);
+      if (this.isEditForm) {
+        this.projectService.addAttachment(attachment)
+          .subscribe(
+            () => {
+              this.formData.attachments.push(attachment);
+            },
+            err => {
+              console.log('project attachment error', err);
+            }
+          );
+      } else {
+        this.formData.attachments.push(attachment);
+      }
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
@@ -338,9 +352,10 @@ export class FProjectAddComponent implements OnInit {
     if (this.isEditForm) {
       return this.projectService.updateProject(this.formData)
         .subscribe(
-          // res => {
-          //   console.log('updated project:', res);
-          // }
+          res => {
+            // console.log('updated project:', res);
+            this.router.navigate(['/project', res.id]);
+          }
         );
     } else {
       this.formData.budget.confirmationValid = true;
@@ -351,9 +366,10 @@ export class FProjectAddComponent implements OnInit {
 
       return this.projectService.postProjects(this.formData)
         .subscribe(
-          // res => {
-          //   console.log('saved new project:', res);
-          // }
+          res => {
+            // console.log('saved new project:', res);
+            this.router.navigate(['/project', res.id]);
+          }
         )
     }
   }
@@ -412,7 +428,7 @@ export class FProjectAddComponent implements OnInit {
   private createAttachment(url: string, filename: string) {
     return {
       attachmentURL: url,
-      projectId: null,
+      projectId: this.isEditForm ? this.formData.id : null,
       title: filename,
       type: 'PROJECT_ATTACHMENT'
     }

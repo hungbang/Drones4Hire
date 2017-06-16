@@ -1,4 +1,5 @@
 import {Component, ViewEncapsulation, Input} from '@angular/core';
+import {Router} from '@angular/router';
 
 import {ProjectService} from '../../../services/project.service/project.service';
 
@@ -12,11 +13,15 @@ export class TProjectComponent {
   @Input() projects;
 
   constructor(
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private router: Router
   ) {
   }
 
   onCancel(project) {
+    if (project.status !== 'NEW') {
+      return;
+    }
     this.projectService.cancelProject(project.id)
       .subscribe(
         () => {
@@ -27,6 +32,13 @@ export class TProjectComponent {
           console.log('Cancel project error:', err);
         }
       );
+  }
+
+  onNavigate(project) {
+    if (project.status !== 'NEW') {
+      return;
+    }
+    this.router.navigate(['/project', 'manage', 'edit', project.id]);
   }
 
 }

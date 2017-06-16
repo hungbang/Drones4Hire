@@ -60,8 +60,7 @@
         </label>
       </div>
       <div class="f-default__row">
-        <label class="f-default__label _select">
-          <span class="f-default__label-placeholder" [ngClass]="{'_req': accountService.isUserPilot()}" *ngIf="!commonService.companyCountry" >Country</span>
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.companyCountry}">
           <select class="f-default__field"
                   name="country"
                   [(ngModel)]="commonService.companyCountry"
@@ -69,7 +68,7 @@
                   [required]="accountService.isUserPilot()"
                   #countryRef="ngModel"
                   [ngClass]="{'_error': submitted && countryRef.errors?.required}">
-
+            <option [value]="null">Country{{accountService.isUserPilot() ? '*' : ''}}</option>
             <option *ngFor="let option of countries"
                     [value]="option.name">
               {{option.name}}
@@ -78,9 +77,8 @@
         </label>
       </div>
 
-      <div class="f-default__row" *ngIf="commonService.checkCountry('companyCountry')">
-        <label class="f-default__label _select">
-          <span class="f-default__label-placeholder" [ngClass]="{'_req': accountService.isUserPilot()}" *ngIf="!commonService.companyState" >State</span>
+      <div class="f-default__row" *ngIf="false && commonService.checkCountry('companyCountry')">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.companyState}">
           <select class="f-default__field"
                   name="state"
                   [(ngModel)]="commonService.companyState"
@@ -88,7 +86,7 @@
                   [required]="accountService.isUserPilot()"
                   #stateRef="ngModel"
                   [ngClass]="{'_error': submitted && stateRef.errors?.required}">
-
+            <option [value]="null">State{{accountService.isUserPilot() ? '*' : ''}}</option>
             <option *ngFor="let option of states"
                     [value]="option.name">
               {{option.name}}

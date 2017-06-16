@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {ProjectModel} from '../../../services/project.service/project.interface';
 
@@ -12,12 +12,19 @@ import {ProjectModel} from '../../../services/project.service/project.interface'
 export class SProjectEditComponent implements OnInit {
   project: ProjectModel = null;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(
       () => {
         this.project = this.route.snapshot.data['project'];
+
+        if (!this.project || this.project.status !== 'NEW') {
+          this.router.navigate(['/my-projects']);
+        }
       }
     );
   }

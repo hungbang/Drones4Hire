@@ -32,8 +32,7 @@
         <div class="f-project-add__caption">What type of work do you require?</div>
       </div>
       <div class="f-default__col">
-
-        <label class="f-default__label _select">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.service.category.name}">
           <select class="f-default__field"
                   name="service"
                   [(ngModel)]="formData.service.category.name"
@@ -56,7 +55,7 @@
         <div class="f-project-add__caption">What service do you require?</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label _select">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.service.name}">
           <select class="f-default__field"
                   name="category"
                   [(ngModel)]="formData.service.name"
@@ -165,7 +164,7 @@
       </div>
       <div class="f-default__col">
         <div class="f-default__col-inner">
-          <label class="f-default__label _select">
+          <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.budget.title}">
             <select class="f-default__field"
                     [(ngModel)]="formData.budget.title"
                     #budgetRef="ngModel"
@@ -189,7 +188,7 @@
         <div class="f-project-add__caption">Country</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label _select">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location.country.name}">
           <select class="f-default__field"
                   name="country"
                   [(ngModel)]="formData.location.country.name"
@@ -213,7 +212,7 @@
       </div>
 
       <div class="f-default__col">
-        <label class="f-default__label _select">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location.state.name}">
           <select class="f-default__field"
                   name="state"
                   [(ngModel)]="formData.location.state.name"
@@ -280,7 +279,7 @@
         <div class="f-project-add__caption">Expection duration of flight (hours)gi</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label _select">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.duration.title}">
           <select class="f-default__field"
                   name="duration"
                   [(ngModel)]="formData.duration.title"

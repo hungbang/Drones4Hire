@@ -44,8 +44,7 @@
         </label>
       </div>
       <div class="f-default__row">
-        <label class="f-default__label _select">
-          <span class="f-default__label-placeholder" *ngIf="!commonService.accountCountry">Country*</span>
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.accountCountry}">
           <select class="f-default__field"
                   name="country"
                   [(ngModel)]="commonService.accountCountry"
@@ -53,6 +52,7 @@
                   required
                   #countryRef="ngModel"
                   [ngClass]="{'_error': submitted && countryRef.errors?.required}">
+            <option [value]="null">Country*</option>
             <option *ngFor="let option of countries"
                     [value]="option.name">
               {{option.name}}
@@ -62,8 +62,7 @@
       </div>
 
       <div class="f-default__row" *ngIf="commonService.checkCountry('accountCountry')">
-        <label class="f-default__label _select">
-          <span class="f-default__label-placeholder" *ngIf="!commonService.accountState">State*</span>
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.accountState}">
           <select class="f-default__field"
                   name="state"
                   [(ngModel)]="commonService.accountState"
@@ -71,6 +70,7 @@
                   required
                   #stateRef="ngModel"
                   [ngClass]="{'_error': submitted && stateRef.errors?.required}">
+            <option [value]="null">State*</option>
             <option *ngFor="let option of states"
                     [value]="option.name">
               {{option.name}}

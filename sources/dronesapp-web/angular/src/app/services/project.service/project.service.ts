@@ -40,6 +40,7 @@ export class ProjectService {
       return {
         id: project.id,
         name: project.title,
+        status: project.status,
         bidCount: data.bidsCount,
         averageBid: data.bidsAvg,
         bidEndDate: this.getBidEndDate(project)

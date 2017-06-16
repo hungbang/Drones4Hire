@@ -1,4 +1,6 @@
+@import '../../../styles/settings/variables.styl'
 @import '../../../styles/settings/mixin.styl'
+
 .t-project
   display: table
   width: 100%
@@ -16,7 +18,7 @@
           vertical-align: middle
           color #fff
           &._name
-            background: #1f2532
+            background: $gray1f
           &._bids
           &._bid-end
             background: #3fb6c0
@@ -50,6 +52,7 @@
   &__actions
     display: flex
     justify-content: center
+
   &__action
     width: 24px
     height: 24px
@@ -66,7 +69,11 @@
       width 0
       height 24px
       margin 0 15px
-      border-right: 1px solid #1f2532
+      border-right: 1px solid $gray1f
+    &[disabled]
+      svg
+        fill #8f8f8f
+
   &__link
     color: #32afff
     osans(600)

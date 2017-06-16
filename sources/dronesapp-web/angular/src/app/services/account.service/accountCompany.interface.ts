@@ -5,6 +5,11 @@ export interface AccountCompanyModel {
     id: number;
     name: string
   };
+  state?: {
+    code: string,
+    id: number,
+    name: string
+  };
   id: number;
   name: string;
   webURL: string;
