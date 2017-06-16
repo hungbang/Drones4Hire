@@ -32,7 +32,7 @@ public class CommentService
 		checkAuthorities(comment.getProjectId(), principalId);
 		comment.setUser(userService.getUserById(principalId));
 		commentMapper.createComment(comment);
-		return comment;
+		return commentMapper.getCommentById(comment.getId());
 	}
 
 	@Transactional(readOnly = true)
