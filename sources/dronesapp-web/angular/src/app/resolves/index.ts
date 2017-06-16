@@ -15,8 +15,10 @@ import {FindProjectsResolve} from './find-projects/find-projects.resolve';
 import {ClientProjectsResolve} from './client-projects/client-projects.resolve';
 import { DashboardProfileResolve } from './dashboard-profile/dashboard-profile.resolve';
 import {PilotProjectsResolve} from "./pilot-projects/pilot-projects.resolve";
+import {BidInfoResolve} from "./bid-info/bid-info";
 
 export const AppResolves = [
+  BidInfoResolve,
   BidsResolve,
   BudgetsResolve,
   ClientProjectsResolve,

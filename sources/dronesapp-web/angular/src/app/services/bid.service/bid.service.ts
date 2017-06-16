@@ -30,6 +30,12 @@ export class BidService {
       .fetch('get', `/projects/${projectId}/bids`);
   }
 
+
+  fetchBidInfo(projectId: string|number) {
+    return this.requestService
+      .fetch('get', `/projects/${projectId}/bidInfo`);
+  }
+
   createBid(bid) {
     return this.requestService
       .fetch('post', '/bids', bid);
