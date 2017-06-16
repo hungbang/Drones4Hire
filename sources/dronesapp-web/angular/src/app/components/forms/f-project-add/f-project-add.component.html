@@ -85,15 +85,15 @@
       <div>
         <div class="f-project-add__caption _margin">Describe your project</div>
         <div class="f-default__row f-project-add__row _flex">
-          <label class="f-default__label f-default__col f-project-add__col">
-          <textarea class="f-default__field _area"
-                    type="text"
-                    name="projectSummary"
-                    [(ngModel)]="formData.summary"
-                    required
-                    placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
-                    #projectSummaryRef="ngModel"
-                    [ngClass]="{'_error': isSubmitted && projectSummaryRef.errors?.required}"></textarea>
+          <label class="f-default__label f-default__col f-project-add__col _area">
+            <textarea class="f-default__field _area"
+                      type="text"
+                      name="projectSummary"
+                      [(ngModel)]="formData.summary"
+                      required
+                      placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
+                      #projectSummaryRef="ngModel"
+                      [ngClass]="{'_error': submitted && projectSummaryRef.errors?.required}"></textarea>
           </label>
 
           <div class="f-default__col f-project-add__col">
@@ -121,29 +121,34 @@
                      [uploader]="uploader"
                      class="f-default__field _file">
             </div>
-            <div class="f-project-add__messages">
-              <div class="f-project-add__message _error" *ngIf="isNotAcceptedFormat">
-                Incorrect file format. You can upload only .pdf, .doc(x), .xls(x), .png, .jpg files
-              </div>
-              <div class="f-project-add__message _error" *ngIf="isLimitReached">
-                You can't attach more than {{ attachmentsLimit }} files
-              </div>
-              <div class="f-project-add__message" *ngIf="!formData.attachments.length">
-                No file chosen
-              </div>
-            </div>
-            <ul class="f-project-add__files-list" *ngIf="formData.attachments.length">
-              <li class="f-project-add__files-item" *ngFor="let attach of formData.attachments">
-                <span class="f-project-add__files-text">{{ attach.title }}</span>
-                <button type="button"
-                        (click)="deleteAttachment(attach.id)"
-                        class="f-project-add__files-button">
-                  <svg-use name="rubbish-bin"></svg-use>
-                </button>
-              </li>
-            </ul>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="f-default__row f-project-add__row _attachment">
+      <div class="f-default__col f-project-add__col _attachment"></div>
+      <div class="f-default__col f-project-add__col _attachment">
+        <div class="f-project-add__messages">
+          <div class="f-project-add__message _error" *ngIf="isNotAcceptedFormat">
+            Incorrect file format. You can upload only .pdf, .doc(x), .xls(x), .png, .jpg files
+          </div>
+          <div class="f-project-add__message _error" *ngIf="isLimitReached">
+            You can't attach more than {{ attachmentsLimit }} files
+          </div>
+          <div class="f-project-add__message" *ngIf="!formData.attachments.length">
+            No file chosen
+          </div>
+        </div>
+        <ul class="f-project-add__files-list" *ngIf="formData.attachments.length">
+          <li class="f-project-add__files-item" *ngFor="let attach of formData.attachments">
+            <span class="f-project-add__files-text">{{ attach.title }}</span>
+            <button type="button"
+                    (click)="deleteAttachment(attach.id)"
+                    class="f-project-add__files-button">
+              <svg-use name="rubbish-bin"></svg-use>
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
