@@ -30,6 +30,14 @@
       <div class="b-project-details__subtitle">Budget</div>
       <div class="b-project-details__text">{{'$' + project.budget?.min + '-$' + project.budget?.max }}</div>
     </div>
+    <div class="b-project-details__item" *ngIf="project.duration?.min || project.duration?.max">
+      <div class="b-project-details__subtitle">Duration of flight</div>
+      <div class="b-project-details__text">{{project.duration?.min + '-' + project.duration?.max }} (hours)</div>
+    </div>
+    <div class="b-project-details__item">
+      <div class="b-project-details__subtitle">Editing needed</div>
+      <div class="b-project-details__text">{{ project.postProductionRequired ? 'Yes' : 'No' }}</div>
+    </div>
     <div class="b-project-details__item" *ngIf="project.startDate">
       <div class="b-project-details__subtitle">Date Posted</div>
       <div class="b-project-details__text">{{project.startDate | date:'MM/dd/y'}}</div>

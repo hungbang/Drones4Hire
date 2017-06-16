@@ -100,7 +100,7 @@ export class ProjectDescriptionComponent implements OnInit {
     }
 
     this.bidsInfo = {
-      max: maxBid,
+      max: !maxBid ? 0 : `$${maxBid}`,
       left: hours < 0 ? '-' : `${days} day(s) ${hours % 24} hour(s)`,
       count: bidInfo.bidsCount
     };

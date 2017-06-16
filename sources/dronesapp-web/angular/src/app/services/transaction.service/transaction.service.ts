@@ -199,11 +199,21 @@ export class TransactionService {
   }
 
   getClientToDroneTransaction(transactions) {
-    return transactions.find((transaction) => transaction.type === 'PROJECT_PAYMENT');
+    return transactions.filter((transaction) => transaction.type === 'PROJECT_PAYMENT');
   }
 
   getDroneToPilotTransaction(transactions) {
-    return transactions.find((transaction) => transaction.type === 'PAYMENT_RELEASED');
+    console.log(transactions);
+    return transactions.filter((transaction) => transaction.type === 'PAYMENT_RELEASED');
+  }
+
+  getLastTransaction(transactions) {
+    return transactions.reduce(
+      (last, transaction) => last
+        ? (transaction.createdAt > last.createdAt ? transaction : last)
+        : transaction,
+      null
+    );
   }
 
   get getTransactions() {

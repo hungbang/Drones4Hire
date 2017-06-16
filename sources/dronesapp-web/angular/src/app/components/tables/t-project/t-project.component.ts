@@ -25,8 +25,7 @@ export class TProjectComponent {
     this.projectService.cancelProject(project.id)
       .subscribe(
         () => {
-          const index = this.projects.indexOf(project);
-          this.projects.splice(index, 1);
+          project.status = 'CANCELLED';
         },
         err => {
           console.log('Cancel project error:', err);
