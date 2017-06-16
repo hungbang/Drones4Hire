@@ -70,6 +70,9 @@ public class PaymentService
 		transactionService.createTransaction(projectPaymentTransaction);
 		wallet.setBalance(wallet.getBalance().add(trAmountWithoutFee));
 		walletService.updateWallet(wallet);
+
+		project.setStatus(Project.Status.COMPLETED);
+		projectService.updateProject(project);
 		return projectPaymentTransaction;
 	}
 }
