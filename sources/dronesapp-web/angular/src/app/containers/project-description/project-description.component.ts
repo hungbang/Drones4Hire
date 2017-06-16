@@ -9,6 +9,7 @@ import {CommentsService} from '../../services/comments.service/comments.service'
 import {ProjectAttachmentModel} from '../../services/project.service/project-attacment.interface';
 import {ProjectService} from "../../services/project.service/project.service";
 import * as moment from 'moment';
+import {PublicService} from "../../services/public.service/public.service";
 
 @Component({
   selector: 'project-description',
@@ -26,6 +27,8 @@ export class ProjectDescriptionComponent implements OnInit {
   public attachments: ProjectAttachmentModel[] = [];
   public similarProjects: ProjectModel[] = [];
   public pilotAttachments: ProjectAttachmentModel[] = [];
+
+  private _serverBidInfo;
 
   get isClient() {
     return this._accountService.isUserClient();
@@ -45,6 +48,7 @@ export class ProjectDescriptionComponent implements OnInit {
     private _bidService: BidService,
     private _commentsService: CommentsService,
     private _router: Router,
+    private _publicService: PublicService,
     private projectService: ProjectService
   ) { }
 
@@ -52,6 +56,7 @@ export class ProjectDescriptionComponent implements OnInit {
     const project = this._route.snapshot.parent.data['project'];
     const bids = this._route.snapshot.parent.data['bids'];
     const comments = this._route.snapshot.parent.data['comments'];
+    const bidInfo = this._route.snapshot.parent.data['bidInfo'];
 
     if (!project) {
       return this._router.navigate(['/']);
@@ -60,6 +65,9 @@ export class ProjectDescriptionComponent implements OnInit {
     this.project = project;
     this.bids = this._bidService.formatBidsToPreview(bids);
     this.comments = this._commentsService.formatCommentToPreview(comments);
+    this._serverBidInfo = bidInfo;
+
+    this.fetchClientFullName(this.project.clientId);
 
     if (this.project.attachments.length) {
       this.fetchAttachments();
@@ -69,21 +77,30 @@ export class ProjectDescriptionComponent implements OnInit {
       this.pilotBid = this.bids.pop();
     }
 
-    this.createBidsInfo(this.bids);
+    this.createBidsInfo(this._serverBidInfo);
     this.getSimilarProjects();
   }
 
-  createBidsInfo(bids) {
-    const bid = bids.reduce((maxBid, bid) =>
-      maxBid.amount < bid.amount ? bid : maxBid, {amount: 0});
+  fetchClientFullName(id: number) {
+    return this._publicService.getPublicAccount(id)
+      .subscribe((data) => {
+        this.project.client = data || {};
+      });
+  }
 
+  createBidsInfo(bidInfo, bid?) {
     const hours = moment(this.project.startDate, 'x').diff(moment(), 'hours');
     const days = Math.ceil(hours / 24);
+    let maxBid = bidInfo.bidsMax;
+
+    if (bid) {
+      maxBid = bid.amount > maxBid ? bid.amount : maxBid;
+    }
 
     this.bidsInfo = {
-      max: bid.amount,
+      max: maxBid,
       left: hours < 0 ? '-' : `${days} day(s) ${hours % 24} hour(s)`,
-      count: this.bids.length
+      count: bidInfo.bidsCount
     };
   }
 
@@ -130,7 +147,8 @@ export class ProjectDescriptionComponent implements OnInit {
       .subscribe((res) => {
         this.pilotBid = this._bidService.formatBidsToPreview([res])[0];
         this.bids.unshift(res);
-        this.createBidsInfo(this.bids);
+        this._serverBidInfo.bidsCount += 1;
+        this.createBidsInfo(this._serverBidInfo, this.pilotBid);
       });
   }
 

@@ -42,6 +42,7 @@ import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-pr
 import {PilotProjectsResolve} from './resolves/pilot-projects/pilot-projects.resolve';
 import {SProjectAddComponent} from './components/sections/s-project-add/s-project-add.component';
 import {SProjectEditComponent} from './components/sections/s-project-edit/s-project-edit.component';
+import {BidInfoResolve} from "./resolves/bid-info/bid-info";
 
 export const ROUTES: Routes = [
   {
@@ -229,7 +230,8 @@ export const ROUTES: Routes = [
         resolve: {
           project: ProjectResolve,
           bids: BidsResolve,
-          comments: CommentsResolve
+          comments: CommentsResolve,
+          bidInfo: BidInfoResolve
         },
         children: [
           {
