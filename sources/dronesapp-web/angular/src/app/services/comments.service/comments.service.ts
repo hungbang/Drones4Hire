@@ -2,16 +2,24 @@ import { Injectable } from '@angular/core';
 import {RequestService} from '../request.service/request.service';
 import {CommentModel} from './comment.interface';
 import {getFromObjectToObject} from "../../shared/common/common-methods";
+import {AccountService} from "../account.service/account.service";
 
 @Injectable()
 export class CommentsService {
   constructor(
-    private requestService: RequestService
+    private requestService: RequestService,
+    private accountService: AccountService
   ) { }
 
   formatCommentToPreview(comments) {
-    return comments.map((comment) =>
-      getFromObjectToObject(comment, 'account:firstName', 'account:lastName', 'id', 'comment', 'createdAt', 'account:photoURL'));
+    return comments.map((comment) => {
+      const newComment = getFromObjectToObject(comment, 'account:firstName', 'account:lastName', 'id', 'comment', 'createdAt', 'account:photoURL');
+
+      newComment.accountId = comment.account.id;
+      newComment.isPilot = this.accountService.isPilot(comment.account);
+
+      return newComment;
+    });
   }
 
   fetchComment(id: number|string) {

@@ -52,7 +52,7 @@
       <f-bid (send)="isEdit ? editBid($event) : submitBid($event)"
              [bid]="pilotBid"
              *ngIf="isPilot && !pilotBid || isEdit"></f-bid>
-      <b-comments (send)="send($event)" [comments]="comments"></b-comments>
+      <b-comments (send)="sendComment($event)" [comments]="comments"></b-comments>
     </div>
   </div>
   <div class="project-description__similar" *ngIf="similarProjects.length">

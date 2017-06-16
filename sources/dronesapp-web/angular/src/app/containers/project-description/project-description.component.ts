@@ -134,11 +134,12 @@ export class ProjectDescriptionComponent implements OnInit {
       });
   }
 
-  send({ comment, callback }) {
+  sendComment({ comment, callback }) {
     this._commentsService
       .createComment({ comment, projectId: this.project.id })
       .subscribe((res) => {
-        this.comments.push(res);
+        const comment = this._commentsService.formatCommentToPreview([res]);
+        this.comments.unshift(...comment);
         callback();
       });
   }

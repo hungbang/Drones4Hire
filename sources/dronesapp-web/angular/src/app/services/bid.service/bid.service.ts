@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {RequestService} from '../request.service/request.service';
-import {BidModel} from './bid.interface';
 import {getFromObjectToObject} from "../../shared/common/common-methods";
 
 @Injectable()
@@ -9,7 +8,7 @@ export class BidService {
   public countOfItemsSelection = [10, 20, 30];
 
   constructor(
-    private requestService: RequestService
+    private requestService: RequestService,
   ) {
 
   }
@@ -20,6 +19,7 @@ export class BidService {
 
       newBid.isConfirmationValid = true;
       newBid.oldBid = bid;
+      newBid.accountId = bid.account.id;
 
       return newBid;
     });

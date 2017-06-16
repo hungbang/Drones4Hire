@@ -3,8 +3,7 @@
   <div class="pr-bid__wrapper">
     <div class="pr-bid__left">
       <div class="pr-bid__user">
-        <a href="#">
-          <!-- todo wait to API implements img -->
+        <a class="pr-bid__photo-link" [routerLink]="['/profile/', bid.accountId]">
           <div class="pr-bid__photo" *ngIf="bid.photoURL; else elseBlock">
             <img class="pr-bid__photo-img" [src]="bid.photoURL" alt="user icon">
           </div>
@@ -18,9 +17,7 @@
       </div>
       <div class="pr-bid__propolsal">
         <div class="pr-bid__top">
-          <a href="#">
-            <p class="pr-bid__name">{{ bid.firstName }} {{ bid.lastName }}</p>
-          </a>
+          <a [routerLink]="['/profile/', bid.accountId]" class="pr-bid__name">{{ bid.firstName }} {{ bid.lastName }}</a>
         </div>
         <p>Proposal:</p>
         <p>{{ bid.comment }}</p>
@@ -30,7 +27,6 @@
       <div class="pr-bid__amount">Bid Amount:
         <span class="pr-bid__count">${{bid.amount|number:'1.2'}}</span>
       </div>
-      <!-- todo wait to API implements date-->
       <div class="pr-bid__age">Bid Age: {{ diff }} day(s)</div>
       <ng-content select="bid-buttons"></ng-content>
     </div>

@@ -1,9 +1,7 @@
 <ul class="l-comments">
   <li class="l-comments__item" *ngFor="let comment of comments">
     <div class="l-comments__left">
-
-      <a href="#" class="l-comments__link-img">
-        <!-- todo wait to API implements img -->
+      <a [routerLink]="comment.isPilot ? ['/profile/', comment.accountId] : []" class="l-comments__link-img" [ngClass]="{ _user: !comment.isPilot}">
         <div class="l-comments__photo" *ngIf="comment.photoURL; else elseBlock">
           <img class="l-comments__photo-img" [src]="comment.photoURL" alt="user icon">
         </div>
@@ -16,7 +14,9 @@
     </div>
     <div class="l-comments__right">
       <div class="l-comments__top">
-        <a class="l-comments__name">{{ comment.firstName }} {{ comment.lastName }}</a>
+        <a class="l-comments__name"
+           [ngClass]="{ _user: !comment.isPilot}"
+           [routerLink]="comment.isPilot ? ['/profile/', comment.accountId] : []">{{ comment.firstName }} {{ comment.lastName }}</a>
         <div class="l-comments__date">{{ comment.createdAt | date:'d/M/yy' }}</div>
       </div>
       <div class="l-comments__bottom">

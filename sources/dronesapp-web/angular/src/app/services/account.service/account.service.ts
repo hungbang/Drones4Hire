@@ -35,11 +35,15 @@ export class AccountService {
   }
 
   isUserPilot() {
-    if (!this.account) {
+    return this.isPilot(this.account);
+  }
+
+  isPilot(account) {
+    if (!account) {
       return false;
     }
 
-    return !!this.account.groups.find((group) => group.role === 'ROLE_PILOT');
+    return !!account.groups.find((group) => group.role === 'ROLE_PILOT');
   }
 
   getAccountData() {
