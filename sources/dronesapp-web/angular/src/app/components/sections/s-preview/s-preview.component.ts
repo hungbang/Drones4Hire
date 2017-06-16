@@ -12,6 +12,7 @@ export class SPreviewComponent implements OnInit {
   @Input() profile;
   @Input() showDescription = true;
   canEdit: boolean|null;
+  bgImage: string = './assets/img/bg-profile.jpg';
 
   constructor(
     public _accountService: AccountService,
