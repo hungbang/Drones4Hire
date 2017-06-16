@@ -34,16 +34,7 @@ export class BProjectFilesComponent implements OnInit {
 
   private fetchProjectFiles() {
     if (this.project && this.project.attachments && this.project.attachments.length) {
-      this.files = this.project.attachments.reduce((arr, el) => {
-        if (el.type = 'PROJECT_RESULTS') {
-          arr.push({
-            itemURL: el.attachmentURL,
-            title: el.title,
-            id: el.id
-          });
-          return arr;
-        }
-      }, []);
+      this.files = this.project.attachments.filter( attach => attach.type === 'PROJECT_RESULT' );
     }
   }
 

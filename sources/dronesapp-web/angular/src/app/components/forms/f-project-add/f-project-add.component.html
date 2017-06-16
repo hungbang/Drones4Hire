@@ -22,9 +22,7 @@
                  required
                  placeholder="What is the Project Title"
                  #projectTitleRef="ngModel"
-                 [ngClass]="{'_error': submitted && projectTitleRef.errors?.required}">
-          <span class="f-default__error"
-                *ngIf="submitted && projectTitleRef.errors?.required">This field is required</span>
+                 [ngClass]="{'_error': isSubmitted && projectTitleRef.errors?.required}">
         </label>
       </div>
     </div>
@@ -42,21 +40,20 @@
                   (ngModelChange)="selectService($event)"
                   required
                   #serviceRef="ngModel"
-                  [ngClass]="{'_error': submitted && serviceRef.errors?.required}">
-
+                  [ngClass]="{'_error': isSubmitted && serviceRef.errors?.required}">
+            <option [value]="null">Select your type of work</option>
             <option *ngFor="let service of services"
                     [value]="service.name">
               {{service.name}}
             </option>
           </select>
-          <span class="f-default__error"
-                *ngIf="submitted && serviceRef.errors?.required">This field is required</span>
         </label>
       </div>
     </div>
 
-    <div class="f-default__row _flex" *ngIf="service || formData.service.name">
+    <div class="f-default__row _flex" *ngIf="formData.service.category.name">
       <div class="f-default__col">
+        <div class="f-project-add__caption">What service do you require?</div>
       </div>
       <div class="f-default__col">
         <label class="f-default__label _select">
@@ -66,15 +63,13 @@
                   (ngModelChange)="selectCategory($event)"
                   required
                   #categoryRef="ngModel"
-                  [ngClass]="{'_error': submitted && categoryRef.errors?.required}">
-
+                  [ngClass]="{'_error': isSubmitted && categoryRef.errors?.required}">
+            <option [value]="null">Select your service</option>
             <option *ngFor="let category of categories"
                     [value]="category.name">
               {{category.name}}
             </option>
           </select>
-          <span class="f-default__error"
-                *ngIf="submitted && categoryRef.errors?.required">This field is required</span>
         </label>
       </div>
     </div>
@@ -98,9 +93,7 @@
                     required
                     placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
                     #projectSummaryRef="ngModel"
-                    [ngClass]="{'_error': submitted && projectSummaryRef.errors?.required}"></textarea>
-            <span class="f-default__error"
-                  *ngIf="submitted && projectSummaryRef.errors?.required">This field is required</span>
+                    [ngClass]="{'_error': isSubmitted && projectSummaryRef.errors?.required}"></textarea>
           </label>
 
           <div class="f-default__col f-project-add__col">
@@ -173,16 +166,14 @@
                     #budgetRef="ngModel"
                     (ngModelChange)="selectBudget($event)"
                     required
-                    [ngClass]="{'_error': submitted && budgetRef.errors?.required}"
+                    [ngClass]="{'_error': isSubmitted && budgetRef.errors?.required}"
                     name="budget">
-
+              <option [value]="null">Select your budget</option>
               <option *ngFor="let budget of budgets"
                       [value]="budget.title">
-                {{budget.title}}
+                ${{budget.min}}-${{budget.max}}
               </option>
             </select>
-            <span class="f-default__error"
-                  *ngIf="submitted && budgetRef.errors?.required">This field is required</span>
           </label>
         </div>
       </div>
@@ -200,15 +191,13 @@
                   (ngModelChange)="selectCountry($event)"
                   required
                   #countryRef="ngModel"
-                  [ngClass]="{'_error': submitted && countryRef.errors?.required}">
-
+                  [ngClass]="{'_error': isSubmitted && countryRef.errors?.required}">
+            <option [value]="null">Select your country</option>
             <option *ngFor="let option of countries"
                     [value]="option.name">
               {{option.name}}
             </option>
           </select>
-          <span class="f-default__error"
-                *ngIf="submitted && countryRef.errors?.required">This field is required</span>
         </label>
       </div>
     </div>
@@ -219,21 +208,20 @@
       </div>
 
       <div class="f-default__col">
-        <label class="f-default__label">
-          <select class="f-default__field _select"
+        <label class="f-default__label _select">
+          <select class="f-default__field"
                   name="state"
                   [(ngModel)]="formData.location.state.name"
                   (ngModelChange)="selectState($event)"
-                  required=""
+                  required
                   #stateRef="ngModel"
-                  [ngClass]="{'_error': submitted && stateRef.errors?.required}">
-
+                  [ngClass]="{'_error': isSubmitted && stateRef.errors?.required}">
+            <option [value]="null">Select your state</option>
             <option *ngFor="let option of states"
                     [value]="option.name">
               {{option.name}}
             </option>
           </select>
-          <span class="f-default__error" *ngIf="submitted && stateRef.errors?.required">This field is required</span>
         </label>
       </div>
     </div>
@@ -294,14 +282,13 @@
                   (ngModelChange)="selectDuration($event)"
                   required
                   #durationRef="ngModel"
-                  [ngClass]="{'_error': submitted && durationRef.errors?.required}">
-
+                  [ngClass]="{'_error': isSubmitted && durationRef.errors?.required}">
+            <option [value]="null">Select expection duration</option>
             <option *ngFor="let duration of durations"
                     [value]="duration.title">
               {{duration.title}}
             </option>
           </select>
-          <span class="f-default__error" *ngIf="submitted && stateRef.errors?.required">This field is required</span>
         </label>
       </div>
     </div>
