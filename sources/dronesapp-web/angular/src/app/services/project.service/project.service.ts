@@ -85,13 +85,16 @@ export class ProjectService {
 
       const pilotAttechments = project.attachments.filter((project) => project.type === 'PROJECT_RESULT');
 
+      const paymentCreated = this._transactionService.getClientToDroneTransaction(data.transactions);
+      const paymentReleased = this._transactionService.getDroneToPilotTransaction(data.transactions);
+
       return {
         id: project.id,
         name: project.title,
         bidPlaced: this.getBidPlaced(data),
         awardedDate: this.getAwardedDate(data),
-        paymentCreated: this.getAwardedDate(data),
-        paymentReleased: null,
+        paymentCreated: paymentCreated && paymentCreated.createdAt,
+        paymentReleased: paymentReleased && paymentReleased.createdAt,
         bidsCount: data.bidsCount,
         pilotId: data.pilot && data.pilot.id || null,
 
