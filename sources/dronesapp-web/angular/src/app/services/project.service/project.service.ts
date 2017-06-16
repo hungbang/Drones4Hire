@@ -60,8 +60,11 @@ export class ProjectService {
       const bid = data.bids[0];
       const client = data.client;
 
-      const paymentCreated = this._transactionService.getClientToDroneTransaction(data.transactions);
-      const paymentReleased = this._transactionService.getDroneToPilotTransaction(data.transactions);
+      let paymentCreated = this._transactionService.getClientToDroneTransaction(data.transactions);
+      paymentCreated = this._transactionService.getLastTransaction(paymentCreated);
+
+      let paymentReleased = this._transactionService.getDroneToPilotTransaction(data.transactions);
+      paymentReleased = this._transactionService.getLastTransaction(paymentReleased);
 
       return {
         id: project.id,

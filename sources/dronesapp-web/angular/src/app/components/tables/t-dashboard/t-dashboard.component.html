@@ -79,7 +79,7 @@
       <span *ngIf="item.status === 'CANCELLED'">Cancel</span>
     </td>
     <td class="t-dashboard__td">
-      <span *ngIf="item.currentPilotId === item.pilotId && item.status === 'IN_PROGRESS'">
+      <span *ngIf="item.currentPilotId === item.pilotId && (item.status === 'IN_PROGRESS' || item.status === 'COMPLETED')">
         {{item.paymentCreated | date:'d/M/yy'}}
       </span>
     </td>
