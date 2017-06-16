@@ -64,8 +64,8 @@
   <tr *ngFor="let item of projects">
     <td class="t-dashboard__td _name">
       <a class="t-dashboard__link-name"
-         [ngClass]="{ _inactive: item.status === 'CANCELLED' || item.currentPilotId !== item.pilotId }"
-         [routerLink]="(item.status === 'CANCELLED' || item.currentPilotId !== item.pilotId) ? [] : ['/project/', item.id]">
+         [ngClass]="{ _inactive: item.status === 'CANCELLED' || item.pilotId && item.currentPilotId !== item.pilotId }"
+         [routerLink]="(item.status === 'CANCELLED' || item.pilotId && item.currentPilotId !== item.pilotId) ? [] : ['/project/', item.id]">
         <span class="t-dashboard__project-name">{{item.name}} /</span>
         <span class="t-dashboard__project-name">{{item.fullName}}</span>
       </a>
