@@ -18,8 +18,15 @@
     <div class="t-project__cell _bid-end">{{ project.bidEndDate | date:'yyyy-MM-dd' }}</div>
     <div class="t-project__cell _action">
       <div class="t-project__actions">
-        <svg-use name="note" title="Edit" class="t-project__action _line"></svg-use>
-        <svg-use name="cancel" title="Cancel" class="t-project__action"></svg-use>
+        <a [routerLink]="['/project', 'manage', 'edit', project.id]" class="t-project__action">
+          <svg-use name="note" title="Edit" class="t-project__action _line"></svg-use>
+        </a>
+        <span class="t-project__action-separator"></span>
+        <button type="button"
+                (click)="onCancel(project)"
+                class="t-project__action">
+          <svg-use name="cancel" title="Cancel" class="t-project__action"></svg-use>
+        </button>
       </div>
     </div>
   </div>

@@ -6,6 +6,7 @@ import {RequestService} from '../request.service/request.service';
 import {ProjectAttachmentModel} from './project-attacment.interface';
 import * as moment from 'moment';
 import {AccountService} from "../account.service/account.service";
+import {TransactionService} from "../transaction.service/transaction.service";
 
 @Injectable()
 export class ProjectService {
@@ -21,7 +22,8 @@ export class ProjectService {
 
   constructor(
     private _requestService: RequestService,
-    private _accountService: AccountService
+    private _accountService: AccountService,
+    private _transactionService: TransactionService
   ) {
   }
 
@@ -57,14 +59,17 @@ export class ProjectService {
       const bid = data.bids[0];
       const client = data.client;
 
+      const paymentCreated = this._transactionService.getClientToDroneTransaction(data.transactions);
+      const paymentReleased = this._transactionService.getDroneToPilotTransaction(data.transactions);
+
       return {
         id: project.id,
         fullName: `${client.firstName} ${client.lastName}`,
         name: project.title,
         bidPlaced: bid.createdAt,
         awardedDate: this.getAwardedDate(data),
-        paymentCreated: this.getAwardedDate(data),
-        paymentReleased: null,
+        paymentCreated: paymentCreated && paymentCreated.createdAt,
+        paymentReleased: paymentReleased && paymentReleased.createdAt,
         status: project.status,
         amountPaid: bid.amount,
         pilotId: data.pilot && data.pilot.id,
@@ -90,7 +95,8 @@ export class ProjectService {
         pilotId: data.pilot && data.pilot.id || null,
 
         attachmentLength: pilotAttechments.length,
-        status: project.status
+        status: project.status,
+        bidId: this.getBidId(data)
       };
     });
   }
@@ -103,12 +109,23 @@ export class ProjectService {
     return data.project.awardDate;
   }
 
-  getBidPlaced(data) {
-    if (data.pilot) {
-      const pilotId = data.pilot.id;
-      const bid = data.bids.find((bid) => bid.user.id === pilotId);
+  getBidId(data) {
+    const bid = this.getBidFromPilot(data.pilot, data.bids);
 
-      return bid.createdAt;
+    return bid ? bid.id : null;
+  }
+
+  getBidPlaced(data) {
+    const bid = this.getBidFromPilot(data.pilot, data.bids);
+
+    return bid ? bid.createdAt : null;
+  }
+
+  getBidFromPilot(pilot, bids) {
+    if (pilot) {
+      const pilotId = pilot.id;
+
+      return bids.find((bid) => bid.user.id === pilotId);
     }
 
     return null;
@@ -186,7 +203,7 @@ export class ProjectService {
       out.push(location.postcode);
     }
 
-    return out.join(', ')
+    return out.join(', ');
   }
 
   getPaidOptions() {
@@ -218,6 +235,10 @@ export class ProjectService {
     return this._requestService.fetch('post', '/projects', data);
   }
 
+  public updateProject(data: any) {
+    return this._requestService.fetch('put', '/projects', data);
+  }
+
   public getProject(id: string|number) {
     return this._requestService.fetch('get', `/projects/${id}`);
   }
@@ -228,5 +249,9 @@ export class ProjectService {
 
   public deleteAttachment(id: number) {
     return this._requestService.fetch('remove', `/projects/results/${id}`);
+  }
+
+  public cancelProject(id: number) {
+    return this._requestService.fetch('post', `/projects/${id}/cancel`);
   }
 }

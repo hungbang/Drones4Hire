@@ -21,5 +21,7 @@ export interface ProjectModel {
   postProductionRequired: boolean;
   id?: number;
   bidId?: number;
+  clientId?: number;
+  client?: any;
   attachments?: ProjectAttachmentModel[];
 }

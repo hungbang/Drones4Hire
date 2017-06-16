@@ -31,11 +31,14 @@ export class TDashboardComponent implements OnInit {
     return this._accountService.isUserPilot();
   }
 
-  release(project, event) {
+  release(bidId, isFiles, event) {
     event.preventDefault();
-    // this._paymentService.releasePayment(project.id)
-    //   .subscribe((data) => {
-    //     console.log(data);
-    //   });
+
+    if (isFiles) {
+      this._paymentService.releasePayment(bidId)
+        .subscribe((data) => {
+          console.log(data);
+        });
+    }
   }
 }

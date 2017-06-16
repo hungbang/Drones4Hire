@@ -198,6 +198,14 @@ export class TransactionService {
     this.updatePagesCount();
   }
 
+  getClientToDroneTransaction(transactions) {
+    return transactions.find((transaction) => transaction.type === 'PROJECT_PAYMENT');
+  }
+
+  getDroneToPilotTransaction(transactions) {
+    return transactions.find((transaction) => transaction.type === 'PAYMENT_RELEASED');
+  }
+
   get getTransactions() {
     this.sortBy(this.defaultSort, this.defaultDirection);
     return this.local.transactions;

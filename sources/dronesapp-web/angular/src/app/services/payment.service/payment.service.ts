@@ -23,8 +23,8 @@ export class PaymentService {
     this.amount = 3603.44;
   }
 
-  releasePayment(id) {
-    return this._requestService.fetch('post', `/payments/${id}`);
+  releasePayment(bidId) {
+    return this._requestService.fetch('post', `/payments/release/${bidId}`);
   }
 
 }

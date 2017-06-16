@@ -1,15 +1,26 @@
+@import '../../../styles/settings/variables.styl'
 @import '../../../styles/settings/mixin.styl'
 
 .f-project-add
   position: relative
   padding-left: 165px;
   padding-top: 58px;
+  &__row
+    display: flex
   &__col
     padding-left: 4px
     padding-right: 4px
+    &._attachment
+      max-width: 50%
+      flex-basis: 50%
+    &._area
+      display: flex
+      align-items: stretch
   .f-default
     &__row
       margin-top: 30px
+      &._attachment
+        margin-top: 0
     &__title
       osans(400)
       font-size: 2.7rem
@@ -26,8 +37,6 @@
     &__field
       max-width none
       flex-basis auto
-      &._area
-        height: 100%
     &__text
       font-size 16px
       margin-bottom: 20px
@@ -114,8 +123,11 @@
     margin-right: 0
   &__paidoption
     max-width 30%
+    flex-basis: 33%
     box-shadow: 0 1px 5px 0 #b8b8b8
     border-radius: 5px
+    &-title
+      white-space: nowrap
     &-wrapper
       display: flex
       flex-direction: column
@@ -147,6 +159,28 @@
     font-size 1.6rem
     &._error
       color red
+
+  &__files
+    &-list
+      display flex
+      flex-direction column
+      max-width 100%
+    &-item
+      padding 8px 10px
+      display flex
+      align-items flex-end
+      &:not(:last-child)
+        border-bottom 1px solid $gray1f
+    &-text
+      font-size: 1.8rem
+      color: #8a8a8a
+      margin-right 10px
+    &-button
+      margin-left auto
+      .svg-rubbish-bin
+        width 24px
+        height 24px
+        fill $gray1f
 
   @media(max-width: 1600px)
     padding: 0 100px 0 140px

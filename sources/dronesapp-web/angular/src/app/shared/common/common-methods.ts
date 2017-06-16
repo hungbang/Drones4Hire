@@ -64,7 +64,7 @@ export function deleteNullOrNaN(obj, field) {
   }
 }
 
-export function getFromObjectToObject(obj, ...keys) {
+export function getFromObjectToObject(obj, ...keys): any {
   const result = {};
 
   keys.forEach((key) => {

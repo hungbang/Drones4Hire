@@ -39,8 +39,9 @@
     </td>
     <td class="t-dashboard__td">
       <a class="t-dashboard__link"
+         href="#"
          [ngClass]="{ _inactive: !project.attachmentLength || project.status === 'COMPLETED' }"
-         (click)="release(project, $event)">
+         (click)="release(project.bidId, !!project.attachmentLength || !project.releasePayment, $event)">
         RELEASE PAYMENT
       </a>
     </td>
@@ -71,18 +72,25 @@
     </td>
     <td class="t-dashboard__td">
       <span *ngIf="item.status !== 'CANCELLED' && item.currentPilotId === item.pilotId">{{item.awardedDate | date:'d/M/yy'}}</span>
-      <span *ngIf="item.currentPilotId !== item.pilotId && item.status !== 'CANCELLED'">Other pilot<br>hired</span>
+      <span *ngIf="!!item.pilotId && item.currentPilotId !== item.pilotId && item.status !== 'CANCELLED'">Other pilot<br>hired</span>
       <span *ngIf="item.status === 'CANCELLED'">Cancell</span>
     </td>
-    <td class="t-dashboard__td">{{item.paymentCreated | date:'d/M/yy'}}</td>
+    <td class="t-dashboard__td">
+      <span *ngIf="item.currentPilotId === item.pilotId && item.status === 'IN_PROGRESS'">
+        {{item.paymentCreated | date:'d/M/yy'}}
+      </span>
+    </td>
     <td class="t-dashboard__td">
       <a class="t-dashboard__link"
-         [ngClass]="{ _inactive: item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' }"
+         *ngIf="item.currentPilotId === item.pilotId"
+         [ngClass]="{ _inactive: item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' || item.pilotId !== item.currentPilotId || !item.paymentCreated }"
          [routerLink]="['/project/', item.id, 'files']">
         UPLOAD<br>IMAGES/DATA
       </a>
     </td>
     <td class="t-dashboard__td">{{item.paymentReleased | date:'d/M/yy'}}</td>
-    <td class="t-dashboard__td">{{item.amountPaid}}</td>
+    <td class="t-dashboard__td">
+      <span *ngIf="item.status !== 'NEW' && item.status !== 'CANCELLED' && item.status !== 'PENDING' && item.currentPilotId === item.pilotId">{{item.amountPaid}}</span>
+    </td>
   </tr>
 </table>

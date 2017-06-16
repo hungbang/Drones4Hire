@@ -64,6 +64,8 @@
       position: relative
       select
         padding-right: 40px
+        &._error
+          border-color red
       &:after
         pointer-events: none
         v()
@@ -106,7 +108,6 @@
     width: 100%
     max-width 500px
     flex-basis: 400px
-    height: 5rem
     background #fff
     border-radius 5px
     padding 0 15px
@@ -115,15 +116,14 @@
     color #4d4d4f
     border: 2px solid #e4e4e4
     transition: border-color .3s
-    &[type="text"]
-      text-transform: capitalize
+    &:not(textarea)
+      height: 5rem
     &[placeholder]._error
       border-color: red
     &::placeholder
       color #8f8f8f
       font-weight: 300
     &._area
-      height 200px
       padding 10px 15px
     &._file
       background none
