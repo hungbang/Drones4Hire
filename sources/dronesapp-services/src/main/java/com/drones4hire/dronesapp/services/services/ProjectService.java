@@ -5,9 +5,12 @@ import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,15 @@ public class ProjectService
 	
 	@Autowired
 	private AttachmentService attachmentService;
+
+	@Autowired
+	private WalletService walletService;
+
+	@Autowired
+	private TransactionService transactionService;
+
+	@Autowired
+	private PaidOptionService paidOptionService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Project createProject(Project project)
@@ -106,6 +118,32 @@ public class ProjectService
 	public Project updateProject(Project project)
 	{
 		locationService.updateLocation(project.getLocation());
+		Project dbProject = projectMapper.getProjectById(project.getId());
+		List<PaidOption> newPaidOptions = new ArrayList<>();
+		Transaction transaction = null;
+		for(PaidOption paidOption: project.getPaidOptions())
+		{
+			paidOption = paidOptionService.getPaidOptionById(paidOption.getId());
+			if(! dbProject.getPaidOptions().contains(paidOption))
+			{
+				transaction = new Transaction();
+				transaction.setCurrency(paidOption.getCurrency());
+				transaction.setPurpose("Add paid option '" + paidOption.getTitle() + "'");
+				transaction.setStatus(Transaction.Status.COMPLETED);
+				transaction.setProjectId(project.getId());
+				transaction.setType(Transaction.Type.PAID_OPTION);
+				transaction.setAmount(paidOption.getPrice());
+				transaction.setWalletId(walletService.getWalletByUserId(dbProject.getClientId()).getId());
+				transactionService.createTransaction(transaction);
+				newPaidOptions.add(paidOption);
+			}
+		}
+		if(newPaidOptions.size() != 0)
+		{
+			createProjectPaidOption(project.getId(), newPaidOptions);
+		}
+		dbProject.getPaidOptions().addAll(newPaidOptions);
+		project.setPaidOptions(dbProject.getPaidOptions());
 		projectMapper.updateProject(project);
 		return project;
 	}

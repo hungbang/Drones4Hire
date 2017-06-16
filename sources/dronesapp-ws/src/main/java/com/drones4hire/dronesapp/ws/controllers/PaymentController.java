@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.PaymentService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
@@ -22,15 +23,15 @@ public class PaymentController extends AbstractController
 	private PaymentService paymentService;
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Release payment", nickname = "releasePayment", code = 201, httpMethod = "POST")
+	@ApiOperation(value = "Release payment", nickname = "releasePayment", code = 201, httpMethod = "POST", response = Transaction.class)
 	@ApiImplicitParams(
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(value = "release/{bidId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void releasePayment(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "bidId") long bidId)
+	public @ResponseBody Transaction releasePayment(@ApiParam(value = "Id of the bid", required = true) @PathVariable(value = "bidId") long bidId)
 			throws ServiceException
 	{
-		paymentService.releasePayment(bidId, getPrincipal().getId());
+		return paymentService.releasePayment(bidId, getPrincipal().getId());
 	}
 }

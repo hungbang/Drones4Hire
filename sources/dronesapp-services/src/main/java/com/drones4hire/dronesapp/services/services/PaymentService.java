@@ -33,7 +33,7 @@ public class PaymentService
 	private FeeService feeService;
 
 	@Transactional(rollbackFor = Exception.class)
-	public void releasePayment(Long bidId, Long principalId) throws ServiceException
+	public Transaction releasePayment(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidService.getBidById(bidId);
 		if (bid == null)
@@ -62,7 +62,7 @@ public class PaymentService
 		Transaction projectPaymentTransaction = new Transaction();
 		projectPaymentTransaction.setWalletId(wallet.getId());
 		projectPaymentTransaction.setAmount(trAmountWithoutFee);
-		projectPaymentTransaction.setType(Transaction.Type.PROJECT_PAYMENT);
+		projectPaymentTransaction.setType(Transaction.Type.PAYMENT_RELEASED);
 		projectPaymentTransaction.setProjectId(bid.getProjectId());
 		projectPaymentTransaction.setStatus(Transaction.Status.COMPLETED);
 		projectPaymentTransaction.setPurpose("Project payment");
@@ -70,5 +70,6 @@ public class PaymentService
 		transactionService.createTransaction(projectPaymentTransaction);
 		wallet.setBalance(wallet.getBalance().add(trAmountWithoutFee));
 		walletService.updateWallet(wallet);
+		return projectPaymentTransaction;
 	}
 }
