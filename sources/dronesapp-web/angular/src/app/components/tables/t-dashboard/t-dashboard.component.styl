@@ -33,13 +33,13 @@
     width: 15%
     vertical-align: middle
     osans(400)
-    word-break: break-all
     text-transform: uppercase
     border-bottom 1px solid #b7b7b7
     letter-spacing: 2px
     color: #454545
     border-bottom: 1px solid #d3d3d3
     &._name
+      word-break: break-all
       width: 25%
     .t-dashboard._pilot &
       width: 11%
@@ -54,6 +54,8 @@
       color #454545
       display: inline-block
       font-weight: 600
+      &._inactive
+        cursor: default
     ._client &
       &-review
         color #397eb9

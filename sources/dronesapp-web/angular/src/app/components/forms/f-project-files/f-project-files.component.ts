@@ -82,8 +82,8 @@ export class FProjectFilesComponent implements OnInit {
     };
     this.projectService.addAttachment(attachment)
       .subscribe(
-        () => {
-          this.fileAttached.emit(attachment);
+        (receivedAttachment) => {
+          this.fileAttached.emit(receivedAttachment);
           this.resetForm(form);
         },
         err => {
