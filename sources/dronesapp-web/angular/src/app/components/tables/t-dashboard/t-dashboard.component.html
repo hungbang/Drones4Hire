@@ -77,12 +77,14 @@
     <td class="t-dashboard__td">{{item.paymentCreated | date:'d/M/yy'}}</td>
     <td class="t-dashboard__td">
       <a class="t-dashboard__link"
-         [ngClass]="{ _inactive: item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' }"
+         [ngClass]="{ _inactive: item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' || item.pilotId !== item.currentPilotId }"
          [routerLink]="['/project/', item.id, 'files']">
         UPLOAD<br>IMAGES/DATA
       </a>
     </td>
     <td class="t-dashboard__td">{{item.paymentReleased | date:'d/M/yy'}}</td>
-    <td class="t-dashboard__td">{{item.amountPaid}}</td>
+    <td class="t-dashboard__td">
+      <span *ngIf="item.status !== 'NEW' && item.status !== 'CANCELLED' && item.status !== 'PENDING' && item.currentPilotId === item.pilotId">{{item.amountPaid}}</span>
+    </td>
   </tr>
 </table>
