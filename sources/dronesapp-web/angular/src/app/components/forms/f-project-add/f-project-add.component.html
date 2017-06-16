@@ -277,7 +277,7 @@
     </div>
     <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-project-add__caption">Expection duration of flight</div>
+        <div class="f-project-add__caption">Expection duration of flight (hours)</div>
       </div>
       <div class="f-default__col">
         <label class="f-default__label _select">
@@ -331,7 +331,7 @@
                    name="projectFeatured"
                    [checked]="paidOptionsChecked[i]"
                    (change)="selectPaidOption($event.target.checked, paidOption)"/>
-            <span class="f-default__chk">{{ paidOption.title }}</span>
+            <span class="f-default__chk f-project-add__paidoption-title">{{ paidOption.title }}</span>
           </label>
           <p class="f-default__text f-project-add__text">{{ paidOption.description }}</p>
           <div class="f-default__price f-project-add__price">${{ paidOption.price }}.00</div>
