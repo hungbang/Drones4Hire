@@ -276,7 +276,7 @@
     </div>
     <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-project-add__caption">Expection duration of flight (hours)</div>
+        <div class="f-project-add__caption">Expected duration of flight (hours)</div>
       </div>
       <div class="f-default__col">
         <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.duration.title}">
@@ -287,7 +287,7 @@
                   required
                   #durationRef="ngModel"
                   [ngClass]="{'_error': isSubmitted && durationRef.errors?.required}">
-            <option [value]="null">Select expection duration</option>
+            <option [value]="null">Select expected duration</option>
             <option *ngFor="let duration of durations"
                     [value]="duration.title">
               {{duration.title}}
