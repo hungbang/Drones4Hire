@@ -51,11 +51,16 @@ public class PublicController extends AbstractController
 			ServiceException
 	{
 		User user = userService.getUserById(id);
-		if(! user.getRoles().contains(ROLE_PILOT))
+		if(user.getRoles().contains(ROLE_PILOT))
 		{
-			throw new ForbiddenOperationException();
+			return mapper.map(user, AccountDTO.class);
+		} else {
+			AccountDTO account = new AccountDTO();
+			account.setFirstName(user.getFirstName());
+			account.setLastName(user.getLastName());
+			return account;
 		}
-		return mapper.map(user, AccountDTO.class);
+		
 	}
 
 	@ResponseStatusDetails
