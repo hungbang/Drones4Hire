@@ -70,6 +70,8 @@ public class AttachmentService
 			{
 				throw new ForbiddenOperationException();
 			}
+		} else {
+			throw new ForbiddenOperationException();
 		}
 	}
 }

@@ -228,7 +228,8 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
-	@Secured({"ROLE_PILOT"})
+//	TODO: Need new endpoint to edit attachment for client
+//	@Secured({"ROLE_PILOT"})
 	@RequestMapping(value = "results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AttachmentDTO uploadAttachment(@Valid @RequestBody AttachmentDTO attachmentDTO) throws ServiceException
 	{
