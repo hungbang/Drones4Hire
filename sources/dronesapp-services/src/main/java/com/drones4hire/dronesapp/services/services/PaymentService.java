@@ -41,7 +41,8 @@ public class PaymentService
 			throw new ServiceException("Bid with id: " + bidId + " not found.");
 		}
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		if (!project.getClientId().equals(principalId) || !project.getPilotId().equals(bid.getUser().getId()))
+		if (!project.getClientId().equals(principalId) || !project.getPilotId().equals(bid.getUser().getId())
+				|| !project.getStatus().equals(Project.Status.IN_PROGRESS))
 		{
 			throw new ForbiddenOperationException();
 		}
