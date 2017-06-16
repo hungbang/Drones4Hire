@@ -9,21 +9,24 @@
   </tr>
   <tr *ngFor="let project of projects">
     <td class="t-dashboard__td _name">
-      <a class="t-dashboard__link-name" href="#" [routerLink]="['/project/', project.id]">
+      <a class="t-dashboard__link-name" href="#" [routerLink]="project.status === 'CANCELLED' ? [] : ['/project/', project.id]">
         <span class="t-dashboard__project-name">{{project.name}}</span>
       </a>
     </td>
 
     <td class="t-dashboard__td">
-      <a class="t-dashboard__link" *ngIf="project.bidsCount > 0 && !project.pilotId" href="#" [routerLink]="['/project/', project.id]">
+      <a class="t-dashboard__link" *ngIf="project.status !== 'CANCELLED' && project.bidsCount > 0 && !project.pilotId" href="#" [routerLink]="['/project/', project.id]">
         Review Bids
       </a>
       <span *ngIf="project.pilotId">{{project.bidPlaced | date:'d/M/yy'}}</span>
     </td>
 
     <td class="t-dashboard__td">
-      <span *ngIf="project.awardedDate">
+      <span *ngIf="project.awardedDate && project.status !== 'CANCELLED'">
         {{ project.awardedDate | date:'d/M/yy' }}
+      </span>
+      <span *ngIf="project.status === 'CANCELLED'">
+        Cancel
       </span>
     </td>
     <td class="t-dashboard__td">
@@ -33,15 +36,15 @@
       <span *ngIf="project.attachmentLength">{{ project.awardedDate | date:'d/M/yy' }}</span>
     </td>
     <td class="t-dashboard__td">
-      <a class="t-dashboard__link" *ngIf="project.attachmentLength" [routerLink]="['/project/', project.id, 'files']">
+      <a class="t-dashboard__link" *ngIf="project.attachmentLength || project.paymentReleased" [routerLink]="['/project/', project.id, 'files']">
         View files
       </a>
     </td>
     <td class="t-dashboard__td">
       <a class="t-dashboard__link"
          href="#"
-         [ngClass]="{ _inactive: !project.attachmentLength || project.status === 'COMPLETED' }"
-         (click)="release(project.bidId, !!project.attachmentLength || !project.releasePayment, $event)">
+         [ngClass]="{ _inactive: !project.attachmentLength || project.paymentReleased }"
+         (click)="release(project, !!project.attachmentLength || !project.paymentReleased, $event)">
         RELEASE PAYMENT
       </a>
     </td>
@@ -61,8 +64,8 @@
   <tr *ngFor="let item of projects">
     <td class="t-dashboard__td _name">
       <a class="t-dashboard__link-name"
-         (click)="(item.status === 'CANCELLED' || item.currentPilotId !== item.pilotId) && $event.preventDefault()"
-         [routerLink]="['/project/', item.id]">
+         [ngClass]="{ _inactive: item.status === 'CANCELLED' || item.currentPilotId !== item.pilotId }"
+         [routerLink]="(item.status === 'CANCELLED' || item.currentPilotId !== item.pilotId) ? [] : ['/project/', item.id]">
         <span class="t-dashboard__project-name">{{item.name}} /</span>
         <span class="t-dashboard__project-name">{{item.fullName}}</span>
       </a>
@@ -73,7 +76,7 @@
     <td class="t-dashboard__td">
       <span *ngIf="item.status !== 'CANCELLED' && item.currentPilotId === item.pilotId">{{item.awardedDate | date:'d/M/yy'}}</span>
       <span *ngIf="!!item.pilotId && item.currentPilotId !== item.pilotId && item.status !== 'CANCELLED'">Other pilot<br>hired</span>
-      <span *ngIf="item.status === 'CANCELLED'">Cancell</span>
+      <span *ngIf="item.status === 'CANCELLED'">Cancel</span>
     </td>
     <td class="t-dashboard__td">
       <span *ngIf="item.currentPilotId === item.pilotId && item.status === 'IN_PROGRESS'">
@@ -84,13 +87,17 @@
       <a class="t-dashboard__link"
          *ngIf="item.currentPilotId === item.pilotId"
          [ngClass]="{ _inactive: item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' || item.pilotId !== item.currentPilotId || !item.paymentCreated }"
-         [routerLink]="['/project/', item.id, 'files']">
+         [routerLink]="item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' || item.pilotId !== item.currentPilotId || !item.paymentCreated ? [] : ['/project/', item.id, 'files']">
         UPLOAD<br>IMAGES/DATA
       </a>
     </td>
-    <td class="t-dashboard__td">{{item.paymentReleased | date:'d/M/yy'}}</td>
     <td class="t-dashboard__td">
-      <span *ngIf="item.status !== 'NEW' && item.status !== 'CANCELLED' && item.status !== 'PENDING' && item.currentPilotId === item.pilotId">{{item.amountPaid}}</span>
+      <span *ngIf="item.pilotId === item.currentPilotId">
+        {{item.paymentReleased | date:'d/M/yy'}}
+      </span>
+    </td>
+    <td class="t-dashboard__td">
+      <span *ngIf="item.status !== 'NEW' && item.status !== 'CANCELLED' && item.status !== 'PENDING' && item.currentPilotId === item.pilotId">${{item.amountPaid}}</span>
     </td>
   </tr>
 </table>

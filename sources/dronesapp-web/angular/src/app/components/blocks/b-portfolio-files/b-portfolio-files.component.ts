@@ -26,5 +26,4 @@ export class BPortfolioFilesComponent implements OnInit {
   deletePortfolio(id: number) {
     this.portfolioService.deletePortfolio(id);
   }
-
 }

@@ -10,6 +10,7 @@ import {ProjectAttachmentModel} from '../../services/project.service/project-att
 import {ProjectService} from "../../services/project.service/project.service";
 import * as moment from 'moment';
 import {PublicService} from "../../services/public.service/public.service";
+import {TransactionService} from "../../services/transaction.service/transaction.service";
 
 @Component({
   selector: 'project-description',
@@ -49,7 +50,8 @@ export class ProjectDescriptionComponent implements OnInit {
     private _commentsService: CommentsService,
     private _router: Router,
     private _publicService: PublicService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private _transactionService: TransactionService
   ) { }
 
   ngOnInit() {
@@ -120,7 +122,9 @@ export class ProjectDescriptionComponent implements OnInit {
     if (isProgress) { return; }
 
     this._bidService.accept(id)
-      .subscribe(() => {});
+      .subscribe((data) => {
+        this.project.status = 'IN_PROGRESS';
+      });
   }
 
   rejectFromPilot(id: number, isProgress: boolean) {
