@@ -34,7 +34,7 @@ DronesAdmin.controller('PaidOptionController', [ '$scope', '$http', '$route', '$
 				};
 				
 				$scope.cancel = function(){
-					$modalInstance.close(false);
+					$modalInstance.close(true);
 				};
 			}
 		}).result.then(function(status) {

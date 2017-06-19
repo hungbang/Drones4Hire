@@ -26,11 +26,14 @@
 		</div>
 		<div class="form-group">
 			<label>Price</label> 
-			<input type="text" class="form-control" data-ng-model="option.price" required></input>
+			<input type="number" class="form-control" data-ng-model="option.price" required></input>
 		</div>
 		<div class="form-group">
 			<label>Currency</label> 
-			<input type="text" class="form-control" data-ng-model="option.currency" required></input>
+			<select class="form-control" data-ng-model="option.currency" required>
+				<option value="USD">USD</option> 
+			    <option value="EUR">EUR</option> 
+			</select>
 		</div>
 	</form>
 </div>
