@@ -17,7 +17,7 @@ DronesAdmin.controller('PaidOptionController', [ '$scope', '$http', '$route', '$
 			templateUrl : 'resources/templates/paidoption/editPaidOptionModal.jsp',
 			resolve : {
 				'option' : function(){
-					return option;
+					return angular.copy(option);
 				}
 			},
 			controller : function($scope, $modalInstance, option){
@@ -34,7 +34,7 @@ DronesAdmin.controller('PaidOptionController', [ '$scope', '$http', '$route', '$
 				};
 				
 				$scope.cancel = function(){
-					$modalInstance.close(true);
+					$modalInstance.close(false);
 				};
 			}
 		}).result.then(function(status) {
