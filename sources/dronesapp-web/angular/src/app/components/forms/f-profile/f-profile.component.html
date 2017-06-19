@@ -44,10 +44,10 @@
         </label>
       </div>
       <div class="f-default__row">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.accountCountry}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !accountService.account?.location?.country?.name}">
           <select class="f-default__field"
                   name="country"
-                  [(ngModel)]="commonService.accountCountry"
+                  [(ngModel)]="accountService.account.location.country.name"
                   (ngModelChange)="selectCountry($event)"
                   required
                   #countryRef="ngModel"
@@ -61,11 +61,11 @@
         </label>
       </div>
 
-      <div class="f-default__row" *ngIf="commonService.checkCountry('accountCountry')">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.accountState}">
+      <div class="f-default__row" *ngIf="checkCountry()">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !accountService.account?.location?.state?.name}">
           <select class="f-default__field"
                   name="state"
-                  [(ngModel)]="commonService.accountState"
+                  [(ngModel)]="accountService.account.location.state.name"
                   (ngModelChange)="selectState($event)"
                   required
                   #stateRef="ngModel"
@@ -122,7 +122,7 @@
       <div class="f-default__row">
         <figure class="f-default__upload">
           <div class="f-default__img">
-              <img object-fit="cover" src="{{accountService.account.photoURL}}" *ngIf="accountService.account?.photoURL" alt="avatar">
+              <img src="{{accountService.account.photoURL}}" *ngIf="accountService.account?.photoURL" alt="avatar">
           </div>
           <label class="f-default__label _top">
             <span class="f-default__text">Upload Photo</span>

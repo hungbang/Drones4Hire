@@ -192,6 +192,9 @@ export class FProjectAddComponent implements OnInit {
       this.initPaidOptions();
       this.initCategories();
       this.initDate();
+      if (this.checkCountry()) {
+        this.getListOfStates();
+      }
     }
   }
 
@@ -256,6 +259,11 @@ export class FProjectAddComponent implements OnInit {
   }
 
   selectService(name: string) {
+    if (!name || name === 'null') {
+      this.clearService();
+      return;
+    }
+
     const service = this.services.find((service) => service.name === name);
 
     this.setServiceToPostData(service);
@@ -268,6 +276,18 @@ export class FProjectAddComponent implements OnInit {
     this.formData.service.category['order'] = order;
   }
 
+  clearService() {
+    this.formData.service = {
+      id: null,
+      name: null,
+      category: {
+        order: null,
+        id: null,
+        name: null,
+      }
+    };
+  }
+
   initCategories() {
     if (this.project.service.id) {
       const service = this.services.find((service) => service.name === this.project.service.category.name);
@@ -277,14 +297,41 @@ export class FProjectAddComponent implements OnInit {
   }
 
   selectBudget(title: string) {
+    if (!title || title === 'null') {
+      this.formData.budget = {
+        confirmationValid: null,
+        currency: '',
+        id: null,
+        max: null,
+        min: null,
+        order: null,
+        title: null
+      };
+      return;
+    }
     this.formData.budget = this.budgets.find((budget) => budget.title === title);
   }
 
   selectDuration(title: string) {
+    if (!title || title === 'null') {
+      this.formData.duration = {
+        id: null,
+        max: null,
+        min: null,
+        order: null,
+        title: null
+      };
+      return;
+    }
     this.formData.duration = this.durations.find((duration) => duration.title === title);
   }
 
   selectCategory(name: string) {
+    if (!name || name === 'null') {
+      this.clearService();
+      return;
+    }
+
     const category = this.categories.find((category) => category.name === name);
 
     this.formData.service['id'] = category.id;
@@ -292,6 +339,11 @@ export class FProjectAddComponent implements OnInit {
   }
 
   selectCountry(name: string) {
+    if (!name || name === 'null') {
+      this.clearCountry();
+      return;
+    }
+
     const country = this.countries.find((country) => country.name === name);
 
     this.formData.location.country.id = country.id;
@@ -331,6 +383,11 @@ export class FProjectAddComponent implements OnInit {
   }
 
   selectState(name: string) {
+    if (!name || name === 'null') {
+      this.clearState();
+      return;
+    }
+
     const state = this.states.find((state) => state.name === name);
 
     this.setState(state);
@@ -382,6 +439,14 @@ export class FProjectAddComponent implements OnInit {
     this.formData.location.state.name = name;
     this.formData.location.state.id = id;
     this.formData.location.state.code = code;
+  }
+
+  private clearCountry() {
+    this.formData.location.country = {
+      id: null,
+      name: null
+    };
+    delete this.formData.location.state;
   }
 
   private clearState() {

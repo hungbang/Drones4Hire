@@ -188,10 +188,10 @@
         <div class="f-project-add__caption">Country</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location.country.name}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location?.country?.name}">
           <select class="f-default__field"
                   name="country"
-                  [(ngModel)]="formData.location.country.name"
+                  [ngModel]="formData.location?.country?.name"
                   (ngModelChange)="selectCountry($event)"
                   required
                   #countryRef="ngModel"
@@ -212,10 +212,10 @@
       </div>
 
       <div class="f-default__col">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location.state.name}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location?.state?.name}">
           <select class="f-default__field"
                   name="state"
-                  [(ngModel)]="formData.location.state.name"
+                  [ngModel]="formData.location?.state?.name"
                   (ngModelChange)="selectState($event)"
                   required
                   #stateRef="ngModel"
