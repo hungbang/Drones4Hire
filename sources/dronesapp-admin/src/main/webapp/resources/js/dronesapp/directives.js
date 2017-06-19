@@ -27,7 +27,7 @@ DronesAdmin.directive('pagination', [ function() {
 
 				var result = [];
 
-				for (var i = min; i <= max; i += step) {
+				for (var i = min; i <= Math.ceil(max); i += step) {
 					result.push(i);
 				}
 

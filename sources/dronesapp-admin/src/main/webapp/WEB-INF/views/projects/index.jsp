@@ -8,7 +8,7 @@
 <div data-ng-controller="ProjectsPageController" class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Projects</h1>
+			<h1 class="page-header">Projects <input type="button" data-ng-click="openProjectModal()" class="btn btn-primary" value="Create"/></h1>
 		</div>
 	</div>
 	<div class="row">
@@ -29,12 +29,16 @@
 										<input class="form-control" type="text" id="title" name="title" data-ng-model="projectSearchCriteria.title">
 				                    </div>
 									<div class="col-lg-3">
-										<label class="control-label" for="summary"><spring:message code="drones.admin.pages.common.form.field.summary.label"/></label>
-										<input class="form-control" type="text" id="summary" name="summary" data-ng-model="projectSearchCriteria.summary">
+										<label class="control-label" for="clientEmail"><spring:message code="drones.admin.pages.common.column.clientEmail.caption"/></label>
+										<input class="form-control" type="text" id="clientEmail" name="clientEmail" data-ng-model="projectSearchCriteria.clientEmail">
 				                    </div>
+									<div class="col-lg-3">
+										<label class="control-label" for="pilotEmail"><spring:message code="drones.admin.pages.common.column.pilotEmail.caption"/></label>
+										<input class="form-control" type="text" id="pilotEmail" name="pilotEmail" data-ng-model="projectSearchCriteria.pilotEmail">
+									</div>
 				                    <div class="col-lg-3">
 										<label class="control-label" for="status"><spring:message code="drones.admin.pages.common.column.status.caption"/></label>
-										<select class="form-control" id="status" name="status" data-ng-model="projectSearchCriteria.status">
+										<select class="form-control" id="status" name="status" data-ng-model="projectSearchCriteria.statuses">
 							            	<option value="NEW">New</option>
 							            	<option value="IN_PROGRESS">In progress</option>
 							            	<option value="COMPLETED">Completed</option>
@@ -42,11 +46,27 @@
 							            	<option value="PENDING">Pending</option>
 							            </select>
 				                    </div>
+									<div class="col-lg-3">
+										<label class="control-label" for="budget"><spring:message code="drones.admin.pages.common.column.budget.caption"/></label>
+										<select class="form-control" id="budget" name="budget" data-ng-model="projectSearchCriteria.budgetId">
+											<option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{budget.min}} - {{budget.max}} {{budget.currency}}</option>
+										</select>
+									</div>
+									<div class="col-lg-3">
+										<label class="control-label" for="city"><spring:message code="drones.admin.pages.common.form.field.city.label"/></label>
+										<input class="form-control" type="text" id="city" name="city" data-ng-model="projectSearchCriteria.city">
+									</div>
+									<div class="col-lg-3">
+										<label class="control-label" for="category"><spring:message code="drones.admin.pages.project.form.service.label"/></label>
+										<select class="form-control" id="category" name="category" data-ng-model="projectSearchCriteria.serviceCategoryId">
+											<option data-ng-value="category.id" data-ng-repeat="category in categories">{{category.name}}</option>
+										</select>
+									</div>
 				               </div>
 							</div>
 							<div class="text-right">
 								<a href="" data-ng-click="resetSearchCriteria()" class="clear-form"><spring:message code="drones.admin.pages.common.button.clear"/>&nbsp;<i class="fa fa-times-circle"/></a>
-								<a href="" data-ng-click="searchProjects(0)"><spring:message code="drones.admin.pages.common.button.search"/>&nbsp;<i class="fa fa-arrow-circle-right"/></a>
+								<a href="" data-ng-click="searchProjects(1)"><spring:message code="drones.admin.pages.common.button.search"/>&nbsp;<i class="fa fa-arrow-circle-right"/></a>
 							</div>
 						</div>
 				</div>
@@ -71,10 +91,10 @@
 		                    <spring:message code="drones.admin.pages.common.form.field.title.label"/>
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.clientId.caption"/>
+		                    <spring:message code="drones.admin.pages.common.column.clientEmail.caption"/>
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.pilotId.caption"/>
+		                    <spring:message code="drones.admin.pages.common.column.pilotEmail.caption"/>
 		                </th>
 		                <th>
 		                    <spring:message code="drones.admin.pages.common.column.duration.caption"/>
@@ -86,33 +106,45 @@
 		                    <spring:message code="drones.admin.pages.common.column.postProdaction.caption"/>
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.startDate.caption"/>
+		                    <spring:message code="drones.admin.pages.common.column.createDate.caption"/>
 		                </th>
+						<th>
+							<spring:message code="drones.admin.pages.common.column.startDate.caption"/>
+						</th>
 		                <th>
 		                    <spring:message code="drones.admin.pages.common.column.finishDate.caption"/>
 		                </th>
 		                <th class="text-center">
 		                    <spring:message code="drones.admin.pages.common.column.status.caption"/>
 		                </th>
+						<th class="text-center">
+							<spring:message code="drones.admin.pages.common.form.field.city.label"/>
+						</th>
+						<th class="text-center">
+							<spring:message code="drones.admin.pages.project.form.service.label"/>
+						</th>
 		                <th class="text-center">
 		                    <spring:message code="drones.admin.pages.common.column.more_details.caption"/>
 		                </th>
 		            </tr>
 		        </thead>
 		        <tbody>
-		            <tr data-ng-repeat="project in projectSearchResult.results | orderBy:predicate:reverse">
-		            	<td class="text-center">{{project.id}}</td>
-		            	<td>{{project.title}}</td>
-		                <td class="long">{{project.clientId}}</td>
-		                <td>{{project.pilotId}}</td>
-		                <td>{{project.duration.title}}</td>
-		                <td>{{project.budget.title}} {{project.budget.min}} - {{project.budget.max}} {{project.budget.currency}}</td>
-		                <td>{{project.postProductionRequired}}</td>
-		                <td>{{project.startDate | date:'HH:mm dd-MM-yyyy'}}</td>
-		                <td>{{project.finishDate | date:'HH:mm dd-MM-yyyy'}}</td>
-		                <td>{{project.status}}</td>
+		            <tr data-ng-repeat="result in projectSearchResult.results | orderBy:predicate:reverse">
+		            	<td class="text-center">{{result.project.id}}</td>
+		            	<td>{{result.project.title}}</td>
+		                <td class="long">{{result.client.email}}</td>
+		                <td>{{result.pilot.email}}</td>
+		                <td>{{result.project.duration.title}} hours</td>
+		                <td>{{result.project.budget.title}} {{result.project.budget.min}} - {{result.project.budget.max}} {{result.project.budget.currency}}</td>
+		                <td>{{result.project.postProductionRequired}}</td>
+						<td>{{result.project.createdAt | date:'HH:mm dd-MM-yyyy'}}</td>
+		                <td>{{result.project.startDate | date:'HH:mm dd-MM-yyyy'}}</td>
+		                <td>{{result.project.finishDate | date:'HH:mm dd-MM-yyyy'}}</td>
+		                <td>{{result.project.status}}</td>
+		                <td>{{result.project.location.city}}</td>
+		                <td>{{result.project.service.category.name}}</td>
 						<td class="text-center">
-							<a class="btn btn-success btn-xs options" href="#/projects/{{project.id}}/view" target="_blank"><i class="fa fa-search"></i></a>
+							<a class="btn btn-success btn-xs options" href="#/projects/{{result.project.id}}/view" target="_blank"><i class="fa fa-search"></i></a>
 						</td>
 					</tr>
 					<tr data-ng-show="!projectSearchResult.results.length">

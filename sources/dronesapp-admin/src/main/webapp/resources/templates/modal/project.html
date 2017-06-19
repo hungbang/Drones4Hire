@@ -1,0 +1,83 @@
+<div class="modal-header">
+    <i class="fa fa-times cancel-button" aria-hidden="true" data-ng-click="cancel()"></i>
+    <h3>Project
+
+    </h3>
+</div>
+<div class="modal-body">
+    <form name="projectForm">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" data-ng-model="project.title" required/>
+        </div>
+        <div class="form-group">
+            <label>Client ID</label>
+            <input type="number" class="form-control" data-ng-model="project.clientId" required/>
+        </div>
+        <div class="form-group">
+            <label>Pilot ID</label>
+            <input type="number" class="form-control" data-ng-model="project.pilotId"/>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select class="form-control validation" data-ng-model="project.service.id">
+                <option data-ng-value="category.id" data-ng-repeat="category in categories">{{category.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Summary</label>
+            <input type="text" class="form-control" data-ng-model="project.summary"/>
+        </div>
+        <div class="form-group">
+            <label>Budget</label>
+            <select class="form-control validation" data-ng-model="project.budget.id" required>
+                <option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{budget.min}} - {{budget.max}} {{budget.currency}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>City</label>
+            <input type="text" class="form-control" data-ng-model="project.location.city" required/>
+        </div>
+        <div class="form-group">
+            <label>Country</label>
+            <select class="form-control validation" data-ng-model="project.location.country.id" required>
+                <option data-ng-value="country.id" data-ng-repeat="country in countries">{{country.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>State</label>
+            <select class="form-control validation" data-ng-model="project.location.state.id">
+                <option data-ng-value="state.id" data-ng-repeat="state in states">{{state.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Start date</label>
+            <input type="datetime-local" data-ng-model="project.startDate" required/>
+        </div>
+        <div class="form-group">
+            <label>Finish date</label>
+            <input type="datetime-local" data-ng-model="project.finishDate"/>
+        </div>
+        <div class="form-group">
+            <label>Expected duration of flight</label>
+            <select class="form-control validation" data-ng-model="project.duration.id" required>
+                <option data-ng-value="duration.id" data-ng-repeat="duration in durations">{{duration.min}} - {{duration.max}} hours</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Post production</label>
+            <input type="checkbox" data-ng-model="project.postProductionRequired">
+        </div>
+        <div class="form-group">
+            <label>Paid options</label>
+            <div data-ng-repeat="option in paidOptions">
+                <input type="checkbox" data-ng-model="option.isChecked"> {{option.price}} {{option.currency}} {{option.title}}
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" data-ng-click="createProject()"  data-ng-disabled="projectForm.$invalid">
+        Create
+    </button>
+</div>

@@ -8,6 +8,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
@@ -72,7 +73,7 @@ public class ProjectService
 	@Transactional(rollbackFor = Exception.class)
 	public long createAttachment(long projectId, List<Attachment> attachments)
 	{
-		if(!attachments.isEmpty()) {
+		if(attachments != null && !attachments.isEmpty()) {
 			attachmentService.createAttachments(attachments, projectId);
 		}
 		return projectId;
@@ -104,6 +105,20 @@ public class ProjectService
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjects(sc);
 		results.setTotalResults(projectMapper.getProjectsSearchCount(sc));
+		results.setResults(projectSearchResults);
+		return results;
+	}
+
+	@Transactional(readOnly = true)
+	public SearchResult<ProjectSearchResult> searchProjectsWithAdmin(ProjectSearchCriteriaForAdmin sc) throws ServiceException
+	{
+		SearchResult<ProjectSearchResult> results = new SearchResult<>();
+		results.setPage(sc.getPage());
+		results.setPageSize(sc.getPageSize());
+		results.setSortOrder(sc.getSortOrder());
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
+		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjectsWithAdmin(sc);
+		results.setTotalResults(projectMapper.getProjectsWithAdminSearchCount(sc));
 		results.setResults(projectSearchResults);
 		return results;
 	}

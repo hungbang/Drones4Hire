@@ -16,7 +16,13 @@
 			<div class="form-group">
 				<label><spring:message code="drones.admin.pages.common.project.photo.label"/></label><br/> 										
 				<img height="90%" width="90%" alt="<spring:message code="drones.admin.pages.common.project.photo.label"/>" data-ng-src="{{project.imageURL}}">
-			</div>				
+			</div>
+			<div class="form-group" data-ng-if="project.attachments.length">
+				<label><spring:message code="drones.admin.pages.common.column.attachments.caption"/></label>
+				<div data-ng-repeat="attachment in project.attachments">
+					<img data-ng-src="{{attachment.attachmentURL}}" alt="img" width="90%" height="90%"/>
+				</div>
+			</div>
 		</div>
 		<div class="col-lg-6">
 			<form name="projectForm">
@@ -31,7 +37,7 @@
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.project.form.clientId.label"/></label> 
-						<input class="form-control" data-ng-model="project.clietnId" type="text" disabled/>
+						<input class="form-control" data-ng-model="project.clientId" type="text" disabled/>
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.project.form.pilotId.label"/></label> 
@@ -39,10 +45,10 @@
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.project.form.service.label"/></label> 
-						<input class="form-control" data-ng-model="project.service.name" type="text" />
+						<input class="form-control" data-ng-model="project.service.category.name" type="text" disabled />
 					</div>
 					<div class="form-group">
-						<label><spring:message code="drones.admin.pages.project.form.duration.label"/></label> 
+						<label><spring:message code="drones.admin.pages.project.form.duration.label"/></label>
 						<input class="form-control" type="text" data-ng-model="project.duration.title" disabled/>
 					</div>
 					<div class="form-group">
@@ -52,6 +58,18 @@
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.project.form.budget.label"/></label> 
 						<input class="form-control" type="text" data-ng-model="project.budget.title" disabled/>
+					</div>
+					<div class="form-group">
+						<label><spring:message code="drones.admin.pages.common.column.createDate.caption"/></label>
+						<input class="form-control" type="text" data-ng-model="project.createdAt" disabled/>
+					</div>
+					<div class="form-group">
+						<label><spring:message code="drones.admin.pages.common.column.startDate.caption"/></label>
+						<input class="form-control" type="text" data-ng-model="project.startDate"/>
+					</div>
+					<div class="form-group">
+						<label><spring:message code="drones.admin.pages.common.column.finishDate.caption"/></label>
+						<input class="form-control" type="text" data-ng-model="project.finishDate"/>
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.project.form.postProdaction.label"/></label> 

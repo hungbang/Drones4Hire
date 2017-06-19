@@ -107,7 +107,7 @@
 	            SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
 	            SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
 	            SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT,
-	            
+
 	            A.ID AS ATTACHMENT_ID,
 	            A.TITLE AS ATTACHMENT_TITLE,
 	      		A.ATTACHMENT_URL AS ATTACHMENT_ATTACHMENT_URL,
@@ -154,11 +154,11 @@
           LEFT JOIN
 	      		drones.SERVICE_CATEGORIES SC
 	      ON
-          		S.SERVICE_CATEGORY_ID = SC.ID	
+          		S.SERVICE_CATEGORY_ID = SC.ID
           LEFT JOIN
 	      		 drones.ATTACHMENTS A
 	      ON
-          		A.PROJECT_ID = P.ID		
+          		A.PROJECT_ID = P.ID
         ]]>
 	</sql>
 
@@ -172,6 +172,382 @@
 
 	<select id="getAllProjects" resultMap="ProjectResultMap">
 		<include refid="getProject" />
+	</select>
+
+	<sql id="searchProjectWithAdmin">
+		<![CDATA[
+          SELECT
+	      		P.ID AS PROJECT_ID,
+	      		P.TITLE AS PROJECT_TITLE,
+	        	P.SUMMARY AS PROJECT_SUMMARY,
+
+	        	CLIENT.ID AS CLIENT_USER_ID,
+				CLIENT.USERNAME AS CLIENT_USER_USERNAME,
+				CLIENT.EMAIL AS CLIENT_USER_EMAIL,
+				CLIENT.PASSWORD AS CLIENT_USER_PASSWORD,
+				CLIENT.FIRST_NAME AS CLIENT_USER_FIRST_NAME,
+				CLIENT.LAST_NAME AS CLIENT_USER_LAST_NAME,
+				CLIENT.PHOTO_URL AS CLIENT_USER_PHOTO_URL,
+				CLIENT.INTRODUCTION AS CLIENT_USER_INTRODUCTION,
+				CLIENT.SUMMARY AS CLIENT_USER_SUMMARY,
+				CLIENT.ENABLED AS CLIENT_USER_ENABLED,
+				CLIENT.CONFIRMED AS CLIENT_USER_CONFIRMED,
+				CLIENT.MODIFIED_AT AS CLIENT_USER_MODIFIED_AT,
+				CLIENT.CREATED_AT AS CLIENT_USER_CREATED_AT,
+
+                PILOT.ID AS PILOT_USER_ID,
+				PILOT.USERNAME AS PILOT_USER_USERNAME,
+				PILOT.EMAIL AS PILOT_USER_EMAIL,
+				PILOT.PASSWORD AS PILOT_USER_PASSWORD,
+				PILOT.FIRST_NAME AS PILOT_USER_FIRST_NAME,
+				PILOT.LAST_NAME AS PILOT_USER_LAST_NAME,
+				PILOT.PHOTO_URL AS PILOT_USER_PHOTO_URL,
+				PILOT.INTRODUCTION AS PILOT_USER_INTRODUCTION,
+				PILOT.SUMMARY AS PILOT_USER_SUMMARY,
+				PILOT.FLIGHT_HOURS AS PILOT_USER_FLIGHT_HOURS,
+				PILOT.ENABLED AS PILOT_USER_ENABLED,
+				PILOT.CONFIRMED AS PILOT_USER_CONFIRMED,
+				PILOT.MODIFIED_AT AS PILOT_USER_MODIFIED_AT,
+				PILOT.CREATED_AT AS PILOT_USER_CREATED_AT,
+
+	        	P.POST_PRODUCTION_REQUIRED AS PROJECT_POST_PRODUCTION_REQUIRED,
+	        	P.STATUS AS PROJECT_STATUS,
+	        	P.START_DATE AS PROJECT_START_DATE,
+	        	P.FINISH_DATE AS PROJECT_FINISH_DATE,
+	        	P.AWARD_DATE AS PROJECT_AWARD_DATE,
+	        	P.CREATED_AT AS PROJECT_CREATED_AT,
+	        	P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
+
+	        	T.ID AS TRANSACTION_ID,
+				T.WALLET_ID AS TRANSACTION_WALLET_ID,
+				T.AMOUNT AS TRANSACTION_AMOUNT,
+				T.CURRENCY AS TRANSACTION_CURRENCY,
+				T.TYPE AS TRANSACTION_TYPE,
+				T.PURPOSE AS TRANSACTION_PURPOSE,
+				T.PROJECT_ID AS TRANSACTION_PROJECT_ID,
+				T.STATUS AS TRANSACTION_STATUS,
+				T.MODIFIED_AT AS TRANSACTION_MODIFIED_AT,
+				T.CREATED_AT AS TRANSACTION_CREATED_AT,
+
+	        	PO.ID AS PAID_OPTION_ID,
+		        PO.TITLE AS PAID_OPTION_TITLE,
+		        PO.DESCRIPTION AS PAID_OPTION_DESCRIPTION,
+		        PO.PRICE AS PAID_OPTION_PRICE,
+		        PO.CURRENCY AS PAID_OPTION_CURRENCY,
+		        PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
+		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT,
+
+		        L.ID AS LOCATION_ID,
+		        X(L.COORDINATES) AS LOCATION_X_COORDINATE,
+		        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
+		        L.CITY AS LOCATION_CITY,
+		        L.POSTCODE AS LOCATION_POSTCODE,
+		        L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
+		        L.CREATED_AT AS LOCATION_CREATED_AT,
+		        C.ID AS COUNTRY_ID,
+		        C.NAME AS COUNTRY_NAME,
+		        C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
+		        C.CREATED_AT AS COUNTRY_CREATED_AT,
+		        ST.ID AS STATE_ID,
+		        ST.NAME AS STATE_NAME,
+		        ST.MODIFIED_AT AS STATE_MODIFIED_AT,
+		        ST.CREATED_AT AS STATE_CREATED_AT,
+
+		        D.ID AS DURATION_ID,
+		        D.TITLE AS DURATION_TITLE,
+		        D.MIN AS DURATION_MIN,
+		        D.MAX AS DURATION_MAX,
+		        D.SORT_ORDER AS DURATION_SORT_ORDER,
+		        D.MODIFIED_AT AS DURATION_MODIFIED_AT,
+		        D.CREATED_AT AS DURATION_CREATED_AT,
+
+		        B.ID AS BUDGET_ID,
+		        B.TITLE AS BUDGET_TITLE,
+		        B.MIN AS BUDGET_MIN,
+		        B.MAX AS BUDGET_MAX,
+		        B.CURRENCY AS BUDGET_CURRENCY,
+		        B.SORT_ORDER AS BUDGET_SORT_ORDER,
+		        B.MODIFIED_AT AS BUDGET_MODIFIED_AT,
+		        B.CREATED_AT AS BUDGET_CREATED_AT,
+
+		        S.ID AS SERVICE_ID,
+	            S.NAME AS SERVICE_NAME,
+	            S.MODIFIED_AT AS SERVICE_MODIFIED_AT,
+	            S.CREATED_AT AS SERVICE_CREATED_AT,
+	            SC.ID AS SERVICE_CATEGORY_ID,
+	            SC.NAME AS SERVICE_CATEGORY_NAME,
+	            SC.SORT_ORDER AS SERVICE_CATEGORY_SORT_ORDER,
+	            SC.MODIFIED_AT AS SERVICE_CATEGORY_MODIFIED_AT,
+	            SC.CREATED_AT AS SERVICE_CATEGORY_CREATED_AT,
+
+	            A.ID AS ATTACHMENT_ID,
+	            A.TITLE AS ATTACHMENT_TITLE,
+	      		A.ATTACHMENT_URL AS ATTACHMENT_ATTACHMENT_URL,
+		        A.TYPE AS ATTACHMENT_TYPE,
+		        A.PROJECT_ID AS ATTACHMENT_PROJECT_ID,
+		        A.MODIFIED_AT AS ATTACHMENT_MODIFIED_AT,
+		        A.CREATED_AT AS ATTACHMENT_CREATED_AT
+          FROM
+	      		drones.PROJECTS P
+		  LEFT JOIN
+	      		drones.USERS CLIENT
+	      ON
+          		P.CLIENT_ID = CLIENT.ID
+		  LEFT JOIN
+	      		drones.USERS PILOT
+	      ON
+          		P.PILOT_ID = PILOT.ID
+		  LEFT JOIN
+	        	drones.TRANSACTIONS T
+	      ON
+	        	T.PROJECT_ID = P.ID
+	      LEFT JOIN
+	      		drones.PROJECTS_PAID_OPTIONS PPO
+	      ON
+          		P.ID = PPO.PROJECT_ID
+	      LEFT JOIN
+	      		drones.PAID_OPTIONS PO
+	      ON
+          		PPO.PAID_OPTION_ID = PO.ID
+          LEFT JOIN
+	      		drones.LOCATIONS L
+	      ON
+          		P.LOCATION_ID = L.ID
+          LEFT JOIN
+            	drones.COUNTRIES C
+          ON
+            	L.COUNTRY_ID = C.ID
+          LEFT JOIN
+            	drones.STATES ST
+          ON
+            	L.STATE_ID = ST.ID
+          LEFT JOIN
+	      		drones.BUDGETS B
+	      ON
+          		P.BUDGET_ID = B.ID
+
+          LEFT JOIN
+	      		drones.DURATIONS D
+	      ON
+          		P.DURATION_ID = D.ID
+
+          LEFT JOIN
+	      		drones.SERVICES S
+	      ON
+          		P.SERVICE_ID = S.ID
+          LEFT JOIN
+	      		drones.SERVICE_CATEGORIES SC
+	      ON
+          		S.SERVICE_CATEGORY_ID = SC.ID
+          LEFT JOIN
+	      		 drones.ATTACHMENTS A
+	      ON
+          		A.PROJECT_ID = P.ID
+        ]]>
+	</sql>
+
+	<select id="searchProjectsWithAdmin" resultMap="ProjectSearchForAdminResultMap">
+		<include refid="searchProjectWithAdmin" />
+		<![CDATA[
+			INNER JOIN
+			(
+				SELECT
+					P.ID AS PROJECT_ID
+				FROM
+					drones.PROJECTS P
+				LEFT JOIN
+					drones.USERS CLIENT
+				ON
+					P.CLIENT_ID = CLIENT.ID
+				LEFT JOIN
+					drones.USERS PILOT
+				ON
+					P.PILOT_ID = PILOT.ID
+				LEFT JOIN
+	      			drones.LOCATIONS L
+	      		ON
+          			P.LOCATION_ID = L.ID
+          		LEFT JOIN
+	      			drones.BUDGETS B
+	      		ON
+          			P.BUDGET_ID = B.ID
+
+          		LEFT JOIN
+	      			drones.DURATIONS D
+	      		ON
+          			P.DURATION_ID = D.ID
+
+          		LEFT JOIN
+	      			drones.SERVICES S
+	      		ON
+          			P.SERVICE_ID = S.ID
+          		LEFT JOIN
+	      			drones.SERVICE_CATEGORIES SC
+	      		ON
+          			S.SERVICE_CATEGORY_ID = SC.ID
+		]]>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != title">
+				<![CDATA[
+				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
+				]]>
+			</if>
+			<if test="null != statuses">
+				<![CDATA[
+				   AND P.STATUS IN
+			   	]]>
+				<foreach collection="statuses" item="status" index="index" open="(" separator="," close=")">
+					<![CDATA[
+				   		#{status}
+			   		]]>
+				</foreach>
+			</if>
+			<if test="0 != serviceCategoryId">
+				<![CDATA[
+				   AND SC.ID = #{serviceCategoryId}
+				]]>
+			</if>
+			<if test="0 != durationId">
+				<![CDATA[
+				   AND D.ID = #{durationId}
+				]]>
+			</if>
+			<if test="0 != locationId">
+				<![CDATA[
+				   AND L.ID = #{locationId}
+				]]>
+			</if>
+			<if test="null != city">
+				<![CDATA[
+				   AND LOWER(L.CITY) LIKE LOWER(CONCAT('%', #{city}, '%'))
+				]]>
+			</if>
+			<if test="null != postcode">
+				<![CDATA[
+				   AND L.POSTCODE = #{postcode}
+				]]>
+			</if>
+			<if test="0 != budgetId">
+				<![CDATA[
+				   AND B.ID = #{budgetId}
+				]]>
+			</if>
+			<if test="null != clientEmail">
+				<![CDATA[
+				   AND LOWER(CLIENT.EMAIL) LIKE LOWER(CONCAT('%', #{clientEmail}, '%'))
+				]]>
+			</if>
+			<if test="null != pilotEmail">
+				<![CDATA[
+				   AND LOWER(PILOT.EMAIL) LIKE LOWER(CONCAT('%', #{pilotEmail}, '%'))
+				]]>
+			</if>
+		</trim>
+		<![CDATA[
+			GROUP BY P.ID
+				ORDER BY P.CREATED_AT DESC
+				LIMIT #{pageSize} OFFSET #{page}
+			)
+			AS PID
+			ON
+				P.ID = PID.PROJECT_ID
+		]]>
+	</select>
+
+	<select id="getProjectsWithAdminSearchCount" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT
+			  	COUNT(DISTINCT P.ID)
+			FROM
+				drones.PROJECTS P
+			LEFT JOIN
+				drones.USERS CLIENT
+			ON
+				P.CLIENT_ID = CLIENT.ID
+			LEFT JOIN
+				drones.USERS PILOT
+			ON
+				P.PILOT_ID = PILOT.ID
+			LEFT JOIN
+				drones.LOCATIONS L
+			ON
+				P.LOCATION_ID = L.ID
+			LEFT JOIN
+				drones.BUDGETS B
+			ON
+				P.BUDGET_ID = B.ID
+
+			LEFT JOIN
+				drones.DURATIONS D
+			ON
+				P.DURATION_ID = D.ID
+
+			LEFT JOIN
+				drones.SERVICES S
+			ON
+				P.SERVICE_ID = S.ID
+			LEFT JOIN
+				drones.SERVICE_CATEGORIES SC
+			ON
+				S.SERVICE_CATEGORY_ID = SC.ID
+		]]>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != title">
+				<![CDATA[
+				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
+				]]>
+			</if>
+			<if test="null != statuses">
+				<![CDATA[
+				   AND P.STATUS IN
+			   	]]>
+				<foreach collection="statuses" item="status" index="index" open="(" separator="," close=")">
+					<![CDATA[
+				   			#{status}
+			   			]]>
+				</foreach>
+			</if>
+			<if test="0 != serviceCategoryId">
+				<![CDATA[
+				   AND SC.ID = #{serviceCategoryId}
+				]]>
+			</if>
+			<if test="0 != durationId">
+				<![CDATA[
+				   AND D.ID = #{durationId}
+				]]>
+			</if>
+			<if test="0 != locationId">
+				<![CDATA[
+				   AND L.ID = #{locationId}
+				]]>
+			</if>
+			<if test="null != city">
+				<![CDATA[
+				   AND LOWER(L.CITY) LIKE LOWER(CONCAT('%', #{city}, '%'))
+				]]>
+			</if>
+			<if test="null != postcode">
+				<![CDATA[
+				   AND L.POSTCODE = #{postcode}
+				]]>
+			</if>
+			<if test="0 != budgetId">
+				<![CDATA[
+				   AND B.ID = #{budgetId}
+				]]>
+			</if>
+			<if test="null != clientEmail">
+				<![CDATA[
+				   AND LOWER(CLIENT.EMAIL) LIKE LOWER(CONCAT('%', #{clientEmail}, '%'))
+				]]>
+			</if>
+			<if test="null != pilotEmail">
+				<![CDATA[
+				   AND LOWER(PILOT.EMAIL) LIKE LOWER(CONCAT('%', #{pilotEmail}, '%'))
+				]]>
+			</if>
+		</trim>
 	</select>
 
 	<sql id="searchProject">
@@ -359,7 +735,7 @@
 	      (
           		P.ID = B.PROJECT_ID
 			]]>
-          		<if test="0 != pilotId and null == status">
+          		<if test="0 != pilotId and null == statuses">
 					<![CDATA[
 				   		AND B.USER_ID = #{pilotId}
 					]]>
@@ -508,7 +884,7 @@
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
 				]]>
 			</if>
-			<if test="null != status">
+			<if test="null != statuses">
 				<![CDATA[
 				   AND P.STATUS IN
 			   	]]>
@@ -548,7 +924,7 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId and null == status">
+			<if test="0 != pilotId and null == statuses">
 				<![CDATA[
 				   AND P.ID IN
 				   (
@@ -585,7 +961,7 @@
 			(
 				P.ID = B.PROJECT_ID
 			]]>
-				<if test="0 != pilotId and null == status">
+				<if test="0 != pilotId and null == statuses">
 				<![CDATA[
 					AND B.USER_ID = #{pilotId}
 				]]>
@@ -621,7 +997,7 @@
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
 				]]>
 			</if>
-			<if test="null != status">
+			<if test="null != statuses">
 				<![CDATA[
 				   AND P.STATUS IN
 			   	]]>
@@ -661,7 +1037,7 @@
 				   AND P.CLIENT_ID = #{clientId}
 				]]>
 			</if>
-			<if test="0 != pilotId and null == status">
+			<if test="0 != pilotId and null == statuses">
 				<![CDATA[
 				   AND P.ID IN
 				   (
@@ -745,6 +1121,14 @@
 		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
 		<collection property="bids" ofType="com.drones4hire.dronesapp.models.db.projects.Bid"
 					resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper.BidResultMap" columnPrefix="PROJECT_"/>
+	</resultMap>
+
+	<resultMap id="ProjectSearchForAdminResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult" autoMapping="false">
+		<id column="PROJECT_ID" property="id" />
+		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
+		<association property="transactions" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.TransactionMapper.TransactionResultMap"/>
+		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>
+		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
 	</resultMap>
 
 </mapper>

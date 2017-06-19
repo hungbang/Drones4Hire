@@ -1,21 +1,22 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
-import com.drones4hire.dronesapp.models.db.projects.Project.Status;
+import com.drones4hire.dronesapp.models.db.projects.Project;
 
 import java.util.List;
 
-public class ProjectSearchCriteria extends SearchCriteria
+public class ProjectSearchCriteriaForAdmin extends SearchCriteria
 {
 
 	private String title;
-	private long clientId;
-	private long pilotId;
+	private String clientEmail;
+	private String pilotEmail;
 	private long serviceCategoryId;
 	private long durationId;
 	private long locationId;
+	private String city;
 	private Integer postcode;
 	private long budgetId;
-	private List<Status> statuses;
+	private List<Project.Status> statuses;
 
 	public String getTitle()
 	{
@@ -27,24 +28,24 @@ public class ProjectSearchCriteria extends SearchCriteria
 		this.title = title;
 	}
 
-	public long getClientId()
+	public String getClientEmail()
 	{
-		return clientId;
+		return clientEmail;
 	}
 
-	public void setClientId(long clientId)
+	public void setClientEmail(String clientEmail)
 	{
-		this.clientId = clientId;
+		this.clientEmail = clientEmail;
 	}
 
-	public long getPilotId()
+	public String getPilotEmail()
 	{
-		return pilotId;
+		return pilotEmail;
 	}
 
-	public void setPilotId(long pilotId)
+	public void setPilotEmail(String pilotEmail)
 	{
-		this.pilotId = pilotId;
+		this.pilotEmail = pilotEmail;
 	}
 
 	public long getServiceCategoryId()
@@ -77,6 +78,16 @@ public class ProjectSearchCriteria extends SearchCriteria
 		this.locationId = locationId;
 	}
 
+	public String getCity()
+	{
+		return city;
+	}
+
+	public void setCity(String city)
+	{
+		this.city = city;
+	}
+
 	public Integer getPostcode()
 	{
 		return postcode;
@@ -97,12 +108,12 @@ public class ProjectSearchCriteria extends SearchCriteria
 		this.budgetId = budgetId;
 	}
 
-	public List<Status> getStatuses()
+	public List<Project.Status> getStatuses()
 	{
 		return statuses;
 	}
 
-	public void setStatuses(List<Status> statuses)
+	public void setStatuses(List<Project.Status> statuses)
 	{
 		this.statuses = statuses;
 	}
