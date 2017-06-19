@@ -32,10 +32,10 @@ export class TDashboardComponent implements OnInit {
     return this._accountService.isUserPilot();
   }
 
-  release(project, isFiles, event) {
+  release(project, isCanRelease, event) {
     event.preventDefault();
 
-    if (isFiles) {
+    if (isCanRelease) {
       this._paymentService.releasePayment(project.bidId)
         .subscribe(() => {
           project.paymentReleased = Number(moment().format('x'))

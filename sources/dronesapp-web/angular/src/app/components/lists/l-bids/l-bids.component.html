@@ -7,7 +7,7 @@
       <bid-buttons>
         <button class="l-bids__btn _fill" *ngIf="bid.id !== activeId" [disabled]="disabled" (click)="onAward(bid)">Accept</button>
         <button class="l-bids__btn" *ngIf="bid.id === activeId" disabled>Accepted</button>
-        <!--<button class="l-bids__btn" *ngIf="bid.id === activeId" [disabled]="canRelease" [ngClass]="{ _fill: !!attachmentsLength }">Release Payment</button>-->
+        <button class="l-bids__btn" *ngIf="bid.id === activeId" [disabled]="!canRelease" [ngClass]="{ _fill: canRelease }" (click)="onRelease(bid.id)">Release Payment</button>
       </bid-buttons>
     </pr-bid>
   </li>

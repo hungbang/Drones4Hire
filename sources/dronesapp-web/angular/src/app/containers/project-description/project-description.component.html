@@ -26,10 +26,11 @@
         </ul>
       </div>
       <l-bids *ngIf="isClient"
-              [canRelease]="!!pilotAttachments.length"
+              [canRelease]="!!pilotAttachments.length && project.status === 'IN_PROGRESS'"
               [disabled]="!!project.bidId"
               [bids]="bids"
               [activeId]="activeBidId"
+              (release)="release($event)"
               (award)="award($event)"></l-bids>
 
       <pr-bid *ngIf="isPilot && pilotBid"
