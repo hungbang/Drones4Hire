@@ -115,7 +115,7 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_CLIENT", "ROLE_ADMIN"})
+	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ProjectDTO updateProject(@Valid @RequestBody ProjectDTO p) throws ServiceException
 	{
@@ -150,7 +150,7 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@Secured({"ROLE_CLIENT", "ROLE_ADMIN"})
+	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteProject(
 			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)

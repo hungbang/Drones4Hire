@@ -32,6 +32,10 @@
 						<input class="form-control" data-ng-model="project.title" type="text" disabled/>
 					</div>
 					<div class="form-group">
+						<label><spring:message code="drones.admin.pages.common.column.status.caption"/></label>
+						<input class="form-control" type="text" data-ng-model="project.status" disabled/>
+					</div>
+					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.project.form.summary.label"/></label> 
 						<input class="form-control" data-ng-model="project.summary" type="text"/>
 					</div>
@@ -75,6 +79,8 @@
 						<label><spring:message code="drones.admin.pages.project.form.postProdaction.label"/></label> 
 						<input type="checkbox" data-ng-model="project.postProductionRequired" />
 					</div>
+					<button class="btn btn-primary btn-warning" data-ng-click="blockProject(project.id)"><spring:message code="drones.admin.pages.common.button.project.block"/></button>
+					<button class="btn btn-primary btn-danger" data-ng-click="deleteProject(project.id)"><spring:message code="drones.admin.pages.common.button.project.delete"/></button>
 					<button class="btn btn-primary action pull-right" data-ng-click="editProject(project.id)"><spring:message code="drones.admin.pages.common.button.save"/></button>
 				</fieldset>
 			</form>

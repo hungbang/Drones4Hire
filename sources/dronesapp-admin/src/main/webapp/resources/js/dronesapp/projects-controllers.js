@@ -4,13 +4,13 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 	var DEFAULT_PROJECTS_SEARCH_CRITERIA = {
 			'rating' : 5,
 			'pageSize' : PAGE_SIZES[0],
-			'statuses' : ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED']
+			'statuses' : ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'BLOCKED']
 	};
 	$scope.projectSearchCriteria = angular.copy(DEFAULT_PROJECTS_SEARCH_CRITERIA);
 	$scope.projectListPageSizes = PAGE_SIZES;
 	
 	$scope.loadStatuses = function(){
-		$scope.roles = ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED'];
+		$scope.roles = ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'BLOCKED'];
 	};
 
 	$scope.searchProjects = function(page, pageSize){
@@ -180,4 +180,20 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 			alert('Failed to save changes!');
 		});
 	};
+
+	$scope.blockProject = function (id) {
+        $http.post('projects/' + id + '/block').success(function(data) {
+            alert('Success, project was blocked.');
+        }).error(function(data, status) {
+            alert('Failed to block project!');
+        });
+    };
+
+    $scope.deleteProject = function (id) {
+        $http.delete('projects/' + id).success(function(data) {
+            alert('Success, project was deleted.');
+        }).error(function(data, status) {
+            alert('Failed to delete project!');
+        });
+    };
 } ]);

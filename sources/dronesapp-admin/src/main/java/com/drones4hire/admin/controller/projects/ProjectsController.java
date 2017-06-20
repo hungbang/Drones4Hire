@@ -3,6 +3,7 @@ package com.drones4hire.admin.controller.projects;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.models.dto.ProjectDTO;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,6 +53,24 @@ public class ProjectsController extends AbstractController
 	{
 		project.setPilotId(null);
 		return projectService.createProject(project);
+	}
+
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "{id}/block", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Project blockProject(@PathVariable(value = "id") Long id) throws ServiceException
+	{
+		Project project = projectService.getProjectById(id, getPrincipal().getId());
+		project.setStatus(Project.Status.BLOCKED);
+		return projectService.updateProject(project);
+	}
+
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void deleteProject(
+			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
+			throws ServiceException
+	{
+		projectService.deleteProject(id);
 	}
 	
 	@RequestMapping(value = "searchProjects", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

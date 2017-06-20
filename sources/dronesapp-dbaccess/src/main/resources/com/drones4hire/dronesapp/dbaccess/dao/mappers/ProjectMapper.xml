@@ -868,7 +868,6 @@
 	      			drones.DURATIONS D
 	      		ON
           			P.DURATION_ID = D.ID
-
           		LEFT JOIN
 	      			drones.SERVICES S
 	      		ON
