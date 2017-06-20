@@ -3,7 +3,7 @@
 // TODO: refactoring
 .f-default
   &__title
-    font-size 30px
+    font-size 3rem
     margin-bottom 50px
     line-height: 6rem
     position: relative
@@ -16,12 +16,12 @@
       top: 0
       display: block
       text-align: center
-      background #3ebcc7
+      background $blueC7
       font-size 3.5rem
       color #fff
     ._small
       display: block
-      font-size 20px
+      font-size 2rem
       margin-top -24px
   &__inner
     display: flex
@@ -93,14 +93,14 @@
       font-size: 1.8em
       transform: translateY(-50%);
       pointer-events: none
-      color: #8f8f8f
+      color: $gray8F
     &._placeholder
       select:not(:focus)
-        color: #8f8f8f
+        color: $gray8F
   &__example
     padding-left: 5px
     margin-top: 5px
-    color: #8f8f8f
+    color: $gray8F
     font-size: 1.2rem
   &__file
     display: flex
@@ -115,8 +115,7 @@
     border-radius 5px
     padding 0 15px
     font-size 1.8rem
-    font-weight: 400
-    color #4d4d4f
+    color #000
     border: 2px solid #e4e4e4
     transition: border-color .3s
     &:not(textarea)
@@ -124,8 +123,7 @@
     &[placeholder]._error
       border-color: red
     &::placeholder
-      color #8f8f8f
-      font-weight: 300
+      color $gray8F
     &._area
       padding 10px 15px
     &._file
@@ -137,6 +135,9 @@
     &._submit.ng-invalid
       +.f-profile__error
         opacity 1
+    &:focus
+    &:active
+      border-color $blueD4
     &._error
       &+.f-default
         &__error
@@ -151,7 +152,7 @@
   &__text
     font-size 1.8rem
     font-weight: 400
-    color #8f8f8f
+    color $gray8F
     margin-right: 22px
     &._req
       &:after
@@ -195,7 +196,7 @@
       &__text
         margin-bottom: 10px
         font-size: 1.8rem
-        color: #8f8f8f
+        color: $gray8F
   &__img
     position: relative
     width: 120px
@@ -255,8 +256,8 @@
       top: -12px
       width: 16px
       height: 34px
-      border-bottom 4px solid #3ebcc7
-      border-right 4px solid #3ebcc7
+      border-bottom 4px solid $blueC7
+      border-right 4px solid $blueC7
       transform rotate(50deg) skew(15deg)
       display: none
     &-input
@@ -264,7 +265,7 @@
         display: block
   &__price
     font-size 2rem
-    font-weight: 700
+    font-weight: 600
   &__avatar
     width: 100px
     height: 100px
@@ -294,7 +295,7 @@
     cursor: pointer
     transition: transform .3s
     &._on
-      color: #3ebcc7
+      color: $blueC7
     &._off
       transform: translate(70px , -50%)
   &__slider
@@ -324,7 +325,7 @@
     &:checked
       & ~ .f-default
         &__slider
-          background-color: #3ebcc7
+          background-color: $blueC7
           &:before
             transform: translate(29px , -50%)
       & ~ .f-default
@@ -338,7 +339,7 @@
       .f-default
         &__radio
           &-text
-            color: #000000
+            color: #000
             &:before
               background: #000
             &:after
@@ -388,7 +389,7 @@
   &__wrapper
     margin-bottom: 20px
 
-  &__filedrop // TODO: add vertical layout
+  &__filedrop
     background-color $gray1f
     padding 20px 10px
     display flex

@@ -45,7 +45,7 @@
          href="#"
          [ngClass]="{ _inactive: !project.attachmentLength || project.status === 'COMPLETED' }"
          (click)="release(project, !!project.attachmentLength || project.status !== 'COMPLETED', $event)">
-        RELEASE PAYMENT
+        {{project.status !== 'COMPLETED' ? 'RELEASE PAYMENT': 'PROJECT COMPLETED'}}
       </a>
     </td>
   </tr>

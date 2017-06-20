@@ -1,4 +1,4 @@
-@import '../../../styles/settings/mixin.styl'
+@import '../../../styles/settings/variables.styl'
 
 .l-bids
   list-style-image none
@@ -12,14 +12,13 @@
     text-transform: uppercase
     min-height 31px
     background #fff
-    color #3ebcc7
+    color $blueC7
     font-size 1.8rem
     margin-bottom 6px
-    letter-spacing: 2px
-    border:1px solid #3ebcc7
-    osans(400)
+    letter-spacing: .2em
+    border: 1px solid $blueC7
     &._fill
-      background #3ebcc7
+      background $blueC7
       color #fff
     &[disabled]
       cursor: default
@@ -27,7 +26,6 @@
   &__win-title
     font-size: 3.6rem
     text-transform: uppercase
-    letter-spacing: 15px
-    osans()
+    letter-spacing: .35em
     margin-top: 10px
     margin-bottom: 40px

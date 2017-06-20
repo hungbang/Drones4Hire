@@ -1,4 +1,5 @@
 <div class="b-profile">
+  <div class="b-profile__title _top">Dashboard</div>
   <div class="b-profile__img-wrapper" [ngClass]="{'_image': profile.photoURL}">
     <div *ngIf="profile.photoURL; else elseBlock">
       <img src="{{profile.photoURL}}" alt="user icon" class="b-profile__img">
