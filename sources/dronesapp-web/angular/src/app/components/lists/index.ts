@@ -10,10 +10,12 @@ import { LAbilitiesComponent } from './l-abilities/l-abilities.component';
 import {LSimilarComponent} from './l-similar/l-similar.component';
 import { LPortfolioFilesComponent } from './l-portfolio-files/l-portfolio-files.component';
 import {LProjectPaginationComponent} from "./l-project-pagination/l-project-pagination.component";
+import {LCardsComponent} from "./l-cards/l-cards.component";
 
 export const LISTS = [
   LAbilitiesComponent,
   LRatingComponent,
+  LCardsComponent,
   LServicesComponent,
   LHowitComponent,
   LRatingComponent,

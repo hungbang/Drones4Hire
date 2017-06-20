@@ -1,0 +1,59 @@
+<form novalidate class="f-card" (submit)="onSubmit(form)" #form>
+  <div class="f-card__title">
+    {{ title }}
+  </div>
+
+  <div class="f-card__row">
+    <div class="f-card__col">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="text"
+               required
+               pattern="\d+"
+               [(ngModel)]="card.number"
+               placeholder="Card number"
+               name="number"/>
+      </label>
+    </div>
+  </div>
+
+  <div class="f-card__row">
+    <div class="f-card__col">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="text"
+               required
+               pattern="\d+"
+               [(ngModel)]="card.code"
+               placeholder="ZIP code"
+               name="zip"/>
+      </label>
+    </div>
+    <div class="f-card__col">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="text"
+               [(ngModel)]="card.date"
+               placeholder="MM/YY"
+               required
+               pattern="\d{2}\/\d{2}"
+               name="date"/>
+      </label>
+    </div>
+    <div class="f-card__col">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="text"
+               required
+               pattern="\d{3}"
+               [(ngModel)]="card.cvv"
+               placeholder="CVV"
+               name="cvv" />
+      </label>
+    </div>
+  </div>
+
+  <div class="f-card__row f-card__bottom">
+    <ng-content></ng-content>
+  </div>
+</form>

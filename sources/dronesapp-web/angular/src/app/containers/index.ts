@@ -16,6 +16,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
 import { ProjectFilesComponent } from './project-files/project-files.component';
+import {PaymentComponent} from "./payment/payment.component";
 import { WithdrawalRequestComponent } from './withdrawal-request/withdrawal-request.component';
 import {AboutComponent} from "./about/about.component";
 import {WorkPilotComponent} from "./work-pilot/work-pilot.component";
@@ -43,6 +44,7 @@ export const AppContainers = [
   PrivacyPolicyComponent,
   SecurityComponent,
   NotificationsComponent,
+  PaymentComponent,
   NotFoundComponent,
   PortfolioComponent,
   WithdrawalRequestComponent,

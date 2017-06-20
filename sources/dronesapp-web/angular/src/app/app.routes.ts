@@ -50,6 +50,7 @@ import {WorkClientComponent} from "./containers/work-client/work-client.componen
 import {PrivacyPolicyComponent} from "./containers/privacy-policy/privacy-policy.component";
 import {TermsComponent} from "./containers/terms/terms.component";
 import {AboutComponent} from "./containers/about/about.component";
+import {PaymentComponent} from "./containers/payment/payment.component";
 
 export const ROUTES: Routes = [
   {
@@ -506,6 +507,14 @@ export const ROUTES: Routes = [
     component: AboutComponent,
     data: {
       className: '_about'
+    }
+  },
+  {
+    path: 'payment',
+    canActivate: [AuthGuard],
+    component: PaymentComponent,
+    data: {
+      className: 'p-payment'
     }
   },
   {
