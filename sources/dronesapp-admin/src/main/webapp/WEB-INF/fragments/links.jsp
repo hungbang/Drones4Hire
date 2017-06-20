@@ -66,3 +66,4 @@
 <script src="<spring:url value='/resources/js/dronesapp/users-controllers.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/projects-controllers.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/paid-option-controllers.js'/>" type="text/javascript"></script>
+<script src="<spring:url value='/resources/js/dronesapp/withdraw-controllers.js'/>" type="text/javascript"></script>

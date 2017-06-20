@@ -26,6 +26,7 @@ import com.drones4hire.dronesapp.services.exceptions.AWSException;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
+import com.drones4hire.dronesapp.services.exceptions.NotEnoughMoneyException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
 import com.drones4hire.dronesapp.ws.security.SecuredUser;
@@ -93,6 +94,16 @@ public abstract class AbstractController
 	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.USER_ALREADY_EXIST));
+		return result;
+	}
+	
+	@ExceptionHandler(NotEnoughMoneyException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handleNotEnoughMoneyException(NotEnoughMoneyException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.NOT_ENOUGH_MONEY));
 		return result;
 	}
 
