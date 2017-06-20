@@ -164,16 +164,34 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 	$scope.loadProject = function(){
 		$http.get('projects/' + $routeParams.id).success(function(data) {
 			$scope.project = data;
+			$scope.createdAt = new Date($scope.project.createdAt);
+			$scope.startDate = new Date($scope.project.startDate);
+			$scope.finishDate = new Date($scope.project.finishDate);
 		}).error(function(data, status) {
 			alert('Failed to load project');
 		});
 	};
-	
-	(function init(){
-		$scope.loadProject();
-	})();
+
+    $scope.loadComments = function(){
+        $http.get('projects/' + $routeParams.id + '/comments').success(function(data) {
+            $scope.comments = data;
+        }).error(function(data, status) {
+            alert('Failed to load comments');
+        });
+    };
+
+    $scope.loadBids = function(){
+        $http.get('projects/' + $routeParams.id + '/bids').success(function(data) {
+            $scope.bids = data;
+        }).error(function(data, status) {
+            alert('Failed to load bids');
+        });
+    };
 	
 	$scope.editProject = function(id){
+        $scope.project.createdAt = new Date($scope.createdAt).getTime();
+        $scope.project.startDate = new Date($scope.startDate).getTime();
+        $scope.project.finishDate = new Date($scope.finishDate).getTime();
 		$http.put('projects/' + id, $scope.project).success(function(data) {
 			alert('Success, changes were saved.');
 		}).error(function(data, status) {
@@ -196,4 +214,34 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
             alert('Failed to delete project!');
         });
     };
+
+    $scope.deleteComment = function (id) {
+        $http.delete('comments/' + id).success(function(data) {
+            alert('Success, comment was deleted.');
+        }).error(function(data, status) {
+            alert('Failed to delete comment!');
+        });
+    };
+
+    $scope.deleteAttachment = function (id) {
+        $http.delete('projects/results/' + id).success(function(data) {
+            alert('Success, attachment was deleted.');
+        }).error(function(data, status) {
+            alert('Failed to delete attachment!');
+        });
+    };
+
+    $scope.deleteBid = function (id) {
+        $http.delete('bids/' + id + '/retract').success(function(data) {
+            alert('Success, bid was deleted.');
+        }).error(function(data, status) {
+            alert('Failed to delete bid!');
+        });
+    };
+
+    (function init(){
+        $scope.loadProject();
+        $scope.loadComments();
+        $scope.loadBids();
+    })();
 } ]);

@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.users.Group;
+import com.drones4hire.dronesapp.models.db.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,9 @@ public class AttachmentService
 	
 	@Autowired
 	private ProjectMapper projectMapper;
+
+	@Autowired
+	private UserService userService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Attachment createAttachment(Attachment attachment, long principalId) throws ServiceException {
@@ -60,18 +65,25 @@ public class AttachmentService
 	private void checkAuthorities(Attachment attachment, long principalId) throws ServiceException
 	{
 		Project project = projectMapper.getProjectById(attachment.getProjectId());
-		if(attachment.getType().equals(Type.PROJECT_RESULT)) {
-			if (project.getPilotId() != principalId && !project.getStatus().equals(Status.IN_PROGRESS))
+		User user = userService.getUserById(principalId);
+		if(! user.getRoles().contains(Group.Role.ROLE_ADMIN))
+		{
+			if (attachment.getType().equals(Type.PROJECT_RESULT))
+			{
+				if (project.getPilotId() != principalId && !project.getStatus().equals(Status.IN_PROGRESS))
+				{
+					throw new ForbiddenOperationException();
+				}
+			} else if (attachment.getType().equals(Type.PROJECT_ATTACHMENT))
+			{
+				if (project.getClientId() != principalId)
+				{
+					throw new ForbiddenOperationException();
+				}
+			} else
 			{
 				throw new ForbiddenOperationException();
 			}
-		} else if(attachment.getType().equals(Type.PROJECT_ATTACHMENT)) {
-			if (project.getClientId() != principalId)
-			{
-				throw new ForbiddenOperationException();
-			}
-		} else {
-			throw new ForbiddenOperationException();
 		}
 	}
 }

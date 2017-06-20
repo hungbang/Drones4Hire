@@ -17,10 +17,28 @@
 				<label><spring:message code="drones.admin.pages.common.project.photo.label"/></label><br/> 										
 				<img height="90%" width="90%" alt="<spring:message code="drones.admin.pages.common.project.photo.label"/>" data-ng-src="{{project.imageURL}}">
 			</div>
+			<div class="form-group" data-ng-if="comments.length">
+				<label><spring:message code="drones.admin.pages.common.column.comments.caption"/></label>
+				<div data-ng-repeat="comment in comments">
+					<h4>{{comment.user.firstName}} {{comment.user.lastName}}</h4>
+					<div>{{comment.comment}}</div>
+					<button class="btn btn-danger" data-ng-click="deleteComment(comment.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
+				</div>
+			</div>
+			<div class="form-group" data-ng-if="bids.length">
+				<label><spring:message code="drones.admin.pages.common.column.bids.caption"/></label>
+				<div data-ng-repeat="bid in bids">
+					<h4>{{bid.user.firstName}} {{bid.user.lastName}}</h4>
+					<div>{{bid.comment}}</div>
+					<div>{{bid.amount}} {{bid.currency}}</div>
+					<button class="btn btn-danger" data-ng-click="deleteBid(bid.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
+				</div>
+			</div>
 			<div class="form-group" data-ng-if="project.attachments.length">
 				<label><spring:message code="drones.admin.pages.common.column.attachments.caption"/></label>
 				<div data-ng-repeat="attachment in project.attachments">
 					<a href="{{attachment.attachmentURL}}">{{attachment.title}}</a>
+					<button class="btn btn-danger" data-ng-click="deleteAttachment(attachment.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
 				</div>
 			</div>
 		</div>
@@ -65,22 +83,22 @@
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.common.column.createDate.caption"/></label>
-						<input class="form-control" type="text" data-ng-model="project.createdAt" disabled/>
+						<input class="form-control" type="text" data-ng-model="createdAt" disabled/>
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.common.column.startDate.caption"/></label>
-						<input class="form-control" type="text" data-ng-model="project.startDate"/>
+						<input class="form-control" type="text" data-ng-model="startDate"/>
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.common.column.finishDate.caption"/></label>
-						<input class="form-control" type="text" data-ng-model="project.finishDate"/>
+						<input class="form-control" type="text" data-ng-model="finishDate"/>
 					</div>
 					<div class="form-group">
 						<label><spring:message code="drones.admin.pages.project.form.postProdaction.label"/></label> 
 						<input type="checkbox" data-ng-model="project.postProductionRequired" />
 					</div>
 					<button class="btn btn-primary btn-warning" data-ng-click="blockProject(project.id)"><spring:message code="drones.admin.pages.common.button.project.block"/></button>
-					<button class="btn btn-primary btn-danger" data-ng-click="deleteProject(project.id)"><spring:message code="drones.admin.pages.common.button.project.delete"/></button>
+					<button class="btn btn-primary btn-danger" data-ng-click="deleteProject(project.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
 					<button class="btn btn-primary action pull-right" data-ng-click="editProject(project.id)"><spring:message code="drones.admin.pages.common.button.save"/></button>
 				</fieldset>
 			</form>

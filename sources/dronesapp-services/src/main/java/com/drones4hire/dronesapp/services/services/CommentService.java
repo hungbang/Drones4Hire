@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.users.Group;
+import com.drones4hire.dronesapp.models.db.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,14 +67,20 @@ public class CommentService
 	private void checkAuthorities(long projectId, long principalId) throws ServiceException
 	{
 		Project project = projectMapper.getProjectById(projectId);
-		switch(project.getStatus()) {
-			case NEW: 
+		User user = userService.getUserById(principalId);
+		if(! user.getRoles().contains(Group.Role.ROLE_ADMIN))
+		{
+			switch (project.getStatus())
+			{
+			case NEW:
 			case PENDING:
 				return;
 			default:
-				if(principalId != project.getClientId() && principalId != project.getPilotId()) {
+				if (principalId != project.getClientId() && principalId != project.getPilotId())
+				{
 					throw new ForbiddenOperationException();
 				}
+			}
 		}
 	}
 }
