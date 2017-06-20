@@ -1,12 +1,15 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
 import com.drones4hire.dronesapp.models.db.services.Service;
+import com.drones4hire.dronesapp.models.db.users.PilotEquipment;
 import com.drones4hire.dronesapp.models.db.users.Profile;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
+import com.drones4hire.dronesapp.models.dto.PilotEquipmentDTO;
 import com.drones4hire.dronesapp.models.dto.ProfileDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.PilotEquipmentService;
 import com.drones4hire.dronesapp.services.services.ProfileService;
 import com.drones4hire.dronesapp.services.services.ServiceService;
 import com.drones4hire.dronesapp.services.services.UserService;
@@ -42,6 +45,9 @@ public class PublicController extends AbstractController
 
 	@Autowired
 	private ServiceService serviceService;
+
+	@Autowired
+	private PilotEquipmentService pilotEquipmentService;
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get public account by id", nickname = "getPublicAccountById", code = 200, httpMethod = "GET", response = AccountDTO.class)
@@ -107,5 +113,22 @@ public class PublicController extends AbstractController
 			profileDTOs.add(mapper.map(profile, ProfileDTO.class));
 		}
 		return profileDTOs;
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get pilot equipments by pilot id", nickname = "getPilotEquipmentsByPilotId", code = 200, httpMethod = "GET", response = List.class)
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "account/{id}/equipments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<PilotEquipmentDTO> getPilotEquipmentsByPilotId(
+			@ApiParam(value = "Id of the pilot", required = true) @PathVariable(value = "id") long id)
+			throws ServiceException
+	{
+		List<PilotEquipment> pilotEquipments = pilotEquipmentService.getPilotEquipmentsByPilotId(id);
+		List<PilotEquipmentDTO> pilotEquipmentDTOs = new ArrayList<>();
+		for(PilotEquipment pilotEquipment : pilotEquipments)
+		{
+			pilotEquipmentDTOs.add(mapper.map(pilotEquipment, PilotEquipmentDTO.class));
+		}
+		return pilotEquipmentDTOs;
 	}
 }

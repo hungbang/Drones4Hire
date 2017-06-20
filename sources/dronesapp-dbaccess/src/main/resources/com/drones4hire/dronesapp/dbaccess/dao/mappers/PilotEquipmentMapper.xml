@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.PilotEquipmentMapper">
+
+    <insert id="createPilotEquipment" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT
+          INTO
+          		drones.PILOT_EQUIPMENTS (USER_ID, NAME, TYPE)
+          VALUES
+	          (
+	            #{userId},
+	            #{name},
+	            #{type}
+	          )
+        ]]>
+    </insert>
+
+    <insert id="createPilotEquipments" useGeneratedKeys="true">
+        <![CDATA[
+          INSERT
+          INTO
+          		drones.PILOT_EQUIPMENTS (USER_ID, NAME, TYPE)
+          VALUES
+        ]]>
+          <foreach collection="pilotEquipments" item="equipment" index="index" open="" separator="," close=";">
+              <![CDATA[
+                  (
+                      #{equipment.userId},
+                      #{equipment.name},
+                      #{equipment.type}
+                  )
+              ]]>
+		  </foreach>
+    </insert>
+
+    <sql id="getPilotEquipment">
+        <![CDATA[
+          SELECT
+	      		PE.ID AS PILOT_EQUIPMENT_ID,
+	      		PE.USER_ID AS PILOT_EQUIPMENT_USER_ID,
+	      		PE.NAME AS PILOT_EQUIPMENT_NAME,
+	      		PE.TYPE AS PILOT_EQUIPMENT_TYPE,
+	      		PE.CREATED_AT AS PILOT_EQUIPMENT_CREATED_AT,
+	      		PE.MODIFIED_AT AS PILOT_EQUIPMENT_MODIFIED_AT
+          FROM
+	            drones.PILOT_EQUIPMENTS PE
+        ]]>
+    </sql>
+
+    <select id="getPilotEquipmentById" resultMap="PilotEquipmentResultMap">
+        <include refid="getPilotEquipment"/>
+        <![CDATA[
+          WHERE
+          		PE.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getPilotEquipmentsByPilotId" resultMap="PilotEquipmentResultMap">
+        <include refid="getPilotEquipment"/>
+        <![CDATA[
+          WHERE
+          		PE.USER_ID = #{pilotId}
+        ]]>
+    </select>
+
+    <select id="getAllPilotEquipments" resultMap="PilotEquipmentResultMap">
+        <include refid="getPilotEquipment"/>
+    </select>
+
+    <update id="updatePilotEquipment">
+        <![CDATA[
+          UPDATE
+          		drones.PILOT_EQUIPMENTS
+          SET
+          		NAME = #{name}
+          WHERE
+		  		ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deletePilotEquipment">
+        <![CDATA[
+          DELETE
+          FROM
+          		drones.PILOT_EQUIPMENTS
+          WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="PilotEquipmentResultMap" type="com.drones4hire.dronesapp.models.db.users.PilotEquipment" autoMapping="false">
+        <id column="PILOT_EQUIPMENT_ID" property="id"/>
+        <result column="PILOT_EQUIPMENT_USER_ID" property="userId" />
+        <result column="PILOT_EQUIPMENT_NAME" property="name" />
+        <result column="PILOT_EQUIPMENT_TYPE" property="type" />
+        <result column="PILOT_EQUIPMENT_MODIFIED_AT" property="modifiedAt" />
+        <result column="PILOT_EQUIPMENT_CREATED_AT" property="createdAt" />
+    </resultMap>
+</mapper>

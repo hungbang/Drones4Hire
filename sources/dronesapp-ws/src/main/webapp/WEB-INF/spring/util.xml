@@ -38,6 +38,7 @@
 				<value>dozer/Profile-dozer-mapping.xml</value>
 				<value>dozer/PilotLocation-dozer-mapping.xml</value>
 				<value>dozer/Bid-dozer-mapping.xml</value>
+				<value>dozer/PilotEquipment-dozer-mapping.xml</value>
 			</list>
 		</property>
 	</bean>
