@@ -21,6 +21,18 @@ export class FPilotLicenseComponent implements OnInit {
   public certFileName: string = '';
 
   public submitted: boolean = false;
+  private licenseCountries: any[] = [
+    13, // Australia
+    40, // Canada
+    76, // France
+    83, // Germany
+    106, // Ireland
+    141, // Mexico
+    155, // New Zealand
+    192, // Singapore
+    224, // United Kingdom
+    225, // United States
+  ];
 
   constructor(public accountService: AccountService, private _requestService: RequestService) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -88,5 +100,9 @@ export class FPilotLicenseComponent implements OnInit {
     });
 
     this.uploader.uploadAll();
+  }
+
+  get isRequiredLicense() {
+    return this.accountService.account.location.country && this.licenseCountries.some(country_id => country_id === this.accountService.account.location.country.id);
   }
 }

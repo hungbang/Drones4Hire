@@ -1,7 +1,7 @@
 <form class="f-default f-portfolio-upload"
       novalidate
       #portfolioForm="ngForm"
-      (submit)="addFile($event)">
+      (submit)="addFile($event, portfolioForm)">
   <div class="f-portfolio-upload__row">
     <div class="f-portfolio-upload__col">
       <label class="f-default__label">
@@ -38,6 +38,9 @@
                class="f-default__field _file">
       </div>
       <div class="f-portfolio-upload__messages">
+        <div class="f-portfolio-upload__message _error" *ngIf="isLimitReached">
+          You can't attach more than {{ attachmentsLimit }} files
+        </div>
         <div class="f-portfolio-upload__message _error" *ngIf="submitted && (fileName === '')">
           No file chosen
         </div>

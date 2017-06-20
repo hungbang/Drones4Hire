@@ -5,7 +5,7 @@
 
   <div class="f-default__row f-license__row">
     <label class="f-default__file">
-      <span class="f-default__text">Pilot License:*</span>
+      <span class="f-default__text">Pilot License:{{isRequiredLicense ? '*' : ''}}</span>
       <input class="f-default__input"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
@@ -13,7 +13,7 @@
              ng2FileSelect
              [uploader]="uploader"
              (change)="handlePhotoUpload('license')"
-             [ngClass]="{'_error': submitted && !accountService.license?.licenseURL}">
+             [ngClass]="{'_error': submitted && isRequiredLicense && !accountService.license?.licenseURL}">
       <span class="f-default__button f-license__button _center">Choose File</span>
       <span class="f-default__text">{{ licFileName ? 'Chosen file: ' + licFileName : 'No file chosen' }}</span>
     </label>
@@ -21,7 +21,7 @@
 
   <div class="f-default__row f-license__row">
     <label class="f-default__file">
-      <span class="f-default__text">Insurance Certificate:*</span>
+      <span class="f-default__text">Insurance Certificate:{{isRequiredLicense ? '*' : ''}}</span>
       <input class="f-default__input"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
@@ -29,7 +29,7 @@
              ng2FileSelect
              [uploader]="uploader"
              (change)="handlePhotoUpload('insurance')"
-             [ngClass]="{'_error': submitted && !accountService.license?.insuranceURL}">
+             [ngClass]="{'_error': submitted && isRequiredLicense && !accountService.license?.insuranceURL}">
       <span class="f-default__button f-license__button _center">Choose File</span>
       <span class="f-default__text">{{ certFileName ? 'Chosen file: ' + certFileName : 'No file chosen' }}</span>
     </label>

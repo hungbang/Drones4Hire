@@ -71,7 +71,7 @@ export class FClientProfileComponent implements OnInit {
 
     this.submitted = true;
 
-    if (form.invalid || (!this.accountService.account && !this.accountService.account.photoURL)) { //TODO: if photo is required check this for correct work
+    if (form.invalid || (this.accountService.account && !this.accountService.account.photoURL)) {
       return;
     }
 

@@ -144,8 +144,11 @@
           <textarea class="f-default__field _area"
                     name="bio"
                     placeholder="Bio"
+                    #bioRef="ngModel"
+                    required
                     [ngModel]="accountService.account?.summary"
                     (ngModelChange)="accountService.account.summary = $event"
+                    [ngClass]="{'_error': submitted && bioRef.errors?.required}"
           ></textarea>
         </label>
       </div>

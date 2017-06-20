@@ -6,7 +6,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
   styleUrls: ['./f-license.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class FLocationComponent {
+export class FLocationComponent { // TODO: finish this form integration
   constructor() {
   }
 }
