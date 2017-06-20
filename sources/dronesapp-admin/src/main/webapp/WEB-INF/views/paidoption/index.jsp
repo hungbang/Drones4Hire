@@ -13,7 +13,7 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<label class="search"><spring:message code="drones.admin.pages.common.users_found.label"/>: {{paidOptions.length}}</label>
+			<label class="search">Paid Options found: {{paidOptions.length}}</label>
 		</div>
 	</div>	
 	<div class="row">

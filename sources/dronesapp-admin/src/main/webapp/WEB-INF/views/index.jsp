@@ -35,6 +35,9 @@
 	                    	<li data-ng-class="{active : isActive('/dashboard')}">
 	                            <a href="#/dashboard"><i class="fa fa-dashboard"></i> <spring:message code="drones.admin.pages.index.menu.dashboard.caption"/></a>
 	                        </li>
+	                        <li data-ng-class="{active : isActive('/withdraw')}">
+	                            <a href="#/withdraw"><i class="fa fa-money"></i> Withdraw</a>
+	                        </li>
 	                        <li>
 		                        <a href="javascript:;" data-toggle="collapse" data-target="#users"><i class="fa fa-fw fa-users"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
 		                        <ul id="users" class="collapse">
