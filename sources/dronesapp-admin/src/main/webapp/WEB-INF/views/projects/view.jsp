@@ -20,7 +20,7 @@
 			<div class="form-group" data-ng-if="project.attachments.length">
 				<label><spring:message code="drones.admin.pages.common.column.attachments.caption"/></label>
 				<div data-ng-repeat="attachment in project.attachments">
-					<img data-ng-src="{{attachment.attachmentURL}}" alt="img" width="90%" height="90%"/>
+					<a href="{{attachment.attachmentURL}}">{{attachment.title}}</a>
 				</div>
 			</div>
 		</div>
