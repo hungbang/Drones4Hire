@@ -50,6 +50,7 @@ public class ProjectsController extends AbstractController
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Project createProject(@RequestBody Project project)
 	{
+		project.setPilotId(null);
 		return projectService.createProject(project);
 	}
 	
