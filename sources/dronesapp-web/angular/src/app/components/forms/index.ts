@@ -15,6 +15,7 @@ import {FServicesComponent} from './f-services/f-services.component';
 import {FLocationComponent} from './f-location/f-location.component';
 import { FPortfolioUploadComponent } from './f-portfolio-upload/f-portfolio-upload.component';
 import { FProjectFilesComponent } from './f-project-files/f-project-files.component';
+import { FWithdrawalComponent } from './f-withdrawal/f-withdrawal.component';
 
 export const FORMS = [
   FAuthorizationComponent,
@@ -35,4 +36,5 @@ export const FORMS = [
   FNotificationsComponent,
   FChangePasswordComponent,
   FServicesComponent,
+  FWithdrawalComponent,
 ];

@@ -16,6 +16,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
 import { ProjectFilesComponent } from './project-files/project-files.component';
+import { WithdrawalRequestComponent } from './withdrawal-request/withdrawal-request.component';
 
 export const AppContainers = [
   AccountComponent,
@@ -36,4 +37,5 @@ export const AppContainers = [
   NotificationsComponent,
   NotFoundComponent,
   PortfolioComponent,
+  WithdrawalRequestComponent,
 ];

@@ -36,7 +36,7 @@ export class HeaderComponent {
         children: [
           { title: 'Account settings', link: '/account/client' },
           { title: 'Payment Information' },
-          { title: 'Withdrawal request' },
+          { title: 'Withdrawal request', link: '/withdrawal-request' },
           { title: 'Transactions', link: '/transactions' },
           { title: 'Log out', action: this.logout.bind(this) }
         ]
@@ -51,7 +51,7 @@ export class HeaderComponent {
         children: [
           { title: 'Account settings', link: '/account/pilot' },
           { title: 'Payment Information' },
-          { title: 'Withdrawal request' },
+          { title: 'Withdrawal request', link: '/withdrawal-request' },
           { title: 'Transactions', link: '/transactions' },
           { title: 'Log out', action: this.logout.bind(this) }
         ]

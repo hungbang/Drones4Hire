@@ -42,7 +42,8 @@ import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-pr
 import {PilotProjectsResolve} from './resolves/pilot-projects/pilot-projects.resolve';
 import {SProjectAddComponent} from './components/sections/s-project-add/s-project-add.component';
 import {SProjectEditComponent} from './components/sections/s-project-edit/s-project-edit.component';
-import {BidInfoResolve} from "./resolves/bid-info/bid-info";
+import {BidInfoResolve} from './resolves/bid-info/bid-info';
+import {WithdrawalRequestComponent} from './containers/withdrawal-request/withdrawal-request.component';
 
 export const ROUTES: Routes = [
   {
@@ -455,6 +456,14 @@ export const ROUTES: Routes = [
     ],
     data: {
       className: 'p-search'
+    }
+  },
+  {
+    path: 'withdrawal-request',
+    component: WithdrawalRequestComponent,
+    canActivate: [AuthGuard],
+    data: {
+      className: '_gray-bg'
     }
   },
   {
