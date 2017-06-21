@@ -71,4 +71,10 @@ public class PilotEquipmentService
 	{
 		pilotEquipmentMapper.deletePilotEquipment(id);
 	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public void deletePilotEquipmentsByPilotId(long pilotId)
+	{
+		pilotEquipmentMapper.deletePilotEquipmentsByPilotId(pilotId);
+	}
 }

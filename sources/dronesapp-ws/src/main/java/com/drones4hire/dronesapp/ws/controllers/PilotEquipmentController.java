@@ -88,13 +88,25 @@ public class PilotEquipmentController extends AbstractController
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({ "ROLE_PILOT" })
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody PilotEquipmentDTO updatePilotEquipment(@Valid @RequestBody PilotEquipmentDTO pe)
+	public @ResponseBody List<PilotEquipmentDTO> updatePilotEquipment(@Valid @RequestBody List<PilotEquipmentDTO> pe)
 			throws ForbiddenOperationException
 	{
-		PilotEquipment pilotEquipment = pilotEquipmentService.getPilotEquipmentById(pe.getId());
-		checkPrincipalPermissions(pilotEquipment.getUserId());
-		pilotEquipment.setName(pe.getName());
-		return mapper.map(pilotEquipmentService.updatePilotEquipment(pilotEquipment), PilotEquipmentDTO.class);
+		List<PilotEquipment> pilotEquipments = new ArrayList<>();
+		List<PilotEquipmentDTO> pilotEquipmentDTOs = new ArrayList<>();
+		PilotEquipment currentPilotEquipment = null;
+		for(PilotEquipmentDTO pilotEquipmentDTO : pe)
+		{
+			currentPilotEquipment = mapper.map(pilotEquipmentDTO, PilotEquipment.class);
+			currentPilotEquipment.setUserId(getPrincipal().getId());
+			pilotEquipments.add(currentPilotEquipment);
+		}
+		pilotEquipmentService.deletePilotEquipmentsByPilotId(getPrincipal().getId());
+		pilotEquipments = pilotEquipmentService.createPilotEquipments(pilotEquipments);
+		for(PilotEquipment pilotEquipment : pilotEquipments)
+		{
+			pilotEquipmentDTOs.add(mapper.map(pilotEquipment, PilotEquipmentDTO.class));
+		}
+		return pilotEquipmentDTOs;
 	}
 
 	@ResponseStatusDetails

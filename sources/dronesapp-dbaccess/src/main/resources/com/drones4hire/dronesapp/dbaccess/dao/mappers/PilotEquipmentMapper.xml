@@ -90,6 +90,16 @@
         ]]>
     </delete>
 
+    <delete id="deletePilotEquipmentsByPilotId">
+        <![CDATA[
+          DELETE
+          FROM
+          		drones.PILOT_EQUIPMENTS
+          WHERE
+          		USER_ID = #{pilotId}
+        ]]>
+    </delete>
+
     <resultMap id="PilotEquipmentResultMap" type="com.drones4hire.dronesapp.models.db.users.PilotEquipment" autoMapping="false">
         <id column="PILOT_EQUIPMENT_ID" property="id"/>
         <result column="PILOT_EQUIPMENT_USER_ID" property="userId" />

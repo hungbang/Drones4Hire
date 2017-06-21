@@ -21,4 +21,6 @@ public interface PilotEquipmentMapper
 	void updatePilotEquipment(PilotEquipment pilotEquipment);
 
 	void deletePilotEquipment(long id);
+
+	void deletePilotEquipmentsByPilotId(long pilotId);
 }

@@ -5,10 +5,10 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/fragments/taglibs.jsp" %>
 
-<div data-ng-controller="ProjectDetailsController">
+<div data-ng-controller="ProjectDetailsController" class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1><spring:message code="drones.admin.pages.projects.view.title"/></h1>
+			<h1 class="page-header"><spring:message code="drones.admin.pages.projects.view.title"/></h1>
 		</div>
 	</div>
 	<div class="row">

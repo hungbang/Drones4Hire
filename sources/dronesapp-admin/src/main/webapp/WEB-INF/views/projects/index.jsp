@@ -87,7 +87,7 @@
 		            	<th class="text-center">
 		                    <spring:message code="drones.admin.pages.common.column.id.caption"/>
 		                </th>
-		                   <th>
+						<th>
 		                    <spring:message code="drones.admin.pages.common.form.field.title.label"/>
 		                </th>
 		                <th>
@@ -103,16 +103,7 @@
 		                    <spring:message code="drones.admin.pages.common.column.budget.caption"/>
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.postProdaction.caption"/>
-		                </th>
-		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.createDate.caption"/>
-		                </th>
-						<th>
-							<spring:message code="drones.admin.pages.common.column.startDate.caption"/>
-						</th>
-		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.finishDate.caption"/>
+		                    <spring:message code="drones.admin.pages.common.column.postProduction.caption"/>
 		                </th>
 		                <th class="text-center">
 		                    <spring:message code="drones.admin.pages.common.column.status.caption"/>
@@ -122,6 +113,15 @@
 						</th>
 						<th class="text-center">
 							<spring:message code="drones.admin.pages.project.form.service.label"/>
+						</th>
+						<th>
+							<spring:message code="drones.admin.pages.common.column.createDate.caption"/>
+						</th>
+						<th>
+							<spring:message code="drones.admin.pages.common.column.startDate.caption"/>
+						</th>
+						<th>
+							<spring:message code="drones.admin.pages.common.column.finishDate.caption"/>
 						</th>
 		                <th class="text-center">
 		                    <spring:message code="drones.admin.pages.common.column.more_details.caption"/>
@@ -137,18 +137,18 @@
 		                <td>{{result.project.duration.title}} hours</td>
 		                <td>{{result.project.budget.title}} {{result.project.budget.min}} - {{result.project.budget.max}} {{result.project.budget.currency}}</td>
 		                <td>{{result.project.postProductionRequired}}</td>
-						<td>{{result.project.createdAt | date:'HH:mm dd-MM-yyyy'}}</td>
-		                <td>{{result.project.startDate | date:'HH:mm dd-MM-yyyy'}}</td>
-		                <td>{{result.project.finishDate | date:'HH:mm dd-MM-yyyy'}}</td>
 		                <td>{{result.project.status}}</td>
 		                <td>{{result.project.location.city}}</td>
 		                <td>{{result.project.service.category.name}}</td>
+						<td>{{result.project.createdAt | date:'HH:mm dd-MM-yyyy'}}</td>
+						<td>{{result.project.startDate | date:'HH:mm dd-MM-yyyy'}}</td>
+						<td>{{result.project.finishDate | date:'HH:mm dd-MM-yyyy'}}</td>
 						<td class="text-center">
 							<a class="btn btn-success btn-xs options" href="#/projects/{{result.project.id}}/view" target="_blank"><i class="fa fa-search"></i></a>
 						</td>
 					</tr>
 					<tr data-ng-show="!projectSearchResult.results.length">
-		                <td colspan="12" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
+		                <td colspan="14" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
 					</tr>
 			    </tbody>
 		    </table>
