@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.ws.controllers;
 import com.drones4hire.dronesapp.models.db.users.PilotEquipment;
 import com.drones4hire.dronesapp.models.dto.PilotEquipmentDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.PilotEquipmentService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.*;
@@ -89,7 +90,7 @@ public class PilotEquipmentController extends AbstractController
 	@Secured({ "ROLE_PILOT" })
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<PilotEquipmentDTO> updatePilotEquipment(@Valid @RequestBody List<PilotEquipmentDTO> pe)
-			throws ForbiddenOperationException
+			throws ServiceException
 	{
 		List<PilotEquipment> pilotEquipments = new ArrayList<>();
 		List<PilotEquipmentDTO> pilotEquipmentDTOs = new ArrayList<>();
@@ -101,7 +102,8 @@ public class PilotEquipmentController extends AbstractController
 			pilotEquipments.add(currentPilotEquipment);
 		}
 		pilotEquipmentService.deletePilotEquipmentsByPilotId(getPrincipal().getId());
-		pilotEquipments = pilotEquipmentService.createPilotEquipments(pilotEquipments);
+		pilotEquipmentService.createPilotEquipments(pilotEquipments);
+		pilotEquipments = pilotEquipmentService.getPilotEquipmentsByPilotId(getPrincipal().getId());
 		for(PilotEquipment pilotEquipment : pilotEquipments)
 		{
 			pilotEquipmentDTOs.add(mapper.map(pilotEquipment, PilotEquipmentDTO.class));
