@@ -2,8 +2,8 @@ import {Component, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'f-location',
-  templateUrl: './f-license.component.html',
-  styleUrls: ['./f-license.component.styl'],
+  templateUrl: './f-location.component.html',
+  styleUrls: ['./f-location.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
 export class FLocationComponent { // TODO: finish this form integration
