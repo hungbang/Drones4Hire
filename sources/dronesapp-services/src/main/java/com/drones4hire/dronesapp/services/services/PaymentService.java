@@ -51,7 +51,8 @@ public class PaymentService
 		BigDecimal trAmountWithoutFee = bid.getAmount().subtract(feeAmount);
 
 		Transaction feeTransaction = new Transaction();
-		feeTransaction.setWalletId(wallet.getId());
+		//TODO change to valid ADMIN wallet id
+		feeTransaction.setWalletId(3L);
 		feeTransaction.setAmount(feeAmount);
 		feeTransaction.setType(Transaction.Type.SERVICE_FEE);
 		feeTransaction.setProjectId(bid.getProjectId());
