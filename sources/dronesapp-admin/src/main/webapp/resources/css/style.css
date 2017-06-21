@@ -639,3 +639,8 @@ td.long {
 .line-item {
 	padding-right: 5px;
 }
+
+.cancel-button {
+	float: right;
+	margin: 6px;
+}
