@@ -644,3 +644,12 @@ td.long {
 	float: right;
 	margin: 6px;
 }
+
+.comment-author-text {
+	font-size: 20px;
+}
+
+.comment-text {
+	font-size: 16px;
+	font-family: Georgia;
+}

@@ -18,27 +18,29 @@
 				<img height="90%" width="90%" alt="<spring:message code="drones.admin.pages.common.project.photo.label"/>" data-ng-src="{{project.imageURL}}">
 			</div>
 			<div class="form-group" data-ng-if="comments.length">
-				<label><spring:message code="drones.admin.pages.common.column.comments.caption"/></label>
+				<label class="header-content"><spring:message code="drones.admin.pages.common.column.comments.caption"/></label>
 				<div data-ng-repeat="comment in comments">
-					<h4>{{comment.user.firstName}} {{comment.user.lastName}}</h4>
-					<div>{{comment.comment}}</div>
-					<button class="btn btn-danger" data-ng-click="deleteComment(comment.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
+					<span class="comment-author-text">{{comment.user.firstName}} {{comment.user.lastName}}: </span>
+					<span class="comment-text">{{comment.comment}}</span>
+					<button class="btn btn-sm btn-danger" data-ng-click="deleteComment(comment.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
 				</div>
 			</div>
+			<hr/>
 			<div class="form-group" data-ng-if="bids.length">
-				<label><spring:message code="drones.admin.pages.common.column.bids.caption"/></label>
+				<label class="header-content"><spring:message code="drones.admin.pages.common.column.bids.caption"/></label>
 				<div data-ng-repeat="bid in bids">
-					<h4>{{bid.user.firstName}} {{bid.user.lastName}}</h4>
-					<div>{{bid.comment}}</div>
-					<div>{{bid.amount}} {{bid.currency}}</div>
-					<button class="btn btn-danger" data-ng-click="deleteBid(bid.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
+					<span class="comment-author-text">{{bid.user.firstName}} {{bid.user.lastName}}: </span>
+					<span class="comment-text">{{bid.comment}}</span>
+					<span> ({{bid.amount}} {{bid.currency}}) </span>
+					<button class="btn btn-sm btn-danger" data-ng-click="deleteBid(bid.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
 				</div>
 			</div>
+			<hr/>
 			<div class="form-group" data-ng-if="project.attachments.length">
 				<label><spring:message code="drones.admin.pages.common.column.attachments.caption"/></label>
 				<div data-ng-repeat="attachment in project.attachments">
 					<a href="{{attachment.attachmentURL}}">{{attachment.title}}</a>
-					<button class="btn btn-danger" data-ng-click="deleteAttachment(attachment.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
+					<button class="btn btn-sm btn-danger" data-ng-click="deleteAttachment(attachment.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
 				</div>
 			</div>
 		</div>
