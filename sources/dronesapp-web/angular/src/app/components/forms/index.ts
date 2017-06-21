@@ -15,12 +15,14 @@ import {FServicesComponent} from './f-services/f-services.component';
 import {FLocationComponent} from './f-location/f-location.component';
 import { FPortfolioUploadComponent } from './f-portfolio-upload/f-portfolio-upload.component';
 import { FProjectFilesComponent } from './f-project-files/f-project-files.component';
+import { FEquipmentsComponent } from './f-equipments/f-equipments.component';
 import { FWithdrawalComponent } from './f-withdrawal/f-withdrawal.component';
 
 export const FORMS = [
   FAuthorizationComponent,
   FBidComponent,
   FCommentsComponent,
+  FEquipmentsComponent,
   FSearchComponent,
   FPilotLicenseComponent,
   FClientProfileComponent,

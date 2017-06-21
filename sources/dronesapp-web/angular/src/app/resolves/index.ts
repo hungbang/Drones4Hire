@@ -10,6 +10,7 @@ import {ProfileResolve} from './profile/profile.resolve'
 import {CommentsResolve} from './comments/comments';
 import {MyProjectsResolve} from './my-projects/my-projects.resolve';
 import {PortfolioResolve} from './portfolio/portfolio.resolve';
+import {ProfileEquipmentsResolve} from './profile-equipments/profile-equipments.resolve';
 import {ProfileServicesResolve} from './profile-services/profile-services.resolve';
 import {FindProjectsResolve} from './find-projects/find-projects.resolve';
 import {ClientProjectsResolve} from './client-projects/client-projects.resolve';
@@ -32,6 +33,7 @@ export const AppResolves = [
   PilotProjectsResolve,
   PortfolioResolve,
   ProfileResolve,
+  ProfileEquipmentsResolve,
   ProfileServicesResolve,
   ProjectResolve,
   ProjectsResolve,

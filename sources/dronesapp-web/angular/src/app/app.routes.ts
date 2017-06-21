@@ -42,6 +42,8 @@ import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-pr
 import {PilotProjectsResolve} from './resolves/pilot-projects/pilot-projects.resolve';
 import {SProjectAddComponent} from './components/sections/s-project-add/s-project-add.component';
 import {SProjectEditComponent} from './components/sections/s-project-edit/s-project-edit.component';
+import {BidInfoResolve} from "./resolves/bid-info/bid-info";
+import {ProfileEquipmentsResolve} from './resolves/profile-equipments/profile-equipments.resolve';
 import {BidInfoResolve} from './resolves/bid-info/bid-info';
 import {WithdrawalRequestComponent} from './containers/withdrawal-request/withdrawal-request.component';
 
@@ -83,7 +85,8 @@ export const ROUTES: Routes = [
         resolve: {
           profile: ProfileResolve,
           portfolio: PortfolioResolve,
-          services: ProfileServicesResolve
+          services: ProfileServicesResolve,
+          equipments: ProfileEquipmentsResolve
         },
       }
     ],

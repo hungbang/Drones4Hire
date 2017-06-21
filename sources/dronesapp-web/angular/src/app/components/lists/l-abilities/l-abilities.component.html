@@ -1,7 +1,7 @@
 <div class="l-abilities">
   <div class="l-abilities__block">
     <div class="l-abilities__title">services</div>
-    <div class="l-abilities__content" *ngIf="abilities.services.length">
+    <div class="l-abilities__content" *ngIf="abilities.services?.length">
       <ul class="l-abilities__list" *ngFor="let service of abilities.services">
         <li class="l-abilities__item">{{service}}</li>
       </ul>
@@ -10,23 +10,23 @@
   </div>
   <div class="l-abilities__block">
     <div class="l-abilities__title">Industries</div>
-    <div class="l-abilities__content" *ngIf="abilities.industries.length" >
+    <div class="l-abilities__content" *ngIf="abilities.industries?.length" >
       <ul class="l-abilities__list" *ngFor="let industry of abilities.industries">
         <li class="l-abilities__item">{{industry}}</li>
       </ul>
     </div>
     <div class="l-abilities__text" *ngIf="!abilities.industries.length">The pilot hasn’t added any industry yet.</div>
   </div>
-  <div class="l-abilities__block" *ngIf="abilities.drones.length">
-    <div class="l-abilities__title">drones</div>
+  <div class="l-abilities__block" *ngIf="abilities.drones?.length">
+    <div class="l-abilities__title">Drone fleet</div>
     <ul class="l-abilities__list" *ngFor="let drone of abilities.drones">
-      <li class="l-abilities__item">{{drone}}</li>
+      <li class="l-abilities__item">{{drone.name}}</li>
     </ul>
   </div>
-  <div class="l-abilities__block" *ngIf="abilities.cameraTypes.length">
-    <div class="l-abilities__title">Camera Types</div>
-    <ul class="l-abilities__list" *ngFor="let cameraType of abilities.cameraTypes">
-      <li class="l-abilities__item">{{cameraType}}</li>
+  <div class="l-abilities__block" *ngIf="abilities.cameras?.length">
+    <div class="l-abilities__title">Camera fleet</div>
+    <ul class="l-abilities__list" *ngFor="let camera of abilities.cameras">
+      <li class="l-abilities__item">{{camera.name}}</li>
     </ul>
   </div>
 </div>
