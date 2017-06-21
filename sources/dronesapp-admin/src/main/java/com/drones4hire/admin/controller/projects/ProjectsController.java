@@ -114,6 +114,9 @@ public class ProjectsController extends AbstractController
 		currProject.setStatus(project.getStatus());
 		currProject.setTitle(project.getTitle());
 		currProject.setSummary(project.getSummary());
+		currProject.setBudget(project.getBudget());
+		currProject.setDuration(project.getDuration());
+		currProject.setService(project.getService());
 		currProject.setPostProductionRequired(project.getPostProductionRequired());
 		currProject.setLocation(project.getLocation());
 		currProject.setStartDate(project.getStartDate());

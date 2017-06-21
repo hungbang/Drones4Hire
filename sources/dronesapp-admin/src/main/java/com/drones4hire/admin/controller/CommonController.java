@@ -3,11 +3,9 @@ package com.drones4hire.admin.controller;
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
+import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
-import com.drones4hire.dronesapp.services.services.BudgetService;
-import com.drones4hire.dronesapp.services.services.DurationService;
-import com.drones4hire.dronesapp.services.services.PaidOptionService;
-import com.drones4hire.dronesapp.services.services.ServiceCategoryService;
+import com.drones4hire.dronesapp.services.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +32,9 @@ public class CommonController
 	private DurationService durationService;
 
 	@Autowired
+	private ServiceService serviceService;
+
+	@Autowired
 	private PaidOptionService paidOptionService;
 
 	@ResponseStatus(HttpStatus.OK)
@@ -44,8 +45,15 @@ public class CommonController
 	}
 
 	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Service> getAllServices()
+	{
+		return serviceService.getAllServices();
+	}
+
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<ServiceCategory> getAllServiceCategories()
+	public @ResponseBody List<ServiceCategory> getAllCategories()
 	{
 		return serviceCategoryService.getAllServiceCategories();
 	}

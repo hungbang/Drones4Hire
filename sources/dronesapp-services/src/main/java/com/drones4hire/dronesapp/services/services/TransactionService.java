@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,9 @@ public class TransactionService
 	@Autowired
 	private TransactionMapper transactionMapper;
 
+	@Autowired
+	private WalletService walletService;
+
 	@Transactional(rollbackFor = Exception.class)
 	public Transaction createTransaction(Transaction transaction)
 	{
@@ -29,6 +34,17 @@ public class TransactionService
 	public Transaction getTransactionById(long id)
 	{
 		return transactionMapper.getTransactionById(id);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Transaction> getTransactionsByWalletId(long principalId) throws ServiceException
+	{
+		Wallet wallet = walletService.getWalletByUserId(principalId);
+		if(wallet == null)
+		{
+			throw new ServiceException("User's wallet not found.");
+		}
+		return transactionMapper.getTransactionsByWalletId(wallet.getId());
 	}
 
 	@Transactional(readOnly = true)

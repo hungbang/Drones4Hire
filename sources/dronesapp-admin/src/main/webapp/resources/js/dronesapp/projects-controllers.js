@@ -42,7 +42,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
         });
     };
 
-    $scope.loadCategories = function(){
+    $scope.loadServiceCategories = function(){
         $http.get('common/categories').success(function(data) {
             $scope.categories = data;
         }).error(function() {
@@ -80,11 +80,25 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     });
                 };
 
-                $scope.loadCategories = function(){
+                $scope.loadServiceCategories = function(){
                     $http.get('common/categories').success(function(data) {
                         $scope.categories = data;
                     }).error(function() {
                         console.error('Failed to get categories');
+                    });
+                };
+
+                $scope.loadServices = function(){
+                    $http.get('common/services').success(function(data) {
+                        $scope.services = data.filter(function (service) {
+                            if(service.category.id == $scope.project.categoryId)
+                            {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }).error(function() {
+                        console.error('Failed to get services');
                     });
                 };
 
@@ -97,11 +111,21 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 };
 
                 $scope.loadStates = function(){
-                    $http.get('locations/states').success(function(data) {
-                        $scope.states = data;
-                    }).error(function() {
-                        console.error('Failed to get states');
-                    });
+                    var isUSA = false;
+                    for(var i = 0; i < $scope.countries.length; i++) {
+                        if($scope.project.location.country.id == $scope.countries[i].id && $scope.countries[i].name.includes('United States')) {
+                            isUSA = true;
+                        }
+                    }
+                    if(isUSA) {
+                        $http.get('locations/states').success(function (data) {
+                            $scope.states = data;
+                        }).error(function () {
+                            console.error('Failed to get states');
+                        });
+                    } else {
+                        delete $scope.states;
+                    }
                 };
 
                 $scope.loadDurations = function(){
@@ -140,9 +164,8 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 
                 (function init() {
                 	$scope.loadBudgets();
-                	$scope.loadCategories();
+                	$scope.loadServiceCategories();
                 	$scope.loadCountries();
-                	$scope.loadStates();
                 	$scope.loadDurations();
                 	$scope.loadPaidOptions();
                 })();
@@ -153,7 +176,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 	(function init(){
 		$scope.loadStatuses();
 		$scope.loadBudgets();
-		$scope.loadCategories();
+		$scope.loadServiceCategories();
 		$scope.searchProjects(1);
 	})();
 	
@@ -239,8 +262,49 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         });
     };
 
+    $scope.loadBudgets = function(){
+        $http.get('common/budgets').success(function(data) {
+            $scope.budgets = data;
+        }).error(function() {
+            console.error('Failed to get budgets');
+        });
+    };
+
+    $scope.loadServiceCategories = function(){
+        $http.get('common/categories').success(function(data) {
+            $scope.categories = data;
+        }).error(function() {
+            console.error('Failed to get categories');
+        });
+    };
+
+    $scope.loadServices = function(){
+        $http.get('common/services').success(function(data) {
+            $scope.services = data.filter(function (service) {
+                if(service.category.id == $scope.project.service.category.id)
+                {
+                    return true;
+                }
+                return false;
+            });
+        }).error(function() {
+            console.error('Failed to get services');
+        });
+    };
+
+    $scope.loadDurations = function(){
+        $http.get('common/durations').success(function(data) {
+            $scope.durations = data;
+        }).error(function() {
+            console.error('Failed to get durations');
+        });
+    };
+
     (function init(){
         $scope.loadProject();
+        $scope.loadBudgets();
+        $scope.loadServiceCategories();
+        $scope.loadDurations();
         $scope.loadComments();
         $scope.loadBids();
     })();

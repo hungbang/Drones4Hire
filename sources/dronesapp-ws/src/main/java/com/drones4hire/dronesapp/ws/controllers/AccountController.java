@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.users.*;
 import com.drones4hire.dronesapp.models.dto.*;
 import com.drones4hire.dronesapp.services.services.*;
@@ -71,6 +73,9 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private WalletService walletService;
+
+	@Autowired
+	private TransactionService transactionService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
@@ -315,5 +320,17 @@ public class AccountController extends AbstractController
 		PilotLocation pilotLocation = pilotLocationService.getPilotLocationById(id);
 		checkPrincipalPermissions(pilotLocation.getUserId());
 		pilotLocationService.deletePilotLocation(pilotLocation);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get user transactions", nickname = "getUserTransactions", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_PILOT", "ROLE_CLIENT"})
+	@RequestMapping(value = "transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Transaction> getUserTransactions() throws ServiceException
+	{
+		return transactionService.getTransactionsByWalletId(getPrincipal().getId());
 	}
 }

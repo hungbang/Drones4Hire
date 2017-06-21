@@ -10,6 +10,8 @@ public interface TransactionMapper {
 
     Transaction getTransactionById(long id);
 
+    List<Transaction> getTransactionsByWalletId(long walletId);
+
     List<Transaction> getAllTransactions();
 
     List<Transaction> searchTransactions(TransactionSearchCriteria sc);

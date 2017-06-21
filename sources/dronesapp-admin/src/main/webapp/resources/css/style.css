@@ -18,9 +18,9 @@ th.header {
 	text-align: center;
 }
 
-input.validation.ng-valid, select.validation.ng-valid {
+/*input.validation.ng-valid, select.validation.ng-valid {
 	background: #CCFF99;
-}
+}*/
 
 .success {
 	color: green;

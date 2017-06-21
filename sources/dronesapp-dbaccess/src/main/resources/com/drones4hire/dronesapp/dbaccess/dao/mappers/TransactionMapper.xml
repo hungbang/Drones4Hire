@@ -46,6 +46,14 @@
         ]]>
     </select>
 
+    <select id="getTransactionsByWalletId" resultMap="TransactionResultMap">
+        <include refid="getTransactions"/>
+        <![CDATA[
+          WHERE
+            T.WALLET_ID = #{walletId}
+        ]]>
+    </select>
+
     <select id="getAllTransactions" resultMap="TransactionResultMap">
         <include refid="getTransactions"/>
     </select>
