@@ -1,6 +1,13 @@
 <div class="b-transactions">
   <div class="b-transactions__wrapper">
-    <div class="b-transactions__title">Transactions</div>
+    <div class="b-transactions__title">Transactions list</div>
   </div>
-  <b-transactions-search></b-transactions-search>
+  <t-transactions [transactions]="transactions | slice:((currentPage - 1) * countPerPage):
+   ((currentPage - 1) * countPerPage + countPerPage)"></t-transactions>
+  <l-project-pagination class="b-transactions__pagination"
+                        *ngIf="maxPage > 1"
+                        (changePage)="changePage($event)"
+                        [min]="minPage"
+                        [max]="maxPage"
+                        [current]="currentPage"></l-project-pagination>
 </div>

@@ -1,0 +1,49 @@
+@import '../../../styles/settings/variables.styl'
+@import '../../../styles/settings/mixin.styl'
+
+.t-transactions
+  display: table
+  width: 100%
+  padding-bottom: 50px
+  &__row
+    display table-row
+    &._head
+      .t-transactions
+        &__cell
+          border: 0
+          font-size: 1.6rem
+          letter-spacing: 1px
+          height: 75px
+          vertical-align: middle
+          color #fff
+          &._account
+            background: $gray1f
+          &._type
+          &._description
+            background: #3fb6c0
+          &._date
+          &._amount
+            background: #159aa5
+
+  &__cell
+    display table-cell
+    text-align: center
+    padding: 20px 10px
+    vertical-align: middle
+    font-size 1.6rem
+    text-transform: uppercase
+    border-bottom 1px solid #b7b7b7
+    letter-spacing: 2px
+    color: #454545
+
+    &:nth-child(2n)
+      background #f6f6f6
+
+    &._account
+      width: 33%
+    &._description
+      width 28%
+    &._type
+    &._date
+    &._amount
+      width: 13%

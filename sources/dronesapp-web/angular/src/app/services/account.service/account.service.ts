@@ -184,4 +184,8 @@ export class AccountService {
     this.activeServices = [];
     this.profile = null;
   }
+
+  public getTransactions() {
+    return this._requestService.fetch('get', '/account/transactions')
+  }
 }

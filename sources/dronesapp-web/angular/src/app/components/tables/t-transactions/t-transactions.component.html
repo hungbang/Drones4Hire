@@ -1,0 +1,20 @@
+<div class="t-transactions">
+  <div class="t-transactions__row _head">
+    <div class="t-transactions__cell _account">Account</div>
+    <div class="t-transactions__cell _type">Type</div>
+    <div class="t-transactions__cell _date">Date</div>
+    <div class="t-transactions__cell _description">Description</div>
+    <div class="t-transactions__cell _amount">Amount</div>
+  </div>
+  <div *ngFor="let transaction of transactions"
+       class="t-transactions__row">
+
+    <div class="t-transactions__cell _account">
+
+    </div>
+    <div class="t-transactions__cell _type"></div>
+    <div class="t-transactions__cell _date">{{ transaction.createdAt | date: 'M/d/y' }}</div>
+    <div class="t-transactions__cell _description">{{ transaction.purpose }}</div>
+    <div class="t-transactions__cell _amount">${{ transaction.amount }}</div>
+  </div>
+</div>

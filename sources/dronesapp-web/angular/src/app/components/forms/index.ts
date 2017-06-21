@@ -5,7 +5,6 @@ import {FPilotLicenseComponent} from './f-license/f-license.component';
 import {FClientProfileComponent} from './f-profile/f-profile.component';
 import {FClientCompanyComponent} from './f-company/f-company.component';
 import {FProjectsSearchComponent} from './f-projects-search/f-projects-search.component';
-import {FTransactionsSearchComponent} from './f-transactions-search/f-transactions-search.component';
 import {FProjectAddComponent} from './f-project-add/f-project-add.component';
 import {FAuthorizationComponent} from './f-authorization/f-authorization.component';
 import {FEmailComponent} from './f-email/f-email.component';
@@ -28,7 +27,6 @@ export const FORMS = [
   FClientProfileComponent,
   FClientCompanyComponent,
   FSearchComponent,
-  FTransactionsSearchComponent,
   FPortfolioUploadComponent,
   FProjectAddComponent,
   FProjectFilesComponent,
