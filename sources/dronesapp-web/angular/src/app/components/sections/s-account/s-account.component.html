@@ -1,9 +1,14 @@
 <div class="s-account">
   <div class="container">
-    <h2 class="s-account__title">Account Settings</h2>
+    <div class="s-account__wrapper">
+      <h2 class="s-account__title">Account Settings</h2>
+      <a [routerLink]="['/profile', userId]" class="s-account__btn" *ngIf="isUserPilot">View public profile</a>
+    </div>
+
     <div class="s-account__tabs">
       <b-tabs [tabs]="tabs"></b-tabs>
     </div>
+
     <div class="s-account__content">
       <router-outlet></router-outlet>
     </div>
