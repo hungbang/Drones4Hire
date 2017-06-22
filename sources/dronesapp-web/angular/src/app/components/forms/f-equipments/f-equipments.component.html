@@ -4,11 +4,11 @@
       class="f-equipments f-default">
   <div class="f-default__inner _margin-small">
     <div class="f-default__col">
-      <div class="f-default__row" *ngFor="let drone of drones">
+      <div class="f-default__row" *ngFor="let drone of drones; let i = index">
         <label class="f-default__label">
           <input class="f-default__field"
                  type="text"
-                 name="drone"
+                 name="{{'drone' + i}}"
                  placeholder="Drones fleet"
                  [(ngModel)]="drone.name">
         </label>
@@ -19,11 +19,11 @@
     </div>
 
     <div class="f-default__col">
-      <div class="f-default__row" *ngFor="let camera of cameras">
+      <div class="f-default__row" *ngFor="let camera of cameras; let i = index">
         <label class="f-default__label">
           <input class="f-default__field"
                  type="text"
-                 name="camera"
+                 name="{{'camera' + i}}"
                  placeholder="Camera fleet"
                  [(ngModel)]="camera.name">
         </label>
