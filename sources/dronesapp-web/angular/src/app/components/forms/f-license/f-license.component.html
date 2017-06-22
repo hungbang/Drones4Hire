@@ -3,9 +3,9 @@
       #licenceForm="ngForm"
       (submit)="saveChanges($event, licenceForm)">
 
-  <div class="f-default__row f-license__row">
+  <div class="f-default__row f-license__row _flex">
+    <span class="f-default__text">Pilot License:{{isRequiredLicense ? '*' : ''}} <span class="f-license__filename">{{ uploadedLicFileName }}</span></span>
     <label class="f-default__file">
-      <span class="f-default__text">Pilot License:{{isRequiredLicense ? '*' : ''}}</span>
       <input class="f-default__input"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
@@ -15,13 +15,14 @@
              (change)="handlePhotoUpload('license')"
              [ngClass]="{'_error': submitted && isRequiredLicense && !accountService.license?.licenseURL}">
       <span class="f-default__button f-license__button _center">Choose File</span>
-      <span class="f-default__text">{{ licFileName ? 'Chosen file: ' + licFileName : 'No file chosen' }}</span>
+      <span class="f-default__text" *ngIf="licFileName">Chosen file: <span class="f-license__filename">{{ licFileName }}</span></span>
+      <span class="f-default__text" *ngIf="!licFileName">No file chosen</span>
     </label>
   </div>
 
   <div class="f-default__row f-license__row">
     <label class="f-default__file">
-      <span class="f-default__text">Insurance Certificate:{{isRequiredLicense ? '*' : ''}}</span>
+      <span class="f-default__text">Insurance Certificate:{{isRequiredLicense ? '*' : ''}} <span class="f-license__filename">{{ uploadedCertFileName }}</span></span>
       <input class="f-default__input"
              type="file"
              accept="image/jpeg,image/jpg,image/png"
@@ -31,7 +32,8 @@
              (change)="handlePhotoUpload('insurance')"
              [ngClass]="{'_error': submitted && isRequiredLicense && !accountService.license?.insuranceURL}">
       <span class="f-default__button f-license__button _center">Choose File</span>
-      <span class="f-default__text">{{ certFileName ? 'Chosen file: ' + certFileName : 'No file chosen' }}</span>
+      <span class="f-default__text" *ngIf="certFileName">Chosen file: <span class="f-license__filename">{{ certFileName }}</span></span>
+      <span class="f-default__text" *ngIf="!certFileName">No file chosen</span>
     </label>
   </div>
 
