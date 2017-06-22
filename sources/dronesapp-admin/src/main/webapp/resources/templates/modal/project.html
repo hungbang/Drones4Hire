@@ -20,13 +20,13 @@
         </div>
         <div class="form-group">
             <label>Category</label>
-            <select class="form-control validation" data-ng-model="project.categoryId" data-ng-change="loadServices()">
+            <select class="form-control validation" data-ng-model="project.categoryId" data-ng-change="loadServices()" required>
                 <option data-ng-value="category.id" data-ng-repeat="category in categories">{{category.name}}</option>
             </select>
         </div>
         <div class="form-group" data-ng-if="services.length">
             <label>Service</label>
-            <select class="form-control validation" data-ng-model="project.service.id">
+            <select class="form-control validation" data-ng-model="project.service.id" required>
                 <option data-ng-value="service.id" data-ng-repeat="service in services">{{service.name}}</option>
             </select>
         </div>
@@ -76,15 +76,20 @@
                 <option data-ng-value="duration.id" data-ng-repeat="duration in durations">{{duration.min}} - {{duration.max}} hours</option>
             </select>
         </div>
-        <div class="form-group">
-            <form>
-                <input class="btn btn-default btn-primary btn-block" type="file" file-model="fileToUpload" data-ng-model="file" onchange="angular.element(this).scope().addAttachment(this)"/>
-            </form>
-        </div>
-        <div class="form-group">
-            <div data-ng-repeat="attachment in attachs">
-                <a href="#">{{attachment.name}}</a>
+        <div class="form-group" data-ng-if="attachs.length">
+            <label>Attachments ({{attachs.length}})</label>
+            <div data-ng-repeat="attachment in attachs track by $index">
+                <div>
+                    {{$index + 1}}. {{attachment.name}} <i class="fa fa-times error" aria-hidden="true" data-ng-click="removeAttachment($index)"></i>
+                </div>
             </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <input class="btn btn-default btn-block" type="file" data-file-model="fileToUpload" data-ng-model="file"/>
+            </div>
+            <input type="button" data-ng-if="fileToUpload" class="btn btn-default" data-ng-click="addAttachment(fileToUpload)" value="Add"/>
+            {{fileToUpload.name}}
         </div>
         <div class="form-group">
             <label>Commission free</label>

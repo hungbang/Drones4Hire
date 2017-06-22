@@ -32,8 +32,8 @@
 						</td>
 					</tr>
 				</table>
+				<hr/>
 			</div>
-			<hr/>
 			<div class="form-group" data-ng-if="bids.length">
 				<table class="details-table">
 					<th>
@@ -50,8 +50,8 @@
 						</td>
 					</tr>
 				</table>
+				<hr/>
 			</div>
-			<hr/>
 			<div class="form-group" data-ng-if="project.attachments.length">
 				<table class="details-table">
 					<th>
@@ -67,9 +67,12 @@
 					</tr>
 				</table>
 			</div>
-			<form>
-				<input class="btn btn-default btn-primary" type="file" file-model="fileToUpload" data-ng-model="file" onchange="angular.element(this).scope().uploadAttachment(this)"/>
-			</form>
+			<div>
+				<div class="form-group">
+					<input class="btn btn-default" type="file" file-model="fileToUpload" data-ng-model="file"/>
+				</div>
+				<button data-ng-if="fileToUpload" class="btn btn-default btn-primary" data-ng-click="uploadAttachment()" value="Load file">Upload {{fileToUpload.name}}</button>
+			</div>
 		</div>
 		<div class="col-lg-6">
 			<form name="projectForm">

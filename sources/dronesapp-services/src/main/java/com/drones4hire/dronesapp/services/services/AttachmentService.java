@@ -64,10 +64,10 @@ public class AttachmentService
 	
 	private void checkAuthorities(Attachment attachment, long principalId) throws ServiceException
 	{
-		Project project = projectMapper.getProjectById(attachment.getProjectId());
 		User user = userService.getUserById(principalId);
 		if(! user.getRoles().contains(Group.Role.ROLE_ADMIN))
 		{
+			Project project = projectMapper.getProjectById(attachment.getProjectId());
 			if (attachment.getType().equals(Type.PROJECT_RESULT))
 			{
 				if (project.getPilotId() != principalId && !project.getStatus().equals(Status.IN_PROGRESS))

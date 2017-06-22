@@ -68,7 +68,10 @@ public class ProjectService
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
 		Transaction transaction = new Transaction(wallet.getId(), project.getPaidPotionsSumAmount(), wallet.getCurrency(), PAID_OPTION, "",
 				project.getId(), COMPLETED);
-		paymentService.saleTransactionWithDefaultCard(transaction);
+		if(! transaction.getAmount().equals(new BigDecimal(0)))
+		{
+			paymentService.saleTransactionWithDefaultCard(transaction);
+		}
 		locationService.createLocation(project.getLocation());
 		projectMapper.createProject(project);
 		createProjectPaidOptions(project.getId(), project.getPaidOptions());

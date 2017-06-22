@@ -64,6 +64,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
     $scope.openProjectModal = function () {
         var modalInstance = $modal.open({
             templateUrl: 'resources/templates/modal/project.html',
+            scope: $scope,
             controller: function ($scope, $modalInstance) {
 
                 var OFFSET = new Date().getTimezoneOffset() * 60 * 1000;
@@ -71,6 +72,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 $scope.project = {};
                 $scope.project.status = 'NEW';
                 $scope.project.postProductionRequired = false;
+                $scope.attach = {};
 
                 $scope.loadBudgets = function(){
                     $http.get('common/budgets').success(function(data) {
@@ -156,7 +158,6 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $scope.project.finishDate = new Date(Date.parse($scope.project.finishDate) + OFFSET);
                     $http.post('projects', $scope.project).success(function(data) {
                         $scope.uploadAttachment();
-                        $modalInstance.close(true);
                         console.log('Was created');
                     }).error(function() {
                         console.error('Failed to create');
@@ -165,8 +166,12 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 
                 $scope.attachs = [];
 
-                $scope.addAttachment = function () {
-                    $scope.attachs.push($scope.fileToUpload);
+                $scope.addAttachment = function (file) {
+                    $scope.attachs.push(file);
+                };
+
+                $scope.removeAttachment = function (index) {
+                    $scope.attachs.splice(index, 1);
                 };
 
                 $scope.uploadAttachment = function () {
@@ -176,7 +181,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         fd.append('file', fileToUpload);
                         initProjectAttach();
                         $scope.attach.title = fileToUpload.name.split('.')[0];
-                        $http.post('upload?file=', fileToUpload, {
+                        $http.post('upload?file=', fd, {
                             headers: {
                                 'Content-Type' : undefined,
                                 'FileType': $scope.attach.type
@@ -185,6 +190,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         }).success(function(data) {
                             $scope.attach.attachmentURL = data.url;
                             $http.post('projects/results', $scope.attach).success(function(data) {
+                                $modalInstance.close(true);
                                 $scope.loadProject();
                             }).error(function() {
                             });
@@ -366,6 +372,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
             $scope.attach.attachmentURL = data.url;
             $http.post('projects/results', $scope.attach).success(function(data) {
                 $scope.loadProject();
+                $scope.fileToUpload = undefined;
             }).error(function() {
             });
         }).error(function() {
