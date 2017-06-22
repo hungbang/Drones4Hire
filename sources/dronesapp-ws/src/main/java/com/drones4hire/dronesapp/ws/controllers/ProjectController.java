@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.BidInfoSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Duration;

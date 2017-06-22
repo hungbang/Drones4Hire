@@ -5,8 +5,6 @@ import static com.drones4hire.dronesapp.services.services.notifications.Abstract
 
 import javax.validation.Valid;
 
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.services.services.WalletService;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;

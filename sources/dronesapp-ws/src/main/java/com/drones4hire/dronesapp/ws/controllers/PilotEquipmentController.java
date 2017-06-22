@@ -1,23 +1,35 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import com.drones4hire.dronesapp.models.db.users.PilotEquipment;
-import com.drones4hire.dronesapp.models.dto.PilotEquipmentDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
-import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.PilotEquipmentService;
-import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
-import io.swagger.annotations.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import com.drones4hire.dronesapp.models.db.users.PilotEquipment;
+import com.drones4hire.dronesapp.models.dto.PilotEquipmentDTO;
+import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.PilotEquipmentService;
+import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Controller
 @Api(value = "Pilot equipment API")

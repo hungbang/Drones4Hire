@@ -1,5 +1,7 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
+import javax.validation.Valid;
+
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-
-import javax.validation.Valid;
 
 @Controller
 @Api(value = "Wallet API")
