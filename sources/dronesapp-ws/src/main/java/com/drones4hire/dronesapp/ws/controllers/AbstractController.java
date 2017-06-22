@@ -28,6 +28,8 @@ import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException
 import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
+import com.drones4hire.dronesapp.services.exceptions.NotEnoughMoneyException;
+import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
 import com.drones4hire.dronesapp.ws.security.SecuredUser;
@@ -58,6 +60,16 @@ public abstract class AbstractController
 		}
 	}
 
+	@ExceptionHandler(PayoneerException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handlePayoneerException(PayoneerException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.EXTERNAL_SERVICE_EXCEPTION));
+		return result;
+	}
+	
 	@ExceptionHandler(AWSException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ResponseBody
