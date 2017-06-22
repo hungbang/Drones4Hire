@@ -4,6 +4,7 @@ import static com.drones4hire.dronesapp.models.db.projects.Project.Status.CANCEL
 import static com.drones4hire.dronesapp.models.db.payments.Transaction.Status.COMPLETED;
 import static com.drones4hire.dronesapp.models.db.payments.Transaction.Type.PAID_OPTION;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_ADMIN;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
+import com.drones4hire.dronesapp.models.db.commons.Currency;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import java.math.BigDecimal;
@@ -19,7 +21,7 @@ import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.projects.PaidOption;
+import com.drones4hire.dronesapp.models.db.projects.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
-import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
-import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -62,12 +62,15 @@ public class ProjectService
 	@Autowired
 	private PaymentService paymentService;
 
+	@Autowired
+	private BidService bidService;
+
 	@Transactional(rollbackFor = Exception.class)
-	public Project createProject(Project project) throws ServiceException
+	public Project createProject(Project project, Long principalId) throws ServiceException
 	{
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
-		Transaction transaction = new Transaction(wallet.getId(), project.getPaidPotionsSumAmount(), wallet.getCurrency(), PAID_OPTION, "",
-				project.getId(), COMPLETED);
+		Transaction transaction = new Transaction(wallet.getId(), project.getPaidPotionsSumAmount(),
+				wallet.getCurrency(), PAID_OPTION, "Paid options", project.getId(), COMPLETED);
 		if(! transaction.getAmount().equals(new BigDecimal(0)))
 		{
 			paymentService.saleTransactionWithDefaultCard(transaction);
@@ -76,6 +79,19 @@ public class ProjectService
 		projectMapper.createProject(project);
 		createProjectPaidOptions(project.getId(), project.getPaidOptions());
 		createAttachment(project.getId(), project.getAttachments());
+		if(project.getPilotId() != null)
+		{
+			User user = userService.getUserById(principalId);
+
+			if(user.getRoles().contains(ROLE_ADMIN))
+			{
+				Bid bid = new Bid();
+				bid.setProjectId(project.getId());
+				bid.setAmount(new BigDecimal(0));
+				bid.setCurrency(Currency.USD);
+				bidService.awardBid(bidService.createBid(bid, principalId).getId(), project.getClientId());
+			}
+		}
 		return project;
 	}
 

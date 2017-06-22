@@ -76,8 +76,8 @@
                 <option data-ng-value="duration.id" data-ng-repeat="duration in durations">{{duration.min}} - {{duration.max}} hours</option>
             </select>
         </div>
-        <div class="form-group" data-ng-if="attachs.length">
-            <label>Attachments ({{attachs.length}})</label>
+        <div class="form-group">
+            <label>Attachments <span data-ng-if="attachs.length">({{attachs.length}})</span></label>
             <div data-ng-repeat="attachment in attachs track by $index">
                 <div>
                     {{$index + 1}}. {{attachment.name}} <i class="fa fa-times error" aria-hidden="true" data-ng-click="removeAttachment($index)"></i>

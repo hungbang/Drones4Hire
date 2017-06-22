@@ -157,6 +157,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $scope.project.startDate = new Date(Date.parse($scope.project.startDate) + OFFSET);
                     $scope.project.finishDate = new Date(Date.parse($scope.project.finishDate) + OFFSET);
                     $http.post('projects', $scope.project).success(function(data) {
+                        $scope.project.id = data.id;
                         $scope.uploadAttachment();
                         console.log('Was created');
                     }).error(function() {
@@ -181,6 +182,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         fd.append('file', fileToUpload);
                         initProjectAttach();
                         $scope.attach.title = fileToUpload.name.split('.')[0];
+                        $scope.attach.projectId = $scope.project.id;
                         $http.post('upload?file=', fd, {
                             headers: {
                                 'Content-Type' : undefined,
@@ -190,20 +192,19 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         }).success(function(data) {
                             $scope.attach.attachmentURL = data.url;
                             $http.post('projects/results', $scope.attach).success(function(data) {
-                                $modalInstance.close(true);
-                                $scope.loadProject();
                             }).error(function() {
                             });
                         }).error(function() {
                             console.error('Failed to upload file');
                         });
                     }
+                    $modalInstance.close(true);
+                    $scope.searchProjects(1);
                 };
 
                 function initProjectAttach() {
                     $scope.attach.type = 'PROJECT_ATTACHMENT';
                     $scope.attach.title = null;
-                    $scope.attach.projectId = $scope.project.id;
                     $scope.attach.attachmentURL = null;
                 }
 
@@ -215,6 +216,8 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 	$scope.loadPaidOptions();
                 })();
             }
+        }).result.then(function () {
+        }, function () {
         });
     };
 	

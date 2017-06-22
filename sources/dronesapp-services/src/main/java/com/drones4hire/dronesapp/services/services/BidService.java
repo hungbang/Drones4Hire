@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.services.services;
 
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_ADMIN;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
@@ -132,7 +133,11 @@ public class BidService
 		if (!project.getStatus().equals(Project.Status.NEW) || user.getRoles().contains(ROLE_CLIENT)
 				|| !user.getId().equals(project.getClientId()))
 			new ForbiddenOperationException();
-		project.setPilotId(bid.getUser().getId());
+		User bidUser = userService.getUserById(bid.getUser().getId());
+		if(! bidUser.getRoles().contains(ROLE_ADMIN))
+		{
+			project.setPilotId(bid.getUser().getId());
+		}
 		project.setStatus(Status.PENDING);
 		ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
 		project.setAwardDate(Date.from(utc.toInstant()));
