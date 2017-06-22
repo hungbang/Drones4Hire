@@ -116,7 +116,7 @@ export class FPilotLicenseComponent implements OnInit {
   }
 
   private fetchUploadedFilenames() {
-    this.uploadedLicFileName = this.accountService.license.licenseURL.split('/').pop().split('-').splice(2).join('-');
-    this.uploadedCertFileName = this.accountService.license.insuranceURL.split('/').pop().split('-').splice(2).join('-');
+    this.uploadedLicFileName = this.accountService.license.licenseURL ? this.accountService.license.licenseURL.split('/').pop().split('-').splice(2).join('-') : '';
+    this.uploadedCertFileName = this.accountService.license.insuranceURL ? this.accountService.license.insuranceURL.split('/').pop().split('-').splice(2).join('-') : '';
   }
 }
