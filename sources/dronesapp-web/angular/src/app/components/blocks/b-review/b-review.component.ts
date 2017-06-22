@@ -9,7 +9,6 @@ import {ProjectService} from "../../../services/project.service/project.service"
   styleUrls: ['./b-review.component.styl']
 })
 export class BReviewComponent implements OnInit {
-  services: any;
   abilities: any;
 
   constructor(
@@ -20,24 +19,37 @@ export class BReviewComponent implements OnInit {
       services: [],
       industries: [],
       drones: [],
-      cameraTypes: []
+      cameras: []
     }
   }
 
   ngOnInit() {
     this._route.params.subscribe(
       () => {
-        this.services = this._route.snapshot.data['services'];
-        this.fetchServiceData();
+        const services = this._route.snapshot.data['services'];
+        const equipments = this._route.snapshot.data['equipments'];
+        this.abilities = {
+          services: [],
+          industries: [],
+          drones: [],
+          cameras: []
+        };
+
+        if (services.length) {
+          this.fetchServiceData(services);
+        }
+        if (equipments.length) {
+          this.fetchEquipmentsData(equipments);
+        }
       }
     );
   }
 
-  private fetchServiceData() {
+  private fetchServiceData(services) {
     this.abilities.services = [];
     this.abilities.industries = [];
 
-    this.services.forEach(el => {
+    services.forEach(el => {
       if (this.abilities.services.indexOf(el.name) === -1) {
         this.abilities.services.push(el.name);
       }
@@ -46,6 +58,11 @@ export class BReviewComponent implements OnInit {
         this.abilities.industries.push(category);
       }
     });
+  }
+
+  private fetchEquipmentsData(equipments) {
+    this.abilities.drones = equipments.filter(el => el.type === 'DRONE');
+    this.abilities.cameras = equipments.filter(el => el.type === 'CAMERA');
   }
 
 }

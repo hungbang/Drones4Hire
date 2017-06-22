@@ -27,6 +27,7 @@ export class FPortfolioUploadComponent implements OnInit {
   title: string = '';
   public hasBaseDropZoneOver = false;
   public submitted: boolean = false;
+  attachmentsLimit = 11;
 
   constructor(
     private _elementRef: ElementRef,
@@ -47,8 +48,13 @@ export class FPortfolioUploadComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
-      this.fileItem = item;
-      this.uploader.uploadAll();
+
+      if (!this.isLimitReached) {
+        this.fileItem = item;
+        this.uploader.uploadAll();
+      } else {
+        this.uploader.clearQueue();
+      }
       return {item};
     };
 
@@ -62,12 +68,12 @@ export class FPortfolioUploadComponent implements OnInit {
   ngOnInit() {
   }
 
-  addFile(e) {
+  addFile(e, form) {
     e.preventDefault();
 
     this.submitted = true;
 
-    if (!this.title || !this.fileURL) {
+    if (!this.title || !this.fileURL || this.isLimitReached) {
       return;
     }
 
@@ -76,7 +82,14 @@ export class FPortfolioUploadComponent implements OnInit {
       itemURL: this.fileURL,
       type: 'PHOTO'
     };
-    this._portfolioService.addPortfolio(portfolio);
+    this._portfolioService.addPortfolio(portfolio).subscribe(
+      () => {
+        this.resetForm(form);
+      },
+      err => {
+        console.log('add portfolio error:', err);
+      }
+    );
   }
 
   triggerFileClick() {
@@ -89,4 +102,15 @@ export class FPortfolioUploadComponent implements OnInit {
     this.hasBaseDropZoneOver = e;
   }
 
+  private resetForm(form) {
+    form.resetForm();
+    this.fileURL = '';
+    this.fileName = '';
+    this.title = '';
+    this.submitted = false;
+  }
+
+  get isLimitReached() {
+    return this._portfolioService.items.length >= this.attachmentsLimit;
+  }
 }

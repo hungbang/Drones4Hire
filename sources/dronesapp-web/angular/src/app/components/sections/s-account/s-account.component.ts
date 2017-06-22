@@ -21,7 +21,7 @@ export class SAccountComponent {
       {
         link: 'preferences',
         text: 'Account Preferences',
-        visibility: this._accountService.isUserPilot(),
+        visibility: this.isUserPilot,
         icon: 'setting'
       },
       {
@@ -39,9 +39,18 @@ export class SAccountComponent {
       {
         link: 'portfolio',
         text: 'Portfolio',
-        visibility: this._accountService.isUserPilot(),
+        visibility: this.isUserPilot,
         icon: 'profile'
       },
     ]
   }
+
+  get isUserPilot() {
+    return this._accountService.isUserPilot();
+  }
+
+  get userId() {
+    return this._accountService.account.id;
+  }
+
 }

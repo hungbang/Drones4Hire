@@ -92,9 +92,8 @@
                       required
                       placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
                       #projectSummaryRef="ngModel"
-                      [ngClass]="{'_error': submitted && projectSummaryRef.errors?.required}"></textarea>
+                      [ngClass]="{'_error': isSubmitted && projectSummaryRef.errors?.required}"></textarea>
           </label>
-
           <div class="f-default__col f-project-add__col">
             <div class="f-default__filedrop f-project-add__filedrop _vertical">
               <div ng2FileDrop
@@ -188,10 +187,10 @@
         <div class="f-project-add__caption">Country</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location.country.name}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location?.country?.name}">
           <select class="f-default__field"
                   name="country"
-                  [(ngModel)]="formData.location.country.name"
+                  [ngModel]="formData.location?.country?.name"
                   (ngModelChange)="selectCountry($event)"
                   required
                   #countryRef="ngModel"
@@ -212,10 +211,10 @@
       </div>
 
       <div class="f-default__col">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location.state.name}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location?.state?.name}">
           <select class="f-default__field"
                   name="state"
-                  [(ngModel)]="formData.location.state.name"
+                  [ngModel]="formData.location?.state?.name"
                   (ngModelChange)="selectState($event)"
                   required
                   #stateRef="ngModel"
@@ -235,7 +234,13 @@
         <div class="f-project-add__caption">City</div>
       </div>
       <div class="f-default__col">
-        <input class="f-default__field" type="text" [(ngModel)]="formData.location.city" name="projectCity"
+        <input class="f-default__field"
+               type="text"
+               [(ngModel)]="formData.location.city"
+               name="projectCity"
+               required
+               #projectCityRef="ngModel"
+               [ngClass]="{'_error': isSubmitted && projectCityRef.errors?.required}"
                placeholder="Type your city"/>
       </div>
     </div>
@@ -245,7 +250,13 @@
         <div class="f-project-add__caption">Address</div>
       </div>
       <div class="f-default__col">
-        <input class="f-default__field" type="text" [(ngModel)]="formData.location.address" name="projectAddress"
+        <input class="f-default__field"
+               type="text"
+               [(ngModel)]="formData.location.address"
+               name="projectAddress"
+               required
+               #projectAddressRef="ngModel"
+               [ngClass]="{'_error': isSubmitted && projectAddressRef.errors?.required}"
                placeholder="Type your address"/>
       </div>
     </div>
@@ -255,7 +266,13 @@
         <div class="f-project-add__caption">Postcode</div>
       </div>
       <div class="f-default__col">
-        <input class="f-default__field" type="text" [(ngModel)]="formData.location.postcode" name="projectPostcode"
+        <input class="f-default__field"
+               type="text"
+               [(ngModel)]="formData.location.postcode"
+               name="projectPostcode"
+               required
+               #projectPostCodeRef="ngModel"
+               [ngClass]="{'_error': isSubmitted && projectPostCodeRef.errors?.required}"
                placeholder="Type your postcode"/>
       </div>
     </div>
@@ -266,10 +283,10 @@
       <div class="f-default__col">
         <div class="f-default__field f-project-add__datepicker"
              daterangepicker
-             [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'DD-MM-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
+             [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'MM-DD-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
              (selected)="selectedDate($event, date)">
           <span class="form-control uneditable-input" name="daterange">
-              from {{ date.start | date:'dd-MM-yyyy' }} to {{ date.end| date:'dd-MM-yyyy' }}
+              from {{ date.start | date:'MM-dd-yyyy' }} to {{ date.end| date:'MM-dd-yyyy' }}
           </span>
         </div>
       </div>
@@ -283,10 +300,7 @@
           <select class="f-default__field"
                   name="duration"
                   [(ngModel)]="formData.duration.title"
-                  (ngModelChange)="selectDuration($event)"
-                  required
-                  #durationRef="ngModel"
-                  [ngClass]="{'_error': isSubmitted && durationRef.errors?.required}">
+                  (ngModelChange)="selectDuration($event)">
             <option [value]="null">Select expected duration</option>
             <option *ngFor="let duration of durations"
                     [value]="duration.title">

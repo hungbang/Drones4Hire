@@ -4,6 +4,11 @@
     <f-profile></f-profile>
   </div>
 
+  <div class="b-default__item" *ngIf="accountService.isUserPilot()">
+    <h3 class="b-default__subtitle">Equipment</h3>
+    <f-equipments></f-equipments>
+  </div>
+
   <div class="b-default__item">
     <h3 class="b-default__subtitle">Company Details</h3>
     <f-company></f-company>

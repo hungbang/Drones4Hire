@@ -1,2 +1,2 @@
-<a *ngIf="_authorizationService.isUserLogin && !_accountService.isUserPilot()" class="a-project" href="#" [routerLink]="['project/add']">Post a Project</a>
-<a *ngIf="!_authorizationService.isUserLogin" class="a-project" href="#" [routerLink]="['sign-up']">Post a Project</a>
+<a *ngIf="_authorizationService.isUserLogin && !_accountService.isUserPilot()" class="a-project" href="#" [routerLink]="['/project', 'manage', 'add']">Post a Project</a>
+<a *ngIf="!_authorizationService.isUserLogin" class="a-project" href="#" [routerLink]="['/sign-up']">Post a Project</a>

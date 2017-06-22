@@ -11,6 +11,7 @@ import {ProjectService} from "../../services/project.service/project.service";
 import * as moment from 'moment';
 import {PublicService} from "../../services/public.service/public.service";
 import {TransactionService} from "../../services/transaction.service/transaction.service";
+import {PaymentService} from "../../services/payment.service/payment.service";
 
 @Component({
   selector: 'project-description',
@@ -51,7 +52,7 @@ export class ProjectDescriptionComponent implements OnInit {
     private _router: Router,
     private _publicService: PublicService,
     private projectService: ProjectService,
-    private _transactionService: TransactionService
+    private _paymentService: PaymentService
   ) { }
 
   ngOnInit() {
@@ -176,6 +177,14 @@ export class ProjectDescriptionComponent implements OnInit {
         this.bids.unshift(res);
         this.createBidsInfo(this._serverBidInfo, this.pilotBid);
         this.isEdit = false;
+      });
+  }
+
+  release(bidId: number) {
+    this._paymentService.releasePayment(bidId)
+      .subscribe(() => {
+        console.log(1);
+        this.project.status = 'COMPLETED';
       });
   }
 

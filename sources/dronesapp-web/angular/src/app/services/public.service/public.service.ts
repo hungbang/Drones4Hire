@@ -32,4 +32,14 @@ export class PublicService {
         }
       );
   }
+
+  getPublicAccountEquipments(id) {
+    return this._requestService.fetch('get', `/public/account/${id}/equipments`)
+      .map(
+        res => {
+          // console.log('get public account equipments:', res);
+          return res;
+        }
+      );
+  }
 }

@@ -11,10 +11,7 @@
                  name="name"
                  placeholder="Company name"
                  [ngModel]="accountService.company?.name"
-                 (ngModelChange)="accountService.company.name = $event"
-                 [required]="accountService.isUserPilot()"
-                 #nameRef="ngModel"
-                 [ngClass]="{'_error': submitted && nameRef.errors?.required}">
+                 (ngModelChange)="accountService.company.name = $event">
         </label>
       </div>
 
@@ -39,10 +36,7 @@
                  placeholder="Contact name"
                  name="contactName"
                  [ngModel]="accountService.company?.contactName"
-                 (ngModelChange)="accountService.company.contactName = $event"
-                 [required]="accountService.isUserPilot()"
-                 #contactNameRef="ngModel"
-                 [ngClass]="{'_error': submitted && contactNameRef.errors?.required}">
+                 (ngModelChange)="accountService.company.contactName = $event">
         </label>
       </div>
 
@@ -53,22 +47,17 @@
                  name="contactEmail"
                  placeholder="Contact Email"
                  [ngModel]="accountService.company?.contactEmail"
-                 (ngModelChange)="accountService.company.contactEmail = $event"
-                 [required]="accountService.isUserPilot()"
-                 #contactEmailRef="ngModel"
-                 [ngClass]="{'_error': submitted && contactEmailRef.errors?.required}">
+                 (ngModelChange)="accountService.company.contactEmail = $event">
         </label>
       </div>
+
       <div class="f-default__row">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.companyCountry}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !accountService.company?.country?.name}">
           <select class="f-default__field"
                   name="country"
-                  [(ngModel)]="commonService.companyCountry"
-                  (ngModelChange)="selectCountry($event)"
-                  [required]="accountService.isUserPilot()"
-                  #countryRef="ngModel"
-                  [ngClass]="{'_error': submitted && countryRef.errors?.required}">
-            <option [value]="null">Country{{accountService.isUserPilot() ? '*' : ''}}</option>
+                  [ngModel]="accountService.company?.country?.name"
+                  (ngModelChange)="selectCountry($event)">
+            <option [value]="null">Country</option>
             <option *ngFor="let option of countries"
                     [value]="option.name">
               {{option.name}}
@@ -77,16 +66,16 @@
         </label>
       </div>
 
-      <div class="f-default__row" *ngIf="false && commonService.checkCountry('companyCountry')">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !commonService.companyState}">
+      <div class="f-default__row" *ngIf="checkCountry()">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !accountService.company?.state?.name}">
           <select class="f-default__field"
                   name="state"
-                  [(ngModel)]="commonService.companyState"
+                  [ngModel]="accountService.company?.state?.name"
                   (ngModelChange)="selectState($event)"
-                  [required]="accountService.isUserPilot()"
+                  required
                   #stateRef="ngModel"
                   [ngClass]="{'_error': submitted && stateRef.errors?.required}">
-            <option [value]="null">State{{accountService.isUserPilot() ? '*' : ''}}</option>
+            <option [value]="null">State*</option>
             <option *ngFor="let option of states"
                     [value]="option.name">
               {{option.name}}

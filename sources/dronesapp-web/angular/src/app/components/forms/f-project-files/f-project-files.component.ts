@@ -39,6 +39,7 @@ export class FProjectFilesComponent implements OnInit {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.fileURL = JSON.parse(response)['url'];
       this.fileName = this.fileItem.file.name;
+      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 

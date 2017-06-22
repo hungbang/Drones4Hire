@@ -58,14 +58,15 @@
     line-height: 40px;
     overflow: hidden;
     border-radius: 10px;
+    white-space nowrap
     span
       height 44px
       vam()
     &._facebook
     &._google
       .first
-        width: 54px;
-        margin-right: 11px;
+        width: 45px;
+        margin-right: 10px;
     &._facebook
       background-color: #4453A8;
       border: 2px solid #4453A8;
@@ -138,6 +139,7 @@
         &:hover
           text-decoration: underline
     &-input
+      display none
       &._error
         & + .f-authorization
           &__chk-text
