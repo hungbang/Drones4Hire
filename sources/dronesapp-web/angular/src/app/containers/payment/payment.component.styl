@@ -1,2 +1,51 @@
+@import './../../styles/settings/mixin.styl';
+
 .payment
   padding-top: 200px
+  &__section
+    display: flex
+    justify-content space-between
+    margin-bottom: 40px
+  &__col
+    width: 50%
+    &:first-of-type
+      padding-right: 9.235%
+      border-right: 1px solid #a3a5ab
+    &:last-of-type
+      padding-left: 9.235%
+  &__title
+    font-size: 50px
+    letter-spacing: 0.5px;
+    osans(400);
+    margin-bottom: 65px
+  &__button
+    width: 232px
+    height: 44px
+    letter-spacing: 1px
+    text-transform: inherit
+    osans(400)
+  &__list
+    display: flex
+    margin-bottom: 50px
+    &-item
+      margin-right: 30px
+  @media(max-width 1368px)
+    &__col
+      &:first-of-type
+        width: 40%
+        padding-right: 5%
+      &:last-of-type
+        width: 60%
+        padding-left: 5%
+    @media(max-width 1024px)
+      &__section
+        flex-direction column
+      &__col
+        &:first-of-type
+          width: 100%
+          padding-right: 0
+          border-right: none
+        &:last-of-type
+          width: 100%
+          padding-left: 0
+

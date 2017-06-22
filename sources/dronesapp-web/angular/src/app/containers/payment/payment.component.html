@@ -1,10 +1,21 @@
 <div class="payment">
-  <div class="payment__col">
-    <f-card title="Add new card">
-      <input type="submit" class="f-default__button" value="Add a credit card" />
-    </f-card>
-  </div>
-  <div class="payment__col">
-    <l-cards></l-cards>
+  <div class="container">
+    <h1 class="payment__title">Payment information page</h1>
+    <div class="payment__section">
+      <div class="payment__col">
+        <f-card title="Add new card">
+          <input type="submit" class="f-default__button payment__button" value="Add a credit card"/>
+        </f-card>
+      </div>
+      <div class="payment__col">
+        <l-cards></l-cards>
+      </div>
+    </div>
+    <ul class="payment__list">
+      <li class="payment__list-item"><img src="./../../../assets/img/comodo.png" alt="Comodo" class="payment__list-img"></li>
+      <li class="payment__list-item"><img src="./../../../assets/img/visa.png" alt="Visa" class="payment__list-img"></li>
+      <li class="payment__list-item"><img src="./../../../assets/img/master-card.png" alt="Master Card" class="payment__list-img"></li>
+      <li class="payment__list-item"><img src="./../../../assets/img/paypal.png" alt="PayPal" class="payment__list-img"></li>
+    </ul>
   </div>
 </div>
