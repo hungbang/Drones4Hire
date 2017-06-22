@@ -40,16 +40,15 @@ public class WithdrawController extends AbstractController
 	private Mapper mapper;
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Create withdraw", nickname = "createWithdraw", code = 201, httpMethod = "POST", response = WithdrawRequestDTO.class)
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@Secured({"ROLE_PILOT"})
+	@ApiOperation(value = "Create withdraw request", nickname = "createWithdrawRequest", code = 201, httpMethod = "POST", response = WithdrawRequestDTO.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@Secured({ "ROLE_PILOT", "ROLE_CLIENT" })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody WithdrawRequestDTO createWithdraw(@Valid @RequestBody WithdrawRequestDTO c) throws ServiceException
+	public @ResponseBody WithdrawRequestDTO createWithdraw(@Valid @RequestBody WithdrawRequestDTO wr) throws ServiceException
 	{
-		WithdrawRequest request = mapper.map(c, WithdrawRequest.class);
-		return mapper.map(withdrawService.createWithdraw(request, getPrincipal().getId()), WithdrawRequestDTO.class);
+		WithdrawRequest request = mapper.map(wr, WithdrawRequest.class);
+		request.setUserId(getPrincipal().getId());
+		return mapper.map(withdrawService.createWithdraw(request), WithdrawRequestDTO.class);
 	}
-
 }

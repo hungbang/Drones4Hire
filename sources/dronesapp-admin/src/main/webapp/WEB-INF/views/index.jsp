@@ -11,7 +11,7 @@
         <%@ include file="/WEB-INF/fragments/meta.jsp" %>
         <%@ include file="/WEB-INF/fragments/links.jsp" %>
 
-        <title><spring:message code="drones.admin.pages.index.title"/></title>
+        <title>Drones4Hire admin</title>
     </head>
     <body>
         <div id="wrapper">
