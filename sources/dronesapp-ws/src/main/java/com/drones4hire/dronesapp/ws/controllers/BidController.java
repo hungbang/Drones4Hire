@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.BidInfoSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
-import com.drones4hire.dronesapp.models.db.projects.BidInfo;
 import com.drones4hire.dronesapp.models.dto.BidDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.BidService;

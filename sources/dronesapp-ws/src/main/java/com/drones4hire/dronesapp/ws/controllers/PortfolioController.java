@@ -1,11 +1,9 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem;
-import com.drones4hire.dronesapp.models.dto.PortfolioItemDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
-import com.drones4hire.dronesapp.services.services.PortfolioService;
-import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
-import io.swagger.annotations.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +11,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.drones4hire.dronesapp.models.db.portfolio.PortfolioItem;
+import com.drones4hire.dronesapp.models.dto.PortfolioItemDTO;
+import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.services.PortfolioService;
+import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
-import javax.validation.Valid;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Controller
 @Api(value = "Portfolio API")

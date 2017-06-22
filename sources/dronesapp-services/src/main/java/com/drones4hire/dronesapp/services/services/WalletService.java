@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,14 @@ public class WalletService
 		walletMapper.createWallet(wallet);
 		return wallet;
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	public Wallet createDefaultWallet(User user)
 	{
 		Wallet wallet = new Wallet(user.getId());
 		wallet.setBalance(BigDecimal.ZERO);
 		wallet.setCurrency(Currency.USD);
+		wallet.setWithdrawToken(UUID.randomUUID().toString());
 		return createWallet(wallet);
 	}
 

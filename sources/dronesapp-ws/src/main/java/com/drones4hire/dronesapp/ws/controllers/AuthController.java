@@ -5,8 +5,6 @@ import static com.drones4hire.dronesapp.services.services.notifications.Abstract
 
 import javax.validation.Valid;
 
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.services.services.WalletService;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,7 @@ import com.drones4hire.dronesapp.models.dto.auth.RefreshTokenDTO;
 import com.drones4hire.dronesapp.models.dto.auth.RegistrationDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.PayoneerService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
@@ -48,6 +47,9 @@ public class AuthController extends AbstractController
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private PayoneerService payoneerService;
+	
 	@Autowired
 	private AWSEmailService emailService;
 
@@ -98,13 +100,14 @@ public class AuthController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = User.class)
+	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = String.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User register(@RequestBody @Valid RegistrationDTO user)
+	public @ResponseBody String register(@RequestBody @Valid RegistrationDTO userDTO)
 			throws MappingException, ServiceException
 	{
-		return userService.registerUser(mapper.map(user, User.class), user.getRole());
+		User user = userService.registerUser(mapper.map(userDTO, User.class), userDTO.getRole());
+		return payoneerService.signup(user);
 	}
 
 	@ResponseStatusDetails

@@ -1,6 +1,5 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_PASSWORD_PATH;
 
 import java.util.ArrayList;
@@ -8,11 +7,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.drones4hire.dronesapp.models.db.payments.Transaction;
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.users.*;
-import com.drones4hire.dronesapp.models.dto.*;
-import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -21,13 +15,41 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.drones4hire.dronesapp.models.db.commons.Location;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.services.Service;
+import com.drones4hire.dronesapp.models.db.users.Company;
+import com.drones4hire.dronesapp.models.db.users.PilotLicense;
+import com.drones4hire.dronesapp.models.db.users.PilotLocation;
+import com.drones4hire.dronesapp.models.db.users.Profile;
+import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.dto.AccountDTO;
+import com.drones4hire.dronesapp.models.dto.ChangeEmailDTO;
+import com.drones4hire.dronesapp.models.dto.CompanyDTO;
+import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
+import com.drones4hire.dronesapp.models.dto.PilotLocationDTO;
+import com.drones4hire.dronesapp.models.dto.ProfileDTO;
+import com.drones4hire.dronesapp.models.dto.WalletDTO;
 import com.drones4hire.dronesapp.models.dto.auth.ChangePasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.CompanyService;
+import com.drones4hire.dronesapp.services.services.LocationService;
+import com.drones4hire.dronesapp.services.services.PilotLicenseService;
+import com.drones4hire.dronesapp.services.services.PilotLocationService;
+import com.drones4hire.dronesapp.services.services.ProfileService;
+import com.drones4hire.dronesapp.services.services.ServiceService;
+import com.drones4hire.dronesapp.services.services.TransactionService;
+import com.drones4hire.dronesapp.services.services.UserService;
+import com.drones4hire.dronesapp.services.services.WalletService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;

@@ -7,6 +7,12 @@ import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.braintreegateway.PaymentMethod;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +28,12 @@ public class PaymentService
 
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private BraintreeService braintreeService;
 
 	@Autowired
 	private WalletService walletService;
@@ -76,5 +88,73 @@ public class PaymentService
 		project.setStatus(Project.Status.COMPLETED);
 		projectService.updateProject(project);
 		return projectPaymentTransaction;
+	}
+	
+	public String generateClientToken(long userId) throws ServiceException
+	{
+		Wallet wallet = walletService.getWalletByUserId(userId);
+		return braintreeService.generateClientToken(wallet);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public com.braintreegateway.Transaction saleTransaction(String customerId, String paymentMethodToken, BigDecimal amount)
+			throws ServiceException
+	{
+		com.braintreegateway.Transaction transaction = null;
+		try
+		{
+			transaction = braintreeService.sale(customerId, amount, paymentMethodToken);
+			if(! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SETTLED)
+					&& ! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SUBMITTED_FOR_SETTLEMENT))
+			{
+				throw new ServiceException("Braintree transaction has status '" + transaction.getStatus() + "'");
+			}
+		} catch (Exception e)
+		{
+			braintreeService.voidTransaction(transaction.getId());
+		}
+		return transaction;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public com.braintreegateway.Transaction saleTransactionWithDefaultCard(Transaction tr)
+			throws ServiceException
+	{
+		Wallet wallet = walletService.getWalletById(tr.getWalletId());
+		com.braintreegateway.Transaction transaction = null;
+		try
+		{
+			transaction = braintreeService.sale(wallet.getPaymentToken(), tr.getAmount(), braintreeService.getDefaultCreditCard(wallet.getPaymentToken()).getToken());
+			if(! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SETTLED)
+					&& ! transaction.getStatus().equals(com.braintreegateway.Transaction.Status.SUBMITTED_FOR_SETTLEMENT))
+			{
+				throw new ServiceException("Braintree transaction has status '" + transaction.getStatus() + "'");
+			}
+		} catch (Exception e)
+		{
+			braintreeService.voidTransaction(transaction.getId());
+		}
+		transactionService.createTransaction(tr);
+		return transaction;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public String createPaymentToken(long userId, String paymentMethodNonce)
+			throws ServiceException
+	{
+		String paymentMethodToken = null;
+		User user = userService.getUserById(userId);
+		if (user == null)
+		{
+			throw new UserNotFoundException("User wit id '" + userId + "' not found");
+		}
+		Wallet wallet = walletService.getWalletByUserId(userId);
+		if (wallet.getPaymentToken() == null)
+		{
+			paymentMethodToken = braintreeService.getPaymentMethod(user, paymentMethodNonce).getCustomerId();
+			wallet.setPaymentToken(paymentMethodToken);
+			walletService.updateWallet(wallet);
+		}
+		return paymentMethodToken;
 	}
 }

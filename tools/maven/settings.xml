@@ -32,6 +32,18 @@
 				<drones4hire.amazon.accessKey>AKIAJSPZIDX4XQD766EQ</drones4hire.amazon.accessKey>
 				<drones4hire.amazon.secretKey>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</drones4hire.amazon.secretKey>
 				<drones4hire.amazon.bucket>dronessapp</drones4hire.amazon.bucket>
+				
+				<drones4hire.braintree.environment></drones4hire.braintree.environment>
+				<drones4hire.braintree.merchantId></drones4hire.braintree.merchantId>
+				<drones4hire.customer.id></drones4hire.customer.id>
+				<drones4hire.braintree.publicKey></drones4hire.braintree.publicKey>
+				<drones4hire.braintree.privateKey></drones4hire.braintree.privateKey>	
+				<drones4hire.braintree.cse></drones4hire.braintree.cse>
+				
+				<drones4hire.payoneer.url></drones4hire.payoneer.url>
+				<drones4hire.payoneer.username></drones4hire.payoneer.username>
+				<drones4hire.payoneer.password></drones4hire.payoneer.password>
+				<drones4hire.payoneer.partnerId></drones4hire.payoneer.partnerId>
 			</properties>
 		</profile>
 	</profiles>

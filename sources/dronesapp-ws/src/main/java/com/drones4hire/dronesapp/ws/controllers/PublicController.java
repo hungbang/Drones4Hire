@@ -1,5 +1,23 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.users.PilotEquipment;
 import com.drones4hire.dronesapp.models.db.users.Profile;
@@ -14,18 +32,10 @@ import com.drones4hire.dronesapp.services.services.ProfileService;
 import com.drones4hire.dronesapp.services.services.ServiceService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
-import io.swagger.annotations.*;
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Controller
 @Api(value = "Public API")

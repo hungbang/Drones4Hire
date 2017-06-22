@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.models.db.projects;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -182,5 +183,15 @@ public class Project extends AbstractEntity
 	public void setAttachments(List<Attachment> attachments)
 	{
 		this.attachments = attachments;
+	}
+
+	public BigDecimal getPaidPotionsSumAmount()
+	{
+		BigDecimal amount = new BigDecimal(0);
+		for(PaidOption paidOption : this.getPaidOptions())
+		{
+			amount = amount.add(paidOption.getPrice());
+		}
+		return amount;
 	}
 }

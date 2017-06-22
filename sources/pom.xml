@@ -107,6 +107,8 @@
 		<jjwt.version>0.7.0</jjwt.version>
 
 		<slack-java-webhook.version>0.0.7</slack-java-webhook.version>
+
+		<braintree.version>2.72.0</braintree.version>
 	</properties>
 
 	<modules>
@@ -117,7 +119,7 @@
 		<module>dronesapp-ws</module>
 		<module>dronesapp-batch-services</module>
 		<module>dronesapp-admin</module>
-		<!-- module>dronesapp-web</module -->
+		<module>dronesapp-web</module>
 	</modules>
 
 	<dependencyManagement>
@@ -569,11 +571,19 @@
 				<artifactId>slack-java-webhook</artifactId>
 				<version>${slack-java-webhook.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>com.braintreepayments.gateway</groupId>
+				<artifactId>braintree-java</artifactId>
+				<version>${braintree.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.tuckey</groupId>
 				<artifactId>urlrewritefilter</artifactId>
 				<version>${tuckey.version}</version>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
