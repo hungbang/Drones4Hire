@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {AccountService} from '../../../services/account.service/account.service';
+import {TransactionService} from '../../../services/transaction.service/transaction.service';
 
 @Component({
   selector: 'f-withdrawal',
@@ -15,7 +16,8 @@ export class FWithdrawalComponent implements OnInit {
   @Input() balance: number = 0;
 
   constructor(
-    private accountService: AccountService
+    private accountService: AccountService,
+    private transactionService: TransactionService
   ) { }
 
   ngOnInit() {
@@ -30,13 +32,28 @@ export class FWithdrawalComponent implements OnInit {
       return;
     }
 
-    console.log('requested withdrawal amount:', parseFloat(this.amount)); // TODO: connect to API
-    form.resetForm();
+    console.log('requested withdrawal amount:', parseFloat(this.amount.replace(',', '.')));
+    const withdrawal = {
+      amount: parseFloat(this.amount.replace(',', '.')),
+      comment: this.description,
+      currency: this.accountService.account.wallet.currency
+    };
+
+    this.transactionService.sendWithdrawal(withdrawal)
+      .subscribe(
+        res => {
+          console.log('saved withdrawal:', res);
+          form.resetForm(); // TODO: what will be happen after send: redirect or message
+        },
+        err => {
+          console.log('withdrawal request error:', err);
+        }
+      );
     this.submitted = false;
   }
 
   get isCorrectValue() {
-    const value = parseFloat(this.amount); // TODO: use replacement on enter instead parsing?
+    const value = parseFloat(this.amount.replace(',', '.')); // TODO: use replacement on enter instead parsing?
     return isFinite(value) && value > 0 && value <= this.balance;
   }
 
@@ -45,7 +62,6 @@ export class FWithdrawalComponent implements OnInit {
   }
 
   get canWithdarawal() {
-    return false; // TODO: connect to API when will ready
+    return true; // TODO: connect to API when will ready
   }
-
 }
