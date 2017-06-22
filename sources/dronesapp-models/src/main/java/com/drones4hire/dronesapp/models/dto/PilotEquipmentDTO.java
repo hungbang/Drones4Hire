@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 public class PilotEquipmentDTO extends AbstractDTO
 {
+	private static final long serialVersionUID = 4496012219073056226L;
 
 	private Long userId;
 

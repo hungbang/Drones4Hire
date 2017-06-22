@@ -2,8 +2,6 @@ package com.drones4hire.dronesapp.models.dto.auth;
 
 import java.io.Serializable;
 
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.users.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 

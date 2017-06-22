@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
+import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
@@ -187,6 +188,12 @@ public class UserService
 		results.setResults(users);
 		results.setTotalResults(userMapper.getSearchUsersCount(sc));
 		return results;
+	}
+	
+	@Transactional(rollbackFor=Exception.class)
+	public void sendQuestion(Question question)
+	{
+		emailService.sendQuestionEmail(question);
 	}
 	
 	public User checkUserCredentials(String email, String password) throws ServiceException

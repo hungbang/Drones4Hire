@@ -1,15 +1,16 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreditCardDTO extends AbstractDTO
 {
+	private static final long serialVersionUID = 2524632134286736149L;
 
 	private String token;
 

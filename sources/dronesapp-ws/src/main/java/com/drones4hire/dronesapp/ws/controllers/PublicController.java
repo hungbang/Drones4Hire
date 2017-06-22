@@ -5,6 +5,8 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,12 +14,14 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.users.PilotEquipment;
 import com.drones4hire.dronesapp.models.db.users.Profile;
@@ -25,6 +29,7 @@ import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
 import com.drones4hire.dronesapp.models.dto.PilotEquipmentDTO;
 import com.drones4hire.dronesapp.models.dto.ProfileDTO;
+import com.drones4hire.dronesapp.models.dto.QuestionDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.PilotEquipmentService;
@@ -76,7 +81,6 @@ public class PublicController extends AbstractController
 			account.setLastName(user.getLastName());
 			return account;
 		}
-		
 	}
 
 	@ResponseStatusDetails
@@ -113,8 +117,7 @@ public class PublicController extends AbstractController
 	@ApiOperation(value = "Get all public profiles", nickname = "getPublicProfiles", code = 200, httpMethod = "GET", response = List.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "profile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<ProfileDTO> getPublicProfiles()
-			throws ServiceException
+	public @ResponseBody List<ProfileDTO> getPublicProfiles() throws ServiceException
 	{
 		List<ProfileDTO> profileDTOs = new ArrayList<>();
 		List<Profile> profiles = profileService.getAllPublicProfiles();
@@ -129,9 +132,7 @@ public class PublicController extends AbstractController
 	@ApiOperation(value = "Get pilot equipments by pilot id", nickname = "getPilotEquipmentsByPilotId", code = 200, httpMethod = "GET", response = List.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "account/{id}/equipments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<PilotEquipmentDTO> getPilotEquipmentsByPilotId(
-			@ApiParam(value = "Id of the pilot", required = true) @PathVariable(value = "id") long id)
-			throws ServiceException
+	public @ResponseBody List<PilotEquipmentDTO> getPilotEquipmentsByPilotId(@ApiParam(value = "Id of the pilot", required = true) @PathVariable(value = "id") long id) throws ServiceException
 	{
 		List<PilotEquipment> pilotEquipments = pilotEquipmentService.getPilotEquipmentsByPilotId(id);
 		List<PilotEquipmentDTO> pilotEquipmentDTOs = new ArrayList<>();
@@ -140,5 +141,14 @@ public class PublicController extends AbstractController
 			pilotEquipmentDTOs.add(mapper.map(pilotEquipment, PilotEquipmentDTO.class));
 		}
 		return pilotEquipmentDTOs;
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Send question", nickname = "question", code = 200, httpMethod = "POST")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "question", method = RequestMethod.POST)
+	public void question(@Valid @RequestBody QuestionDTO question) throws ServiceException
+	{
+		userService.sendQuestion(mapper.map(question, Question.class));
 	}
 }
