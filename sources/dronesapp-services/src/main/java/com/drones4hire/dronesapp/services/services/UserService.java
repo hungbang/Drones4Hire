@@ -67,9 +67,12 @@ public class UserService
 
 	@Autowired
 	private BraintreeService braintreeService;
+
+	@Autowired
+	private PayoneerService payoneerService;
 	
 	@Transactional(rollbackFor=Exception.class)
-	public User registerUser(User user, Role role) throws ServiceException
+	public String registerUser(User user, Role role) throws ServiceException
 	{
 		if(!Arrays.asList(Role.ROLE_CLIENT, Role.ROLE_PILOT).contains(role))
 		{
@@ -83,7 +86,7 @@ public class UserService
 			user.setWithdrawEnabled(DEFAULT_WITDRAW_ENABLED);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
-
+			
 			// Add group with default user role
 			Group group = groupService.getGroupByRole(role);
 			userMapper.createUserGroup(user, group);
@@ -122,8 +125,10 @@ public class UserService
 			wallet.setPaymentToken(customer.getId());
 			walletService.updateWallet(wallet);
 		}
+		String result = payoneerService.signup(user);
 		emailService.sendConfirmationEmail(user, generateConfrimEmailToken(user));
-		return user;
+		
+		return result;
 	}
 	
 	@Transactional(rollbackFor=Exception.class)

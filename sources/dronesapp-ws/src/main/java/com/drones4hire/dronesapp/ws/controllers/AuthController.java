@@ -26,7 +26,6 @@ import com.drones4hire.dronesapp.models.dto.auth.RefreshTokenDTO;
 import com.drones4hire.dronesapp.models.dto.auth.RegistrationDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.PayoneerService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
@@ -46,9 +45,6 @@ public class AuthController extends AbstractController
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private PayoneerService payoneerService;
 	
 	@Autowired
 	private AWSEmailService emailService;
@@ -106,8 +102,7 @@ public class AuthController extends AbstractController
 	public @ResponseBody String register(@RequestBody @Valid RegistrationDTO userDTO)
 			throws MappingException, ServiceException
 	{
-		User user = userService.registerUser(mapper.map(userDTO, User.class), userDTO.getRole());
-		return payoneerService.signup(user);
+		return String.format("{\"url\": \"%s\"}", userService.registerUser(mapper.map(userDTO, User.class), userDTO.getRole()));
 	}
 
 	@ResponseStatusDetails

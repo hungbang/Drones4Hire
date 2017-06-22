@@ -36,18 +36,10 @@ public class PayoneerService
 		GetToken
 	}
 	
-	private String templateUrl = baseUrl +
-			"?mname=%s" + 
-			"&p1=" + username +
-			"&p2=" + password +
-			"&p3=" + partnerId + 
-			"&p4=";
-	
 	public String signup(User user) throws PayoneerException {
 		String url = null;
 		if(user.getRoles().contains(Role.ROLE_PILOT)) {
-			url = String.format(templateUrl, Methods.GetToken);
-			url += walletService.getWalletByUserId(user.getId()).getWithdrawToken();
+			url = buildURL(Methods.GetToken) + walletService.getWalletByUserId(user.getId()).getWithdrawToken();
 //			TODO[anazarenko]: if needed put prepopulation data here.
 			return openURL(url);
 		}
@@ -69,5 +61,9 @@ public class PayoneerService
 			IOUtils.closeQuietly(reader);
 		}
 		return inputLine; 
+	}
+	
+	private String buildURL(Methods method) {
+		return baseUrl + "?mname=" + method + "&p1=" + username + "&p2=" + password + "&p3=" + partnerId +	"&p4=";
 	}
 }
