@@ -1,0 +1,37 @@
+<form (submit)="sendRequest($event, withdrawalForm)"
+      #withdrawalForm="ngForm"
+      class="f-withdrawal f-default">
+  <div class="f-withdrawal__header" *ngIf="canWithdarawal">Enter the amount of money that you want to withdrawal</div>
+  <div class="f-withdrawal__header" *ngIf="!canWithdarawal">
+    <a href="{{paymentLink}}"
+       target="_blank"
+       class="f-withdrawal__header-link">Register a Payoneer</a> account to create a withdrawal
+  </div>
+  <div class="f-withdrawal__content">
+    <div class="f-default__row">
+      <label class="f-default__label">
+        <input type="text"
+               placeholder="Amount"
+               required
+               name="amount"
+               [(ngModel)]="amount"
+               #amountRef="ngModel"
+               [ngClass]="{'_error': submitted && (amountRef.errors?.required || !isCorrectValue)}"
+               class="f-default__field">
+        <span class="f-default__text _error" *ngIf="submitted && !isCorrectValue">Please enter correct amount.</span>
+      </label>
+    </div>
+    <div class="f-default__row">
+      <label class="f-default__label _area">
+            <textarea class="f-default__field _area"
+                      type="text"
+                      name="description"
+                      [(ngModel)]="description"
+                      placeholder="Description"></textarea>
+      </label>
+    </div>
+    <button
+      [disabled]="!canWithdarawal"
+      class="f-default__button _big">Send a request</button>
+  </div>
+</form>

@@ -155,12 +155,51 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $scope.project.startDate = new Date(Date.parse($scope.project.startDate) + OFFSET);
                     $scope.project.finishDate = new Date(Date.parse($scope.project.finishDate) + OFFSET);
                     $http.post('projects', $scope.project).success(function(data) {
+                        $scope.uploadAttachment();
                         $modalInstance.close(true);
                         console.log('Was created');
                     }).error(function() {
                         console.error('Failed to create');
                     });
                 };
+
+                $scope.attachs = [];
+
+                $scope.addAttachment = function () {
+                    $scope.attachs.push($scope.fileToUpload);
+                };
+
+                $scope.uploadAttachment = function () {
+                    for(var i = 0; i < $scope.attachs.length; i++) {
+                        var fileToUpload = $scope.attachs[i];
+                        var fd = new FormData();
+                        fd.append('file', fileToUpload);
+                        initProjectAttach();
+                        $scope.attach.title = fileToUpload.name.split('.')[0];
+                        $http.post('upload?file=', fileToUpload, {
+                            headers: {
+                                'Content-Type' : undefined,
+                                'FileType': $scope.attach.type
+                            },
+                            transformRequest : angular.identity
+                        }).success(function(data) {
+                            $scope.attach.attachmentURL = data.url;
+                            $http.post('projects/results', $scope.attach).success(function(data) {
+                                $scope.loadProject();
+                            }).error(function() {
+                            });
+                        }).error(function() {
+                            console.error('Failed to upload file');
+                        });
+                    }
+                };
+
+                function initProjectAttach() {
+                    $scope.attach.type = 'PROJECT_ATTACHMENT';
+                    $scope.attach.title = null;
+                    $scope.attach.projectId = $scope.project.id;
+                    $scope.attach.attachmentURL = null;
+                }
 
                 (function init() {
                 	$scope.loadBudgets();
@@ -183,7 +222,9 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 } ]);
 
 DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$location', '$routeParams', '$modal', '$route', '$upload', function($scope, $http, $location, $routeParams, $modal, $route, $upload) {
-	
+
+    $scope.attach = {};
+
 	$scope.loadProject = function(){
 		$http.get('projects/' + $routeParams.id).success(function(data) {
 			$scope.project = data;
@@ -242,7 +283,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 
     $scope.deleteProject = function (id) {
         $http.delete('projects/' + id).success(function(data) {
-            alert('Success, project was deleted.');
+            $location.url('/projects');
         }).error(function(data, status) {
             alert('Failed to delete project!');
         });
@@ -250,7 +291,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 
     $scope.deleteComment = function (id) {
         $http.delete('comments/' + id).success(function(data) {
-            alert('Success, comment was deleted.');
+            $route.loadComments();
         }).error(function(data, status) {
             alert('Failed to delete comment!');
         });
@@ -258,7 +299,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 
     $scope.deleteAttachment = function (id) {
         $http.delete('projects/results/' + id).success(function(data) {
-            alert('Success, attachment was deleted.');
+            $scope.loadProject();
         }).error(function(data, status) {
             alert('Failed to delete attachment!');
         });
@@ -266,7 +307,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 
     $scope.deleteBid = function (id) {
         $http.delete('bids/' + id + '/retract').success(function(data) {
-            alert('Success, bid was deleted.');
+            $scope.loadBids();
         }).error(function(data, status) {
             alert('Failed to delete bid!');
         });
@@ -310,16 +351,34 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         });
     };
 
-    $scope.uploadAttachments = function () {
+    $scope.uploadAttachment = function () {
+        initProjectAttach();
+        $scope.attach.title = $scope.fileToUpload.name.split('.')[0];
         var fd = new FormData();
-        //Take the first selected file
-        fd.append("file", $scope.fileToUpload);
-        $scope.post('upload', fd).success(function(data) {
-            console.log('File was uploaded');
+        fd.append('file', $scope.fileToUpload);
+        $http.post('upload?file=', fd, {
+            headers: {
+                'Content-Type' : undefined,
+                'FileType': $scope.attach.type
+            },
+            transformRequest : angular.identity
+        }).success(function(data) {
+            $scope.attach.attachmentURL = data.url;
+            $http.post('projects/results', $scope.attach).success(function(data) {
+                $scope.loadProject();
+            }).error(function() {
+            });
         }).error(function() {
             console.error('Failed to upload file');
         });
     };
+
+    function initProjectAttach() {
+        $scope.attach.type = 'PROJECT_ATTACHMENT';
+        $scope.attach.title = null;
+        $scope.attach.projectId = $scope.project.id;
+        $scope.attach.attachmentURL = null;
+    }
 
     (function init(){
         $scope.loadComments();

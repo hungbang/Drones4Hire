@@ -20,8 +20,8 @@ export class HeaderComponent {
         title: 'How it works',
         isOpened: true,
         children: [
-          { title: 'Drone Pilot', link: '/' },
-          { title: 'Client', link: '/' },
+          { title: 'Drone Pilot', link: '/pilot/how-it-works' },
+          { title: 'Client', link: '/client/how-it-works' },
         ]
       },
       { title: 'Login', link: '/login' },
@@ -35,8 +35,8 @@ export class HeaderComponent {
         isOpened: true,
         children: [
           { title: 'Account settings', link: '/account/client' },
-          { title: 'Payment Information' },
-          { title: 'Withdrawal request' },
+          { title: 'Payment Information', link: '/payment' },
+          { title: 'Withdrawal request', link: '/withdrawal-request' },
           { title: 'Transactions', link: '/transactions' },
           { title: 'Log out', action: this.logout.bind(this) }
         ]
@@ -50,8 +50,7 @@ export class HeaderComponent {
         isOpened: true,
         children: [
           { title: 'Account settings', link: '/account/pilot' },
-          { title: 'Payment Information' },
-          { title: 'Withdrawal request' },
+          { title: 'Withdrawal request', link: '/withdrawal-request' },
           { title: 'Transactions', link: '/transactions' },
           { title: 'Log out', action: this.logout.bind(this) }
         ]

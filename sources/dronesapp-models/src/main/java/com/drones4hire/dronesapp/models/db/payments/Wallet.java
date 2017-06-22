@@ -13,6 +13,7 @@ public class Wallet extends AbstractEntity
 	private BigDecimal balance;
 	private Currency currency;
 	private String paymentToken;
+	private String withdrawToken;
 
 	public Wallet()
 	{
@@ -61,5 +62,15 @@ public class Wallet extends AbstractEntity
 	public void setUserId(Long userId)
 	{
 		this.userId = userId;
+	}
+
+	public String getWithdrawToken()
+	{
+		return withdrawToken;
+	}
+
+	public void setWithdrawToken(String withdrawToken)
+	{
+		this.withdrawToken = withdrawToken;
 	}
 }

@@ -1,4 +1,4 @@
-@import "./../../../styles/settings/mixin.styl";
+@import "./../../../styles/settings/variables.styl";
 
 .s-project-add
   padding: 150px 0 100px
@@ -7,11 +7,10 @@
     padding 0 30px
   &__title
     font-size 4.8rem
+    font-weight 400
     margin-bottom 70px
-    osans(400)
     padding-top: 2px;
     padding-left: 24px;
-    letter-spacing: -1.5px;
   &__wrapper
     display: flex
     justify-content space-between
@@ -23,11 +22,11 @@
     flex: none
     align-self: flex-start;
     &-title
-      background-color: #1f2532
+      background-color: $gray1f
       color: white
-      font-size: 3.1rem
+      font-size: 3.6rem
+      font-weight 400
       padding: 27px 27px 34px;
-      osans(400)
   &__list
     padding: 18px 30px 32px 25px
     background-color: #fbfafa
@@ -37,7 +36,7 @@
       margin-bottom: 6px;
       line-height: 37px;
       padding-left: 20px
-      osans()
+      color #333
       &:before
         content: ''
         position: absolute
@@ -46,7 +45,7 @@
         width: 6px
         height: 6px
         border-radius: 50%
-        background-color: #1f2532
+        background-color: $gray1f
   &__form
     width: calc(100% - 525px)
     flex-shrink 2

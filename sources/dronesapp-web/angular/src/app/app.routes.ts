@@ -43,6 +43,15 @@ import {PilotProjectsResolve} from './resolves/pilot-projects/pilot-projects.res
 import {SProjectAddComponent} from './components/sections/s-project-add/s-project-add.component';
 import {SProjectEditComponent} from './components/sections/s-project-edit/s-project-edit.component';
 import {BidInfoResolve} from "./resolves/bid-info/bid-info";
+import {ProfileEquipmentsResolve} from './resolves/profile-equipments/profile-equipments.resolve';
+import {WithdrawalRequestComponent} from './containers/withdrawal-request/withdrawal-request.component';
+import {WorkPilotComponent} from "./containers/work-pilot/work-pilot.component";
+import {WorkClientComponent} from "./containers/work-client/work-client.component";
+import {PrivacyPolicyComponent} from "./containers/privacy-policy/privacy-policy.component";
+import {TermsComponent} from "./containers/terms/terms.component";
+import {AboutComponent} from "./containers/about/about.component";
+import {PaymentComponent} from "./containers/payment/payment.component";
+import {ContactUsComponent} from "./containers/contact-us/contact-us.component";
 
 export const ROUTES: Routes = [
   {
@@ -82,7 +91,8 @@ export const ROUTES: Routes = [
         resolve: {
           profile: ProfileResolve,
           portfolio: PortfolioResolve,
-          services: ProfileServicesResolve
+          services: ProfileServicesResolve,
+          equipments: ProfileEquipmentsResolve
         },
       }
     ],
@@ -455,6 +465,64 @@ export const ROUTES: Routes = [
     ],
     data: {
       className: 'p-search'
+    }
+  },
+  {
+    path: 'withdrawal-request',
+    component: WithdrawalRequestComponent,
+    canActivate: [AuthGuard],
+    data: {
+      className: 'p-gray-bg'
+    }
+  },
+  {
+    path: 'pilot/how-it-works',
+    component: WorkPilotComponent,
+    data: {
+      className: 'p-work-pilot'
+    }
+  },
+  {
+    path: 'client/how-it-works',
+    component: WorkClientComponent,
+    data: {
+      className: 'p-work-client'
+    }
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+    data: {
+      className: 'p-privacy-policy'
+    }
+  },
+  {
+    path: 'terms-and-condition',
+    component: TermsComponent,
+    data: {
+      className: 'p-terms'
+    }
+  },
+  {
+    path: 'about-us',
+    component: AboutComponent,
+    data: {
+      className: 'p-about'
+    }
+  },
+  {
+    path: 'contact',
+    component: ContactUsComponent,
+    data: {
+      className: 'p-contact-us'
+    }
+  },
+  {
+    path: 'payment',
+    canActivate: [ClientGuard],
+    component: PaymentComponent,
+    data: {
+      className: 'p-payment'
     }
   },
   {

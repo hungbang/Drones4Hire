@@ -1,7 +1,6 @@
-@import '../../../styles/settings/mixin.styl'
+@import '../../../styles/settings/variables.styl'
 
 .l-comments
-  osans(400)
   &__item
     padding 28px 0
     border-bottom 1px solid #000
@@ -38,7 +37,7 @@
     font-size 1.8rem
     text-transform uppercase
     color #3d3d3d
-    letter-spacing: 2.5px;
+    letter-spacing: .05em
   &__name
     &._user
       cursor: default
@@ -54,10 +53,10 @@
     height 21px
   &__bottom
     p
-      color #8a8a8a
+      color $gray8A
       font-size 1.8rem
-      line-height 26px
-      letter-spacing: 1.8px;
+      line-height 28px
+      letter-spacing: .05em
   .svg-usericon
     width 63px
     height 63px

@@ -45,7 +45,7 @@ public class AuthController extends AbstractController
 
 	@Autowired
 	private UserService userService;
-
+	
 	@Autowired
 	private AWSEmailService emailService;
 
@@ -96,13 +96,13 @@ public class AuthController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = User.class)
+	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = String.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User register(@RequestBody @Valid RegistrationDTO user)
+	public @ResponseBody String register(@RequestBody @Valid RegistrationDTO userDTO)
 			throws MappingException, ServiceException
 	{
-		return userService.registerUser(mapper.map(user, User.class), user.getRole());
+		return String.format("{\"url\": \"%s\"}", userService.registerUser(mapper.map(userDTO, User.class), userDTO.getRole()));
 	}
 
 	@ResponseStatusDetails

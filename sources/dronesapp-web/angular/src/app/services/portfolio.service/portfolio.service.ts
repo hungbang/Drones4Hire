@@ -33,14 +33,11 @@ export class PortfolioService {
 
   addPortfolio(portfolio: PortfolioModel) {
     return this._requestService.fetch('post', '/portfolio', portfolio)
-      .subscribe(
+      .map(
         res => {
           // console.log('added portfolio:', res);
           this.items.push(res);
           return res;
-        },
-        err => {
-          console.log('add portfolio error:', err);
         }
       );
   }

@@ -18,7 +18,7 @@
     </div>
     <div class="t-search__cell">{{item.type}}</div>
     <div class="t-search__cell">{{item.budget}}</div>
-    <div class="t-search__cell">{{item.posted | date}}</div>
+    <div class="t-search__cell">{{item.posted | date:'M/d/yy'}}</div>
     <div class="t-search__cell">{{item.proposals > 0 ? item.highestBid : '-'}}</div>
     <div class="t-search__cell">{{item.proposals}}</div>
   </div>

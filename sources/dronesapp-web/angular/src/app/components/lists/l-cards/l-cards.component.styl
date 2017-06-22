@@ -1,0 +1,86 @@
+@import './../../../styles/settings/mixin.styl';
+
+.l-cards
+  osans(400)
+  &__title
+    font-family inherit
+    font-weight: inherit
+    font-size: 2.8rem
+    color: #1f2532
+    margin-bottom: 10px
+  &__row
+    display: flex
+    &:not(:first-of-type)
+      border-bottom: 1px solid #1f2532
+    &:last-of-type
+      border-bottom: 2px solid #1f2532
+    &._header
+      .l-cards__col
+        font-family: inherit
+        padding-top: 8px
+        padding-bottom: 8px
+        &._number
+          background-color: #1f2532
+          color: white;
+          font-size: 1.8rem
+        &._card
+          background-color: #159aa5
+          color: white
+          font-size: 1.6rem
+          text-align: center
+        &._remove
+          background-color: #3fb6c0
+          cursor: default
+  &__col
+    display: flex
+    justify-content center
+    align-items center
+    height: 45px
+    &._number
+      padding-left: 37px
+      width: 100%
+      font-size: 1.6rem
+      font-weight: inherit
+      justify-content flex-start
+    &._card
+      width: 155px;
+      flex: none;
+    &._remove
+      width: 90px
+      flex: none
+      background-color: #eaeaea
+      cursor: pointer
+      transition: background-color .3s
+      &:hover
+        background-color: #1f2532
+        .l-cards__trash > svg
+            fill: white
+  &__label
+    width: 18px
+    height: 18px
+  &__chk-span
+    margin: 0
+    width: 100%
+    height: 100%
+    border-color: black;
+    background-color: #fff
+    &:after
+      color: black
+      font-size: 19px
+  &__trash
+    width: 18px
+    height: 22px
+    > svg
+      width 100%
+      height 100%
+      transition: fill .3s;
+  &__circle-group
+    span
+      display: inline-block
+      width: 8px
+      height: 8px
+      border-radius: 50%
+      background-color: #1f2532
+      &:nth-of-type(4n + 4)
+        margin-right: 16px
+

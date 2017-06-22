@@ -24,7 +24,8 @@
         width: 9%
   &__th
     color #fff
-    font-weight: 500
+    font-weight 400
+    letter-spacing .1em
     vertical-align: middle
     padding: 27px 10px 25px
   &__td
@@ -32,17 +33,17 @@
     text-align: center
     padding: 25px 10px
     font-size 1.6rem
+    letter-spacing .2em
     width: 15%
     vertical-align: middle
-    osans(400)
     text-transform: uppercase
     border-bottom 1px solid #b7b7b7
-    letter-spacing: 2px
     color: #454545
     border-bottom: 1px solid #d3d3d3
     &._name
       word-break: break-all
       width: 25%
+      font-weight 600
     .t-dashboard._pilot &
       width: 11%
       &._name
@@ -55,12 +56,14 @@
     &-name
       color #454545
       display: inline-block
-      osans(600)
+      font-weight 600
       &._inactive
         cursor: default
     ._client &
       &-review
         color #397eb9
+    &:hover:not(._inactive)
+      color #62bbf9
   ._client &
     &__wrapper
       display: flex

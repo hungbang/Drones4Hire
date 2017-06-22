@@ -1,0 +1,86 @@
+@import "./../../styles/settings/mixin.styl";
+
+.contact-us
+  padding-top: 150px
+  padding-bottom: 50px
+  osans(400)
+  &__container
+    max-width: 1040px
+  &__title
+    font-family: inherit
+    font-weight: inherit
+    font-size: 5.1rem
+    margin-bottom: 6.4rem
+  &__row
+    display: flex
+    justify-content space-between
+  &__col
+    width: 50%
+  &__info
+    background-color: #fbfafa
+    border-radius 3px
+    padding-bottom: 15px
+    box-shadow: 0 3px 6px 0 #b8b8b8;
+    &-wrap
+      padding-left: 79px
+  &__subtitle
+    font-family: inherit
+    color: white
+    background-color: #1f2532
+    font-size: 2.4rem
+    border-radius: 3px
+    text-align: center
+    font-weight: 500
+    padding-top: 6px
+    padding-bottom: 10px
+    margin-bottom: 27px
+  &__text
+    padding-left: 24px
+    padding-right: 24px
+    font-size: 2.2rem
+    font-family: inherit
+    color: #8f8f8f
+    margin-bottom: 10px
+    line-height: 3.3rem
+  &__key
+    display: inline-block
+    font-weight: 600
+  &__value
+    font-weight: 400
+    color: #8f8f8f
+    transition: color .3s
+  &._street
+    line-height: 3.5rem
+  a.contact-us__value:hover
+    color: #616161
+  @media(max-width: 1024px)
+    &__container
+      max-width 700px
+    &__row
+      flex-direction column-reverse
+    &__col
+      width: 100%
+    &__info-wrap
+      padding-left: 0
+      margin-bottom: 30px
+
+// Style for f-contact-us
+.f-contact-us
+  osans(400)
+  &__row
+    display: flex
+    justify-content space-between
+    margin-bottom: 12px
+  &__col
+    width: calc(50% - 5px)
+  &__field
+    flex-basis: 100%
+  &__button._big
+    margin-top: 9px
+    max-width: 100%
+    width: 100%
+    font-family: inherit
+    font-size: 2.3rem
+  &__area
+    flex-basis: 100%
+    height: 236px

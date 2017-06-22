@@ -1,9 +1,9 @@
-@import "./../../../styles/settings/mixin.styl";
+@import "./../../../styles/settings/variables.styl";
 
 .pr-bid
   font-size 1.6rem
   line-height 14px
-  letter-spacing .5px
+  letter-spacing .2em
   color rgb(51,51,51)
   &__wrapper
     display flex
@@ -12,10 +12,9 @@
     text-align left
     width: 230px
     flex: none
-    osans()
     font-size: 1.8rem
     text-transform: uppercase
-    color: #464646
+    color: $gray46
   &__left
     display flex
   &__top
@@ -24,15 +23,14 @@
     margin-bottom: 13px
   &__name
     font-size: 2.4rem
-    color: #464646
-    osans()
+    color: $gray46
     font-weight 600
     text-transform: uppercase
     margin-right: 15px
     letter-spacing .2em
     line-height: 2.6rem
   &__date
-    color: #8a8a8a
+    color: $gray8A
     font-size: 2rem
   &__user
     text-align center
@@ -40,7 +38,6 @@
   &__propolsal
     margin-left 40px
     > p
-      osans()
       font-size: 1.8rem
       text-transform: uppercase
       letter-spacing: .2em
@@ -53,11 +50,11 @@
   &__amount
     font-size 1.6rem
     margin-bottom 15px
-    letter-spacing: 2px
+    letter-spacing: .2em
   &__line
     height 1px
     width 100%
-    background-color #8a8a8a
+    background-color $gray8A
     margin 25px 0
 
   bid-head

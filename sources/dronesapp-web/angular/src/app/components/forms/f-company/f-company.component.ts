@@ -11,7 +11,7 @@ import {StateModel} from '../../../services/common.service/state.interface';
   styleUrls: ['./f-company.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class FClientCompanyComponent implements OnInit {
+export class FClientCompanyComponent implements OnInit { // TODO: check this form when API will fixed
   public submitted: boolean = false;
   public countries: CountryModel[] = [];
   public states: StateModel[] = [];
@@ -23,43 +23,31 @@ export class FClientCompanyComponent implements OnInit {
   ngOnInit() {
     if (!this.accountService.company) {
       this.accountService.getAccountCompany()
-        .subscribe(() => {
-          this.commonService.getCountries()
-            .subscribe((countries) => this.selectCompanyCountry(countries));
-        });
+        .subscribe(
+          () => {
+            this.getCountries();
+          }
+        );
     } else {
-      this.selectCompanyCountry(this.commonService.countries);
+      this.getCountries();
     }
   }
 
-  selectCompanyCountry(countries) {
+  private getCountries() {
+    this.commonService.getCountries()
+      .subscribe((countries) => this.setCountries(countries));
+  }
+
+  private setCountries(countries) {
     this.countries = extend([], countries);
 
-    // let filtered = this.countries.filter((country) => {
-    //   if (this.accountService.company.country) {
-    //     return country.id === this.accountService.company.country.id;
-    //   }
-    //   return false;
-    // });
-
-    this.countries.filter((country) => {
-      if (name === country.name) {
-        this.accountService.company.country.name = country['name'];
-        this.accountService.company.country.id = country['id'];
-      }
-    });
-
-    // filtered.length && (this.commonService.companyCountry = filtered[0].name);
-
-    if (!this.accountService.company.country) {
-      this.setCountry();
+    if (!this.accountService.company.country || !this.accountService.company.country.name) {
+      this.clearCountry();
     }
 
-    // if (!this.commonService.checkCountry('companyCountry')) {
-    //   this.setState();
-    // } else {
-    //   this.getListOfStates();
-    // }
+    if (this.checkCountry()) {
+      this.getListOfStates();
+    }
   }
 
   saveChanges(e, form) {
@@ -71,7 +59,6 @@ export class FClientCompanyComponent implements OnInit {
       return;
     }
 
-    console.log(this.accountService.company);
     this.accountService.setAccountCompany(this.accountService.company)
       .subscribe((res) => {
         console.log(res, '-save company');
@@ -79,43 +66,36 @@ export class FClientCompanyComponent implements OnInit {
   }
 
   selectCountry(name: string) {
-    this.countries.filter((country) => {
-      if (name === country.name) {
-        this.accountService.company.country.name = country['name'];
-        this.accountService.company.country.id = country['id'];
-      }
-    });
-
-    if (!this.accountService.company.country) {
-      this.setCountry();
+    // if pseudo placeholder option was selected
+    if (!name || name === 'null') {
+      this.clearCountry();
+      return;
     }
 
+    const country = this.countries.find((country) => country.name === name);
+
+    this.setCountry(country);
+
     // TODO: disable until BE ready for state in model
-    // if (!this.commonService.checkCountry('companyCountry')) {
-    //   this.setState();
-    // } else {
-    //   this.getListOfStates();
-    // }
+    if (this.checkCountry()) {
+      this.getListOfStates();
+      this.clearState();
+    } else {
+      delete this.accountService.company.state;
+    }
   }
 
-  private setCountry() {
+  private setCountry({name, id}) {
+    this.accountService.company.country.name = name;
+    this.accountService.company.country.id = id;
+  }
+
+  private clearCountry() {
     this.accountService.company.country = {
       id: null,
       name: null
     };
-  }
-
-  private setStates(states) {
-    this.states = extend([], states);
-
-    console.log(this.states);
-
-    this.states.filter((state) => {
-      if (this.accountService.company.state
-        && (state.id === this.accountService.company.state.id)) {
-        this.accountService.company.state.name = state.name;
-      }
-    });
+    delete this.accountService.company.state;
   }
 
   private getListOfStates() {
@@ -123,7 +103,21 @@ export class FClientCompanyComponent implements OnInit {
       .subscribe((states) => this.setStates(states));
   }
 
-  private setState() {
+  private setStates(states) {
+    this.states = extend([], states);
+
+    if (!this.accountService.company.state || !this.accountService.company.state.name) {
+      this.clearState();
+    }
+  }
+
+  private setState({name, id, code}) {
+    this.accountService.company.state.name = name;
+    this.accountService.company.state.id = id;
+    this.accountService.company.state.code = code;
+  }
+
+  private clearState() {
     this.accountService.company.state = {
       id: null,
       name: null,
@@ -132,16 +126,18 @@ export class FClientCompanyComponent implements OnInit {
   }
 
   selectState(name: string) {
-    this.states.filter((state) => {
-      if (name === state.name) {
-        this.accountService.company.state.name = state['name'];
-        this.accountService.company.state.id = state['id'];
-        this.accountService.company.state.code = state['code'];
-      }
-    });
-
-    if (!this.accountService.company.state) {
-      this.setState();
+    // if pseudo placeholder option was selected
+    if (!name || name === 'null') {
+      this.clearState();
+      return;
     }
+
+    const state = this.states.find((state) => state.name === name);
+
+    this.setState(state);
+  }
+
+  checkCountry() {
+    return this.accountService.company && this.accountService.company.country && this.accountService.company.country.name === 'United States';
   }
 }

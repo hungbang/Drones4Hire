@@ -40,15 +40,15 @@
     </div>
     <div class="b-project-details__item" *ngIf="project.startDate">
       <div class="b-project-details__subtitle">Date Posted</div>
-      <div class="b-project-details__text">{{project.startDate | date:'MM/dd/y'}}</div>
+      <div class="b-project-details__text">{{project.startDate | date:'M/d/y'}}</div>
     </div>
     <div class="b-project-details__item" *ngIf="project.finishDate || project.startDate">
       <div class="b-project-details__subtitle">Job Date</div>
       <div class="b-project-details__text" *ngIf="project.startDate === project.finishDate">
-        {{project.startDate | date:'MM/dd/y'}}
+        {{project.startDate | date:'M/d/yy'}}
       </div>
       <div class="b-project-details__text" *ngIf="project.startDate !== project.finishDate">
-        {{project.startDate | date:'MM/dd/y'}}{{project.startDate && project.finishDate ? '-' : ''}} {{project.finishDate | date:'MM/dd/y'}}
+        {{project.startDate | date:'M/d/yy'}}{{project.startDate && project.finishDate ? '-' : ''}} {{project.finishDate | date:'M/d/yy'}}
       </div>
     </div>
   </div>

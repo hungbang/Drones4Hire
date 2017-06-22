@@ -15,7 +15,7 @@
     </div>
     <div class="t-project__cell _bids">{{ project.bidCount }}</div>
     <div class="t-project__cell _average-bids">{{ project.bidCount === 0 ? '' : project.averageBid | number:'1.2' }}</div>
-    <div class="t-project__cell _bid-end">{{ project.bidEndDate | date:'yyyy-MM-dd' }}</div>
+    <div class="t-project__cell _bid-end">{{ project.bidEndDate | date:'M/d/yy' }}</div>
     <div class="t-project__cell _action">
       <div class="t-project__actions">
         <button type="button"

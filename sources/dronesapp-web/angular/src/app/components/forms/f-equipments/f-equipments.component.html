@@ -1,0 +1,37 @@
+<form novalidate
+      #equipmentsForm="ngForm"
+      (submit)="saveChanges($event, equipmentsForm)"
+      class="f-equipments f-default">
+  <div class="f-default__inner _margin-small">
+    <div class="f-default__col">
+      <div class="f-default__row" *ngFor="let drone of drones; let i = index">
+        <label class="f-default__label">
+          <input class="f-default__field"
+                 type="text"
+                 name="{{'drone' + i}}"
+                 placeholder="Drones fleet"
+                 [(ngModel)]="drone.name">
+        </label>
+      </div>
+      <button type="button"
+              class="f-equipments__btn"
+              (click)="addDrone()">+ Add a drone</button>
+    </div>
+
+    <div class="f-default__col">
+      <div class="f-default__row" *ngFor="let camera of cameras; let i = index">
+        <label class="f-default__label">
+          <input class="f-default__field"
+                 type="text"
+                 name="{{'camera' + i}}"
+                 placeholder="Camera fleet"
+                 [(ngModel)]="camera.name">
+        </label>
+      </div>
+      <button type="button"
+              class="f-equipments__btn"
+              (click)="addCamera()">+ Add a camera</button>
+    </div>
+  </div>
+  <button class="f-default__button _big">Save Changes</button>
+</form>

@@ -1,4 +1,4 @@
-@import '../../../styles/settings/mixin.styl'
+@import '../../../styles/settings/variables.styl'
 
 m-site
   display: flex
@@ -22,35 +22,34 @@ m-site
 
   &__link
     padding 15px
+
   &__sub-link
   &__link
-    osans(400)
     display: block
-    font-size 1.4rem
-    line-height: 1.6rem
-    letter-spacing 1px
-    font-weight: 400
+    font-size 1.6rem
+    letter-spacing .2em
     color #fff
     text-transform: uppercase
     transition color 0.25s
     white-space nowrap
     &:hover
-      color: #3ebcc7
+      color: $blueD4
     &._active
       display: inline-block
+      vertical-align middle
       padding: 10px 10px 8px
       border-radius: 3px
-      background: #3ebcc7
-      color: white
+      background: $blueD4
+      color: #fff
       text-decoration: none
-      font-size 1.4rem
+      box-shadow 0 3px 7px 0 rgba(0, 0, 0, .35)
 
   &__sub
     position: absolute
     display: inline-block
     padding 8px 20px
     top: 100%
-    background rgba(#1f2532, 0.9)
+    background rgba($gray1f, 0.9)
     opacity 0
     left: 0
     pointer-events none
@@ -76,7 +75,7 @@ m-site
       pointer-events: auto
       transform: translateY(0)
   .m-site
-    background: #1f2532
+    background: $gray1f
     flex-direction: column
     width: 100%
     top: 0
