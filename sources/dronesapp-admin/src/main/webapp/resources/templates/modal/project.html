@@ -77,6 +77,16 @@
             </select>
         </div>
         <div class="form-group">
+            <form>
+                <input class="btn btn-default btn-primary btn-block" type="file" file-model="fileToUpload" data-ng-model="file" onchange="angular.element(this).scope().addAttachment(this)"/>
+            </form>
+        </div>
+        <div class="form-group">
+            <div data-ng-repeat="attachment in attachs">
+                <a href="#">{{attachment.name}}</a>
+            </div>
+        </div>
+        <div class="form-group">
             <label>Commission free</label>
             <input type="checkbox" data-ng-model="commissionFree">
         </div>

@@ -67,7 +67,9 @@
 					</tr>
 				</table>
 			</div>
-			<input type="file" name="file" data-ng-model="fileToUpload" data-ng-change="uploadAttachment()"/>
+			<form>
+				<input class="btn btn-default btn-primary" type="file" file-model="fileToUpload" data-ng-model="file" onchange="angular.element(this).scope().uploadAttachment(this)"/>
+			</form>
 		</div>
 		<div class="col-lg-6">
 			<form name="projectForm">
