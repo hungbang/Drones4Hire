@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping type="bi-directional" wildcard="false">
+        <class-a>com.drones4hire.dronesapp.models.dto.QuestionDTO</class-a>
+        <class-b>com.drones4hire.dronesapp.models.db.Question</class-b>
+
+		 <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>firstName</a>
+            <b>firstName</b>
+        </field>
+       	<field>
+            <a>lastName</a>
+            <b>lastName</b>
+        </field>
+        <field>
+            <a>email</a>
+            <b>email</b>
+        </field>
+        <field>
+            <a>phone</a>
+            <b>phone</b>
+        </field>
+        <field>
+            <a>reason</a>
+            <b>reason</b>
+        </field>
+        <field>
+            <a>country</a>
+            <b>country</b>
+        </field>
+        <field>
+            <a>message</a>
+            <b>message</b>
+        </field>
+         <field>
+            <a>createdAt</a>
+            <b>createdAt</b>
+        </field>
+        <field>
+            <a>modifiedAt</a>
+            <b>modifiedAt</b>
+        </field>
+    </mapping>
+</mappings>

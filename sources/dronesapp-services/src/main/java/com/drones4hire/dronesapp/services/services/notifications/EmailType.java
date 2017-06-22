@@ -11,7 +11,8 @@ public enum EmailType
 	ACCEPT_BID("Your Project Has Been Accepted", "AcceptBidTemplate.ftl"),
 	AWARD_BID("You're Hired!", "AwardPilotBidTemplate.ftl"),
 	UPDATE_BID("Bid Updated Successfully", "UpdateBidTemplate.ftl"),
-	RETRACT_BID("Bid Retracted Successfully", "RetractBidTemplate.ftl");
+	RETRACT_BID("Bid Retracted Successfully", "RetractBidTemplate.ftl"),
+	QUESTION("User question", "QuestionTemplate.ftl");
 
 	private String subject;
 	private String templatePath;

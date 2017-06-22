@@ -1,15 +1,15 @@
 package com.drones4hire.dronesapp.services.services.notifications;
 
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.ACCEPT_BID;
+import static com.drones4hire.dronesapp.services.services.notifications.EmailType.AWARD_BID;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.CHANGE_EMAIL;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.CONFIRMATION;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.FORGOT_PASSWORD;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.NEW_BID_PLACE;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.NEW_BID_RECEIVE;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.REJECT_BID;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.UPDATE_BID;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.RETRACT_BID;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.AWARD_BID;
+import static com.drones4hire.dronesapp.services.services.notifications.EmailType.UPDATE_BID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.amazonaws.services.simpleemail.model.Content;
+import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.AWSException;
@@ -45,6 +46,9 @@ public abstract class AbstractEmailService
 
 	@Value("#{environmentProperties['drones4hire.tomcat.ws.path']}")
 	private String path;
+	
+	@Value("#{environmentProperties['drones4hire.mail.support']}")
+	private String supportEmail;
 
 	@Autowired
 	private UserService userService;
@@ -255,6 +259,19 @@ public abstract class AbstractEmailService
 			new AWSException("Can't build verification URL!", e);
 		}
 		return null;
+	}
+	
+	public String sendQuestionEmail(Question question)
+	{
+		Map<String, Object> emailData = new HashMap<String, Object>();
+		emailData.put("firstName", question.getFirstName());
+		emailData.put("lastName", question.getLastName());
+		emailData.put("email", question.getEmail());
+		emailData.put("phone", question.getPhone());
+		emailData.put("reason", question.getReason());
+		emailData.put("country", question.getCountry());
+		emailData.put("message", question.getMessage());
+		return sendEmail(EmailType.QUESTION, emailData, supportEmail);
 	}
 	
 	protected Content buildBody(String path, Map<String, Object> params)
