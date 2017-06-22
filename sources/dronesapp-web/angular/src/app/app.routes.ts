@@ -51,6 +51,7 @@ import {PrivacyPolicyComponent} from "./containers/privacy-policy/privacy-policy
 import {TermsComponent} from "./containers/terms/terms.component";
 import {AboutComponent} from "./containers/about/about.component";
 import {PaymentComponent} from "./containers/payment/payment.component";
+import {ContactUsComponent} from "./containers/contact-us/contact-us.component";
 
 export const ROUTES: Routes = [
   {
@@ -471,42 +472,49 @@ export const ROUTES: Routes = [
     component: WithdrawalRequestComponent,
     canActivate: [AuthGuard],
     data: {
-      className: '_gray-bg'
+      className: 'p-gray-bg'
     }
   },
   {
     path: 'pilot/how-it-works',
     component: WorkPilotComponent,
     data: {
-      className: '_work-pilot'
+      className: 'p-work-pilot'
     }
   },
   {
     path: 'client/how-it-works',
     component: WorkClientComponent,
     data: {
-      className: '_work-client'
+      className: 'p-work-client'
     }
   },
   {
     path: 'privacy-policy',
     component: PrivacyPolicyComponent,
     data: {
-      className: '_privacy-policy'
+      className: 'p-privacy-policy'
     }
   },
   {
     path: 'terms-and-condition',
     component: TermsComponent,
     data: {
-      className: '_terms'
+      className: 'p-terms'
     }
   },
   {
     path: 'about-us',
     component: AboutComponent,
     data: {
-      className: '_about'
+      className: 'p-about'
+    }
+  },
+  {
+    path: 'contact',
+    component: ContactUsComponent,
+    data: {
+      className: 'p-contact-us'
     }
   },
   {

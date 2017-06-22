@@ -17,6 +17,7 @@ import {AppServices} from './services/index';
 import {AppGuards} from './guards/index';
 import {NguiDatetimePickerModule} from '@ngui/datetime-picker';
 import {Daterangepicker} from 'ng2-daterangepicker';
+import { ContactUsComponent } from './containers/contact-us/contact-us.component';
 
 @NgModule({
   declarations: [

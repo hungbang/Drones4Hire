@@ -23,11 +23,13 @@ import {WorkPilotComponent} from "./work-pilot/work-pilot.component";
 import {WorkClientComponent} from "./work-client/work-client.component";
 import {TermsComponent} from "./terms/terms.component";
 import {PrivacyPolicyComponent} from "./privacy-policy/privacy-policy.component";
+import {ContactUsComponent} from "./contact-us/contact-us.component";
 
 export const AppContainers = [
   AboutComponent,
   AccountComponent,
   AuthorizationComponent,
+  ContactUsComponent,
   IndexComponent,
   MyProjectsComponent,
   DashboardComponent,
