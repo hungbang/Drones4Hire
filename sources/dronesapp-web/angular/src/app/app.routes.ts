@@ -45,6 +45,11 @@ import {SProjectEditComponent} from './components/sections/s-project-edit/s-proj
 import {BidInfoResolve} from "./resolves/bid-info/bid-info";
 import {ProfileEquipmentsResolve} from './resolves/profile-equipments/profile-equipments.resolve';
 import {WithdrawalRequestComponent} from './containers/withdrawal-request/withdrawal-request.component';
+import {WorkPilotComponent} from "./containers/work-pilot/work-pilot.component";
+import {WorkClientComponent} from "./containers/work-client/work-client.component";
+import {PrivacyPolicyComponent} from "./containers/privacy-policy/privacy-policy.component";
+import {TermsComponent} from "./containers/terms/terms.component";
+import {AboutComponent} from "./containers/about/about.component";
 
 export const ROUTES: Routes = [
   {
@@ -466,6 +471,41 @@ export const ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       className: '_gray-bg'
+    }
+  },
+  {
+    path: 'pilot/how-it-works',
+    component: WorkPilotComponent,
+    data: {
+      className: '_work-pilot'
+    }
+  },
+  {
+    path: 'client/how-it-works',
+    component: WorkClientComponent,
+    data: {
+      className: '_work-client'
+    }
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+    data: {
+      className: '_privacy-policy'
+    }
+  },
+  {
+    path: 'terms-and-condition',
+    component: TermsComponent,
+    data: {
+      className: '_terms'
+    }
+  },
+  {
+    path: 'about-us',
+    component: AboutComponent,
+    data: {
+      className: '_about'
     }
   },
   {

@@ -17,14 +17,21 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 import { ProjectDescriptionComponent } from './project-description/project-description.component';
 import { ProjectFilesComponent } from './project-files/project-files.component';
 import { WithdrawalRequestComponent } from './withdrawal-request/withdrawal-request.component';
+import {AboutComponent} from "./about/about.component";
+import {WorkPilotComponent} from "./work-pilot/work-pilot.component";
+import {WorkClientComponent} from "./work-client/work-client.component";
+import {TermsComponent} from "./terms/terms.component";
+import {PrivacyPolicyComponent} from "./privacy-policy/privacy-policy.component";
 
 export const AppContainers = [
+  AboutComponent,
   AccountComponent,
   AuthorizationComponent,
   IndexComponent,
   MyProjectsComponent,
   DashboardComponent,
   ProfileComponent,
+  TermsComponent,
   TransactionsComponent,
   ProjectComponent,
   SearchComponent,
@@ -33,9 +40,12 @@ export const AppContainers = [
   ProjectManageComponent,
   DetailsComponent,
   PreferencesComponent,
+  PrivacyPolicyComponent,
   SecurityComponent,
   NotificationsComponent,
   NotFoundComponent,
   PortfolioComponent,
   WithdrawalRequestComponent,
+  WorkClientComponent,
+  WorkPilotComponent,
 ];
