@@ -511,7 +511,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'payment',
-    canActivate: [AuthGuard],
+    canActivate: [ClientGuard],
     component: PaymentComponent,
     data: {
       className: 'p-payment'
