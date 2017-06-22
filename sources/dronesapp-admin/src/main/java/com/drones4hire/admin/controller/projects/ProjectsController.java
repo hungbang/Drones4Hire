@@ -106,11 +106,11 @@ public class ProjectsController extends AbstractController
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Project updateProject(@RequestBody Project project, @PathVariable long id)
+	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Project updateProject(@RequestBody Project project)
 			throws ServiceException
 	{
-		Project currProject = projectService.getProjectById(id, getPrincipal().getId());
+		Project currProject = projectService.getProjectById(project.getId(), getPrincipal().getId());
 		currProject.setStatus(project.getStatus());
 		currProject.setTitle(project.getTitle());
 		currProject.setSummary(project.getSummary());

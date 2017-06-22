@@ -211,22 +211,32 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         });
     };
 	
-	$scope.editProject = function(id){
+	$scope.editProject = function(){
         $scope.project.createdAt = new Date($scope.createdAt).getTime();
         $scope.project.startDate = new Date($scope.startDate).getTime();
         $scope.project.finishDate = new Date($scope.finishDate).getTime();
-		$http.put('projects/' + id, $scope.project).success(function(data) {
+		$http.put('projects', $scope.project).success(function(data) {
 			alert('Success, changes were saved.');
 		}).error(function(data, status) {
 			alert('Failed to save changes!');
 		});
 	};
 
-	$scope.blockProject = function (id) {
-        $http.post('projects/' + id + '/block').success(function(data) {
+	$scope.blockProject = function () {
+	    $scope.project.status = 'BLOCKED';
+        $http.put('projects', $scope.project).success(function(data) {
             alert('Success, project was blocked.');
         }).error(function(data, status) {
             alert('Failed to block project!');
+        });
+    };
+
+    $scope.unblockProject = function () {
+        $scope.project.status = 'NEW';
+        $http.put('projects', $scope.project).success(function(data) {
+            alert('Success, project was unblocked.');
+        }).error(function(data, status) {
+            alert('Failed to unblock project!');
         });
     };
 
