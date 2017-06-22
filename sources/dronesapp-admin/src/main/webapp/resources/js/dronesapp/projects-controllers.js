@@ -310,12 +310,23 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         });
     };
 
+    $scope.uploadAttachments = function () {
+        var fd = new FormData();
+        //Take the first selected file
+        fd.append("file", $scope.fileToUpload);
+        $scope.post('upload', fd).success(function(data) {
+            console.log('File was uploaded');
+        }).error(function() {
+            console.error('Failed to upload file');
+        });
+    };
+
     (function init(){
+        $scope.loadComments();
+        $scope.loadBids();
         $scope.loadProject();
         $scope.loadBudgets();
         $scope.loadServiceCategories();
         $scope.loadDurations();
-        $scope.loadComments();
-        $scope.loadBids();
     })();
 } ]);

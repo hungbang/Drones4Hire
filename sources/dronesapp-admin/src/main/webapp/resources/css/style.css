@@ -653,3 +653,8 @@ td.long {
 	font-size: 16px;
 	font-family: Georgia;
 }
+
+.details-table td {
+	padding-top: 10px;
+	padding-left: 10px;
+}
