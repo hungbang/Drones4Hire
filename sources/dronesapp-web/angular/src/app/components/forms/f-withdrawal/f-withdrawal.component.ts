@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 
+import {AccountService} from '../../../services/account.service/account.service';
+
 @Component({
   selector: 'f-withdrawal',
   templateUrl: './f-withdrawal.component.html',
@@ -12,7 +14,9 @@ export class FWithdrawalComponent implements OnInit {
   submitted: boolean = false;
   @Input() balance: number = 0;
 
-  constructor() { }
+  constructor(
+    private accountService: AccountService
+  ) { }
 
   ngOnInit() {
   }
@@ -22,7 +26,7 @@ export class FWithdrawalComponent implements OnInit {
 
     this.submitted = true;
 
-    if (form.invalid || !this.isCorrectValue) {
+    if (form.invalid || !this.isCorrectValue || !this.canWithdarawal) {
       return;
     }
 
@@ -34,6 +38,14 @@ export class FWithdrawalComponent implements OnInit {
   get isCorrectValue() {
     const value = parseFloat(this.amount); // TODO: use replacement on enter instead parsing?
     return isFinite(value) && value > 0 && value <= this.balance;
+  }
+
+  get paymentLink() {
+    return this.accountService.account.paymentLink ? this.accountService.account.paymentLink : '#';
+  }
+
+  get canWithdarawal() {
+    return false; // TODO: connect to API when will ready
   }
 
 }

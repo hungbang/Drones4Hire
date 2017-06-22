@@ -34,4 +34,5 @@ export interface AccountModel {
   summary: string;
   username: string;
   wallet?: any;
+  paymentLink?: string;
 }

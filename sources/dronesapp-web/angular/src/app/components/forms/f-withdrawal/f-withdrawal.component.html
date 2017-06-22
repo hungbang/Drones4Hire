@@ -1,7 +1,12 @@
 <form (submit)="sendRequest($event, withdrawalForm)"
       #withdrawalForm="ngForm"
       class="f-withdrawal f-default">
-  <div class="f-withdrawal__header">Enter the amount of money that you want to withdrawal </div>
+  <div class="f-withdrawal__header" *ngIf="canWithdarawal">Enter the amount of money that you want to withdrawal</div>
+  <div class="f-withdrawal__header" *ngIf="!canWithdarawal">
+    <a href="{{paymentLink}}"
+       target="_blank"
+       class="f-withdrawal__header-link">Register a Payoneer</a> account to create a withdrawal
+  </div>
   <div class="f-withdrawal__content">
     <div class="f-default__row">
       <label class="f-default__label">
@@ -25,6 +30,8 @@
                       placeholder="Description"></textarea>
       </label>
     </div>
-    <button class="f-default__button _big">Send a request</button>
+    <button
+      [disabled]="!canWithdarawal"
+      class="f-default__button _big">Send a request</button>
   </div>
 </form>
