@@ -32,6 +32,8 @@ public class UserService
 	private boolean DEFAULT_ENABLED = true;
 
 	private boolean DEFAULT_CONFIRMED = true;
+	
+	private boolean DEFAULT_WITDRAW_ENABLED = false;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -78,6 +80,7 @@ public class UserService
 		{
 			user.setEnabled(DEFAULT_ENABLED);
 			user.setConfirmed(DEFAULT_CONFIRMED);
+			user.setWithdrawEnabled(DEFAULT_WITDRAW_ENABLED);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
 
