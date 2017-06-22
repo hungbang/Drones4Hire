@@ -60,7 +60,7 @@ public class ProjectsController extends AbstractController
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Project createProject(@RequestBody Project project)
+	public @ResponseBody Project createProject(@RequestBody Project project) throws ServiceException
 	{
 		return projectService.createProject(project);
 	}

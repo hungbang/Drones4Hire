@@ -60,9 +60,6 @@ public class ProjectService
 	private PaidOptionService paidOptionService;
 
 	@Autowired
-	private WalletService walletService;
-
-	@Autowired
 	private PaymentService paymentService;
 
 	@Transactional(rollbackFor = Exception.class)
@@ -74,7 +71,7 @@ public class ProjectService
 		paymentService.saleTransactionWithDefaultCard(transaction);
 		locationService.createLocation(project.getLocation());
 		projectMapper.createProject(project);
-		createProjectPaidOption(project.getId(), project.getPaidOptions());
+		createProjectPaidOptions(project.getId(), project.getPaidOptions());
 		createAttachment(project.getId(), project.getAttachments());
 		return project;
 	}
@@ -173,7 +170,7 @@ public class ProjectService
 		}
 		if(newPaidOptions.size() != 0)
 		{
-			createProjectPaidOption(project.getId(), newPaidOptions);
+			createProjectPaidOptions(project.getId(), newPaidOptions);
 		}
 		dbProject.getPaidOptions().addAll(newPaidOptions);
 		project.setPaidOptions(dbProject.getPaidOptions());
