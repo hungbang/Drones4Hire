@@ -28,7 +28,6 @@ import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException
 import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
-import com.drones4hire.dronesapp.services.exceptions.NotEnoughMoneyException;
 import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
