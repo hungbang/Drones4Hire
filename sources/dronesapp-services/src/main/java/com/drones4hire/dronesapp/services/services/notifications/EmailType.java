@@ -12,6 +12,7 @@ public enum EmailType
 	AWARD_BID("You're Hired!", "AwardPilotBidTemplate.ftl"),
 	UPDATE_BID("Bid Updated Successfully", "UpdateBidTemplate.ftl"),
 	RETRACT_BID("Bid Retracted Successfully", "RetractBidTemplate.ftl"),
+	SUPPORT_MESSAGE("Support message", "SupportMessageTemplate.ftl"),
 	QUESTION("User question", "QuestionTemplate.ftl");
 
 	private String subject;

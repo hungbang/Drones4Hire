@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,5 +36,11 @@ public class WithdrawsController extends AbstractController
 	public @ResponseBody SearchResult<WithdrawRequest> search(@RequestBody WithdrawSearchCriteria withdrawSearchCriteria) throws Exception
 	{
 		return withdrawService.search(withdrawSearchCriteria);
+	}
+	
+	@RequestMapping(value = "accept/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody WithdrawRequest accept(@RequestParam(value = "id") String id) throws Exception
+	{
+		return null;
 	}
 }

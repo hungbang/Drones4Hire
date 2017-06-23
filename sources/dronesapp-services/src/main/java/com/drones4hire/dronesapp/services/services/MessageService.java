@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.MessageMapper;
 import com.drones4hire.dronesapp.models.db.Message;
+import com.drones4hire.dronesapp.models.db.Message.Type;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Service
 public class MessageService
@@ -16,10 +18,16 @@ public class MessageService
 	@Autowired
 	private MessageMapper messageMapper;
 
+	@Autowired 
+	private AWSEmailService emailService;
+	
 	@Transactional(rollbackFor = Exception.class)
 	public Message createMessage(Message message) throws ServiceException
 	{
 		messageMapper.createMessage(message);
+		if(message.getType().equals(Type.EMAIL)) { 
+			emailService.sendSupportMessageEmail(message);
+		}
 		return getMessageById(message.getId());
 	}
 

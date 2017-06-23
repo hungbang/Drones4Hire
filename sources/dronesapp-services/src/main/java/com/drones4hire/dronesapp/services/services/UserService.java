@@ -199,6 +199,12 @@ public class UserService
 		return results;
 	}
 	
+	@Transactional(readOnly = true)
+	public Integer getUserCount(UserSearchCriteria sc) throws ServiceException 
+	{
+		return userMapper.getSearchUsersCount(sc);
+	}
+	
 	@Transactional(rollbackFor=Exception.class)
 	public void sendQuestion(Question question)
 	{
