@@ -31,11 +31,11 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$route', 'PA
 
 	$scope.resetSearchCriteria = function() {
 		$scope.sc = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
-		$scope.searchUsers(0);
+		$scope.searchUsers(1);
 	};
 		
 	(function init() {
-		$scope.searchUsers(0);
+		$scope.searchUsers(1);
 	})();
 	
 }]);
