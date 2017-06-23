@@ -49,7 +49,6 @@ export class TDashboardComponent implements OnInit {
   release(project, isCanRelease, event) {
     event.preventDefault();
 
-    console.log(isCanRelease);
     if (isCanRelease) {
       this._modalService.push({
         component: ModalConfirmationComponent,
