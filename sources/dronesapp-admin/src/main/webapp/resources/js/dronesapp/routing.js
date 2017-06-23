@@ -34,6 +34,11 @@ DronesAdmin.constant('ROUTES', [
 	config : {
 		templateUrl : 'settings'
 	}
+},{
+	url : '/withdraws',
+	config : {
+		templateUrl : 'withdraws'
+	}
 }, {
 	url : '/paidoptions',
 	config : {

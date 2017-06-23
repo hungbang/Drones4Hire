@@ -18,7 +18,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								<i class="fa fa-search" /> <spring:message code="drones.admin.pages.common.serch.criteria.caption"/>
+								<i class="fa fa-search"></i> <spring:message code="drones.admin.pages.common.serch.criteria.caption"/>
 							</h3>
 						</div>
 						<div class="panel-body">
@@ -40,16 +40,20 @@
 										<label class="control-label" for="email"><spring:message code="drones.admin.pages.common.form.field.email.label"/></label>
 										<input class="form-control" type="text" id="email" name="email" data-ng-model="sc.email">
 				                    </div>
-				                    <!-- div class="col-sm-3">
-										<label class="control-label" for="confirmed"><spring:message code="drones.admin.pages.common.form.field.confirmed.label"/></label>
-							            <br/>
-							            <input type="checkbox" id="confirmed" name="confirmed" data-ng-model="sc.confirmed">
+				                    <div class="col-lg-3">
+										<label class="control-label" for="status">Confirmed</label>
+										<select class="form-control" id="confirmed" name="confirmed" data-ng-model="sc.confirmed">
+							            	<option value="true">true</option>
+							            	<option value="false">false</option>
+							            </select>
 				                    </div>
-				                     <div class="col-md-3">
-										<label class="control-label" for="enabled"><spring:message code="drones.admin.pages.common.form.field.enabled.label"/></label>
-							           	<br/>
-							           	<input type="checkbox" id="enabled" name="confirmed" data-ng-model="sc.enabled">
-				                    </div -->
+				                    <div class="col-lg-3">
+										<label class="control-label" for="enabled">Enabled</label>
+										<select class="form-control" id="enabled" name="enabled" data-ng-model="sc.enabled">
+							            	<option value="true">true</option>
+							            	<option value="false">false</option>
+							            </select>
+				                    </div>
 							</div>
 							<div class="text-right">
 								<a href="" data-ng-click="resetSearchCriteria()" class="clear-form"><spring:message code="drones.admin.pages.common.button.clear"/>&nbsp;<i class="fa fa-times-circle"/></a>
@@ -73,25 +77,22 @@
 		        <thead>
 		            <tr>
 		            	<th class="text-center">
-		                    <spring:message code="drones.admin.pages.common.column.id.caption"/>
+		                 	ID
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.username.caption"/>
+		                    Username
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.email.caption"/>
+		                    Email
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.firstName.caption"/>
+		                    Name
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.lastName.caption"/>
+		                    Confirmed
 		                </th>
 		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.confirmed.caption"/>
-		                </th>
-		                <th>
-		                    <spring:message code="drones.admin.pages.common.column.enabled.caption"/>
+		                    Enabled
 		                </th>
 		                <th>
 		                    Registration
@@ -106,8 +107,7 @@
 		            	<td class="text-center">{{user.id}}</td>
 		                <td>{{user.username}}</td>
 		                <td class="long">{{user.email}}</td>
-		                <td>{{user.firstName}}</td>
-		                <td>{{user.lastName}}</td>
+		                <td>{{user.firstName}} {{user.lastName}}</td>
 		                <td>{{user.confirmed}}</td>
 		                <td>{{user.enabled}}</td>
 		                <td>{{user.createdAt | date}}</td>
@@ -116,7 +116,7 @@
 						</td>
 					</tr>
 					<tr data-ng-show="!sr.results.length">
-		                <td colspan="9" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
+		                <td colspan="8" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
 					</tr>
 			    </tbody>
 		    </table>

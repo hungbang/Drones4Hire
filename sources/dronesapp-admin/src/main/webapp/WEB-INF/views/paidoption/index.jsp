@@ -8,12 +8,12 @@
 <div data-ng-controller="PaidOptionController" class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Paid Options</h1>
+			<h1 class="page-header">Paid options</h1>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<label class="search">Paid Options found: {{paidOptions.length}}</label>
+			<label class="search">Results: {{paidOptions.length}}</label>
 		</div>
 	</div>	
 	<div class="row">
@@ -34,13 +34,10 @@
 		                    Price
 		                </th>
 		                 <th>
-		                    Modified At
-		                </th>
-		                 <th>
-		                    Created At
+		                    Modified
 		                </th>
 		                <th class="text-center">
-		                    Edit
+		                    Details
 		                </th>
 		            </tr>
 		        </thead>
@@ -48,16 +45,17 @@
 		            <tr data-ng-repeat="option in paidOptions | orderBy:predicate:reverse">
 		            	<td class="text-center">{{option.id}}</td>
 		                <td>{{option.title}}</td>
-		                <td>{{option.description}}</td>
+		                <td style="max-width: 300px;">
+		                	{{option.description}}
+		                </td>
 		                <td>{{option.price}} {{option.currency}}</td>
-		                <td>{{option.modifiedAt | date}}</td>
-		                <td>{{option.createdAt | date}}</td>
+		                <td style="min-width: 110px;">{{option.modifiedAt | date}}</td>
 						<td class="text-center">
 							<a class="btn btn-success btn-xs options" data-ng-click="openEditPaidOptionModal(option)" target="_blank"><i class="fa fa-search"></i></a>
 						</td>
 					</tr>
 					<tr data-ng-show="!paidOptions.length">
-		                <td colspan="9" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
+		                <td colspan="6" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
 					</tr>
 			    </tbody>
 		    </table>

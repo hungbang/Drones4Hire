@@ -35,9 +35,6 @@
 	                    	<li data-ng-class="{active : isActive('/dashboard')}">
 	                            <a href="#/dashboard"><i class="fa fa-dashboard"></i> <spring:message code="drones.admin.pages.index.menu.dashboard.caption"/></a>
 	                        </li>
-	                        <li data-ng-class="{active : isActive('/withdraw')}">
-	                            <a href="#/withdraw"><i class="fa fa-money"></i> Withdraw</a>
-	                        </li>
 	                        <li>
 		                        <a href="javascript:;" data-toggle="collapse" data-target="#users"><i class="fa fa-fw fa-users"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
 		                        <ul id="users" class="collapse">
@@ -50,16 +47,16 @@
 		                        </ul>
 		                    </li>
 	                        <li data-ng-class="{active : isActive('/projects')}">
-	                            <a href="#/projects"><i class="fa fa-suitcase"></i> <spring:message code="drones.admin.pages.index.menu.project.caption"/></a>
+	                            <a href="#/projects"><i class="fa fa-suitcase"></i> Projects</a>
+	                        </li>
+	                        <li data-ng-class="{active : isActive('/withdraws')}">
+	                            <a href="#/withdraws"><i class="fa fa-money"></i> Withdraws</a>
 	                        </li>
 	                        <li data-ng-class="{active : isActive('/paidoptions')}">
-	                            <a href="#/paidoptions"><i class="fa fa-credit-card"></i> <spring:message code="drones.admin.pages.index.menu.paidoptions.caption"/></a>
+	                            <a href="#/paidoptions"><i class="fa fa-credit-card"></i> Paid options</a>
 	                        </li>
 	                    </ul>
                     <ul class="nav navbar-right top-nav" data-ng-controller="NavigationCtrl">
-                        <!--li class="dropdown user-dropdown">
-                            <a href="#/settings"><i class="fa fa-gear"></i> <spring:message code="drones.admin.pages.settings.title"/></a>
-                        </li-->
                         <li class="dropdown user-dropdown">
                             <a href="<c:url value="/logout" />" data-ng-click="logout()"><i class="fa fa-power-off"></i> <spring:message code="drones.admin.pages.common.button.logout"/></a>
                         </li>

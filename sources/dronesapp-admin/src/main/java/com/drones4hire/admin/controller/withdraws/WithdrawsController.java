@@ -1,4 +1,4 @@
-package com.drones4hire.admin.controller.withdraw;
+package com.drones4hire.admin.controller.withdraws;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import com.drones4hire.dronesapp.services.services.WithdrawService;
 
 @Controller
 @RequestMapping("withdraws")
-public class WithdrawController extends AbstractController
+public class WithdrawsController extends AbstractController
 {
 	@Autowired
 	private WithdrawService withdrawService;
@@ -29,7 +29,7 @@ public class WithdrawController extends AbstractController
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView openClientsPage() throws ServiceException
 	{
-		return new ModelAndView("withdraw/index");
+		return new ModelAndView("withdraws/index");
 	}
 	
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
