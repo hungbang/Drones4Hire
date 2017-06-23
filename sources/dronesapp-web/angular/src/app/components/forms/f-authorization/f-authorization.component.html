@@ -153,8 +153,8 @@
 
   <div class="f-authorization__row">
     <!--<span class="f-authorization__text">Forgot Password?<a href="/">click here</a></span>-->
-    <span class="f-authorization__text">
-      Already have an account? <a href="#" [routerLink]="['/login']" *ngIf="isSignUpForm">Login</a>
+    <span class="f-authorization__text"  *ngIf="isSignUpForm">
+      Already have an account? <a href="#" [routerLink]="['/login']">Login</a>
     </span>
   </div>
 </form>
