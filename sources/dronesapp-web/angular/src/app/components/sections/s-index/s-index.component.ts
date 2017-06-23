@@ -11,7 +11,7 @@ export class SIndexComponent implements OnInit {
 
   constructor(
     public _accountService: AccountService,
-    private _authorizationService: AuthorizationService,
+    public _authorizationService: AuthorizationService,
   ) { }
 
   ngOnInit() {

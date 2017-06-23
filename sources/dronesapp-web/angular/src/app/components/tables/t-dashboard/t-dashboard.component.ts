@@ -3,6 +3,8 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
 import {PaymentService} from "../../../services/payment.service/payment.service";
 import * as moment from 'moment';
+import {ModalConfirmationComponent} from "../../modals/modal-confirmation/modal-confirmation.component";
+import {ModalService} from "../../../services/modal.service/modal.service";
 
 @Component({
   selector: 't-dashboard',
@@ -15,7 +17,8 @@ export class TDashboardComponent implements OnInit {
 
   constructor(
     public _accountService: AccountService,
-    private _paymentService: PaymentService
+    private _paymentService: PaymentService,
+    private _modalService: ModalService,
   ) { }
 
   ngOnInit() {
@@ -29,14 +32,35 @@ export class TDashboardComponent implements OnInit {
     return this._accountService.isUserPilot();
   }
 
+  private _release(isAccepted, project) {
+    if (!isAccepted) {
+      this._modalService.pop();
+      return;
+    }
+
+    this._paymentService.releasePayment(project.bidId)
+      .subscribe(() => {
+        this._modalService.pop();
+        project.paymentReleased = Number(moment().format('x'));
+        project.status = 'COMPLETED';
+      });
+  }
+
   release(project, isCanRelease, event) {
     event.preventDefault();
 
     if (isCanRelease) {
-      this._paymentService.releasePayment(project.bidId)
-        .subscribe(() => {
-          project.paymentReleased = Number(moment().format('x'))
-        });
+      this._modalService.push({
+        component: ModalConfirmationComponent,
+        type: 'ModalConfirmationComponent',
+        values: {
+          title: '',
+          message: 'Do you really want to release payments?',
+          confirm_btn_text: 'Yes',
+          cancel_btn_text: 'No',
+          confirm: (e) => this._release(e, project)
+        }
+      });
     }
   }
 }

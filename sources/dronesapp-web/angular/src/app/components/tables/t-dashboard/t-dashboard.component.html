@@ -44,7 +44,7 @@
       <a class="t-dashboard__link"
          href="#"
          [ngClass]="{ _inactive: !project.attachmentLength || project.status === 'COMPLETED' }"
-         (click)="release(project, !!project.attachmentLength || project.status !== 'COMPLETED', $event)">
+         (click)="release(project, !!project.attachmentLength && project.status !== 'COMPLETED', $event)">
         {{project.status !== 'COMPLETED' ? 'RELEASE PAYMENT': 'PROJECT COMPLETED'}}
       </a>
     </td>
@@ -53,7 +53,7 @@
 
 <table class="t-dashboard _pilot" *ngIf="isPilot">
   <tr>
-    <th class="t-dashboard__th">Project Name <br>& Client name</th>
+    <th class="t-dashboard__th">Job Name</th>
     <th class="t-dashboard__th">Project Bid placed</th>
     <th class="t-dashboard__th">Project awarded</th>
     <th class="t-dashboard__th">Payment created</th>
@@ -66,8 +66,7 @@
       <a class="t-dashboard__link-name"
          [ngClass]="{ _inactive: item.status === 'CANCELLED' || item.pilotId && item.currentPilotId !== item.pilotId }"
          [routerLink]="(item.status === 'CANCELLED' || item.pilotId && item.currentPilotId !== item.pilotId) ? [] : ['/project/', item.id]">
-        <span class="t-dashboard__project-name">{{item.name}} /</span>
-        <span class="t-dashboard__project-name">{{item.fullName}}</span>
+        <span class="t-dashboard__project-name _blue">{{item.name}}</span>
       </a>
     </td>
     <td class="t-dashboard__td">

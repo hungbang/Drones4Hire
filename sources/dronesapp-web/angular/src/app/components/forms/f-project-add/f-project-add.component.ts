@@ -15,6 +15,9 @@ import {ProjectService} from '../../../services/project.service/project.service'
 import {PaidOptionModel} from '../../../services/project.service/paid-option.interface';
 import {ProjectModel} from '../../../services/project.service/project.interface';
 import {CategoryModel} from '../../../services/common.service/category.interface';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
+import {ModalConfirmationComponent} from "../../modals/modal-confirmation/modal-confirmation.component";
+import {ModalService} from "../../../services/modal.service/modal.service";
 
 @Component({
   selector: 'f-project-add',
@@ -78,7 +81,9 @@ export class FProjectAddComponent implements OnInit {
     private projectService: ProjectService,
     private _requestService: RequestService,
     private _elementRef: ElementRef,
-    private router: Router
+    private router: Router,
+    private toastrService: ToastrService,
+    private _modalService: ModalService
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -397,6 +402,36 @@ export class FProjectAddComponent implements OnInit {
     return this.formData.location.country.name === 'United States';
   }
 
+  private _edit(isAccepted) {
+    if (!isAccepted) {
+      this._modalService.pop();
+      return;
+    }
+
+    return this.projectService.updateProject(this.formData)
+      .subscribe(
+        res => {
+          this._modalService.pop();
+          // console.log('updated project:', res);
+          this.router.navigate(['/project', res.id]);
+        },
+        err => {
+          this._modalService.pop();
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+      );
+  }
+
   postProject(e, form) {
     e.preventDefault();
     this.isSubmitted = true;
@@ -407,13 +442,18 @@ export class FProjectAddComponent implements OnInit {
 
     // console.log('project data to save:', this.formData);
     if (this.isEditForm) {
-      return this.projectService.updateProject(this.formData)
-        .subscribe(
-          res => {
-            // console.log('updated project:', res);
-            this.router.navigate(['/project', res.id]);
-          }
-        );
+
+      return this._modalService.push({
+        component: ModalConfirmationComponent,
+        type: 'ModalConfirmationComponent',
+        values: {
+          title: '',
+          message: 'Do you really want to release payments?',
+          confirm_btn_text: 'Yes',
+          cancel_btn_text: 'No',
+          confirm: (e) => this._edit(e)
+        }
+      });
     } else {
       this.formData.budget.confirmationValid = true;
       this.formData.confirmationValid = true;
@@ -425,7 +465,21 @@ export class FProjectAddComponent implements OnInit {
         .subscribe(
           res => {
             // console.log('saved new project:', res);
-            this.router.navigate(['/project', res.id]);
+            this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
+          },
+          err => {
+            console.log(err);
+            const body = err.json();
+
+            if (err.status === 400) {
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              } else {
+                this.toastrService.showError('Please check your data');
+              }
+            }
           }
         )
     }

@@ -1,5 +1,6 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-change-password',
@@ -13,7 +14,10 @@ export class FChangePasswordComponent {
   confirmPassword: string = null;
   submitted: boolean = false;
 
-  constructor(private _accountService: AccountService) {
+  constructor(
+    private _accountService: AccountService,
+    private toastrService: ToastrService
+  ) {
   }
 
   changePassword(e, form) {
@@ -25,8 +29,25 @@ export class FChangePasswordComponent {
     }
 
     this._accountService.setAccountPassword({password: this.password, confirmPassword: this.repassword})
-      .subscribe(() => {
+      .subscribe(
+        () => {
         console.log('password is updated');
-      });
+          this.toastrService.showSuccess('Password have been changed')
+        },
+        err => {
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+      );
   }
 }

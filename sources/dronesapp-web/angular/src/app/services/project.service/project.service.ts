@@ -177,7 +177,7 @@ export class ProjectService {
     switch (title.toLowerCase()) {
       case 'featured project': return '#3ebcc7';
       case 'urgent project': return '#ef5350';
-      case 'private project': return '#969696';
+      case 'private project': return '#1440be';
       default: return '#ccc';
     }
   }

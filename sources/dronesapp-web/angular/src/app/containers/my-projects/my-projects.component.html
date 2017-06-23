@@ -2,7 +2,7 @@
   <div class="container my-projects__container">
     <div class="my-projects__wrapper">
       <div class="my-projects__title">My Projects</div>
-      <a [routerLink]="['/project', 'manage', 'add']" class="my-projects__btn">Post a Project</a>
+      <a (click)="goToPostAProjectIfAccessExist($event)" href="#" class="my-projects__btn">Post a Project</a>
     </div>
 
     <b-tabs [tabs]="tabs"></b-tabs>

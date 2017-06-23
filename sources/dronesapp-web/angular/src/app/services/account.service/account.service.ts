@@ -76,8 +76,7 @@ export class AccountService {
     return this._requestService.fetch('get', '/account/license')
       .map((res) => {
         // console.log('account license:', res);
-        // this.license = Object.assign({}, res, { verified: true }); // TODO: do we need in this operation?
-        this.license = res;
+        this.license = Object.assign({}, res, { verified: true }); // TODO: clarify default value?
 
         return this.license;
       });

@@ -16,6 +16,7 @@ import {RequestService} from './request.service/request.service';
 import {TokenService} from './token.service/token.service';
 import {CommonService} from './common.service/common.service';
 import { PublicService } from './public.service/public.service';
+import { ToastrService } from './toastr.service/toastr.service';
 
 export const AppServices = [
   AppService,
@@ -35,5 +36,6 @@ export const AppServices = [
   AccountService,
   WithdrawService,
   PaymentService,
-  CommentsService
+  CommentsService,
+  ToastrService,
 ];

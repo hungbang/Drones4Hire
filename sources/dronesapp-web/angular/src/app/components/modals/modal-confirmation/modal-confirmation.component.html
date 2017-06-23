@@ -1,0 +1,12 @@
+<div class="modal-confirmation">
+  <div class="modal-confirmation__header">
+    <span class="modal-confirmation__header-title">{{ title }}</span>
+  </div>
+  <div class="modal-confirmation__content">
+    <div class="modal-confirmation__content-text">{{ message }}</div>
+  </div>
+  <div class="modal-confirmation__footer">
+    <button class="modal-confirmation__button f-default__button" (click)="confirm(true)">{{ confirm_btn_text }}</button>
+    <button class="modal-confirmation__button f-default__button _negative" (click)="confirm(false)">{{ cancel_btn_text }}</button>
+  </div>
+</div>

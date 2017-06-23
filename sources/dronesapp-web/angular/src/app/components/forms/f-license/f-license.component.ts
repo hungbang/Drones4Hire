@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
 import {FileUploader} from 'ng2-file-upload';
 import {RequestService} from '../../../services/request.service/request.service';
+import {ToastrService} from "../../../services/toastr.service/toastr.service";
 
 @Component({
   selector: 'f-license',
@@ -36,7 +37,11 @@ export class FPilotLicenseComponent implements OnInit {
     225, // United States
   ];
 
-  constructor(public accountService: AccountService, private _requestService: RequestService) {
+  constructor(
+    public accountService: AccountService,
+    private _requestService: RequestService,
+    private toastrService: ToastrService
+  ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       let type = `${item.formData[0].type}URL`;
 
@@ -94,9 +99,21 @@ export class FPilotLicenseComponent implements OnInit {
     this.accountService.setAccountLicense(this.accountService.license)
       .subscribe((res) => {
         console.log('-save license', res);
-      },
+          this.toastrService.showSuccess('Submitted')
+        },
         err => {
           console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
         }
       );
   }

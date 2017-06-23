@@ -1,4 +1,7 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewContainerRef, ViewEncapsulation} from '@angular/core';
+import {ModalService} from "./services/modal.service/modal.service";
+import {ModalConfirmationComponent} from "./components/modals/modal-confirmation/modal-confirmation.component";
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +13,22 @@ export class AppComponent implements OnInit {
   isIndex: boolean = true;
 
   constructor(
+    private modalService: ModalService,
+    private toastr: ToastsManager,
+    private vRef: ViewContainerRef
   ) {
+    this.toastr.setRootViewContainerRef(this.vRef);
   }
 
   ngOnInit() {
+  }
+
+  confirmExit(event) {
+    console.log(event);
+    this.modalService.pop();
+  }
+
+  get modals() {
+    return this.modalService.modals;
   }
 }

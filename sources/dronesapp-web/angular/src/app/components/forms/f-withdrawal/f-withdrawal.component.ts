@@ -1,7 +1,8 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 
 import {AccountService} from '../../../services/account.service/account.service';
 import {TransactionService} from '../../../services/transaction.service/transaction.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-withdrawal',
@@ -14,10 +15,12 @@ export class FWithdrawalComponent implements OnInit {
   description: string = '';
   submitted: boolean = false;
   @Input() balance: number = 0;
+  @Output() showSuccessText: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private accountService: AccountService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -43,10 +46,22 @@ export class FWithdrawalComponent implements OnInit {
       .subscribe(
         res => {
           console.log('saved withdrawal:', res);
-          form.resetForm(); // TODO: what will be happen after send: redirect or message
+          form.resetForm();
+          this.showSuccessText.emit(true);
         },
         err => {
-          console.log('withdrawal request error:', err);
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
         }
       );
     this.submitted = false;

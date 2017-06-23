@@ -4,6 +4,7 @@ import {FileUploader} from 'ng2-file-upload';
 import {RequestService} from '../../../services/request.service/request.service';
 import {ProjectAttachmentModel} from '../../../services/project.service/project-attacment.interface';
 import {ProjectService} from '../../../services/project.service/project.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-project-files',
@@ -34,7 +35,8 @@ export class FProjectFilesComponent implements OnInit {
   constructor(
     private _elementRef: ElementRef,
     private _requestService: RequestService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private toastrService: ToastrService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.fileURL = JSON.parse(response)['url'];
@@ -45,6 +47,7 @@ export class FProjectFilesComponent implements OnInit {
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
       console.log('problem with upload image');
+      this.toastrService.showError('Couldn\'t upload image. Try one more time.');
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
@@ -86,9 +89,21 @@ export class FProjectFilesComponent implements OnInit {
         (receivedAttachment) => {
           this.fileAttached.emit(receivedAttachment);
           this.resetForm(form);
+          this.toastrService.showSuccess('File added');
         },
         err => {
-          console.log('project attachment error', err);
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
         }
       );
   }

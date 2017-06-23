@@ -9,6 +9,7 @@ import {AccountService} from '../../services/account.service/account.service';
   encapsulation: ViewEncapsulation.None
 })
 export class WithdrawalRequestComponent implements OnInit {
+  showSuccessText: boolean = false;
 
   constructor(
     private accountService: AccountService

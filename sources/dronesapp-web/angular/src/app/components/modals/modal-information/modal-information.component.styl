@@ -1,0 +1,42 @@
+@import '../../../styles/settings/variables.styl'
+@import '../../../styles/settings/mixin.styl'
+
+.modal-information
+  max-width 800px
+  width 100%
+  margin: 0 auto
+  display flex
+  flex-direction column
+  max-height 300px
+  min-height 150px
+  text-align left
+  position relative
+  background-color #fff
+  min-width: 450px
+  &__header
+    min-height: 34px
+    display: flex
+    align-items: center
+    background: #1f2431
+    font-size 2.3rem
+    font-weight 600
+    position: relative
+  &__content
+    padding: 20px 25px
+    font-size: 1.8rem
+  &__close
+    width: 34px
+    height: 34px
+    position: absolute
+    right: 0
+    cursor: pointer
+    &:after
+    &:before
+      width: 50%
+      height: 2px
+      hv()
+      background: #ffffff
+    &:after
+      transform: rotate(45deg)
+    &:before
+      transform: rotate(-45deg)

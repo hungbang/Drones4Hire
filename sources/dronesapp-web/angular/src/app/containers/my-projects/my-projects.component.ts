@@ -1,4 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {ModalInformationComponent} from "../../components/modals/modal-information/modal-information.component";
+import {ModalService} from "../../services/modal.service/modal.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'my-projects',
@@ -14,9 +17,32 @@ export class MyProjectsComponent implements OnInit {
     { link: 'past', text: 'Past projects', visibility: true, icon: 'box-download' },
   ];
 
-  constructor() { }
+  constructor(
+    private _modalService: ModalService,
+    private _router: Router,
+  ) { }
 
   ngOnInit() {
   }
+
+  goToPostAProjectIfAccessExist(e) {
+    e.preventDefault();
+
+    if (!this._modalService) {
+      this._modalService.push({
+        component: ModalInformationComponent,
+        type: 'ModalInformationComponent',
+        values: {
+          title: '',
+          message: 'Please complete your billing information on Payment info, to get the possibility to post your project.'
+        }
+      });
+
+      return;
+    }
+
+    this._router.navigate(['/project/manage/add']);
+  }
+
 
 }
