@@ -142,7 +142,7 @@
                required
                #termsRef="ngModel"
                [ngClass]="{'_error': submitted && termsRef.errors?.required}"/>
-        <span class="f-authorization__chk-text">I agree to the <a href="/">Terms of Service</a> and <a href="/">Privacy Policy</a></span>
+        <span class="f-authorization__chk-text">I agree to the <a [routerLink]="['/terms-and-condition']">Terms of Service</a> and <a [routerLink]="['/privacy-policy']">Privacy Policy</a></span>
       </label>
     </div>
   </div>
