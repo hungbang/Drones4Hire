@@ -5,5 +5,7 @@
     <router-outlet></router-outlet>
   </div>
   <s-footer></s-footer>
+  <modal-default *ngFor="let modal of modals"
+                 [modalContent]="modal"></modal-default>
 </div>
 

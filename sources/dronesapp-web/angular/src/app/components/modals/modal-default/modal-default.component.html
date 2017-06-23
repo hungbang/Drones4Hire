@@ -1,26 +1,5 @@
-<section class="modal-default"
-         (click)="_modalService.toggleModal(false)"
-         [ngClass]="{'_open': _modalService.local.isModalVisible}">
-  <div class="modal-default__inner _modal-{{_modalService.local.currentModal}}"
-       (click)="_modalService.stopProp($event)">
-    <div class="modal-default__content">
-      <div class="modal-default__header">
-        <h3 class="modal-default__title">{{_modalService.local.modalTitle}}</h3>
-        <button class="modal-default__close"
-                (click)="_modalService.toggleModal(false)"
-                type="button">
-          <svg-use svgname="cross"></svg-use>
-        </button>
-      </div>
-
-      <!-- Modal Example -->
-
-      <!--<div class="modal-default__item" *ngIf="_modalService.local.currentModal === 'example'">-->
-        <!--<example></exaple>-->
-      <!--</div>-->
-
-      <!-- /Modal Example -->
-
-    </div>
+<section class="modal-default">
+  <div class="modal-default__content">
+    <template #modalContentRef></template>
   </div>
 </section>
