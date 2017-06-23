@@ -6,10 +6,7 @@
 	    		</tr>
 	    		<tr>
 	    			<td>
-	    				<p>
-	    					${Project.title} has been accepted by ${Pilot.username}. You can view this project by clicking
-	    					<a style="color:blue;font-weight:normal" href="${projectUrl}" target="_blank">click here</a>.
-	    				</p>
+    					<p>${message}</p>
 	    			</td>
 	    		</tr>
 	        </tbody>

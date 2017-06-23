@@ -10,6 +10,7 @@ import static com.drones4hire.dronesapp.services.services.notifications.EmailTyp
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.REJECT_BID;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.RETRACT_BID;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.UPDATE_BID;
+import static com.drones4hire.dronesapp.services.services.notifications.EmailType.SUPPORT_MESSAGE;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.amazonaws.services.simpleemail.model.Content;
+import com.drones4hire.dronesapp.models.db.Message;
 import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.users.User;
@@ -272,6 +274,15 @@ public abstract class AbstractEmailService
 		emailData.put("country", question.getCountry());
 		emailData.put("message", question.getMessage());
 		return sendEmail(EmailType.QUESTION, emailData, supportEmail);
+	}
+	
+	public String sendSupportMessageEmail(Message message) throws ServiceException
+	{
+		User user = userService.getUserById(message.getToUserId());
+		Map<String, Object> emailData = new HashMap<String, Object>();
+		emailData.put(user.getClass().getSimpleName(), user);
+		emailData.put("message", message.getMessage());
+		return sendEmail(SUPPORT_MESSAGE, emailData, user.getEmail());
 	}
 	
 	protected Content buildBody(String path, Map<String, Object> params)
