@@ -72,6 +72,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 $scope.project = {};
                 $scope.project.status = 'NEW';
                 $scope.project.postProductionRequired = false;
+                $scope.project.bidAmount = 0.0;
 
                 $scope.loadBudgets = function(){
                     $http.get('common/budgets').success(function(data) {
@@ -156,7 +157,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $scope.project.attachments = $scope.attachs;
                     $scope.project.startDate = new Date(Date.parse($scope.project.startDate) + OFFSET);
                     $scope.project.finishDate = new Date(Date.parse($scope.project.finishDate) + OFFSET);
-                    $http.post('projects', $scope.project).success(function(data) {
+                    $http.post('projects', $scope.project, {headers: {'BidAmount': $scope.project.bidAmount}}).success(function(data) {
                         console.log('Was created');
                         $scope.cancel();
                         $scope.searchProjects(1);

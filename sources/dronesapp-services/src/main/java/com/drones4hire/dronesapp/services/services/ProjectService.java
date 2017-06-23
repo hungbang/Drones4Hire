@@ -66,7 +66,7 @@ public class ProjectService
 	private BidService bidService;
 
 	@Transactional(rollbackFor = Exception.class)
-	public Project createProject(Project project, Long principalId) throws ServiceException
+	public Project createProject(Project project, Long principalId, BigDecimal bidAmount) throws ServiceException
 	{
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
 		User user = userService.getUserById(principalId);
@@ -86,12 +86,18 @@ public class ProjectService
 			{
 				Bid bid = new Bid();
 				bid.setProjectId(project.getId());
-				bid.setAmount(new BigDecimal(0));
+				bid.setAmount(bidAmount);
 				bid.setCurrency(Currency.USD);
-				bidService.awardBid(bidService.createBid(bid, principalId).getId(), project.getClientId());
+				bidService.awardBid(bidService.createBid(bid, project.getPilotId()).getId(), project.getClientId());
 			}
 		}
 		return project;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public Project createProject(Project project, Long principalId) throws ServiceException
+	{
+		return createProject(project, principalId, new BigDecimal(0));
 	}
 
 	@Transactional(rollbackFor = Exception.class)

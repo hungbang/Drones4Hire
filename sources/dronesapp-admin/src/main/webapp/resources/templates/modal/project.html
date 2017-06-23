@@ -18,6 +18,10 @@
             <label>Pilot ID</label>
             <input type="number" class="form-control" data-ng-model="project.pilotId"/>
         </div>
+        <div class="form-group" data-ng-if="project.pilotId">
+            <label>Pilot bid amount ($)</label>
+            <input type="number" class="form-control" step="0.01" data-ng-model="project.bidAmount"/>
+        </div>
         <div class="form-group">
             <label>Category</label>
             <select class="form-control validation" data-ng-model="project.categoryId" data-ng-change="loadServices()" required>
