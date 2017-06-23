@@ -1,4 +1,4 @@
-package com.drones4hire.admin.controller.withdraws;
+package com.drones4hire.admin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drones4hire.admin.controller.AbstractController;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.WithdrawSearchCriteria;
 import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest;

@@ -1,28 +1,33 @@
-package com.drones4hire.admin.controller.projects;
+package com.drones4hire.admin.controller;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
-import com.drones4hire.dronesapp.models.db.projects.Attachment;
-import com.drones4hire.dronesapp.models.db.projects.Bid;
-import com.drones4hire.dronesapp.models.db.projects.Comment;
-import com.drones4hire.dronesapp.services.services.AttachmentService;
-import com.drones4hire.dronesapp.services.services.BidService;
-import com.drones4hire.dronesapp.services.services.CommentService;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drones4hire.admin.controller.AbstractController;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
+import com.drones4hire.dronesapp.models.db.projects.Attachment;
+import com.drones4hire.dronesapp.models.db.projects.Bid;
+import com.drones4hire.dronesapp.models.db.projects.Comment;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.AttachmentService;
+import com.drones4hire.dronesapp.services.services.BidService;
+import com.drones4hire.dronesapp.services.services.CommentService;
 import com.drones4hire.dronesapp.services.services.ProjectService;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Controller
 @RequestMapping("projects")

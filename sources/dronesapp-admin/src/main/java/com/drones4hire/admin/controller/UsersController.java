@@ -1,4 +1,6 @@
-package com.drones4hire.admin.controller.users;
+package com.drones4hire.admin.controller;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,15 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drones4hire.admin.controller.AbstractController;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
+import com.drones4hire.dronesapp.models.db.Message;
 import com.drones4hire.dronesapp.models.db.settings.NotificationSettings;
 import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CompanyService;
+import com.drones4hire.dronesapp.services.services.MessageService;
 import com.drones4hire.dronesapp.services.services.NotificationSettingService;
 import com.drones4hire.dronesapp.services.services.PilotLicenseService;
 import com.drones4hire.dronesapp.services.services.UserService;
@@ -40,6 +43,9 @@ public class UsersController extends AbstractController
 	
 	@Autowired
 	private PilotLicenseService pilotLicenseService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "clients", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -94,6 +100,21 @@ public class UsersController extends AbstractController
 	public @ResponseBody PilotLicense getPilotLicense(@PathVariable long id) throws ServiceException
 	{
 		return pilotLicenseService.getPilotLicenseByUserId(id);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Message> getMessagesByToUserId(@PathVariable long id) throws ServiceException
+	{
+		return messageService.getMessagesByToUserId(id);
+	}
+	
+	@RequestMapping(value = "{id}/messages", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Message sendMessage(@PathVariable long id, @RequestBody Message message) throws Exception
+	{
+		message.setFromUserId(getPrincipal().getId());
+		message.setToUserId(id);
+		return messageService.createMessage(message);
 	}
 	
 	@ResponseStatus(HttpStatus.OK)

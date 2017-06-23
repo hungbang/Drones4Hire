@@ -22,7 +22,7 @@
   				<a href="" class="tab2" data-ng-click="tabs[1].active = true" data-ng-class="{active: tabs[1].active}">Company</a>
   				<a href="" class="tab2" data-ng-click="tabs[2].active = true" data-ng-class="{active: tabs[2].active}">Notifications</a>
   				<a href="" class="tab2" data-ng-click="tabs[3].active = true" data-ng-class="{active: tabs[3].active}">Messages</a>
-  				<a href="" class="tab2" data-ng-click="tabs[4].active = true" data-ng-class="{active: tabs[4].active}">License & Insurance</a>
+  				<a href="" class="tab2" data-ng-click="tabs[4].active = true" data-ng-class="{active: tabs[4].active}" data-ng-show="license.id">License & Insurance</a>
 			</p>
 			<tabset justified="true">
 				<tab active="tabs[0].active">
@@ -36,7 +36,7 @@
 									</div>	
 									<div class="form-group">
 										<label><spring:message code="drones.admin.pages.common.form.field.photo.label"/></label><br/> 										
-										<img class="img-thumbnail" width="100%" alt="<spring:message code="drones.admin.pages.common.form.field.photo.label"/>" data-ng-src="{{user.photoURL}}">
+										<img class="img-thumbnail" width="100%" alt="Not available" data-ng-src="{{user.photoURL}}">
 									</div>	
 									<div class="form-group">
 										<label><spring:message code="drones.admin.pages.common.form.field.username.label"/></label> 
@@ -190,13 +190,20 @@
 							<form action="">
 								<div class="form-group">
 									<label>New message</label> 
-									<textarea rows="10" style="width: 100%;"></textarea>
+									<textarea data-ng-model="message.message" rows="10" style="width: 100%;"></textarea>
 								</div>
-								<button class="btn btn-primary action pull-right" data-ng-click="editSettings(settings.userId)">Send</button>			
+								<button class="btn btn-primary action pull-right" data-ng-click="sendMessage(message)">Send</button>			
 							</form>
 						</div>
 						<div class="col-lg-6">
 							<label>Messages</label>
+							<div class="well" data-ng-repeat="message in messages | orderBy:'id':true">
+			                    <p>
+			                    	<b>{{message.type}} {{message.createdAt | date}}</b>
+			                    	<br/>
+			                    	<i>{{message.message}}</i>
+			                    </p>
+			                </div>
 						</div>
 					</div>
 				</tab>

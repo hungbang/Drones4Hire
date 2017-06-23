@@ -44,6 +44,9 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 	
 	$scope.tabs = [{ active: true }, { active: false }, { active: false }, { active: false }, { active: false }];
 	
+	$scope.message = {};
+	$scope.messages = [];
+	
 	$scope.loadLocationsData = function() {
 		$http.get('locations/states').success(function(data) {
 			$scope.listSatesResult = data;
@@ -73,6 +76,14 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		});
 	};
 	
+	$scope.loadMessages = function() {
+		$http.get('users/' + $routeParams.id + '/messages').success(function(data) {
+			$scope.messages = data;
+		}).error(function(data, status) {
+			alertify.error('Failed to load messages');
+		});
+	};
+	
 	$scope.loadCompanyData = function() {
 		$http.get('users/' + $routeParams.id + '/companies').success(function(data) {
 			$scope.company = data;
@@ -93,9 +104,21 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		$scope.loadLocationsData();
 		$scope.loadUser();
 		$scope.loadLicense();
+		$scope.loadMessages();
 		$scope.loadCompanyData();
 		$scope.loadSettingsData();
 	})();
+	
+	$scope.sendMessage = function(message){
+		$scope.message.type = 'EMAIL';
+		$http.post('users/' + $routeParams.id + '/messages', message).success(function(data) {
+			$scope.message = {};
+			$scope.messages.push(data);
+			alertify.success('Message sent successfully');
+		}).error(function(data, status) {
+			alertify.error('Failed to send message');
+		});
+	};
 	
 	$scope.editUser = function(id){
 		$http.put('users/' + id, $scope.user).success(function(data) {
@@ -167,4 +190,4 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		});
 	};
 	
-} ]);
+}]);
