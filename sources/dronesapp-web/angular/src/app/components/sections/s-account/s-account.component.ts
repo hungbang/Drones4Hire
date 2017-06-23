@@ -26,7 +26,7 @@ export class SAccountComponent {
       },
       {
         link: 'security',
-        text: 'Password reset',
+        text: 'Change password',
         visibility: true,
         icon: 'locked'
       },

@@ -11,7 +11,7 @@
 
     <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-project-add__caption">Project name. (i.e. Wedding)</div>
+        <div class="f-project-add__caption">Name of project</div>
       </div>
       <div class="f-default__col">
         <label class="f-default__label">
@@ -20,7 +20,7 @@
                  name="projectTitle"
                  [(ngModel)]="formData.title"
                  required
-                 placeholder="What is the Project Title"
+                 placeholder="Project Title i.e &quot;Commercial Inspection&quot;"
                  #projectTitleRef="ngModel"
                  [ngClass]="{'_error': isSubmitted && projectTitleRef.errors?.required}">
         </label>
@@ -40,7 +40,7 @@
                   required
                   #serviceRef="ngModel"
                   [ngClass]="{'_error': isSubmitted && serviceRef.errors?.required}">
-            <option [value]="null">Select your type of work</option>
+            <option [value]="null">Select Category</option>
             <option *ngFor="let service of services"
                     [value]="service.name">
               {{service.name}}
@@ -90,7 +90,6 @@
                       name="projectSummary"
                       [(ngModel)]="formData.summary"
                       required
-                      placeholder="Describe your project here. Please provide as much information about your project (venue type, special instructions, etc.)"
                       #projectSummaryRef="ngModel"
                       [ngClass]="{'_error': isSubmitted && projectSummaryRef.errors?.required}"></textarea>
           </label>
@@ -132,9 +131,6 @@
           </div>
           <div class="f-project-add__message _error" *ngIf="isLimitReached">
             You can't attach more than {{ attachmentsLimit }} files
-          </div>
-          <div class="f-project-add__message" *ngIf="!formData.attachments.length">
-            No file chosen
           </div>
         </div>
         <ul class="f-project-add__files-list" *ngIf="formData.attachments.length">
@@ -286,7 +282,7 @@
              [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'MM-DD-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
              (selected)="selectedDate($event, date)">
           <span class="form-control uneditable-input" name="daterange">
-              from {{ date.start | date:'MM-dd-yyyy' }} to {{ date.end| date:'MM-dd-yyyy' }}
+              from {{ date.start | date:'MM/dd/yyyy' }} to {{ date.end| date:'MM/dd/yyyy' }}
           </span>
         </div>
       </div>
