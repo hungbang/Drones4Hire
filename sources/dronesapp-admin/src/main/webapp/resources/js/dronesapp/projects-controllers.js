@@ -30,7 +30,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 			$scope.projectSearchCriteria.page = data.page;
 			$scope.projectSearchCriteria.pageSize = data.pageSize;
 		}).error(function() {
-			console.error('Failed to search projects');
+			alertify.error('Failed to search projects');
 		});
 	};
 
@@ -38,7 +38,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
         $http.get('common/budgets').success(function(data) {
             $scope.budgets = data;
         }).error(function() {
-            console.error('Failed to get budgets');
+            alertify.error('Failed to get budgets');
         });
     };
 
@@ -46,7 +46,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
         $http.get('common/categories').success(function(data) {
             $scope.categories = data;
         }).error(function() {
-            console.error('Failed to get categories');
+            alertify.error('Failed to get categories');
         });
     };
 
@@ -78,7 +78,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $http.get('common/budgets').success(function(data) {
                         $scope.budgets = data;
                     }).error(function() {
-                        console.error('Failed to get budgets');
+                        alertify.error('Failed to get budgets');
                     });
                 };
 
@@ -86,7 +86,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $http.get('common/categories').success(function(data) {
                         $scope.categories = data;
                     }).error(function() {
-                        console.error('Failed to get categories');
+                        alertify.error('Failed to get categories');
                     });
                 };
 
@@ -100,7 +100,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                             return false;
                         });
                     }).error(function() {
-                        console.error('Failed to get services');
+                        alertify.error('Failed to get services');
                     });
                 };
 
@@ -108,7 +108,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $http.get('locations/countries').success(function(data) {
                         $scope.countries = data;
                     }).error(function() {
-                        console.error('Failed to get countries');
+                        alertify.error('Failed to get countries');
                     });
                 };
 
@@ -123,7 +123,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         $http.get('locations/states').success(function (data) {
                             $scope.states = data;
                         }).error(function () {
-                            console.error('Failed to get states');
+                            alertify.error('Failed to get states');
                         });
                     } else {
                         delete $scope.states;
@@ -134,7 +134,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $http.get('common/durations').success(function(data) {
                         $scope.durations = data;
                     }).error(function() {
-                        console.error('Failed to get durations');
+                        alertify.error('Failed to get durations');
                     });
                 };
 
@@ -142,7 +142,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $http.get('common/paidOptions').success(function(data) {
                         $scope.paidOptions = data;
                     }).error(function() {
-                        console.error('Failed to get paid options');
+                        alertify.error('Failed to get paid options');
                     });
                 };
 
@@ -158,11 +158,11 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $scope.project.startDate = new Date(Date.parse($scope.project.startDate) + OFFSET);
                     $scope.project.finishDate = new Date(Date.parse($scope.project.finishDate) + OFFSET);
                     $http.post('projects', $scope.project, {headers: {'BidAmount': $scope.project.bidAmount}}).success(function(data) {
-                        console.log('Was created');
+                        alertify.success('Was created');
                         $scope.cancel();
                         $scope.searchProjects(1);
                     }).error(function() {
-                        console.error('Failed to create');
+                        alertify.error('Failed to create');
                     });
                 };
 
@@ -191,7 +191,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         attach.attachmentURL = data.url;
                         $scope.addAttachment(attach);
                     }).error(function() {
-                        console.error('Failed to upload file');
+                        alertify.error('Failed to upload file');
                     });
                 };
 
@@ -236,7 +236,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 			$scope.startDate = new Date($scope.project.startDate);
 			$scope.finishDate = new Date($scope.project.finishDate);
 		}).error(function(data, status) {
-			alert('Failed to load project');
+			alertify.error('Failed to load project');
 		});
 	};
 
@@ -244,7 +244,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         $http.get('projects/' + $routeParams.id + '/comments').success(function(data) {
             $scope.comments = data;
         }).error(function(data, status) {
-            alert('Failed to load comments');
+            alertify.error('Failed to load comments');
         });
     };
 
@@ -252,68 +252,72 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         $http.get('projects/' + $routeParams.id + '/bids').success(function(data) {
             $scope.bids = data;
         }).error(function(data, status) {
-            alert('Failed to load bids');
+            alertify.error('Failed to load bids');
         });
     };
-	
+
 	$scope.editProject = function(){
         $scope.project.createdAt = new Date($scope.createdAt).getTime();
         $scope.project.startDate = new Date($scope.startDate).getTime();
         $scope.project.finishDate = new Date($scope.finishDate).getTime();
 		$http.put('projects', $scope.project).success(function(data) {
-			alert('Success, changes were saved.');
+			alertify.success('Success, changes were saved.');
 		}).error(function(data, status) {
-			alert('Failed to save changes!');
+			alertify.error('Failed to save changes!');
 		});
 	};
 
 	$scope.blockProject = function () {
 	    $scope.project.status = 'BLOCKED';
         $http.put('projects', $scope.project).success(function(data) {
-            alert('Success, project was blocked.');
+            alertify.success('Success, project was blocked.');
         }).error(function(data, status) {
-            alert('Failed to block project!');
+            alertify.error('Failed to block project!');
         });
     };
 
     $scope.unblockProject = function () {
         $scope.project.status = 'NEW';
         $http.put('projects', $scope.project).success(function(data) {
-            alert('Success, project was unblocked.');
+            alertify.success('Success, project was unblocked.');
         }).error(function(data, status) {
-            alert('Failed to unblock project!');
+            alertify.error('Failed to unblock project!');
         });
     };
 
     $scope.deleteProject = function (id) {
         $http.delete('projects/' + id).success(function(data) {
             $location.url('/projects');
+            alertify.success('Success, project was deleted.');
         }).error(function(data, status) {
-            alert('Failed to delete project!');
+            alertify.error('Failed to delete project!');
         });
     };
 
     $scope.deleteComment = function (id) {
         $http.delete('comments/' + id).success(function(data) {
             $route.loadComments();
+            alertify.success('Success, comment was deleted.');
         }).error(function(data, status) {
-            alert('Failed to delete comment!');
+            alertify.error('Failed to delete comment!');
         });
     };
 
     $scope.deleteAttachment = function (id) {
         $http.delete('projects/results/' + id).success(function(data) {
             $scope.loadProject();
+            alertify.success('Success, attachment was deleted.');
         }).error(function(data, status) {
-            alert('Failed to delete attachment!');
+            alertify.error('Failed to delete attachment!');
         });
     };
 
     $scope.deleteBid = function (id) {
         $http.delete('bids/' + id + '/retract').success(function(data) {
             $scope.loadBids();
+            alertify.success('Success, bid was deleted.');
         }).error(function(data, status) {
-            alert('Failed to delete bid!');
+            alertify.error('Failed to delete bid!');
         });
     };
 
@@ -321,7 +325,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         $http.get('common/budgets').success(function(data) {
             $scope.budgets = data;
         }).error(function() {
-            console.error('Failed to get budgets');
+            alertify.error('Failed to get budgets');
         });
     };
 
@@ -329,7 +333,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         $http.get('common/categories').success(function(data) {
             $scope.categories = data;
         }).error(function() {
-            console.error('Failed to get categories');
+            alertify.error('Failed to get categories');
         });
     };
 
@@ -343,7 +347,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
                 return false;
             });
         }).error(function() {
-            console.error('Failed to get services');
+            alertify.error('Failed to get services');
         });
     };
 
@@ -351,7 +355,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         $http.get('common/durations').success(function(data) {
             $scope.durations = data;
         }).error(function() {
-            console.error('Failed to get durations');
+            alertify.error('Failed to get durations');
         });
     };
 
@@ -374,7 +378,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
             }).error(function() {
             });
         }).error(function() {
-            console.error('Failed to upload file');
+            alertify.error('Failed to upload file');
         });
     };
 

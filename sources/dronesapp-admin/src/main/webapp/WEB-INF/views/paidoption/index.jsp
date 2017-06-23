@@ -37,7 +37,7 @@
 		                    Modified
 		                </th>
 		                <th class="text-center">
-		                    Details
+		                    Options
 		                </th>
 		            </tr>
 		        </thead>

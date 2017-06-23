@@ -70,7 +70,6 @@
 		        <thead>
 		            <tr>
 		            	<th class="text-center">
-		                   	Select
 		                   	ID
 		                </th>
 		                <th>
@@ -89,13 +88,13 @@
 		                    Status
 		                </th>
 		                 <th>
-		                    Modified At
+		                    Modified
 		                </th>
 		                 <th>
-		                    Created At
+		                    Created
 		                </th>
-		                <th>
-		                    Payment complete
+		                <th class="text-center">
+		                    Options
 		                </th>
 		            </tr>
 		        </thead>
@@ -110,7 +109,7 @@
 		                <td>{{request.modifiedAt | date}}</td>
 		                <td>{{request.createdAt | date}}</td>
 		               <td class="text-center">
-						   <button class="bnt btn-default btn-primary" data-ng-click="">Accept</button>
+						   <button class="btn btn-success btn-xs" href="">Accept</button>
 						</td>
 					</tr>
 					<tr data-ng-show="!sr.results.length">

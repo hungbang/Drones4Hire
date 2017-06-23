@@ -115,7 +115,7 @@
 		                    Created
 		                </th>
 		                <th class="text-center">
-		                    <spring:message code="drones.admin.pages.common.column.more_details.caption"/>
+		                    Options
 		                </th>
 		            </tr>
 		        </thead>

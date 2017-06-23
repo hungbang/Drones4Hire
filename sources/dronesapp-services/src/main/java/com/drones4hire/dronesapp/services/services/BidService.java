@@ -55,8 +55,9 @@ public class BidService
 	{
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT))
-			throw new ForbiddenOperationException();
+		if(!user.getRoles().contains(ROLE_ADMIN))
+			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT))
+				throw new ForbiddenOperationException();
 		bid.setUser(user);
 		bidMapper.createBid(bid);
 		emailService.sendNewBidReceiveEmail(project, user);
@@ -100,9 +101,10 @@ public class BidService
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		Bid currentBid = bidMapper.getBidById(bid.getId());
-		if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
-				|| !principalId.equals(currentBid.getUser().getId()))
-			throw new ForbiddenOperationException();
+		if(!user.getRoles().contains(ROLE_ADMIN))
+			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
+					|| !principalId.equals(currentBid.getUser().getId()))
+				throw new ForbiddenOperationException();
 		currentBid.setComment(bid.getComment());
 		currentBid.setAmount(bid.getAmount());
 		currentBid.setCurrency(bid.getCurrency());
@@ -117,9 +119,10 @@ public class BidService
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
-				|| !principalId.equals(bid.getUser().getId()))
-			throw new ForbiddenOperationException();
+		if(!user.getRoles().contains(ROLE_ADMIN))
+			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
+					|| !principalId.equals(bid.getUser().getId()))
+				throw new ForbiddenOperationException();
 		bidMapper.deleteBid(bidId);
 		emailService.sendRetractBidEmail(project, user);
 	}
@@ -130,9 +133,10 @@ public class BidService
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_CLIENT)
+		if(!user.getRoles().contains(ROLE_ADMIN))
+			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_CLIENT)
 				|| !user.getId().equals(project.getClientId()))
-			throw new ForbiddenOperationException();
+				throw new ForbiddenOperationException();
 		User bidUser = userService.getUserById(bid.getUser().getId());
 		if(! bidUser.getRoles().contains(ROLE_ADMIN))
 		{
@@ -156,9 +160,10 @@ public class BidService
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_CLIENT)
-				|| !user.getId().equals(project.getClientId()))
-			throw new ForbiddenOperationException();
+		if(!user.getRoles().contains(ROLE_ADMIN))
+			if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_CLIENT)
+					|| !user.getId().equals(project.getClientId()))
+				throw new ForbiddenOperationException();
 		project.setPilotId(null);
 		project.setStatus(Status.NEW);
 		projectService.updateProject(project);
@@ -171,9 +176,10 @@ public class BidService
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_PILOT)
-				|| !principalId.equals(bid.getUser().getId()))
-			throw new ForbiddenOperationException();
+		if(!user.getRoles().contains(ROLE_ADMIN))
+			if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_PILOT)
+					|| !principalId.equals(bid.getUser().getId()))
+				throw new ForbiddenOperationException();
 		project.setStatus(Status.IN_PROGRESS);
 		projectService.updateProject(project);
 		emailService.sendAcceptBidEmail(project, user);
@@ -186,9 +192,10 @@ public class BidService
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_PILOT)
-				|| !principalId.equals(bid.getUser().getId()))
-			throw new ForbiddenOperationException();
+		if(!user.getRoles().contains(ROLE_ADMIN))
+			if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
+					|| !principalId.equals(bid.getUser().getId()))
+				throw new ForbiddenOperationException();
 
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
 		Transaction transaction = new Transaction(wallet.getId(), bid.getAmount(),
