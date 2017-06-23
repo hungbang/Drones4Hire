@@ -108,7 +108,7 @@ export class FAuthorizationComponent implements OnInit {
           const body = err.json();
           if (err.status === 403) {
             if (body && body.error && body.error.code === 1001) {
-              this.toastrService.showError('User already exist');
+              this.toastrService.showError('User already exists');
             }
           }
           if (err.status === 400) {

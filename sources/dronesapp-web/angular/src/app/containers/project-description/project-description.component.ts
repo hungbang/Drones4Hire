@@ -15,8 +15,6 @@ import {PaymentService} from "../../services/payment.service/payment.service";
 import {ToastrService} from "../../services/toastr.service/toastr.service";
 import {ModalService} from "../../services/modal.service/modal.service";
 import {ModalConfirmationComponent} from "../../components/modals/modal-confirmation/modal-confirmation.component";
-import {ModalService} from "../../services/modal.service/modal.service";
-import {ToastrService} from "../../services/toastr.service/toastr.service";
 
 @Component({
   selector: 'project-description',
