@@ -4,6 +4,7 @@ import {CommonService} from '../../../services/common.service/common.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
 import {extend} from '../../../shared/common/common-methods';
 import {StateModel} from '../../../services/common.service/state.interface';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-company',
@@ -16,8 +17,11 @@ export class FClientCompanyComponent implements OnInit { // TODO: check this for
   public countries: CountryModel[] = [];
   public states: StateModel[] = [];
 
-  constructor(public accountService: AccountService,
-              public commonService: CommonService) {
+  constructor(
+    public accountService: AccountService,
+    public commonService: CommonService,
+    private toastrService: ToastrService
+  ) {
   }
 
   ngOnInit() {
@@ -60,9 +64,26 @@ export class FClientCompanyComponent implements OnInit { // TODO: check this for
     }
 
     this.accountService.setAccountCompany(this.accountService.company)
-      .subscribe((res) => {
+      .subscribe(
+        (res) => {
         console.log(res, '-save company');
-      });
+        this.toastrService.showSuccess('Saved')
+      },
+        err => {
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+      );
   }
 
   selectCountry(name: string) {

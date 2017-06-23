@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccountService} from '../../../services/account.service/account.service';
-import {CommonService} from '../../../services/common.service/common.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-services',
@@ -10,7 +10,10 @@ import {CommonService} from '../../../services/common.service/common.service';
 })
 export class FServicesComponent implements OnInit {
   submitted: boolean = false;
-  constructor(public accountService: AccountService) {
+  constructor(
+    public accountService: AccountService,
+    private toastrService: ToastrService
+  ) {
   }
 
   ngOnInit() {
@@ -34,10 +37,27 @@ export class FServicesComponent implements OnInit {
 
   changeServices() {
     this.accountService.setAccountServices(this.accountService.activeServices)
-      .subscribe(() => {
+      .subscribe(
+        () => {
         console.log('services are updated');
         this.submitted = false;
-      });
+          this.toastrService.showSuccess('Saved')
+        },
+        err => {
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+        );
 
     this.submitted = true;
   }

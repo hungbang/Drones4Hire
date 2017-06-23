@@ -3,6 +3,7 @@ import {FileUploader} from 'ng2-file-upload';
 
 import {RequestService} from '../../../services/request.service/request.service';
 import {PortfolioService} from '../../../services/portfolio.service/portfolio.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-portfolio-upload',
@@ -32,7 +33,8 @@ export class FPortfolioUploadComponent implements OnInit {
   constructor(
     private _elementRef: ElementRef,
     private _portfolioService: PortfolioService,
-    private _requestService: RequestService
+    private _requestService: RequestService,
+    private toastrService: ToastrService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.fileURL = JSON.parse(response)['url'];
@@ -42,6 +44,7 @@ export class FPortfolioUploadComponent implements OnInit {
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
       console.log('problem with upload image');
+      this.toastrService.showError('Couldn\'t upload image. Try one more time.');
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
@@ -85,9 +88,21 @@ export class FPortfolioUploadComponent implements OnInit {
     this._portfolioService.addPortfolio(portfolio).subscribe(
       () => {
         this.resetForm(form);
+        this.toastrService.showSuccess('File added')
       },
       err => {
-        console.log('add portfolio error:', err);
+        console.log(err);
+        const body = err.json();
+
+        if (err.status === 400) {
+          if (body && body.validationErrors) {
+            body.validationErrors.forEach(item => {
+              this.toastrService.showError(item.field);
+            });
+          } else {
+            this.toastrService.showError('Please check your data');
+          }
+        }
       }
     );
   }

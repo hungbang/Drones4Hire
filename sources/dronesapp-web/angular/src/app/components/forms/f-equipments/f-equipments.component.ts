@@ -4,6 +4,7 @@ import {AccountService} from '../../../services/account.service/account.service'
 import {PublicService} from '../../../services/public.service/public.service';
 import {EquipmentModel} from '../../../services/pilots.service/equipment.interface';
 import {PilotsService} from '../../../services/pilots.service/pilots.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-equipments',
@@ -18,7 +19,8 @@ export class FEquipmentsComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private publicService: PublicService,
-    private pilotsService: PilotsService
+    private pilotsService: PilotsService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -84,9 +86,21 @@ export class FEquipmentsComponent implements OnInit {
     this.pilotsService.updatePilotEquipments([...this.drones, ...this.cameras]).subscribe(
       res => {
         // console.log('updated equipments:', res);
+        this.toastrService.showSuccess('Saved')
       },
       err => {
-        console.log('update equipments error:', err);
+        console.log(err);
+        const body = err.json();
+
+        if (err.status === 400) {
+          if (body && body.validationErrors) {
+            body.validationErrors.forEach(item => {
+              this.toastrService.showError(item.field);
+            });
+          } else {
+            this.toastrService.showError('Please check your data');
+          }
+        }
       }
     );
   }

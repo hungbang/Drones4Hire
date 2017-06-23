@@ -1,7 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {Router} from '@angular/router';
+
+import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {AccountService} from '../../../services/account.service/account.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-authorization',
@@ -24,9 +26,12 @@ export class FAuthorizationComponent implements OnInit {
 
   public submitted = false;
 
-  constructor(public _authorizationService: AuthorizationService,
-              private _accountService: AccountService,
-              private _router: Router) {
+  constructor(
+    public _authorizationService: AuthorizationService,
+    private _accountService: AccountService,
+    private _router: Router,
+    private toastrService: ToastrService
+  ) {
   }
 
   ngOnInit() {
@@ -59,6 +64,19 @@ export class FAuthorizationComponent implements OnInit {
         },
         (err) => {
           console.log(err);
+          const body = err.json();
+          if (err.status === 401) {
+            if (body && body.error && body.error.code === 401) {
+              this.toastrService.showError('Wrong e-mail or password');
+            }
+          }
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            }
+          }
         }
       )
   }
@@ -77,10 +95,26 @@ export class FAuthorizationComponent implements OnInit {
       .subscribe(
         () => {
           this._authorizationService.signUpFormActive = false;
-          this.sendLoginRequest(e, form);
+          this.isSignUpForm = false;
+          this.toastrService.showSuccess('You have been sign up successfully! To complete your registration please verify your email.', null, {toastLife: 5000});
         },
         (err) => {
           console.log(err);
+          const body = err.json();
+          if (err.status === 403) {
+            if (body && body.error && body.error.code === 1001) {
+              this.toastrService.showError('User already exist');
+            }
+          }
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Invalid form data');
+            }
+          }
         }
       );
   }

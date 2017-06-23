@@ -7,6 +7,7 @@ import {CommonService} from '../../../services/common.service/common.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
 import {StateModel} from '../../../services/common.service/state.interface';
 import {extend} from '../../../shared/common/common-methods';
+import {ToastrService} from "../../../services/toastr.service/toastr.service";
 
 @Component({
   selector: 'f-profile',
@@ -28,9 +29,12 @@ export class FClientProfileComponent implements OnInit {
   countries: CountryModel[] = [];
   states: StateModel[] = [];
 
-  constructor(public accountService: AccountService,
-              private _requestService: RequestService,
-              public commonService: CommonService) {
+  constructor(
+    public accountService: AccountService,
+    private _requestService: RequestService,
+    public commonService: CommonService,
+    private toastrService: ToastrService
+  ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       console.log('onSuccessItem', response);
@@ -41,6 +45,7 @@ export class FClientProfileComponent implements OnInit {
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
       console.log('problem with upload image');
+      this.toastrService.showError('Couldn\'t upload image. Try one more time.');
       this.uploader.clearQueue();
       return {item, response, status, headers};
     };
@@ -76,9 +81,26 @@ export class FClientProfileComponent implements OnInit {
     }
 
     this.accountService.setAccountData(this.accountService.account)
-      .subscribe((res) => {
+      .subscribe(
+        (res) => {
         console.log(res, '-save account');
-      });
+        this.toastrService.showSuccess('Saved.')
+      },
+        err => {
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+      );
   }
 
   private getCountries() {

@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import {PublicService} from "../../services/public.service/public.service";
 import {TransactionService} from "../../services/transaction.service/transaction.service";
 import {PaymentService} from "../../services/payment.service/payment.service";
+import {ToastrService} from "../../services/toastr.service/toastr.service";
 
 @Component({
   selector: 'project-description',
@@ -52,7 +53,8 @@ export class ProjectDescriptionComponent implements OnInit {
     private _router: Router,
     private _publicService: PublicService,
     private projectService: ProjectService,
-    private _paymentService: PaymentService
+    private _paymentService: PaymentService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -149,12 +151,29 @@ export class ProjectDescriptionComponent implements OnInit {
     }, bid);
 
     return this._bidService.createBid(data)
-      .subscribe((res) => {
+      .subscribe(
+        (res) => {
         this.pilotBid = this._bidService.formatBidsToPreview([res])[0];
         this.bids.unshift(res);
         this._serverBidInfo.bidsCount += 1;
         this.createBidsInfo(this._serverBidInfo, this.pilotBid);
-      });
+        this.toastrService.showSuccess('Bid added');
+        },
+        err => {
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+      );
   }
 
   sendComment({ comment, callback }) {
@@ -164,7 +183,23 @@ export class ProjectDescriptionComponent implements OnInit {
         const comment = this._commentsService.formatCommentToPreview([res]);
         this.comments.unshift(...comment);
         callback();
-      });
+          this.toastrService.showSuccess('Comment added');
+        },
+        err => {
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+      );
   }
 
   editBid(bid) {
@@ -177,7 +212,23 @@ export class ProjectDescriptionComponent implements OnInit {
         this.bids.unshift(res);
         this.createBidsInfo(this._serverBidInfo, this.pilotBid);
         this.isEdit = false;
-      });
+          this.toastrService.showSuccess('Changes saved');
+        },
+        err => {
+          console.log(err);
+          const body = err.json();
+
+          if (err.status === 400) {
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+        }
+      );
   }
 
   release(bidId: number) {

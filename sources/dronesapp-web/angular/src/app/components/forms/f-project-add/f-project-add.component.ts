@@ -15,6 +15,7 @@ import {ProjectService} from '../../../services/project.service/project.service'
 import {PaidOptionModel} from '../../../services/project.service/paid-option.interface';
 import {ProjectModel} from '../../../services/project.service/project.interface';
 import {CategoryModel} from '../../../services/common.service/category.interface';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-project-add',
@@ -78,7 +79,8 @@ export class FProjectAddComponent implements OnInit {
     private projectService: ProjectService,
     private _requestService: RequestService,
     private _elementRef: ElementRef,
-    private router: Router
+    private router: Router,
+    private toastrService: ToastrService
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -412,6 +414,20 @@ export class FProjectAddComponent implements OnInit {
           res => {
             // console.log('updated project:', res);
             this.router.navigate(['/project', res.id]);
+          },
+          err => {
+            console.log(err);
+            const body = err.json();
+
+            if (err.status === 400) {
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              } else {
+                this.toastrService.showError('Please check your data');
+              }
+            }
           }
         );
     } else {
@@ -425,7 +441,21 @@ export class FProjectAddComponent implements OnInit {
         .subscribe(
           res => {
             // console.log('saved new project:', res);
-            this.router.navigate(['/project', res.id]);
+            this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
+          },
+          err => {
+            console.log(err);
+            const body = err.json();
+
+            if (err.status === 400) {
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              } else {
+                this.toastrService.showError('Please check your data');
+              }
+            }
           }
         )
     }

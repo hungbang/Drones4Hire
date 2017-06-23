@@ -4,6 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {ROUTES} from './app.routes';
+import {ToastModule, ToastOptions} from 'ng2-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {FileSelectDirective, FileDropDirective} from 'ng2-file-upload';
 
@@ -18,6 +20,7 @@ import {AppGuards} from './guards/index';
 import {NguiDatetimePickerModule} from '@ngui/datetime-picker';
 import {Daterangepicker} from 'ng2-daterangepicker';
 import { ContactUsComponent } from './containers/contact-us/contact-us.component';
+import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settings';
 
 @NgModule({
   declarations: [
@@ -35,12 +38,15 @@ import { ContactUsComponent } from './containers/contact-us/contact-us.component
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
     RouterModule.forRoot(ROUTES, {useHash: true}),
   ],
   providers: [
     AppServices,
     AppGuards,
     AppResolves,
+    {provide: ToastOptions, useClass: ToastrGlobalOption}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
