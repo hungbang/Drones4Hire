@@ -120,4 +120,14 @@
 		    </table>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<pagination
+					page="sc.page"
+					page-size="sc.pageSize"
+					results="sr"
+					page-sizes="pageSizes"
+					search="searchWithdraws(page, pageSize)" />
+		</div>
+	</div>
 </div>
