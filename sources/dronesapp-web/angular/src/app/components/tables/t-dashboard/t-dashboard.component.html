@@ -44,7 +44,7 @@
       <a class="t-dashboard__link"
          href="#"
          [ngClass]="{ _inactive: !project.attachmentLength || project.status === 'COMPLETED' }"
-         (click)="release(project, !!project.attachmentLength || project.status !== 'COMPLETED', $event)">
+         (click)="release(project, !!project.attachmentLength && project.status !== 'COMPLETED', $event)">
         {{project.status !== 'COMPLETED' ? 'RELEASE PAYMENT': 'PROJECT COMPLETED'}}
       </a>
     </td>

@@ -13,6 +13,10 @@ import {PublicService} from "../../services/public.service/public.service";
 import {TransactionService} from "../../services/transaction.service/transaction.service";
 import {PaymentService} from "../../services/payment.service/payment.service";
 import {ToastrService} from "../../services/toastr.service/toastr.service";
+import {ModalService} from "../../services/modal.service/modal.service";
+import {ModalConfirmationComponent} from "../../components/modals/modal-confirmation/modal-confirmation.component";
+import {ModalService} from "../../services/modal.service/modal.service";
+import {ToastrService} from "../../services/toastr.service/toastr.service";
 
 @Component({
   selector: 'project-description',
@@ -53,8 +57,9 @@ export class ProjectDescriptionComponent implements OnInit {
     private _router: Router,
     private _publicService: PublicService,
     private projectService: ProjectService,
+    private toastrService: ToastrService,
     private _paymentService: PaymentService,
-    private toastrService: ToastrService
+    private modalService: ModalService
   ) { }
 
   ngOnInit() {
@@ -110,8 +115,19 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   award(bid) {
+    this._openConfirm((e) =>
+      this._award(e, bid));
+  }
+
+  private _award(isAccepted, bid) {
+    if (!isAccepted) {
+      this.modalService.pop();
+      return;
+    }
+
     this._bidService.award(bid.id)
       .subscribe(() => {
+        this.modalService.pop();
         this.project.bidId = bid.id;
         this.isEdit = false;
       });
@@ -121,23 +137,55 @@ export class ProjectDescriptionComponent implements OnInit {
     this.isEdit = true;
   }
 
+  private _openConfirm(confirm) {
+    this.modalService.push({
+      component: ModalConfirmationComponent,
+      type: 'ModalConfirmationComponent',
+      values: {
+        title: '',
+        message: 'Do you really want to release payments?',
+        confirm_btn_text: 'Yes',
+        cancel_btn_text: 'No',
+        confirm
+      }
+    });
+  }
+
   acceptFromPilot(id: number, isProgress: boolean) {
-    if (isProgress) { return; }
+    this._openConfirm((e) =>
+      this._acceptPilot(e, id, isProgress));
+  }
+
+  private _acceptPilot(isAccepted, id, isProgress) {
+    if (isProgress || !isAccepted) {
+      this.modalService.pop();
+      return;
+    }
 
     this._bidService.accept(id)
       .subscribe((data) => {
+        this.modalService.pop();
         this.project.status = 'IN_PROGRESS';
       });
   }
 
-  rejectFromPilot(id: number, isProgress: boolean) {
-    if (isProgress) { return; }
+  private _rejectPilot(isAccepted, id, isProgress) {
+    if (isProgress || !isAccepted) {
+      this.modalService.pop();
+      return;
+    }
 
     this._bidService.reject(id)
       .subscribe(() => {
+        this.modalService.pop();
         this.project.status = 'NEW';
         delete this.project.bidId;
       });
+  }
+
+  rejectFromPilot(id: number, isProgress: boolean) {
+    this._openConfirm((e) =>
+      this._rejectPilot(e, id, isProgress));
   }
 
   submitBid(bid: BidModel) {
@@ -231,12 +279,22 @@ export class ProjectDescriptionComponent implements OnInit {
       );
   }
 
-  release(bidId: number) {
+  _release(isAccepted, bidId: number) {
+    if (!isAccepted) {
+      this.modalService.pop();
+      return;
+    }
+
     this._paymentService.releasePayment(bidId)
       .subscribe(() => {
-        console.log(1);
+        this.modalService.pop();
         this.project.status = 'COMPLETED';
       });
+  }
+
+  release(bidId: number) {
+    this._openConfirm((e) =>
+      this._release(e, bidId));
   }
 
   fetchAttachments() {

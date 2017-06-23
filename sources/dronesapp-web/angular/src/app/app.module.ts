@@ -5,7 +5,6 @@ import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {ROUTES} from './app.routes';
 import {ToastModule, ToastOptions} from 'ng2-toastr';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {FileSelectDirective, FileDropDirective} from 'ng2-file-upload';
 
@@ -35,6 +34,7 @@ import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settin
   ],
   imports: [
     NguiDatetimePickerModule,
+    BrowserAnimationsModule,
     Daterangepicker,
     BrowserModule,
     FormsModule,

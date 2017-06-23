@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 's-services',
@@ -6,10 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./s-services.component.styl']
 })
 export class SServicesComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
   }
-
 }

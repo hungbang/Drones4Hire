@@ -59,6 +59,11 @@ export class FAuthorizationComponent implements OnInit {
         () => {
           this._accountService.getAccountData()
             .subscribe(() => {
+              if (this._accountService.isUserPilot()) {
+                return this._accountService.getAccountLicense().subscribe(() => {
+                  this._router.navigate(['/']);
+                });
+              }
               this._router.navigate(['/']);
             });
         },

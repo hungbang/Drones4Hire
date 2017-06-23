@@ -21,18 +21,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.modalService.push({
-      component: ModalConfirmationComponent,
-      type: 'ModalConfirmationComponent',
-      values: {
-        title: '',
-        message: 'Do you really want to release payments?',
-        confirm_btn_text: 'Yes',
-        cancel_btn_text: 'No',
-        confirm: e => { this.confirmExit(e); }
-      }
-    });
   }
 
   confirmExit(event) {
