@@ -139,7 +139,7 @@
 					</div>
 					<button data-ng-if="project.status != 'BLOCKED'" class="btn btn-primary btn-warning" data-ng-click="blockProject()"><spring:message code="drones.admin.pages.common.button.project.block"/></button>
 					<button data-ng-if="project.status == 'BLOCKED'" class="btn btn-primary btn-primary" data-ng-click="unblockProject()"><spring:message code="drones.admin.pages.common.button.project.unblock"/></button>
-					<button class="btn btn-primary btn-danger" data-ng-click="deleteProject(project.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
+					<button class="btn btn-primary btn-danger" data-ng-click="deleteProject(project.id)" disabled><spring:message code="drones.admin.pages.common.button.delete"/></button>
 					<button class="btn btn-primary action pull-right" data-ng-click="editProject()"><spring:message code="drones.admin.pages.common.button.save"/></button>
 				</fieldset>
 			</form>

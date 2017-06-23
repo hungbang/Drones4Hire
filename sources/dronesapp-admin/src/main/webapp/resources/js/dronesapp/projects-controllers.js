@@ -72,7 +72,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 $scope.project = {};
                 $scope.project.status = 'NEW';
                 $scope.project.postProductionRequired = false;
-                $scope.attach = {};
+                $scope.project.bidAmount = 0.0;
 
                 $scope.loadBudgets = function(){
                     $http.get('common/budgets').success(function(data) {
@@ -154,12 +154,13 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $scope.project.paidOptions = $scope.paidOptions.filter(function (option) {
                         return option.isChecked;
                     });
+                    $scope.project.attachments = $scope.attachs;
                     $scope.project.startDate = new Date(Date.parse($scope.project.startDate) + OFFSET);
                     $scope.project.finishDate = new Date(Date.parse($scope.project.finishDate) + OFFSET);
-                    $http.post('projects', $scope.project).success(function(data) {
-                        $scope.project.id = data.id;
-                        $scope.uploadAttachment();
+                    $http.post('projects', $scope.project, {headers: {'BidAmount': $scope.project.bidAmount}}).success(function(data) {
                         console.log('Was created');
+                        $scope.cancel();
+                        $scope.searchProjects(1);
                     }).error(function() {
                         console.error('Failed to create');
                     });
@@ -175,37 +176,31 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $scope.attachs.splice(index, 1);
                 };
 
-                $scope.uploadAttachment = function () {
-                    for(var i = 0; i < $scope.attachs.length; i++) {
-                        var fileToUpload = $scope.attachs[i];
-                        var fd = new FormData();
-                        fd.append('file', fileToUpload);
-                        initProjectAttach();
-                        $scope.attach.title = fileToUpload.name.split('.')[0];
-                        $scope.attach.projectId = $scope.project.id;
-                        $http.post('upload?file=', fd, {
-                            headers: {
-                                'Content-Type' : undefined,
-                                'FileType': $scope.attach.type
-                            },
-                            transformRequest : angular.identity
-                        }).success(function(data) {
-                            $scope.attach.attachmentURL = data.url;
-                            $http.post('projects/results', $scope.attach).success(function(data) {
-                            }).error(function() {
-                            });
-                        }).error(function() {
-                            console.error('Failed to upload file');
-                        });
-                    }
-                    $modalInstance.close(true);
-                    $scope.searchProjects(1);
+                $scope.uploadAttachment = function (fileToUpload) {
+                    var attach = initProjectAttach();
+                    attach.title = fileToUpload.name.split('.')[0];
+                    var fd = new FormData();
+                    fd.append('file', fileToUpload);
+                    $http.post('upload?file=', fd, {
+                        headers: {
+                            'Content-Type' : undefined,
+                            'FileType': attach.type
+                        },
+                        transformRequest : angular.identity
+                    }).success(function(data) {
+                        attach.attachmentURL = data.url;
+                        $scope.addAttachment(attach);
+                    }).error(function() {
+                        console.error('Failed to upload file');
+                    });
                 };
 
                 function initProjectAttach() {
-                    $scope.attach.type = 'PROJECT_ATTACHMENT';
-                    $scope.attach.title = null;
-                    $scope.attach.attachmentURL = null;
+                    var attach = {};
+                    attach.type = 'PROJECT_ATTACHMENT';
+                    attach.title = null;
+                    attach.attachmentURL = null;
+                    return attach;
                 }
 
                 (function init() {

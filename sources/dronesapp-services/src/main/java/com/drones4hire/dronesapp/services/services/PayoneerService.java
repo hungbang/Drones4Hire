@@ -9,10 +9,13 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 @Service
 public class PayoneerService
@@ -32,10 +35,14 @@ public class PayoneerService
 	@Autowired
 	private WalletService walletService;
 	
+	@Autowired
+	private UserService userService;
+	
 	public enum Methods {
 		GetToken
 	}
 	
+	@Transactional(rollbackFor = Exception.class)
 	public String signup(User user) throws PayoneerException {
 		String url = null;
 		if(user.getRoles().contains(Role.ROLE_PILOT)) {
@@ -44,6 +51,14 @@ public class PayoneerService
 			return openURL(url);
 		}
 		return url;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public void approvePayoneerAccount(String accountUUID) throws ServiceException {
+		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
+		User user = userService.getUserById(wallet.getUserId());
+		user.setWithdrawEnabled(Boolean.TRUE);
+		userService.updateUser(user);
 	}
 	
 	private String openURL(String url) throws PayoneerException {

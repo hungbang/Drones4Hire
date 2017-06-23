@@ -47,6 +47,12 @@ public class WalletService
 	{
 		return walletMapper.getWalletByUserId(userId);
 	}
+	
+	@Transactional(readOnly = true)
+	public Wallet getWalletByWithdrawToken(String token)
+	{
+		return walletMapper.getWalletByWithdrawToken(token);
+	}
 
 	@Transactional(readOnly = true)
 	public List<Wallet> getAllWallets()

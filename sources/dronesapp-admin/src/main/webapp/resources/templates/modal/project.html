@@ -18,6 +18,10 @@
             <label>Pilot ID</label>
             <input type="number" class="form-control" data-ng-model="project.pilotId"/>
         </div>
+        <div class="form-group" data-ng-if="project.pilotId">
+            <label>Pilot bid amount ($)</label>
+            <input type="number" class="form-control" step="0.01" data-ng-model="project.bidAmount"/>
+        </div>
         <div class="form-group">
             <label>Category</label>
             <select class="form-control validation" data-ng-model="project.categoryId" data-ng-change="loadServices()" required>
@@ -80,7 +84,7 @@
             <label>Attachments <span data-ng-if="attachs.length">({{attachs.length}})</span></label>
             <div data-ng-repeat="attachment in attachs track by $index">
                 <div>
-                    {{$index + 1}}. {{attachment.name}} <i class="fa fa-times error" aria-hidden="true" data-ng-click="removeAttachment($index)"></i>
+                    {{$index + 1}}. {{attachment.title}} <i class="fa fa-times error" aria-hidden="true" data-ng-click="removeAttachment($index)"></i>
                 </div>
             </div>
         </div>
@@ -88,7 +92,7 @@
             <div class="form-group">
                 <input class="btn btn-default btn-block" type="file" data-file-model="fileToUpload" data-ng-model="file"/>
             </div>
-            <input type="button" data-ng-if="fileToUpload" class="btn btn-default" data-ng-click="addAttachment(fileToUpload)" value="Add"/>
+            <input type="button" data-ng-if="fileToUpload" class="btn btn-default" data-ng-click="uploadAttachment(fileToUpload)" value="Upload"/>
             {{fileToUpload.name}}
         </div>
         <div class="form-group">

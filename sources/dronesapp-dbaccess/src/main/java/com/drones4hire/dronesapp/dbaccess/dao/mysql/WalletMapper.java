@@ -11,6 +11,8 @@ public interface WalletMapper {
 
     Wallet getWalletByUserId(long userId);
 
+    Wallet getWalletByWithdrawToken(String token);
+    
     List<Wallet> getAllWallets();
 
     void updateWallet(Wallet wallet);

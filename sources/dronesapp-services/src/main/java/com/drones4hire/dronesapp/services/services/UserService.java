@@ -190,6 +190,7 @@ public class UserService
 		SearchResult<User> results = new SearchResult<>();
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
 		
 		List<User> users = userMapper.searchUsers(sc);
