@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("api/v1/payments")
 public class PaymentController extends AbstractController
 {
-
+	
 	@Autowired
 	private PaymentService paymentService;
 
@@ -88,4 +88,5 @@ public class PaymentController extends AbstractController
 		Wallet wallet = walletService.getWalletByUserId(getPrincipal().getId());
 		return paymentService.saleTransaction(wallet.getPaymentToken(), token, amount);
 	}
+	
 }
