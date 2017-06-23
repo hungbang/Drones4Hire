@@ -57,7 +57,7 @@
 							</div>
 							<div class="text-right">
 								<a href="" data-ng-click="resetSearchCriteria()" class="clear-form"><spring:message code="drones.admin.pages.common.button.clear"/>&nbsp;<i class="fa fa-times-circle"/></a>
-								<a href="" data-ng-click="searchUsers(0)"><spring:message code="drones.admin.pages.common.button.search"/>&nbsp;<i class="fa fa-arrow-circle-right"/></a>
+								<a href="" data-ng-click="searchUsers(1)"><spring:message code="drones.admin.pages.common.button.search"/>&nbsp;<i class="fa fa-arrow-circle-right"/></a>
 							</div>
 						</div>
 					</div>

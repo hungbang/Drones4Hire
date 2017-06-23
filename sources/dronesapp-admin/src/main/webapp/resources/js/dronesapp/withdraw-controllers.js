@@ -25,11 +25,11 @@ DronesAdmin.controller('WithdrawController', [ '$scope', '$http', '$route', 'PAG
 	
 	$scope.resetSearchCriteria = function() {
 		$scope.sc = angular.copy(DEFAULT_WITHDRAW_SEARCH_CRITERIA);
-		$scope.searchWithdraws(0);
+		$scope.searchWithdraws(1);
 	};
 		
 	(function init() {
-		$scope.searchWithdraws(0);
+		$scope.searchWithdraws(1);
 	})();
 	
 }]);

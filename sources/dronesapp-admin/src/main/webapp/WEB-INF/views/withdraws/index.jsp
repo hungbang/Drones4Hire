@@ -32,18 +32,24 @@
 										<label class="control-label" for="amount">Amount</label>
 										<input class="form-control" type="text" id="amount" name="amount" data-ng-model="sc.amount">
 				                    </div>
-				                    <div class="col-lg-3">
-										<label class="control-label" for="currency">Currency</label>
-										<input class="form-control" type="text" id="currency" name="currency" data-ng-model="sc.currency">
-				                    </div>
-				                    <div class="col-lg-3">
-										<label class="control-label" for="status">Status</label>
-										<input class="form-control" type="text" id="status" name="status" data-ng-model="sc.status">
-				                    </div>
+									<div class="col-lg-3">
+										<label class="control-label" for="currency"><spring:message code="drones.admin.pages.common.column.currency.caption"/></label>
+										<select class="form-control" id="currency" name="currency" data-ng-model="sc.currency">
+											<option value="USD">USD</option>
+										</select>
+									</div>
+									<div class="col-lg-3">
+										<label class="control-label" for="status"><spring:message code="drones.admin.pages.common.column.status.caption"/></label>
+										<select class="form-control" id="status" name="status" data-ng-model="sc.status">
+											<option value="NEW">New</option>
+											<option value="APPROVED">Approved</option>
+											<option value="CANCELLED">Cancelled</option>
+										</select>
+									</div>
 							</div>
 							<div class="text-right">
 								<a href="" data-ng-click="resetSearchCriteria()" class="clear-form"><spring:message code="drones.admin.pages.common.button.clear"/>&nbsp;<i class="fa fa-times-circle"/></a>
-								<a href="" data-ng-click="searchWithdraws(0)"><spring:message code="drones.admin.pages.common.button.search"/>&nbsp;<i class="fa fa-arrow-circle-right"/></a>
+								<a href="" data-ng-click="searchWithdraws(1)"><spring:message code="drones.admin.pages.common.button.search"/>&nbsp;<i class="fa fa-arrow-circle-right"/></a>
 							</div>
 						</div>
 					</div>
@@ -55,7 +61,7 @@
 	<li><a href="" data-ng-click="openPasswordCheckPopup()">Download CSV</a></li>
 	<div class="row">
 		<div class="col-lg-12">
-			<label class="search">Withdraw requests found: {{withdrawRequests.length}}</label>
+			<label class="search">Withdraw requests found: {{sr.totalResults}}</label>
 		</div>
 	</div>	
 	<div class="row">
@@ -94,8 +100,8 @@
 		            </tr>
 		        </thead>
 		        <tbody>
-		            <tr data-ng-repeat="request in withdrawRequests | orderBy:predicate:reverse">
-		            	<td class="text-center"><input type="checkbox" data-ng-model="request.id"/>{{request.id}}</td>
+		            <tr data-ng-repeat="request in sr.results | orderBy:predicate:reverse">
+		            	<td class="text-center">{{request.id}}</td>
 		                <td>{{request.userId}}</td>
 		                <td>{{request.amount}}</td>
 		                <td>{{request.currency}}</td>
@@ -104,10 +110,10 @@
 		                <td>{{request.modifiedAt | date}}</td>
 		                <td>{{request.createdAt | date}}</td>
 		               <td class="text-center">
-							<a class="btn btn-success btn-xs options" href="" target="_blank"><i class="fa fa-search"></i></a>
+						   <button class="bnt btn-default btn-primary" data-ng-click="">Accept</button>
 						</td>
 					</tr>
-					<tr data-ng-show="!withdrawRequests.length">
+					<tr data-ng-show="!sr.results.length">
 		                <td colspan="9" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
 					</tr>
 			    </tbody>

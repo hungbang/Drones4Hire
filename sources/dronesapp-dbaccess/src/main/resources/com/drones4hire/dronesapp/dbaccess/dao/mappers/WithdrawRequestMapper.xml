@@ -48,6 +48,76 @@
         <include refid="getWithdrawRequests"/>
     </select>
 
+    <select id="searchWithdrawRequests" resultMap="WithdrawRequestResultMap">
+        <include refid="getWithdrawRequests"/>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != userId">
+                <![CDATA[
+				   AND WR.USER_ID = #{userId}
+				]]>
+            </if>
+            <if test="null != amount">
+                <![CDATA[
+				    AND WR.AMOUNT = #{amount}
+				]]>
+            </if>
+            <if test="null != currency">
+                <![CDATA[
+				    AND WR.CURRENCY = #{currency}
+				]]>
+            </if>
+            <if test="null != status">
+                <![CDATA[
+					AND WR.STATUS = #{status}
+				]]>
+            </if>
+        </trim>
+        <if test="sortOrder.toString() == 'ASC'">
+            <![CDATA[
+				ORDER BY WR.ID ASC
+			]]>
+        </if>
+        <if test="sortOrder.toString() == 'DESC'">
+            <![CDATA[
+				ORDER BY WR.ID DESC
+			]]>
+        </if>
+        <![CDATA[
+			LIMIT #{pageSize} OFFSET #{page}
+		]]>
+    </select>
+
+    <select id="getSearchWithdrawRequestCount" resultType="java.lang.Integer">
+        <![CDATA[
+            SELECT
+	        COUNT(*)
+          FROM
+	        drones.WITHDRAW_REQUESTS WR
+        ]]>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != userId">
+                <![CDATA[
+				   AND WR.USER_ID = #{userId}
+				]]>
+            </if>
+            <if test="null != amount">
+                <![CDATA[
+				    AND WR.AMOUNT = #{amount}
+				]]>
+            </if>
+            <if test="null != currency">
+                <![CDATA[
+				    AND WR.CURRENCY = #{currency}
+				]]>
+            </if>
+            <if test="null != status">
+                <![CDATA[
+					AND WR.STATUS = #{status}
+				]]>
+            </if>
+        </trim>
+    </select>
+
     <update id="updateWithdrawRequest">
         <![CDATA[
           UPDATE

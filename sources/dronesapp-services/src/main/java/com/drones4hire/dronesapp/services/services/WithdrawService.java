@@ -14,6 +14,8 @@ import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException
 import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
+import java.util.List;
+
 @Service
 public class WithdrawService
 {
@@ -44,8 +46,15 @@ public class WithdrawService
 		return wr;
 	}
 
-	public SearchResult<WithdrawRequest> search(WithdrawSearchCriteria withdrawSearchCriteria)
+	public SearchResult<WithdrawRequest> search(WithdrawSearchCriteria sc)
 	{
-		return null;
+		SearchResult<WithdrawRequest> result = new SearchResult<>();
+		result.setPage(sc.getPage());
+		result.setPageSize(sc.getPageSize());
+		result.setSortOrder(sc.getSortOrder());
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
+		result.setResults(withdrawMapper.searchWithdrawRequests(sc));
+		result.setTotalResults(withdrawMapper.getSearchWithdrawRequestCount(sc));
+		return result;
 	}
 }
