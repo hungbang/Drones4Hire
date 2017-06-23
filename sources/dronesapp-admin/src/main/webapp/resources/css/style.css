@@ -446,7 +446,7 @@ a.tab2
 	color: grey;
 	display: block;
 	float: left;
-	margin-right: 10px;
+	margin-right: 20px;
 	margin-bottom: 5px;
 }
 
@@ -618,8 +618,6 @@ td.long {
 }
 
 .tab_block {
-	border-top: dashed grey 1px;
-	margin-top: 20px; 
 	padding: 10px;
 }
 

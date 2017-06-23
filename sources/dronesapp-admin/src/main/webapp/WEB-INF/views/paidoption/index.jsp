@@ -13,7 +13,7 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<label class="search">Results: {{paidOptions.length}}</label>
+			<label class="search">Paid options found: {{paidOptions.length}}</label>
 		</div>
 	</div>	
 	<div class="row">

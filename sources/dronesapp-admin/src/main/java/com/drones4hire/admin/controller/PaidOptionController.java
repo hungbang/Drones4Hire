@@ -1,4 +1,4 @@
-package com.drones4hire.admin.controller.paidoption;
+package com.drones4hire.admin.controller;
 
 import java.util.List;
 
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.drones4hire.admin.controller.AbstractController;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.PaidOptionService;

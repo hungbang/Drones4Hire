@@ -28,6 +28,7 @@
 		<security:intercept-url pattern="/api/v1/public/**" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/common/countries" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/common/states" access="permitAll" />
+		<security:intercept-url pattern="/api/v1/payoneer/**" access="permitAll" />
 		
 		<security:intercept-url pattern="/api/v1/common/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/api/v1/account/**" access="isAuthenticated()" />

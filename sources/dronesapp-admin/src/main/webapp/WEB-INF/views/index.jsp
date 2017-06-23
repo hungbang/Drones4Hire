@@ -50,7 +50,7 @@
 	                            <a href="#/projects"><i class="fa fa-suitcase"></i> Projects</a>
 	                        </li>
 	                        <li data-ng-class="{active : isActive('/withdraws')}">
-	                            <a href="#/withdraws"><i class="fa fa-money"></i> Withdraws</a>
+	                            <a href="#/withdraws"><i class="fa fa-money"></i> Withdraw requests</a>
 	                        </li>
 	                        <li data-ng-class="{active : isActive('/paidoptions')}">
 	                            <a href="#/paidoptions"><i class="fa fa-credit-card"></i> Paid options</a>

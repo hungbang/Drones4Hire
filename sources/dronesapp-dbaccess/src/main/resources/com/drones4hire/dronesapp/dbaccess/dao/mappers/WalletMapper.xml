@@ -49,6 +49,14 @@
             W.USER_ID = #{userId}
         ]]>
     </select>
+    
+     <select id="getWalletByWithdrawToken" resultMap="WalletResultMap">
+        <include refid="getWallets"/>
+        <![CDATA[
+          WHERE
+            W.WITHDRAW_TOKEN = #{token}
+        ]]>
+    </select>
 
     <select id="getAllWallets" resultMap="WalletResultMap">
         <include refid="getWallets"/>

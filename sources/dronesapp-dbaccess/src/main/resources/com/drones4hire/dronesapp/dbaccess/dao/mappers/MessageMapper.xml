@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.MessageMapper">
+
+	<insert id="createMessage" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+		INSERT
+		INTO 
+			drones.MESSAGES (MESSAGE, FROM_USER_ID, TO_USER_ID, TYPE)
+		VALUES 
+			(
+			#{message},
+			#{fromUserId},
+			#{toUserId},
+			#{type}
+		    )
+        ]]>
+    </insert>
+    
+
+    <sql id="getMessage">
+        <![CDATA[
+          SELECT
+			M.ID AS MESSAGE_ID,
+			M.MESSAGE AS MESSAGE_MESSAGE,
+			M.FROM_USER_ID AS MESSAGE_FROM_USER_ID,
+			M.TO_USER_ID AS MESSAGE_TO_USER_ID,
+			M.TYPE AS MESSAGE_TYPE,
+			M.MODIFIED_AT AS MESSAGE_MODIFIED_AT,
+			M.CREATED_AT AS MESSAGE_CREATED_AT
+          FROM
+			drones.MESSAGES M
+        ]]>
+    </sql>
+
+    <select id="getMessageById" resultMap="MessageResultMap">
+        <include refid="getMessage"/>
+        <![CDATA[
+          WHERE
+			M.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getMessagesByFromUserId" resultMap="MessageResultMap">
+        <include refid="getMessage"/>
+        <![CDATA[
+          WHERE
+			M.FROM_USER_ID = #{userId}
+		  ORDER BY
+		  	CREATED_AT DESC
+        ]]>
+    </select>
+    
+    <select id="getMessagesByToUserId" resultMap="MessageResultMap">
+        <include refid="getMessage"/>
+        <![CDATA[
+          WHERE
+			M.TO_USER_ID = #{userId}
+		  ORDER BY
+		  	CREATED_AT DESC
+        ]]>
+    </select>
+
+    <update id="updateMessage">
+        <![CDATA[
+          UPDATE
+			drones.MESSAGES
+          SET
+          		MESSAGE = #{message},
+          		TYPE = #{type}
+          WHERE
+		  		ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteMessage">
+        <![CDATA[
+          DELETE
+          FROM 
+          		drones.MESSAGES
+          WHERE
+          		ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="MessageResultMap" type="com.drones4hire.dronesapp.models.db.Message" autoMapping="false">
+        <id column="MESSAGE_ID" property="id"/>
+        <result column="MESSAGE_MESSAGE" property="message" />
+        <result column="MESSAGE_TYPE" property="type" />
+        <result column="MESSAGE_FROM_USER_ID" property="fromUserId" />
+        <result column="MESSAGE_TO_USER_ID" property="toUserId" />
+        <result column="MESSAGE_MODIFIED_AT" property="modifiedAt" />
+		<result column="MESSAGE_CREATED_AT" property="createdAt" />
+    </resultMap>
+
+</mapper>

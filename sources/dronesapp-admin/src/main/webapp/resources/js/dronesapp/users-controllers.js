@@ -42,6 +42,11 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$route', 'PA
 
 DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location', '$routeParams', '$modal', '$route', '$upload', function($scope, $http, $location, $routeParams, $modal, $route, $upload) {
 	
+	$scope.tabs = [{ active: true }, { active: false }, { active: false }, { active: false }, { active: false }];
+	
+	$scope.message = {};
+	$scope.messages = [];
+	
 	$scope.loadLocationsData = function() {
 		$http.get('locations/states').success(function(data) {
 			$scope.listSatesResult = data;
@@ -51,7 +56,7 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		$http.get('locations/countries').success(function(data) {
 			$scope.listCountriesResult = data;
 		}).error(function(data, status) {
-			alert('Failed to load countries');
+			alertify.error('Failed to load countries');
 		});
 	};
 	
@@ -59,7 +64,23 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		$http.get('users/' + $routeParams.id).success(function(data) {
 			$scope.user = data;
 		}).error(function(data, status) {
-			alert('Failed to load user');
+			alertify.error('Failed to load user');
+		});
+	};
+	
+	$scope.loadLicense = function() {
+		$http.get('users/' + $routeParams.id + '/license').success(function(data) {
+			$scope.license = data;
+		}).error(function(data, status) {
+			alertify.error('Failed to load license');
+		});
+	};
+	
+	$scope.loadMessages = function() {
+		$http.get('users/' + $routeParams.id + '/messages').success(function(data) {
+			$scope.messages = data;
+		}).error(function(data, status) {
+			alertify.error('Failed to load messages');
 		});
 	};
 	
@@ -67,7 +88,7 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		$http.get('users/' + $routeParams.id + '/companies').success(function(data) {
 			$scope.company = data;
 		}).error(function(data, status) {
-			alert('Failed to load company');
+			alertify.error('Failed to load company');
 		});
 	};
 	
@@ -75,46 +96,59 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		$http.get('users/' + $routeParams.id + '/notifications').success(function(data) {
 			$scope.settings = data;
 		}).error(function(data, status) {
-			alert('Failed to load notification settings');
+			alertify.error('Failed to load notification settings');
 		});
 	};
 	
 	(function init(){
 		$scope.loadLocationsData();
 		$scope.loadUser();
+		$scope.loadLicense();
+		$scope.loadMessages();
 		$scope.loadCompanyData();
 		$scope.loadSettingsData();
 	})();
 	
+	$scope.sendMessage = function(message){
+		$scope.message.type = 'EMAIL';
+		$http.post('users/' + $routeParams.id + '/messages', message).success(function(data) {
+			$scope.message = {};
+			$scope.messages.push(data);
+			alertify.success('Message sent successfully');
+		}).error(function(data, status) {
+			alertify.error('Failed to send message');
+		});
+	};
+	
 	$scope.editUser = function(id){
 		$http.put('users/' + id, $scope.user).success(function(data) {
-			alert('Success, user changes were saved.');
+			alertify.success('Changes saved successfully');
 		}).error(function(data, status) {
-			alert('Failed to save changes!');
+			alertify.error('Failed to save changes');
 		});
 	};
 	
 	$scope.editLocation = function(id) {
 		$http.put('locations/' + id, $scope.user.location).success(function(data) {
-			alert('Success, location changes were saved.');
+			alertify.success('Changes saved successfully');
 		}).error(function(data, status) {
-			alert('Failed to save changes!');
+			alertify.error('Failed to save changes');
 		});
 	};
 	
 	$scope.editCompany = function(userId) {
 		$http.put('users/' + userId + "/companies", $scope.company).success(function(data) {
-			alert('Success, company changes were saved.');
+			alertify.success('Changes saved successfully');
 		}).error(function(data, status) {
-			alert('Failed to save changes!');
+			alertify.error('Failed to save changes');
 		});
 	};
 	
 	$scope.editSettings = function(userId) {
 		$http.put('users/' + userId + "/notifications", $scope.settings).success(function(data) {
-			alert('Success, notification settings changes were saved.');
+			alertify.success('Changes saved successfully');
 		}).error(function(data, status) {
-			alert('Failed to save changes!');
+			alertify.error('Failed to save changes');
 		});
 	};
 	
@@ -156,4 +190,4 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		});
 	};
 	
-} ]);
+}]);
