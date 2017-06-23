@@ -69,9 +69,10 @@ public class ProjectService
 	public Project createProject(Project project, Long principalId) throws ServiceException
 	{
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
+		User user = userService.getUserById(principalId);
 		Transaction transaction = new Transaction(wallet.getId(), project.getPaidPotionsSumAmount(),
 				wallet.getCurrency(), PAID_OPTION, "Paid options", project.getId(), COMPLETED);
-		if(! transaction.getAmount().equals(new BigDecimal(0)))
+		if(user.getRoles().contains(ROLE_CLIENT))
 		{
 			paymentService.saleTransactionWithDefaultCard(transaction);
 		}
@@ -81,8 +82,6 @@ public class ProjectService
 		createAttachment(project.getId(), project.getAttachments());
 		if(project.getPilotId() != null)
 		{
-			User user = userService.getUserById(principalId);
-
 			if(user.getRoles().contains(ROLE_ADMIN))
 			{
 				Bid bid = new Bid();

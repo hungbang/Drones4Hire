@@ -144,14 +144,8 @@ public class BidService
 		projectService.updateProject(project);
 		emailService.sendAwardBidEmail(project);
 //		TODO[anazarenko]: create default transaction. Remove it after payments integration.
-		Transaction t = new Transaction();
-		t.setWalletId(walletService.getWalletByUserId(principalId).getId());
-		t.setAmount(new BigDecimal("100"));
-		t.setCurrency(Currency.USD);
-		t.setProjectId(project.getId());
-		t.setStatus(Transaction.Status.COMPLETED);
-		t.setPurpose("default");
-		t.setType(Type.PROJECT_PAYMENT);
+		Transaction t = new Transaction(walletService.getWalletByUserId(principalId).getId(), bid.getAmount(),
+				Currency.USD, Type.PROJECT_PAYMENT, "Award bid", project.getId(), Transaction.Status.COMPLETED);
 		transactionService.createTransaction(t);
 		return bid;
 	}
@@ -197,14 +191,8 @@ public class BidService
 			new ForbiddenOperationException();
 
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
-		Transaction transaction = new Transaction();
-		transaction.setWalletId(wallet.getId());
-		transaction.setAmount(bid.getAmount());
-		transaction.setType(Type.PROJECT_REJECT);
-		transaction.setProjectId(project.getId());
-		transaction.setStatus(Transaction.Status.COMPLETED);
-		transaction.setPurpose("Project reject");
-		transaction.setCurrency(Currency.USD);
+		Transaction transaction = new Transaction(wallet.getId(), bid.getAmount(),
+				Currency.USD, Type.PROJECT_REJECT, "Project reject", project.getId(), Transaction.Status.COMPLETED);
 		transactionService.createTransaction(transaction);
 		wallet.setBalance(wallet.getBalance().add(bid.getAmount()));
 		walletService.updateWallet(wallet);
