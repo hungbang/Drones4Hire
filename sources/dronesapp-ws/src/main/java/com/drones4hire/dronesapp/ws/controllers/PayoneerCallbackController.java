@@ -34,8 +34,7 @@ public class PayoneerCallbackController extends AbstractController
 	@RequestMapping(value = "approve", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void approvePayoneerAccount(
 			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
-			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId,
-			@ApiParam(value = "Session Id", required = false) @RequestParam(value = "sessionid") String sessionId)
+			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId)
 			throws ServiceException
 	{
 		payoneerService.approvePayoneerAccount(apuid);
@@ -47,8 +46,7 @@ public class PayoneerCallbackController extends AbstractController
 	@RequestMapping(value = "approve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void approvePayoneerAccountPOST(
 			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
-			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId,
-			@ApiParam(value = "Session Id", required = false) @RequestParam(value = "sessionid") String sessionId)
+			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId)
 			throws ServiceException
 	{
 		payoneerService.approvePayoneerAccount(apuid);
