@@ -33,7 +33,7 @@
                     <!--  TODO: Navigation links  -->
 	                    <ul class="nav navbar-nav side-nav" data-ng-controller="NavbarController">
 	                    	<li data-ng-class="{active : isActive('/dashboard')}">
-	                            <a href="#/dashboard"><i class="fa fa-dashboard"></i> <spring:message code="drones.admin.pages.index.menu.dashboard.caption"/></a>
+	                            <a href="#/dashboard"><i class="fa fa-area-chart"></i> <spring:message code="drones.admin.pages.index.menu.dashboard.caption"/></a>
 	                        </li>
 	                        <li>
 		                        <a href="javascript:;" data-toggle="collapse" data-target="#users"><i class="fa fa-fw fa-users"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>

@@ -12,7 +12,17 @@ public class UserSearchCriteria extends SearchCriteria
 	private Boolean confirmed;
 	private Boolean enabled;
 	private Role role;
-
+	
+	public UserSearchCriteria()
+	{
+	}
+	
+	public UserSearchCriteria(Role role)
+	{
+		super();
+		this.role = role;
+	}
+	
 	public String getUsername()
 	{
 		return username;
