@@ -222,6 +222,15 @@
 							</div>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>Verified</label> 
+								<input type="checkbox" data-ng-model="license.verified" />
+							</div>
+							<button class="btn btn-primary action pull-right" data-ng-click="editLicense(license)">Save</button>	
+						</div>
+					</div>
 				</tab>
 			</tabset>
 		</div>

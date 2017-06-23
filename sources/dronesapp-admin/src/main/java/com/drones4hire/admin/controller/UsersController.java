@@ -161,4 +161,14 @@ public class UsersController extends AbstractController
 		currSettings.setMonthlyNews(settings.isMonthlyNews());
 		return settingsService.updateNotificationSettings(currSettings);
 	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/licenses", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLicense updateLicense(@RequestBody PilotLicense license, @PathVariable long id) throws ServiceException
+	{
+		PilotLicense currLicense = pilotLicenseService.getPilotLicenseByUserId(id);
+		currLicense.setVerified(license.isVerified());
+		pilotLicenseService.updatePilotLicense(currLicense);
+		return currLicense;
+	}
 }

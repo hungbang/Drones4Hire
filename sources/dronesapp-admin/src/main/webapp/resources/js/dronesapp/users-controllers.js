@@ -152,6 +152,14 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		});
 	};
 	
+	$scope.editLicense = function(license) {
+		$http.put('users/' + $routeParams.id + "/licenses", license).success(function(data) {
+			alertify.success('Changes saved successfully');
+		}).error(function(data, status) {
+			alertify.error('Failed to save changes');
+		});
+	};
+	
 	$scope.contactUser = function(userId){
 		$http.get('users/' + userId + '/contact/messages').success(function(data) {
 			$modal.open({
