@@ -17,10 +17,12 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
 import com.drones4hire.dronesapp.models.db.settings.NotificationSettings;
 import com.drones4hire.dronesapp.models.db.users.Company;
+import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CompanyService;
 import com.drones4hire.dronesapp.services.services.NotificationSettingService;
+import com.drones4hire.dronesapp.services.services.PilotLicenseService;
 import com.drones4hire.dronesapp.services.services.UserService;
 
 @Controller
@@ -35,6 +37,9 @@ public class UsersController extends AbstractController
 
 	@Autowired
 	private NotificationSettingService settingsService;
+	
+	@Autowired
+	private PilotLicenseService pilotLicenseService;
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "clients", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -82,6 +87,13 @@ public class UsersController extends AbstractController
 	public @ResponseBody NotificationSettings getSettings(@PathVariable long id) throws ServiceException
 	{
 		return settingsService.getNotificationSettingsByUserId(id);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/license", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PilotLicense getPilotLicense(@PathVariable long id) throws ServiceException
+	{
+		return pilotLicenseService.getPilotLicenseByUserId(id);
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
