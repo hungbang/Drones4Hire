@@ -17,6 +17,7 @@ import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Controller
 @Api(value = "Payoneer Callback API")
@@ -33,9 +34,9 @@ public class PayoneerCallbackController extends AbstractController
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "approve", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void approvePayoneerAccount(
-			@RequestParam(value = "App UID", required = true) @PathVariable(value = "apuid") String apuid,
-			@RequestParam(value = "Payoneer Id", required = true) @PathVariable(value = "payoneerid") String payoneerId,
-			@RequestParam(value = "Session Id", required = false) @PathVariable(value = "sessionid") String sessionId)
+			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
+			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId,
+			@ApiParam(value = "Session Id", required = false) @RequestParam(value = "sessionid") String sessionId)
 			throws ServiceException
 	{
 		payoneerService.approvePayoneerAccount(payoneerId);
