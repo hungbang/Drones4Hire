@@ -39,6 +39,6 @@ public class PayoneerCallbackController extends AbstractController
 			@ApiParam(value = "Session Id", required = false) @RequestParam(value = "sessionid") String sessionId)
 			throws ServiceException
 	{
-		payoneerService.approvePayoneerAccount(payoneerId);
+		payoneerService.approvePayoneerAccount(apuid);
 	}
 }
