@@ -18,7 +18,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								<i class="fa fa-search" /> <spring:message code="drones.admin.pages.common.serch.criteria.caption"/>
+								<i class="fa fa-search"></i> <spring:message code="drones.admin.pages.common.serch.criteria.caption"/>
 							</h3>
 						</div>
 						<div class="panel-body">
@@ -52,7 +52,7 @@
 			</fieldset>
 		</div>
 	</div>
-	<li><a href="" data-ng-click="openPasswordCheckPopup()"><spring:message code="copper.admin.pages.common.button.download.csv"/></a></li>
+	<li><a href="" data-ng-click="openPasswordCheckPopup()">Download CSV</a></li>
 	<div class="row">
 		<div class="col-lg-12">
 			<label class="search">Withdraw requests found: {{withdrawRequests.length}}</label>
