@@ -24,8 +24,8 @@
 					</th>
 					<tr data-ng-repeat="comment in comments">
 						<td>
-							<span class="comment-author-text"><a data-ng-href="/admin/#/users/{{comment.user.id}}/view">{{comment.user.firstName}} {{comment.user.lastName}}</a>: </span>
-							<span class="comment-text">{{comment.comment}}</span>
+							<span class="comment-author-text"><a data-ng-href="/admin/#/users/{{comment.user.id}}/view">{{comment.user.firstName}} {{comment.user.lastName}}</a></span>
+							<span class="comment-text">: {{comment.comment}}</span>
 						</td>
 						<td>
 							<button class="btn btn-sm btn-danger" data-ng-click="deleteComment(comment.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
@@ -41,8 +41,8 @@
 					</th>
 					<tr data-ng-repeat="bid in bids">
 						<td>
-							<span class="comment-author-text"><a data-ng-href="/admin/#/users/{{bid.user.id}}/view">{{bid.user.firstName}} {{bid.user.lastName}}</a>: </span>
-							<span class="comment-text">{{bid.comment}}</span>
+							<span class="comment-author-text"><a data-ng-href="/admin/#/users/{{bid.user.id}}/view">{{bid.user.firstName}} {{bid.user.lastName}}</a></span>
+							<span class="comment-text" data-ng-if="bid.comment">: {{bid.comment}}</span>
 							<span> ({{bid.amount}} {{bid.currency}}) </span>
 						</td>
 						<td>
