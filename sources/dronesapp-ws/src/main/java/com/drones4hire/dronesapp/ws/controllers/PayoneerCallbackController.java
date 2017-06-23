@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +33,19 @@ public class PayoneerCallbackController extends AbstractController
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "approve", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void approvePayoneerAccount(
+			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
+			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId,
+			@ApiParam(value = "Session Id", required = false) @RequestParam(value = "sessionid") String sessionId)
+			throws ServiceException
+	{
+		payoneerService.approvePayoneerAccount(apuid);
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Approve payonner account", nickname = "approvePayoneerAccountPOST", code = 200, httpMethod = "POST")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "approve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void approvePayoneerAccountPOST(
 			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
 			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId,
 			@ApiParam(value = "Session Id", required = false) @RequestParam(value = "sessionid") String sessionId)
