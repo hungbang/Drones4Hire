@@ -1,4 +1,13 @@
 <div scroll class="s-header _small">
+  <ng-progress [positionUsing]="'marginLeft'"
+               [minimum]="0.1"
+               [maximum]="1"
+               [speed]="200"
+               [showSpinner]="false"
+               [trickleSpeed]="250"
+               [thick]="false"
+               [color]="'#fff'"
+               [ease]="'linear'"></ng-progress>
   <div class="container">
     <div class="s-header__container">
       <a class="s-header__logo" [routerLink]="['/']">

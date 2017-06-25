@@ -1,12 +1,14 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {BrowserXhr, HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
-import {ROUTES} from './app.routes';
 import {ToastModule, ToastOptions} from 'ng2-toastr';
-
+import {NguiDatetimePickerModule} from '@ngui/datetime-picker';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {Daterangepicker} from 'ng2-daterangepicker';
 import {FileSelectDirective, FileDropDirective} from 'ng2-file-upload';
+import {NgProgressBrowserXhr, NgProgressModule} from 'ngx-progressbar';
 
 import {AppComponent} from './app.component';
 import {AppComponents} from './components/index';
@@ -16,10 +18,8 @@ import {AppPipes} from './pipes/index';
 import {AppResolves} from './resolves/index';
 import {AppServices} from './services/index';
 import {AppGuards} from './guards/index';
-import {NguiDatetimePickerModule} from '@ngui/datetime-picker';
-import {Daterangepicker} from 'ng2-daterangepicker';
-import {entries} from "./app.entries";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {entries} from './app.entries';
+import {ROUTES} from './app.routes';
 import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settings';
 
 @NgModule({
@@ -40,6 +40,7 @@ import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settin
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
+    NgProgressModule,
     ToastModule.forRoot(),
     RouterModule.forRoot(ROUTES, {useHash: true}),
   ],
@@ -47,7 +48,8 @@ import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settin
     AppServices,
     AppGuards,
     AppResolves,
-    {provide: ToastOptions, useClass: ToastrGlobalOption}
+    {provide: ToastOptions, useClass: ToastrGlobalOption},
+    { provide: BrowserXhr, useClass: NgProgressBrowserXhr }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
