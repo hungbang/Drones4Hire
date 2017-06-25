@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {AccountService} from '../../../services/account.service/account.service';
 import {PublicService} from '../../../services/public.service/public.service';
@@ -20,7 +21,8 @@ export class FEquipmentsComponent implements OnInit {
     private accountService: AccountService,
     private publicService: PublicService,
     private pilotsService: PilotsService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) { }
 
   ngOnInit() {
@@ -83,12 +85,15 @@ export class FEquipmentsComponent implements OnInit {
     e.preventDefault();
 
     this.cleanData();
+    this.progressbarService.start();
     this.pilotsService.updatePilotEquipments([...this.drones, ...this.cameras]).subscribe(
       res => {
+        this.progressbarService.done();
         // console.log('updated equipments:', res);
         this.toastrService.showSuccess('Saved')
       },
       err => {
+        this.progressbarService.done();
         console.log(err);
         const body = err.json();
 

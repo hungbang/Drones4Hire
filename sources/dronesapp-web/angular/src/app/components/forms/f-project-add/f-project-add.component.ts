@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewEncapsulation} from '@angular/
 import {FileUploader} from 'ng2-file-upload';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {CommonService} from '../../../services/common.service/common.service';
 import {RequestService} from '../../../services/request.service/request.service';
@@ -16,8 +17,8 @@ import {PaidOptionModel} from '../../../services/project.service/paid-option.int
 import {ProjectModel} from '../../../services/project.service/project.interface';
 import {CategoryModel} from '../../../services/common.service/category.interface';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
-import {ModalConfirmationComponent} from "../../modals/modal-confirmation/modal-confirmation.component";
-import {ModalService} from "../../../services/modal.service/modal.service";
+import {ModalConfirmationComponent} from '../../modals/modal-confirmation/modal-confirmation.component';
+import {ModalService} from '../../../services/modal.service/modal.service';
 
 @Component({
   selector: 'f-project-add',
@@ -83,7 +84,8 @@ export class FProjectAddComponent implements OnInit {
     private _elementRef: ElementRef,
     private router: Router,
     private toastrService: ToastrService,
-    private _modalService: ModalService
+    private _modalService: ModalService,
+    private progressbarService: NgProgressService
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -93,20 +95,23 @@ export class FProjectAddComponent implements OnInit {
         this.projectService.addAttachment(attachment)
           .subscribe(
             () => {
+              this.progressbarService.done();
               this.formData.attachments.push(attachment);
             },
             err => {
+              this.progressbarService.done();
               console.log('project attachment error', err);
             }
           );
       } else {
+        this.progressbarService.done();
         this.formData.attachments.push(attachment);
       }
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       console.log('problem with upload image');
       this.uploader.clearQueue();
       return {item, response, status, headers};
@@ -118,6 +123,7 @@ export class FProjectAddComponent implements OnInit {
       this.isNotAcceptedFormat = false;
       if (this.formData.attachments.length < this.attachmentsLimit) {
         if (this.acceptedFormats.indexOf(item.file.type) !== -1) {
+          this.progressbarService.start();
           this.uploader.uploadAll();
         } else {
           this.isNotAcceptedFormat = true;
@@ -408,14 +414,17 @@ export class FProjectAddComponent implements OnInit {
       return;
     }
 
+    this.progressbarService.start();
     return this.projectService.updateProject(this.formData)
       .subscribe(
         res => {
+          this.progressbarService.done();
           this._modalService.pop();
           // console.log('updated project:', res);
           this.router.navigate(['/project', res.id]);
         },
         err => {
+          this.progressbarService.done();
           this._modalService.pop();
           const body = err.json();
 
@@ -461,13 +470,16 @@ export class FProjectAddComponent implements OnInit {
         paidOption.confirmationValid = true;
       });
 
+      this.progressbarService.start();
       return this.projectService.postProjects(this.formData)
         .subscribe(
           res => {
+            this.progressbarService.done();
             // console.log('saved new project:', res);
             this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
           },
           err => {
+            this.progressbarService.done();
             console.log(err);
             const body = err.json();
 
@@ -555,12 +567,15 @@ export class FProjectAddComponent implements OnInit {
 
   deleteAttachment(id) {
     if (this.isEditForm) {
+      this.progressbarService.start();
       this.projectService.deleteAttachment(id)
         .subscribe(
           () => {
+            this.progressbarService.done();
             this.formData.attachments = this.formData.attachments.filter(attach => attach.id !== id);
           },
           err => {
+            this.progressbarService.done();
             console.log('delete attached file error', err);
           }
         );

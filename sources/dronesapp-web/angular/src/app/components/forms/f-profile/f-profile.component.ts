@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {AccountService} from '../../../services/account.service/account.service';
 import {RequestService} from '../../../services/request.service/request.service';
@@ -7,7 +8,7 @@ import {CommonService} from '../../../services/common.service/common.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
 import {StateModel} from '../../../services/common.service/state.interface';
 import {extend} from '../../../shared/common/common-methods';
-import {ToastrService} from "../../../services/toastr.service/toastr.service";
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-profile',
@@ -33,17 +34,19 @@ export class FClientProfileComponent implements OnInit {
     public accountService: AccountService,
     private _requestService: RequestService,
     public commonService: CommonService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       console.log('onSuccessItem', response);
       this.accountService.account['photoURL'] = JSON.parse(response)['url'];
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       console.log('problem with upload image');
       this.toastrService.showError('Couldn\'t upload image. Try one more time.');
       this.uploader.clearQueue();
@@ -68,6 +71,7 @@ export class FClientProfileComponent implements OnInit {
   }
 
   handlePhotoUpload() {
+    this.progressbarService.start();
     this.uploader.uploadAll();
   }
 
@@ -80,13 +84,16 @@ export class FClientProfileComponent implements OnInit {
       return;
     }
 
+    this.progressbarService.start();
     this.accountService.setAccountData(this.accountService.account)
       .subscribe(
         (res) => {
-        console.log(res, '-save account');
-        this.toastrService.showSuccess('Saved.')
-      },
+          this.progressbarService.done();
+          console.log(res, '-save account');
+          this.toastrService.showSuccess('Saved.')
+        },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 

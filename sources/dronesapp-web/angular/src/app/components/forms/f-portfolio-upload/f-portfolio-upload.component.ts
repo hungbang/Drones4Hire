@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {RequestService} from '../../../services/request.service/request.service';
 import {PortfolioService} from '../../../services/portfolio.service/portfolio.service';
@@ -34,15 +35,18 @@ export class FPortfolioUploadComponent implements OnInit {
     private _elementRef: ElementRef,
     private _portfolioService: PortfolioService,
     private _requestService: RequestService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       this.fileURL = JSON.parse(response)['url'];
       this.fileName = this.fileItem.file.name;
       return {item, response, status, headers};
     };
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       console.log('problem with upload image');
       this.toastrService.showError('Couldn\'t upload image. Try one more time.');
       this.uploader.clearQueue();
@@ -53,6 +57,7 @@ export class FPortfolioUploadComponent implements OnInit {
       console.log('onAfterAddingFile');
 
       if (!this.isLimitReached) {
+        this.progressbarService.start();
         this.fileItem = item;
         this.uploader.uploadAll();
       } else {
@@ -85,12 +90,15 @@ export class FPortfolioUploadComponent implements OnInit {
       itemURL: this.fileURL,
       type: 'PHOTO'
     };
+    this.progressbarService.start();
     this._portfolioService.addPortfolio(portfolio).subscribe(
       () => {
+        this.progressbarService.done();
         this.resetForm(form);
         this.toastrService.showSuccess('File added')
       },
       err => {
+        this.progressbarService.done();
         console.log(err);
         const body = err.json();
 

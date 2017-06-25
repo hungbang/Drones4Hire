@@ -49,7 +49,6 @@ import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settin
     AppGuards,
     AppResolves,
     {provide: ToastOptions, useClass: ToastrGlobalOption},
-    { provide: BrowserXhr, useClass: NgProgressBrowserXhr }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

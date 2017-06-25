@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgProgressService} from 'ngx-progressbar';
+import * as moment from 'moment';
 
 import {BidModel} from '../../services/bid.service/bid.interface';
 import {ProjectModel} from '../../services/project.service/project.interface';
@@ -7,14 +9,12 @@ import {AccountService} from '../../services/account.service/account.service';
 import {BidService} from '../../services/bid.service/bid.service';
 import {CommentsService} from '../../services/comments.service/comments.service';
 import {ProjectAttachmentModel} from '../../services/project.service/project-attacment.interface';
-import {ProjectService} from "../../services/project.service/project.service";
-import * as moment from 'moment';
-import {PublicService} from "../../services/public.service/public.service";
-import {TransactionService} from "../../services/transaction.service/transaction.service";
-import {PaymentService} from "../../services/payment.service/payment.service";
-import {ToastrService} from "../../services/toastr.service/toastr.service";
-import {ModalService} from "../../services/modal.service/modal.service";
-import {ModalConfirmationComponent} from "../../components/modals/modal-confirmation/modal-confirmation.component";
+import {ProjectService} from '../../services/project.service/project.service';
+import {PublicService} from '../../services/public.service/public.service';
+import {PaymentService} from '../../services/payment.service/payment.service';
+import {ToastrService} from '../../services/toastr.service/toastr.service';
+import {ModalService} from '../../services/modal.service/modal.service';
+import {ModalConfirmationComponent} from '../../components/modals/modal-confirmation/modal-confirmation.component';
 
 @Component({
   selector: 'project-description',
@@ -57,7 +57,8 @@ export class ProjectDescriptionComponent implements OnInit {
     private projectService: ProjectService,
     private toastrService: ToastrService,
     private _paymentService: PaymentService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private progressbarService: NgProgressService
   ) { }
 
   ngOnInit() {
@@ -196,16 +197,19 @@ export class ProjectDescriptionComponent implements OnInit {
       projectId: this.project.id
     }, bid);
 
+    this.progressbarService.start();
     return this._bidService.createBid(data)
       .subscribe(
         (res) => {
-        this.pilotBid = this._bidService.formatBidsToPreview([res])[0];
-        this.bids.unshift(res);
-        this._serverBidInfo.bidsCount += 1;
-        this.createBidsInfo(this._serverBidInfo, this.pilotBid);
-        this.toastrService.showSuccess('Bid added');
+          this.progressbarService.done();
+          this.pilotBid = this._bidService.formatBidsToPreview([res])[0];
+          this.bids.unshift(res);
+          this._serverBidInfo.bidsCount += 1;
+          this.createBidsInfo(this._serverBidInfo, this.pilotBid);
+          this.toastrService.showSuccess('Bid added');
         },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 
@@ -223,15 +227,18 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   sendComment({ comment, callback }) {
+    this.progressbarService.start();
     this._commentsService
       .createComment({ comment, projectId: this.project.id })
       .subscribe((res) => {
-        const comment = this._commentsService.formatCommentToPreview([res]);
-        this.comments.unshift(...comment);
-        callback();
+          this.progressbarService.done();
+          const comment = this._commentsService.formatCommentToPreview([res]);
+          this.comments.unshift(...comment);
+          callback();
           this.toastrService.showSuccess('Comment added');
         },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 
@@ -252,15 +259,18 @@ export class ProjectDescriptionComponent implements OnInit {
     bid.oldBid.comment = bid.comment;
     bid.oldBid.amount = bid.amount;
 
+    this.progressbarService.start();
     return this._bidService.editBid(bid.oldBid)
       .subscribe((res) => {
-        this.pilotBid = this._bidService.formatBidsToPreview([res])[0];
-        this.bids.unshift(res);
-        this.createBidsInfo(this._serverBidInfo, this.pilotBid);
-        this.isEdit = false;
+          this.progressbarService.done();
+          this.pilotBid = this._bidService.formatBidsToPreview([res])[0];
+          this.bids.unshift(res);
+          this.createBidsInfo(this._serverBidInfo, this.pilotBid);
+          this.isEdit = false;
           this.toastrService.showSuccess('Changes saved');
         },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 
@@ -301,12 +311,15 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   deleteFile(id: number) {
+    this.progressbarService.start();
     this.projectService.deleteAttachment(id)
       .subscribe(
         () => {
+          this.progressbarService.done();
           this.attachments = this.attachments.filter(attach => attach.id !== id);
         },
         err => {
+          this.progressbarService.done();
           console.log('delete attached file error', err);
         }
       );

@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {AccountService} from '../../../services/account.service/account.service';
 import {TransactionService} from '../../../services/transaction.service/transaction.service';
@@ -20,7 +21,8 @@ export class FWithdrawalComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private transactionService: TransactionService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) { }
 
   ngOnInit() {
@@ -42,14 +44,17 @@ export class FWithdrawalComponent implements OnInit {
       currency: this.accountService.account.wallet.currency
     };
 
+    this.progressbarService.start();
     this.transactionService.sendWithdrawal(withdrawal)
       .subscribe(
         res => {
+          this.progressbarService.done();
           console.log('saved withdrawal:', res);
           form.resetForm();
           this.showSuccessText.emit(true);
         },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 

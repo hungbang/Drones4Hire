@@ -24,9 +24,10 @@ export class PortfolioService {
 
   deletePortfolio(id: number) {
     return this._requestService.fetch('remove', `/portfolio/${id}`)
-      .subscribe(
-        () => {
+      .map(
+        res => {
           this.items = this.items.filter(el => el.id !== id);
+          return res;
         }
       );
   }

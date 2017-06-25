@@ -1,4 +1,6 @@
 import {Component, ViewEncapsulation} from '@angular/core';
+import {NgProgressService} from 'ngx-progressbar';
+
 import {AccountService} from '../../../services/account.service/account.service';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
@@ -16,7 +18,8 @@ export class FChangePasswordComponent {
 
   constructor(
     private _accountService: AccountService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
   }
 
@@ -28,13 +31,16 @@ export class FChangePasswordComponent {
       return;
     }
 
+    this.progressbarService.start();
     this._accountService.setAccountPassword({password: this.password, confirmPassword: this.repassword})
       .subscribe(
         () => {
-        console.log('password is updated');
+          this.progressbarService.done();
+          console.log('password is updated');
           this.toastrService.showSuccess('Password have been changed')
         },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 

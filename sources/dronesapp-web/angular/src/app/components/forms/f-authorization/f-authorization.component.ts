@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {AccountService} from '../../../services/account.service/account.service';
@@ -30,7 +31,8 @@ export class FAuthorizationComponent implements OnInit {
     public _authorizationService: AuthorizationService,
     private _accountService: AccountService,
     private _router: Router,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
   }
 
@@ -54,9 +56,11 @@ export class FAuthorizationComponent implements OnInit {
       return;
     }
 
+    this.progressbarService.start();
     this._authorizationService.signIn({email: this.formData.email, password: this.formData.password})
       .subscribe(
         () => {
+          this.progressbarService.done();
           this._accountService.getAccountData()
             .subscribe(() => {
               if (this._accountService.isUserPilot()) {
@@ -68,6 +72,7 @@ export class FAuthorizationComponent implements OnInit {
             });
         },
         (err) => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
           if (err.status === 401) {
@@ -95,15 +100,17 @@ export class FAuthorizationComponent implements OnInit {
     }
 
     this.formData.username = this.formData.username.toLowerCase();
-
+    this.progressbarService.start();
     this._authorizationService.signUp(this.formData)
       .subscribe(
         () => {
+          this.progressbarService.done();
           this._authorizationService.signUpFormActive = false;
           this.isSignUpForm = false;
           this.toastrService.showSuccess('You have been sign up successfully! To complete your registration please verify your email.', null, {toastLife: 5000});
         },
         (err) => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
           if (err.status === 403) {
