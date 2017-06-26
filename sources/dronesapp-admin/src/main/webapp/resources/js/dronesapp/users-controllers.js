@@ -48,12 +48,12 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 	$scope.messages = [];
 	
 	$scope.loadLocationsData = function() {
-		$http.get('locations/states').success(function(data) {
+		$http.get('locations/states/list').success(function(data) {
 			$scope.listSatesResult = data;
 		}).error(function(data, status) {
 			alert('Failed to load states');
 		});
-		$http.get('locations/countries').success(function(data) {
+		$http.get('locations/countries/list').success(function(data) {
 			$scope.listCountriesResult = data;
 		}).error(function(data, status) {
 			alertify.error('Failed to load countries');

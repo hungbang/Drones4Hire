@@ -2,6 +2,8 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.CountrySearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,19 @@ public class CountryService
 	public Country getCountryById(long id)
 	{
 		return countryMapper.getCountryById(id);
+	}
+
+	@Transactional(readOnly = true)
+	public SearchResult<Country> search(CountrySearchCriteria sc)
+	{
+		SearchResult<Country> result = new SearchResult<>();
+		result.setPage(sc.getPage());
+		result.setPageSize(sc.getPageSize());
+		result.setSortOrder(sc.getSortOrder());
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
+		result.setResults(countryMapper.searchCountries(sc));
+		result.setTotalResults(countryMapper.getCountriesSearchCount(sc));
+		return result;
 	}
 
 	@Transactional(readOnly = true)

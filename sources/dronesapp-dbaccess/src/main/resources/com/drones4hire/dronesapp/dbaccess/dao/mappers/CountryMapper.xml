@@ -36,6 +36,56 @@
         ]]>
     </select>
 
+    <select id="searchCountries" resultMap="CountryResultMap">
+        <include refid="getCountries"/>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != name">
+                <![CDATA[
+                    AND LOWER(C.NAME) LIKE LOWER(CONCAT('%', #{name}, '%'))
+                 ]]>
+            </if>
+            <if test="null != licenseRequired">
+                <![CDATA[
+                    AND C.LICENSE_REQUIRED = #{licenseRequired}
+                ]]>
+            </if>
+        </trim>
+        <if test="sortOrder.toString() == 'ASC'">
+            <![CDATA[
+				ORDER BY C.ID ASC
+			]]>
+        </if>
+        <if test="sortOrder.toString() == 'DESC'">
+            <![CDATA[
+				ORDER BY C.ID DESC
+			]]>
+        </if>
+        <![CDATA[
+			LIMIT #{pageSize} OFFSET #{page}
+		]]>
+    </select>
+
+    <select id="getCountriesSearchCount" resultType="java.lang.Integer">
+        <![CDATA[
+            SELECT
+	          COUNT(*)
+            FROM
+	          drones.COUNTRIES C
+        ]]>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != name">
+                <![CDATA[
+                    AND LOWER(C.NAME) LIKE LOWER(CONCAT('%', #{name}, '%'))
+                 ]]>
+            </if>
+            <if test="null != licenseRequired">
+                <![CDATA[
+                    AND C.LICENSE_REQUIRED = #{licenseRequired}
+                ]]>
+            </if>
+        </trim>
+    </select>
+
     <select id="getCountryById" resultMap="CountryResultMap">
         <include refid="getCountries"/>
         <![CDATA[

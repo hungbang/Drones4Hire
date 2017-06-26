@@ -55,6 +55,9 @@
 	                        <li data-ng-class="{active : isActive('/paidoptions')}">
 	                            <a href="#/paidoptions"><i class="fa fa-credit-card"></i> Paid options</a>
 	                        </li>
+							<li data-ng-class="{active : isActive('/countries')}">
+								<a href="#/locations/countries"><i class="fa fa-globe"></i> Countries</a>
+							</li>
 	                    </ul>
                     <ul class="nav navbar-right top-nav" data-ng-controller="NavigationCtrl">
                         <li class="dropdown user-dropdown">

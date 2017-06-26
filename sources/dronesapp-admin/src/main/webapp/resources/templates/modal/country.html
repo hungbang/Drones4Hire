@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <i class="fa fa-times cancel-button" aria-hidden="true" data-ng-click="cancel()"></i>
+    <h3>Country
+
+    </h3>
+</div>
+<div class="modal-body">
+    <form name="countryForm">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" data-ng-model="country.name" required/>
+        </div>
+        <div class="form-group">
+            <label>License required</label>
+            <input type="checkbox" data-ng-model="country.licenseRequired"/>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" data-ng-click="updateCountry()"  data-ng-disabled="countryForm.$invalid">
+        Save
+    </button>
+</div>

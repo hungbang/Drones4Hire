@@ -105,7 +105,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 };
 
                 $scope.loadCountries = function(){
-                    $http.get('locations/countries').success(function(data) {
+                    $http.get('locations/countries/list').success(function(data) {
                         $scope.countries = data;
                     }).error(function() {
                         alertify.error('Failed to get countries');
@@ -120,7 +120,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         }
                     }
                     if(isUSA) {
-                        $http.get('locations/states').success(function (data) {
+                        $http.get('locations/states/list').success(function (data) {
                             $scope.states = data;
                         }).error(function () {
                             alertify.error('Failed to get states');
@@ -243,11 +243,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 			$scope.createdAt = new Date($scope.project.createdAt);
 			$scope.startDate = new Date($scope.project.startDate);
 			$scope.finishDate = new Date($scope.project.finishDate);
-            $scope.bidsPreparedToDelete = STATUSES_FOR_BID_ACTIONS.filter(function (status) {
-                    if($scope.project.status == status) {
-                        return true;
-                    }
-                }).length == 1;
+			
 		}).error(function(data, status) {
 			alertify.error('Failed to load project');
 		});
