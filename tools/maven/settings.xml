@@ -45,6 +45,7 @@
 				<drones4hire.payoneer.username></drones4hire.payoneer.username>
 				<drones4hire.payoneer.password></drones4hire.payoneer.password>
 				<drones4hire.payoneer.partnerId></drones4hire.payoneer.partnerId>
+				<drones4hire.payoneer.programId></drones4hire.payoneer.programId>
 			</properties>
 		</profile>
 	</profiles>
