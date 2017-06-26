@@ -28,6 +28,10 @@
                                         <label class="control-label" for="name">Name</label>
                                         <input class="form-control" type="text" id="name" name="name" data-ng-model="sc.name">
                                     </div>
+                                    <div class="col-lg-3">
+                                        <label class="control-label" for="code">Code</label>
+                                        <input class="form-control" type="text" id="code" name="code" data-ng-model="sc.code">
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3">
@@ -64,6 +68,9 @@
                         Name
                     </th>
                     <th>
+                        Code
+                    </th>
+                    <th>
                         License required
                     </th>
                     <th class="text-center">
@@ -74,7 +81,8 @@
                 <tbody>
                 <tr data-ng-repeat="result in sr.results | orderBy:predicate:reverse">
                     <td class="text-center">{{result.id}}</td>
-                    <td>{{result.name}}</td>
+                    <td>{{result.name}}</td>>
+                    <td>{{result.code}}</td>>
                     <td>{{result.licenseRequired}}</td>
                     <td class="text-center">
                         <a data-ng-click="openCountryModal(result)" class="btn btn-success btn-xs options" href=""><i class="fa fa-search"></i></a>

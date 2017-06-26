@@ -4,6 +4,7 @@ public class CountrySearchCriteria extends SearchCriteria
 {
 
 	private String name;
+	private String code;
 	private Boolean licenseRequired;
 
 	public String getName()
@@ -16,7 +17,17 @@ public class CountrySearchCriteria extends SearchCriteria
 		this.name = name;
 	}
 
-	public Boolean isLicenseRequired()
+	public String getCode()
+	{
+		return code;
+	}
+
+	public void setCode(String code)
+	{
+		this.code = code;
+	}
+
+	public Boolean getLicenseRequired()
 	{
 		return licenseRequired;
 	}

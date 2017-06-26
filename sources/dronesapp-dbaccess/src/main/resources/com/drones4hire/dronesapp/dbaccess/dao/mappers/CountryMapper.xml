@@ -6,10 +6,11 @@
     <insert id="createCountry" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-            drones.COUNTRIES (NAME, LICENSE_REQUIRED)
+            drones.COUNTRIES (NAME, CODE, LICENSE_REQUIRED)
           VALUES
           (
             #{name},
+            #{code},
             #{licenseRequired}
           )
         ]]>
@@ -20,6 +21,7 @@
           SELECT
 	        C.ID AS COUNTRY_ID,
 	        C.NAME AS COUNTRY_NAME,
+	        C.CODE AS COUNTRY_CODE,
 	        C.LICENSE_REQUIRED AS COUNTRY_LICENSE_REQUIRED,
 	        C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
 	        C.CREATED_AT AS COUNTRY_CREATED_AT
@@ -42,6 +44,11 @@
             <if test="null != name">
                 <![CDATA[
                     AND LOWER(C.NAME) LIKE LOWER(CONCAT('%', #{name}, '%'))
+                 ]]>
+            </if>
+            <if test="null != code">
+                <![CDATA[
+                    AND LOWER(C.CODE) LIKE LOWER(CONCAT('%', #{code}, '%'))
                  ]]>
             </if>
             <if test="null != licenseRequired">
@@ -78,6 +85,11 @@
                     AND LOWER(C.NAME) LIKE LOWER(CONCAT('%', #{name}, '%'))
                  ]]>
             </if>
+            <if test="null != code">
+                <![CDATA[
+                    AND LOWER(C.CODE) LIKE LOWER(CONCAT('%', #{code}, '%'))
+                 ]]>
+            </if>
             <if test="null != licenseRequired">
                 <![CDATA[
                     AND C.LICENSE_REQUIRED = #{licenseRequired}
@@ -104,6 +116,7 @@
          	drones.COUNTRIES
           SET
           	NAME = #{name},
+          	CODE = #{code},
           	LICENSE_REQUIRED = #{licenseRequired}
           WHERE
 			ID = #{id}
@@ -123,6 +136,7 @@
     <resultMap id="CountryResultMap" type="com.drones4hire.dronesapp.models.db.commons.Country" autoMapping="false">
         <id column="COUNTRY_ID" property="id"/>
         <result column="COUNTRY_NAME" property="name"/>
+        <result column="COUNTRY_CODE" property="code"/>
         <result column="COUNTRY_LICENSE_REQUIRED" property="licenseRequired"/>
         <result column="COUNTRY_MODIFIED_AT" property="modifiedAt"/>
         <result column="COUNTRY_CREATED_AT" property="createdAt"/>

@@ -7,6 +7,7 @@ public class Country extends AbstractEntity
 	private static final long serialVersionUID = -2091202396207453304L;
 
 	private String name;
+	private String code;
 	private boolean licenseRequired;
 
 	public String getName()
@@ -17,6 +18,16 @@ public class Country extends AbstractEntity
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getCode()
+	{
+		return code;
+	}
+
+	public void setCode(String code)
+	{
+		this.code = code;
 	}
 
 	public boolean isLicenseRequired()
