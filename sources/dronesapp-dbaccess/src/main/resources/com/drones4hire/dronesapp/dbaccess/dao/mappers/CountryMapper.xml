@@ -6,10 +6,11 @@
     <insert id="createCountry" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-            drones.COUNTRIES (NAME)
+            drones.COUNTRIES (NAME, LICENSE_REQUIRED)
           VALUES
           (
-            #{name}
+            #{name},
+            #{licenseRequired}
           )
         ]]>
     </insert>
@@ -19,12 +20,21 @@
           SELECT
 	        C.ID AS COUNTRY_ID,
 	        C.NAME AS COUNTRY_NAME,
+	        C.LICENSE_REQUIRED AS COUNTRY_LICENSE_REQUIRED,
 	        C.MODIFIED_AT AS COUNTRY_MODIFIED_AT,
 	        C.CREATED_AT AS COUNTRY_CREATED_AT
           FROM
 	        drones.COUNTRIES C
         ]]>
     </sql>
+
+    <select id="getCountriesWithLicenseRequired" resultMap="CountryResultMap">
+        <include refid="getCountries"/>
+        <![CDATA[
+          WHERE
+            C.LICENSE_REQUIRED = true
+        ]]>
+    </select>
 
     <select id="getCountryById" resultMap="CountryResultMap">
         <include refid="getCountries"/>
@@ -43,7 +53,8 @@
           UPDATE
          	drones.COUNTRIES
           SET
-          	NAME = #{name}
+          	NAME = #{name},
+          	LICENSE_REQUIRED = #{licenseRequired}
           WHERE
 			ID = #{id}
         ]]>
@@ -62,6 +73,7 @@
     <resultMap id="CountryResultMap" type="com.drones4hire.dronesapp.models.db.commons.Country" autoMapping="false">
         <id column="COUNTRY_ID" property="id"/>
         <result column="COUNTRY_NAME" property="name"/>
+        <result column="COUNTRY_LICENSE_REQUIRED" property="licenseRequired"/>
         <result column="COUNTRY_MODIFIED_AT" property="modifiedAt"/>
         <result column="COUNTRY_CREATED_AT" property="createdAt"/>
     </resultMap>

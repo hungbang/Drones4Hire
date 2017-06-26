@@ -94,7 +94,14 @@ public class UserService
 			user.getGroups().add(group);
 
 			// Initialize default location
-			user.setLocation(locationService.createLocation(new Location()));
+			if(user.getLocation() != null)
+			{
+				locationService.createLocation(user.getLocation());
+			}
+			else
+			{
+				user.setLocation(locationService.createLocation(new Location()));
+			}
 			updateUser(user);
 
 			// Initialize default notification settings

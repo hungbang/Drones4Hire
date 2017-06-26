@@ -26,6 +26,10 @@
 			<a>password</a>
 			<b>password</b>
 		</field>
+        <field>
+            <a>location</a>
+            <b>location</b>
+        </field>
 	</mapping>
 	
 	<mapping type="bi-directional" wildcard="false">

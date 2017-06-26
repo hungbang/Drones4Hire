@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.commons.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,9 @@ public class PilotLicenseService
 	@Autowired
 	private PilotLicenseMapper pilotLicenseMapper;
 
+	@Autowired
+	private CountryService countryService;
+
 	@Transactional(rollbackFor = Exception.class)
 	public PilotLicense createPilotLicense(PilotLicense pilotLicense)
 	{
@@ -27,7 +31,14 @@ public class PilotLicenseService
 	public PilotLicense createDefaultPilotLicense(User user)
 	{
 		PilotLicense pilotLicense = new PilotLicense(user.getId());
-		pilotLicense.setVerified(false);
+		Country country = countryService.getCountryById(user.getLocation().getCountry().getId());
+		if(country.isLicenseRequired())
+		{
+			pilotLicense.setVerified(true);
+		} else
+		{
+			pilotLicense.setVerified(false);
+		}
 		return createPilotLicense(pilotLicense);
 	}
 	

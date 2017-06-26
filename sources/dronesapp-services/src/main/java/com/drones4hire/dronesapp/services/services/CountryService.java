@@ -29,6 +29,12 @@ public class CountryService
 	}
 
 	@Transactional(readOnly = true)
+	public List<Country> getCountriesWithLicenseRequired()
+	{
+		return countryMapper.getCountriesWithLicenseRequired();
+	}
+
+	@Transactional(readOnly = true)
 	public List<Country> getAllCountries()
 	{
 		return countryMapper.getAllCountries();

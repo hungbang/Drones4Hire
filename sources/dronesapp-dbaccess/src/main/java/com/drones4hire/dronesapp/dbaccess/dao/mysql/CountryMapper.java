@@ -9,6 +9,8 @@ public interface CountryMapper {
 
     Country getCountryById(long id);
 
+    List<Country> getCountriesWithLicenseRequired();
+
     List<Country> getAllCountries();
 
     void updateCountry(Country country);
