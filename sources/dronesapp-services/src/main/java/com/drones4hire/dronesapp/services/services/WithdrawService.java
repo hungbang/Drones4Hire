@@ -10,6 +10,7 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.WithdrawSearchCriteri
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest;
 import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest.Status;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -21,11 +22,24 @@ public class WithdrawService
 	private WithdrawRequestMapper withdrawMapper;
 
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private WalletService walletService;
+	
+	@Autowired
+	private PayoneerService payoneerService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public WithdrawRequest createWithdraw(WithdrawRequest wr) throws ServiceException
 	{
+		User user = userService.getUserById(wr.getUserId());
+		if(!user.isWithdrawEnabled()) {
+			WithdrawRequest failedRequest = new WithdrawRequest();
+			failedRequest.setStatus(Status.FAILED);
+			failedRequest.setComment(payoneerService.signup(user));
+			return failedRequest;
+		}
 		Wallet wallet = walletService.getWalletByUserId(wr.getUserId());
 		
 		if(wallet == null || wallet.getBalance().compareTo(wr.getAmount()) < 0)

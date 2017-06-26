@@ -2,8 +2,12 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,9 @@ public class PayoneerService
 	@Value("#{environmentProperties['drones4hire.payoneer.partnerId']}")
 	private String partnerId;
 	
+	@Value("#{environmentProperties['drones4hire.payoneer.programId']}")
+	private String programId;
+	
 	@Autowired
 	private WalletService walletService;
 	
@@ -39,15 +46,21 @@ public class PayoneerService
 	private UserService userService;
 	
 	public enum Methods {
-		GetToken
+		GetToken, PerformPayoutPayment
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
 	public String signup(User user) throws PayoneerException {
 		String url = null;
+		url = buildSignupURL(Methods.GetToken) + walletService.getWalletByUserId(user.getId()).getWithdrawToken();
+		return openURL(url);
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public String submitPaymentRequest(User user) throws PayoneerException {
+		String url = null;
 		if(user.getRoles().contains(Role.ROLE_PILOT)) {
-			url = buildURL(Methods.GetToken) + walletService.getWalletByUserId(user.getId()).getWithdrawToken();
-//			TODO[anazarenko]: if needed put prepopulation data here.
+			url = buildPaymentURL(Methods.PerformPayoutPayment);
 			return openURL(url);
 		}
 		return url;
@@ -64,6 +77,11 @@ public class PayoneerService
 	@Transactional(rollbackFor = Exception.class)
 	public void acceptPayment(String accountUUID) throws ServiceException {
 		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
+//		JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
+//		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//		StringReader reader = new StringReader("xml string here");
+//		User customer = (User) jaxbUnmarshaller.unmarshal(reader); 
+//		reader.close();
 	}
 	
 	private String openURL(String url) throws PayoneerException {
@@ -83,7 +101,13 @@ public class PayoneerService
 		return inputLine; 
 	}
 	
-	private String buildURL(Methods method) {
-		return baseUrl + "?mname=" + method + "&p1=" + username + "&p2=" + password + "&p3=" + partnerId +	"&p4=";
+	private String buildSignupURL(Methods method) {
+		return baseUrl + "?mname=" + method + "&p1=" + username + "&p2=" + password + 
+				"&p3=" + partnerId +	"&p4=";
+	}
+	
+	private String buildPaymentURL(Methods method) {
+		return baseUrl + "?mname=" + method + "&p1=" + username + "&p2=" + password + 
+				"&p3=" + partnerId +	"&p4=" + programId + "&p5=";
 	}
 }
