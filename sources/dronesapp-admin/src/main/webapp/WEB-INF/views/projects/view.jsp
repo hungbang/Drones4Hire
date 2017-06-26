@@ -45,7 +45,7 @@
 							<span class="comment-text" data-ng-if="bid.comment">: {{bid.comment}}</span>
 							<span> ({{bid.amount}} {{bid.currency}}) </span>
 						</td>
-						<td data-ng-if="bidPreparedToDelete">
+						<td data-ng-if="bidsPreparedToDelete">
 							<button class="btn btn-sm btn-danger" data-ng-click="deleteBid(bid.id)"><spring:message code="drones.admin.pages.common.button.delete"/></button>
 						</td>
 					</tr>

@@ -16,7 +16,7 @@
 		</field>
 		<field>
 			<a>verified</a>
-			<b>verified</b>
+			<b get-method="isVerified">verified</b>
 		</field>
 	</mapping>
 </mappings>

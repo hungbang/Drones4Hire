@@ -4,7 +4,7 @@
 
 	<mapping type="one-way" wildcard="false">
 		<class-a>com.drones4hire.dronesapp.models.dto.NotificationSettingsDTO</class-a>
-		<class-b>com.drones4hire.dronesapp.models.db.settings.NotificationSettingService</class-b>
+		<class-b>com.drones4hire.dronesapp.models.db.settings.NotificationSettings</class-b>
 
 		<field>
 			<a>plainEmail</a>

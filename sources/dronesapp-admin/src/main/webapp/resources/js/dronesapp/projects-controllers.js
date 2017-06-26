@@ -243,7 +243,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 			$scope.createdAt = new Date($scope.project.createdAt);
 			$scope.startDate = new Date($scope.project.startDate);
 			$scope.finishDate = new Date($scope.project.finishDate);
-            $scope.bidPreparedToDelete = STATUSES_FOR_BID_ACTIONS.filter(function (status) {
+            $scope.bidsPreparedToDelete = STATUSES_FOR_BID_ACTIONS.filter(function (status) {
                     if($scope.project.status == status) {
                         return true;
                     }
