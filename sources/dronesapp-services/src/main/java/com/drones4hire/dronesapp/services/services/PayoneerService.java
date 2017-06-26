@@ -61,6 +61,11 @@ public class PayoneerService
 		userService.updateUser(user);
 	}
 	
+	@Transactional(rollbackFor = Exception.class)
+	public void acceptPayment(String accountUUID) throws ServiceException {
+		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
+	}
+	
 	private String openURL(String url) throws PayoneerException {
 		URLConnection connection = null;
 		BufferedReader reader = null;

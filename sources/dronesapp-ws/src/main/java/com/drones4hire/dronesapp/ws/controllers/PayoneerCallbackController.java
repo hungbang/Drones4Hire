@@ -41,14 +41,15 @@ public class PayoneerCallbackController extends AbstractController
 	}
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Approve payonner account", nickname = "approvePayoneerAccountPOST", code = 200, httpMethod = "POST")
+	@ApiOperation(value = "Accept payment request", nickname = "acceptPayoneerAccount", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "approve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void approvePayoneerAccountPOST(
+	@RequestMapping(value = "accepted", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void acceptPayoneerAccount(
 			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
-			@ApiParam(value = "Payoneer Id", required = true) @RequestParam(value = "payoneerid") String payoneerId)
+			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "IntPaymentId") String paymentId,
+			@ApiParam(value = "Payoneer payment Id", required = true) @RequestParam(value = "PayoneerPaymentId") String PayoneerPaymentId)
 			throws ServiceException
 	{
-		payoneerService.approvePayoneerAccount(apuid);
+		
 	}
 }
