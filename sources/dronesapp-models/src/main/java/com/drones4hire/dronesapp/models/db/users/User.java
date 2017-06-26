@@ -174,7 +174,7 @@ public class User extends AbstractEntity
 		return new ArrayList<>(roles);
 	}
 
-	public Boolean getWithdrawEnabled()
+	public Boolean isWithdrawEnabled()
 	{
 		return withdrawEnabled;
 	}
