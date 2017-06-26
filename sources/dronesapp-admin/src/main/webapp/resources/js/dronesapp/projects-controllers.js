@@ -229,12 +229,25 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 
     $scope.attach = {};
 
+    var STATUSES_FOR_BID_ACTIONS = [
+        'NEW',
+        'PENDING',
+        'IN_PROGRESS'
+    ];
+
+    $scope.bidPreparedToDelete = false;
+
 	$scope.loadProject = function(){
 		$http.get('projects/' + $routeParams.id).success(function(data) {
 			$scope.project = data;
 			$scope.createdAt = new Date($scope.project.createdAt);
 			$scope.startDate = new Date($scope.project.startDate);
 			$scope.finishDate = new Date($scope.project.finishDate);
+            $scope.bidPreparedToDelete = STATUSES_FOR_BID_ACTIONS.filter(function (status) {
+                    if($scope.project.status == status) {
+                        return true;
+                    }
+                }).length == 1;
 		}).error(function(data, status) {
 			alertify.error('Failed to load project');
 		});
@@ -314,6 +327,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 
     $scope.deleteBid = function (id) {
         $http.delete('bids/' + id + '/retract').success(function(data) {
+            $scope.loadProject();
             $scope.loadBids();
             alertify.success('Success, bid was deleted.');
         }).error(function(data, status) {

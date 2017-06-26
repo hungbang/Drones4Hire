@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.db.users.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,13 +41,13 @@ public class BidService
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired 
+
+	@Autowired
 	private AWSEmailService emailService;
-	
-	@Autowired 
+
+	@Autowired
 	private TransactionService transactionService;
-	
+
 	@Autowired
 	private WalletService walletService;
 
@@ -55,7 +56,7 @@ public class BidService
 	{
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if(!user.getRoles().contains(ROLE_ADMIN))
+		if (!user.getRoles().contains(ROLE_ADMIN))
 			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT))
 				throw new ForbiddenOperationException();
 		bid.setUser(user);
@@ -76,7 +77,7 @@ public class BidService
 	{
 		User user = userService.getUserById(principalId);
 		Long pilotId = null;
-		if(user.getRoles().contains(ROLE_PILOT))
+		if (user.getRoles().contains(ROLE_PILOT))
 		{
 			pilotId = principalId;
 		}
@@ -101,7 +102,7 @@ public class BidService
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
 		Bid currentBid = bidMapper.getBidById(bid.getId());
-		if(!user.getRoles().contains(ROLE_ADMIN))
+		if (!user.getRoles().contains(ROLE_ADMIN))
 			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
 					|| !principalId.equals(currentBid.getUser().getId()))
 				throw new ForbiddenOperationException();
@@ -119,26 +120,43 @@ public class BidService
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if(!user.getRoles().contains(ROLE_ADMIN))
+		if (!user.getRoles().contains(ROLE_ADMIN))
+		{
 			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
 					|| !principalId.equals(bid.getUser().getId()))
 				throw new ForbiddenOperationException();
+		} else
+		{
+			if (project.getStatus().equals(Status.PENDING) || project.getStatus().equals(Status.IN_PROGRESS)
+					|| project.getStatus().equals(Status.NEW))
+			{
+				if(project.getPilotId().equals(bid.getUser().getId()))
+				{
+					project.setPilotId(null);
+					project.setStatus(Status.NEW);
+					projectService.updateProject(project);
+				}
+			} else
+			{
+				throw new ForbiddenOperationException();
+			}
+		}
 		bidMapper.deleteBid(bidId);
 		emailService.sendRetractBidEmail(project, user);
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	public Bid awardBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if(!user.getRoles().contains(ROLE_ADMIN))
+		if (!user.getRoles().contains(ROLE_ADMIN))
 			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_CLIENT)
-				|| !user.getId().equals(project.getClientId()))
+					|| !user.getId().equals(project.getClientId()))
 				throw new ForbiddenOperationException();
 		User bidUser = userService.getUserById(bid.getUser().getId());
-		if(! bidUser.getRoles().contains(ROLE_ADMIN))
+		if (!bidUser.getRoles().contains(ROLE_ADMIN))
 		{
 			project.setPilotId(bid.getUser().getId());
 		}
@@ -147,20 +165,20 @@ public class BidService
 		project.setAwardDate(Date.from(utc.toInstant()));
 		projectService.updateProject(project);
 		emailService.sendAwardBidEmail(project);
-//		TODO[anazarenko]: create default transaction. Remove it after payments integration.
+		//		TODO[anazarenko]: create default transaction. Remove it after payments integration.
 		Transaction t = new Transaction(walletService.getWalletByUserId(principalId).getId(), bid.getAmount(),
 				Currency.USD, Type.PROJECT_PAYMENT, "Award bid", project.getId(), Transaction.Status.COMPLETED);
 		transactionService.createTransaction(t);
 		return bid;
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	public Bid rewokeBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if(!user.getRoles().contains(ROLE_ADMIN))
+		if (!user.getRoles().contains(ROLE_ADMIN))
 			if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_CLIENT)
 					|| !user.getId().equals(project.getClientId()))
 				throw new ForbiddenOperationException();
@@ -176,7 +194,7 @@ public class BidService
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if(!user.getRoles().contains(ROLE_ADMIN))
+		if (!user.getRoles().contains(ROLE_ADMIN))
 			if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_PILOT)
 					|| !principalId.equals(bid.getUser().getId()))
 				throw new ForbiddenOperationException();
@@ -185,14 +203,14 @@ public class BidService
 		emailService.sendAcceptBidEmail(project, user);
 		return bid;
 	}
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	public Bid rejectBid(Long bidId, Long principalId) throws ServiceException
 	{
 		Bid bid = bidMapper.getBidById(bidId);
 		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
 		User user = userService.getUserById(principalId);
-		if(!user.getRoles().contains(ROLE_ADMIN))
+		if (!user.getRoles().contains(ROLE_ADMIN))
 			if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
 					|| !principalId.equals(bid.getUser().getId()))
 				throw new ForbiddenOperationException();
