@@ -1,9 +1,9 @@
-@import "./../../styles/settings/mixin.styl";
+@import "./../../styles/settings/variables.styl";
 
 .contact-us
   padding-top: 150px
   padding-bottom: 50px
-  osans(400)
+
   &__container
     max-width: 1040px
   &__title
@@ -26,7 +26,7 @@
   &__subtitle
     font-family: inherit
     color: white
-    background-color: #1f2532
+    background-color: $gray1f
     font-size: 2.4rem
     border-radius: 3px
     text-align: center
@@ -63,24 +63,3 @@
     &__info-wrap
       padding-left: 0
       margin-bottom: 30px
-
-// Style for f-contact-us
-.f-contact-us
-  osans(400)
-  &__row
-    display: flex
-    justify-content space-between
-    margin-bottom: 12px
-  &__col
-    width: calc(50% - 5px)
-  &__field
-    flex-basis: 100%
-  &__button._big
-    margin-top: 9px
-    max-width: 100%
-    width: 100%
-    font-family: inherit
-    font-size: 2.3rem
-  &__area
-    flex-basis: 100%
-    height: 236px

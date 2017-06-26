@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import {RequestService} from '../request.service/request.service';
+import {QuestionModel} from './question.interface';
 
 @Injectable()
 export class PublicService {
@@ -41,5 +42,9 @@ export class PublicService {
           return res;
         }
       );
+  }
+
+  public sendMessage(message: QuestionModel) {
+    return this._requestService.fetch('post', '/public/question', message);
   }
 }
