@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Daterangepicker} from 'ng2-daterangepicker';
 import {FileSelectDirective, FileDropDirective} from 'ng2-file-upload';
 import {NgProgressModule} from 'ngx-progressbar';
+import { AgmCoreModule } from '@agm/core';
 
 import {AppComponent} from './app.component';
 import {AppComponents} from './components/index';
@@ -33,6 +34,11 @@ import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settin
     FileDropDirective,
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAPLVBNXpe4J6JebPz2stdh8n42-PiNnd8',
+      libraries: ["places"],
+      language: 'en'
+    }),
     NguiDatetimePickerModule,
     BrowserAnimationsModule,
     Daterangepicker,

@@ -2,20 +2,36 @@
       novalidate
       #authForm="ngForm"
       (ngSubmit)="sendAuthorizationRequest($event, authForm)">
-  <div class="f-authorization__row _col-wrap _top">
-    <div class="f-authorization__col">
-      <a href="#" class="f-authorization__link _facebook">
+  <h2 class="f-authorization__header">
+    {{ getButtonTitle() }}
+  </h2>
+  <div class="f-authorization__content">
+    <div class="f-default__row" *ngIf="showConfirmNotification">
+      <div class="f-default__text _verify _first-login">
+        You have been sign up successfully! To complete your registration please verify your email.
+      </div>
+
+    </div>
+    <div class="f-default__row" *ngIf="showVerifyNotification">
+      <div class="f-default__text _verify __error">
+        You can't log in. Please, verify your email before.
+      </div>
+
+    </div>
+    <div class="f-default__row _flex" *ngIf="false">
+      <div class="f-default__col">
+        <a href="#" class="f-authorization__link _facebook">
         <span class="first">
           <svg class="svg-fb" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="4.9px" height="9.9px"
                viewBox="0 0 4.9 9.9">
             <path d="M4.9 3.2H3.2v-1c0-.4.3-.5.5-.5h1.2V0H3.2C1.4 0 1 1.3 1 2.1v1.1H0v1.7h1v4.9h2.2V4.9h1.5l.2-1.7z"/>
           </svg>
         </span>
-        <span>Sign up with Facebook</span>
-      </a>
-    </div>
-    <div class="f-authorization__col">
-      <a href="#" class="f-authorization__link _google">
+          <span>Sign up with Facebook</span>
+        </a>
+      </div>
+      <div class="f-default__col">
+        <a href="#" class="f-authorization__link _google">
         <span class="first">
           <svg class="svg-g" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="11.3px" height="9.9px"
                viewBox="0 0 11.3 9.9">
@@ -23,138 +39,186 @@
               d="M11.3 2.5H9.4v1.9h-.6V2.5H6.9v-.6h1.9V0h.6v1.9h1.9v.6zM6 .2c-.3.2-.8.1-1.1.3.2.1.4.2.5.4.3.4.3.9.3 1.3 0 .5-.2 1-.6 1.4-.2.3-.6.5-.8.8-.1.3 0 .5.2.6.5.4 1 .8 1.3 1.3.4.6.4 1.3.1 2-.2.6-.8 1-1.3 1.2-.7.4-1.6.4-2.4.3C1.5 9.7.9 9.5.4 9 0 8.6-.1 7.9.1 7.4c.1-.5.5-.9 1-1.1.7-.4 1.5-.4 2.3-.5 0-.1-.1-.3-.2-.4 0-.1-.2-.1-.2-.3v-.6c-.6 0-1.2-.1-1.7-.4-.4-.3-.6-.8-.7-1.3-.1-.6.1-1.4.5-1.9C1.7.3 2.6.1 3.4 0h2.8c-.1.1-.1.2-.2.2zm-2.9 6c-.5 0-1 .2-1.3.5-.4.2-.6.5-.7.8-.1.4.1.7.3 1 .3.3.7.5 1.1.6.7.1 1.4 0 2-.4.4-.2.7-.6.7-1.1 0-.4-.2-.8-.5-1.1-.4-.2-1-.4-1.6-.3zM4.4 2C4.3 1.4 4 .9 3.4.6 3.2.5 2.9.5 2.6.5c-.4.1-.6.5-.7.9-.2.6 0 1.4.4 1.9.2.4.5.7.9.7s.8-.2 1-.5c.2-.4.3-1 .2-1.5z"/>
           </svg>
         </span>
-        <span>Sign up with Google+</span>
-      </a>
-    </div>
-  </div>
-  <h3 class="f-authorization__title">
-    <span>Or</span>
-  </h3>
-  <div class="f-authorization__row _col-wrap" *ngIf="isSignUpForm">
-    <div class="f-authorization__col">
-      <div class="f-authorization__name">First Name</div>
-      <input class="f-authorization__field"
-             type="text"
-             [(ngModel)]="formData.firstName"
-             name="firstName"
-             required
-             #firstNameRef="ngModel"
-             [ngClass]="{'_error': submitted && firstNameRef.errors?.required}"/>
-    </div>
-    <div class="f-authorization__col">
-      <div class="f-authorization__name">Last Name</div>
-      <input type="text"
-             [(ngModel)]="formData.lastName"
-             name="lastName"
-             class="f-authorization__field"
-             required
-             #lastNameRef="ngModel"
-             [ngClass]="{'_error': submitted && lastNameRef.errors?.required}"/>
-    </div>
-  </div>
-  <div class="f-authorization__row">
-    <div class="f-authorization__col">
-      <div class="f-authorization__name">Email</div>
-      <input class="f-authorization__field"
-             type="email"
-             required
-             [(ngModel)]="formData.email"
-             name="email"
-             [email]="true"
-             #emailRef="ngModel"
-             [ngClass]="{'_error': submitted && (emailRef.errors?.required || emailRef.errors?.email)}"/>
-    </div>
-  </div>
-  <div class="f-authorization__row">
-    <div class="f-authorization__col">
-      <div class="f-authorization__name">Password</div>
-      <input class="f-authorization__field"
-             type="password"
-             required
-             [(ngModel)]="formData.password"
-             name="password"
-             #passwordRef="ngModel"
-             [ngClass]="{'_error': submitted && passwordRef.errors?.required}"/>
-    </div>
-  </div>
-  <div class="f-authorization__row" *ngIf="isSignUpForm">
-    <div class="f-authorization__col">
-      <div class="f-authorization__name">Confirm Password</div>
-      <input class="f-authorization__field"
-             type="password"
-             [(ngModel)]="formData.confirmPassword"
-             name="confirmPassword"
-             required
-             #confirmPasswordRef="ngModel"
-             [ngClass]="{'_error': submitted && confirmPasswordRef.errors?.required}"/>
-    </div>
-  </div>
-  <div class="f-authorization__row" *ngIf="isSignUpForm">
-    <div class="f-authorization__col">
-      <div class="f-authorization__name">User Name</div>
-      <input class="f-authorization__field _username"
-             type="text"
-             [(ngModel)]="formData.username"
-             name="userName"
-             required
-             #userNameRef="ngModel"
-             [ngClass]="{'_error': submitted && userNameRef.errors?.required}"/>
-    </div>
-  </div>
-  <div class="f-authorization__row" *ngIf="isSignUpForm">
-    <div class="f-authorization__col">
-      <div class="f-authorization__name">Sign up As</div>
-
-      <div class="f-default__labels">
-        <label class="f-default__radio">
-          <input class="f-default__radio-input"
-                 type="radio"
-                 [(ngModel)]="formData.role"
-                 value="ROLE_PILOT"
-                 name="role"
-                 required
-                 #roleRef="ngModel"
-                 [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
-          <span class="f-default__radio-text">Drone Pilot</span>
-        </label>
-
-        <label class="f-default__radio">
-          <input class="f-default__radio-input"
-                 type="radio"
-                 [(ngModel)]="formData.role"
-                 value="ROLE_CLIENT"
-                 name="role"
-                 required
-                 #roleRef="ngModel"
-                 [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
-          <span class="f-default__radio-text">Client</span>
-        </label>
+          <span>Sign up with Google+</span>
+        </a>
       </div>
     </div>
-  </div>
-  <div class="f-authorization__row" *ngIf="isSignUpForm">
-    <div class="f-authorization__col">
-      <label class="f-authorization__chk">
-        <input class="f-authorization__chk-input"
-          type="checkbox"
-               [(ngModel)]="isTermOfUseChecked"
-               name="terms"
+    <div class="f-default__row" *ngIf="isSignUpForm">
+        <div class="f-default__subtitle">Sign up as</div>
+
+        <div class="f-default__labels">
+          <label class="f-default__radio _invert">
+            <input class="f-default__radio-input"
+                   type="radio"
+                   [(ngModel)]="formData.role"
+                   value="ROLE_PILOT"
+                   name="role"
+                   required
+                   #roleRef="ngModel"
+                   [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
+            <span class="f-default__radio-text">Drone Pilot</span>
+          </label>
+
+          <label class="f-default__radio _invert">
+            <input class="f-default__radio-input"
+                   type="radio"
+                   [(ngModel)]="formData.role"
+                   value="ROLE_CLIENT"
+                   name="role"
+                   required
+                   #roleRef="ngModel"
+                   [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
+            <span class="f-default__radio-text">Client</span>
+          </label>
+        </div>
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="text"
+               [(ngModel)]="formData.firstName"
+               name="firstName"
                required
-               #termsRef="ngModel"
-               [ngClass]="{'_error': submitted && termsRef.errors?.required}"/>
-        <span class="f-authorization__chk-text">I agree to the <a [routerLink]="['/terms-and-condition']">Terms of Service</a> and <a [routerLink]="['/privacy-policy']">Privacy Policy</a></span>
+               #firstNameRef="ngModel"
+               placeholder="Type your first name"
+               [ngClass]="{'_error': submitted && firstNameRef.errors?.required}"/>
+      </label>
+
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm">
+      <label class="f-default__label">
+        <input type="text"
+               [(ngModel)]="formData.lastName"
+               name="lastName"
+               class="f-default__field"
+               required
+               #lastNameRef="ngModel"
+               placeholder="Type your last name"
+               [ngClass]="{'_error': submitted && lastNameRef.errors?.required}"/>
+      </label>
+
+    </div>
+    <div class="f-default__row">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="email"
+               required
+               [(ngModel)]="formData.email"
+               name="email"
+               [email]="true"
+               #emailRef="ngModel"
+               placeholder="Type your email"
+               [ngClass]="{'_error': submitted && (emailRef.errors?.required || emailRef.errors?.email)}"/>
       </label>
     </div>
-  </div>
+    <div class="f-default__row">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="password"
+               required
+               [(ngModel)]="formData.password"
+               name="password"
+               #passwordRef="ngModel"
+               placeholder="Password"
+               [ngClass]="{'_error': submitted && passwordRef.errors?.required}"/>
+      </label>
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="password"
+               [(ngModel)]="formData.confirmPassword"
+               name="confirmPassword"
+               required
+               #confirmPasswordRef="ngModel"
+               placeholder="Confirm password"
+               [ngClass]="{'_error': submitted && confirmPasswordRef.errors?.required}"/>
+      </label>
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm">
+      <label class="f-default__label">
+        <input class="f-default__field _username"
+               type="text"
+               [(ngModel)]="formData.username"
+               name="userName"
+               required
+               #userNameRef="ngModel"
+               placeholder="Type your Username"
+               [ngClass]="{'_error': submitted && userNameRef.errors?.required}"/>
+      </label>
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm && formData.role === 'ROLE_PILOT'">
+      <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location?.country?.name}">
+        <select class="f-default__field"
+                name="country"
+                [ngModel]="formData.location?.country?.name"
+                (ngModelChange)="selectCountry($event)"
+                required
+                #countryRef="ngModel"
+                [ngClass]="{'_error': submitted && countryRef.errors?.required}">
+          <option [value]="null">Country</option>
+          <option *ngFor="let option of countries"
+                  [value]="option.name">
+            {{option.name}}
+          </option>
+        </select>
+      </label>
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm && formData.role === 'ROLE_PILOT' && checkCountry">
+      <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.location?.state?.name}">
+        <select class="f-default__field"
+                name="state"
+                [ngModel]="formData.location?.state?.name"
+                (ngModelChange)="selectState($event)"
+                required
+                #stateRef="ngModel"
+                [ngClass]="{'_error': submitted && stateRef.errors?.required}">
+          <option [value]="null">State</option>
+          <option *ngFor="let option of states"
+                  [value]="option.name">
+            {{option.name}}
+          </option>
+        </select>
+      </label>
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm && formData.role === 'ROLE_PILOT' && canAddLocation">
+      <label class="f-default__label">
+        <input class="f-default__field"
+               type="text"
+               required
+               [ngModel]="formData.location?.address"
+               name="location"
+               #location
+               #locationRef="ngModel"
+               [ngClass]="{'_error': submitted && (locationRef.errors?.required || !formData.location?.coordinates?.latitude)}"
+        />
+      </label>
+      <div class="f-default__text _error" *ngIf="submitted && !formData.location?.coordinates?.latitude">Please select correct Google location</div>
+    </div>
+    <div class="f-default__row" *ngIf="isSignUpForm">
+        <label class="f-default__label _checkbox">
+          <input class="f-default__chk-input"
+                 type="checkbox"
+                 [(ngModel)]="isTermOfUseChecked"
+                 name="terms"
+                 required
+                 #termsRef="ngModel"
+                 [ngClass]="{'_error': submitted && termsRef.errors?.required}"/>
+          <span class="f-default__chk-span"></span>
+          <span class="f-default__chk-text">I agree to the <a [routerLink]="['/terms-and-condition']">Terms of Service</a> and <a [routerLink]="['/privacy-policy']">Privacy Policy</a></span>
+        </label>
+    </div>
+    <div class="f-default__row _controls">
+      <button class="f-default__button"
+              [disabled]="submitted && !authForm.form.valid">{{ getButtonTitle() }}
+      </button>
+    </div>
 
-  <button class="f-authorization__button"
-          [disabled]="submitted && !authForm.form.valid">{{ getButtonTitle() }}
-  </button>
-
-  <div class="f-authorization__row">
-    <!--<span class="f-authorization__text">Forgot Password?<a href="/">click here</a></span>-->
-    <span class="f-authorization__text"  *ngIf="isSignUpForm">
+    <div class="f-default__row _bottom"  *ngIf="isSignUpForm">
+      <!--<span class="f-default__text">Forgot Password?<a href="/">click here</a></span>-->
+      <span class="f-default__text">
       Already have an account? <a href="#" [routerLink]="['/login']">Login</a>
     </span>
+    </div>
   </div>
 </form>

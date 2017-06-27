@@ -1,10 +1,16 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgProgressService} from 'ngx-progressbar';
+import {MapsAPILoader} from '@agm/core';
+import {} from '@types/googlemaps';
 
+import {extend} from '../../../shared/common/common-methods';
 import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {AccountService} from '../../../services/account.service/account.service';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
+import {CountryModel} from '../../../services/common.service/country.interface';
+import {StateModel} from '../../../services/common.service/state.interface';
+import {CommonService} from '../../../services/common.service/common.service';
 
 @Component({
   selector: 'f-authorization',
@@ -20,28 +26,206 @@ export class FAuthorizationComponent implements OnInit {
     password: '',
     confirmPassword: '',
     username: '',
-    role: ''
+    role: '',
+    location: {
+      address: '',
+      city: '',
+      coordinates: {
+        latitude: null,
+        longitude: null
+      },
+      country: {
+        id: null,
+        name: null
+      },
+      state: {
+        name: null,
+        id: null,
+        code: null
+      },
+      postcode: null
+    }
   };
   public isSignUpForm = true;
   public isTermOfUseChecked = false;
 
   public submitted = false;
+  countries: CountryModel[] = [];
+  states: StateModel[] = [];
+  showConfirmNotification: boolean = false;
+  showVerifyNotification: boolean = false;
+
+  @ViewChild("location") public searchElement: ElementRef;
 
   constructor(
     public _authorizationService: AuthorizationService,
     private _accountService: AccountService,
     private _router: Router,
     private toastrService: ToastrService,
-    private progressbarService: NgProgressService
+    private progressbarService: NgProgressService,
+    private commonService: CommonService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
   ) {
   }
 
   ngOnInit() {
     this.isSignUpForm = this._authorizationService.signUpFormActive = this._router.url === '/sign-up';
+    this.getCountries();
+
+    if (localStorage.getItem('firstLogin')) {
+      this.showConfirmNotification = true;
+      localStorage.removeItem('firstLogin');
+    }
+
+    console.log(this._authorizationService.signUpFormActive);
+    console.log(this.isSignUpForm);
   }
 
   getButtonTitle() {
     return this.isSignUpForm ? 'Sign Up' : 'Login';
+  }
+
+  private getCountries() {
+    this.commonService.getCountries()
+      .subscribe((countries) => this.setCountries(countries));
+  }
+
+  private setCountries(countries) {
+    this.countries = extend([], countries);
+
+    this.clearCountry();
+  }
+
+  get checkCountry() {
+    return this.formData.location.country && this.formData.location.country.name === 'United States';
+  }
+
+  private clearCountry() {
+    this.formData.location.country = {
+      id: null,
+      name: null
+    };
+    this.clearState();
+  }
+
+  selectCountry(name: string) {
+    // if pseudo placeholder option was selected
+    if (!name || name === 'null') {
+      this.clearCountry();
+      return;
+    }
+
+    const country = this.countries.find((country) => country.name === name);
+
+    this.setCountry(country);
+
+    if (this.checkCountry) {
+      this.getListOfStates();
+    } else {
+      setTimeout(() => {
+        this.loadPlaces();
+      }, 1)
+    }
+    this.formData.location.address = '';
+    this.formData.location.coordinates.latitude = null;
+    this.formData.location.coordinates.longitude = null;
+    this.clearState();
+  }
+
+  private setCountry({name, id}) {
+    this.formData.location.country.name = name;
+    this.formData.location.country.id = id;
+  }
+
+  private getListOfStates() {
+    this.commonService.getStates()
+      .subscribe((states) => this.setStates(states));
+  }
+
+  private setStates(states) {
+    this.states = extend([], states);
+  }
+
+  selectState(name: string) {
+    // if pseudo placeholder option was selected
+    if (!name || name === 'null') {
+      this.clearState();
+      return;
+    }
+
+    const state = this.states.find((state) => state.name === name);
+
+    this.setState(state);
+  }
+
+  private setState({name, id, code}) {
+    this.formData.location.state.name = name;
+    this.formData.location.state.id = id;
+    this.formData.location.state.code = code;
+
+    setTimeout(() => {
+      this.loadPlaces();
+    }, 1)
+  }
+
+  private clearState() {
+    this.formData.location.state = {
+      id: null,
+      name: null,
+      code: null
+    };
+  }
+
+  private loadPlaces() {
+    this.mapsAPILoader.load().then(
+      () => {
+        this.ngZone.run(
+          () => {
+            let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+
+            autocomplete.addListener('place_changed', () => {
+              let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+              //verify result
+              if (place.geometry === undefined || place.geometry === null) {
+                return;
+              }
+
+              console.log('place:', place);
+              this.setLocation(place);
+            })
+          }
+        );
+      }
+    )
+  }
+
+  private setLocation(place) {
+    place.address_components.forEach((el, i) => {
+      const addressType = place.address_components[i].types[0];
+
+      if (addressType === 'locality') {
+        this.formData.location.city = el.long_name;
+      } else if (addressType === 'postal_code') {
+        this.formData.location.postcode = el.long_name || null;
+      } else if (addressType === 'route') {
+        this.formData.location.address = el.short_name + this.formData.location.address;
+      } else if (addressType === 'street_number') {
+        this.formData.location.address += (' ' + el.long_name);
+      }
+    });
+    this.formData.location.coordinates.latitude = place.geometry.location.lat();
+    this.formData.location.coordinates.longitude = place.geometry.location.lng();
+
+    console.log(this.formData.location);
+  }
+
+  get canAddLocation() {
+    const isCountry = this.formData.location.country && this.formData.location.country.name;
+    const isState = this.checkCountry ? this.formData.location.state && this.formData.location.state.name : true;
+
+    return isCountry && isState;
   }
 
   sendAuthorizationRequest(e, form) {
@@ -95,8 +279,12 @@ export class FAuthorizationComponent implements OnInit {
     e.preventDefault();
     this.submitted = true;
 
-    if (form.invalid) {
+    if (form.invalid || (this.formData.role === 'ROLE_PILOT' && !this.formData.location.coordinates.latitude)) {
       return;
+    }
+    // reset location for client
+    if (this.formData.role === 'ROLE_CLIENT') {
+      this.formData.location = null;
     }
 
     this.formData.username = this.formData.username.toLowerCase();
@@ -105,9 +293,8 @@ export class FAuthorizationComponent implements OnInit {
       .subscribe(
         () => {
           this.progressbarService.done();
-          this._authorizationService.signUpFormActive = false;
-          this.isSignUpForm = false;
-          this.toastrService.showSuccess('You have been sign up successfully! To complete your registration please verify your email.', null, {toastLife: 5000});
+          localStorage.setItem('firstLogin', 'true');
+          this._router.navigate(['/login']);
         },
         (err) => {
           this.progressbarService.done();
