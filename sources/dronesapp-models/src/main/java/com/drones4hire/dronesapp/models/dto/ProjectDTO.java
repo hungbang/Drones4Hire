@@ -1,13 +1,14 @@
 package com.drones4hire.dronesapp.models.dto;
 
-import com.drones4hire.dronesapp.models.db.projects.Attachment;
-import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.db.services.Service;
+import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
+
+import com.drones4hire.dronesapp.models.db.projects.Attachment;
+import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.services.Service;
 
 public class ProjectDTO extends AbstractDTO
 {
@@ -53,6 +54,8 @@ public class ProjectDTO extends AbstractDTO
 	private List<PaidOptionDTO> paidOptions;
 
 	private List<Attachment> attachments;
+	
+	private String paymentMethod;
 	
 	public String getTitle()
 	{
@@ -213,6 +216,16 @@ public class ProjectDTO extends AbstractDTO
 	{
 		this.attachments = attachments;
 	}
+	
+	public String getPaymentMethod()
+	{
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod)
+	{
+		this.paymentMethod = paymentMethod;
+	}
 
 	@AssertTrue(message = "Type ENUM confirmation not matching")
 	public boolean isConfirmationValid()
@@ -225,5 +238,11 @@ public class ProjectDTO extends AbstractDTO
 		{
 			return false;
 		}
+	}
+	
+	@AssertTrue(message = "Payment method not specified")
+	public boolean isPaymentMethodNotNull()
+	{
+		return paidOptions != null ? paymentMethod != null : true;
 	}
 }

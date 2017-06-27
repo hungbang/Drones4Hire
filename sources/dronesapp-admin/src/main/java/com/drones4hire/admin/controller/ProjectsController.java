@@ -1,6 +1,5 @@
 package com.drones4hire.admin.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,12 +57,12 @@ public class ProjectsController extends AbstractController
 		return new ModelAndView("projects/view");
 	}
 
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Project createProject(@RequestBody Project p, @RequestHeader(value = "BidAmount", required = false) BigDecimal bidAmount) throws ServiceException
-	{
-		return projectService.createProject(p, getPrincipal().getId(), bidAmount);
-	}
+//	@ResponseStatus(HttpStatus.CREATED)
+//	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody Project createProject(@RequestBody Project p, @RequestHeader(value = "BidAmount", required = false) BigDecimal bidAmount) throws ServiceException
+//	{
+//		return projectService.createProject(p, getPrincipal().getId(), bidAmount);
+//	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "{id}/block", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

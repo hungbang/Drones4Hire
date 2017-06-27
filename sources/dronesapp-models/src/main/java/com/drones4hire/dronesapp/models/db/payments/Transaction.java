@@ -16,12 +16,7 @@ public class Transaction extends AbstractEntity
 
 	public enum Status
 	{
-		COMPLETED,
-		SETTLED,
-		SETTLEMENT_PENDING,
-		SETTLING,
-		SUBMITTED_FOR_SETTLEMENT,
-		VOIDED;
+		COMPLETED, SETTLED, SETTLEMENT_PENDING, SETTLING, SUBMITTED_FOR_SETTLEMENT, VOIDED;
 	}
 
 	private Long walletId;
@@ -36,9 +31,7 @@ public class Transaction extends AbstractEntity
 	{
 	}
 
-	public Transaction(Long walletId, BigDecimal amount, Currency currency,
-			Type type, String purpose, Long projectId,
-			Status status)
+	public Transaction(Long walletId, BigDecimal amount, Currency currency, Type type, String purpose, Long projectId, Status status)
 	{
 		this.walletId = walletId;
 		this.amount = amount;

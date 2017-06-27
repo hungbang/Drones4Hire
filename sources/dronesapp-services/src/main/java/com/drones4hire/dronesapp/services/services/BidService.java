@@ -30,7 +30,6 @@ import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService
 @Service
 public class BidService
 {
-
 	@Autowired
 	private BidMapper bidMapper;
 
@@ -128,7 +127,7 @@ public class BidService
 			if (project.getStatus().equals(Status.PENDING) || project.getStatus().equals(Status.IN_PROGRESS)
 					|| project.getStatus().equals(Status.NEW))
 			{
-				if(project.getPilotId().equals(bid.getUser().getId()))
+				if (project.getPilotId().equals(bid.getUser().getId()))
 				{
 					project.setPilotId(null);
 					project.setStatus(Status.NEW);
@@ -163,7 +162,7 @@ public class BidService
 		project.setAwardDate(Date.from(utc.toInstant()));
 		projectService.updateProject(project);
 		emailService.sendAwardBidEmail(project);
-		//		TODO[anazarenko]: create default transaction. Remove it after payments integration.
+		// TODO[anazarenko]: create default transaction. Remove it after payments integration.
 		Transaction t = new Transaction(walletService.getWalletByUserId(principalId).getId(), bid.getAmount(),
 				Currency.USD, Type.PROJECT_PAYMENT, "Award bid", project.getId(), Transaction.Status.COMPLETED);
 		transactionService.createTransaction(t);

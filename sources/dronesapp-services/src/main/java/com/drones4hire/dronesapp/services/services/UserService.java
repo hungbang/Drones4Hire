@@ -25,6 +25,7 @@ import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Service
@@ -87,33 +88,34 @@ public class UserService
 			user.setWithdrawEnabled(DEFAULT_WITDRAW_ENABLED);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
-			
-			// Add group with default user role
-			Group group = groupService.getGroupByRole(role);
-			userMapper.createUserGroup(user, group);
-			user.getGroups().add(group);
-
-			// Initialize default location
-			if(user.getLocation() != null)
-			{
-				locationService.createLocation(user.getLocation());
-			}
-			else
-			{
-				user.setLocation(locationService.createLocation(new Location()));
-			}
-			updateUser(user);
-
-			// Initialize default notification settings
-			notificationSettingService.createDefaultNotificationSettings(user);
-
-			// Initialize default wallet
-			walletService.createDefaultWallet(user);
 		}
 		catch(DuplicateKeyException e)
 		{
 			throw new UserAlreadyExistException("Duplicate user credentials");
 		}
+			
+		// Add group with default user role
+		Group group = groupService.getGroupByRole(role);
+		userMapper.createUserGroup(user, group);
+		user.getGroups().add(group);
+
+		// Initialize default location
+		if(user.getLocation() != null)
+		{
+			locationService.createLocation(user.getLocation());
+		}
+		else
+		{
+			user.setLocation(locationService.createLocation(new Location()));
+		}
+		updateUser(user);
+
+		// Initialize default notification settings
+		notificationSettingService.createDefaultNotificationSettings(user);
+
+		// Initialize default wallet
+		walletService.createDefaultWallet(user);
+		
 
 		if(Role.ROLE_PILOT.equals(role))
 		{
@@ -158,6 +160,17 @@ public class UserService
 	public User getUserById(long id) throws ServiceException
 	{
 		return userMapper.getUserById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public User getNotNullUser(long id) throws ServiceException
+	{
+		User user = userMapper.getUserById(id);
+		if(user == null)
+		{
+			throw new UserNotFoundException("Unable to find user by ID: " + id);
+		}
+		return user;
 	}
 
 	@Transactional
