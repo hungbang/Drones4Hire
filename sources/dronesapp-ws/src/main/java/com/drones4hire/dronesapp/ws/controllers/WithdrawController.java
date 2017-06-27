@@ -1,8 +1,5 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.dozer.Mapper;

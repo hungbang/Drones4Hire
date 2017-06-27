@@ -125,14 +125,14 @@ public class UserService
 
 			// Initialize default company
 			companyService.createDefaultCompany(user);
-		} else if(Role.ROLE_CLIENT.equals(role))
-		{
-			// Initialize customer in braintree service
-			Customer customer = braintreeService.createCustomer(user);
-			Wallet wallet = walletService.getWalletByUserId(user.getId());
-			wallet.setPaymentToken(customer.getId());
-			walletService.updateWallet(wallet);
-		}
+		} 
+		
+		// Initialize customer in braintree service
+		Customer customer = braintreeService.createCustomer(user);
+		Wallet wallet = walletService.getWalletByUserId(user.getId());
+		wallet.setPaymentToken(customer.getId());
+		walletService.updateWallet(wallet);
+		
 		String result = payoneerService.signup(user);
 		emailService.sendConfirmationEmail(user, generateConfrimEmailToken(user));
 		

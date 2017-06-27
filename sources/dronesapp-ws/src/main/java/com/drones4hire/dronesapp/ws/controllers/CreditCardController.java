@@ -34,7 +34,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("api/v1/cards")
 public class CreditCardController extends AbstractController
 {
-
 	@Autowired
 	private CreditCardService creditCardService;
 
@@ -43,8 +42,7 @@ public class CreditCardController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get user credit cards", nickname = "getUserCreditCards", code = 200, httpMethod = "GET", response = List.class)
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody

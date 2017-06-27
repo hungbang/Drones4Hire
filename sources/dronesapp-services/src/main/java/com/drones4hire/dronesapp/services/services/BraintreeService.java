@@ -1,19 +1,30 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.braintreegateway.*;
-import com.braintreegateway.MerchantAccount;
-import com.braintreegateway.test.*;
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.users.User;
-import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.math.BigDecimal;
-import java.util.List;
+import com.braintreegateway.BraintreeGateway;
+import com.braintreegateway.ClientTokenRequest;
+import com.braintreegateway.CreditCard;
+import com.braintreegateway.CreditCardRequest;
+import com.braintreegateway.Customer;
+import com.braintreegateway.CustomerRequest;
+import com.braintreegateway.Environment;
+import com.braintreegateway.PaymentMethod;
+import com.braintreegateway.PaymentMethodRequest;
+import com.braintreegateway.Result;
+import com.braintreegateway.Transaction;
+import com.braintreegateway.TransactionRequest;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
 
 @Service
 public class BraintreeService
@@ -22,9 +33,7 @@ public class BraintreeService
 	private static enum EnvironmentType
 	{
 		SANDBOX, DEVELOPMENT, PRODUCTION
-	}
-
-	;
+	};
 
 	@Value("${drones4hire.braintree.environment}")
 	private String environment;
