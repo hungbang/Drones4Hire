@@ -1,12 +1,8 @@
 package com.drones4hire.dronesapp.services.services;
 
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_ADMIN;
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.TransactionSearchCriteria;
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Transaction.Type;
@@ -47,21 +44,9 @@ public class BidService
 
 	@Autowired
 	private WalletService walletService;
-
-	@Transactional(rollbackFor = Exception.class)
-	public Bid createBid(Bid bid, Long principalId) throws ServiceException
-	{
-		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		User user = userService.getUserById(principalId);
-		if (!user.getRoles().contains(ROLE_ADMIN))
-			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT))
-				throw new ForbiddenOperationException();
-		bid.setUser(user);
-		bidMapper.createBid(bid);
-		emailService.sendNewBidReceiveEmail(project, user);
-		emailService.sendNewBidPlacedEmail(project, user);
-		return bid;
-	}
+	
+	@Autowired
+	private PaymentService paymentService;
 
 	@Transactional(readOnly = true)
 	public Bid getBidById(long id)
@@ -92,137 +77,176 @@ public class BidService
 	{
 		return bidMapper.getBidInfo(projectId);
 	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public Bid createBid(Bid bid, Long userId) throws ServiceException
+	{
+		User user = userService.getNotNullUser(userId);
+		
+		Project project = projectService.getProjectById(bid.getProjectId());
+		projectService.checkAuthorities(project, user);
+		projectService.checkStatuses(project, Project.Status.NEW);
+		
+		bid.setUser(user);
+		bidMapper.createBid(bid);
+		
+		emailService.sendNewBidReceiveEmail(project, user);
+		emailService.sendNewBidPlacedEmail(project, user);
+		
+		return bid;
+	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Bid updateBid(Bid bid, Long principalId) throws ServiceException
+	public Bid updateBid(Bid bid, Long userId) throws ServiceException
 	{
-		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		User user = userService.getUserById(principalId);
+		User user = userService.getNotNullUser(userId);
+		
+		Project project = projectService.getProjectById(bid.getProjectId());
+		projectService.checkAuthorities(project, user);
+		projectService.checkStatuses(project, Project.Status.NEW);
+		
 		Bid currentBid = bidMapper.getBidById(bid.getId());
-		if (!user.getRoles().contains(ROLE_ADMIN))
-			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
-					|| !principalId.equals(currentBid.getUser().getId()))
-				throw new ForbiddenOperationException();
 		currentBid.setComment(bid.getComment());
 		currentBid.setAmount(bid.getAmount());
 		currentBid.setCurrency(bid.getCurrency());
 		bidMapper.updateBid(bid);
+		
 		emailService.sendUpdateBidEmail(project, user);
+		
 		return bid;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public void deleteBid(Long bidId, Long principalId) throws ServiceException
+	public void deleteBid(Long bidId, Long userId) throws ServiceException
 	{
+		User user = userService.getNotNullUser(userId);
+		
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		User user = userService.getUserById(principalId);
-		if (!user.getRoles().contains(ROLE_ADMIN))
+		
+		Project project = projectService.getProjectById(bid.getProjectId());
+		
+		if(bid.getUser().getId() != user.getId() || project.getPilotId() == user.getId())
 		{
-			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_PILOT)
-					|| !principalId.equals(bid.getUser().getId()))
-				throw new ForbiddenOperationException();
-		} else
-		{
-			if (project.getStatus().equals(Status.PENDING) || project.getStatus().equals(Status.IN_PROGRESS)
-					|| project.getStatus().equals(Status.NEW))
-			{
-				if (project.getPilotId().equals(bid.getUser().getId()))
-				{
-					project.setPilotId(null);
-					project.setStatus(Status.NEW);
-					projectService.updateProject(project);
-				}
-			} else
-			{
-				throw new ForbiddenOperationException();
-			}
+			throw new ForbiddenOperationException("Unable to delete bid");
 		}
+		
 		bidMapper.deleteBid(bidId);
+		
 		emailService.sendRetractBidEmail(project, user);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Bid awardBid(Long bidId, Long principalId) throws ServiceException
+	public Bid awardBid(Long bidId, Long userId, String paymentMethod) throws ServiceException
 	{
+		User user = userService.getNotNullUser(userId);
+		
+		Wallet wallet = walletService.getNotNullUserWallet(user.getId());
+		
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		User user = userService.getUserById(principalId);
-		if (!user.getRoles().contains(ROLE_ADMIN))
-			if (!project.getStatus().equals(Project.Status.NEW) || !user.getRoles().contains(ROLE_CLIENT)
-					|| !user.getId().equals(project.getClientId()))
-				throw new ForbiddenOperationException();
-		User bidUser = userService.getUserById(bid.getUser().getId());
-		if (!bidUser.getRoles().contains(ROLE_ADMIN))
-		{
-			project.setPilotId(bid.getUser().getId());
-		}
+		
+		Project project = projectService.getProjectById(bid.getProjectId());
+		projectService.checkAuthorities(project, user);
+		projectService.checkStatuses(project, Project.Status.NEW);
+		
+		String trId = paymentService.authorizePayment(paymentMethod, bid.getAmount(), bid.getCurrency());
+		Transaction transaction = new Transaction(wallet.getId(), bid.getAmount(), Currency.USD, Type.PROJECT_PAYMENT, trId, project.getId(), Transaction.Status.AUHTORIZED);
+		transactionService.createTransaction(transaction);
+		
+		project.setPilotId(bid.getUser().getId());
 		project.setStatus(Status.PENDING);
-		ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
-		project.setAwardDate(Date.from(utc.toInstant()));
+		project.setAwardDate(Calendar.getInstance().getTime());
 		projectService.updateProject(project);
+		
 		emailService.sendAwardBidEmail(project);
-		// TODO[anazarenko]: create default transaction. Remove it after payments integration.
-		Transaction t = new Transaction(walletService.getWalletByUserId(principalId).getId(), bid.getAmount(),
-				Currency.USD, Type.PROJECT_PAYMENT, "Award bid", project.getId(), Transaction.Status.COMPLETED);
-		transactionService.createTransaction(t);
+		
 		return bid;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Bid rewokeBid(Long bidId, Long principalId) throws ServiceException
+	public Bid revokeBid(Long bidId, Long userId) throws ServiceException
 	{
+		User user = userService.getNotNullUser(userId);
+		
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		User user = userService.getUserById(principalId);
-		if (!user.getRoles().contains(ROLE_ADMIN))
-			if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_CLIENT)
-					|| !user.getId().equals(project.getClientId()))
-				throw new ForbiddenOperationException();
+		
+		Project project = projectService.getProjectById(bid.getProjectId());
+		projectService.checkAuthorities(project, user);
+		projectService.checkStatuses(project, Project.Status.PENDING);
+		
+		TransactionSearchCriteria sc = new TransactionSearchCriteria();
+		sc.setProjectId(project.getId());
+		sc.setType(Type.PROJECT_PAYMENT);
+		
+		for(Transaction transaction : transactionService.searchTransactions(sc).getResults())
+		{
+			paymentService.release(transaction.getPurpose());
+			transaction.setStatus(Transaction.Status.VOIDED);
+			transactionService.updateTransaction(transaction);
+		}
+		
 		project.setPilotId(null);
 		project.setStatus(Status.NEW);
 		projectService.updateProject(project);
+		
 		return bid;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Bid acceptBid(Long bidId, Long principalId) throws ServiceException
+	public Bid acceptBid(Long bidId, Long userId) throws ServiceException
 	{
+		User user = userService.getNotNullUser(userId);
+		
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		User user = userService.getUserById(principalId);
-		if (!user.getRoles().contains(ROLE_ADMIN))
-			if (!project.getStatus().equals(Project.Status.PENDING) || !user.getRoles().contains(ROLE_PILOT)
-					|| !principalId.equals(bid.getUser().getId()))
-				throw new ForbiddenOperationException();
+		
+		Project project = projectService.getProjectById(bid.getProjectId());
+		projectService.checkAuthorities(project, user);
+		projectService.checkStatuses(project, Project.Status.PENDING);
+		
+		TransactionSearchCriteria sc = new TransactionSearchCriteria();
+		sc.setProjectId(project.getId());
+		sc.setType(Type.PROJECT_PAYMENT);
+		
+		for(Transaction transaction : transactionService.searchTransactions(sc).getResults())
+		{
+			paymentService.settle(transaction.getPurpose());
+			transaction.setStatus(Transaction.Status.COMPLETED);
+			transactionService.updateTransaction(transaction);
+		}
+		
 		project.setStatus(Status.IN_PROGRESS);
 		projectService.updateProject(project);
+		
 		emailService.sendAcceptBidEmail(project, user);
+		
 		return bid;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Bid rejectBid(Long bidId, Long principalId) throws ServiceException
+	public Bid rejectBid(Long bidId, Long userId) throws ServiceException
 	{
+		User user = userService.getNotNullUser(userId);
+		
 		Bid bid = bidMapper.getBidById(bidId);
-		Project project = projectService.getProjectById(bid.getProjectId(), principalId);
-		User user = userService.getUserById(principalId);
-		if (!user.getRoles().contains(ROLE_ADMIN))
-			if (!project.getStatus().equals(Project.Status.PENDING) || user.getRoles().contains(ROLE_PILOT)
-					|| !principalId.equals(bid.getUser().getId()))
-				throw new ForbiddenOperationException();
-
-		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
-		Transaction transaction = new Transaction(wallet.getId(), bid.getAmount(),
-				Currency.USD, Type.PROJECT_REJECT, "Project reject", project.getId(), Transaction.Status.COMPLETED);
-		transactionService.createTransaction(transaction);
-		wallet.setBalance(wallet.getBalance().add(bid.getAmount()));
-		walletService.updateWallet(wallet);
-
-		project.setStatus(Status.NEW);
+		
+		Project project = projectService.getProjectById(bid.getProjectId());
+		projectService.checkAuthorities(project, user);
+		projectService.checkStatuses(project, Project.Status.PENDING);
+		
+		TransactionSearchCriteria sc = new TransactionSearchCriteria();
+		sc.setProjectId(project.getId());
+		sc.setType(Type.PROJECT_PAYMENT);
+		
+		for(Transaction transaction : transactionService.searchTransactions(sc).getResults())
+		{
+			paymentService.release(transaction.getPurpose());
+			transaction.setStatus(Transaction.Status.VOIDED);
+			transactionService.updateTransaction(transaction);
+		}
+		
 		project.setPilotId(null);
+		project.setStatus(Status.NEW);
 		projectService.updateProject(project);
-		emailService.sendRejectBidEmail(project, user);
+		
 		return bid;
 	}
 }

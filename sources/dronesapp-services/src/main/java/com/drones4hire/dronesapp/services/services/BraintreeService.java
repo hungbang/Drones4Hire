@@ -125,14 +125,32 @@ public class BraintreeService
 		}
 		return result;
 	}
-
-	public void voidTransaction(String transactionId) throws ServiceException
+	
+	public Result<Transaction> authrorize(String paymentMethod, BigDecimal amount) throws PaymentException
+	{
+		Result<Transaction> result = null;
+		try
+		{
+			TransactionRequest request = new TransactionRequest()
+					.amount(amount)
+					.paymentMethodNonce(paymentMethod);
+							
+			// authorize
+			result = braintreeGateway.transaction().sale(request);
+		} catch (Exception e)
+		{
+			throw new PaymentException("Unable to authorize payment: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public void settle(String transactionId) throws PaymentException
 	{
 		try
 		{
 			if (!StringUtils.isEmpty(transactionId))
 			{
-				Result<Transaction> result = braintreeGateway.transaction().voidTransaction(transactionId);
+				Result<Transaction> result = braintreeGateway.transaction().submitForSettlement(transactionId);
 				if (!result.isSuccess())
 				{
 					throw new Exception(result.getMessage());
@@ -140,7 +158,27 @@ public class BraintreeService
 			}
 		} catch (Exception e)
 		{
-			throw new ServiceException("Can't void transaction: " + e.getMessage());
+			throw new PaymentException("Can't void transaction: " + e.getMessage());
 		}
+	}
+
+	public Result<Transaction> release(String transactionId) throws PaymentException
+	{
+		Result<Transaction> result = null;
+		try
+		{
+			if (!StringUtils.isEmpty(transactionId))
+			{
+				result = braintreeGateway.transaction().voidTransaction(transactionId);
+				if (!result.isSuccess())
+				{
+					throw new Exception(result.getMessage());
+				}
+			}
+		} catch (Exception e)
+		{
+			throw new PaymentException("Can't void transaction: " + e.getMessage());
+		}
+		return result;
 	}
 }

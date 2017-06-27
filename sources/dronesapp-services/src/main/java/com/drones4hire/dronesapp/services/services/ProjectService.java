@@ -9,6 +9,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,10 +112,16 @@ public class ProjectService
 	}
 	
 	@Transactional(readOnly = true)
-	public Project getProjectById(long id, long principalId) throws ServiceException
+	public Project getProjectById(long id) throws ServiceException
+	{
+		return projectMapper.getProjectById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public Project getProjectById(long id, long userId) throws ServiceException
 	{
 		Project project = projectMapper.getProjectById(id);
-		checkAuthorities(project, principalId);
+		checkAuthorities(project, userService.getUserById(userId));
 		return project;
 	}
 
@@ -265,21 +272,29 @@ public class ProjectService
 		return amount.divide(serviceFee).multiply(new BigDecimal(100));
 	}
 	
-	public void checkAuthorities(Project project, long principalId) throws ServiceException
+	public void checkAuthorities(Project project, User user) throws ServiceException
 	{
-		User user = userService.getUserById(principalId);
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
-			if (principalId != project.getClientId())
+			if (user.getId() != project.getClientId())
 			{
 				throw new ForbiddenOperationException();
 			}
 		} else if (!project.getStatus().equals(NEW) && user.getRoles().contains(ROLE_PILOT))
 		{
-			if (principalId != project.getPilotId())
+			if (user.getId() != project.getPilotId())
 			{
 				throw new ForbiddenOperationException();
 			}
+		}
+	}
+	
+	
+	public void checkStatuses(Project project, Project.Status ... statuses) throws ForbiddenOperationException
+	{
+		if(!Arrays.asList(statuses).contains(project.getStatus()))
+		{
+			throw new ForbiddenOperationException("Invalid project status");
 		}
 	}
 }
