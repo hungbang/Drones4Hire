@@ -3,22 +3,23 @@ package com.drones4hire.dronesapp.services.services;
 import java.util.Arrays;
 import java.util.List;
 
-import com.braintreegateway.Customer;
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.braintreegateway.Customer;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
 import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.commons.Location;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.exceptions.EmailNotVerifiedException;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
@@ -33,7 +34,7 @@ public class UserService
 {
 	private boolean DEFAULT_ENABLED = true;
 
-	private boolean DEFAULT_CONFIRMED = true;
+	private boolean DEFAULT_CONFIRMED = false;
 	
 	private boolean DEFAULT_WITDRAW_ENABLED = false;
 
@@ -121,10 +122,8 @@ public class UserService
 		{
 			// Initialize default profile
 			profileService.createDefaultProfile(user);
-
 			// Initialize default license
 			pilotLicenseService.createDefaultPilotLicense(user);
-
 			// Initialize default company
 			companyService.createDefaultCompany(user);
 		} 
@@ -239,9 +238,14 @@ public class UserService
 			throw new InvalidUserCredentialsException();
 		}
 
-		if(!user.isEnabled() || !user.isConfirmed())
+		if(!user.isEnabled())
 		{
 			throw new InvalidUserStatusException();
+		}
+		
+		if(!user.isConfirmed())
+		{
+			throw new EmailNotVerifiedException();
 		}
 
 		return user;

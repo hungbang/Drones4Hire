@@ -35,7 +35,7 @@ import freemarker.template.Template;
 
 public abstract class AbstractEmailService
 {
-	public final static String EMAIL_CONFIRMATION_PATH = "register/confirm";
+	public final static String LOGIN_PATH = "/#/login";
 	public final static String CHANGE_EMAIL_PATH = "email";
 	public final static String CHANGE_PASSWORD_PATH = "password";
 
@@ -46,8 +46,8 @@ public abstract class AbstractEmailService
 	@Value("#{environmentProperties['drones4hire.url']}")
 	private String domain;
 
-	@Value("#{environmentProperties['drones4hire.tomcat.ws.path']}")
-	private String path;
+	@Value("#{environmentProperties['drones4hire.web.path']}")
+	private String webPath;
 	
 	@Value("#{environmentProperties['drones4hire.mail.support']}")
 	private String supportEmail;
@@ -62,7 +62,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/auth/" + EMAIL_CONFIRMATION_PATH);
+			builder.setPath(webPath + LOGIN_PATH);
 			builder.addParameter("id", user.getId().toString());
 			builder.addParameter("token", token);
 
@@ -83,7 +83,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/auth/" + CHANGE_EMAIL_PATH);
+			builder.setPath(webPath + "/api/v1/auth/" + CHANGE_EMAIL_PATH);
 			builder.addParameter("token", token);
 
 			Map<String, Object> emailData = new HashMap<String, Object>();
@@ -102,7 +102,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/auth/" + CHANGE_PASSWORD_PATH);
+			builder.setPath(webPath + "/api/v1/auth/" + CHANGE_PASSWORD_PATH);
 			builder.addParameter("token", token);
 
 			Map<String, Object> emailData = new HashMap<String, Object>();
@@ -121,7 +121,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/projects/" + project.getId());
+			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
 			
 			User client = userService.getUserById(project.getClientId());
 			Map<String, Object> emailData = new HashMap<String, Object>();
@@ -143,7 +143,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/projects/" + project.getId());
+			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
@@ -164,7 +164,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/projects/" + project.getId());
+			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
@@ -184,7 +184,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/projects/" + project.getId());
+			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
@@ -204,7 +204,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/projects/" + project.getId());
+			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
@@ -224,7 +224,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/projects/" + project.getId());
+			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
 			
 			User client = userService.getUserById(project.getClientId());
 			Map<String, Object> emailData = new HashMap<String, Object>();
@@ -246,7 +246,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(path + "/api/v1/projects/" + project.getId());
+			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
 			
 			User client = userService.getUserById(project.getClientId());
 			Map<String, Object> emailData = new HashMap<String, Object>();
