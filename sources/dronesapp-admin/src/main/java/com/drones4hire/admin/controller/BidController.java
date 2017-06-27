@@ -53,7 +53,7 @@ public class BidController extends AbstractController
 //	}
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "{id}/rewoke", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "{id}/revoke", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Bid rewokeBid(@PathVariable(value = "id") long bidId) throws ServiceException
 	{
 		return bidService.revokeBid(bidId, getPrincipal().getId());
