@@ -57,8 +57,7 @@ public class PaymentController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get client token", nickname = "getClientToken", code = 200, httpMethod = "GET", response = String.class)
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "client_token", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	public @ResponseBody String getClientToken() throws ServiceException
