@@ -22,8 +22,7 @@ public class LocationDTO extends AbstractDTO
 	
 	@NotNull(message="City required")
 	private String city;
-	
-	@NotNull(message="Postcode required")
+
 	private Integer postcode;
 	
 	public LocationDTO()
