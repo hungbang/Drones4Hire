@@ -52,6 +52,13 @@ public class LocationsController extends AbstractController
 	}
 
 	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "map", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+	public ModelAndView getMapPage()
+	{
+		return new ModelAndView("maps/index");
+	}
+
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "countries/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody SearchResult<Country> searchCountries(@RequestBody CountrySearchCriteria sc)
 	{

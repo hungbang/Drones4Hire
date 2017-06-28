@@ -15,24 +15,24 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 
 	$scope.searchProjects = function(page, pageSize){
 
-		var OFFSET = new Date().getTimezoneOffset()*60*1000;
-		$scope.projectSearchCriteria.page = page;
-		if(pageSize){
-			$scope.projectSearchCriteria.pageSize = pageSize;
-		}
+        var OFFSET = new Date().getTimezoneOffset()*60*1000;
+        $scope.projectSearchCriteria.page = page;
+        if(pageSize){
+            $scope.projectSearchCriteria.pageSize = pageSize;
+        }
 
-		if(! Array.isArray($scope.projectSearchCriteria.statuses)) {
+        if(! Array.isArray($scope.projectSearchCriteria.statuses)) {
             $scope.projectSearchCriteria.statuses = [$scope.projectSearchCriteria.statuses];
-		}
-		
-		$http.post('projects/searchProjects', $scope.projectSearchCriteria).success(function(data) {
-			$scope.projectSearchResult = data;
-			$scope.projectSearchCriteria.page = data.page;
-			$scope.projectSearchCriteria.pageSize = data.pageSize;
-		}).error(function() {
-			alertify.error('Failed to search projects');
-		});
-	};
+        }
+
+        $http.post('projects/search', $scope.projectSearchCriteria).success(function(data) {
+            $scope.projectSearchResult = data;
+            $scope.projectSearchCriteria.page = data.page;
+            $scope.projectSearchCriteria.pageSize = data.pageSize;
+        }).error(function() {
+            alertify.error('Failed to search projects');
+        });
+    };
 
     $scope.loadBudgets = function(){
         $http.get('common/budgets').success(function(data) {

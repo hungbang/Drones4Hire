@@ -49,6 +49,11 @@ DronesAdmin.constant('ROUTES', [
 	config : {
 		templateUrl : 'locations/countries'
 	}
+}, {
+        url : '/map',
+        config : {
+            templateUrl : 'locations/map'
+        }
 }]);
 
 DronesAdmin.config([ '$routeProvider', 'ROUTES',
