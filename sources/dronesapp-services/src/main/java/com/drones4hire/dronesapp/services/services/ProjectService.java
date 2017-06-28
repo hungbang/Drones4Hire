@@ -249,13 +249,16 @@ public class ProjectService
 	@Transactional(rollbackFor = Exception.class)
 	public Project releasePayment(Long projectId, Long userId) throws ServiceException
 	{
+		User client = userService.getNotNullUser(userId);
+		
 		Project project = getProjectById(projectId, userId);
+		checkAuthorities(project, client);
+		checkStatuses(project, Status.IN_PROGRESS);
 		
 		Bid winningBid = bidService.getBidByProjectIdAndUserId(projectId, project.getPilotId());
-		
-		if(Status.IN_PROGRESS.equals(project.getStatus()) || winningBid == null)
+		if(winningBid == null)
 		{
-			throw new ForbiddenOperationException("Invalid project status");
+			throw new ForbiddenOperationException("No winning bid found");
 		}
 		
 		BigDecimal feeTotal = calculateFee(winningBid.getAmount());

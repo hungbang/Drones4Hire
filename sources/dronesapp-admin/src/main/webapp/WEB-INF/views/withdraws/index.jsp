@@ -58,12 +58,14 @@
 			</fieldset>
 		</div>
 	</div>
-	<li><a href="" data-ng-click="openPasswordCheckPopup()">Download CSV</a></li>
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-6">
+			<!--a href="" data-ng-click="openPasswordCheckPopup()">Download CSV</a-->
+		</div>
+		<div class="col-lg-6">
 			<label class="search">Withdraw requests found: {{sr.totalResults}}</label>
 		</div>
-	</div>	
+	</div>
 	<div class="row">
 		<div class="col-lg-12">
 			<table class="table table-bordered table-hover table-striped tablesorter">
