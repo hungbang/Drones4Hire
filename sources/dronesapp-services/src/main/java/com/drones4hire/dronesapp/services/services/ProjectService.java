@@ -154,10 +154,6 @@ public class ProjectService
 		{
 			sc.setStatus(NEW);
 		}
-		results.setPage(sc.getPage());
-		results.setPageSize(sc.getPageSize());
-		results.setSortOrder(sc.getSortOrder());
-		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<ProjectForMapContext> projectSearchResults = projectMapper.searchProjectsForMap(sc);
 		results.setTotalResults(projectMapper.getProjectsForMapSearchCount(sc));
 		results.setResults(projectSearchResults);

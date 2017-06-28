@@ -1113,10 +1113,6 @@
 				]]>
 			</if>
 		</trim>
-		<![CDATA[
-			ORDER BY P.CREATED_AT DESC
-				LIMIT #{pageSize} OFFSET #{page}
-		]]>
 	</select>
 
 	<select id="getProjectsForMapSearchCount" resultType="java.lang.Integer">

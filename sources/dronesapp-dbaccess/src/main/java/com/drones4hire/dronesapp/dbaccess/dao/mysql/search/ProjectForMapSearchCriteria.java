@@ -7,7 +7,7 @@ import com.drones4hire.dronesapp.models.dto.CoordinatesDTO;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class ProjectForMapSearchCriteria extends SearchCriteria
+public class ProjectForMapSearchCriteria
 {
 	private Long id;
 	private Long budgetId;
