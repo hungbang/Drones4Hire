@@ -23,11 +23,13 @@ import com.drones4hire.dronesapp.models.dto.error.Error;
 import com.drones4hire.dronesapp.models.dto.error.ErrorCode;
 import com.drones4hire.dronesapp.models.dto.error.ErrorResponse;
 import com.drones4hire.dronesapp.services.exceptions.AWSException;
+import com.drones4hire.dronesapp.services.exceptions.EmailNotVerifiedException;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
+import com.drones4hire.dronesapp.services.exceptions.PaymentException;
 import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
@@ -146,6 +148,26 @@ public abstract class AbstractController
 	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.INVALID_USER_STATUS));
+		return result;
+	}
+	
+	@ExceptionHandler(EmailNotVerifiedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handleEmailNotConfirmedException(EmailNotVerifiedException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.EMAIL_NOT_VERIFIED));
+		return result;
+	}
+	
+	@ExceptionHandler(PaymentException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseBody
+	public ErrorResponse handlePaymentException(PaymentException e)
+	{
+		ErrorResponse result = new ErrorResponse();
+		result.setError(new Error(ErrorCode.PAYMENT_EXCEPTION));
 		return result;
 	}
 

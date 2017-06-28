@@ -24,6 +24,7 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Duration;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.BidInfo;
@@ -76,8 +77,7 @@ public class ProjectController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Create project", nickname = "createProject", code = 201, httpMethod = "POST", response = ProjectDTO.class)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,19 +86,15 @@ public class ProjectController extends AbstractController
 		Project project = mapper.map(p, Project.class);
 		project.setClientId(getPrincipal().getId());
 		project.setPilotId(null);
-		// TODO: 05/25/2017
-		return mapper.map(projectService.createProject(project, getPrincipal().getId()), ProjectDTO.class);
+		return mapper.map(projectService.createProject(project), ProjectDTO.class);
 	}
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get project by id", nickname = "getProjectById", code = 200, httpMethod = "GET", response = ProjectDTO.class)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ProjectDTO getProjectById(
-			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
-			throws ServiceException
+	public @ResponseBody ProjectDTO getProjectById(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id) throws ServiceException
 	{
 		Project project = projectService.getProjectById(id, getPrincipal().getId());
 		ProjectDTO projectDTO = mapper.map(project, ProjectDTO.class);
@@ -108,11 +104,22 @@ public class ProjectController extends AbstractController
 		}
 		return projectDTO;
 	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Release payment", nickname = "releasePayment", code = 201, httpMethod = "POST", response = Transaction.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "{id}/release", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Project releasePayment(@ApiParam(value = "Project ID", required = true) @PathVariable(value = "id") long id) throws ServiceException
+	{
+		return projectService.releasePayment(id, getPrincipal().getId());
+	}
+	
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Update project", nickname = "updateProject", code = 200, httpMethod = "PUT", response = ProjectDTO.class)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -151,9 +158,7 @@ public class ProjectController extends AbstractController
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void deleteProject(
-			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
-			throws ServiceException
+	public void deleteProject(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id) throws ServiceException
 	{
 		Project project = projectService.getProjectById(id, getPrincipal().getId());
 		checkPrincipalPermissions(project.getClientId());
@@ -162,8 +167,7 @@ public class ProjectController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Search projects", nickname = "searchProjects", code = 201, httpMethod = "POST", response = SearchResult.class)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody SearchResult<ProjectSearchResult> searchProjects(@Valid @RequestBody ProjectSearchCriteria sc)
@@ -192,8 +196,7 @@ public class ProjectController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Cancel project", nickname = "cancelProject", code = 200, httpMethod = "POST")
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_CLIENT"})
 	@RequestMapping(value = "{id}/cancel", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -205,13 +208,10 @@ public class ProjectController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get comments by project id", nickname = "getCommentsByProjectId", code = 200, httpMethod = "GET", response = List.class)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{id}/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<CommentDTO> getCommentsByProjectId(
-			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
-			throws ServiceException
+	public @ResponseBody List<CommentDTO> getCommentsByProjectId(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id) throws ServiceException
 	{
 		List<Comment> comments = commentService.getCommentsByProjectId(id, getPrincipal().getId());
 		List<CommentDTO> commentDTOs = new ArrayList<>();
@@ -304,8 +304,7 @@ public class ProjectController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Update paid option (admin)", nickname = "updatePaidOption", code = 200, httpMethod = "PUT", response = PaidOption.class)
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "paidoptions", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -316,8 +315,7 @@ public class ProjectController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Delete paid option (admin)", nickname = "deletePaidOption", code = 204, httpMethod = "DELETE")
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "paidoptions/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -330,8 +328,7 @@ public class ProjectController extends AbstractController
 
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get bid info", nickname = "getBidInfo", code = 200, httpMethod = "GET", response = BidInfo.class)
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{id}/bidInfo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BidInfo getBidInfo(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long projectId) throws ServiceException

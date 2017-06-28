@@ -73,4 +73,9 @@ public class Wallet extends AbstractEntity
 	{
 		this.withdrawToken = withdrawToken;
 	}
+	
+	public void chageBalance(BigDecimal byAmount)
+	{
+		this.balance.add(byAmount);
+	}
 }

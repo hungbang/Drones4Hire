@@ -3,28 +3,30 @@ package com.drones4hire.dronesapp.services.services;
 import java.util.Arrays;
 import java.util.List;
 
-import com.braintreegateway.Customer;
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.braintreegateway.Customer;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
 import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.commons.Location;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.exceptions.EmailNotVerifiedException;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsException;
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Service
@@ -32,7 +34,7 @@ public class UserService
 {
 	private boolean DEFAULT_ENABLED = true;
 
-	private boolean DEFAULT_CONFIRMED = true;
+	private boolean DEFAULT_CONFIRMED = false;
 	
 	private boolean DEFAULT_WITDRAW_ENABLED = false;
 
@@ -87,42 +89,41 @@ public class UserService
 			user.setWithdrawEnabled(DEFAULT_WITDRAW_ENABLED);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
-			
-			// Add group with default user role
-			Group group = groupService.getGroupByRole(role);
-			userMapper.createUserGroup(user, group);
-			user.getGroups().add(group);
-
-			// Initialize default location
-			if(user.getLocation() != null)
-			{
-				locationService.createLocation(user.getLocation());
-			}
-			else
-			{
-				user.setLocation(locationService.createLocation(new Location()));
-			}
-			updateUser(user);
-
-			// Initialize default notification settings
-			notificationSettingService.createDefaultNotificationSettings(user);
-
-			// Initialize default wallet
-			walletService.createDefaultWallet(user);
 		}
 		catch(DuplicateKeyException e)
 		{
 			throw new UserAlreadyExistException("Duplicate user credentials");
 		}
+			
+		// Add group with default user role
+		Group group = groupService.getGroupByRole(role);
+		userMapper.createUserGroup(user, group);
+		user.getGroups().add(group);
+
+		// Initialize default location
+		if(user.getLocation() != null)
+		{
+			locationService.createLocation(user.getLocation());
+		}
+		else
+		{
+			user.setLocation(locationService.createLocation(new Location()));
+		}
+		updateUser(user);
+
+		// Initialize default notification settings
+		notificationSettingService.createDefaultNotificationSettings(user);
+
+		// Initialize default wallet
+		walletService.createDefaultWallet(user);
+		
 
 		if(Role.ROLE_PILOT.equals(role))
 		{
 			// Initialize default profile
 			profileService.createDefaultProfile(user);
-
 			// Initialize default license
 			pilotLicenseService.createDefaultPilotLicense(user);
-
 			// Initialize default company
 			companyService.createDefaultCompany(user);
 		} 
@@ -158,6 +159,17 @@ public class UserService
 	public User getUserById(long id) throws ServiceException
 	{
 		return userMapper.getUserById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public User getNotNullUser(long id) throws ServiceException
+	{
+		User user = userMapper.getUserById(id);
+		if(user == null)
+		{
+			throw new UserNotFoundException("Unable to find user by ID: " + id);
+		}
+		return user;
 	}
 
 	@Transactional
@@ -226,9 +238,14 @@ public class UserService
 			throw new InvalidUserCredentialsException();
 		}
 
-		if(!user.isEnabled() || !user.isConfirmed())
+		if(!user.isEnabled())
 		{
 			throw new InvalidUserStatusException();
+		}
+		
+		if(!user.isConfirmed())
+		{
+			throw new EmailNotVerifiedException();
 		}
 
 		return user;

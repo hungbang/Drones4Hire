@@ -76,17 +76,15 @@
                 <failOnMissingWebXml>false</failOnMissingWebXml>
             </configuration>
         </plugin>
-        <plugin>
-            <groupId>org.apache.tomcat.maven</groupId>
-            <artifactId>tomcat7-maven-plugin</artifactId>
-            <configuration>
-                <charset>UTF-8</charset>
-                <uriEncoding>UTF-8</uriEncoding>
-                <path>${drones4hire.tomcat.web.path}</path>
-                <server>TomcatServer</server>
-                <ignorePackaging>true</ignorePackaging>
-            </configuration>
-        </plugin>
+			  <plugin>
+    				<groupId>org.apache.tomcat.maven</groupId>
+    				<artifactId>tomcat7-maven-plugin</artifactId>
+    				<configuration>
+      					<url>${drones4hire.url}/manager/text</url>
+      					<server>TomcatServer</server>
+      					<path>${drones4hire.web.path}</path>
+    				</configuration>
+  			</plugin>
     </plugins>
 </build>
 </project>

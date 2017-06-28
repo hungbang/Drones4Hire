@@ -34,6 +34,7 @@ public class Project extends AbstractEntity
 	private Status status;
 	private List<PaidOption> paidOptions;
 	private List<Attachment> attachments;
+	private String paymentMethod;
 
 	public Service getService()
 	{
@@ -185,7 +186,17 @@ public class Project extends AbstractEntity
 		this.attachments = attachments;
 	}
 
-	public BigDecimal getPaidPotionsSumAmount()
+	public String getPaymentMethod()
+	{
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod)
+	{
+		this.paymentMethod = paymentMethod;
+	}
+
+	public BigDecimal getPaidOptionsTotal()
 	{
 		BigDecimal amount = new BigDecimal(0);
 		for(PaidOption paidOption : this.getPaidOptions())

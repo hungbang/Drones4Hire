@@ -76,7 +76,7 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-6">
-			<button data-ng-click="openProjectModal()" class="btn btn-success">Create project</button>
+			<!--button data-ng-click="openProjectModal()" class="btn btn-success">Create project</button-->
 		</div>
 		<div class="col-lg-6">
 			<label class="search"><spring:message code="drones.admin.pages.common.projects_found.label"/>: {{projectSearchResult.totalResults}}</label>

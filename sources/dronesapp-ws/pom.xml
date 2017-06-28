@@ -195,35 +195,13 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<url>${drones4hire.tomcat.url}</url>
-					<path>${drones4hire.tomcat.ws.path}</path>
+					<url>${drones4hire.url}/manager/text</url>
 					<server>TomcatServer</server>
-					<systemProperties>
-						<JAVA_OPTS>-Xms512m -Xmx1024m -XX:MaxPermSize=512m</JAVA_OPTS>
-					</systemProperties>
+					<path>${drones4hire.ws.path}</path>
 				</configuration>
-			</plugin>
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-deploy-plugin</artifactId>
-			  <version>2.7</version>
-			  <configuration>
-			    <skip>true</skip>
-			  </configuration>
-			</plugin>
-			<plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<configuration>
-							<charset>UTF-8</charset>
-							<uriEncoding>UTF-8</uriEncoding>
-							<path>${drones4hire.tomcat.ws.path}</path>
-							<server>TomcatServer</server>
-							<ignorePackaging>true</ignorePackaging>
-					</configuration>
 			</plugin>
 		</plugins>
 	</build>

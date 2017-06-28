@@ -13,13 +13,10 @@
 			</activation>
 			<properties>
 				<drones4hire.env>local</drones4hire.env>
-				<drones4hire.url>http://localhost:8080</drones4hire.url>
-				<drones4hire.tomcat.url>${drones4hire.url}/manager/text</drones4hire.tomcat.url>
-				<drones4hire.tomcat.ws.path>/drones-api</drones4hire.tomcat.ws.path>
-				<drones4hire.tomcat.web.path>/drones</drones4hire.tomcat.web.path>
-				<drones4hire.tomcat.admin.path>/admin</drones4hire.tomcat.admin.path>
-				<drones4hire.ws.url>http://localhost:8080</drones4hire.ws.url>
-				<drones4hire.integrationTest.host>${drones4hire.url}</drones4hire.integrationTest.host>
+        <drones4hire.url>http://localhost:8080</drones4hire.url>
+        <drones4hire.ws.path>/drones-api</drones4hire.ws.path>
+        <drones4hire.web.path>/drones</drones4hire.web.path>
+        <drones4hire.admin.path>/admin</drones4hire.admin.path>
 
 				<drones4hire.db.jdbc.driverClass>com.mysql.jdbc.Driver</drones4hire.db.jdbc.driverClass>
 				<drones4hire.db.jdbc.url>jdbc:mysql://{host}:{port}/dronesapp</drones4hire.db.jdbc.url>

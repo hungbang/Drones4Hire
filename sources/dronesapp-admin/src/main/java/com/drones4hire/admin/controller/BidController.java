@@ -45,18 +45,18 @@ public class BidController extends AbstractController
 		bidService.deleteBid(bidId, getPrincipal().getId());
 	}
 
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "{id}/award", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Bid awardBid(@PathVariable(value = "id") long bidId) throws ServiceException
-	{
-		return bidService.awardBid(bidId, getPrincipal().getId());
-	}
+//	@ResponseStatus(HttpStatus.CREATED)
+//	@RequestMapping(value = "{id}/award", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody Bid awardBid(@PathVariable(value = "id") long bidId) throws ServiceException
+//	{
+//		return bidService.awardBid(bidId, getPrincipal().getId());
+//	}
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "{id}/rewoke", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "{id}/revoke", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Bid rewokeBid(@PathVariable(value = "id") long bidId) throws ServiceException
 	{
-		return bidService.rewokeBid(bidId, getPrincipal().getId());
+		return bidService.revokeBid(bidId, getPrincipal().getId());
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)

@@ -32,12 +32,13 @@
                                         <label class="control-label" for="code">Code</label>
                                         <input class="form-control" type="text" id="code" name="code" data-ng-model="sc.code">
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-lg-3">
-                                        <label class="control-label" for="licenseRequired">License required</label>
-                                        <input type="checkbox" id="licenseRequired" name="licenseRequired" data-ng-model="sc.licenseRequired">
-                                    </div>
+										<label class="control-label" for="enabled">License required</label>
+										<select class="form-control" id="licenseRequired" name="licenseRequired" data-ng-model="sc.licenseRequired">
+							            	<option value="true">true</option>
+							            	<option value="false">false</option>
+							            </select>
+				                    </div>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -81,8 +82,8 @@
                 <tbody>
                 <tr data-ng-repeat="result in sr.results | orderBy:predicate:reverse">
                     <td class="text-center">{{result.id}}</td>
-                    <td>{{result.name}}</td>>
-                    <td>{{result.code}}</td>>
+                    <td>{{result.name}}</td>
+                    <td>{{result.code}}</td>
                     <td>{{result.licenseRequired}}</td>
                     <td class="text-center">
                         <a data-ng-click="openCountryModal(result)" class="btn btn-success btn-xs options" href=""><i class="fa fa-search"></i></a>

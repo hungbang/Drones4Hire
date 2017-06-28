@@ -4,15 +4,16 @@ import static com.drones4hire.dronesapp.models.db.payments.Transaction.Status.CO
 import static com.drones4hire.dronesapp.models.db.payments.Transaction.Type.PAID_OPTION;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.CANCELLED;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
-import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_ADMIN;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,14 +29,18 @@ import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.PaymentException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 @Service
 public class ProjectService
 {
-
+	@Value("${drones4hire.service.fee}")
+	private BigDecimal serviceFee;
+	
 	@Autowired
 	private ProjectMapper projectMapper;
 
@@ -59,43 +64,33 @@ public class ProjectService
 
 	@Autowired
 	private PaymentService paymentService;
-
+	
 	@Autowired
 	private BidService bidService;
 
 	@Transactional(rollbackFor = Exception.class)
-	public Project createProject(Project project, Long principalId, BigDecimal bidAmount) throws ServiceException
+	public Project createProject(Project project) throws ServiceException
 	{
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
-		User user = userService.getUserById(principalId);
-		Transaction transaction = new Transaction(wallet.getId(), project.getPaidPotionsSumAmount(),
-				wallet.getCurrency(), PAID_OPTION, "Paid options", project.getId(), COMPLETED);
-		if(user.getRoles().contains(ROLE_CLIENT))
+		
+		BigDecimal total = project.getPaidOptionsTotal();
+		// Paid options selected
+		if(!BigDecimal.ZERO.equals(total))
 		{
-			paymentService.saleTransactionWithDefaultCard(transaction);
+			Currency currency = project.getPaidOptions().get(0).getCurrency();
+			String trId = paymentService.makePayment(project.getPaymentMethod(), total, currency);
+			transactionService.createTransaction(new Transaction(wallet.getId(), total, currency, PAID_OPTION, trId, project.getId(), COMPLETED));
 		}
+		
 		locationService.createLocation(project.getLocation());
+		
 		projectMapper.createProject(project);
+		
 		createProjectPaidOptions(project.getId(), project.getPaidOptions());
+		
 		createAttachment(project.getId(), project.getAttachments());
-		if(project.getPilotId() != null)
-		{
-			if(user.getRoles().contains(ROLE_ADMIN))
-			{
-				Bid bid = new Bid();
-				bid.setProjectId(project.getId());
-				bid.setAmount(bidAmount);
-				bid.setCurrency(Currency.USD);
-				bidService.awardBid(bidService.createBid(bid, project.getPilotId()).getId(), project.getClientId());
-			}
-		}
+		
 		return project;
-	}
-
-	@Transactional(rollbackFor = Exception.class)
-	public Project createProject(Project project, Long principalId) throws ServiceException
-	{
-		return createProject(project, principalId, new BigDecimal(0));
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -117,10 +112,16 @@ public class ProjectService
 	}
 	
 	@Transactional(readOnly = true)
-	public Project getProjectById(long id, long principalId) throws ServiceException
+	public Project getProjectById(long id) throws ServiceException
+	{
+		return projectMapper.getProjectById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public Project getProjectById(long id, long userId) throws ServiceException
 	{
 		Project project = projectMapper.getProjectById(id);
-		checkAuthorities(project, principalId);
+		checkAuthorities(project, userService.getUserById(userId));
 		return project;
 	}
 
@@ -227,22 +228,73 @@ public class ProjectService
 	{
 		return projectMapper.getProjectsSearchCount(sc);
 	}
-
-	public void checkAuthorities(Project project, long principalId) throws ServiceException
+	
+	@Transactional(rollbackFor = Exception.class)
+	public Project releasePayment(Long projectId, Long userId) throws ServiceException
 	{
-		User user = userService.getUserById(principalId);
+		Project project = getProjectById(projectId, userId);
+		
+		Bid winningBid = bidService.getBidByProjectIdAndUserId(projectId, project.getPilotId());
+		
+		if(Status.IN_PROGRESS.equals(project.getStatus()) || winningBid == null)
+		{
+			throw new ForbiddenOperationException("Invalid project status");
+		}
+		
+		BigDecimal feeTotal = calculateFee(winningBid.getAmount());
+		BigDecimal jobTotal = winningBid.getAmount().subtract(feeTotal);
+		
+		Wallet pilotWallet = walletService.getNotNullUserWallet(project.getPilotId());
+		
+		Transaction feeTransation = new Transaction(pilotWallet.getId(), 
+				feeTotal, winningBid.getCurrency(), Transaction.Type.SERVICE_FEE, null, 
+				projectId, Transaction.Status.COMPLETED);
+		transactionService.createTransaction(feeTransation);
+		
+		Transaction jobTransation = new Transaction(pilotWallet.getId(), 
+									jobTotal, winningBid.getCurrency(), Transaction.Type.PAYMENT_RELEASED, null, 
+									projectId, Transaction.Status.COMPLETED);
+		transactionService.createTransaction(jobTransation);
+		
+		if(pilotWallet.getCurrency().equals(jobTransation.getCurrency()))
+		{
+			throw new PaymentException("Wallet currency does not match to bid currency");
+		}
+		pilotWallet.chageBalance(jobTotal);
+		walletService.updateWallet(pilotWallet);
+		
+		project.setStatus(Project.Status.COMPLETED);
+		return updateProject(project);
+	}
+	
+	private BigDecimal calculateFee(BigDecimal amount)
+	{
+		return amount.divide(serviceFee).multiply(new BigDecimal(100));
+	}
+	
+	public void checkAuthorities(Project project, User user) throws ServiceException
+	{
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
-			if (principalId != project.getClientId())
+			if (user.getId() != project.getClientId())
 			{
 				throw new ForbiddenOperationException();
 			}
 		} else if (!project.getStatus().equals(NEW) && user.getRoles().contains(ROLE_PILOT))
 		{
-			if (principalId != project.getPilotId())
+			if (user.getId() != project.getPilotId())
 			{
 				throw new ForbiddenOperationException();
 			}
+		}
+	}
+	
+	
+	public void checkStatuses(Project project, Project.Status ... statuses) throws ForbiddenOperationException
+	{
+		if(!Arrays.asList(statuses).contains(project.getStatus()))
+		{
+			throw new ForbiddenOperationException("Invalid project status");
 		}
 	}
 }

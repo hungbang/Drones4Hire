@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 
 public class TransactionSearchCriteria extends SearchCriteria
 {
-	
 	private Long walletId;
 	private BigDecimal amount;
 	private Currency currency;

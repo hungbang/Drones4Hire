@@ -48,8 +48,9 @@ DronesAdmin.controller('CountriesPageController', [ '$scope', '$http', '$route',
                 $scope.updateCountry = function () {
                     $http.put('locations/countries', $scope.country).success(function(data)
                     {
-                        $scope.searchCountries(1);
+                    	alertify.success('Country updated');
                         $scope.cancel();
+                        $route.reload();
                     }).error(function () {
                         alertify.error('Failed to update country');
                     });

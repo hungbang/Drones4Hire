@@ -71,6 +71,10 @@
             <b>attachments</b>
         </field>
         <field>
+            <a>paymentMethod</a>
+            <b>paymentMethod</b>
+        </field>
+        <field>
             <a>createdAt</a>
             <b>createdAt</b>
         </field>

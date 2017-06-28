@@ -1,7 +1,6 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
 import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_EMAIL_PATH;
-import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.EMAIL_CONFIRMATION_PATH;
 
 import javax.validation.Valid;
 
@@ -108,7 +107,7 @@ public class AuthController extends AbstractController
 	@ResponseStatusDetails
 	@ApiOperation(value = "Confirm email", nickname = "confirm", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = EMAIL_CONFIRMATION_PATH, method = RequestMethod.GET)
+	@RequestMapping(value = "register/confirm", method = RequestMethod.GET)
 	public void confirmEmail(@RequestParam(name = "id", required = true) long id,
 			@RequestParam(name = "token", required = true) String token) throws ServiceException
 	{
