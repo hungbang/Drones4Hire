@@ -38,7 +38,7 @@ export class TDashboardComponent implements OnInit {
       return;
     }
 
-    this._paymentService.releasePayment(project.bidId)
+    this._paymentService.releasePayment(project.id)
       .subscribe(() => {
         this._modalService.pop();
         project.paymentReleased = Number(moment().format('x'));

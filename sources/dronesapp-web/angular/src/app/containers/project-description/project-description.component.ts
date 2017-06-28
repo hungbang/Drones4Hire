@@ -287,22 +287,22 @@ export class ProjectDescriptionComponent implements OnInit {
       );
   }
 
-  _release(isAccepted, bidId: number) {
+  _release(isAccepted, projectId: number) {
     if (!isAccepted) {
       this.modalService.pop();
       return;
     }
 
-    this._paymentService.releasePayment(bidId)
+    this._paymentService.releasePayment(projectId)
       .subscribe(() => {
         this.modalService.pop();
         this.project.status = 'COMPLETED';
       });
   }
 
-  release(bidId: number) {
+  release(projectId: number) {
     this._openConfirm((e) =>
-      this._release(e, bidId));
+      this._release(e, projectId));
   }
 
   fetchAttachments() {
@@ -330,7 +330,7 @@ export class ProjectDescriptionComponent implements OnInit {
       page: 1,
       pageSize: 3,
       serviceCategoryId: this.project.service.category.id,
-      status: ['NEW']
+      statuses: ['NEW']
     };
 
     this.projectService.getProjects(search).subscribe(

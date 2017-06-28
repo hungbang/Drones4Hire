@@ -15,7 +15,7 @@ export class ClientProjectsResolve implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot) {
-    let page = Number(route.params['page']);
+    const page = Number(route.params['page']);
 
     if (isNaN(page)) {
       return createObservable(null);
