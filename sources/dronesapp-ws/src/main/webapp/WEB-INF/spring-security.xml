@@ -29,12 +29,13 @@
 		<security:intercept-url pattern="/api/v1/common/countries" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/common/states" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/payoneer/**" access="permitAll" />
-		
+
 		<security:intercept-url pattern="/api/v1/common/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/api/v1/account/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/api/v1/portfolio/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/api/v1/upload/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/api/v1/projects/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/v1/payments/**" access="isAuthenticated()" />
 
 		<security:csrf disabled="true"/>
 		<security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />
