@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from '../request.service/request.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+
+import { RequestService } from '../request.service/request.service';
 import { TokenService } from '../token.service/token.service';
 import { AccountService } from '../account.service/account.service';
-import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthorizationService {
@@ -49,5 +49,9 @@ export class AuthorizationService {
 
   private clearData() {
     this._accountService.clearData();
+  }
+
+  public verifyEmail(id, token) {
+    return this._requestService.fetch('get', `/auth/register/confirm?id=${id}&token=${token}`);
   }
 }

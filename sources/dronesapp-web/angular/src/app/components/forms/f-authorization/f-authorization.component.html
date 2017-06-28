@@ -10,14 +10,18 @@
       <div class="f-default__text _verify _first-login">
         You have been sign up successfully! To complete your registration please verify your email.
       </div>
-
     </div>
     <div class="f-default__row" *ngIf="showVerifyNotification">
-      <div class="f-default__text _verify __error">
+      <div class="f-default__text _verify _error">
         You can't log in. Please, verify your email before.
       </div>
-
     </div>
+    <div class="f-default__row" *ngIf="showVerifySuccessNotification">
+      <div class="f-default__text _verify">
+        Your email have been verified successfully. Now you can log in.
+      </div>
+    </div>
+
     <div class="f-default__row _flex" *ngIf="false">
       <div class="f-default__col">
         <a href="#" class="f-authorization__link _facebook">
@@ -182,7 +186,7 @@
       </label>
     </div>
     <div class="f-default__row" *ngIf="isSignUpForm && formData.role === 'ROLE_PILOT' && canAddLocation">
-      <label class="f-default__label">
+      <label class="f-default__label" (keydown.enter)="$event.preventDefault()">
         <input class="f-default__field"
                type="text"
                required
@@ -205,7 +209,7 @@
                  #termsRef="ngModel"
                  [ngClass]="{'_error': submitted && termsRef.errors?.required}"/>
           <span class="f-default__chk-span"></span>
-          <span class="f-default__chk-text">I agree to the <a [routerLink]="['/terms-and-condition']">Terms of Service</a> and <a [routerLink]="['/privacy-policy']">Privacy Policy</a></span>
+          <span class="f-default__chk-text">I agree to the <a target="_blank" [routerLink]="['/terms-and-condition']">Terms of Service</a> and <a target="_blank" [routerLink]="['/privacy-policy']">Privacy Policy</a></span>
         </label>
     </div>
     <div class="f-default__row _controls">

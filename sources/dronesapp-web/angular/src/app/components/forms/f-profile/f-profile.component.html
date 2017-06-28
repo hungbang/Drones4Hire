@@ -31,23 +31,10 @@
         </label>
       </div>
       <div class="f-default__row">
-        <label class="f-default__label">
-          <input class="f-default__field"
-                 type="text"
-                 placeholder="Address*"
-                 name="address"
-                 [ngModel]="accountService.account?.location?.address"
-                 (ngModelChange)="accountService.account.location.address = $event"
-                 required
-                 #addressRef="ngModel"
-                 [ngClass]="{'_error': submitted && addressRef.errors?.required}"/>
-        </label>
-      </div>
-      <div class="f-default__row">
         <label class="f-default__label _select" [ngClass]="{'_placeholder': !accountService.account?.location?.country?.name}">
           <select class="f-default__field"
                   name="country"
-                  [(ngModel)]="accountService.account.location.country.name"
+                  [ngModel]="accountService.account.location.country.name"
                   (ngModelChange)="selectCountry($event)"
                   required
                   #countryRef="ngModel"
@@ -65,7 +52,7 @@
         <label class="f-default__label _select" [ngClass]="{'_placeholder': !accountService.account?.location?.state?.name}">
           <select class="f-default__field"
                   name="state"
-                  [(ngModel)]="accountService.account.location.state.name"
+                  [ngModel]="accountService.account.location.state.name"
                   (ngModelChange)="selectState($event)"
                   required
                   #stateRef="ngModel"
@@ -78,33 +65,47 @@
           </select>
         </label>
       </div>
+      <div class="f-default__row" (keydown.enter)="$event.preventDefault()">
+        <label class="f-default__label">
+          <input class="f-default__field"
+                 type="text"
+                 placeholder="Address*"
+                 name="address"
+                 [(ngModel)]="accountService.account.location.address"
+                 required
+                 #addressRef="ngModel"
+                 #location
+                 [ngClass]="{'_error': submitted && (addressRef.errors?.required || !accountService.account?.location?.coordinates?.latitude)}"/>
+        </label>
+        <div class="f-default__text _error" *ngIf="submitted && !accountService.account?.location?.coordinates?.latitude">Please select correct Google location</div>
+      </div>
 
-      <div class="f-default__row">
-        <label class="f-default__label">
-          <input class="f-default__field"
-                 type="text"
-                 name="city"
-                 placeholder="City*"
-                 [ngModel]="accountService.account?.location?.city"
-                 (ngModelChange)="accountService.account.location.city = $event"
-                 required
-                 #cityRef="ngModel"
-                 [ngClass]="{'_error': submitted && cityRef.errors?.required}">
-        </label>
-      </div>
-      <div class="f-default__row">
-        <label class="f-default__label">
-          <input class="f-default__field"
-                 type="text"
-                 name="postalCode"
-                 placeholder="Post code*"
-                 [ngModel]="accountService.account?.location?.postcode"
-                 (ngModelChange)="accountService.account.location.postcode = $event"
-                 required
-                 #postalCodeRef="ngModel"
-                 [ngClass]="{'_error': submitted && postalCodeRef.errors?.required}">
-        </label>
-      </div>
+      <!--<div class="f-default__row">-->
+        <!--<label class="f-default__label">-->
+          <!--<input class="f-default__field"-->
+                 <!--type="text"-->
+                 <!--name="city"-->
+                 <!--placeholder="City*"-->
+                 <!--[ngModel]="accountService.account?.location?.city"-->
+                 <!--(ngModelChange)="accountService.account.location.city = $event"-->
+                 <!--required-->
+                 <!--#cityRef="ngModel"-->
+                 <!--[ngClass]="{'_error': submitted && cityRef.errors?.required}">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="f-default__row">-->
+        <!--<label class="f-default__label">-->
+          <!--<input class="f-default__field"-->
+                 <!--type="text"-->
+                 <!--name="postalCode"-->
+                 <!--placeholder="Post code*"-->
+                 <!--[ngModel]="accountService.account?.location?.postcode"-->
+                 <!--(ngModelChange)="accountService.account.location.postcode = $event"-->
+                 <!--required-->
+                 <!--#postalCodeRef="ngModel"-->
+                 <!--[ngClass]="{'_error': submitted && postalCodeRef.errors?.required}">-->
+        <!--</label>-->
+      <!--</div>-->
       <div class="f-default__row" *ngIf="accountService.isUserPilot()">
         <label class="f-default__label">
           <input class="f-default__field"

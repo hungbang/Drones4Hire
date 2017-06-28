@@ -1,8 +1,10 @@
-import {Component, ElementRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, Input, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
 import {NgProgressService} from 'ngx-progressbar';
+import {} from '@types/googlemaps';
+import {MapsAPILoader} from '@agm/core'
 
 import {CommonService} from '../../../services/common.service/common.service';
 import {RequestService} from '../../../services/request.service/request.service';
@@ -28,6 +30,7 @@ import {ModalService} from '../../../services/modal.service/modal.service';
 })
 export class FProjectAddComponent implements OnInit {
   @Input() project: ProjectModel = null;
+  @ViewChild('location') public searchElement: ElementRef;
   private _now = moment();
   attachmentsLimit = 8;
   acceptedFormats = [
@@ -85,7 +88,9 @@ export class FProjectAddComponent implements OnInit {
     private router: Router,
     private toastrService: ToastrService,
     private _modalService: ModalService,
-    private progressbarService: NgProgressService
+    private progressbarService: NgProgressService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -190,6 +195,10 @@ export class FProjectAddComponent implements OnInit {
         address: '',
         city: '',
         postcode: null,
+        coordinates: {
+          latitude: null,
+          longitude: null
+        }
       }
     };
   }
@@ -203,9 +212,6 @@ export class FProjectAddComponent implements OnInit {
       this.initPaidOptions();
       this.initCategories();
       this.initDate();
-      if (this.checkCountry()) {
-        this.getListOfStates();
-      }
     }
   }
 
@@ -214,8 +220,10 @@ export class FProjectAddComponent implements OnInit {
     this.getServices();
     this.getBudgets();
     this.getCountries();
+    this.getListOfStates();
     this.getDurations();
     this.getPaidOptions();
+    this.loadPlaces();
   }
 
   private getCountries() {
@@ -349,7 +357,7 @@ export class FProjectAddComponent implements OnInit {
     this.formData.service['name'] = category.name;
   }
 
-  selectCountry(name: string) {
+  selectCountry(name: string, isAutocomplete = false) {
     if (!name || name === 'null') {
       this.clearCountry();
       return;
@@ -361,10 +369,14 @@ export class FProjectAddComponent implements OnInit {
     this.formData.location.country.name = country.name;
 
     if (this.checkCountry()) {
-      this.getListOfStates();
       this.clearState();
     } else {
       delete this.formData.location.state;
+    }
+
+    if (!isAutocomplete) {
+      this.loadPlaces();
+      this.resetLocation();
     }
   }
 
@@ -393,7 +405,7 @@ export class FProjectAddComponent implements OnInit {
     });
   }
 
-  selectState(name: string) {
+  selectState(name: string, isAutocomplete = false) {
     if (!name || name === 'null') {
       this.clearState();
       return;
@@ -402,6 +414,10 @@ export class FProjectAddComponent implements OnInit {
     const state = this.states.find((state) => state.name === name);
 
     this.setState(state);
+
+    if (!isAutocomplete) {
+      this.resetLocation();
+    }
   }
 
   checkCountry() {
@@ -582,5 +598,106 @@ export class FProjectAddComponent implements OnInit {
     } else {
       this.formData.attachments = this.formData.attachments.filter(attach => attach.id !== id);
     }
+  }
+
+  private loadPlaces() {
+    this.mapsAPILoader.load().then(
+      () => {
+        this.ngZone.run(
+          () => {
+            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+
+            if (this.formData.location.country && this.formData.location.country.name) {
+              const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
+              if (country) {
+                autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+              }
+            }
+            autocomplete.addListener('place_changed', () => {
+              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+              // verify result
+              if (place.geometry === undefined || place.geometry === null) {
+                return;
+              }
+
+              console.log('place:', place);
+              this.ngZone.run(() => this.setLocation(place));
+            })
+          }
+        );
+      }
+    )
+  }
+
+  private setLocation(place) {
+    this.formData.location.address = '';
+    let state = '';
+
+    place.address_components.forEach((el, i) => {
+      const addressType = place.address_components[i].types[0];
+
+      if (addressType === 'locality') {
+        this.formData.location.city = el.long_name;
+      } else if (addressType === 'postal_code') {
+        this.formData.location.postcode = el.long_name || null;
+      } else if (addressType === 'route') {
+        this.formData.location.address = el.short_name + this.formData.location.address;
+      } else if (addressType === 'street_number') {
+        this.formData.location.address += (', ' + el.long_name);
+      } else if (addressType === 'country') {
+        const country = this.countries.find((country) => country.code.toLowerCase() === el.short_name.toLowerCase());
+
+        if (!this.formData.location.country ||
+          !this.formData.location.country.name ||
+          this.formData.location.country.name !== country.name) {
+          this.selectCountry(country.name, true);
+        }
+
+        if (this.checkCountry()) {
+          if (!this.formData.location.state ||
+            !this.formData.location.state.name ||
+            this.formData.location.state.name !== state) {
+            this.selectState(state, true);
+          }
+        } else {
+          delete this.formData.location.state;
+        }
+      } else if (addressType === 'administrative_area_level_1') {
+        state = el.long_name;
+      }
+    });
+    this.formData.location.coordinates.latitude = place.geometry.location.lat();
+    this.formData.location.coordinates.longitude = place.geometry.location.lng();
+
+    console.log(this.formData.location);
+  }
+
+  private resetLocation() {
+    this.formData.location.address = '';
+    this.formData.location.coordinates = {
+      latitude: 0,
+      longitude: 0
+    }
+  }
+
+  locationClicked(e) {
+    this.getPlace(e.coords);
+  }
+
+  markerMoved(e) {
+    this.getPlace(e.coords);
+  }
+
+  private getPlace(location) {
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({'location': location}, (res, status) => {
+      if (status === google.maps.GeocoderStatus.OK && res.length) {
+        this.ngZone.run(() => this.setLocation(res[0]));
+      } else {
+        this.toastrService.showError('Can\'t resolve address. Please try another point.')
+      }
+    })
   }
 }

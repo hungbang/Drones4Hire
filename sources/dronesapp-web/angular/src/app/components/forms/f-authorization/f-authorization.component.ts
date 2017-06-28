@@ -1,5 +1,5 @@
 import {Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgProgressService} from 'ngx-progressbar';
 import {MapsAPILoader} from '@agm/core';
 import {} from '@types/googlemaps';
@@ -54,13 +54,16 @@ export class FAuthorizationComponent implements OnInit {
   states: StateModel[] = [];
   showConfirmNotification: boolean = false;
   showVerifyNotification: boolean = false;
+  showVerifySuccessNotification: boolean = false;
+  isVerified: boolean = true;
 
-  @ViewChild("location") public searchElement: ElementRef;
+  @ViewChild('location') public searchElement: ElementRef;
 
   constructor(
     public _authorizationService: AuthorizationService,
     private _accountService: AccountService,
     private _router: Router,
+    private route: ActivatedRoute,
     private toastrService: ToastrService,
     private progressbarService: NgProgressService,
     private commonService: CommonService,
@@ -71,15 +74,17 @@ export class FAuthorizationComponent implements OnInit {
 
   ngOnInit() {
     this.isSignUpForm = this._authorizationService.signUpFormActive = this._router.url === '/sign-up';
+    if (!this.isSignUpForm) {
+      this.verifyEmail();
+    }
+
     this.getCountries();
+    this.getListOfStates();
 
     if (localStorage.getItem('firstLogin')) {
       this.showConfirmNotification = true;
       localStorage.removeItem('firstLogin');
     }
-
-    console.log(this._authorizationService.signUpFormActive);
-    console.log(this.isSignUpForm);
   }
 
   getButtonTitle() {
@@ -109,7 +114,7 @@ export class FAuthorizationComponent implements OnInit {
     this.clearState();
   }
 
-  selectCountry(name: string) {
+  selectCountry(name: string, isAutocomplete = false) {
     // if pseudo placeholder option was selected
     if (!name || name === 'null') {
       this.clearCountry();
@@ -121,16 +126,15 @@ export class FAuthorizationComponent implements OnInit {
     this.setCountry(country);
 
     if (this.checkCountry) {
-      this.getListOfStates();
+      this.clearState();
     } else {
-      setTimeout(() => {
-        this.loadPlaces();
-      }, 1)
+      delete this.formData.location.state;
     }
-    this.formData.location.address = '';
-    this.formData.location.coordinates.latitude = null;
-    this.formData.location.coordinates.longitude = null;
-    this.clearState();
+
+    if (!isAutocomplete) {
+      this.loadPlaces();
+      this.resetLocation();
+    }
   }
 
   private setCountry({name, id}) {
@@ -147,7 +151,7 @@ export class FAuthorizationComponent implements OnInit {
     this.states = extend([], states);
   }
 
-  selectState(name: string) {
+  selectState(name: string, isAutocomplete = false) {
     // if pseudo placeholder option was selected
     if (!name || name === 'null') {
       this.clearState();
@@ -157,6 +161,10 @@ export class FAuthorizationComponent implements OnInit {
     const state = this.states.find((state) => state.name === name);
 
     this.setState(state);
+
+    if (!isAutocomplete) {
+      this.resetLocation();
+    }
   }
 
   private setState({name, id, code}) {
@@ -182,18 +190,24 @@ export class FAuthorizationComponent implements OnInit {
       () => {
         this.ngZone.run(
           () => {
-            let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
 
+            if (this.formData.location.country && this.formData.location.country.name) {
+              const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
+              if (country) {
+                autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+              }
+            }
             autocomplete.addListener('place_changed', () => {
-              let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-              //verify result
+              // verify result
               if (place.geometry === undefined || place.geometry === null) {
                 return;
               }
 
               console.log('place:', place);
-              this.setLocation(place);
+              this.ngZone.run(() => this.setLocation(place));
             })
           }
         );
@@ -202,6 +216,9 @@ export class FAuthorizationComponent implements OnInit {
   }
 
   private setLocation(place) {
+    this.formData.location.address = '';
+    let state = '';
+
     place.address_components.forEach((el, i) => {
       const addressType = place.address_components[i].types[0];
 
@@ -213,12 +230,30 @@ export class FAuthorizationComponent implements OnInit {
         this.formData.location.address = el.short_name + this.formData.location.address;
       } else if (addressType === 'street_number') {
         this.formData.location.address += (' ' + el.long_name);
+      } else if (addressType === 'country') {
+        const country = this.countries.find((country) => country.code.toLowerCase() === el.short_name.toLowerCase());
+
+        if (!this.formData.location.country ||
+          !this.formData.location.country.name ||
+          this.formData.location.country.name !== country.name) {
+          this.selectCountry(country.name, true);
+        }
+
+        if (this.checkCountry) {
+          if (!this.formData.location.state ||
+            !this.formData.location.state.name ||
+            this.formData.location.state.name !== state) {
+            this.selectState(state, true);
+          }
+        } else {
+          delete this.formData.location.state;
+        }
+      } else if (addressType === 'administrative_area_level_1') {
+        state = el.long_name;
       }
     });
     this.formData.location.coordinates.latitude = place.geometry.location.lat();
     this.formData.location.coordinates.longitude = place.geometry.location.lng();
-
-    console.log(this.formData.location);
   }
 
   get canAddLocation() {
@@ -226,6 +261,14 @@ export class FAuthorizationComponent implements OnInit {
     const isState = this.checkCountry ? this.formData.location.state && this.formData.location.state.name : true;
 
     return isCountry && isState;
+  }
+
+  private resetLocation() {
+    this.formData.location.address = '';
+    this.formData.location.coordinates = {
+      latitude: 0,
+      longitude: 0
+    }
   }
 
   sendAuthorizationRequest(e, form) {
@@ -236,7 +279,7 @@ export class FAuthorizationComponent implements OnInit {
     e.preventDefault();
     this.submitted = true;
 
-    if (form.invalid) {
+    if (form.invalid || !this.isVerified) {
       return;
     }
 
@@ -258,18 +301,30 @@ export class FAuthorizationComponent implements OnInit {
         (err) => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
-          if (err.status === 401) {
+          if (err.status === 500) {
+            this.toastrService.showError('Server error. Please, try later.');
+          } else if (err.status === 401) {
+            const body = err.json();
             if (body && body.error && body.error.code === 401) {
               this.toastrService.showError('Wrong e-mail or password');
             }
-          }
-          if (err.status === 400) {
+          } else if (err.status === 403) {
+            const body = err.json();
+            if (body && body.error) {
+              if (body.error.code === 1003) {
+                this.showVerifyNotification = true;
+                this.isVerified = false;
+              }
+            }
+          } else if (err.status === 400) {
+            const body = err.json();
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
               });
             }
+          } else {
+            this.toastrService.showError('Please, check your data');
           }
         }
       )
@@ -318,4 +373,19 @@ export class FAuthorizationComponent implements OnInit {
       );
   }
 
+  verifyEmail() {
+    if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.id && this.route.snapshot.queryParams.token) {
+      this._authorizationService.verifyEmail(this.route.snapshot.queryParams.id, this.route.snapshot.queryParams.token)
+        .subscribe(
+          res => {
+            console.log(res);
+            this.showVerifySuccessNotification = true;
+            this.isVerified = true;
+          },
+          err => {
+            console.log(err);
+          }
+        );
+    }
+  }
 }
