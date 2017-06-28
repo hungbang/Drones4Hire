@@ -37,7 +37,7 @@
 <script src="<spring:url value='/resources/js/3rd_party/angular-route.min.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/3rd_party/textAngular.min.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/3rd_party/textAngular-rangy.min.js'/>" type="text/javascript"></script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl_ws71PLHo5BbfFd-5oRwxZhXVuTv7Xc&libraries=places" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/3rd_party/markerAnimate.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/3rd_party/slidingMarker.min.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/3rd_party/alertify.min.js'/>" type="text/javascript"></script>
@@ -70,3 +70,4 @@
 <script src="<spring:url value='/resources/js/dronesapp/paid-option-controllers.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/withdraw-controllers.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/countries-controllers.js'/>" type="text/javascript"></script>
+<script src="<spring:url value='/resources/js/dronesapp/maps-controller.js'/>" type="text/javascript"></script>
