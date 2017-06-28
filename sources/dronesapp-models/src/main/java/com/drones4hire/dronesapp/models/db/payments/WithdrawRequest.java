@@ -11,7 +11,7 @@ public class WithdrawRequest extends AbstractEntity
 
 	public enum Status
 	{
-		NEW, APPROVED, CANCELLED, FAILED
+		NEW, PENDING, APPROVED, CANCELLED, FAILED
 	}
 
 	private Long userId;

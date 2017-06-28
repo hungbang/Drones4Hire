@@ -43,13 +43,26 @@ public class PayoneerCallbackController extends AbstractController
 	@ResponseStatusDetails
 	@ApiOperation(value = "Accept payment request", nickname = "acceptPayoneerAccount", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "accepted", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void acceptPayoneerAccount(
+	@RequestMapping(value = "accept", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void acceptPayoneerRequest(
 			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
-			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "IntPaymentId") String paymentId,
+			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "IntPaymentId") Long paymentId,
 			@ApiParam(value = "Payoneer payment Id", required = true) @RequestParam(value = "PayoneerPaymentId") String PayoneerPaymentId)
 			throws ServiceException
 	{
-		
+		payoneerService.acceptPayment(apuid, paymentId);
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Accept payment request", nickname = "acceptPayoneerAccount", code = 200, httpMethod = "GET")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "cancel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void cancelPayoneerRequest(
+			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
+			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "IntPaymentId") Long paymentId,
+			@ApiParam(value = "Payoneer payment Id", required = true) @RequestParam(value = "PayoneerPaymentId") String PayoneerPaymentId)
+			throws ServiceException
+	{
+		payoneerService.cancelPayment(apuid, paymentId);
 	}
 }

@@ -44,12 +44,12 @@ public class WithdrawService
 		
 		if(wallet == null || wallet.getBalance().compareTo(wr.getAmount()) < 0)
 		{
-			new InavlidWaultAmountException("Not enough funds on balance: " + wallet.getBalance());
+			throw new InavlidWaultAmountException("Not enough funds on balance: " + wallet.getBalance());
 		}
 		
 		if(!wallet.getCurrency().equals(wr.getCurrency()))
 		{
-			new InvalidCurrenyException("Required currency: " + wallet.getCurrency());
+			throw new InvalidCurrenyException("Required currency: " + wallet.getCurrency());
 		}
 		
 		wr.setStatus(Status.NEW);
@@ -57,7 +57,18 @@ public class WithdrawService
 		withdrawMapper.createWithdrawRequest(wr);
 		return wr;
 	}
+	
+	@Transactional(readOnly=true)
+	public WithdrawRequest getWithdrawRequestById(long id) {
+		return withdrawMapper.getWithdrawRequestById(id);
+	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public WithdrawRequest updateWithdrawRequest(WithdrawRequest request) {
+		withdrawMapper.updateWithdrawRequest(request);
+		return request;
+	}
+	
 	@Transactional(readOnly=true)
 	public SearchResult<WithdrawRequest> search(WithdrawSearchCriteria sc)
 	{
