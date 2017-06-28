@@ -27,4 +27,8 @@ export class PaymentService {
     return this._requestService.fetch('post', `/projects/${projectId}/release`);
   }
 
+  getToken() {
+    return this._requestService.fetch('get', '/payments/token');
+  }
+
 }

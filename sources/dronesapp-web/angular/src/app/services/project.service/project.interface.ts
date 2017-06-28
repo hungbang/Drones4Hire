@@ -24,4 +24,5 @@ export interface ProjectModel {
   clientId?: number;
   client?: any;
   attachments?: ProjectAttachmentModel[];
+  paymentMethod?: string;
 }

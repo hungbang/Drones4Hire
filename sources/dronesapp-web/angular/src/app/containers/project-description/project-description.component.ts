@@ -15,6 +15,7 @@ import {PaymentService} from '../../services/payment.service/payment.service';
 import {ToastrService} from '../../services/toastr.service/toastr.service';
 import {ModalService} from '../../services/modal.service/modal.service';
 import {ModalConfirmationComponent} from '../../components/modals/modal-confirmation/modal-confirmation.component';
+import {ModalPaymentComponent} from "../../components/modals/modal-payment/modal-payment.component";
 
 @Component({
   selector: 'project-description',
@@ -32,7 +33,7 @@ export class ProjectDescriptionComponent implements OnInit {
   public attachments: ProjectAttachmentModel[] = [];
   public similarProjects: ProjectModel[] = [];
   public pilotAttachments: ProjectAttachmentModel[] = [];
-
+  paymentToken: string = '';
   private _serverBidInfo;
 
   get isClient() {
@@ -84,10 +85,25 @@ export class ProjectDescriptionComponent implements OnInit {
 
     if (this.isPilot) {
       this.pilotBid = this.bids.pop();
+    } else {
+      this.getPaymentToken();
     }
 
     this.createBidsInfo(this._serverBidInfo);
     this.getSimilarProjects();
+  }
+
+  private getPaymentToken() {
+    this._paymentService.getToken()
+      .subscribe(
+        res => {
+          // console.log('payment token', res);
+          this.paymentToken = res.clientId;
+        },
+        err => {
+          console.log('payment token error', err);
+        }
+      );
   }
 
   fetchClientFullName(id: number) {
@@ -114,22 +130,40 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   award(bid) {
-    this._openConfirm((e) =>
-      this._award(e, bid));
+    this._openConfirm((e) => {
+      this.modalService.pop();
+      if (e) {
+        console.log(bid);
+        this.getPayment(bid);
+      }
+    });
   }
 
-  private _award(isAccepted, bid) {
-    if (!isAccepted) {
-      this.modalService.pop();
-      return;
-    }
-
-    this._bidService.award(bid.id)
-      .subscribe(() => {
-        this.modalService.pop();
-        this.project.bidId = bid.id;
-        this.isEdit = false;
-      });
+  private _award(bid) {
+    this.progressbarService.start();
+    this._bidService.award(bid.id, bid.paymentMethod)
+      .subscribe(
+        () => {
+          this.progressbarService.done();
+          this.project.bidId = bid.id;
+          this.isEdit = false;
+        },
+        err => {
+          this.progressbarService.done();
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later.');
+          } else if (err.status === 400) {
+            const body = err.json();
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            }
+          } else {
+            this.toastrService.showError('Unable to process payment. Please try later.');
+          }
+        }
+      );
   }
 
   edit() {
@@ -148,6 +182,27 @@ export class ProjectDescriptionComponent implements OnInit {
         confirm
       }
     });
+  }
+
+  getPayment(bid) {
+    this.modalService.push({
+      component: ModalPaymentComponent,
+      type: 'ModalInformationComponent',
+      values: {
+        title: 'Choose a payment',
+        message: 'Please, choose existed payment or add new before',
+        clientToken: this.paymentToken,
+        paymentFn: (e) => { this.setPayment(e, bid); }
+      }
+    });
+    return;
+  }
+
+  setPayment(nonce, bid) {
+    bid.paymentMethod = nonce;
+    this.modalService.pop();
+
+    this._award(bid);
   }
 
   acceptFromPilot(id: number, isProgress: boolean) {

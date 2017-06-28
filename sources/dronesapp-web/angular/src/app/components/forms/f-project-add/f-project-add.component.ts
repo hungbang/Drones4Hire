@@ -21,6 +21,8 @@ import {CategoryModel} from '../../../services/common.service/category.interface
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
 import {ModalConfirmationComponent} from '../../modals/modal-confirmation/modal-confirmation.component';
 import {ModalService} from '../../../services/modal.service/modal.service';
+import {ModalPaymentComponent} from '../../modals/modal-payment/modal-payment.component';
+import {PaymentService} from '../../../services/payment.service/payment.service';
 
 @Component({
   selector: 'f-project-add',
@@ -45,6 +47,8 @@ export class FProjectAddComponent implements OnInit {
   isNotAcceptedFormat: boolean = false;
   isLimitReached: boolean = false;
   isSubmitted: boolean = false;
+  paymentToken: string = '';
+  paidOptionsCount: number = 0;
 
   date = {
     start: moment(),
@@ -90,7 +94,8 @@ export class FProjectAddComponent implements OnInit {
     private _modalService: ModalService,
     private progressbarService: NgProgressService,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private paymentService: PaymentService
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -199,7 +204,8 @@ export class FProjectAddComponent implements OnInit {
           latitude: null,
           longitude: null
         }
-      }
+      },
+      paymentMethod: ''
     };
   }
 
@@ -209,6 +215,7 @@ export class FProjectAddComponent implements OnInit {
     if (this.project) {
       this.isEditForm = true;
       this.formData = mergeDeep(this.formData, this.project);
+      this.paidOptionsCount = this.formData.paidOptions.length;
       this.initPaidOptions();
       this.initCategories();
       this.initDate();
@@ -224,6 +231,7 @@ export class FProjectAddComponent implements OnInit {
     this.getDurations();
     this.getPaidOptions();
     this.loadPlaces();
+    this.getPaymentToken();
   }
 
   private getCountries() {
@@ -275,6 +283,19 @@ export class FProjectAddComponent implements OnInit {
 
   private setDurations(durations) {
     this.durations = extend([], durations);
+  }
+
+  private getPaymentToken() {
+    this.paymentService.getToken()
+      .subscribe(
+        res => {
+          // console.log('payment token', res);
+          this.paymentToken = res.clientId;
+        },
+        err => {
+          console.log('payment token error', err);
+        }
+      );
   }
 
   selectService(name: string) {
@@ -393,7 +414,7 @@ export class FProjectAddComponent implements OnInit {
     if (checked) {
       index === -1 && this.formData.paidOptions.push(paidOption);
     } else {
-      index >= 0 && this.formData.paidOptions.splice(index, 1);
+      index >= 0 && !this.isEditForm && this.formData.paidOptions.splice(index, 1);
     }
 
     this.initPaidOptions();
@@ -424,37 +445,110 @@ export class FProjectAddComponent implements OnInit {
     return this.formData.location.country.name === 'United States';
   }
 
-  private _edit(isAccepted) {
-    if (!isAccepted) {
-      this._modalService.pop();
-      return;
-    }
-
+  private _edit() {
     this.progressbarService.start();
     return this.projectService.updateProject(this.formData)
       .subscribe(
         res => {
           this.progressbarService.done();
-          this._modalService.pop();
           // console.log('updated project:', res);
           this.router.navigate(['/project', res.id]);
         },
         err => {
           this.progressbarService.done();
-          this._modalService.pop();
-          const body = err.json();
 
-          if (err.status === 400) {
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later');
+          } else if (err.status === 403) {
+            const body = err.json();
+
+            if (body && body.error) {
+              if (body.error.code === 2001) {
+                this.toastrService.showError('Unable to process payment');
+              }
+            }
+          } else if (err.status === 400) {
+            const body = err.json();
+
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
               });
-            } else {
-              this.toastrService.showError('Please check your data');
             }
+          } else {
+            this.toastrService.showError('Please check your data');
           }
         }
       );
+  }
+
+  private _post() {
+    this.formData.budget.confirmationValid = true;
+    this.formData.confirmationValid = true;
+    this.formData.paidOptions.forEach((paidOption: PaidOptionModel) => {
+      paidOption.confirmationValid = true;
+    });
+
+    this.progressbarService.start();
+    return this.projectService.postProjects(this.formData)
+      .subscribe(
+        res => {
+          this.progressbarService.done();
+          // console.log('saved new project:', res);
+          this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
+        },
+        err => {
+          this.progressbarService.done();
+          console.log(err);
+
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later');
+          } else if (err.status === 403) {
+            const body = err.json();
+
+            if (body && body.error) {
+              if (body.error.code === 2001) {
+                this.toastrService.showError('Unable to process payment');
+              }
+            }
+          } else if (err.status === 400) {
+            const body = err.json();
+
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            }
+          } else {
+            this.toastrService.showError('Please check your data');
+          }
+        }
+      )
+  }
+
+  getPayment() {
+    this._modalService.push({
+      component: ModalPaymentComponent,
+      type: 'ModalInformationComponent',
+      values: {
+        title: 'Choose a payment',
+        message: 'Please, choose existed payment or add new before',
+        clientToken: this.paymentToken,
+        paymentFn: (e) => { this.setPayment(e); }
+      }
+    });
+    return;
+  }
+
+  setPayment(nonce) {
+    this.formData.paymentMethod = nonce;
+    this._modalService.pop();
+
+    if (!this.isEditForm) {
+      this._post();
+    } else {
+      this._edit();
+    }
   }
 
   postProject(e, form) {
@@ -467,7 +561,6 @@ export class FProjectAddComponent implements OnInit {
 
     // console.log('project data to save:', this.formData);
     if (this.isEditForm) {
-
       return this._modalService.push({
         component: ModalConfirmationComponent,
         type: 'ModalConfirmationComponent',
@@ -476,40 +569,22 @@ export class FProjectAddComponent implements OnInit {
           message: 'Do you really want to release payments?',
           confirm_btn_text: 'Yes',
           cancel_btn_text: 'No',
-          confirm: (e) => this._edit(e)
-        }
-      });
-    } else {
-      this.formData.budget.confirmationValid = true;
-      this.formData.confirmationValid = true;
-      this.formData.paidOptions.forEach((paidOption: PaidOptionModel) => {
-        paidOption.confirmationValid = true;
-      });
-
-      this.progressbarService.start();
-      return this.projectService.postProjects(this.formData)
-        .subscribe(
-          res => {
-            this.progressbarService.done();
-            // console.log('saved new project:', res);
-            this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
-          },
-          err => {
-            this.progressbarService.done();
-            console.log(err);
-            const body = err.json();
-
-            if (err.status === 400) {
-              if (body && body.validationErrors) {
-                body.validationErrors.forEach(item => {
-                  this.toastrService.showError(item.field);
-                });
+          confirm: (e) => {
+            this._modalService.pop();
+            if (e) {
+              if (this.paidOptionsCount !== this.formData.paidOptions.length && !this.formData.paymentMethod) {
+                this.getPayment();
               } else {
-                this.toastrService.showError('Please check your data');
+                this._edit();
               }
             }
           }
-        )
+        }
+      });
+    } else {
+      if (this.formData.paidOptions.length) {
+        this.getPayment();
+      }
     }
   }
 

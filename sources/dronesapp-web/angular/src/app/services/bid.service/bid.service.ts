@@ -56,8 +56,8 @@ export class BidService {
       .fetch('post', `/bids/${id}/reject`);
   }
 
-  award(id: number) {
+  award(id: number, paymentMethod: string = '') {
     return this.requestService
-      .fetch('post', `/bids/${id}/award`);
+      .fetch('post', `/bids/${id}/award`, {paymentMethod: paymentMethod});
   }
 }

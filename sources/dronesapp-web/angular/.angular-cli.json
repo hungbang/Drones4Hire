@@ -27,7 +27,8 @@
       "scripts": [
         "assets/js/jquery-3.1.0.min.js",
         "assets/js/slick.min.js",
-        "../node_modules/moment/min/moment.min.js"
+        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/braintree-web-drop-in/index.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
