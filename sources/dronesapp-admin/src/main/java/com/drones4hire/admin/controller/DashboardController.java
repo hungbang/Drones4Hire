@@ -54,7 +54,7 @@ public class DashboardController extends AbstractController
 		overview.put("pilotsTotal", userService.getUserCount(new UserSearchCriteria(Role.ROLE_PILOT)));
 		overview.put("clientsTotal", userService.getUserCount(new UserSearchCriteria(Role.ROLE_CLIENT)));
 		overview.put("withdrawRequestsTotal", withdrawService.getWithdrawRequestCount(new WithdrawSearchCriteria()));
-		overview.put("polotsToVerifyTotal", 0);
+		overview.put("polotsToVerifyTotal", userService.getUserCount(new UserSearchCriteria(Role.ROLE_PILOT, false)));
 		
 		return overview;
 	}

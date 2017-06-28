@@ -54,6 +54,13 @@
 							            	<option value="false">false</option>
 							            </select>
 				                    </div>
+				                    <div class="col-lg-3" data-ng-if="isPilot()">
+										<label class="control-label" for="licenseVerified">License verified</label>
+										<select class="form-control" id="licenseVerified" name="licenseVerified" data-ng-model="sc.licenseVerified">
+							            	<option value="true">true</option>
+							            	<option value="false">false</option>
+							            </select>
+				                    </div>
 							</div>
 							<div class="text-right">
 								<a href="" data-ng-click="resetSearchCriteria()" class="clear-form"><spring:message code="drones.admin.pages.common.button.clear"/>&nbsp;<i class="fa fa-times-circle"/></a>

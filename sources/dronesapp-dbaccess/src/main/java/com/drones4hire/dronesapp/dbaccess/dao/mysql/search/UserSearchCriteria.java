@@ -11,6 +11,7 @@ public class UserSearchCriteria extends SearchCriteria
 	private Integer flightHours;
 	private Boolean confirmed;
 	private Boolean enabled;
+	private Boolean licenseVerified;
 	private Role role;
 	
 	public UserSearchCriteria()
@@ -21,6 +22,13 @@ public class UserSearchCriteria extends SearchCriteria
 	{
 		super();
 		this.role = role;
+	}
+	
+	public UserSearchCriteria(Role role, Boolean licenseVerified)
+	{
+		super();
+		this.role = role;
+		this.licenseVerified = licenseVerified;
 	}
 	
 	public String getUsername()
@@ -101,5 +109,15 @@ public class UserSearchCriteria extends SearchCriteria
 	public void setRole(Role role)
 	{
 		this.role = role;
+	}
+
+	public Boolean getLicenseVerified()
+	{
+		return licenseVerified;
+	}
+
+	public void setLicenseVerified(Boolean licenseVerified)
+	{
+		this.licenseVerified = licenseVerified;
 	}
 }

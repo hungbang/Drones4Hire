@@ -105,6 +105,10 @@
 	        	drones.GROUPS G
 	        ON
 	        	G.ID = UG.GROUP_ID
+	        LEFT JOIN
+	        	drones.PILOT_LICENSES PL
+	        ON
+	        	PL.USER_ID = U.ID
         ]]>
     </sql>
 
@@ -144,6 +148,11 @@
 			<if test="null != enabled">
 				<![CDATA[
 				   AND U.ENABLED = #{enabled}
+				]]>
+			</if>
+			<if test="null != licenseVerified">
+				<![CDATA[
+				   AND PL.VERIFIED = #{licenseVerified}
 				]]>
 			</if>
 			<if test="null != role">
@@ -193,6 +202,10 @@
 		        	drones.GROUPS G
 		        ON
 		        	G.ID = UG.GROUP_ID
+		        LEFT JOIN
+		        	drones.PILOT_LICENSES PL
+		        ON
+		        	PL.USER_ID = U.ID
 	    ]]>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="null != lastName">
@@ -228,6 +241,11 @@
 			<if test="null != enabled">
 				<![CDATA[
 				   AND U.ENABLED = #{enabled}
+				]]>
+			</if>
+			<if test="null != licenseVerified">
+				<![CDATA[
+				   AND PL.VERIFIED = #{licenseVerified}
 				]]>
 			</if>
 			<if test="null != role">
