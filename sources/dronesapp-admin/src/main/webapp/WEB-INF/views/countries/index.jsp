@@ -89,7 +89,7 @@
                     </td>
                 </tr>
                 <tr data-ng-show="!sr.results.length">
-                    <td colspan="4" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
+                    <td colspan="5" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
                 </tr>
                 </tbody>
             </table>
