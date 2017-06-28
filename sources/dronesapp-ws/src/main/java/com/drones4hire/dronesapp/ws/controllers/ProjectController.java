@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
@@ -192,6 +190,17 @@ public class ProjectController extends AbstractController
 		results.setTotalResults(searchResult.getTotalResults());
 		results.setResults(projectDTOs);
 		return searchResult;
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Search projects for map", nickname = "searchProjectsForMap", code = 201, httpMethod = "POST", response = SearchResult.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "search/map", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody SearchResult<ProjectForMapContext> searchProjectsForMap(@Valid @RequestBody ProjectForMapSearchCriteria sc)
+			throws ServiceException
+	{
+		return projectService.searchProjectsForMap(sc, getPrincipal().getId());
 	}
 
 	@ResponseStatusDetails

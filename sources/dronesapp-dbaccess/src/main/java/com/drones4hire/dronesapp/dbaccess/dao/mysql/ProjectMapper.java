@@ -2,9 +2,7 @@ package com.drones4hire.dronesapp.dbaccess.dao.mysql;
 
 import java.util.List;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,6 +23,10 @@ public interface ProjectMapper
 	Integer getProjectsSearchCount(ProjectSearchCriteria sc);
 
 	Integer getProjectsWithAdminSearchCount(ProjectSearchCriteriaForAdmin sc);
+
+	List<ProjectForMapContext> searchProjectsForMap(ProjectForMapSearchCriteria sc);
+
+	Integer getProjectsForMapSearchCount(ProjectForMapSearchCriteria sc);
 
 	List<Project> getAllProjects();
 

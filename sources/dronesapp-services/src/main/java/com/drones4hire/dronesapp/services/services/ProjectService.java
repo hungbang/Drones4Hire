@@ -4,6 +4,7 @@ import static com.drones4hire.dronesapp.models.db.payments.Transaction.Status.CO
 import static com.drones4hire.dronesapp.models.db.payments.Transaction.Type.PAID_OPTION;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.CANCELLED;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
+import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_ADMIN;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
@@ -12,16 +13,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.commons.Currency;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
@@ -143,6 +141,25 @@ public class ProjectService
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjects(sc);
 		results.setTotalResults(projectMapper.getProjectsSearchCount(sc));
+		results.setResults(projectSearchResults);
+		return results;
+	}
+
+	@Transactional(readOnly = true)
+	public SearchResult<ProjectForMapContext> searchProjectsForMap(ProjectForMapSearchCriteria sc, long principalId) throws ServiceException
+	{
+		SearchResult<ProjectForMapContext> results = new SearchResult<>();
+		User user = userService.getUserById(principalId);
+		if (! user.getRoles().contains(ROLE_ADMIN))
+		{
+			sc.setStatus(NEW);
+		}
+		results.setPage(sc.getPage());
+		results.setPageSize(sc.getPageSize());
+		results.setSortOrder(sc.getSortOrder());
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
+		List<ProjectForMapContext> projectSearchResults = projectMapper.searchProjectsForMap(sc);
+		results.setTotalResults(projectMapper.getProjectsForMapSearchCount(sc));
 		results.setResults(projectSearchResults);
 		return results;
 	}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping type="bi-directional" wildcard="false">
+        <class-a>com.drones4hire.dronesapp.models.dto.CoordinatesDTO</class-a>
+        <class-b>com.drones4hire.dronesapp.models.db.commons.Coordinates</class-b>
+
+        <field>
+            <a>latitude</a>
+            <b>latitude</b>
+        </field>
+        <field>
+            <a>longitude</a>
+            <b>longitude</b>
+        </field>
+    </mapping>
+</mappings>

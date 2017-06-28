@@ -33,6 +33,7 @@
 				<value>dozer/Comment-dozer-mapping.xml</value>
 				<value>dozer/Commons-dozer-mapping.xml</value>
 				<value>dozer/Company-dozer-mapping.xml</value>
+				<value>dozer/Coordinates-dozer-mapping.xml</value>
 				<value>dozer/License-dozer-mapping.xml</value>
 				<value>dozer/Notification-settings-dozer-mapping.xml</value>
 				<value>dozer/PilotEquipment-dozer-mapping.xml</value>

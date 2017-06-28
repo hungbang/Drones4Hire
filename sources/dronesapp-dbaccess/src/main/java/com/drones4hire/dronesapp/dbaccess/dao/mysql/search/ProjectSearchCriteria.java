@@ -1,7 +1,10 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
+import com.drones4hire.dronesapp.models.dto.CoordinatesDTO;
 
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import java.util.List;
 
 public class ProjectSearchCriteria extends SearchCriteria
@@ -16,6 +19,10 @@ public class ProjectSearchCriteria extends SearchCriteria
 	private Integer postcode;
 	private long budgetId;
 	private List<Status> statuses;
+	@Valid
+	private CoordinatesDTO topLeftCoordinates;
+	@Valid
+	private CoordinatesDTO bottomRightCoordinates;
 
 	public String getTitle()
 	{
@@ -105,5 +112,31 @@ public class ProjectSearchCriteria extends SearchCriteria
 	public void setStatuses(List<Status> statuses)
 	{
 		this.statuses = statuses;
+	}
+
+	public CoordinatesDTO getTopLeftCoordinates()
+	{
+		return topLeftCoordinates;
+	}
+
+	public void setTopLeftCoordinates(CoordinatesDTO topLeftCoordinates)
+	{
+		this.topLeftCoordinates = topLeftCoordinates;
+	}
+
+	public CoordinatesDTO getBottomRightCoordinates()
+	{
+		return bottomRightCoordinates;
+	}
+
+	public void setBottomRightCoordinates(CoordinatesDTO bottomRightCoordinates)
+	{
+		this.bottomRightCoordinates = bottomRightCoordinates;
+	}
+
+	@AssertTrue(message = "Coordinates should be have same type pair")
+	public boolean isCoordinagtesHavePair()
+	{
+		return (topLeftCoordinates == null && bottomRightCoordinates == null) || (topLeftCoordinates != null && bottomRightCoordinates != null);
 	}
 }
