@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
+import com.drones4hire.dronesapp.models.dto.PaymentClientDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.PaymentService;
 import com.drones4hire.dronesapp.services.services.WalletService;
@@ -37,10 +38,10 @@ public class PaymentController extends AbstractController
 	@ApiOperation(value = "Get client token", nickname = "getClientToken", code = 200, httpMethod = "GET", response = String.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "token", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-	public @ResponseBody String getClientToken() throws ServiceException
+	@RequestMapping(value = "token", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody PaymentClientDTO getClientToken() throws ServiceException
 	{
 		Wallet wallet = walletService.getNotNullUserWallet(getPrincipal().getId());
-		return paymentService.generateClientToken(wallet.getPaymentToken());
+		return new PaymentClientDTO(paymentService.generateClientToken(wallet.getPaymentToken()));
 	}
 }
