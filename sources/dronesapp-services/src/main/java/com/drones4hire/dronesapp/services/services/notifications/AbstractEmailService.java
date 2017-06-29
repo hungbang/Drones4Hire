@@ -78,6 +78,7 @@ public abstract class AbstractEmailService
 		return null;
 	}
 
+//	TODO: remove.
 	public String sendChangingEmail(User user, String token)
 	{
 		try
@@ -102,6 +103,7 @@ public abstract class AbstractEmailService
 		try
 		{
 			URIBuilder builder = new URIBuilder(domain);
+//			TODO[anazarenko]: when implemented add new link
 			builder.setPath(webPath + "/api/v1/auth/" + CHANGE_PASSWORD_PATH);
 			builder.addParameter("token", token);
 

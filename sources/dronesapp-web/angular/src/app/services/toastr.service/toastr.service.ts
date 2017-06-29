@@ -15,7 +15,7 @@ export class ToastrService {
   }
 
   showError(message: string, title: string = 'Error!', settings: any = {}) {
-    this.toastr.error(message, title, {...{showCloseButton: true, dismiss: 'click'}, ...settings});
+    this.toastr.error(message, title, {...{toastLife: 15000, showCloseButton: true, dismiss: 'click'}, ...settings});
 
   }
 

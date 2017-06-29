@@ -1,7 +1,6 @@
-import {Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
+import {Component, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
+
 import {BidModel} from '../../../services/bid.service/bid.interface';
-import * as moment from 'moment';
-import {PaymentService} from "../../../services/payment.service/payment.service";
 
 @Component({
   selector: 'l-bids',
@@ -9,7 +8,7 @@ import {PaymentService} from "../../../services/payment.service/payment.service"
   styleUrls: ['./l-bids.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class LBidsComponent implements OnInit {
+export class LBidsComponent {
   @Input() bids: BidModel[];
   @Input() activeId: number;
   @Input() disabled: boolean;
@@ -18,17 +17,13 @@ export class LBidsComponent implements OnInit {
   @Output() release = new EventEmitter<number>();
 
   constructor() {
-
-  }
-
-  ngOnInit() {
   }
 
   onAward(id) {
     this.award.emit(id);
   }
 
-  onRelease(bidId: number) {
-    this.release.emit(bidId);
+  onRelease(projectId: number) {
+    this.release.emit(projectId);
   }
 }

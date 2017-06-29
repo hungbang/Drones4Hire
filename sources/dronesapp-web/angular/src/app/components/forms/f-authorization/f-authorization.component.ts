@@ -1,9 +1,16 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgProgressService} from 'ngx-progressbar';
+import {MapsAPILoader} from '@agm/core';
+import {} from '@types/googlemaps';
 
+import {extend} from '../../../shared/common/common-methods';
 import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {AccountService} from '../../../services/account.service/account.service';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
+import {CountryModel} from '../../../services/common.service/country.interface';
+import {StateModel} from '../../../services/common.service/state.interface';
+import {CommonService} from '../../../services/common.service/common.service';
 
 @Component({
   selector: 'f-authorization',
@@ -19,68 +26,306 @@ export class FAuthorizationComponent implements OnInit {
     password: '',
     confirmPassword: '',
     username: '',
-    role: ''
+    role: '',
+    location: {
+      address: '',
+      city: '',
+      coordinates: {
+        latitude: null,
+        longitude: null
+      },
+      country: {
+        id: null,
+        name: null
+      },
+      state: {
+        name: null,
+        id: null,
+        code: null
+      },
+      postcode: null
+    }
   };
   public isSignUpForm = true;
   public isTermOfUseChecked = false;
 
   public submitted = false;
+  countries: CountryModel[] = [];
+  states: StateModel[] = [];
+  showConfirmNotification: boolean = false;
+  showVerifyNotification: boolean = false;
+  showVerifySuccessNotification: boolean = false;
+  isVerified: boolean = true;
+
+  @ViewChild('location') public searchElement: ElementRef;
 
   constructor(
     public _authorizationService: AuthorizationService,
     private _accountService: AccountService,
     private _router: Router,
-    private toastrService: ToastrService
+    private route: ActivatedRoute,
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService,
+    private commonService: CommonService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
   ) {
   }
 
   ngOnInit() {
     this.isSignUpForm = this._authorizationService.signUpFormActive = this._router.url === '/sign-up';
+    if (!this.isSignUpForm) {
+      this.verifyEmail();
+    }
+
+    this.getCountries();
+    this.getListOfStates();
+
+    if (localStorage.getItem('firstLogin')) {
+      this.showConfirmNotification = true;
+      localStorage.removeItem('firstLogin');
+    }
   }
 
   getButtonTitle() {
     return this.isSignUpForm ? 'Sign Up' : 'Login';
   }
 
+  private getCountries() {
+    this.commonService.getCountries()
+      .subscribe((countries) => this.setCountries(countries));
+  }
+
+  private setCountries(countries) {
+    this.countries = extend([], countries);
+
+    this.clearCountry();
+  }
+
+  get checkCountry() {
+    return this.formData.location.country && this.formData.location.country.name === 'United States';
+  }
+
+  private clearCountry() {
+    this.formData.location.country = {
+      id: null,
+      name: null
+    };
+    this.clearState();
+  }
+
+  selectCountry(name: string, isAutocomplete = false) {
+    // if pseudo placeholder option was selected
+    if (!name || name === 'null') {
+      this.clearCountry();
+      return;
+    }
+
+    const country = this.countries.find((country) => country.name === name);
+
+    this.setCountry(country);
+    this.clearState();
+
+    if (!isAutocomplete) {
+      this.resetLocation();
+      this.loadPlaces();
+    }
+  }
+
+  private setCountry({name, id}) {
+    this.formData.location.country.name = name;
+    this.formData.location.country.id = id;
+  }
+
+  private getListOfStates() {
+    this.commonService.getStates()
+      .subscribe((states) => this.setStates(states));
+  }
+
+  private setStates(states) {
+    this.states = extend([], states);
+  }
+
+  selectState(name: string, isAutocomplete = false) {
+    // if pseudo placeholder option was selected
+    if (!name || name === 'null') {
+      this.clearState();
+      return;
+    }
+
+    const state = this.states.find((state) => state.name === name);
+
+    this.setState(state);
+
+    if (!isAutocomplete) {
+      this.resetLocation();
+    }
+  }
+
+  private setState({name, id, code}) {
+    this.formData.location.state.name = name;
+    this.formData.location.state.id = id;
+    this.formData.location.state.code = code;
+  }
+
+  private clearState() {
+    this.formData.location.state = {
+      id: null,
+      name: null,
+      code: null
+    };
+  }
+
+  private loadPlaces() {
+    this.mapsAPILoader.load().then(
+      () => {
+        this.ngZone.run(
+          () => {
+            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+
+            if (this.formData.location.country && this.formData.location.country.name) {
+              const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
+              if (country) {
+                autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+              }
+            }
+            autocomplete.addListener('place_changed', () => {
+              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+              // verify result
+              if (place.geometry === undefined || place.geometry === null) {
+                return;
+              }
+
+              console.log('place:', place);
+              this.ngZone.run(() => this.setLocation(place));
+            })
+          }
+        );
+      }
+    )
+  }
+
+  private setLocation(place) {
+    this.formData.location.address = '';
+    let state = '';
+
+    place.address_components.forEach((el, i) => {
+      const addressType = place.address_components[i].types[0];
+
+      if (addressType === 'locality') {
+        this.formData.location.city = el.long_name;
+      } else if (addressType === 'postal_code') {
+        this.formData.location.postcode = el.long_name || null;
+      } else if (addressType === 'route') {
+        this.formData.location.address = el.short_name + this.formData.location.address;
+      } else if (addressType === 'street_number') {
+        this.formData.location.address += (' ' + el.long_name);
+      } else if (addressType === 'country') {
+        const country = this.countries.find((country) => country.code.toLowerCase() === el.short_name.toLowerCase());
+
+        if (!this.formData.location.country ||
+          !this.formData.location.country.name ||
+          this.formData.location.country.name !== country.name) {
+          this.selectCountry(country.name, true);
+        }
+
+        if (this.checkCountry) {
+          if (!this.formData.location.state ||
+            !this.formData.location.state.name ||
+            this.formData.location.state.name !== state) {
+            this.selectState(state, true);
+          }
+        } else {
+          delete this.formData.location.state;
+        }
+      } else if (addressType === 'administrative_area_level_1') {
+        state = el.long_name;
+      }
+    });
+    this.formData.location.coordinates.latitude = place.geometry.location.lat();
+    this.formData.location.coordinates.longitude = place.geometry.location.lng();
+  }
+
+  get canAddLocation() {
+    return this.formData.location.country && this.formData.location.country.name;
+  }
+
+  private resetLocation() {
+    this.formData.location.address = '';
+    this.formData.location.coordinates = {
+      latitude: 0,
+      longitude: 0
+    }
+  }
+
   sendAuthorizationRequest(e, form) {
     this._authorizationService.signUpFormActive ? this.sendSignUpRequest(e, form) : this.sendLoginRequest(e, form);
   }
 
-  sendLoginRequest(e, form) {
+  sendLoginRequest(e, form) { // TODO: add redirect if user was redirected from another page cause was not logged in
     e.preventDefault();
     this.submitted = true;
 
-    if (form.invalid) {
+    if (form.invalid || !this.isVerified) {
       return;
     }
 
+    this.progressbarService.start();
     this._authorizationService.signIn({email: this.formData.email, password: this.formData.password})
       .subscribe(
         () => {
+          this.progressbarService.done();
           this._accountService.getAccountData()
-            .subscribe(() => {
-              if (this._accountService.isUserPilot()) {
-                return this._accountService.getAccountLicense().subscribe(() => {
-                  this._router.navigate(['/']);
-                });
+            .subscribe(
+              () => {
+                if (this._accountService.isUserPilot()) {
+                  this._accountService.getAccountLicense().subscribe(
+                    res => {
+                      if (!res.verified) {
+                        this._router.navigate(['/account', 'pilot', 'details']);
+                      } else {
+                        this._router.navigate(['/dashboard', 'pilot']);
+                      }
+                    },
+                    err => {
+                      console.log('get license error', err);
+                      this._router.navigate(['/dashboard', 'pilot']);
+                    }
+                  );
+                } else {
+                  this._router.navigate(['/dashboard', 'client']);
+                }
               }
-              this._router.navigate(['/']);
-            });
+            );
         },
         (err) => {
+          this.progressbarService.done();
           console.log(err);
-          const body = err.json();
-          if (err.status === 401) {
+          if (err.status === 500) {
+            this.toastrService.showError('Server error. Please, try later.');
+          } else if (err.status === 401) {
+            const body = err.json();
             if (body && body.error && body.error.code === 401) {
               this.toastrService.showError('Wrong e-mail or password');
             }
-          }
-          if (err.status === 400) {
+          } else if (err.status === 403) {
+            const body = err.json();
+            if (body && body.error) {
+              if (body.error.code === 1003) {
+                this.showVerifyNotification = true;
+                this.isVerified = false;
+              }
+            }
+          } else if (err.status === 400) {
+            const body = err.json();
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
               });
             }
+          } else {
+            this.toastrService.showError('Please, check your data');
           }
         }
       )
@@ -90,20 +335,25 @@ export class FAuthorizationComponent implements OnInit {
     e.preventDefault();
     this.submitted = true;
 
-    if (form.invalid) {
+    if (form.invalid || (this.formData.role === 'ROLE_PILOT' && !this.formData.location.coordinates.latitude)) {
       return;
+    }
+    // reset location for client
+    if (this.formData.role === 'ROLE_CLIENT') {
+      this.formData.location = null;
     }
 
     this.formData.username = this.formData.username.toLowerCase();
-
+    this.progressbarService.start();
     this._authorizationService.signUp(this.formData)
       .subscribe(
         () => {
-          this._authorizationService.signUpFormActive = false;
-          this.isSignUpForm = false;
-          this.toastrService.showSuccess('You have been sign up successfully! To complete your registration please verify your email.', null, {toastLife: 5000});
+          this.progressbarService.done();
+          localStorage.setItem('firstLogin', 'true');
+          this._router.navigate(['/login']);
         },
         (err) => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
           if (err.status === 403) {
@@ -124,4 +374,20 @@ export class FAuthorizationComponent implements OnInit {
       );
   }
 
+  verifyEmail() {
+    const queryParams = this.route.snapshot.queryParams;
+
+    if (queryParams && queryParams.id && queryParams.token) {
+      this._authorizationService.verifyEmail(queryParams.id, queryParams.token)
+        .subscribe(
+          () => {
+            this.showVerifySuccessNotification = true;
+            this.isVerified = true;
+          },
+          err => {
+            console.log('verify email error:', err);
+          }
+        );
+    }
+  }
 }

@@ -1,4 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {NgProgressService} from 'ngx-progressbar';
+
 import {AccountService} from '../../../services/account.service/account.service';
 import {CommonService} from '../../../services/common.service/common.service';
 import {CountryModel} from '../../../services/common.service/country.interface';
@@ -20,7 +22,8 @@ export class FClientCompanyComponent implements OnInit { // TODO: check this for
   constructor(
     public accountService: AccountService,
     public commonService: CommonService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
   }
 
@@ -63,13 +66,16 @@ export class FClientCompanyComponent implements OnInit { // TODO: check this for
       return;
     }
 
+    this.progressbarService.start();
     this.accountService.setAccountCompany(this.accountService.company)
       .subscribe(
         (res) => {
-        console.log(res, '-save company');
-        this.toastrService.showSuccess('Saved')
-      },
+          this.progressbarService.done();
+          console.log(res, '-save company');
+          this.toastrService.showSuccess('Saved')
+        },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 

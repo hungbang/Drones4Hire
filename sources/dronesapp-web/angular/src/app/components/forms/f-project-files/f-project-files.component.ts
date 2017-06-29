@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {RequestService} from '../../../services/request.service/request.service';
 import {ProjectAttachmentModel} from '../../../services/project.service/project-attacment.interface';
@@ -36,17 +37,19 @@ export class FProjectFilesComponent implements OnInit {
     private _elementRef: ElementRef,
     private _requestService: RequestService,
     private projectService: ProjectService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       this.fileURL = JSON.parse(response)['url'];
       this.fileName = this.fileItem.file.name;
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
       console.log('problem with upload image');
+      this.progressbarService.done();
       this.toastrService.showError('Couldn\'t upload image. Try one more time.');
       this.uploader.clearQueue();
       return {item, response, status, headers};
@@ -56,6 +59,7 @@ export class FProjectFilesComponent implements OnInit {
       console.log('onAfterAddingFile');
       this.fileItem = item;
       this.uploader.uploadAll();
+      this.progressbarService.start();
       return {item};
     };
 
@@ -84,14 +88,17 @@ export class FProjectFilesComponent implements OnInit {
       title: this.title,
       type: 'PROJECT_RESULT'
     };
+    this.progressbarService.start();
     this.projectService.addAttachment(attachment)
       .subscribe(
         (receivedAttachment) => {
+          this.progressbarService.done();
           this.fileAttached.emit(receivedAttachment);
           this.resetForm(form);
           this.toastrService.showSuccess('File added');
         },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 

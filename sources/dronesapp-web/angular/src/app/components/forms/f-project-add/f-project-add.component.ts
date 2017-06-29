@@ -1,7 +1,10 @@
-import {Component, ElementRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, Input, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
+import {NgProgressService} from 'ngx-progressbar';
+import {} from '@types/googlemaps';
+import {MapsAPILoader} from '@agm/core'
 
 import {CommonService} from '../../../services/common.service/common.service';
 import {RequestService} from '../../../services/request.service/request.service';
@@ -16,8 +19,10 @@ import {PaidOptionModel} from '../../../services/project.service/paid-option.int
 import {ProjectModel} from '../../../services/project.service/project.interface';
 import {CategoryModel} from '../../../services/common.service/category.interface';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
-import {ModalConfirmationComponent} from "../../modals/modal-confirmation/modal-confirmation.component";
-import {ModalService} from "../../../services/modal.service/modal.service";
+import {ModalConfirmationComponent} from '../../modals/modal-confirmation/modal-confirmation.component';
+import {ModalService} from '../../../services/modal.service/modal.service';
+import {ModalPaymentComponent} from '../../modals/modal-payment/modal-payment.component';
+import {PaymentService} from '../../../services/payment.service/payment.service';
 
 @Component({
   selector: 'f-project-add',
@@ -27,6 +32,7 @@ import {ModalService} from "../../../services/modal.service/modal.service";
 })
 export class FProjectAddComponent implements OnInit {
   @Input() project: ProjectModel = null;
+  @ViewChild('location') public searchElement: ElementRef;
   private _now = moment();
   attachmentsLimit = 8;
   acceptedFormats = [
@@ -41,6 +47,8 @@ export class FProjectAddComponent implements OnInit {
   isNotAcceptedFormat: boolean = false;
   isLimitReached: boolean = false;
   isSubmitted: boolean = false;
+  paymentToken: string = '';
+  paidOptionsCount: number = 0;
 
   date = {
     start: moment(),
@@ -83,7 +91,11 @@ export class FProjectAddComponent implements OnInit {
     private _elementRef: ElementRef,
     private router: Router,
     private toastrService: ToastrService,
-    private _modalService: ModalService
+    private _modalService: ModalService,
+    private progressbarService: NgProgressService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
+    private paymentService: PaymentService
   ) {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -93,20 +105,23 @@ export class FProjectAddComponent implements OnInit {
         this.projectService.addAttachment(attachment)
           .subscribe(
             () => {
+              this.progressbarService.done();
               this.formData.attachments.push(attachment);
             },
             err => {
+              this.progressbarService.done();
               console.log('project attachment error', err);
             }
           );
       } else {
+        this.progressbarService.done();
         this.formData.attachments.push(attachment);
       }
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       console.log('problem with upload image');
       this.uploader.clearQueue();
       return {item, response, status, headers};
@@ -118,6 +133,7 @@ export class FProjectAddComponent implements OnInit {
       this.isNotAcceptedFormat = false;
       if (this.formData.attachments.length < this.attachmentsLimit) {
         if (this.acceptedFormats.indexOf(item.file.type) !== -1) {
+          this.progressbarService.start();
           this.uploader.uploadAll();
         } else {
           this.isNotAcceptedFormat = true;
@@ -184,7 +200,12 @@ export class FProjectAddComponent implements OnInit {
         address: '',
         city: '',
         postcode: null,
-      }
+        coordinates: {
+          latitude: null,
+          longitude: null
+        }
+      },
+      paymentMethod: ''
     };
   }
 
@@ -194,12 +215,10 @@ export class FProjectAddComponent implements OnInit {
     if (this.project) {
       this.isEditForm = true;
       this.formData = mergeDeep(this.formData, this.project);
+      this.paidOptionsCount = this.formData.paidOptions.length;
       this.initPaidOptions();
       this.initCategories();
       this.initDate();
-      if (this.checkCountry()) {
-        this.getListOfStates();
-      }
     }
   }
 
@@ -208,8 +227,11 @@ export class FProjectAddComponent implements OnInit {
     this.getServices();
     this.getBudgets();
     this.getCountries();
+    this.getListOfStates();
     this.getDurations();
     this.getPaidOptions();
+    this.loadPlaces();
+    this.getPaymentToken();
   }
 
   private getCountries() {
@@ -261,6 +283,19 @@ export class FProjectAddComponent implements OnInit {
 
   private setDurations(durations) {
     this.durations = extend([], durations);
+  }
+
+  private getPaymentToken() {
+    this.paymentService.getToken()
+      .subscribe(
+        res => {
+          // console.log('payment token', res);
+          this.paymentToken = res.clientId;
+        },
+        err => {
+          console.log('payment token error', err);
+        }
+      );
   }
 
   selectService(name: string) {
@@ -343,7 +378,7 @@ export class FProjectAddComponent implements OnInit {
     this.formData.service['name'] = category.name;
   }
 
-  selectCountry(name: string) {
+  selectCountry(name: string, isAutocomplete = false) {
     if (!name || name === 'null') {
       this.clearCountry();
       return;
@@ -355,10 +390,14 @@ export class FProjectAddComponent implements OnInit {
     this.formData.location.country.name = country.name;
 
     if (this.checkCountry()) {
-      this.getListOfStates();
       this.clearState();
     } else {
       delete this.formData.location.state;
+    }
+
+    if (!isAutocomplete) {
+      this.loadPlaces();
+      this.resetLocation();
     }
   }
 
@@ -375,7 +414,7 @@ export class FProjectAddComponent implements OnInit {
     if (checked) {
       index === -1 && this.formData.paidOptions.push(paidOption);
     } else {
-      index >= 0 && this.formData.paidOptions.splice(index, 1);
+      index >= 0 && !this.isEditForm && this.formData.paidOptions.splice(index, 1);
     }
 
     this.initPaidOptions();
@@ -387,7 +426,7 @@ export class FProjectAddComponent implements OnInit {
     });
   }
 
-  selectState(name: string) {
+  selectState(name: string, isAutocomplete = false) {
     if (!name || name === 'null') {
       this.clearState();
       return;
@@ -396,40 +435,120 @@ export class FProjectAddComponent implements OnInit {
     const state = this.states.find((state) => state.name === name);
 
     this.setState(state);
+
+    if (!isAutocomplete) {
+      this.resetLocation();
+    }
   }
 
   checkCountry() {
     return this.formData.location.country.name === 'United States';
   }
 
-  private _edit(isAccepted) {
-    if (!isAccepted) {
-      this._modalService.pop();
-      return;
-    }
-
+  private _edit() {
+    this.progressbarService.start();
     return this.projectService.updateProject(this.formData)
       .subscribe(
         res => {
-          this._modalService.pop();
+          this.progressbarService.done();
           // console.log('updated project:', res);
           this.router.navigate(['/project', res.id]);
         },
         err => {
-          this._modalService.pop();
-          const body = err.json();
+          this.progressbarService.done();
 
-          if (err.status === 400) {
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later');
+          } else if (err.status === 403) {
+            const body = err.json();
+
+            if (body && body.error) {
+              if (body.error.code === 2001) {
+                this.toastrService.showError('Unable to process payment');
+              }
+            }
+          } else if (err.status === 400) {
+            const body = err.json();
+
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
               });
-            } else {
-              this.toastrService.showError('Please check your data');
             }
+          } else {
+            this.toastrService.showError('Please check your data');
           }
         }
       );
+  }
+
+  private _post() {
+    this.formData.budget.confirmationValid = true;
+    this.formData.confirmationValid = true;
+    this.formData.paidOptions.forEach((paidOption: PaidOptionModel) => {
+      paidOption.confirmationValid = true;
+    });
+
+    this.progressbarService.start();
+    return this.projectService.postProjects(this.formData)
+      .subscribe(
+        res => {
+          this.progressbarService.done();
+          // console.log('saved new project:', res);
+          this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
+        },
+        err => {
+          this.progressbarService.done();
+          console.log(err);
+
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later');
+          } else if (err.status === 403) {
+            const body = err.json();
+
+            if (body && body.error) {
+              if (body.error.code === 2001) {
+                this.toastrService.showError('Unable to process payment');
+              }
+            }
+          } else if (err.status === 400) {
+            const body = err.json();
+
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            }
+          } else {
+            this.toastrService.showError('Please check your data');
+          }
+        }
+      )
+  }
+
+  getPayment() {
+    this._modalService.push({
+      component: ModalPaymentComponent,
+      type: 'ModalInformationComponent',
+      values: {
+        title: 'Choose a payment',
+        message: 'Please, choose existed payment or add new before',
+        clientToken: this.paymentToken,
+        paymentFn: (e) => { this.setPayment(e); }
+      }
+    });
+    return;
+  }
+
+  setPayment(nonce) {
+    this.formData.paymentMethod = nonce;
+    this._modalService.pop();
+
+    if (!this.isEditForm) {
+      this._post();
+    } else {
+      this._edit();
+    }
   }
 
   postProject(e, form) {
@@ -442,7 +561,6 @@ export class FProjectAddComponent implements OnInit {
 
     // console.log('project data to save:', this.formData);
     if (this.isEditForm) {
-
       return this._modalService.push({
         component: ModalConfirmationComponent,
         type: 'ModalConfirmationComponent',
@@ -451,37 +569,22 @@ export class FProjectAddComponent implements OnInit {
           message: 'Do you really want to release payments?',
           confirm_btn_text: 'Yes',
           cancel_btn_text: 'No',
-          confirm: (e) => this._edit(e)
-        }
-      });
-    } else {
-      this.formData.budget.confirmationValid = true;
-      this.formData.confirmationValid = true;
-      this.formData.paidOptions.forEach((paidOption: PaidOptionModel) => {
-        paidOption.confirmationValid = true;
-      });
-
-      return this.projectService.postProjects(this.formData)
-        .subscribe(
-          res => {
-            // console.log('saved new project:', res);
-            this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
-          },
-          err => {
-            console.log(err);
-            const body = err.json();
-
-            if (err.status === 400) {
-              if (body && body.validationErrors) {
-                body.validationErrors.forEach(item => {
-                  this.toastrService.showError(item.field);
-                });
+          confirm: (e) => {
+            this._modalService.pop();
+            if (e) {
+              if (this.paidOptionsCount !== this.formData.paidOptions.length && !this.formData.paymentMethod) {
+                this.getPayment();
               } else {
-                this.toastrService.showError('Please check your data');
+                this._edit();
               }
             }
           }
-        )
+        }
+      });
+    } else {
+      if (this.formData.paidOptions.length) {
+        this.getPayment();
+      }
     }
   }
 
@@ -555,17 +658,121 @@ export class FProjectAddComponent implements OnInit {
 
   deleteAttachment(id) {
     if (this.isEditForm) {
+      this.progressbarService.start();
       this.projectService.deleteAttachment(id)
         .subscribe(
           () => {
+            this.progressbarService.done();
             this.formData.attachments = this.formData.attachments.filter(attach => attach.id !== id);
           },
           err => {
+            this.progressbarService.done();
             console.log('delete attached file error', err);
           }
         );
     } else {
       this.formData.attachments = this.formData.attachments.filter(attach => attach.id !== id);
     }
+  }
+
+  private loadPlaces() {
+    this.mapsAPILoader.load().then(
+      () => {
+        this.ngZone.run(
+          () => {
+            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+
+            if (this.formData.location.country && this.formData.location.country.name) {
+              const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
+              if (country) {
+                autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+              }
+            }
+            autocomplete.addListener('place_changed', () => {
+              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+              // verify result
+              if (place.geometry === undefined || place.geometry === null) {
+                return;
+              }
+
+              console.log('place:', place);
+              this.ngZone.run(() => this.setLocation(place));
+            })
+          }
+        );
+      }
+    )
+  }
+
+  private setLocation(place) {
+    this.formData.location.address = '';
+    let state = '';
+
+    place.address_components.forEach((el, i) => {
+      const addressType = place.address_components[i].types[0];
+
+      if (addressType === 'locality') {
+        this.formData.location.city = el.long_name;
+      } else if (addressType === 'postal_code') {
+        this.formData.location.postcode = el.long_name || null;
+      } else if (addressType === 'route') {
+        this.formData.location.address = el.short_name + this.formData.location.address;
+      } else if (addressType === 'street_number') {
+        this.formData.location.address += (', ' + el.long_name);
+      } else if (addressType === 'country') {
+        const country = this.countries.find((country) => country.code.toLowerCase() === el.short_name.toLowerCase());
+
+        if (!this.formData.location.country ||
+          !this.formData.location.country.name ||
+          this.formData.location.country.name !== country.name) {
+          this.selectCountry(country.name, true);
+        }
+
+        if (this.checkCountry()) {
+          if (!this.formData.location.state ||
+            !this.formData.location.state.name ||
+            this.formData.location.state.name !== state) {
+            this.selectState(state, true);
+          }
+        } else {
+          delete this.formData.location.state;
+        }
+      } else if (addressType === 'administrative_area_level_1') {
+        state = el.long_name;
+      }
+    });
+    this.formData.location.coordinates.latitude = place.geometry.location.lat();
+    this.formData.location.coordinates.longitude = place.geometry.location.lng();
+
+    console.log(this.formData.location);
+  }
+
+  private resetLocation() {
+    this.formData.location.address = '';
+    this.formData.location.coordinates = {
+      latitude: 0,
+      longitude: 0
+    }
+  }
+
+  locationClicked(e) {
+    this.getPlace(e.coords);
+  }
+
+  markerMoved(e) {
+    this.getPlace(e.coords);
+  }
+
+  private getPlace(location) {
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({'location': location}, (res, status) => {
+      if (status === google.maps.GeocoderStatus.OK && res.length) {
+        this.ngZone.run(() => this.setLocation(res[0]));
+      } else {
+        this.toastrService.showError('Can\'t resolve address. Please try another point.')
+      }
+    })
   }
 }

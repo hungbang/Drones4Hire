@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
-import {BidService} from "../../../services/bid.service/bid.service";
+
+import {BidService} from '../../../services/bid.service/bid.service';
 
 @Component({
   selector: 'f-projects-search',

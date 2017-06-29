@@ -20,7 +20,9 @@ export interface AccountModel {
     };
     country: {
       id: number;
-      name: string
+      name: string;
+      code?: string;
+      licenseRequired?: boolean;
     };
     id: number;
     postcode: number;

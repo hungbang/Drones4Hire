@@ -17,7 +17,7 @@ export class MyProjectsResolve implements Resolve<any> {
 
     this.projectService.resetLimit();
 
-    const status = route.data['status'];
+    const statuses = route.data['status'];
     const title = route.queryParams['title'];
     const countOfItemsPerPage = route.queryParams['count'] || 10;
 
@@ -27,6 +27,6 @@ export class MyProjectsResolve implements Resolve<any> {
 
     const pageSize = this.projectService.limitProjectsToShow;
 
-    return this.projectService.getProjects({ page, pageSize, status, title });
+    return this.projectService.getProjects({ page, pageSize, statuses, title });
   }
 }

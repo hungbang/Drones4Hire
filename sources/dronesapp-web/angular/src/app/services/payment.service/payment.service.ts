@@ -23,8 +23,12 @@ export class PaymentService {
     this.amount = 3603.44;
   }
 
-  releasePayment(bidId) {
-    return this._requestService.fetch('post', `/payments/release/${bidId}`);
+  releasePayment(projectId) {
+    return this._requestService.fetch('post', `/projects/${projectId}/release`);
+  }
+
+  getToken() {
+    return this._requestService.fetch('get', '/payments/token');
   }
 
 }

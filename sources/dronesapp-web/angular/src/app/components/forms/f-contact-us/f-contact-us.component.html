@@ -1,0 +1,103 @@
+<form
+  #contactUsFormRef="ngForm"
+  (submit)="sendMessage($event, contactUsFormRef)"
+  class="f-contact-us f-default">
+  <div class="f-contact-us__row">
+    <div class="f-contact-us__col">
+      <input
+        class="f-default__field f-contact-us__field"
+        type="text"
+        name="firstName"
+        ngModel
+        #firstNameRef="ngModel"
+        placeholder="First name"
+        required
+        [ngClass]="{'_error': submitted && firstNameRef.errors?.required}"
+      />
+    </div>
+    <div class="f-contact-us__col">
+      <input
+        class="f-default__field f-contact-us__field"
+        type="text"
+        name="lastName"
+        placeholder="Last name"
+        required
+        ngModel
+        #lastNameRef="ngModel"
+        [ngClass]="{'_error': submitted && lastNameRef.errors?.required}"
+      />
+    </div>
+  </div>
+  <div class="f-contact-us__row">
+    <input
+      class="f-default__field f-contact-us__field"
+      type="email"
+      name="email"
+      placeholder="Email"
+      required
+      ngModel
+      #emailRef="ngModel"
+      [email]="emailRef.value ? true : false"
+      [ngClass]="{'_error': submitted && (emailRef.errors?.required || emailRef.errors?.email)}"
+    />
+  </div>
+  <div class="f-contact-us__row">
+    <input
+      class="f-default__field f-contact-us__field"
+      type="tel"
+      name="phone"
+      placeholder="Phone number"
+      required
+      ngModel
+      #phoneRef="ngModel"
+      [ngClass]="{'_error': submitted && phoneRef.errors?.required}"
+    />
+  </div>
+  <div class="f-contact-us__row">
+    <label class="f-default__label _select" [ngClass]="{'_placeholder': !reasonRef.value || reasonRef.value === 'null'}">
+      <select
+        class="f-default__field"
+        name="reason"
+        required
+        [(ngModel)]="reason"
+        #reasonRef="ngModel"
+        [ngClass]="{'_error': submitted && reasonRef.errors?.required}"
+      >
+        <option [value]="null">Please select the reason</option>
+        <option [value]="'test reason'">Some reason</option>
+      </select>
+    </label>
+  </div>
+  <div class="f-contact-us__row">
+    <label class="f-default__label _select" [ngClass]="{'_placeholder': !countryRef.value || countryRef.value === 'null'}">
+      <select
+        class="f-default__field"
+        name="country"
+        required
+        [(ngModel)]="country"
+        #countryRef="ngModel"
+        [ngClass]="{'_error': submitted && countryRef.errors?.required}"
+      >
+        <option [value]="null">Country*</option>
+        <option *ngFor="let option of countries"
+                [value]="option.name">
+          {{option.name}}
+        </option>
+      </select>
+    </label>
+  </div>
+  <div class="f-contact-us__row">
+            <textarea
+              class="f-default__field f-contact-us__area _area"
+              name="message"
+              placeholder="Message text"
+              required
+              ngModel
+              #messageRef="ngModel"
+              [ngClass]="{'_error': submitted && messageRef.errors?.required}"
+            ></textarea>
+  </div>
+  <button class="f-default__button f-contact-us__button _big">
+    Submit
+  </button>
+</form>

@@ -11,7 +11,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class RequestService {
-  public apiUrl = 'http://52.15.207.66:8080/drones-api/api/v1';
+  public apiUrl = 'https://drones.qaprosoft.com/drones-api/api/v1';
   public authorizationType = 'Bearer';
 
   private requests = {

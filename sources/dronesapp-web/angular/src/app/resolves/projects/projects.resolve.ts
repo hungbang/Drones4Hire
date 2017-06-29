@@ -11,9 +11,9 @@ export class ProjectsResolve implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot) {
     this.projectService.resetLimit();
 
-    const status = route.data['status'];
+    const statuses = route.data['status'];
     const pageSize = this.projectService.limitProjectsToShow;
 
-    return this.projectService.getProjects({ status, pageSize });
+    return this.projectService.getProjects({ statuses, pageSize });
   }
 }

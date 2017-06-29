@@ -2,11 +2,11 @@
   <div class="container withdrawal-request__container">
     <div class="withdrawal-request__wrapper">
       <div class="withdrawal-request__title">Withdrawal request</div>
-      <div class="withdrawal-request__balance">Your account balance: ${{accountBalance}}</div>
+      <div class="withdrawal-request__balance">Your account balance: ${{ accountWallet.balance }}</div>
     </div>
 
     <div class="withdrawal-request__content">
-      <f-withdrawal [balance]="accountBalance" *ngIf="!showSuccessText" (showSuccessText)="showSuccessText = $event"></f-withdrawal>
+      <f-withdrawal [wallet]="accountWallet" *ngIf="!showSuccessText" (showSuccessText)="showSuccessText = $event"></f-withdrawal>
       <div class="withdrawal-request__success-text" *ngIf="showSuccessText">Your withdrawal request was submitted successfully! You’re funds will be transferred within 48 hours.</div>
     </div>
   </div>

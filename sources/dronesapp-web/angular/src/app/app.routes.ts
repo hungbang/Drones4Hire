@@ -42,16 +42,17 @@ import {DashboardProfileResolve} from './resolves/dashboard-profile/dashboard-pr
 import {PilotProjectsResolve} from './resolves/pilot-projects/pilot-projects.resolve';
 import {SProjectAddComponent} from './components/sections/s-project-add/s-project-add.component';
 import {SProjectEditComponent} from './components/sections/s-project-edit/s-project-edit.component';
-import {BidInfoResolve} from "./resolves/bid-info/bid-info";
+import {BidInfoResolve} from './resolves/bid-info/bid-info';
 import {ProfileEquipmentsResolve} from './resolves/profile-equipments/profile-equipments.resolve';
 import {WithdrawalRequestComponent} from './containers/withdrawal-request/withdrawal-request.component';
-import {WorkPilotComponent} from "./containers/work-pilot/work-pilot.component";
-import {WorkClientComponent} from "./containers/work-client/work-client.component";
-import {PrivacyPolicyComponent} from "./containers/privacy-policy/privacy-policy.component";
-import {TermsComponent} from "./containers/terms/terms.component";
-import {AboutComponent} from "./containers/about/about.component";
-import {PaymentComponent} from "./containers/payment/payment.component";
-import {ContactUsComponent} from "./containers/contact-us/contact-us.component";
+import {WorkPilotComponent} from './containers/work-pilot/work-pilot.component';
+import {WorkClientComponent} from './containers/work-client/work-client.component';
+import {PrivacyPolicyComponent} from './containers/privacy-policy/privacy-policy.component';
+import {TermsComponent} from './containers/terms/terms.component';
+import {AboutComponent} from './containers/about/about.component';
+import {PaymentComponent} from './containers/payment/payment.component';
+import {ContactUsComponent} from './containers/contact-us/contact-us.component';
+import {PilotLicensedGuard} from './guards/pilot-licensed.guard/pilot-licensed.guard';
 
 export const ROUTES: Routes = [
   {
@@ -442,7 +443,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'search',
-    canActivate: [PilotGuard],
+    canActivate: [PilotGuard, PilotLicensedGuard],
     component: SearchComponent,
     resolve: {
       services: ServicesResolve,

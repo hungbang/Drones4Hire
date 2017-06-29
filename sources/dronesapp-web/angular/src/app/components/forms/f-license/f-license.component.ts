@@ -1,8 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AccountService} from '../../../services/account.service/account.service';
 import {FileUploader} from 'ng2-file-upload';
+import {NgProgressService} from 'ngx-progressbar';
+
+import {AccountService} from '../../../services/account.service/account.service';
 import {RequestService} from '../../../services/request.service/request.service';
-import {ToastrService} from "../../../services/toastr.service/toastr.service";
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'f-license',
@@ -40,9 +42,11 @@ export class FPilotLicenseComponent implements OnInit {
   constructor(
     public accountService: AccountService,
     private _requestService: RequestService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       let type = `${item.formData[0].type}URL`;
 
       if (type === 'licenseURL') {
@@ -55,6 +59,7 @@ export class FPilotLicenseComponent implements OnInit {
     };
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
+      this.progressbarService.done();
       console.log('problem with upload image');
       this.uploader.clearQueue();
       return {item, response, status, headers};
@@ -96,12 +101,16 @@ export class FPilotLicenseComponent implements OnInit {
       return;
     }
 
+    this.progressbarService.start();
     this.accountService.setAccountLicense(this.accountService.license)
-      .subscribe((res) => {
-        console.log('-save license', res);
+      .subscribe(
+        (res) => {
+          this.progressbarService.done();
+          console.log('-save license', res);
           this.toastrService.showSuccess('Submitted')
         },
         err => {
+          this.progressbarService.done();
           console.log(err);
           const body = err.json();
 
@@ -124,7 +133,7 @@ export class FPilotLicenseComponent implements OnInit {
       name: 'FileType',
       value: type.toUpperCase()
     });
-
+    this.progressbarService.start();
     this.uploader.uploadAll();
   }
 

@@ -17,12 +17,14 @@ import { FProjectFilesComponent } from './f-project-files/f-project-files.compon
 import {FCardComponent} from "./f-card/f-card.component";
 import { FEquipmentsComponent } from './f-equipments/f-equipments.component';
 import { FWithdrawalComponent } from './f-withdrawal/f-withdrawal.component';
+import { FContactUsComponent } from './f-contact-us/f-contact-us.component';
 
 export const FORMS = [
   FAuthorizationComponent,
   FBidComponent,
   FCardComponent,
   FCommentsComponent,
+  FContactUsComponent,
   FEquipmentsComponent,
   FSearchComponent,
   FPilotLicenseComponent,
