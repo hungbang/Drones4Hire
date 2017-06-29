@@ -19,11 +19,11 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
     var initSearchCriteria = function () {
         $scope.sc = {};
         $scope.sc.topLeftCoordinates = {};
-        $scope.sc.buttomRightCoordinates = {};
-        $scope.sc.topLeftCoordinates.latitude = 0;
-        $scope.sc.topLeftCoordinates.longitude = 0;
-        $scope.sc.buttomRightCoordinates.latitude = 0;
-        $scope.sc.buttomRightCoordinates.longitude = 0;
+        $scope.sc.bottomRightCoordinates = {};
+        $scope.sc.topLeftCoordinates.latitude = 90;
+        $scope.sc.topLeftCoordinates.longitude = -180;
+        $scope.sc.bottomRightCoordinates.latitude = -90;
+        $scope.sc.bottomRightCoordinates.longitude = 180;
     };
 
     var newMarker = function (r) {
@@ -47,6 +47,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
     $scope.search = function(){
         $http.post('projects/search/map', $scope.sc).success(function(data) {
             $scope.sr = data;
+            $scope.cleanMap();
             data.results.forEach(function (project, index, projects) {
                 if(project.coordinates) {
                     $scope.map.orderMarkers.push(newMarker(project));
@@ -55,6 +56,15 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
         }).error(function() {
             alertify.error('Failed to search projects');
         });
+    };
+
+    $scope.clear = function () {
+        initSearchCriteria();
+        $scope.search();
+    };
+
+    $scope.cleanMap = function () {
+        $scope.map.orderMarkers = [];
     };
 
     $scope.getProjectPage = function (id) {
@@ -69,8 +79,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
             },
             zoom: ZOOM,
             options: {
-                minZoom: MIN_ZOOM,
-                scrollwheel: false
+                minZoom: MIN_ZOOM
             },
             showOverlay: true,
             control: {}

@@ -1080,13 +1080,17 @@
 			FROM
 				drones.PROJECTS P
 			LEFT JOIN
-				drones.LOCATIONS L
-			ON
-				P.LOCATION_ID = L.ID
-			LEFT JOIN
 				drones.BUDGETS BD
 			ON
 				P.BUDGET_ID = BD.ID
+			INNER JOIN
+				drones.LOCATIONS L
+			ON
+				(
+						P.LOCATION_ID = L.ID
+					AND
+						L.COORDINATES IS NOT NULL
+				)
 		]]>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="null != status">

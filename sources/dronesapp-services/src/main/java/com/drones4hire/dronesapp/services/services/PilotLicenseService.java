@@ -34,10 +34,10 @@ public class PilotLicenseService
 		Country country = countryService.getCountryById(user.getLocation().getCountry().getId());
 		if(country.isLicenseRequired())
 		{
-			pilotLicense.setVerified(true);
+			pilotLicense.setVerified(false);
 		} else
 		{
-			pilotLicense.setVerified(false);
+			pilotLicense.setVerified(true);
 		}
 		return createPilotLicense(pilotLicense);
 	}
