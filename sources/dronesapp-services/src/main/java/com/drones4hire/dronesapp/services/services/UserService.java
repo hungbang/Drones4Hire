@@ -70,12 +70,9 @@ public class UserService
 
 	@Autowired
 	private BraintreeService braintreeService;
-
-	@Autowired
-	private PayoneerService payoneerService;
 	
 	@Transactional(rollbackFor=Exception.class)
-	public String registerUser(User user, Role role) throws ServiceException
+	public User registerUser(User user, Role role) throws ServiceException
 	{
 		if(!Arrays.asList(Role.ROLE_CLIENT, Role.ROLE_PILOT).contains(role))
 		{
@@ -86,7 +83,6 @@ public class UserService
 		{
 			user.setEnabled(DEFAULT_ENABLED);
 			user.setConfirmed(DEFAULT_CONFIRMED);
-			user.setWithdrawEnabled(DEFAULT_WITDRAW_ENABLED);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
 		}
@@ -134,10 +130,9 @@ public class UserService
 		wallet.setPaymentToken(customer.getId());
 		walletService.updateWallet(wallet);
 		
-		String result = payoneerService.signup(user);
 		emailService.sendConfirmationEmail(user, generateConfrimEmailToken(user));
 		
-		return result;
+		return user;
 	}
 	
 	@Transactional(rollbackFor=Exception.class)

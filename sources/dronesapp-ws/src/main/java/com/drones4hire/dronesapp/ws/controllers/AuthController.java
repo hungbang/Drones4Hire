@@ -95,15 +95,15 @@ public class AuthController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = String.class)
+	@ApiOperation(value = "Register user", nickname = "register", code = 201, httpMethod = "POST", response = User.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String register(@RequestBody @Valid RegistrationDTO userDTO)
+	public @ResponseBody User register(@RequestBody @Valid RegistrationDTO userDTO)
 			throws MappingException, ServiceException
 	{
-		return String.format("{\"url\": \"%s\"}", userService.registerUser(mapper.map(userDTO, User.class), userDTO.getRole()));
+		return userService.registerUser(mapper.map(userDTO, User.class), userDTO.getRole());
 	}
-
+	
 	@ResponseStatusDetails
 	@ApiOperation(value = "Confirm email", nickname = "confirm", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)

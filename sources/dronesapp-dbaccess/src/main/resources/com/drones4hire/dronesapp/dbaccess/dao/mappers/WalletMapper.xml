@@ -6,14 +6,15 @@
     <insert id="createWallet" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-            drones.WALLETS (USER_ID, BALANCE, CURRENCY, PAYMENT_TOKEN, WITHDRAW_TOKEN)
+            drones.WALLETS (USER_ID, BALANCE, CURRENCY, PAYMENT_TOKEN, WITHDRAW_TOKEN, WITHDRAW_ENABLED)
           VALUES
           (
             #{userId},
             #{balance},
             #{currency},
             #{paymentToken},
-            #{withdrawToken}
+            #{withdrawToken},
+            #{withdrawEnabled}
           )
         ]]>
     </insert>
@@ -27,6 +28,7 @@
 	        W.CURRENCY AS WALLET_CURRENCY,
 	        W.PAYMENT_TOKEN AS WALLET_PAYMENT_TOKEN,
 	        W.WITHDRAW_TOKEN AS WALLET_WITHDRAW_TOKEN,
+	        W.WITHDRAW_ENABLED AS WALLET_WITHDRAW_ENABLED,
 	        W.MODIFIED_AT AS WALLET_MODIFIED_AT,
 	        W.CREATED_AT AS WALLET_CREATED_AT
           FROM
@@ -71,7 +73,8 @@
             BALANCE = #{balance},
             CURRENCY = #{currency},
             PAYMENT_TOKEN = #{paymentToken},
-            WITHDRAW_TOKEN = #{withdrawToken}
+            WITHDRAW_TOKEN = #{withdrawToken},
+            WITHDRAW_ENABLED = #{withdrawEnabled}
           WHERE
 			ID = #{id}
         ]]>
@@ -94,6 +97,7 @@
         <result column="WALLET_CURRENCY" property="currency"/>
         <result column="WALLET_PAYMENT_TOKEN" property="paymentToken"/>
         <result column="WALLET_WITHDRAW_TOKEN" property="withdrawToken"/>
+        <result column="WALLET_WITHDRAW_ENABLED" property="withdrawEnabled"/>
         <result column="WALLET_MODIFIED_AT" property="modifiedAt"/>
         <result column="WALLET_CREATED_AT" property="createdAt"/>
     </resultMap>

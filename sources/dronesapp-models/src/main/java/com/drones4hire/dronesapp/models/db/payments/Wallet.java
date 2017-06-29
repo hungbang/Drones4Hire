@@ -14,6 +14,7 @@ public class Wallet extends AbstractEntity
 	private Currency currency;
 	private String paymentToken;
 	private String withdrawToken;
+	private Boolean withdrawEnabled;
 
 	public Wallet()
 	{
@@ -77,5 +78,15 @@ public class Wallet extends AbstractEntity
 	public void chageBalance(BigDecimal byAmount)
 	{
 		this.balance.add(byAmount);
+	}
+	
+	public Boolean isWithdrawEnabled()
+	{
+		return withdrawEnabled;
+	}
+
+	public void setWithdrawEnabled(Boolean withdrawEnabled)
+	{
+		this.withdrawEnabled = withdrawEnabled;
 	}
 }

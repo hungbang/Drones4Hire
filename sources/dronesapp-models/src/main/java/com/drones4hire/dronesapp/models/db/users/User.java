@@ -29,7 +29,6 @@ public class User extends AbstractEntity
 	private Integer flightHours;
 	private Boolean confirmed;
 	private Boolean enabled;
-	private Boolean withdrawEnabled;
 	private Location location;
 	private List<Group> groups = new ArrayList<>();
 
@@ -174,13 +173,4 @@ public class User extends AbstractEntity
 		return new ArrayList<>(roles);
 	}
 
-	public Boolean isWithdrawEnabled()
-	{
-		return withdrawEnabled;
-	}
-
-	public void setWithdrawEnabled(Boolean withdrawEnabled)
-	{
-		this.withdrawEnabled = withdrawEnabled;
-	}
 }

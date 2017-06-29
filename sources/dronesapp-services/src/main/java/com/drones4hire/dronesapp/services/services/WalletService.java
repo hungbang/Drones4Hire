@@ -34,6 +34,7 @@ public class WalletService
 		wallet.setBalance(BigDecimal.ZERO);
 		wallet.setCurrency(Currency.USD);
 		wallet.setWithdrawToken(UUID.randomUUID().toString());
+		wallet.setWithdrawEnabled(Boolean.FALSE);
 		return createWallet(wallet);
 	}
 

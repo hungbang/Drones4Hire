@@ -22,6 +22,9 @@ import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.dto.WalletDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.PayoneerService;
 import com.drones4hire.dronesapp.services.services.TransactionService;
 import com.drones4hire.dronesapp.services.services.WalletService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
@@ -46,6 +49,9 @@ public class WalletController extends AbstractController
 	private TransactionService transactionService;
 
 	@Autowired
+	private PayoneerService payoneerService;
+	
+	@Autowired
 	private Mapper mapper;
 
 	@ResponseStatusDetails
@@ -54,9 +60,15 @@ public class WalletController extends AbstractController
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody WalletDTO getWallet()
+	public @ResponseBody WalletDTO getWallet() throws ServiceException
 	{
-		return mapper.map(walletService.getWalletByUserId(getPrincipal().getId()), WalletDTO.class);
+		Wallet wallet = walletService.getWalletByUserId(getPrincipal().getId());
+		WalletDTO result = mapper.map(wallet, WalletDTO.class);
+		if(!result.isWithdrawEnabled())
+		{
+			result.setPayoneerRegistrationLink(payoneerService.signup(wallet));
+		}
+		return result;
 	}
 
 	@ResponseStatusDetails

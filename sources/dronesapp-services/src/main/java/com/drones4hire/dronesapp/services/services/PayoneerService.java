@@ -14,12 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.drones4hire.dronesapp.models.db.Message.Type;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest;
 import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest.Status;
-import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException;
 import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -53,26 +51,22 @@ public class PayoneerService
 	@Autowired 
 	private WithdrawService withdrawService;
 	
-	@Autowired
-	private UserService userService;
-	
 	public enum Methods {
 		GetToken, PerformPayoutPayment
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public String signup(User user) throws PayoneerException {
+	public String signup(Wallet wallet) throws PayoneerException {
 		String url = null;
-		url = buildSignupURL(Methods.GetToken) + walletService.getWalletByUserId(user.getId()).getWithdrawToken();
+		url = buildSignupURL(Methods.GetToken) + wallet.getWithdrawToken();
 		return openURL(url);
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
 	public void approvePayoneerAccount(String accountUUID) throws ServiceException {
 		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
-		User user = userService.getUserById(wallet.getUserId());
-		user.setWithdrawEnabled(Boolean.TRUE);
-		userService.updateUser(user);
+		wallet.setWithdrawEnabled(Boolean.TRUE);
+		walletService.updateWallet(wallet);
 	}
 	
 	/*

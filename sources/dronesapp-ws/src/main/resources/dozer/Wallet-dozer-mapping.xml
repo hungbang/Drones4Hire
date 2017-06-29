@@ -18,5 +18,9 @@
             <a>paymentToken</a>
             <b>paymentToken</b>
         </field>
+         <field>
+            <a get-method="isWithdrawEnabled">withdrawEnabled</a>
+            <b get-method="isWithdrawEnabled">withdrawEnabled</b>
+        </field>
     </mapping>
 </mappings>

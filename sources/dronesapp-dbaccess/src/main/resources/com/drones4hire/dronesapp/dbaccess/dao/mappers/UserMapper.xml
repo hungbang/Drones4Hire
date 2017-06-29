@@ -6,7 +6,7 @@
 	<insert id="createUser" useGeneratedKeys="true" keyProperty="id">
     	<![CDATA[
         	INSERT
-          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, FLIGHT_HOURS, LOCATION_ID, ENABLED, CONFIRMED, WITHDRAW_ENABLED)
+          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, FLIGHT_HOURS, LOCATION_ID, ENABLED, CONFIRMED)
           	VALUES 
             (
           		#{username},
@@ -20,8 +20,7 @@
             	#{flightHours},
             	#{location.id},
             	#{enabled},
-            	#{confirmed},
-            	#{withdrawEnabled}
+            	#{confirmed}
           	)
         ]]>
     </insert>
@@ -54,7 +53,6 @@
 				U.FLIGHT_HOURS AS USER_FLIGHT_HOURS,
 				U.ENABLED AS USER_ENABLED,
 				U.CONFIRMED AS USER_CONFIRMED,
-				U.WITHDRAW_ENABLED AS USER_WITHDRAW_ENABLED,
 				U.MODIFIED_AT AS USER_MODIFIED_AT,
 				U.CREATED_AT AS USER_CREATED_AT,
 				 
@@ -300,7 +298,6 @@
           		FLIGHT_HOURS = #{flightHours},
           		ENABLED = #{enabled},
           		CONFIRMED = #{confirmed},
-          		WITHDRAW_ENABLED = #{withdrawEnabled},
           		LOCATION_ID = #{location.id}
           	WHERE
 			 	ID = #{id}
@@ -342,7 +339,6 @@
         <result column="USER_FLIGHT_HOURS" property="flightHours" />
         <result column="USER_ENABLED" property="enabled" />
         <result column="USER_CONFIRMED" property="confirmed" />
-        <result column="USER_WITHDRAW_ENABLED" property="withdrawEnabled" />
 		<result column="USER_MODIFIED_AT" property="modifiedAt" />
 		<result column="USER_CREATED_AT" property="createdAt" />
 		<association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap" />

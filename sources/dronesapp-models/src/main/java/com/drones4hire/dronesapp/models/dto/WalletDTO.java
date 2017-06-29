@@ -20,6 +20,10 @@ public class WalletDTO extends AbstractDTO
 	@NotNull(message = "Currency required")
 	private Currency currency;
 
+	private Boolean withdrawEnabled;
+	
+	private String payoneerRegistrationLink;
+	
 	@JsonIgnore
 	private String paymentToken;
 
@@ -53,6 +57,8 @@ public class WalletDTO extends AbstractDTO
 		this.paymentToken = paymentToken;
 	}
 
+	
+	
 	@AssertTrue(message = "Currency ENUM confirmation not matching")
 	public boolean isConfirmationValid()
 	{
@@ -64,5 +70,25 @@ public class WalletDTO extends AbstractDTO
 		{
 			return false;
 		}
+	}
+
+	public String getPayoneerRegistrationLink()
+	{
+		return payoneerRegistrationLink;
+	}
+
+	public void setPayoneerRegistrationLink(String payoneerRegistrationLink)
+	{
+		this.payoneerRegistrationLink = payoneerRegistrationLink;
+	}
+
+	public Boolean isWithdrawEnabled()
+	{
+		return withdrawEnabled;
+	}
+
+	public void setWithdrawEnabled(Boolean withdrawEnabled)
+	{
+		this.withdrawEnabled = withdrawEnabled;
 	}
 }
