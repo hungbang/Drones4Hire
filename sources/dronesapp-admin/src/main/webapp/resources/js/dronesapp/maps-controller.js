@@ -2,10 +2,13 @@
 
 DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', function($scope, $http, $window) {
 
-    var START_LATITUDE = 39.5;
-    var START_LONGITUDE = -98.35;
+    var START_LATITUDE = 42.8;
+    var START_LONGITUDE = -119.2;
     var ZOOM = 4;
     var MIN_ZOOM = 2;
+
+    var PROJECT = 'P';
+    var ITEM = PROJECT;
 
     var COLORS = {
         NEW: '69FE6B',
@@ -38,7 +41,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
     };
 
     var getImage = function (status) {
-        return new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + COLORS[status],
+        return new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + ITEM + "|" + COLORS[status],
             new google.maps.Size(21, 34),
             new google.maps.Point(0,0),
             new google.maps.Point(10, 34));
@@ -82,12 +85,23 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
                 minZoom: MIN_ZOOM
             },
             showOverlay: true,
+            events: {
+                bounds_changed: function (map) {
+                    /*var bounds = map.getBounds();
+                    $scope.sc.topLeftLatitude = (bounds.f.f);
+                    $scope.sc.topLeftLongitude = (bounds.b.b);
+                    $scope.sc.bottomRightLatitude = (bounds.f.b);
+                    $scope.sc.bottomRightLongitude = (bounds.b.f);
+                    $scope.search();*/
+                }
+            },
             control: {}
         };
 
         $scope.map.orderMarkers = [];
 
         initSearchCriteria();
+
         $scope.search();
     })();
 

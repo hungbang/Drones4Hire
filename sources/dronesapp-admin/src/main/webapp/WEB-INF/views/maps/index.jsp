@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div id="map_canvas">
-                <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control">
+                <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control" events="map.events">
                     <ui-gmap-marker ng-repeat="marker in map.orderMarkers" idKey="marker.id" click="getProjectPage(marker.id)" coords="marker.from" options="marker">
                     </ui-gmap-marker>
                 </ui-gmap-google-map>
@@ -28,7 +28,7 @@
                 <option value="BLOCKED">Blocked</option>
             </select>
         </div>
-        <div class="col-lg-10">
+        <div class="col-lg-">
             <input type="button" class="btn btn-default btn-primary" data-ng-click="search()" value="Search"/>
             <input type="button" class="btn btn-default btn-danger" data-ng-click="clear()" value="Clear"/>
         </div>
