@@ -111,7 +111,7 @@
 		                <td>{{request.modifiedAt | date}}</td>
 		                <td>{{request.createdAt | date}}</td>
 		               <td class="text-center">
-						   <button class="btn btn-success btn-xs" href="">Accept</button>
+						   <button class="btn btn-success btn-xs" data-ng-click="acceptWithdraw(request)">Accept</button>
 						</td>
 					</tr>
 					<tr data-ng-show="!sr.results.length">

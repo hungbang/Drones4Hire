@@ -4,22 +4,31 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.drones4hire.dronesapp.models.db.Message.Type;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.users.Group.Role;
+import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest;
+import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest.Status;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException;
 import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 @Service
 public class PayoneerService
 {
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
+	
 	@Value("#{environmentProperties['drones4hire.payoneer.url']}")
 	private String baseUrl;
 	
@@ -36,7 +45,13 @@ public class PayoneerService
 	private String programId;
 	
 	@Autowired
+	private TransactionService transactionService;
+	
+	@Autowired
 	private WalletService walletService;
+	
+	@Autowired 
+	private WithdrawService withdrawService;
 	
 	@Autowired
 	private UserService userService;
@@ -53,16 +68,6 @@ public class PayoneerService
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public String submitPaymentRequest(User user) throws PayoneerException {
-		String url = null;
-		if(user.getRoles().contains(Role.ROLE_PILOT)) {
-			url = buildPaymentURL(Methods.PerformPayoutPayment);
-			return openURL(url);
-		}
-		return url;
-	}
-	
-	@Transactional(rollbackFor = Exception.class)
 	public void approvePayoneerAccount(String accountUUID) throws ServiceException {
 		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
 		User user = userService.getUserById(wallet.getUserId());
@@ -70,14 +75,80 @@ public class PayoneerService
 		userService.updateUser(user);
 	}
 	
+	/*
+	 * Response status codes are: 
+	 * 000 Processed successfully. 
+	 * 002 Payee does not exist. 
+	 * 003 Insufficient funds 
+	 * 004 Payment ID {{Internal Payment ID}} already exists. 
+	 * 011 Funding not enabled. 
+	 * 010 Payee is inactive. 
+	 * 030 Currency Mismatch 
+	 * 001m Minimum/ maximum loading amount / Amount to load is less or equal to zero. 
+	 * 002b Internal error. 
+	 * 002t Internal error. 
+	 * 002em Payee does not exist. 
+	 * 006n Internal error.
+	 * 007d Internal error. 
+	 * 007f Internal error.
+	 * 007g Internal error. 
+	 * PE1028 Invalid currency
+	 * 
+	 */
 	@Transactional(rollbackFor = Exception.class)
-	public void acceptPayment(String accountUUID) throws ServiceException {
+	public WithdrawRequest submitPaymentRequest(Long requestId) throws ServiceException {
+		WithdrawRequest request = withdrawService.getWithdrawRequestById(requestId);
+		Wallet wallet = walletService.getWalletByUserId(request.getUserId());
+		if(wallet.getBalance().compareTo(request.getAmount()) < 0) {
+			throw new InavlidWaultAmountException("Not enough funds on balance: " + wallet.getBalance());
+		}
+		String url = null;
+		url = buildPaymentURL(Methods.PerformPayoutPayment) + request.getId() + 
+				"&p6=" + wallet.getWithdrawToken() + "&p7=" + request.getAmount() +  
+				"&p8" + request.getComment() + "&p9=" + dateFormat.format(new Date()) +
+				"&p10=" + request.getCurrency();
+		String response = openURL(url);
+		String code = StringUtils.substringBetween(response, "<Status>", "</Status>");
+		if(code.equals("000")) {
+			request.setStatus(Status.PENDING);
+			wallet.setBalance(wallet.getBalance().min(request.getAmount()));
+			walletService.updateWallet(wallet);
+		} else {
+			request.setStatus(Status.FAILED);
+		}
+		withdrawService.updateWithdrawRequest(request);
+		return request;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public WithdrawRequest acceptPayment(String accountUUID, Long paymentId) throws ServiceException {
 		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
-//		JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
-//		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//		StringReader reader = new StringReader("xml string here");
-//		User customer = (User) jaxbUnmarshaller.unmarshal(reader); 
-//		reader.close();
+		WithdrawRequest request = withdrawService.getWithdrawRequestById(paymentId);
+		
+		Transaction transaction = new Transaction();
+		transaction.setAmount(request.getAmount());
+		transaction.setCurrency(request.getCurrency());
+		transaction.setStatus(Transaction.Status.COMPLETED);
+		transaction.setType(Transaction.Type.WITHDRAW);
+		transaction.setWalletId(wallet.getId());
+		transactionService.createTransaction(transaction);
+		
+		request.setStatus(Status.APPROVED);
+		withdrawService.updateWithdrawRequest(request);
+		return request;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public WithdrawRequest cancelPayment(String accountUUID, Long paymentId) throws ServiceException {
+		WithdrawRequest request = withdrawService.getWithdrawRequestById(paymentId);
+		
+		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
+		wallet.chageBalance(request.getAmount());
+		walletService.updateWallet(wallet);
+		
+		request.setStatus(Status.CANCELLED);
+		withdrawService.updateWithdrawRequest(request);
+		return request;
 	}
 	
 	private String openURL(String url) throws PayoneerException {
@@ -99,11 +170,11 @@ public class PayoneerService
 	
 	private String buildSignupURL(Methods method) {
 		return baseUrl + "?mname=" + method + "&p1=" + username + "&p2=" + password + 
-				"&p3=" + partnerId +	"&p4=";
+				"&p3=" + partnerId + "&p4=";
 	}
 	
 	private String buildPaymentURL(Methods method) {
 		return baseUrl + "?mname=" + method + "&p1=" + username + "&p2=" + password + 
-				"&p3=" + partnerId +	"&p4=" + programId + "&p5=";
+				"&p3=" + partnerId + "&p4=" + programId + "&p5=";
 	}
 }

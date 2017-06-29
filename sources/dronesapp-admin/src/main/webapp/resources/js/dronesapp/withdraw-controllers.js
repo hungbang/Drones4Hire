@@ -28,6 +28,15 @@ DronesAdmin.controller('WithdrawController', [ '$scope', '$http', '$route', 'PAG
 		$scope.searchWithdraws(1);
 	};
 		
+
+	$scope.acceptWithdraw = function(request) {
+		$http.get('withdraws/accept' + request.id).success(function(data) {
+			alertify.success('Request accepted!');
+		}).error(function(data, status) {
+			alertify.error('Failed to accept withdraw!');
+		});
+	};
+	
 	(function init() {
 		$scope.searchWithdraws(1);
 	})();
