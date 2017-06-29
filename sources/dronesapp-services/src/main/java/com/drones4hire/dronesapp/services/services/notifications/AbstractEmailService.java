@@ -74,14 +74,12 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
 //			TODO[anazarenko]: when implemented add new link
-			builder.setPath(baseUrl + "/api/v1/auth/" + CHANGE_PASSWORD_PATH);
-			builder.addParameter("token", token);
-
+			String url = baseUrl + "/api/v1/auth/" + CHANGE_PASSWORD_PATH;
+			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(user.getClass().getSimpleName(), user);
-			emailData.put("verifyUrl", builder.build().toURL().toExternalForm());
+			emailData.put("verifyUrl", url);
 			return sendEmail(FORGOT_PASSWORD, emailData, user.getEmail());
 		} catch (Exception e)
 		{
