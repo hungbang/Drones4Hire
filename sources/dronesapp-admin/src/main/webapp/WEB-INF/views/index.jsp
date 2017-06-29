@@ -49,6 +49,9 @@
 	                        <li data-ng-class="{active : isActive('/projects')}">
 	                            <a href="#/projects"><i class="fa fa-suitcase"></i> Projects</a>
 	                        </li>
+							<li data-ng-class="{active : isActive('/map')}">
+								<a href="#/map"><i class="fa fa-globe"></i> Map</a>
+							</li>
 	                        <li data-ng-class="{active : isActive('/withdraws')}">
 	                            <a href="#/withdraws"><i class="fa fa-money"></i> Withdraw requests</a>
 	                        </li>
@@ -57,9 +60,6 @@
 	                        </li>
 							<li data-ng-class="{active : isActive('/countries')}">
 								<a href="#/locations/countries"><i class="fa fa-compass"></i> Countries</a>
-							</li>
-							<li data-ng-class="{active : isActive('/map')}">
-								<a href="#/map"><i class="fa fa-globe"></i> Map</a>
 							</li>
 	                    </ul>
                     <ul class="nav navbar-right top-nav" data-ng-controller="NavigationCtrl">
