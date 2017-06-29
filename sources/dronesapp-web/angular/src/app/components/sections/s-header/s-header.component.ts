@@ -1,10 +1,11 @@
 import {Component, HostListener, ViewEncapsulation} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {Router} from '@angular/router';
+
+import {AuthorizationService} from '../../../services/authorization.service/authorization.service';
 import {AccountService} from '../../../services/account.service/account.service';
-import {ModalService} from "../../../services/modal.service/modal.service";
-import {ModalConfirmationComponent} from "../../modals/modal-confirmation/modal-confirmation.component";
-import {ModalInformationComponent} from "../../modals/modal-information/modal-information.component";
+import {ModalService} from '../../../services/modal.service/modal.service';
+import {ModalInformationComponent} from '../../modals/modal-information/modal-information.component';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 's-header',
@@ -38,7 +39,7 @@ export class HeaderComponent {
         isOpened: true,
         children: [
           { title: 'Account settings', link: '/account/client' },
-          { title: 'Payment Information', link: '/payment' },
+          // { title: 'Payment Information', link: '/payment' }, // TODO: remove if no changes about it
           { title: 'Withdrawal request', link: '/withdrawal-request' },
           { title: 'Transactions', link: '/transactions' },
           { title: 'Log out', action: this.logout.bind(this) }
@@ -67,27 +68,36 @@ export class HeaderComponent {
     private _accountService: AccountService,
     private _router: Router,
     private _modalService: ModalService,
+    private toastrService: ToastrService,
   ) {
 
   }
 
   goToFindAJobIfAccessExist() {
-    if (!this._modalService) {
-    // if (!this._accountService.license.verified) {
-
-      this._modalService.push({
-        component: ModalInformationComponent,
-        type: 'ModalInformationComponent',
-        values: {
-          title: '',
-          message: 'Pilot: Your license and/or certificate were not verified yet. Please upload it on Account settings, to gain access to job board.'
+    if (this._accountService.license.verified) {
+      this._router.navigate(['/search']);
+    } else {
+      this._accountService.getAccountLicense().subscribe(
+        res => {
+          if (res.verified) {
+            this._router.navigate(['/search']);
+          } else {
+            this._modalService.push({
+              component: ModalInformationComponent,
+              type: 'ModalInformationComponent',
+              values: {
+                title: '',
+                message: 'Pilot: Your license and/or certificate were not verified yet. Please upload it on Account settings, to gain access to job board.'
+              }
+            });
+          }
+        },
+        err => {
+          console.log('get license error', err);
+          this.toastrService.showError('Can\'t check you license status. Please try later.');
         }
-      });
-
-      return;
+      );
     }
-
-    this._router.navigate(['/search']);
   }
 
   goToPostAProjectIfAccessExist() {

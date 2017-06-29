@@ -79,33 +79,6 @@
         </label>
         <div class="f-default__text _error" *ngIf="submitted && !accountService.account?.location?.coordinates?.latitude">Please select correct Google location</div>
       </div>
-
-      <!--<div class="f-default__row">-->
-        <!--<label class="f-default__label">-->
-          <!--<input class="f-default__field"-->
-                 <!--type="text"-->
-                 <!--name="city"-->
-                 <!--placeholder="City*"-->
-                 <!--[ngModel]="accountService.account?.location?.city"-->
-                 <!--(ngModelChange)="accountService.account.location.city = $event"-->
-                 <!--required-->
-                 <!--#cityRef="ngModel"-->
-                 <!--[ngClass]="{'_error': submitted && cityRef.errors?.required}">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="f-default__row">-->
-        <!--<label class="f-default__label">-->
-          <!--<input class="f-default__field"-->
-                 <!--type="text"-->
-                 <!--name="postalCode"-->
-                 <!--placeholder="Post code*"-->
-                 <!--[ngModel]="accountService.account?.location?.postcode"-->
-                 <!--(ngModelChange)="accountService.account.location.postcode = $event"-->
-                 <!--required-->
-                 <!--#postalCodeRef="ngModel"-->
-                 <!--[ngClass]="{'_error': submitted && postalCodeRef.errors?.required}">-->
-        <!--</label>-->
-      <!--</div>-->
       <div class="f-default__row" *ngIf="accountService.isUserPilot()">
         <label class="f-default__label">
           <input class="f-default__field"

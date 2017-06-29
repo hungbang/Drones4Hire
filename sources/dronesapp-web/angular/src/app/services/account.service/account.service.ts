@@ -50,7 +50,7 @@ export class AccountService {
     return this._requestService.fetch('get', '/account')
       .map((res) => {
         this.account = mergeDeep(this.setAccount(), res);
-
+        
         return this.account;
       });
   }
@@ -75,8 +75,7 @@ export class AccountService {
   getAccountLicense() {
     return this._requestService.fetch('get', '/account/license')
       .map((res) => {
-        // console.log('account license:', res);
-        this.license = Object.assign({}, res, { verified: true }); // TODO: clarify default value?
+        this.license = res;
 
         return this.license;
       });

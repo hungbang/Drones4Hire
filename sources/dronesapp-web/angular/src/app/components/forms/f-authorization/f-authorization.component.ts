@@ -124,16 +124,11 @@ export class FAuthorizationComponent implements OnInit {
     const country = this.countries.find((country) => country.name === name);
 
     this.setCountry(country);
-
-    if (this.checkCountry) {
-      this.clearState();
-    } else {
-      delete this.formData.location.state;
-    }
+    this.clearState();
 
     if (!isAutocomplete) {
-      this.loadPlaces();
       this.resetLocation();
+      this.loadPlaces();
     }
   }
 
@@ -171,10 +166,6 @@ export class FAuthorizationComponent implements OnInit {
     this.formData.location.state.name = name;
     this.formData.location.state.id = id;
     this.formData.location.state.code = code;
-
-    setTimeout(() => {
-      this.loadPlaces();
-    }, 1)
   }
 
   private clearState() {
@@ -257,10 +248,7 @@ export class FAuthorizationComponent implements OnInit {
   }
 
   get canAddLocation() {
-    const isCountry = this.formData.location.country && this.formData.location.country.name;
-    const isState = this.checkCountry ? this.formData.location.state && this.formData.location.state.name : true;
-
-    return isCountry && isState;
+    return this.formData.location.country && this.formData.location.country.name;
   }
 
   private resetLocation() {
@@ -275,7 +263,7 @@ export class FAuthorizationComponent implements OnInit {
     this._authorizationService.signUpFormActive ? this.sendSignUpRequest(e, form) : this.sendLoginRequest(e, form);
   }
 
-  sendLoginRequest(e, form) {
+  sendLoginRequest(e, form) { // TODO: add redirect if user was redirected from another page cause was not logged in
     e.preventDefault();
     this.submitted = true;
 
@@ -289,14 +277,23 @@ export class FAuthorizationComponent implements OnInit {
         () => {
           this.progressbarService.done();
           this._accountService.getAccountData()
-            .subscribe(() => {
-              if (this._accountService.isUserPilot()) {
-                return this._accountService.getAccountLicense().subscribe(() => {
-                  this._router.navigate(['/']);
-                });
+            .subscribe(
+              () => {
+                if (this._accountService.isUserPilot()) {
+                  this._accountService.getAccountLicense().subscribe(
+                    res => {
+                      if (!res.verified) {
+                        this._router.navigate(['/account', 'pilot', 'details']);
+                      }
+                    },
+                    err => {
+                      console.log('get license error', err);
+                    }
+                  );
+                }
+                this._router.navigate(['/dashboard']);
               }
-              this._router.navigate(['/']);
-            });
+            );
         },
         (err) => {
           this.progressbarService.done();
@@ -374,16 +371,17 @@ export class FAuthorizationComponent implements OnInit {
   }
 
   verifyEmail() {
-    if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.id && this.route.snapshot.queryParams.token) {
-      this._authorizationService.verifyEmail(this.route.snapshot.queryParams.id, this.route.snapshot.queryParams.token)
+    const queryParams = this.route.snapshot.queryParams;
+
+    if (queryParams && queryParams.id && queryParams.token) {
+      this._authorizationService.verifyEmail(queryParams.id, queryParams.token)
         .subscribe(
-          res => {
-            console.log(res);
+          () => {
             this.showVerifySuccessNotification = true;
             this.isVerified = true;
           },
           err => {
-            console.log(err);
+            console.log('verify email error:', err);
           }
         );
     }

@@ -136,14 +136,11 @@ export class FClientProfileComponent implements OnInit {
 
     this.setCountry(country);
 
-    if (this.checkCountry()) {
-      this.clearState();
-    } else {
-      delete this.accountService.account.location.state;
-    }
+    this.clearState();
+
     if (!isAutocomplete) {
-      this.loadPlaces();
       this.resetLocation();
+      this.loadPlaces();
     }
   }
 
@@ -194,7 +191,7 @@ export class FClientProfileComponent implements OnInit {
       id: null,
       name: null
     };
-    delete this.accountService.account.location.state;
+    this.clearState()
   }
 
   private setState({name, id, code}) {
@@ -277,7 +274,7 @@ export class FClientProfileComponent implements OnInit {
             this.selectState(state, true);
           }
         } else {
-          delete this.accountService.account.location.state;
+          this.clearState();
         }
       } else if (addressType === 'administrative_area_level_1') {
         state = el.long_name;

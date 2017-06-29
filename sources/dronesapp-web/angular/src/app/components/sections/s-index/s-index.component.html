@@ -9,7 +9,7 @@
         <a class="s-index__link" [routerLink]="['sign-up']">Hire a drone pilot</a>
       </div>
       <div class="s-index__item" *ngIf="_authorizationService.isUserLogin && !_accountService.isUserClient()">
-        <a class="s-index__link" [routerLink]="['/search']">I'm a drone pilot</a>
+        <a class="s-index__link" href="#" (click)="goToFindAJobIfAccessExist($event)">I'm a drone pilot</a>
       </div>
       <div class="s-index__item" *ngIf="!_authorizationService.isUserLogin">
         <a class="s-index__link" [routerLink]="['sign-up']">I'm a drone pilot</a>
