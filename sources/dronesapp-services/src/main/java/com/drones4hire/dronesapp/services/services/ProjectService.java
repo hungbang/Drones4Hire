@@ -311,13 +311,13 @@ public class ProjectService
 	{
 		if (user.getRoles().contains(ROLE_CLIENT))
 		{
-			if (user.getId() != project.getClientId())
+			if (!user.getId().equals(project.getClientId()))
 			{
 				throw new ForbiddenOperationException();
 			}
 		} else if (!project.getStatus().equals(NEW) && user.getRoles().contains(ROLE_PILOT))
 		{
-			if (user.getId() != project.getPilotId())
+			if (!user.getId().equals(project.getPilotId()))
 			{
 				throw new ForbiddenOperationException();
 			}
