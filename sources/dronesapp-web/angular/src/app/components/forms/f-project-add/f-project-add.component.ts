@@ -48,7 +48,6 @@ export class FProjectAddComponent implements OnInit {
   isLimitReached: boolean = false;
   isSubmitted: boolean = false;
   paymentToken: string = '';
-  paidOptionsCount: number = 0;
 
   date = {
     start: moment(),
@@ -69,6 +68,7 @@ export class FProjectAddComponent implements OnInit {
 
   paidOptions: PaidOptionModel[] = [];
   paidOptionsChecked: boolean[] = [];
+  originalPaidOptions: PaidOptionModel[] = [];
 
   formData: ProjectModel;
   isEditForm: boolean = false;
@@ -215,7 +215,7 @@ export class FProjectAddComponent implements OnInit {
     if (this.project) {
       this.isEditForm = true;
       this.formData = mergeDeep(this.formData, this.project);
-      this.paidOptionsCount = this.formData.paidOptions.length;
+      this.originalPaidOptions = extend([], this.formData.paidOptions);
       this.initPaidOptions();
       this.initCategories();
       this.initDate();
@@ -414,10 +414,33 @@ export class FProjectAddComponent implements OnInit {
     if (checked) {
       index === -1 && this.formData.paidOptions.push(paidOption);
     } else {
-      index >= 0 && !this.isEditForm && this.formData.paidOptions.splice(index, 1);
+      index >= 0 && this.formData.paidOptions.splice(index, 1);
     }
 
     this.initPaidOptions();
+  }
+
+  isRemovablePaidOption(paidOption) {
+    if (!this.isEditForm) {
+      return true;
+    }
+    let index = -1;
+
+    this.originalPaidOptions.some((option, i) => {
+      if (option.id === paidOption.id) {
+        index = i;
+        return true;
+      }
+      return false;
+    });
+
+    return index === -1;
+  }
+
+  checkRemovement(e, isRemovable) {
+    if (this.isEditForm && !isRemovable) {
+      e.preventDefault();
+    }
   }
 
   initPaidOptions() {
@@ -572,7 +595,7 @@ export class FProjectAddComponent implements OnInit {
           confirm: (e) => {
             this._modalService.pop();
             if (e) {
-              if (this.paidOptionsCount !== this.formData.paidOptions.length && !this.formData.paymentMethod) {
+              if (this.originalPaidOptions.length !== this.formData.paidOptions.length) {
                 this.getPayment();
               } else {
                 this._edit();
