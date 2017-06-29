@@ -115,19 +115,6 @@ public class AuthController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Change user email", nickname = "changeUserEmail", code = 200, httpMethod = "GET")
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = CHANGE_EMAIL_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void changeUserEmail(@RequestParam(name = "token", required = true) String token)
-			throws ServiceException
-	{
-		User userByToken = jwtService.parseEmailToken(token);
-		User user = userService.getUserById(userByToken.getId());
-		user.setEmail(userByToken.getEmail());
-		userService.updateUser(user);
-	}
-
-	@ResponseStatusDetails
 	@ApiOperation(value = "Forgot password", nickname = "forgotPassword", code = 200, httpMethod = "GET", response = AuthTokenDTO.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "password/forgot", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -140,4 +127,19 @@ public class AuthController extends AbstractController
 			emailService.sendForgotPasswordEmail(user, token);
 		}
 	}
+	
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Change user email", nickname = "changeUserEmail", code = 200, httpMethod = "GET")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = CHANGE_EMAIL_PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void changeUserEmail(@RequestParam(name = "token", required = true) String token)
+			throws ServiceException
+	{
+		User userByToken = jwtService.parseEmailToken(token);
+		User user = userService.getUserById(userByToken.getId());
+		user.setEmail(userByToken.getEmail());
+		userService.updateUser(user);
+	}
+
 }

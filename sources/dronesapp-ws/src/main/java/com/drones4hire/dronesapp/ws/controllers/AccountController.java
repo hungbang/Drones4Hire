@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.drones4hire.dronesapp.models.db.commons.Location;
-import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.PilotLicense;
@@ -47,7 +46,6 @@ import com.drones4hire.dronesapp.services.services.PilotLicenseService;
 import com.drones4hire.dronesapp.services.services.PilotLocationService;
 import com.drones4hire.dronesapp.services.services.ProfileService;
 import com.drones4hire.dronesapp.services.services.ServiceService;
-import com.drones4hire.dronesapp.services.services.TransactionService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.WalletService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
@@ -95,9 +93,6 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private WalletService walletService;
-
-	@Autowired
-	private TransactionService transactionService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
@@ -344,15 +339,4 @@ public class AccountController extends AbstractController
 		pilotLocationService.deletePilotLocation(pilotLocation);
 	}
 
-	@ResponseStatusDetails
-	@ApiOperation(value = "Get user transactions", nickname = "getUserTransactions", code = 200, httpMethod = "GET", response = List.class)
-	@ApiImplicitParams(
-			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_PILOT", "ROLE_CLIENT"})
-	@RequestMapping(value = "transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Transaction> getUserTransactions() throws ServiceException
-	{
-		return transactionService.getTransactionsByWalletId(getPrincipal().getId());
-	}
 }

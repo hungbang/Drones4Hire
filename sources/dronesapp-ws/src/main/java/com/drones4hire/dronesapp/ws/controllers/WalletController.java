@@ -1,5 +1,7 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.dozer.Mapper;
@@ -112,5 +114,17 @@ public class WalletController extends AbstractController
 		Wallet wallet = walletService.getWalletById(transaction.getWalletId());
 		checkPrincipalPermissions(wallet.getUserId());
 		return transaction;
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get user transactions", nickname = "getUserTransactions", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_PILOT", "ROLE_CLIENT"})
+	@RequestMapping(value = "transactions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Transaction> getUserTransactions() throws ServiceException
+	{
+		return transactionService.getTransactionsByWalletId(getPrincipal().getId());
 	}
 }
