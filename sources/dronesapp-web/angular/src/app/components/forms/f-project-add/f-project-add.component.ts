@@ -584,6 +584,8 @@ export class FProjectAddComponent implements OnInit {
     } else {
       if (this.formData.paidOptions.length) {
         this.getPayment();
+      } else {
+        this._post();
       }
     }
   }
