@@ -25,9 +25,11 @@ import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
 import com.drones4hire.dronesapp.models.dto.BudgetDTO;
 import com.drones4hire.dronesapp.models.dto.DurationDTO;
+import com.drones4hire.dronesapp.models.dto.FeesDTO;
 import com.drones4hire.dronesapp.services.services.BudgetService;
 import com.drones4hire.dronesapp.services.services.CountryService;
 import com.drones4hire.dronesapp.services.services.DurationService;
+import com.drones4hire.dronesapp.services.services.ProjectService;
 import com.drones4hire.dronesapp.services.services.ServiceCategoryService;
 import com.drones4hire.dronesapp.services.services.ServiceService;
 import com.drones4hire.dronesapp.services.services.StateService;
@@ -62,6 +64,9 @@ public class CommonController extends AbstractController
 
 	@Autowired
 	private ServiceCategoryService serviceCategoryService;
+	
+	@Autowired
+	private ProjectService projectService;
 
 	@Autowired
 	private Mapper mapper;
@@ -315,5 +320,17 @@ public class CommonController extends AbstractController
 	public @ResponseBody List<State> getStates()
 	{
 		return stateService.getAllStates();
+	}
+	
+	/**
+	 * --------------- Fee API ---------------
+	 */
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get fees", nickname = "getFees", code = 200, httpMethod = "GET", response = List.class)
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "fees", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody FeesDTO getFees()
+	{
+		return new FeesDTO(projectService.getServiceFee());
 	}
 }
