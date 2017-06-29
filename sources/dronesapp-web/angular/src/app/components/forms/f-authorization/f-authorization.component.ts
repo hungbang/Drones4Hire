@@ -285,16 +285,16 @@ export class FAuthorizationComponent implements OnInit {
                       if (!res.verified) {
                         this._router.navigate(['/account', 'pilot', 'details']);
                       } else {
-                        this._router.navigate(['/dashboard']);
+                        this._router.navigate(['/dashboard', 'pilot']);
                       }
                     },
                     err => {
                       console.log('get license error', err);
-                      this._router.navigate(['/dashboard']);
+                      this._router.navigate(['/dashboard', 'pilot']);
                     }
                   );
                 } else {
-                  this._router.navigate(['/dashboard']);
+                  this._router.navigate(['/dashboard', 'client']);
                 }
               }
             );
