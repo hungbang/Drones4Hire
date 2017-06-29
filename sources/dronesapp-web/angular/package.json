@@ -10,7 +10,7 @@
     "prod": "ng build --prod --aot=false --no-vendor-chunk",
     "e2e": "protractor ./protractor.conf.js",
     "heroku-postbuild": "ng build --prod --aot=false",
-    "start": "webpack-dev-server --port=4200",
+    "start": "webpack-dev-server --port=4200 --https",
     "prepree2e": "npm start",
     "pree2e": "webdriver-manager update --standalone false --gecko false --quiet"
   },

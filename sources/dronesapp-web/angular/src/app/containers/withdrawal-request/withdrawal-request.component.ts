@@ -16,10 +16,11 @@ export class WithdrawalRequestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.accountService.account);
   }
 
   get accountBalance() {
-    return this.accountService.account.wallet.balance;
+    return this.accountService.account.wallet.balance; // TODO: update balance and status on open page when API will be ready
   }
 
 }
