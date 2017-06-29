@@ -327,6 +327,7 @@ public class CommonController extends AbstractController
 	 */
 	@ResponseStatusDetails
 	@ApiOperation(value = "Get fees", nickname = "getFees", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "fees", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody FeesDTO getFees()
