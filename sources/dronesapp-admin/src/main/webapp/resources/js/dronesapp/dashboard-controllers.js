@@ -48,7 +48,9 @@ DronesAdmin.controller('DashboardCtrl', [ '$scope', '$http','$location', '$timeo
 				dateFormat: function (date) {
 					return new Date(new Date(date).getTime()).toLocaleDateString();
                 },
-                xLabelAngle: 75
+                xLabelAngle: 75,
+                lineWidth: 1,
+                behaveLikeLine: true
             });
         }).error(function(data, status) {
             alertify.error('Failed to load project statistics');
