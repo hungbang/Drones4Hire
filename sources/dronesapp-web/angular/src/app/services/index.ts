@@ -5,7 +5,7 @@ import {BidService} from './bid.service/bid.service';
 import {ProjectService} from './project.service/project.service';
 import {TransactionService} from './transaction.service/transaction.service';
 import {AccountService} from './account.service/account.service';
-import {WithdrawService} from './withdraw.service/withdraw.service';
+import {WalletService} from './wallet.service/wallet.service';
 import {PilotsService} from './pilots.service/pilots.service';
 import {PaymentService} from './payment.service/payment.service';
 import {CommentsService} from './comments.service/comments.service';
@@ -34,7 +34,7 @@ export const AppServices = [
   TokenService,
   TransactionService,
   AccountService,
-  WithdrawService,
+  WalletService,
   PaymentService,
   CommentsService,
   ToastrService,

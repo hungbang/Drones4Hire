@@ -50,7 +50,7 @@ export class AccountService {
     return this._requestService.fetch('get', '/account')
       .map((res) => {
         this.account = mergeDeep(this.setAccount(), res);
-        
+
         return this.account;
       });
   }
@@ -183,9 +183,5 @@ export class AccountService {
     this.services = [];
     this.activeServices = [];
     this.profile = null;
-  }
-
-  public getTransactions() {
-    return this._requestService.fetch('get', '/account/transactions')
   }
 }

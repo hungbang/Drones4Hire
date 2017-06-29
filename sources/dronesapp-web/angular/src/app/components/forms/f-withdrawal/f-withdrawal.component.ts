@@ -4,6 +4,7 @@ import {NgProgressService} from 'ngx-progressbar';
 import {AccountService} from '../../../services/account.service/account.service';
 import {TransactionService} from '../../../services/transaction.service/transaction.service';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
+import {WalletModel} from '../../../services/wallet.service/wallet.interface';
 
 @Component({
   selector: 'f-withdrawal',
@@ -15,7 +16,7 @@ export class FWithdrawalComponent implements OnInit {
   amount: string = '';
   description: string = '';
   submitted: boolean = false;
-  @Input() balance: number = 0;
+  @Input() wallet: WalletModel;
   @Output() showSuccessText: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
@@ -41,7 +42,7 @@ export class FWithdrawalComponent implements OnInit {
     const withdrawal = {
       amount: parseFloat(this.amount.replace(',', '.')),
       comment: this.description,
-      currency: this.accountService.account.wallet.currency
+      currency: this.wallet.currency
     };
 
     this.progressbarService.start();
@@ -56,9 +57,12 @@ export class FWithdrawalComponent implements OnInit {
         err => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
 
-          if (err.status === 400) {
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later.');
+          } else if (err.status === 400) {
+            const body = err.json();
+
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
@@ -66,6 +70,8 @@ export class FWithdrawalComponent implements OnInit {
             } else {
               this.toastrService.showError('Please check your data');
             }
+          } else {
+            this.toastrService.showError('Please check your data');
           }
         }
       );
@@ -74,14 +80,14 @@ export class FWithdrawalComponent implements OnInit {
 
   get isCorrectValue() {
     const value = parseFloat(this.amount.replace(',', '.')); // TODO: use replacement on enter instead parsing?
-    return isFinite(value) && value > 0 && value <= this.balance;
+    return isFinite(value) && value > 0 && value <= this.wallet.balance;
   }
 
   get paymentLink() {
-    return this.accountService.account.paymentLink ? this.accountService.account.paymentLink : '#';
+    return this.wallet.payoneerRegistrationLink ? this.wallet.payoneerRegistrationLink : '#';
   }
 
   get canWithdarawal() {
-    return true; // TODO: connect to API when will ready
+    return this.wallet.withdrawEnabled;
   }
 }

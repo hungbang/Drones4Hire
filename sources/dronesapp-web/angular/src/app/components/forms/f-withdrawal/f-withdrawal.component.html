@@ -3,7 +3,7 @@
       class="f-withdrawal f-default">
   <div class="f-withdrawal__header" *ngIf="canWithdarawal">Enter the amount of money that you want to withdrawal</div>
   <div class="f-withdrawal__header" *ngIf="!canWithdarawal">
-    <a href="{{paymentLink}}"
+    <a href="{{ paymentLink }}"
        target="_blank"
        class="f-withdrawal__header-link">Register a Payoneer</a> account to create a withdrawal
   </div>
@@ -31,7 +31,7 @@
       </label>
     </div>
     <button
-      [disabled]="!canWithdarawal"
+      [disabled]="!canWithdarawal || !wallet.balance"
       class="f-default__button _big">Send a request</button>
   </div>
 </form>

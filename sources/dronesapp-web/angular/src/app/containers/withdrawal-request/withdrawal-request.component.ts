@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import {AccountService} from '../../services/account.service/account.service';
+import {WalletService} from '../../services/wallet.service/wallet.service';
+import {WalletModel} from '../../services/wallet.service/wallet.interface';
 
 @Component({
   selector: 'withdrawal-request',
@@ -10,17 +12,28 @@ import {AccountService} from '../../services/account.service/account.service';
 })
 export class WithdrawalRequestComponent implements OnInit {
   showSuccessText: boolean = false;
+  accountWallet: WalletModel;
 
   constructor(
-    private accountService: AccountService
+    private accountService: AccountService,
+    private walletService: WalletService
   ) { }
 
   ngOnInit() {
     console.log(this.accountService.account);
-  }
+    this.accountWallet = this.accountService.account.wallet;
 
-  get accountBalance() {
-    return this.accountService.account.wallet.balance; // TODO: update balance and status on open page when API will be ready
+    if (!this.accountWallet.withdrawEnabled) {
+      this.walletService.getWallet()
+        .subscribe(
+          res => {
+            this.accountWallet = res;
+          },
+          err => {
+            console.log('get wallet error:', err);
+          }
+        );
+    }
   }
 
 }

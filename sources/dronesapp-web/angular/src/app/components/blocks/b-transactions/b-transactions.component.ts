@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import {AccountService} from "../../../services/account.service/account.service";
+import {WalletService} from '../../../services/wallet.service/wallet.service';
 
 @Component({
   selector: 'b-transactions',
@@ -16,7 +16,7 @@ export class BTransactionsComponent implements OnInit {
   private countPerPage = 20;
 
   constructor(
-    private accountService: AccountService
+    private walletService: WalletService
   ) { }
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class BTransactionsComponent implements OnInit {
   }
 
   private getTransactions() {
-    this.accountService.getTransactions()
+    this.walletService.getTransactions()
       .subscribe(
         res => {
           console.log('transactions: ', res);
