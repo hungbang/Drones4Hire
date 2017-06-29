@@ -2,7 +2,6 @@ package com.drones4hire.dronesapp.services.services.notifications;
 
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.ACCEPT_BID;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.AWARD_BID;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.CHANGE_EMAIL;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.CONFIRMATION;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.FORGOT_PASSWORD;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.NEW_BID_PLACE;
@@ -36,7 +35,6 @@ import freemarker.template.Template;
 public abstract class AbstractEmailService
 {
 	public final static String LOGIN_PATH = "/#/login";
-	public final static String CHANGE_EMAIL_PATH = "email";
 	public final static String CHANGE_PASSWORD_PATH = "password";
 
 	@Autowired
@@ -44,11 +42,8 @@ public abstract class AbstractEmailService
 	private Configuration configuration;
 
 	@Value("#{environmentProperties['drones4hire.url']}")
-	private String domain;
+	private String baseUrl;
 
-	@Value("#{environmentProperties['drones4hire.web.path']}")
-	private String webPath;
-	
 	@Value("#{environmentProperties['drones4hire.mail.support']}")
 	private String supportEmail;
 
@@ -61,14 +56,11 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + LOGIN_PATH);
-			builder.addParameter("id", user.getId().toString());
-			builder.addParameter("token", token);
+			String url = baseUrl + LOGIN_PATH + "?id=" + user.getId() + "&token=" + token;
 
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(user.getClass().getSimpleName(), user);
-			emailData.put("verifyUrl", builder.build().toURL().toExternalForm());
+			emailData.put("verifyUrl", url);
 
 			return sendEmail(CONFIRMATION, emailData, user.getEmail());
 		} catch (Exception e)
@@ -78,38 +70,16 @@ public abstract class AbstractEmailService
 		return null;
 	}
 
-//	TODO: remove.
-	public String sendChangingEmail(User user, String token)
-	{
-		try
-		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/auth/" + CHANGE_EMAIL_PATH);
-			builder.addParameter("token", token);
-
-			Map<String, Object> emailData = new HashMap<String, Object>();
-			emailData.put(user.getClass().getSimpleName(), user);
-			emailData.put("verifyUrl", builder.build().toURL().toExternalForm());
-			return sendEmail(CHANGE_EMAIL, emailData, user.getEmail());
-		} catch (Exception e)
-		{
-			new ServiceException("Can't build verification URL!", e);
-		}
-		return null;
-	}
-
 	public String sendForgotPasswordEmail(User user, String token)
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
 //			TODO[anazarenko]: when implemented add new link
-			builder.setPath(webPath + "/api/v1/auth/" + CHANGE_PASSWORD_PATH);
-			builder.addParameter("token", token);
-
+			String url = baseUrl + "/api/v1/auth/" + CHANGE_PASSWORD_PATH;
+			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(user.getClass().getSimpleName(), user);
-			emailData.put("verifyUrl", builder.build().toURL().toExternalForm());
+			emailData.put("verifyUrl", url);
 			return sendEmail(FORGOT_PASSWORD, emailData, user.getEmail());
 		} catch (Exception e)
 		{
@@ -122,15 +92,14 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
+			String url = baseUrl + "/#/project/" + project.getId() + "/description";
 			
 			User client = userService.getUserById(project.getClientId());
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(client.getClass().getSimpleName(), client);
 			emailData.put(project.getClass().getSimpleName(), project);
 			emailData.put("Pilot", pilot);
-			emailData.put("projectUrl", builder.build().toURL().toExternalForm());
+			emailData.put("projectUrl", url);
 
 			return sendEmail(NEW_BID_RECEIVE, emailData, client.getEmail());
 		} catch (Exception e)
@@ -144,13 +113,12 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
+			String url = baseUrl + "/#/project/" + project.getId() + "/description";
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
 			emailData.put(project.getClass().getSimpleName(), project);
-			emailData.put("projectUrl", builder.build().toURL().toExternalForm());
+			emailData.put("projectUrl", url);
 
 			return sendEmail(NEW_BID_PLACE, emailData, pilot.getEmail());
 		} catch (Exception e)
@@ -165,13 +133,12 @@ public abstract class AbstractEmailService
 		User pilot = userService.getUserById(project.getPilotId());
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
+			String url = baseUrl + "/#/project/" + project.getId() + "/description";
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
 			emailData.put(project.getClass().getSimpleName(), project);
-			emailData.put("projectUrl", builder.build().toURL().toExternalForm());
+			emailData.put("projectUrl", url);
 
 			return sendEmail(AWARD_BID, emailData, pilot.getEmail());
 		} catch (Exception e)
@@ -185,13 +152,12 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
+			String url = baseUrl + "/#/project/" + project.getId() + "/description";
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
 			emailData.put(project.getClass().getSimpleName(), project);
-			emailData.put("projectUrl", builder.build().toURL().toExternalForm());
+			emailData.put("projectUrl", url);
 
 			return sendEmail(UPDATE_BID, emailData, pilot.getEmail());
 		} catch (Exception e)
@@ -205,13 +171,12 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
+			String url = baseUrl + "/#/project/" + project.getId() + "/description";
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(pilot.getClass().getSimpleName(), pilot);
 			emailData.put(project.getClass().getSimpleName(), project);
-			emailData.put("projectUrl", builder.build().toURL().toExternalForm());
+			emailData.put("projectUrl", url);
 
 			return sendEmail(RETRACT_BID, emailData, pilot.getEmail());
 		} catch (Exception e)
@@ -225,15 +190,14 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
+			String url = baseUrl + "/#/project/" + project.getId() + "/description";
 			
 			User client = userService.getUserById(project.getClientId());
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(client.getClass().getSimpleName(), client);
 			emailData.put("Pilot", pilot);
 			emailData.put(project.getClass().getSimpleName(), project);
-			emailData.put("projectUrl", builder.build().toURL().toExternalForm());;
+			emailData.put("projectUrl", url);
 
 			return sendEmail(REJECT_BID, emailData, client.getEmail());
 		} catch (Exception e)
@@ -247,15 +211,14 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			URIBuilder builder = new URIBuilder(domain);
-			builder.setPath(webPath + "/api/v1/projects/" + project.getId());
+			String url = baseUrl + "/#/project/" + project.getId() + "/description";
 			
 			User client = userService.getUserById(project.getClientId());
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(client.getClass().getSimpleName(), client);
 			emailData.put("Pilot", pilot);
 			emailData.put(project.getClass().getSimpleName(), project);
-			emailData.put("projectUrl", builder.build().toURL().toExternalForm());;
+			emailData.put("projectUrl", url);
 
 			return sendEmail(ACCEPT_BID, emailData, client.getEmail());
 		} catch (Exception e)

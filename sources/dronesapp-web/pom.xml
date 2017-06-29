@@ -83,6 +83,7 @@
       					<url>${drones4hire.url}/manager/text</url>
       					<server>TomcatServer</server>
       					<path>${drones4hire.web.path}</path>
+                <ignorePackaging>true</ignorePackaging>
     				</configuration>
   			</plugin>
     </plugins>

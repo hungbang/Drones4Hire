@@ -3,7 +3,6 @@ package com.drones4hire.dronesapp.services.services.notifications;
 public enum EmailType
 {
 	CONFIRMATION("Drones4Hire Account Verification", "EmailConfirmationTemplate.ftl"),
-	CHANGE_EMAIL("Drones4Hire Account Verification", "EmailChangeTemplate.ftl"),
 	FORGOT_PASSWORD("Drones4Hire Reset Password", "PasswordResetTemplate.ftl"),
 	NEW_BID_RECEIVE("You received a new bid", "ReceiveNewBidTemplate.ftl"),
 	NEW_BID_PLACE("Your Bid Has Been Placed", "PlaceNewBidTemplate.ftl"),

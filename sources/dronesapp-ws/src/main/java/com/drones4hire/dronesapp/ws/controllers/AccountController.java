@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -220,21 +221,6 @@ public class AccountController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Update user email", nickname = "updateUserEmail", code = 200, httpMethod = "PUT")
-	@ApiImplicitParams(
-	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "email", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void updateUserEmail(@RequestBody ChangeEmailDTO email)
-			throws ServiceException
-	{
-		User user = userService.getUserById(getPrincipal().getId());
-		user = userService.checkUserCredentials(user.getEmail(), email.getPassword());
-		user.setEmail(email.getEmail());
-		emailService.sendChangingEmail(user, jwtService.generateEmailToken(user.getId(), email.getEmail()));
-	}
-
-	@ResponseStatusDetails
 	@ApiOperation(value = "Change password", nickname = "changePassword", code = 200, httpMethod = "PUT")
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
@@ -339,4 +325,16 @@ public class AccountController extends AbstractController
 		pilotLocationService.deletePilotLocation(pilotLocation);
 	}
 
+	@ResponseStatusDetails
+	@ApiOperation(value = "Change user email", nickname = "changeUserPassword", code = 200, httpMethod = "POST")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "password/change", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void changePassword()
+			throws ServiceException
+	{
+//		User userByToken = jwtService.parseEmailToken(token);
+//		User user = userService.getUserById(userByToken.getId());
+//		user.setEmail(userByToken.getEmail());
+//		userService.updateUser(user);
+	}
 }

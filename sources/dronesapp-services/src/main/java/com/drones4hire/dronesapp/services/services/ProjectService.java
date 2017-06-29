@@ -332,4 +332,9 @@ public class ProjectService
 			throw new ForbiddenOperationException("Invalid project status");
 		}
 	}
+
+	public BigDecimal getServiceFee()
+	{
+		return serviceFee;
+	}
 }
