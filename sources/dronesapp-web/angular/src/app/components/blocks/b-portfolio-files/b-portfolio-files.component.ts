@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {PortfolioService} from '../../../services/portfolio.service/portfolio.service';
-import {AccountService} from "../../../services/account.service/account.service";
+import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 'b-portfolio-files',
@@ -14,7 +15,8 @@ export class BPortfolioFilesComponent implements OnInit {
 
   constructor(
     public portfolioService: PortfolioService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private progressbarService: NgProgressService
   ) { }
 
   ngOnInit() {
@@ -24,6 +26,16 @@ export class BPortfolioFilesComponent implements OnInit {
   }
 
   deletePortfolio(id: number) {
-    this.portfolioService.deletePortfolio(id);
+    this.progressbarService.start();
+    this.portfolioService.deletePortfolio(id)
+      .subscribe(
+        () => {
+          this.progressbarService.done();
+        },
+        err => {
+          console.log('delete portfolio error:', err);
+          this.progressbarService.done();
+        }
+      );
   }
 }

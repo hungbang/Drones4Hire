@@ -75,8 +75,7 @@ export class AccountService {
   getAccountLicense() {
     return this._requestService.fetch('get', '/account/license')
       .map((res) => {
-        // console.log('account license:', res);
-        this.license = Object.assign({}, res, { verified: true }); // TODO: clarify default value?
+        this.license = res;
 
         return this.license;
       });
@@ -184,9 +183,5 @@ export class AccountService {
     this.services = [];
     this.activeServices = [];
     this.profile = null;
-  }
-
-  public getTransactions() {
-    return this._requestService.fetch('get', '/account/transactions')
   }
 }

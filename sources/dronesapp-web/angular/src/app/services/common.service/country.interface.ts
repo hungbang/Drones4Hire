@@ -1,4 +1,6 @@
 export interface CountryModel {
   id: number,
-  name: string
+  name: string,
+  code: string,
+  licenseRequired: boolean
 }

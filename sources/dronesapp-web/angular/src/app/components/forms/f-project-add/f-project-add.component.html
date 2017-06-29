@@ -150,34 +150,8 @@
   <div class="f-project-add__item">
     <h3 class="f-default__title">
       <span class="_number">3</span>
-      <span>Budget and Locaticon</span>
+      <span>Locaticon</span>
     </h3>
-
-    <div class="f-default__row _flex">
-      <div class="f-default__col">
-        <div class="f-project-add__caption">What budget do you have in mind?</div>
-      </div>
-      <div class="f-default__col">
-        <div class="f-default__col-inner">
-          <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.budget.title}">
-            <select class="f-default__field"
-                    [(ngModel)]="formData.budget.title"
-                    #budgetRef="ngModel"
-                    (ngModelChange)="selectBudget($event)"
-                    required
-                    [ngClass]="{'_error': isSubmitted && budgetRef.errors?.required}"
-                    name="budget">
-              <option [value]="null">Select your budget</option>
-              <option *ngFor="let budget of budgets"
-                      [value]="budget.title">
-                ${{budget.min}}-${{budget.max}}
-              </option>
-            </select>
-          </label>
-        </div>
-      </div>
-    </div>
-
     <div class="f-default__row _flex">
       <div class="f-default__col">
         <div class="f-project-add__caption">Country</div>
@@ -225,51 +199,100 @@
       </div>
     </div>
 
-    <div class="f-default__row _flex">
-      <div class="f-default__col">
-        <div class="f-project-add__caption">City</div>
-      </div>
-      <div class="f-default__col">
-        <input class="f-default__field"
-               type="text"
-               [(ngModel)]="formData.location.city"
-               name="projectCity"
-               required
-               #projectCityRef="ngModel"
-               [ngClass]="{'_error': isSubmitted && projectCityRef.errors?.required}"
-               placeholder="Type your city"/>
-      </div>
-    </div>
+    <!--<div class="f-default__row _flex">-->
+      <!--<div class="f-default__col">-->
+        <!--<div class="f-project-add__caption">City</div>-->
+      <!--</div>-->
+      <!--<div class="f-default__col">-->
+        <!--<input class="f-default__field"-->
+               <!--type="text"-->
+               <!--[(ngModel)]="formData.location.city"-->
+               <!--name="projectCity"-->
+               <!--required-->
+               <!--#projectCityRef="ngModel"-->
+               <!--[ngClass]="{'_error': isSubmitted && projectCityRef.errors?.required}"-->
+               <!--placeholder="Type your city"/>-->
+      <!--</div>-->
+    <!--</div>-->
 
     <div class="f-default__row _flex">
       <div class="f-default__col">
         <div class="f-project-add__caption">Address</div>
       </div>
-      <div class="f-default__col">
+      <div class="f-default__col" (keydown.enter)="$event.preventDefault()">
         <input class="f-default__field"
                type="text"
                [(ngModel)]="formData.location.address"
                name="projectAddress"
                required
                #projectAddressRef="ngModel"
+               #location
                [ngClass]="{'_error': isSubmitted && projectAddressRef.errors?.required}"
                placeholder="Type your address"/>
+        <div class="f-default__text _error" *ngIf="submitted && !formData.location?.coordinates?.latitude">Please select correct Google location</div>
       </div>
     </div>
 
+    <div class="f-default__row">
+      <div class="f-project-add__map-wrapper">
+        <agm-map class="f-project-add__map"
+                 (mapClick)="locationClicked($event)"
+                 [latitude]="formData.location?.coordinates?.latitude || 39.8282"
+                 [longitude]="formData.location?.coordinates?.longitude || -98.5795"
+                 [scrollwheel]="false"
+                 [zoom]="15">
+          <agm-marker [markerDraggable]="true"
+                      (dragEnd)="markerMoved($event)"
+                      [latitude]="formData.location?.coordinates?.latitude || 39.8282"
+                      [longitude]="formData.location?.coordinates?.longitude || -98.5795"></agm-marker>
+        </agm-map>
+      </div>
+    </div>
+
+    <!--<div class="f-default__row _flex">-->
+      <!--<div class="f-default__col">-->
+        <!--<div class="f-project-add__caption">Postcode</div>-->
+      <!--</div>-->
+      <!--<div class="f-default__col">-->
+        <!--<input class="f-default__field"-->
+               <!--type="text"-->
+               <!--[(ngModel)]="formData.location.postcode"-->
+               <!--name="projectPostcode"-->
+               <!--required-->
+               <!--#projectPostCodeRef="ngModel"-->
+               <!--[ngClass]="{'_error': isSubmitted && projectPostCodeRef.errors?.required}"-->
+               <!--placeholder="Type your postcode"/>-->
+      <!--</div>-->
+    <!--</div>-->
+  </div>
+
+  <div class="f-project-add__item">
+    <h3 class="f-default__title">
+      <span class="_number">4</span>
+      <span>Budget and other</span>
+    </h3>
     <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-project-add__caption">Postcode</div>
+        <div class="f-project-add__caption">What budget do you have in mind?</div>
       </div>
       <div class="f-default__col">
-        <input class="f-default__field"
-               type="text"
-               [(ngModel)]="formData.location.postcode"
-               name="projectPostcode"
-               required
-               #projectPostCodeRef="ngModel"
-               [ngClass]="{'_error': isSubmitted && projectPostCodeRef.errors?.required}"
-               placeholder="Type your postcode"/>
+        <div class="f-default__col-inner">
+          <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.budget.title}">
+            <select class="f-default__field"
+                    [(ngModel)]="formData.budget.title"
+                    #budgetRef="ngModel"
+                    (ngModelChange)="selectBudget($event)"
+                    required
+                    [ngClass]="{'_error': isSubmitted && budgetRef.errors?.required}"
+                    name="budget">
+              <option [value]="null">Select your budget</option>
+              <option *ngFor="let budget of budgets"
+                      [value]="budget.title">
+                ${{budget.min}}-${{budget.max}}
+              </option>
+            </select>
+          </label>
+        </div>
       </div>
     </div>
     <div class="f-default__row _flex">
@@ -324,7 +347,7 @@
 
   <div class="f-project-add__item">
     <h3 class="f-default__title">
-      <span class="_number">4</span>
+      <span class="_number">5</span>
       <span>Get the most from your project!</span>
       <span class="_small">(optional)</span>
     </h3>

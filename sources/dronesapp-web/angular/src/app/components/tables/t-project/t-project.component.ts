@@ -1,9 +1,11 @@
 import {Component, ViewEncapsulation, Input} from '@angular/core';
 import {Router} from '@angular/router';
+import {NgProgressService} from 'ngx-progressbar';
 
 import {ProjectService} from '../../../services/project.service/project.service';
-import {ModalConfirmationComponent} from "../../modals/modal-confirmation/modal-confirmation.component";
-import {ModalService} from "../../../services/modal.service/modal.service";
+import {ModalConfirmationComponent} from '../../modals/modal-confirmation/modal-confirmation.component';
+import {ModalService} from '../../../services/modal.service/modal.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 't-project',
@@ -17,7 +19,9 @@ export class TProjectComponent {
   constructor(
     private projectService: ProjectService,
     private router: Router,
-    private _modalService: ModalService
+    private _modalService: ModalService,
+    private toastrService: ToastrService,
+    private progressbarService: NgProgressService
   ) {
   }
 
@@ -44,15 +48,34 @@ export class TProjectComponent {
       this._modalService.pop();
       return;
     }
-
+    this.progressbarService.start();
     this.projectService.cancelProject(project.id)
       .subscribe(
         () => {
+          this.progressbarService.done();
           this._modalService.pop();
           project.status = 'CANCELLED';
+          this.toastrService.showSuccess('Project canceled');
         },
         err => {
+          this.progressbarService.done();
           console.log('Cancel project error:', err);
+
+          if (err.status === 500) {
+            this.toastrService.showError('Server error. Please, try later.');
+          } else {
+            if (err.status === 400) {
+              const body = err.json();
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              }
+            } else {
+              this.toastrService.showError('Please check your data');
+            }
+          }
+
         }
       );
   }

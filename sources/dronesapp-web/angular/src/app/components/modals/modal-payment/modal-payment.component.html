@@ -1,0 +1,19 @@
+<div class="modal-payment">
+  <div class="modal-payment__header">
+    <span class="modal-payment__header-title">{{ title }}</span>
+    <div class="modal-payment__close" (click)="close()"></div>
+  </div>
+  <div class="modal-payment__content">
+    <div class="modal-payment__content-text">{{ message }}</div>
+    <div class="modal-payment__content-text" *ngIf="isLoading">Loading...</div>
+    <div class="modal-payment__content-form">
+      <form #paymentForm
+            (submit)="onSubmit($event, paymentForm)">
+        <div id="dropin-container"></div>
+        <div class="modal-payment__controls">
+          <button class="f-default__button">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

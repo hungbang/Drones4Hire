@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
-import {BidModel} from '../../../services/bid.service/bid.interface';
+
 import * as moment from 'moment';
 
 @Component({

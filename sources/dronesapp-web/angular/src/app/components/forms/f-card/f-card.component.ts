@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {Card} from "../../../services/payment.service/card.interface";
-import {CardModel} from "../../../services/payment.service/card-model";
+
+import {Card} from '../../../services/payment.service/card.interface';
+import {CardModel} from '../../../services/payment.service/card-model';
 
 @Component({
   selector: 'f-card',
