@@ -13,3 +13,4 @@
     <div class="t-transactions__cell _amount">${{ transaction.amount }}</div>
   </div>
 </div>
+<div class="t-transactions__empty" *ngIf="!transactions.length">No transactions yet.</div>
