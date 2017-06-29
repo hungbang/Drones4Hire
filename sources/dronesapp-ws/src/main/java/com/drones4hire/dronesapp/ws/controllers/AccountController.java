@@ -332,9 +332,9 @@ public class AccountController extends AbstractController
 	public void changePassword()
 			throws ServiceException
 	{
-		User userByToken = jwtService.parseEmailToken(token);
-		User user = userService.getUserById(userByToken.getId());
-		user.setEmail(userByToken.getEmail());
-		userService.updateUser(user);
+//		User userByToken = jwtService.parseEmailToken(token);
+//		User user = userService.getUserById(userByToken.getId());
+//		user.setEmail(userByToken.getEmail());
+//		userService.updateUser(user);
 	}
 }

@@ -1,6 +1,5 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_EMAIL_PATH;
 
 import javax.validation.Valid;
 
