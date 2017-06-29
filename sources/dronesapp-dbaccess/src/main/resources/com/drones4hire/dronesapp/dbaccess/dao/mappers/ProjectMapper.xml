@@ -1166,6 +1166,34 @@
 		</trim>
 	</select>
 
+	<select id="getProjectStatusesStatistic" resultMap="ProjectStatusStatisticResultMap">
+		SELECT
+			COUNT(*) AS PROJECTS_COUNT,
+			DATE(P.CREATED_AT) AS PROJECT_CREATED_AT,
+			P.STATUS AS PROJECT_STATUS
+		FROM
+			drones.PROJECTS P
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != createdAtAfter">
+				<![CDATA[
+	               AND P.CREATED_AT >= #{createdAtAfter}
+	            ]]>
+			</if>
+			<if test="null != createdAtBefore">
+				<![CDATA[
+	               AND P.CREATED_AT <= #{createdAtBefore}
+	            ]]>
+			</if>
+		</trim>
+		<![CDATA[
+			GROUP BY
+				DATE(P.CREATED_AT),
+				STATUS
+			ORDER BY
+				P.CREATED_AT ASC;
+		]]>
+	</select>
+
 	<update id="updateProject">
         <![CDATA[
           UPDATE
@@ -1251,6 +1279,12 @@
 		<result property="budgetId" column="BUDGET_ID"/>
 		<result property="coordinates.latitude" column="LOCATION_X_COORDINATE"/>
 		<result property="coordinates.longitude" column="LOCATION_Y_COORDINATE"/>
+	</resultMap>
+
+	<resultMap id="ProjectStatusStatisticResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectStatisticsResult" autoMapping="false">
+		<result property="count" column="PROJECTS_COUNT"/>
+		<result property="status" column="PROJECT_STATUS"/>
+		<result property="createdAt" column="PROJECT_CREATED_AT" javaType="java.util.Date"/>
 	</resultMap>
 
 </mapper>

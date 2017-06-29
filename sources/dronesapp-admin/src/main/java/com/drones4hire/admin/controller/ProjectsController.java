@@ -1,6 +1,7 @@
 package com.drones4hire.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,14 @@ public class ProjectsController extends AbstractController
 			throws Exception
 	{
 		return projectService.searchProjectsForMap(sc, getPrincipal().getId());
+	}
+
+	@RequestMapping(value = "search/statistic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody
+	Map<Long, Map<Project.Status, ProjectStatisticsResult>> getProjectStatusesStatistic(@RequestBody ProjectSearchCriteria sc)
+			throws Exception
+	{
+		return projectService.getProjectStatusesStatistic(sc);
 	}
 
 	@ResponseStatus(HttpStatus.OK)

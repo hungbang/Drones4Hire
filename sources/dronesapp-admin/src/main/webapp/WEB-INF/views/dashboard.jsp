@@ -107,22 +107,22 @@
 			  <div class="panel-heading">
 				<h3 class="panel-title">Role fragmentation</h3>
 			  </div>
-			  <div class="panel-body" style="height: 450px;">
+			  <div class="panel-body" style="height: 525px;">
 			  	<small data-ng-if="!overview">Loading..</small>
 				<div id="roles-ratio-graph"></div>
 			  </div>
 			</div>
 		</div>
-		<div class="col-lg-6">
-			<div class="panel panel-primary">
-			  <div class="panel-heading">
-				<h3 class="panel-title">Project statuses</h3>
-			  </div>
-			  <div class="panel-body"  style="height: 450px;">
-			  	<small data-ng-if="!overview">Loading..</small>
-				<div id="projects-graph"></div>
-			  </div>
-			</div>
-		</div>
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Project statuses (Latest {{DAYS_AGO_PROJECTS_STATISTIC}} days)</h3>
+                </div>
+                <div class="panel-body"  style="height: 525px;">
+                    <small data-ng-if="!data">Loading..</small>
+                    <div id="projects-graph" class="text-center"></div>
+                </div>
+            </div>
+        </div>
 	</div>
 </div>

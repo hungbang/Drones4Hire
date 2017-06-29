@@ -5,6 +5,7 @@ import com.drones4hire.dronesapp.models.dto.CoordinatesDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import java.util.Date;
 import java.util.List;
 
 public class ProjectSearchCriteria extends SearchCriteria
@@ -19,6 +20,8 @@ public class ProjectSearchCriteria extends SearchCriteria
 	private Integer postcode;
 	private long budgetId;
 	private List<Status> statuses;
+	private Date createdAtBefore;
+	private Date createdAtAfter;
 	@Valid
 	private CoordinatesDTO topLeftCoordinates;
 	@Valid
@@ -112,6 +115,26 @@ public class ProjectSearchCriteria extends SearchCriteria
 	public void setStatuses(List<Status> statuses)
 	{
 		this.statuses = statuses;
+	}
+
+	public Date getCreatedAtBefore()
+	{
+		return createdAtBefore;
+	}
+
+	public void setCreatedAtBefore(Date createdAtBefore)
+	{
+		this.createdAtBefore = createdAtBefore;
+	}
+
+	public Date getCreatedAtAfter()
+	{
+		return createdAtAfter;
+	}
+
+	public void setCreatedAtAfter(Date createdAtAfter)
+	{
+		this.createdAtAfter = createdAtAfter;
 	}
 
 	public CoordinatesDTO getTopLeftCoordinates()

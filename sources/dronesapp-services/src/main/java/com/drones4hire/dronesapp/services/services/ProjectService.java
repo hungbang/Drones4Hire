@@ -9,9 +9,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,6 +170,27 @@ public class ProjectService
 		results.setTotalResults(projectMapper.getProjectsWithAdminSearchCount(sc));
 		results.setResults(projectSearchResults);
 		return results;
+	}
+
+	@Transactional(readOnly = true)
+	public Map<Long, Map<Status, ProjectStatisticsResult>> getProjectStatusesStatistic(ProjectSearchCriteria sc) throws ServiceException
+	{
+		Map<Long, Map<Status, ProjectStatisticsResult>> statistics = new HashMap<>();
+		List<ProjectStatisticsResult> results = projectMapper.getProjectStatusesStatistic(sc);
+		for(ProjectStatisticsResult result : results)
+		{
+			long time = result.getCreatedAt().getTime();
+			if(!statistics.containsKey(time))
+			{
+				statistics.put(time, new HashMap<>());
+				for(Status status: Project.Status.values())
+				{
+					statistics.get(time).put(status, new ProjectStatisticsResult(0, status));
+				}
+			}
+			statistics.get(time).put(result.getStatus(), result);
+		}
+		return statistics;
 	}
 
 	@Transactional(readOnly = true)

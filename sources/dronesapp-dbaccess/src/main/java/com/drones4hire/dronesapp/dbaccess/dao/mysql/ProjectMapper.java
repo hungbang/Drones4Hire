@@ -28,6 +28,8 @@ public interface ProjectMapper
 
 	Integer getProjectsForMapSearchCount(ProjectForMapSearchCriteria sc);
 
+	List<ProjectStatisticsResult> getProjectStatusesStatistic(ProjectSearchCriteria sc);
+
 	List<Project> getAllProjects();
 
 	void updateProject(Project project);
