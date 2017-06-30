@@ -579,6 +579,7 @@ export class FProjectAddComponent implements OnInit {
     this.isSubmitted = true;
 
     if (!form.valid) {
+      this.toastrService.showWarning('Please check your data', '');
       return;
     }
 
