@@ -195,6 +195,11 @@ public class Project extends AbstractEntity
 	{
 		this.paymentMethod = paymentMethod;
 	}
+	
+	public boolean hasPaidOptions()
+	{
+		return paidOptions != null && paidOptions.size() > 0;
+	}
 
 	public BigDecimal getPaidOptionsTotal()
 	{
