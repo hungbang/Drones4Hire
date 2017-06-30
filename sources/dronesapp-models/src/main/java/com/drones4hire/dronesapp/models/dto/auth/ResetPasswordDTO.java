@@ -6,7 +6,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ChangePasswordDTO implements Serializable
+public class ResetPasswordDTO implements Serializable
 {
 	private static final long serialVersionUID = 2478362544957348484L;
 	

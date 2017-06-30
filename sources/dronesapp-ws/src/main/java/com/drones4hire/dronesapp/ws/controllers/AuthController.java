@@ -22,8 +22,10 @@ import com.drones4hire.dronesapp.models.dto.auth.AuthTokenDTO;
 import com.drones4hire.dronesapp.models.dto.auth.CredentialsDTO;
 import com.drones4hire.dronesapp.models.dto.auth.RefreshTokenDTO;
 import com.drones4hire.dronesapp.models.dto.auth.RegistrationDTO;
+import com.drones4hire.dronesapp.models.dto.auth.ResetPasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
@@ -68,8 +70,7 @@ public class AuthController extends AbstractController
 	@ApiOperation(value = "Refresh auth token", nickname = "refreshToken", code = 200, httpMethod = "POST", response = AuthTokenDTO.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "refresh", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody AuthTokenDTO refreshToken(@RequestBody @Valid RefreshTokenDTO refreshToken)
-			throws ForbiddenOperationException
+	public @ResponseBody AuthTokenDTO refreshToken(@RequestBody @Valid RefreshTokenDTO refreshToken) throws ForbiddenOperationException
 	{
 		AuthTokenDTO authToken = null;
 		try
@@ -107,24 +108,30 @@ public class AuthController extends AbstractController
 	@ApiOperation(value = "Confirm email", nickname = "confirm", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "register/confirm", method = RequestMethod.GET)
-	public void confirmEmail(@RequestParam(name = "id", required = true) long id,
-			@RequestParam(name = "token", required = true) String token) throws ServiceException
+	public void confirmEmail(@RequestParam(name = "token", required = true) String token) throws ServiceException
 	{
-		userService.confirmUserEmail(id, token);
+		userService.confirmUserEmail(token);
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Forgot password", nickname = "forgotPassword", code = 200, httpMethod = "GET", response = AuthTokenDTO.class)
+	@ApiOperation(value = "Forgot password", nickname = "forgotPassword", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "password/forgot", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "password/forgot", method = RequestMethod.GET)
 	public void forgotPassword(@RequestParam(name = "email", required = true) String email) throws ServiceException
 	{
 		User user = userService.getUserByEmail(email);
-		if (user != null)
+		if(user != null)
 		{
-			String token = jwtService.generateAuthToken(user);
-			emailService.sendForgotPasswordEmail(user, token);
+			emailService.sendForgotPasswordEmail(user, jwtService.generateChangePasswordToken(user));
 		}
 	}
 
+	@ResponseStatusDetails
+	@ApiOperation(value = "Reset password", nickname = "resetPassword", code = 200, httpMethod = "POST")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "password/reset", method = RequestMethod.POST)
+	public void resetPassword(@RequestParam(name = "token", required = true) String token, @RequestBody @Valid ResetPasswordDTO resetPassword) throws ServiceException
+	{
+		userService.resetUserPassword(token, resetPassword.getPassword());
+	}
 }

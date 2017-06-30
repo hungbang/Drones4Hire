@@ -25,8 +25,8 @@ import com.drones4hire.dronesapp.services.exceptions.InvalidUserCredentialsExcep
 import com.drones4hire.dronesapp.services.exceptions.InvalidUserStatusException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.exceptions.UserAlreadyExistException;
-import com.drones4hire.dronesapp.services.exceptions.UserNotConfirmedException;
 import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
+import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Service
@@ -70,6 +70,9 @@ public class UserService
 
 	@Autowired
 	private BraintreeService braintreeService;
+	
+	@Autowired
+	private JWTService jwtService;
 	
 	@Transactional(rollbackFor=Exception.class)
 	public User registerUser(User user, Role role) throws ServiceException
@@ -133,24 +136,42 @@ public class UserService
 		wallet.setPaymentToken(customer.getId());
 		walletService.updateWallet(wallet);
 		
-		emailService.sendConfirmationEmail(user, generateConfrimEmailToken(user));
+		emailService.sendConfirmationEmail(user, jwtService.generateConfirmEmailToken(user));
 		
 		return user;
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
-	public void confirmUserEmail(Long id, String token) throws ServiceException
+	public void confirmUserEmail(String token) throws ServiceException
 	{
-		User user = getUserById(id);
-		if(user != null && passwordEncryptor.checkPassword(user.getEmail(), token))
+		User user = getNotNullUser(jwtService.readConfirmEmailToken(token).getId());
+		if(user.isConfirmed())
 		{
-			user.setConfirmed(true);
-			updateUser(user);
+			throw new ForbiddenOperationException("User already confirmed");
 		}
-		else
+		
+		user.setConfirmed(true);
+		updateUser(user);
+	}
+	
+	@Transactional(rollbackFor=Exception.class)
+	public void resetUserPassword(String token, String newPassword) throws ServiceException
+	{
+		User user = getNotNullUser(jwtService.readConfirmEmailToken(token).getId());
+		user.setPassword(passwordEncryptor.encryptPassword(newPassword));
+		updateUser(user);
+	}
+	
+	@Transactional(rollbackFor=Exception.class)
+	public void changeUserPassword(long userId, String currentPassword, String newPassword) throws ServiceException
+	{
+		User user = getNotNullUser(userId);
+		if(!passwordEncryptor.checkPassword(currentPassword, user.getPassword()))
 		{
-			throw new UserNotConfirmedException();
+			throw new ForbiddenOperationException();
 		}
+		user.setPassword(passwordEncryptor.encryptPassword(newPassword));
+		updateUser(user);
 	}
 	
 	@Transactional(readOnly = true)
@@ -247,10 +268,5 @@ public class UserService
 		}
 
 		return user;
-	}
-
-	private String generateConfrimEmailToken(User user)
-	{
-		return passwordEncryptor.encryptPassword(user.getEmail());
 	}
 }

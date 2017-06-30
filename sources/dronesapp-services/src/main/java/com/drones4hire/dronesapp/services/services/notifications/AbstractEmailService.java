@@ -8,13 +8,12 @@ import static com.drones4hire.dronesapp.services.services.notifications.EmailTyp
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.NEW_BID_RECEIVE;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.REJECT_BID;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.RETRACT_BID;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.UPDATE_BID;
 import static com.drones4hire.dronesapp.services.services.notifications.EmailType.SUPPORT_MESSAGE;
+import static com.drones4hire.dronesapp.services.services.notifications.EmailType.UPDATE_BID;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +33,8 @@ import freemarker.template.Template;
 
 public abstract class AbstractEmailService
 {
-	public final static String LOGIN_PATH = "/#/login";
+	public final static String CONFIRM_REGISTRATION_PATH = "/#/login";
+	public final static String RESET_PASSWORD_PATH = "/#/password/reset";
 	public final static String CHANGE_PASSWORD_PATH = "password";
 
 	@Autowired
@@ -56,7 +56,7 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-			String url = baseUrl + LOGIN_PATH + "?id=" + user.getId() + "&token=" + token;
+			String url = baseUrl + CONFIRM_REGISTRATION_PATH + "?token=" + token;
 
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(user.getClass().getSimpleName(), user);
@@ -74,8 +74,7 @@ public abstract class AbstractEmailService
 	{
 		try
 		{
-//			TODO[anazarenko]: when implemented add new link
-			String url = baseUrl + "/api/v1/auth/" + CHANGE_PASSWORD_PATH;
+			String url = baseUrl + RESET_PASSWORD_PATH + "?token=" + token;
 			
 			Map<String, Object> emailData = new HashMap<String, Object>();
 			emailData.put(user.getClass().getSimpleName(), user);
