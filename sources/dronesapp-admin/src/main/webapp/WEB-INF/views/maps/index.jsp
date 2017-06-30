@@ -30,7 +30,7 @@
                 <option value="BLOCKED">Blocked</option>
             </select>
         </div>
-        <div class="col-lg-">
+        <div class="col-lg-2">
             <input type="button" class="btn btn-default btn-primary" data-ng-click="search()" value="Search"/>
             <input type="button" class="btn btn-default btn-danger" data-ng-click="clear()" value="Clear"/>
         </div>
