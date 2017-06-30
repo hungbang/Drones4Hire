@@ -69,7 +69,7 @@ public class PayoneerCallbackController extends AbstractController
 	@ResponseStatusDetails
 	@ApiOperation(value = "Money funded", nickname = "funedPayoneerRequest", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "cancel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "fundedCard", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void funedPayoneerRequest(
 			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
 			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "IntPaymentId") Long paymentId,
