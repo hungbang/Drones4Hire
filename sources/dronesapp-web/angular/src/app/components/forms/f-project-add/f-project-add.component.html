@@ -212,7 +212,7 @@
                #projectAddressRef="ngModel"
                #location
                [ngClass]="{'_error': isSubmitted && projectAddressRef.errors?.required}"
-               placeholder="Type your address"/>
+               placeholder="Address"/>
         <div class="f-default__text _error" *ngIf="submitted && !formData.location?.coordinates?.latitude">Please select correct Google location</div>
       </div>
     </div>

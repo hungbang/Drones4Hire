@@ -51,7 +51,7 @@ export class AuthorizationService {
     this._accountService.clearData();
   }
 
-  public verifyEmail(id, token) {
-    return this._requestService.fetch('get', `/auth/register/confirm?id=${id}&token=${token}`);
+  public verifyEmail(token) {
+    return this._requestService.fetch('get', `/auth/register/confirm?token=${token}`);
   }
 }

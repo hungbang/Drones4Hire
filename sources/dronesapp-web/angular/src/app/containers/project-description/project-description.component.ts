@@ -151,7 +151,7 @@ export class ProjectDescriptionComponent implements OnInit {
         err => {
           this.progressbarService.done();
           if (err.status === 500) {
-            this.toastrService.showError('Internal server error. Please try later.');
+            this.toastrService.showError('Internal server error. Please try again later.');
           } else if (err.status === 400) {
             const body = err.json();
             if (body && body.validationErrors) {
@@ -189,8 +189,8 @@ export class ProjectDescriptionComponent implements OnInit {
       component: ModalPaymentComponent,
       type: 'ModalInformationComponent',
       values: {
-        title: 'Choose a payment',
-        message: 'Please, choose existed payment or add new before',
+        title: 'Payment method',
+        message: 'Please choose an existing payment method or add new to proceed.',
         clientToken: this.paymentToken,
         paymentFn: (e) => { this.setPayment(e, bid); }
       }
