@@ -32,8 +32,6 @@ import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -109,7 +107,6 @@ public class AuthController extends AbstractController
 	@ResponseStatusDetails
 	@ApiOperation(value = "Confirm email", nickname = "confirm", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "token", paramType = "header") })
 	@RequestMapping(value = "register/confirm", method = RequestMethod.GET)
 	public void confirmEmail(@RequestParam(name = "token", required = true) String token) throws ServiceException
 	{
@@ -117,10 +114,9 @@ public class AuthController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Forgot password", nickname = "forgotPassword", code = 200, httpMethod = "GET", response = AuthTokenDTO.class)
+	@ApiOperation(value = "Forgot password", nickname = "forgotPassword", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "email", paramType = "header") })
-	@RequestMapping(value = "password/forgot", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "password/forgot", method = RequestMethod.GET)
 	public void forgotPassword(@RequestParam(name = "email", required = true) String email) throws ServiceException
 	{
 		User user = userService.getUserByEmail(email);
@@ -132,10 +128,9 @@ public class AuthController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Reset password", nickname = "resetPassword", code = 200, httpMethod = "GET", response = AuthTokenDTO.class)
+	@ApiOperation(value = "Reset password", nickname = "resetPassword", code = 200, httpMethod = "POST")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "token", paramType = "header") })
-	@RequestMapping(value = "password/reset", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "password/reset", method = RequestMethod.POST)
 	public void resetPassword(@RequestParam(name = "token", required = true) String token, @RequestBody @Valid ResetPasswordDTO resetPassword) throws ServiceException
 	{
 		userService.resetUserPassword(token, resetPassword.getPassword());
