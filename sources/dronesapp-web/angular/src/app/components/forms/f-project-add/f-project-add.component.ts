@@ -584,26 +584,29 @@ export class FProjectAddComponent implements OnInit {
 
     // console.log('project data to save:', this.formData);
     if (this.isEditForm) {
-      return this._modalService.push({
-        component: ModalConfirmationComponent,
-        type: 'ModalConfirmationComponent',
-        values: {
-          title: '',
-          message: 'Do you really want to release payments?',
-          confirm_btn_text: 'Yes',
-          cancel_btn_text: 'No',
-          confirm: (e) => {
-            this._modalService.pop();
-            if (e) {
-              if (this.originalPaidOptions.length !== this.formData.paidOptions.length) {
-                this.getPayment();
-              } else {
-                this._edit();
+      if (this.originalPaidOptions.length !== this.formData.paidOptions.length) {
+        this._modalService.push({
+          component: ModalConfirmationComponent,
+          type: 'ModalConfirmationComponent',
+          values: {
+            title: '',
+            message: 'Do you really want to release payments?',
+            confirm_btn_text: 'Yes',
+            cancel_btn_text: 'No',
+            confirm: (e) => {
+              this._modalService.pop();
+              if (!e) {
+                return;
               }
+
+              this.getPayment();
             }
           }
-        }
-      });
+        });
+      } else {
+        this._edit();
+      }
+
     } else {
       if (this.formData.paidOptions.length) {
         this.getPayment();
