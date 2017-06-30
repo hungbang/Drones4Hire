@@ -125,6 +125,7 @@ public class PayoneerService
 		transaction.setStatus(Transaction.Status.COMPLETED);
 		transaction.setType(Transaction.Type.WITHDRAW);
 		transaction.setWalletId(wallet.getId());
+		transaction.setPurpose(request.getComment());
 		transactionService.createTransaction(transaction);
 		
 		request.setStatus(Status.APPROVED);
