@@ -53,6 +53,11 @@ import {AboutComponent} from './containers/about/about.component';
 import {PaymentComponent} from './containers/payment/payment.component';
 import {ContactUsComponent} from './containers/contact-us/contact-us.component';
 import {PilotLicensedGuard} from './guards/pilot-licensed.guard/pilot-licensed.guard';
+import {ResetPasswordComponent} from './containers/reset-password/reset-password.component';
+import {ResetTokenResolve} from './resolves/reset-token/reset-token.resolve';
+import {FResetPasswordComponent} from './components/forms/f-reset-password/f-reset-password.component';
+import {GuestGuard} from './guards/guest.guard/guest.guard';
+import {FForgotPasswordComponent} from './components/forms/f-forgot-password/f-forgot-password.component';
 
 export const ROUTES: Routes = [
   {
@@ -75,6 +80,32 @@ export const ROUTES: Routes = [
     component: SAuthorizationComponent,
     data: {
       className: 'p-login'
+    }
+  },
+  {
+    path: 'password',
+    component: ResetPasswordComponent,
+    canActivate: [GuestGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'forgot'
+      },
+      {
+        path: 'forgot',
+        component: FForgotPasswordComponent,
+      },
+      {
+        path: 'reset',
+        component: FResetPasswordComponent,
+        resolve: {
+          token: ResetTokenResolve
+        }
+      }
+    ],
+    data: {
+      className: 'p-password-reset'
     }
   },
   {

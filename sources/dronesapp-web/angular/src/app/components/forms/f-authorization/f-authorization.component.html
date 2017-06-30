@@ -13,12 +13,12 @@
     </div>
     <div class="f-default__row" *ngIf="showVerifyNotification">
       <div class="f-default__text _verify _error">
-        You can't log in. Please, verify your email before.
+        You can't log in. Please verify your email before log in.
       </div>
     </div>
     <div class="f-default__row" *ngIf="showVerifySuccessNotification">
       <div class="f-default__text _verify">
-        Your email have been verified successfully. Now you can log in.
+        Your email has been verified successfully. You can log in now.
       </div>
     </div>
 
@@ -84,7 +84,7 @@
                name="firstName"
                required
                #firstNameRef="ngModel"
-               placeholder="Type your first name"
+               placeholder="First name"
                [ngClass]="{'_error': submitted && firstNameRef.errors?.required}"/>
       </label>
 
@@ -97,7 +97,7 @@
                class="f-default__field"
                required
                #lastNameRef="ngModel"
-               placeholder="Type your last name"
+               placeholder="Last name"
                [ngClass]="{'_error': submitted && lastNameRef.errors?.required}"/>
       </label>
 
@@ -111,7 +111,7 @@
                name="email"
                [email]="true"
                #emailRef="ngModel"
-               placeholder="Type your email"
+               placeholder="Email"
                [ngClass]="{'_error': submitted && (emailRef.errors?.required || emailRef.errors?.email)}"/>
       </label>
     </div>
@@ -126,6 +126,9 @@
                placeholder="Password"
                [ngClass]="{'_error': submitted && passwordRef.errors?.required}"/>
       </label>
+    </div>
+    <div class="f-default__row" *ngIf="!isSignUpForm">
+      <span class="f-default__text">Forgot Password? <a [routerLink]="['/password', 'forgot']">click here</a></span>
     </div>
     <div class="f-default__row" *ngIf="isSignUpForm">
       <label class="f-default__label">
@@ -147,7 +150,7 @@
                name="userName"
                required
                #userNameRef="ngModel"
-               placeholder="Type your Username"
+               placeholder="Username"
                [ngClass]="{'_error': submitted && userNameRef.errors?.required}"/>
       </label>
     </div>
@@ -219,7 +222,6 @@
     </div>
 
     <div class="f-default__row _bottom"  *ngIf="isSignUpForm">
-      <!--<span class="f-default__text">Forgot Password?<a href="/">click here</a></span>-->
       <span class="f-default__text">
       Already have an account? <a href="#" [routerLink]="['/login']">Login</a>
     </span>

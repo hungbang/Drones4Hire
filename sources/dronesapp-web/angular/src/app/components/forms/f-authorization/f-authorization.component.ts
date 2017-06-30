@@ -303,7 +303,7 @@ export class FAuthorizationComponent implements OnInit {
           this.progressbarService.done();
           console.log(err);
           if (err.status === 500) {
-            this.toastrService.showError('Server error. Please, try later.');
+            this.toastrService.showError('Internal server error. Please try again later.');
           } else if (err.status === 401) {
             const body = err.json();
             if (body && body.error && body.error.code === 401) {
@@ -325,7 +325,7 @@ export class FAuthorizationComponent implements OnInit {
               });
             }
           } else {
-            this.toastrService.showError('Please, check your data');
+            this.toastrService.showError('Please check your data');
           }
         }
       )
@@ -377,8 +377,8 @@ export class FAuthorizationComponent implements OnInit {
   verifyEmail() {
     const queryParams = this.route.snapshot.queryParams;
 
-    if (queryParams && queryParams.id && queryParams.token) {
-      this._authorizationService.verifyEmail(queryParams.id, queryParams.token)
+    if (queryParams && queryParams.token) {
+      this._authorizationService.verifyEmail(queryParams.token)
         .subscribe(
           () => {
             this.showVerifySuccessNotification = true;

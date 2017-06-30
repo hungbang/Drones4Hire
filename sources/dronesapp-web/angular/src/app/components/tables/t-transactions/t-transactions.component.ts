@@ -13,4 +13,20 @@ export class TTransactionsComponent {
   ) {
   }
 
+  formatDescription(transaction) {
+    let out = '';
+
+    if (transaction.type === 'WITHDRAWAL') {
+      out = `WITHDRAWAL: ${transaction.purpose}`
+    } else if (transaction.type === 'PAID_OPTION') {
+      out = `Project #${transaction.projectId}: option payment`
+    } else if (transaction.type === 'PROJECT_PAYMENT') {
+      out = `Project #${transaction.projectId}: project payment`
+    } else if (transaction.type === 'PROJECT_REJECT') {
+      out = `Project #${transaction.projectId}: project reject`
+    }
+
+    return out;
+  }
+
 }
