@@ -60,9 +60,22 @@ public class PayoneerCallbackController extends AbstractController
 	public void cancelPayoneerRequest(
 			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
 			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "IntPaymentId") Long paymentId,
-			@ApiParam(value = "Payoneer payment Id", required = true) @RequestParam(value = "PayoneerPaymentId") String PayoneerPaymentId)
+			@ApiParam(value = "Payoneer payment Id", required = true) @RequestParam(value = "PayoneerPaymentId") String payoneerPaymentId)
 			throws ServiceException
 	{
 		payoneerService.cancelPayment(apuid, paymentId);
+	}
+	
+	@ResponseStatusDetails
+	@ApiOperation(value = "Money funded", nickname = "funedPayoneerRequest", code = 200, httpMethod = "GET")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "cancel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void funedPayoneerRequest(
+			@ApiParam(value = "App UID", required = true) @RequestParam(value = "apuid") String apuid,
+			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "IntPaymentId") Long paymentId,
+			@ApiParam(value = "Payment Id", required = true) @RequestParam(value = "PaymentId") String payoneerPaymentId)
+			throws ServiceException
+	{
+		payoneerService.fund(apuid, paymentId);
 	}
 }
