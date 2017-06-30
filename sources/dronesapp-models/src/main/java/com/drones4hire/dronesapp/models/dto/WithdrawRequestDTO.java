@@ -18,6 +18,7 @@ public class WithdrawRequestDTO extends AbstractDTO
 	@NotNull
 	private Currency currency;
 	private String comment;
+	private String adminComment;
 	private Status status;
 
 	public Long getUserId()
@@ -78,5 +79,15 @@ public class WithdrawRequestDTO extends AbstractDTO
 	public void setStatus(Status status)
 	{
 		this.status = status;
+	}
+
+	public String getAdminComment()
+	{
+		return adminComment;
+	}
+
+	public void setAdminComment(String adminComment)
+	{
+		this.adminComment = adminComment;
 	}
 }
