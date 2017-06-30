@@ -113,7 +113,6 @@
 									<div class="form-group" data-ng-if="comments.length">
 										<table class="details-table">
 											<th>
-												<label class="header-content"><spring:message code="drones.admin.pages.common.column.comments.caption"/> ({{comments.length}})</label>
 											</th>
 											<tr data-ng-repeat="comment in comments">
 												<td>
@@ -140,7 +139,6 @@
 									<div class="form-group" data-ng-if="bids.length">
 										<table class="details-table">
 											<th>
-												<label class="header-content"><spring:message code="drones.admin.pages.common.column.bids.caption"/> ({{bids.length}})</label>
 											</th>
 											<tr data-ng-repeat="bid in bids">
 												<td>
@@ -189,7 +187,7 @@
 											<div class="form-group">
 												<input class="btn btn-default" type="file" file-model="fileToUpload" data-ng-model="file"/>
 											</div>
-											<button data-ng-if="fileToUpload" class="btn btn-default btn-primary" data-ng-click="uploadAttachment()" value="Load file">Upload {{fileToUpload.name}}</button>
+											<button data-ng-if="fileToUpload" class="btn btn-default btn-primary" data-ng-click="uploadAttachment(fileToUpload)" value="Load file">Upload {{fileToUpload.name}}</button>
 										</div>
 									</div>
 								</fieldset>

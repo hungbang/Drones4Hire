@@ -372,11 +372,11 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
         });
     };
 
-    $scope.uploadAttachment = function () {
+    $scope.uploadAttachment = function (fileToUpload) {
         initProjectAttach();
-        $scope.attach.title = $scope.fileToUpload.name.split('.')[0];
+        $scope.attach.title = fileToUpload.name.split('.')[0];
         var fd = new FormData();
-        fd.append('file', $scope.fileToUpload);
+        fd.append('file', fileToUpload);
         $http.post('upload?file=', fd, {
             headers: {
                 'Content-Type' : undefined,
@@ -387,7 +387,6 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
             $scope.attach.attachmentURL = data.url;
             $http.post('projects/results', $scope.attach).success(function(data) {
                 $scope.loadProject();
-                $scope.fileToUpload = undefined;
             }).error(function() {
             });
         }).error(function() {
