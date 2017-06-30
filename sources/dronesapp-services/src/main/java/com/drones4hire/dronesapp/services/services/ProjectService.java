@@ -255,7 +255,7 @@ public class ProjectService
 
 		createProjectPaidOptions(project.getId(), project.getPaidOptions());
 
-		createAttachment(project.getId(), project.getAttachments());
+		//createAttachment(project.getId(), project.getAttachments());
 
 		locationService.updateLocation(project.getLocation());
 
