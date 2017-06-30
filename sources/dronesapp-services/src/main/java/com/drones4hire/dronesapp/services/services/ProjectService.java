@@ -9,16 +9,25 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
-import com.drones4hire.dronesapp.models.db.commons.Currency;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapContext;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectStatisticsResult;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.projects.Attachment;
@@ -28,6 +37,7 @@ import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.PaymentException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
@@ -69,18 +79,28 @@ public class ProjectService
 	{
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
 		
-		BigDecimal total = project.getPaidOptionsTotal();
 		// Paid options selected
-		if(!BigDecimal.ZERO.equals(total))
+		String tid = null;
+		if(project.hasPaidOptions())
 		{
-			Currency currency = project.getPaidOptions().get(0).getCurrency();
-			String trId = paymentService.makePayment(project.getPaymentMethod(), total, currency);
-			transactionService.createTransaction(new Transaction(wallet.getId(), total, currency, PAID_OPTION, trId, project.getId(), COMPLETED));
+			for(PaidOption po : project.getPaidOptions())
+			{
+				if(!po.getCurrency().equals(wallet.getCurrency()))
+				{
+					throw new InvalidCurrenyException();
+				}
+			}
+			tid = paymentService.makePayment(project.getPaymentMethod(), project.getPaidOptionsTotal(), wallet.getCurrency());
 		}
 		
 		locationService.createLocation(project.getLocation());
 		
 		projectMapper.createProject(project);
+		
+		if(tid != null)
+		{
+			transactionService.createTransaction(new Transaction(wallet.getId(), project.getPaidOptionsTotal(), wallet.getCurrency(), PAID_OPTION, tid, project.getId(), COMPLETED));
+		}
 		
 		createProjectPaidOptions(project.getId(), project.getPaidOptions());
 		

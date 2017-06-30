@@ -36,8 +36,6 @@ public class UserService
 
 	private boolean DEFAULT_CONFIRMED = false;
 	
-	private boolean DEFAULT_WITDRAW_ENABLED = false;
-
 	private static final Integer DEFAULT_RANGE = 100;
 
 	@Autowired
