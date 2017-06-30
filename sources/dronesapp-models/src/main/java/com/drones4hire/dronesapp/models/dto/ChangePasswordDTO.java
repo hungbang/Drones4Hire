@@ -9,23 +9,36 @@ import javax.validation.constraints.Size;
 public class ChangePasswordDTO implements Serializable
 {
 	private static final long serialVersionUID = 2478362544957348484L;
-	
+
 	@NotNull(message = "Password shouldn't be null")
+	private String currentPassword;
+
+	@NotNull(message = "New password shouldn't be null")
 	@Size(min = 6, message = "Wrong password size")
-	private String password;
-	
+	private String newPassword;
+
 	@NotNull(message = "Confirm password shouldn't be null")
 	@Size(min = 6, message = "Wrong confirm password size")
 	private String confirmPassword;
 
-	public String getPassword()
+	public String getCurrentPassword()
 	{
-		return password;
+		return currentPassword;
 	}
 
-	public void setPassword(String password)
+	public void setCurrentPassword(String currentPassword)
 	{
-		this.password = password;
+		this.currentPassword = currentPassword;
+	}
+
+	public String getNewPassword()
+	{
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword)
+	{
+		this.newPassword = newPassword;
 	}
 
 	public String getConfirmPassword()
@@ -37,10 +50,10 @@ public class ChangePasswordDTO implements Serializable
 	{
 		this.confirmPassword = confirmPassword;
 	}
-	
+
 	@AssertTrue(message = "Password confirmation not matching")
 	public boolean isConfirmationValid()
 	{
-		return password != null && password.equals(confirmPassword);
+		return newPassword != null && newPassword.equals(confirmPassword);
 	}
 }

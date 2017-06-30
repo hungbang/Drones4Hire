@@ -157,6 +157,18 @@ public class UserService
 		updateUser(user);
 	}
 	
+	@Transactional(rollbackFor=Exception.class)
+	public void changeUserPassword(long userId, String currentPassword, String newPassword) throws ServiceException
+	{
+		User user = getNotNullUser(userId);
+		if(!passwordEncryptor.checkPassword(currentPassword, user.getPassword()))
+		{
+			throw new ForbiddenOperationException();
+		}
+		user.setPassword(passwordEncryptor.encryptPassword(newPassword));
+		updateUser(user);
+	}
+	
 	@Transactional(readOnly = true)
 	public User getUserById(long id) throws ServiceException
 	{

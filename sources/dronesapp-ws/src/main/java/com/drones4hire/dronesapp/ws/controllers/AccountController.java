@@ -215,12 +215,10 @@ public class AccountController extends AbstractController
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = CHANGE_PASSWORD_PATH, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "password/change", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void changePassword(@Valid @RequestBody ChangePasswordDTO changePassword) throws ServiceException
 	{
-		User user = userService.getUserById(getPrincipal().getId());
-		user.setPassword(passwordEncryptor.encryptPassword(changePassword.getPassword()));
-		userService.updateUser(user);
+		userService.changeUserPassword(getPrincipal().getId(), changePassword.getCurrentPassword(), changePassword.getNewPassword());
 	}
 
 	@ResponseStatusDetails
@@ -311,17 +309,5 @@ public class AccountController extends AbstractController
 		PilotLocation pilotLocation = pilotLocationService.getPilotLocationById(id);
 		checkPrincipalPermissions(pilotLocation.getUserId());
 		pilotLocationService.deletePilotLocation(pilotLocation);
-	}
-
-	@ResponseStatusDetails
-	@ApiOperation(value = "Change user email", nickname = "changeUserPassword", code = 200, httpMethod = "POST")
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "password/change", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void changePassword() throws ServiceException
-	{
-//		User userByToken = jwtService.parseEmailToken(token);
-//		User user = userService.getUserById(userByToken.getId());
-//		user.setEmail(userByToken.getEmail());
-//		userService.updateUser(user);
 	}
 }
