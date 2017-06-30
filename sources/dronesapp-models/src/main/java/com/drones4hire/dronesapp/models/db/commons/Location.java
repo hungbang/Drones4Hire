@@ -12,6 +12,7 @@ public class Location extends AbstractEntity
 	private State state;
 	private String city;
 	private Integer postcode;
+	private Integer range;
 	
 	public Location()
 	{
@@ -80,5 +81,15 @@ public class Location extends AbstractEntity
 	public void setPostcode(Integer postcode)
 	{
 		this.postcode = postcode;
+	}
+
+	public Integer getRange()
+	{
+		return range;
+	}
+
+	public void setRange(Integer range)
+	{
+		this.range = range;
 	}
 }

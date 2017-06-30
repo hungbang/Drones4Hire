@@ -38,6 +38,8 @@ public class UserService
 	
 	private boolean DEFAULT_WITDRAW_ENABLED = false;
 
+	private static final Integer DEFAULT_RANGE = 100;
+
 	@Autowired
 	private UserMapper userMapper;
 
@@ -116,6 +118,9 @@ public class UserService
 
 		if(Role.ROLE_PILOT.equals(role))
 		{
+			// Initialize default range
+			user.getLocation().setRange(DEFAULT_RANGE);
+			locationService.updateLocation(user.getLocation());
 			// Initialize default profile
 			profileService.createDefaultProfile(user);
 			// Initialize default license

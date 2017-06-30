@@ -6,7 +6,7 @@
     <insert id="createLocation" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-            drones.LOCATIONS (ADDRESS, COORDINATES, COUNTRY_ID, CITY, STATE_ID, POSTCODE)
+            drones.LOCATIONS (ADDRESS, COORDINATES, COUNTRY_ID, CITY, STATE_ID, POSTCODE, ``RANGE``)
           VALUES
           (
             #{address},
@@ -14,7 +14,8 @@
             #{country.id},
             #{city},
             #{state.id},
-            #{postcode}
+            #{postcode},
+            #{range}
           )
         ]]>
     </insert>
@@ -28,6 +29,7 @@
 	        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE,
 	        L.CITY AS LOCATION_CITY,
 	        L.POSTCODE AS LOCATION_POSTCODE,
+	        L.RANGE AS LOCATION_RANGE,
 	        L.MODIFIED_AT AS LOCATION_MODIFIED_AT,
 	        L.CREATED_AT AS LOCATION_CREATED_AT,
 
@@ -81,7 +83,8 @@
 			]]>
 		</if>
 		<![CDATA[
-            POSTCODE = #{postcode}
+            POSTCODE = #{postcode},
+            ``RANGE`` = #{range}
           WHERE
 			ID = #{id}
         ]]>
@@ -104,6 +107,7 @@
         <result column="LOCATION_Y_COORDINATE" property="coordinates.longitude"/>
         <result column="LOCATION_CITY" property="city"/>
         <result column="LOCATION_POSTCODE" property="postcode"/>
+        <result column="LOCATION_RANGE" property="RANGE"/>
         <result column="LOCATION_MODIFIED_AT" property="modifiedAt"/>
         <result column="LOCATION_CREATED_AT" property="createdAt"/>
         <association property="country" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper.CountryResultMap"/>
