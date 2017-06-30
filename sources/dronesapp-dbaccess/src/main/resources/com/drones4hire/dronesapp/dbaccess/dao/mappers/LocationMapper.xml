@@ -6,7 +6,7 @@
     <insert id="createLocation" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-            drones.LOCATIONS (ADDRESS, COORDINATES, COUNTRY_ID, CITY, STATE_ID, POSTCODE, ``RANGE``)
+            drones.LOCATIONS (ADDRESS, COORDINATES, COUNTRY_ID, CITY, STATE_ID, POSTCODE, `RANGE`)
           VALUES
           (
             #{address},
@@ -84,7 +84,7 @@
 		</if>
 		<![CDATA[
             POSTCODE = #{postcode},
-            ``RANGE`` = #{range}
+            `RANGE` = #{range}
           WHERE
 			ID = #{id}
         ]]>
@@ -107,7 +107,7 @@
         <result column="LOCATION_Y_COORDINATE" property="coordinates.longitude"/>
         <result column="LOCATION_CITY" property="city"/>
         <result column="LOCATION_POSTCODE" property="postcode"/>
-        <result column="LOCATION_RANGE" property="RANGE"/>
+        <result column="LOCATION_RANGE" property="range"/>
         <result column="LOCATION_MODIFIED_AT" property="modifiedAt"/>
         <result column="LOCATION_CREATED_AT" property="createdAt"/>
         <association property="country" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper.CountryResultMap"/>
