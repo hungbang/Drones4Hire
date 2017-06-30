@@ -18,7 +18,7 @@
 		<link href="<spring:url value="/resources/css/layout.css" />" rel="stylesheet" type="text/css" />
 		<link href="<spring:url value="/resources/css/roboto-font.css" />" rel="stylesheet" type="text/css" />
 
-		<title><spring:message code="drones.admin.views.signin.title" /></title>
+		<title>Drones4Hire admin</title>
 	</head>
 	<body class="form fullhight">
 		<div class="main-logo"></div>

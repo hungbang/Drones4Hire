@@ -30,7 +30,7 @@ DronesAdmin.controller('WithdrawController', [ '$scope', '$http', '$route', '$mo
 		
 
 	$scope.acceptWithdraw = function(request) {
-		$http.get('withdraws/accept' + request.id).success(function(data) {
+		$http.post('withdraws/accept', request).success(function(data) {
 			request.status = "PENDING";
 			alertify.success('Request accepted!');
 		}).error(function(data, status) {

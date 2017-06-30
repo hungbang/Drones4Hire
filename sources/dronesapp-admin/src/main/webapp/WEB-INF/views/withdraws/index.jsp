@@ -44,6 +44,7 @@
 											<option value="NEW">NEW</option>
 											<option value="NEW">PENDING</option>
 											<option value="APPROVED">APPROVED</option>
+											<option value="CANCELLED">FUNDED</option>
 											<option value="CANCELLED">CANCELED</option>
 											<option value="CANCELLED">FAILED</option>
 										</select>
