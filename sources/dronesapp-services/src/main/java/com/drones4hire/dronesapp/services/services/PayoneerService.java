@@ -99,13 +99,12 @@ public class PayoneerService
 		String url = null;
 		url = buildPaymentURL(Methods.PerformPayoutPayment) + request.getId() + 
 				"&p6=" + wallet.getWithdrawToken() + "&p7=" + request.getAmount() +  
-				"&p8" + request.getComment() + "&p9=" + dateFormat.format(new Date()) +
-				"&p10=" + request.getCurrency();
+				"&p8=withdrawRequest" + "&currency=" + request.getCurrency();
 		String response = openURL(url);
 		String code = StringUtils.substringBetween(response, "<Status>", "</Status>");
 		if(code.equals("000")) {
 			request.setStatus(Status.PENDING);
-			wallet.setBalance(wallet.getBalance().min(request.getAmount()));
+			wallet.setBalance(wallet.getBalance().subtract(request.getAmount()));
 			walletService.updateWallet(wallet);
 		} else {
 			request.setStatus(Status.FAILED);
@@ -116,6 +115,14 @@ public class PayoneerService
 	
 	@Transactional(rollbackFor = Exception.class)
 	public WithdrawRequest acceptPayment(String accountUUID, Long paymentId) throws ServiceException {
+		WithdrawRequest request = withdrawService.getWithdrawRequestById(paymentId);
+		request.setStatus(Status.APPROVED);
+		withdrawService.updateWithdrawRequest(request);
+		return request;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public WithdrawRequest fund(String accountUUID, Long paymentId) throws ServiceException {
 		Wallet wallet = walletService.getWalletByWithdrawToken(accountUUID);
 		WithdrawRequest request = withdrawService.getWithdrawRequestById(paymentId);
 		
@@ -128,7 +135,7 @@ public class PayoneerService
 		transaction.setPurpose(request.getComment());
 		transactionService.createTransaction(transaction);
 		
-		request.setStatus(Status.APPROVED);
+		request.setStatus(Status.FUNDED);
 		withdrawService.updateWithdrawRequest(request);
 		return request;
 	}

@@ -1,6 +1,7 @@
 'use strict';
 
 DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location', '$modal', '$upload', '$route', 'PAGE_SIZES', '$cookieStore', 'LocaleProvider', function($scope, $http, $location, $modal, $upload, $route, PAGE_SIZES, $cookieStore, LocaleProvider) {
+
 	var DEFAULT_PROJECTS_SEARCH_CRITERIA = {
 			'rating' : 5,
 			'pageSize' : PAGE_SIZES[0],
@@ -226,6 +227,8 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 } ]);
 
 DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$location', '$routeParams', '$modal', '$route', '$upload', function($scope, $http, $location, $routeParams, $modal, $route, $upload) {
+
+    $scope.tabs = [{ active: true }, { active: false }, { active: false }, { active: false }];
 
     $scope.attach = {};
 

@@ -1,3 +1,11 @@
 <div class="container search">
+  <div class="search__map-wrapper">
+    <agm-map class="search__map"
+             [latitude]="pilotLocation.coordinates?.latitude || 39.8282"
+             [longitude]="pilotLocation.coordinates?.longitude || -98.5795"
+             [scrollwheel]="false"
+             [zoom]="15">
+    </agm-map>
+  </div>
   <router-outlet></router-outlet>
 </div>
