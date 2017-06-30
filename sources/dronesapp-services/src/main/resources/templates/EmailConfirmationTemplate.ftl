@@ -9,8 +9,7 @@
 	    				<p>
 	    					Thank you for joining Drones4Hire.com. To finish activating your accont, please 
 	    					<a style="color:blue;font-weight:normal" href="${verifyUrl}" target="_blank">click here</a>
-	    					&nbsp;to verify your account. You can also visit the link below to verify your account.</p>
-	    					<a href="${verifyUrl}" target="_blank">${verifyUrl}</a>
+	    					&nbsp;to verify your account.
 	    			</td>
 	    		</tr>
 	        </tbody>

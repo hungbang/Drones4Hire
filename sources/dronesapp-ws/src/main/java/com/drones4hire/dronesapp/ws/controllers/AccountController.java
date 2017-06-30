@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -32,13 +31,12 @@ import com.drones4hire.dronesapp.models.db.users.PilotLocation;
 import com.drones4hire.dronesapp.models.db.users.Profile;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.AccountDTO;
-import com.drones4hire.dronesapp.models.dto.ChangeEmailDTO;
+import com.drones4hire.dronesapp.models.dto.ChangePasswordDTO;
 import com.drones4hire.dronesapp.models.dto.CompanyDTO;
 import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
 import com.drones4hire.dronesapp.models.dto.PilotLocationDTO;
 import com.drones4hire.dronesapp.models.dto.ProfileDTO;
 import com.drones4hire.dronesapp.models.dto.WalletDTO;
-import com.drones4hire.dronesapp.models.dto.auth.ChangePasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.CompanyService;
@@ -49,8 +47,6 @@ import com.drones4hire.dronesapp.services.services.ProfileService;
 import com.drones4hire.dronesapp.services.services.ServiceService;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.WalletService;
-import com.drones4hire.dronesapp.services.services.auth.JWTService;
-import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
@@ -82,12 +78,6 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private PilotLicenseService licenseService;
-
-	@Autowired
-	private JWTService jwtService;
-
-	@Autowired
-	private AWSEmailService emailService;
 
 	@Autowired
 	private ProfileService profileService;
@@ -316,9 +306,7 @@ public class AccountController extends AbstractController
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
 	@RequestMapping(value = "locations/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void deletePilotLocation(
-			@ApiParam(value = "Id of the pilot location", required = true) @PathVariable(value = "id") long id)
-			throws ForbiddenOperationException
+	public void deletePilotLocation(@ApiParam(value = "Id of the pilot location", required = true) @PathVariable(value = "id") long id) throws ForbiddenOperationException
 	{
 		PilotLocation pilotLocation = pilotLocationService.getPilotLocationById(id);
 		checkPrincipalPermissions(pilotLocation.getUserId());
@@ -329,8 +317,7 @@ public class AccountController extends AbstractController
 	@ApiOperation(value = "Change user email", nickname = "changeUserPassword", code = 200, httpMethod = "POST")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "password/change", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void changePassword()
-			throws ServiceException
+	public void changePassword() throws ServiceException
 	{
 //		User userByToken = jwtService.parseEmailToken(token);
 //		User user = userService.getUserById(userByToken.getId());
