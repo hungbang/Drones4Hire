@@ -144,12 +144,15 @@ public class ProjectController extends AbstractController
 		project.setStartDate(p.getStartDate());
 		project.setFinishDate(p.getFinishDate());
 		project.setStatus(p.getStatus());
+		project.setPaymentMethod(p.getPaymentMethod());
+		
 		List<PaidOption> paidOptions = new ArrayList<>();
 		for(PaidOptionDTO paidOptionDTO : p.getPaidOptions())
 		{
 			paidOptions.add(mapper.map(paidOptionDTO, PaidOption.class));
 		}
 		project.setPaidOptions(paidOptions);
+		
 		return mapper.map(projectService.updateProject(project), ProjectDTO.class);
 	}
 

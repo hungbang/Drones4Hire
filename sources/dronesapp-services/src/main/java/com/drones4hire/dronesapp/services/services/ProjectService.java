@@ -66,13 +66,13 @@ public class ProjectService
 	private TransactionService transactionService;
 
 	@Autowired
-	private PaidOptionService paidOptionService;
-
-	@Autowired
 	private PaymentService paymentService;
 	
 	@Autowired
 	private BidService bidService;
+	
+	@Autowired
+	private PaidOptionService paidOptionService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Project createProject(Project project) throws ServiceException
@@ -223,41 +223,34 @@ public class ProjectService
 	public Project updateProject(Project project) throws PaymentException, InvalidCurrenyException
 	{
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
-		Project dbProject = projectMapper.getProjectById(project.getId());
+		
+		Project existingProject = projectMapper.getProjectById(project.getId());
+		
 		// Paid options selected
-		String tid = null;
 		if(project.hasPaidOptions())
 		{
-			List<PaidOption> paidOptions = new ArrayList<>();
-			List<PaidOption> newPaidOptions = new ArrayList<>();
-			for(PaidOption po : project.getPaidOptions())
+			if(!existingProject.hasPaidOptions())
 			{
-				newPaidOptions.add(paidOptionService.getPaidOptionById(po.getId()));
-				if(!po.getCurrency().equals(wallet.getCurrency()))
+				existingProject.setPaidOptions(new ArrayList<>());
+			}
+			
+			// New paid options were enabled
+			if(!existingProject.getPaidOptions().containsAll(project.getPaidOptions()))
+			{
+				project.getPaidOptions().removeAll(existingProject.getPaidOptions());
+				BigDecimal total = BigDecimal.ZERO;
+				for(PaidOption po : project.getPaidOptions())
 				{
-					throw new InvalidCurrenyException();
-				}
-				for(PaidOption dbPaidOption : dbProject.getPaidOptions())
-				{
-					if(dbPaidOption.getId().equals(po.getId()))
+					PaidOption paidOption = paidOptionService.getPaidOptionById(po.getId());
+					if(!paidOption.getCurrency().equals(wallet.getCurrency()))
 					{
-						paidOptions.add(po);
+						throw new InvalidCurrenyException();
 					}
+					total = total.add(paidOption.getPrice());
 				}
+				String tid = paymentService.makePayment(project.getPaymentMethod(), total, wallet.getCurrency());
+				transactionService.createTransaction(new Transaction(wallet.getId(), total, wallet.getCurrency(), PAID_OPTION, tid, project.getId(), COMPLETED));
 			}
-			for(PaidOption paidOption : paidOptions)
-			{
-				newPaidOptions.remove(paidOption);
-			}
-			project.setPaidOptions(newPaidOptions);
-			tid = paymentService.makePayment(project.getPaymentMethod(), project.getPaidOptionsTotal(), wallet.getCurrency());
-		}
-
-		locationService.updateLocation(project.getLocation());
-
-		if(tid != null)
-		{
-			transactionService.createTransaction(new Transaction(wallet.getId(), project.getPaidOptionsTotal(), wallet.getCurrency(), PAID_OPTION, tid, project.getId(), COMPLETED));
 		}
 
 		createProjectPaidOptions(project.getId(), project.getPaidOptions());
@@ -266,9 +259,12 @@ public class ProjectService
 
 		locationService.updateLocation(project.getLocation());
 
-		dbProject.getPaidOptions().addAll(project.getPaidOptions());
-		project.setPaidOptions(dbProject.getPaidOptions());
+		existingProject.getPaidOptions().addAll(project.getPaidOptions());
+		
+		project.setPaidOptions(existingProject.getPaidOptions());
+		
 		projectMapper.updateProject(project);
+		
 		return project;
 	}
 
@@ -375,5 +371,30 @@ public class ProjectService
 	public BigDecimal getServiceFee()
 	{
 		return serviceFee;
+	}
+	
+	public static void main(String[] args)
+	{
+		PaidOption po1 = new PaidOption();
+		po1.setId(1L);
+//		PaidOption po2 = new PaidOption();
+//		po2.setId(2L);
+//		PaidOption po3 = new PaidOption();
+//		po1.setId(3L);
+		
+		PaidOption po11 = new PaidOption();
+		po11.setId(1L);
+		
+		Project pr1 = new Project();
+		pr1.setPaidOptions(new ArrayList<>());
+		pr1.getPaidOptions().add(po1);
+		
+		Project pr2 = new Project();
+		pr2.setPaidOptions(new ArrayList<>());
+		pr2.getPaidOptions().add(po11);
+//		pr2.getPaidOptions().add(po2);
+		
+		System.out.println(pr2.getPaidOptions().containsAll(pr1.getPaidOptions()));
+		
 	}
 }
