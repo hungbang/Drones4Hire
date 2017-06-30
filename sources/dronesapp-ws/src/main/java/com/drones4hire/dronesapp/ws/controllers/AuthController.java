@@ -120,11 +120,10 @@ public class AuthController extends AbstractController
 	public void forgotPassword(@RequestParam(name = "email", required = true) String email) throws ServiceException
 	{
 		User user = userService.getUserByEmail(email);
-		if(user == null)
+		if(user != null)
 		{
-			throw new UserNotFoundException();
+			emailService.sendForgotPasswordEmail(user, jwtService.generateChangePasswordToken(user));
 		}
-		emailService.sendForgotPasswordEmail(user, jwtService.generateChangePasswordToken(user));
 	}
 
 	@ResponseStatusDetails
