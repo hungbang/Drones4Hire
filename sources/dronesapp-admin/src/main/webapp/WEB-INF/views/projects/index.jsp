@@ -128,7 +128,7 @@
 		            	<td class="text-center">{{result.project.id}}</td>
 		            	<td>{{result.project.title}}</td>
 		                <td>{{result.client.email}}<br/>{{result.pilot.email}}</td>
-		                <td>{{result.project.duration.title}} h</td>
+		                <td><span data-ng-if="result.project.duration">{{result.project.duration.title}}</span><span data-ng-if="!result.project.duration">n/a</span></td>
 		                <td>{{result.project.budget.title}}</td>
 		                <td>{{result.project.status}}</td>
 		                <td>{{result.project.location.country.name}}<br/>{{result.project.location.city}}</td>

@@ -34,8 +34,8 @@ DronesAdmin.controller('DashboardCtrl', [ '$scope', '$http','$location', '$timeo
 					createdAt: parseInt(key),
 					NEW: results[key]["NEW"].count,
 					IN_PROGRESS: results[key]["IN_PROGRESS"].count,
-					CANCELLED: results[key]["CANCELLED"].count,
 					COMPLETED: results[key]["COMPLETED"].count,
+					CANCELLED: results[key]["CANCELLED"].count,
 					PENDING: results[key]["PENDING"].count,
 					BLOCKED: results[key]["BLOCKED"].count});
             });
@@ -43,8 +43,8 @@ DronesAdmin.controller('DashboardCtrl', [ '$scope', '$http','$location', '$timeo
                 element: 'projects-graph',
                 data: $scope.data,
                 xkey: 'createdAt',
-                ykeys: ['NEW', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'PENDING', 'BLOCKED'],
-                labels: ['New', 'In progress', 'Cancelled', 'Completed', 'Pending', 'Blocked'],
+                ykeys: ['NEW', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'PENDING', 'BLOCKED'],
+                labels: ['New', 'In progress', 'Completed', 'Cancelled', 'Pending', 'Blocked'],
 				dateFormat: function (date) {
 					return new Date(new Date(date).getTime()).toLocaleDateString();
                 },

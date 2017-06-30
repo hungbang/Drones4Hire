@@ -102,27 +102,27 @@
         </div>
     </div>
     <div class="row">
-		<div class="col-lg-6">
+        <div class="col-lg-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Project statuses ({{DAYS_AGO_PROJECTS_STATISTIC}} days)</h3>
+                </div>
+                <div class="panel-body">
+                    <small data-ng-if="!data">Loading..</small>
+                    <div id="projects-graph"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
 			<div class="panel panel-primary">
 			  <div class="panel-heading">
-				<h3 class="panel-title">Role fragmentation</h3>
+				<h3 class="panel-title">Roles fragmentation</h3>
 			  </div>
-			  <div class="panel-body" style="height: 525px;">
+			  <div class="panel-body">
 			  	<small data-ng-if="!overview">Loading..</small>
 				<div id="roles-ratio-graph"></div>
 			  </div>
 			</div>
 		</div>
-        <div class="col-lg-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Project statuses (Latest {{DAYS_AGO_PROJECTS_STATISTIC}} days)</h3>
-                </div>
-                <div class="panel-body"  style="height: 525px;">
-                    <small data-ng-if="!data">Loading..</small>
-                    <div id="projects-graph" class="text-center"></div>
-                </div>
-            </div>
-        </div>
 	</div>
 </div>
