@@ -372,29 +372,4 @@ public class ProjectService
 	{
 		return serviceFee;
 	}
-	
-	public static void main(String[] args)
-	{
-		PaidOption po1 = new PaidOption();
-		po1.setId(1L);
-//		PaidOption po2 = new PaidOption();
-//		po2.setId(2L);
-//		PaidOption po3 = new PaidOption();
-//		po1.setId(3L);
-		
-		PaidOption po11 = new PaidOption();
-		po11.setId(1L);
-		
-		Project pr1 = new Project();
-		pr1.setPaidOptions(new ArrayList<>());
-		pr1.getPaidOptions().add(po1);
-		
-		Project pr2 = new Project();
-		pr2.setPaidOptions(new ArrayList<>());
-		pr2.getPaidOptions().add(po11);
-//		pr2.getPaidOptions().add(po2);
-		
-		System.out.println(pr2.getPaidOptions().containsAll(pr1.getPaidOptions()));
-		
-	}
 }
