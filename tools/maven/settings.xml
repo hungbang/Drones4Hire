@@ -13,10 +13,10 @@
 			</activation>
 			<properties>
 				<drones4hire.env>local</drones4hire.env>
-        <drones4hire.url>http://localhost:8080</drones4hire.url>
-        <drones4hire.ws.path>/drones-api</drones4hire.ws.path>
-        <drones4hire.web.path>/drones</drones4hire.web.path>
-        <drones4hire.admin.path>/admin</drones4hire.admin.path>
+				<drones4hire.url>http://localhost:8080</drones4hire.url>
+				<drones4hire.ws.path>/drones-api</drones4hire.ws.path>
+				<drones4hire.web.path>/drones</drones4hire.web.path>
+				<drones4hire.admin.path>/admin</drones4hire.admin.path>
 
 				<drones4hire.db.jdbc.driverClass>com.mysql.jdbc.Driver</drones4hire.db.jdbc.driverClass>
 				<drones4hire.db.jdbc.url>jdbc:mysql://{host}:{port}/dronesapp</drones4hire.db.jdbc.url>
@@ -25,7 +25,7 @@
 				<drones4hire.db.c3p0.maxPoolSize>2</drones4hire.db.c3p0.maxPoolSize>
 
 				<drones4hire.mail.sender>developers@drones4hire.com</drones4hire.mail.sender>
-        <drones4hire.mail.support>support@drones4hire.com</drones4hire.mail.support>
+				<drones4hire.mail.support>support@drones4hire.com</drones4hire.mail.support>
 
 				<drones4hire.amazon.accessKey>AKIAJSPZIDX4XQD766EQ</drones4hire.amazon.accessKey>
 				<drones4hire.amazon.secretKey>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</drones4hire.amazon.secretKey>

@@ -6,7 +6,7 @@
     <insert id="createWithdrawRequest" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT INTO
-            drones.WITHDRAW_REQUESTS (TRANSACTION_ID, USER_ID, AMOUNT, CURRENCY, COMMENT, STATUS)
+            drones.WITHDRAW_REQUESTS (TRANSACTION_ID, USER_ID, AMOUNT, CURRENCY, COMMENT, ADMIN_COMMENT, STATUS)
           VALUES
           (
             #{transactionId},
@@ -14,6 +14,7 @@
             #{amount},
             #{currency},
             #{comment},
+            #{adminComment},
             #{status}
           )
         ]]>
@@ -28,6 +29,7 @@
 	        WR.AMOUNT AS WITHDRAW_REQUEST_AMOUNT,
 	        WR.CURRENCY AS WITHDRAW_REQUEST_CURRENCY,
 	        WR.COMMENT AS WITHDRAW_REQUEST_COMMENT,
+	        WR.ADMIN_COMMENT AS WITHDRAW_REQUEST_ADMIN_COMMENT,
 	        WR.STATUS AS WITHDRAW_REQUEST_STATUS,
 	        WR.MODIFIED_AT AS WITHDRAW_REQUEST_MODIFIED_AT,
 	        WR.CREATED_AT AS WITHDRAW_REQUEST_CREATED_AT
@@ -128,6 +130,7 @@
             AMOUNT = #{amount},
             CURRENCY = #{currency},
             COMMENT = #{comment},
+            ADMIN_COMMENT = #{adminComment},
             STATUS = #{status}
           WHERE
 			ID = #{id}
@@ -151,6 +154,7 @@
         <result column="WITHDRAW_REQUEST_AMOUNT" property="amount"/>
         <result column="WITHDRAW_REQUEST_CURRENCY" property="currency"/>
         <result column="WITHDRAW_REQUEST_COMMENT" property="comment"/>
+        <result column="WITHDRAW_REQUEST_ADMIN_COMMENT" property="adminComment"/>
         <result column="WITHDRAW_REQUEST_STATUS" property="status"/>
         <result column="WITHDRAW_REQUEST_MODIFIED_AT" property="modifiedAt"/>
         <result column="WITHDRAW_REQUEST_CREATED_AT" property="createdAt"/>

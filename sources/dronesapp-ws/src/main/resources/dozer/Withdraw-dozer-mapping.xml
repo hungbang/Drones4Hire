@@ -26,9 +26,13 @@
             <a>currency</a>
             <b>currency</b>
         </field>
-         <field>
+        <field>
             <a>comment</a>
             <b>comment</b>
+        </field>
+        <field>
+            <a>adminComment</a>
+            <b>adminComment</b>
         </field>
          <field>
             <a>status</a>

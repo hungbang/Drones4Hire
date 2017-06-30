@@ -41,9 +41,11 @@
 									<div class="col-lg-3">
 										<label class="control-label" for="status"><spring:message code="drones.admin.pages.common.column.status.caption"/></label>
 										<select class="form-control" id="status" name="status" data-ng-model="sc.status">
-											<option value="NEW">New</option>
-											<option value="APPROVED">Approved</option>
-											<option value="CANCELLED">Cancelled</option>
+											<option value="NEW">NEW</option>
+											<option value="NEW">PENDING</option>
+											<option value="APPROVED">APPROVED</option>
+											<option value="CANCELLED">CANCELED</option>
+											<option value="CANCELLED">FAILED</option>
 										</select>
 									</div>
 							</div>
@@ -86,6 +88,9 @@
 		                <th>
 		                    Comment
 		                </th>
+		                 <th>
+		                    Admin Comment
+		                </th>
 		                <th>
 		                    Status
 		                </th>
@@ -107,11 +112,13 @@
 		                <td>{{request.amount}}</td>
 		                <td>{{request.currency}}</td>
 		                <td>{{request.comment}}</td>
+		                <td>{{request.adminComment}}</td>
 		                <td>{{request.status}}</td>
 		                <td>{{request.modifiedAt | date}}</td>
 		                <td>{{request.createdAt | date}}</td>
 		               <td class="text-center">
-						   <button class="btn btn-success btn-xs" data-ng-click="acceptWithdraw(request)">Accept</button>
+						   <button class="btn btn-success btn-xs" data-ng-click="acceptWithdraw(request)" ng-show="request.status == 'NEW'">Accept</button>
+						   <button class="btn btn-danger btn-xs" data-ng-click="cancelWithdraw(request)" ng-show="request.status == 'NEW'">Cancel</button>
 						</td>
 					</tr>
 					<tr data-ng-show="!sr.results.length">

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.WithdrawSearchCriteria;
 import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest;
+import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest.Status;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.PayoneerService;
 import com.drones4hire.dronesapp.services.services.WithdrawService;
@@ -46,5 +47,14 @@ public class WithdrawsController extends AbstractController
 	public @ResponseBody WithdrawRequest acceptWithdraw(@RequestParam(value = "id") Long id) throws Exception
 	{
 		return payoneerService.submitPaymentRequest(id);
+	}
+	
+	@RequestMapping(value = "cancel", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody WithdrawRequest cancelWithdraw(@RequestBody WithdrawRequest request) throws Exception
+	{
+		WithdrawRequest currentRequest = withdrawService.getWithdrawRequestById(request.getId());
+		currentRequest.setStatus(Status.CANCELED);
+		currentRequest.setAdminComment(request.getAdminComment());
+		return withdrawService.updateWithdrawRequest(currentRequest);
 	}
 }

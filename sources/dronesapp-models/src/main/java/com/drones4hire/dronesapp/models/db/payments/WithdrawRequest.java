@@ -11,7 +11,7 @@ public class WithdrawRequest extends AbstractEntity
 
 	public enum Status
 	{
-		NEW, PENDING, APPROVED, CANCELLED, FAILED
+		NEW, PENDING, APPROVED, CANCELED, FAILED
 	}
 
 	private Long userId;
@@ -19,6 +19,7 @@ public class WithdrawRequest extends AbstractEntity
 	private BigDecimal amount;
 	private Currency currency;
 	private String comment;
+	private String adminComment;
 	private Status status;
 
 	public Long getUserId()
@@ -79,5 +80,15 @@ public class WithdrawRequest extends AbstractEntity
 	public void setStatus(Status status)
 	{
 		this.status = status;
+	}
+
+	public String getAdminComment()
+	{
+		return adminComment;
+	}
+
+	public void setAdminComment(String adminComment)
+	{
+		this.adminComment = adminComment;
 	}
 }

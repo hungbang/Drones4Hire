@@ -141,7 +141,7 @@ public class PayoneerService
 		wallet.chageBalance(request.getAmount());
 		walletService.updateWallet(wallet);
 		
-		request.setStatus(Status.CANCELLED);
+		request.setStatus(Status.FAILED);
 		withdrawService.updateWithdrawRequest(request);
 		return request;
 	}
