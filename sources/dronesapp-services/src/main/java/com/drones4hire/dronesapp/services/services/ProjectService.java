@@ -326,7 +326,7 @@ public class ProjectService
 									projectId, Transaction.Status.COMPLETED);
 		transactionService.createTransaction(jobTransation);
 		
-		if(pilotWallet.getCurrency().equals(jobTransation.getCurrency()))
+		if(!pilotWallet.getCurrency().equals(jobTransation.getCurrency()))
 		{
 			throw new PaymentException("Wallet currency does not match to bid currency");
 		}
@@ -339,7 +339,7 @@ public class ProjectService
 	
 	private BigDecimal calculateFee(BigDecimal amount)
 	{
-		return amount.divide(serviceFee).multiply(new BigDecimal(100));
+		return amount.divide(new BigDecimal(100)).multiply(serviceFee);
 	}
 	
 	public void checkAuthorities(Project project, User user) throws ServiceException
