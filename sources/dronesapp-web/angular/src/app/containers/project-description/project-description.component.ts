@@ -130,13 +130,15 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   award(bid) {
+    const message = 'Are you sure you want to accept this Pilot?';
+
     this._openConfirm((e) => {
       this.modalService.pop();
       if (e) {
         console.log(bid);
         this.getPayment(bid);
       }
-    });
+    }, message);
   }
 
   private _award(bid) {
@@ -170,13 +172,13 @@ export class ProjectDescriptionComponent implements OnInit {
     this.isEdit = true;
   }
 
-  private _openConfirm(confirm) {
+  private _openConfirm(confirm, message) {
     this.modalService.push({
       component: ModalConfirmationComponent,
       type: 'ModalConfirmationComponent',
       values: {
         title: '',
-        message: 'Do you really want to release payments?',
+        message: message,
         confirm_btn_text: 'Yes',
         cancel_btn_text: 'No',
         confirm
@@ -206,8 +208,12 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   acceptFromPilot(id: number, isProgress: boolean) {
-    this._openConfirm((e) =>
-      this._acceptPilot(e, id, isProgress));
+    const message = 'Are you sure you want to accept this job? Accepting this job creates a binding contract between you and the Client.';
+
+    this._openConfirm((e) => {
+        this._acceptPilot(e, id, isProgress)
+      }, message
+    );
   }
 
   private _acceptPilot(isAccepted, id, isProgress) {
@@ -238,8 +244,12 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   rejectFromPilot(id: number, isProgress: boolean) {
-    this._openConfirm((e) =>
-      this._rejectPilot(e, id, isProgress));
+    const message = 'Are you sure you want to reject this job?';
+
+    this._openConfirm((e) => {
+        this._rejectPilot(e, id, isProgress)
+      }, message
+    );
   }
 
   submitBid(bid: BidModel) {
@@ -356,8 +366,12 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   release(projectId: number) {
-    this._openConfirm((e) =>
-      this._release(e, projectId));
+    const message = 'Are you sure you want to release your payment? Once payment is released this action can\'t be reversed.';
+
+    this._openConfirm((e) => {
+        this._release(e, projectId)
+      }, message
+    );
   }
 
   fetchAttachments() {
