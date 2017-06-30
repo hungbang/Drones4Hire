@@ -53,7 +53,7 @@ public abstract class AbstractController
 	 * @param objectUserId
 	 * @throws ForbiddenOperationException
 	 */
-	protected void checkPrincipalPermissions(Long userId) throws ForbiddenOperationException
+	protected void checkPrincipalPermissions(long userId) throws ForbiddenOperationException
 	{
 		if(!getPrincipal().getAuthorities().contains(ADMIN) && getPrincipal().getId() != userId)
 		{

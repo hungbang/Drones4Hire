@@ -59,7 +59,7 @@ export class FWithdrawalComponent implements OnInit {
           console.log(err);
 
           if (err.status === 500) {
-            this.toastrService.showError('Internal server error. Please try later.');
+            this.toastrService.showError('Internal server error. Please try again later.');
           } else if (err.status === 400) {
             const body = err.json();
 

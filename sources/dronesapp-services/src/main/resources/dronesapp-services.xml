@@ -82,6 +82,8 @@
 		<constructor-arg index="0" value="${drones4hire.jwt.secret}" />
 		<constructor-arg index="1" value="${drones4hire.jwt.authTokenExp}"  />
 		<constructor-arg index="2" value="${drones4hire.jwt.refreshTokenExp}"  />
+		<constructor-arg index="3" value="${drones4hire.jwt.confirmEmailTokenExp}"  />
+		<constructor-arg index="4" value="${drones4hire.jwt.changePassworsTokenExp}"  />
 	</bean>
 	
 </beans>

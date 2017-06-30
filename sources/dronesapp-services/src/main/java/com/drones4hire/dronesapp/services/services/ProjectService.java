@@ -220,34 +220,53 @@ public class ProjectService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Project updateProject(Project project)
+	public Project updateProject(Project project) throws PaymentException, InvalidCurrenyException
 	{
-		locationService.updateLocation(project.getLocation());
+		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
 		Project dbProject = projectMapper.getProjectById(project.getId());
-		List<PaidOption> newPaidOptions = new ArrayList<>();
-		Transaction transaction = null;
-		for(PaidOption paidOption: project.getPaidOptions())
+		// Paid options selected
+		String tid = null;
+		if(project.hasPaidOptions())
 		{
-			paidOption = paidOptionService.getPaidOptionById(paidOption.getId());
-			if(! dbProject.getPaidOptions().contains(paidOption))
+			List<PaidOption> paidOptions = new ArrayList<>();
+			List<PaidOption> newPaidOptions = new ArrayList<>();
+			for(PaidOption po : project.getPaidOptions())
 			{
-				transaction = new Transaction();
-				transaction.setCurrency(paidOption.getCurrency());
-				transaction.setPurpose("Add paid option '" + paidOption.getTitle() + "'");
-				transaction.setStatus(Transaction.Status.COMPLETED);
-				transaction.setProjectId(project.getId());
-				transaction.setType(Transaction.Type.PAID_OPTION);
-				transaction.setAmount(paidOption.getPrice());
-				transaction.setWalletId(walletService.getWalletByUserId(dbProject.getClientId()).getId());
-				transactionService.createTransaction(transaction);
-				newPaidOptions.add(paidOption);
+				newPaidOptions.add(paidOptionService.getPaidOptionById(po.getId()));
+				if(!po.getCurrency().equals(wallet.getCurrency()))
+				{
+					throw new InvalidCurrenyException();
+				}
+				for(PaidOption dbPaidOption : dbProject.getPaidOptions())
+				{
+					if(dbPaidOption.getId().equals(po.getId()))
+					{
+						paidOptions.add(po);
+					}
+				}
 			}
+			for(PaidOption paidOption : paidOptions)
+			{
+				newPaidOptions.remove(paidOption);
+			}
+			project.setPaidOptions(newPaidOptions);
+			tid = paymentService.makePayment(project.getPaymentMethod(), project.getPaidOptionsTotal(), wallet.getCurrency());
 		}
-		if(newPaidOptions.size() != 0)
+
+		locationService.updateLocation(project.getLocation());
+
+		if(tid != null)
 		{
-			createProjectPaidOptions(project.getId(), newPaidOptions);
+			transactionService.createTransaction(new Transaction(wallet.getId(), project.getPaidOptionsTotal(), wallet.getCurrency(), PAID_OPTION, tid, project.getId(), COMPLETED));
 		}
-		dbProject.getPaidOptions().addAll(newPaidOptions);
+
+		createProjectPaidOptions(project.getId(), project.getPaidOptions());
+
+		createAttachment(project.getId(), project.getAttachments());
+
+		locationService.updateLocation(project.getLocation());
+
+		dbProject.getPaidOptions().addAll(project.getPaidOptions());
 		project.setPaidOptions(dbProject.getPaidOptions());
 		projectMapper.updateProject(project);
 		return project;

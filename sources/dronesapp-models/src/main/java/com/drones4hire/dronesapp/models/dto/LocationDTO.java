@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.models.dto;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.drones4hire.dronesapp.models.db.commons.Coordinates;
@@ -24,6 +25,9 @@ public class LocationDTO extends AbstractDTO
 	private String city;
 
 	private Integer postcode;
+
+	@Min(value = 0, message = "Range should be positive")
+	private Integer range;
 	
 	public LocationDTO()
 	{
@@ -92,5 +96,15 @@ public class LocationDTO extends AbstractDTO
 	public void setPostcode(Integer postcode)
 	{
 		this.postcode = postcode;
+	}
+
+	public Integer getRange()
+	{
+		return range;
+	}
+
+	public void setRange(Integer range)
+	{
+		this.range = range;
 	}
 }

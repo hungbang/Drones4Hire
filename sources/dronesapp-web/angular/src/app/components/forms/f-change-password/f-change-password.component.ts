@@ -11,8 +11,8 @@ import {ToastrService} from '../../../services/toastr.service/toastr.service';
   encapsulation: ViewEncapsulation.None
 })
 export class FChangePasswordComponent {
-  password: string = null;
-  repassword: string = null;
+  currentPassword: string = null;
+  newPassword: string = null;
   confirmPassword: string = null;
   submitted: boolean = false;
 
@@ -32,19 +32,23 @@ export class FChangePasswordComponent {
     }
 
     this.progressbarService.start();
-    this._accountService.setAccountPassword({password: this.password, confirmPassword: this.repassword})
+    this._accountService.setAccountPassword({currentPassword: this.currentPassword, newPassword: this.newPassword, confirmPassword: this.confirmPassword})
       .subscribe(
         () => {
           this.progressbarService.done();
-          console.log('password is updated');
-          this.toastrService.showSuccess('Password have been changed')
+          form.resetForm();
+          this.submitted = false;
+          this.toastrService.showSuccess('Password has been changed successfully.')
         },
         err => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
 
-          if (err.status === 400) {
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else if (err.status === 400) {
+            const body = err.json();
+
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
@@ -52,6 +56,8 @@ export class FChangePasswordComponent {
             } else {
               this.toastrService.showError('Please check your data');
             }
+          } else {
+            this.toastrService.showError('Please check your data');
           }
         }
       );

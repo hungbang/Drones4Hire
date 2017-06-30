@@ -199,22 +199,6 @@
       </div>
     </div>
 
-    <!--<div class="f-default__row _flex">-->
-      <!--<div class="f-default__col">-->
-        <!--<div class="f-project-add__caption">City</div>-->
-      <!--</div>-->
-      <!--<div class="f-default__col">-->
-        <!--<input class="f-default__field"-->
-               <!--type="text"-->
-               <!--[(ngModel)]="formData.location.city"-->
-               <!--name="projectCity"-->
-               <!--required-->
-               <!--#projectCityRef="ngModel"-->
-               <!--[ngClass]="{'_error': isSubmitted && projectCityRef.errors?.required}"-->
-               <!--placeholder="Type your city"/>-->
-      <!--</div>-->
-    <!--</div>-->
-
     <div class="f-default__row _flex">
       <div class="f-default__col">
         <div class="f-project-add__caption">Address</div>
@@ -228,7 +212,7 @@
                #projectAddressRef="ngModel"
                #location
                [ngClass]="{'_error': isSubmitted && projectAddressRef.errors?.required}"
-               placeholder="Type your address"/>
+               placeholder="Address"/>
         <div class="f-default__text _error" *ngIf="submitted && !formData.location?.coordinates?.latitude">Please select correct Google location</div>
       </div>
     </div>
@@ -248,22 +232,6 @@
         </agm-map>
       </div>
     </div>
-
-    <!--<div class="f-default__row _flex">-->
-      <!--<div class="f-default__col">-->
-        <!--<div class="f-project-add__caption">Postcode</div>-->
-      <!--</div>-->
-      <!--<div class="f-default__col">-->
-        <!--<input class="f-default__field"-->
-               <!--type="text"-->
-               <!--[(ngModel)]="formData.location.postcode"-->
-               <!--name="projectPostcode"-->
-               <!--required-->
-               <!--#projectPostCodeRef="ngModel"-->
-               <!--[ngClass]="{'_error': isSubmitted && projectPostCodeRef.errors?.required}"-->
-               <!--placeholder="Type your postcode"/>-->
-      <!--</div>-->
-    <!--</div>-->
   </div>
 
   <div class="f-project-add__item">
@@ -362,6 +330,7 @@
                    type="checkbox"
                    name="projectFeatured"
                    [checked]="paidOptionsChecked[i]"
+                   (click)="checkRemovement($event, isRemovablePaidOption(paidOption))"
                    (change)="selectPaidOption($event.target.checked, paidOption)"/>
             <span class="f-default__chk f-project-add__paidoption-title">{{ paidOption.title }}</span>
           </label>

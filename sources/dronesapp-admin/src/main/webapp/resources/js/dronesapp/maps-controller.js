@@ -84,6 +84,19 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
             options: {
                 minZoom: MIN_ZOOM
             },
+            ClusterMarkers: true,
+            clusterOptions: {
+                maxZoom:15,
+                styles: [{
+                    textColor: 'white',
+                    url: 'http://s15.postimg.org/fuaqrrot3/rsz_cluster_resize.png',
+                    height: 40,
+                    width: 40,
+                    textSize: 11,
+                    fontWeight: 'normal'
+                }],
+                keepSpiderfied:true
+            },
             showOverlay: true,
             events: {
                 bounds_changed: function (map) {

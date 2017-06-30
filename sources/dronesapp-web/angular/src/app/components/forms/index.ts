@@ -18,6 +18,8 @@ import {FCardComponent} from "./f-card/f-card.component";
 import { FEquipmentsComponent } from './f-equipments/f-equipments.component';
 import { FWithdrawalComponent } from './f-withdrawal/f-withdrawal.component';
 import { FContactUsComponent } from './f-contact-us/f-contact-us.component';
+import { FResetPasswordComponent } from './f-reset-password/f-reset-password.component';
+import { FForgotPasswordComponent } from './f-forgot-password/f-forgot-password.component';
 
 export const FORMS = [
   FAuthorizationComponent,
@@ -26,6 +28,7 @@ export const FORMS = [
   FCommentsComponent,
   FContactUsComponent,
   FEquipmentsComponent,
+  FForgotPasswordComponent,
   FSearchComponent,
   FPilotLicenseComponent,
   FClientProfileComponent,
@@ -39,6 +42,7 @@ export const FORMS = [
   FLocationComponent,
   FNotificationsComponent,
   FChangePasswordComponent,
+  FResetPasswordComponent,
   FServicesComponent,
   FWithdrawalComponent,
 ];

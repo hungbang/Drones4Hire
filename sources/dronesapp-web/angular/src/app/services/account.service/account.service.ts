@@ -89,8 +89,8 @@ export class AccountService {
     return this._requestService.fetch('put', '/account/email', data);
   }
 
-  setAccountPassword(data: { confirmPassword: string, password: string }) {
-    return this._requestService.fetch('put', '/account/password', data);
+  setAccountPassword(data: { currentPassword: string, newPassword: string, confirmPassword: string }) {
+    return this._requestService.fetch('put', '/account/password/change', data);
   }
 
   getAccountNotifications() {
@@ -173,6 +173,14 @@ export class AccountService {
       summary: '',
       username: ''
     };
+  }
+
+  public forgotPassword(email) {
+    return this._requestService.fetch('get', `/auth/password/forgot?email=${email}`);
+  }
+
+  public resetPassword(token, data) {
+    return this._requestService.fetch('post', `/auth/password/reset?token=${token}`, data)
   }
 
   clearData() {

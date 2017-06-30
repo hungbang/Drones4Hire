@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.users.Group;
-import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.db.users.Group.Role;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,12 +16,16 @@ public class JWTService
 	private String secret;
 	private Integer authTokenExp;
 	private Integer refreshTokenExp;
+	private Integer confirmEmailTokenExp;
+	private Integer changePassworsTokenExp;
 	
-	public JWTService(String secret, Integer authTokenExp, Integer refreshTokenExp)
+	public JWTService(String secret, Integer authTokenExp, Integer refreshTokenExp, Integer confirmEmailTokenExp, Integer changePassworsTokenExp)
 	{
 		this.secret = secret;
 		this.authTokenExp = authTokenExp;
 		this.refreshTokenExp = refreshTokenExp;
+		this.confirmEmailTokenExp = confirmEmailTokenExp;
+		this.changePassworsTokenExp = changePassworsTokenExp;
 	}
 	
 	/**
@@ -91,21 +95,31 @@ public class JWTService
 		return buildToken(claims, refreshTokenExp);
 	}
 	
-	public String generateEmailToken(Long userId, String newEmail)
+	public String generateConfirmEmailToken(User user)
 	{
-		Claims claims = Jwts.claims().setSubject(userId.toString());
-		claims.put("email", newEmail);
-		return buildToken(claims, authTokenExp * 2);
+		Claims claims = Jwts.claims().setSubject(user.getId().toString());
+		return buildToken(claims, confirmEmailTokenExp);
 	}
 	
-	public User parseEmailToken(String token)
+	public User readConfirmEmailToken(String token)
 	{
 		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-		
 		User user = new User();
 		user.setId(Long.valueOf(body.getSubject()));
-		user.setEmail((String)body.get("email"));
-		
+		return user;
+	}
+	
+	public String generateChangePasswordToken(User user)
+	{
+		Claims claims = Jwts.claims().setSubject(user.getId().toString());
+		return buildToken(claims, changePassworsTokenExp);
+	}
+	
+	public User readChangePasswordToken(String token)
+	{
+		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		User user = new User();
+		user.setId(Long.valueOf(body.getSubject()));
 		return user;
 	}
 	
