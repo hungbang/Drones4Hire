@@ -261,4 +261,11 @@ export class ProjectService {
   public cancelProject(id: number) {
     return this._requestService.fetch('post', `/projects/${id}/cancel`);
   }
+
+  public getProjectsOnMap(coordsTopLef, coordsBottomRight) {
+    return this._requestService.fetch('post', '/projects/search/map', {
+      topLeftCoordinates: coordsTopLef,
+      bottomRightCoordinates: coordsBottomRight
+    })
+  }
 }

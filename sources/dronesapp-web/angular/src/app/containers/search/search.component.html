@@ -3,7 +3,9 @@
            [latitude]="pilotLocation.coordinates?.latitude || 39.8282"
            [longitude]="pilotLocation.coordinates?.longitude || -98.5795"
            [scrollwheel]="false"
-           [zoom]="15">
+           (boundsChange)="boundsChange($event)"
+           [zoom]="12">
+    <agm-marker [latitude]="project.coordinates?.latitude" [longitude]="project.coordinates?.longitude" *ngFor="let project of mapProjects"></agm-marker>
   </agm-map>
 </div>
 <div class="container search">
