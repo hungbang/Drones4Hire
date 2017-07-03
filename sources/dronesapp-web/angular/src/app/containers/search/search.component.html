@@ -4,6 +4,7 @@
            [longitude]="pilotLocation.coordinates?.longitude || -98.5795"
            [scrollwheel]="false"
            (boundsChange)="boundsChange($event)"
+           (mapReady)="initEvent()"
            [zoom]="12">
     <agm-marker [latitude]="project.coordinates?.latitude" [longitude]="project.coordinates?.longitude" *ngFor="let project of mapProjects"></agm-marker>
   </agm-map>

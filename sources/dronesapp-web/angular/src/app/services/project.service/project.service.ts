@@ -266,6 +266,6 @@ export class ProjectService {
     return this._requestService.fetch('post', '/projects/search/map', {
       topLeftCoordinates: coordsTopLef,
       bottomRightCoordinates: coordsBottomRight
-    })
+    });
   }
 }
