@@ -97,7 +97,7 @@ public class ProjectsController extends AbstractController
 
 	@RequestMapping(value = "search/map", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	SearchResult<ProjectForMapContext> searchProjectsForMap(@RequestBody ProjectForMapSearchCriteria sc)
+	SearchResult<ProjectOnMap> searchProjectsForMap(@RequestBody ProjectForMapSearchCriteria sc)
 			throws Exception
 	{
 		return projectService.searchProjectsForMap(sc, getPrincipal().getId());

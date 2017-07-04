@@ -1,13 +1,14 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
+import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Coordinates;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 
-public class ProjectForMapContext extends SearchResult
+public class ProjectOnMap
 {
 
 	private Long id;
-	private Long budgetId;
+	private Budget budget;
 	private String title;
 	private Status status;
 	private Coordinates coordinates;
@@ -22,14 +23,14 @@ public class ProjectForMapContext extends SearchResult
 		this.id = id;
 	}
 
-	public Long getBudgetId()
+	public Budget getBudget()
 	{
-		return budgetId;
+		return budget;
 	}
 
-	public void setBudgetId(Long budgetId)
+	public void setBudget(Budget budget)
 	{
-		this.budgetId = budgetId;
+		this.budget = budget;
 	}
 
 	public String getTitle()

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapContext;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectOnMap;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
@@ -164,17 +164,18 @@ public class ProjectService
 	}
 
 	@Transactional(readOnly = true)
-	public SearchResult<ProjectForMapContext> searchProjectsForMap(ProjectForMapSearchCriteria sc, long principalId) throws ServiceException
+	public SearchResult<ProjectOnMap> searchProjectsForMap(ProjectForMapSearchCriteria sc, long principalId) throws ServiceException
 	{
-		SearchResult<ProjectForMapContext> results = new SearchResult<>();
+		SearchResult<ProjectOnMap> results = new SearchResult<>();
 		User user = userService.getUserById(principalId);
 		if (! user.getRoles().contains(ROLE_ADMIN))
 		{
 			sc.setStatus(NEW);
 		}
-		List<ProjectForMapContext> projectSearchResults = projectMapper.searchProjectsForMap(sc);
+		List<ProjectOnMap> projectSearchResults = projectMapper.searchProjectsForMap(sc);
 		results.setTotalResults(projectMapper.getProjectsForMapSearchCount(sc));
 		results.setResults(projectSearchResults);
+		results.setPageSize(results.getTotalResults());
 		return results;
 	}
 

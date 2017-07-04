@@ -1075,6 +1075,13 @@
 				P.TITLE AS PROJECT_TITLE,
 				P.STATUS AS PROJECT_STATUS,
 				BD.ID AS BUDGET_ID,
+				BD.TITLE AS BUDGET_TITLE,
+		        BD.MIN AS BUDGET_MIN,
+		        BD.MAX AS BUDGET_MAX,
+		        BD.CURRENCY AS BUDGET_CURRENCY,
+		        BD.SORT_ORDER AS BUDGET_SORT_ORDER,
+		        BD.MODIFIED_AT AS BUDGET_MODIFIED_AT,
+		        BD.CREATED_AT AS BUDGET_CREATED_AT,
 				X(L.COORDINATES) AS LOCATION_X_COORDINATE,
 		        Y(L.COORDINATES) AS LOCATION_Y_COORDINATE
 			FROM
@@ -1272,13 +1279,13 @@
 		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
 	</resultMap>
 
-	<resultMap id="ProjectSearchForMapResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapContext" autoMapping="false">
+	<resultMap id="ProjectSearchForMapResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectOnMap" autoMapping="false">
 		<id column="PROJECT_ID" property="id" />
 		<result property="title" column="PROJECT_TITLE"/>
 		<result property="status" column="PROJECT_STATUS"/>
-		<result property="budgetId" column="BUDGET_ID"/>
 		<result property="coordinates.latitude" column="LOCATION_X_COORDINATE"/>
 		<result property="coordinates.longitude" column="LOCATION_Y_COORDINATE"/>
+		<association property="budget" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BudgetMapper.BudgetResultMap"/>
 	</resultMap>
 
 	<resultMap id="ProjectStatusStatisticResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectStatisticsResult" autoMapping="false">

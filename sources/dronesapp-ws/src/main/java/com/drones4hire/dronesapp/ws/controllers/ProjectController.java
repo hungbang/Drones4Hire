@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapContext;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectOnMap;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
@@ -204,7 +204,7 @@ public class ProjectController extends AbstractController
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "search/map", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SearchResult<ProjectForMapContext> searchProjectsForMap(@Valid @RequestBody ProjectForMapSearchCriteria sc)
+	public @ResponseBody SearchResult<ProjectOnMap> searchProjectsForMap(@Valid @RequestBody ProjectForMapSearchCriteria sc)
 			throws ServiceException
 	{
 		return projectService.searchProjectsForMap(sc, getPrincipal().getId());

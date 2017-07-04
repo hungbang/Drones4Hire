@@ -24,7 +24,7 @@ public interface ProjectMapper
 
 	Integer getProjectsWithAdminSearchCount(ProjectSearchCriteriaForAdmin sc);
 
-	List<ProjectForMapContext> searchProjectsForMap(ProjectForMapSearchCriteria sc);
+	List<ProjectOnMap> searchProjectsForMap(ProjectForMapSearchCriteria sc);
 
 	Integer getProjectsForMapSearchCount(ProjectForMapSearchCriteria sc);
 
