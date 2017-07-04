@@ -62,7 +62,17 @@ export class CommonService {
       return currentValue;
     }, null);
 
-    return normalizedServices.sort((objA, objB) => objA.id - objB.id);
+    normalizedServices.forEach(el => {
+      el.category.sort((objA: any, objB: any) => {
+        return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+      })
+    });
+
+    return normalizedServices.sort((objA, objB) => {
+      return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+    });
+
+
   }
 
   getCountries() {
@@ -143,7 +153,11 @@ export class CommonService {
       });
   }
 
-  checkCountry(type: string) {
-      return this[type] === 'United States';
+  // checkCountry(type: string) {
+  //     return this[type] === 'United States';
+  // }
+
+  public getFee() {
+    return this._requestService.fetch('get', '/common/fees')
   }
 }

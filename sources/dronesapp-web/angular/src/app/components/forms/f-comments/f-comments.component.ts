@@ -8,6 +8,7 @@ import {Component, OnInit, ViewEncapsulation, Output, EventEmitter} from '@angul
 })
 export class FCommentsComponent implements OnInit {
   @Output() send = new EventEmitter<any>();
+  submitted: boolean = false;
 
   public comment = '';
 
@@ -16,14 +17,24 @@ export class FCommentsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
+  onSubmit(e, form) {
+    e.preventDefault();
+    this.submitted = true;
+
+    if(form.invalid) {
+      return;
+    }
+
     this.send.emit({
       comment: this.comment,
-      callback: () => this.clear()
+      callback: () => this.clear(form)
     });
+
+
   }
 
-  clear() {
-    this.comment = '';
+  clear(form) {
+    form.resetForm();
+    this.submitted = false;
   }
 }

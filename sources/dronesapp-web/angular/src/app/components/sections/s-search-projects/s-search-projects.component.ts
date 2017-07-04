@@ -43,7 +43,7 @@ export class SSearchProjectsComponent implements OnInit {
         }));
     this.budgets = budgets.map((item) => {
       return {
-        text: `${item.title} ($${item.min} - $${item.max})`,
+        text: `${item.title} ($${item.min}${item.max ? ' - $' + item.max : '+'})`,
         value: item.id
       };
     });
@@ -82,6 +82,7 @@ export class SSearchProjectsComponent implements OnInit {
     deleteNullOrNaN(sendObj, 'budgetId');
     deleteNullOrNaN(sendObj, 'serviceCategoryId');
     deleteNullOrNaN(sendObj, 'postcode');
+    deleteNullOrNaN(sendObj, 'range');
 
     this.router.navigate(['/search', 1], { queryParams: sendObj })
       .then(() => {

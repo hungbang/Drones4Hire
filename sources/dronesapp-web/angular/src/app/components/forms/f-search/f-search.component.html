@@ -5,7 +5,7 @@
         <select class="f-search__field _select"
                 name="category"
                 [(ngModel)]="_category">
-          <option value="-1">Project Type</option>
+          <option value="-1">Job Type</option>
           <option *ngFor="let category of categories"
                   [value]="category.id">{{ category.name }}</option>
         </select>
@@ -22,13 +22,21 @@
         </select>
       </label>
     </div>
+    <!--<div class="f-search__col">-->
+      <!--<span class="f-search__text">Zip Code</span>-->
+      <!--<input class="f-search__field"-->
+             <!--type="text"-->
+             <!--name="code"-->
+             <!--[(ngModel)]="_postcode"-->
+             <!--placeholder="ex. 55555"/>-->
+    <!--</div>-->
     <div class="f-search__col">
-      <span class="f-search__text">Zip Code</span>
+      <span class="f-search__text">Within # miles</span>
       <input class="f-search__field"
              type="text"
-             name="code"
-             [(ngModel)]="_postcode"
-             placeholder="ex. 55555"/>
+             name="range"
+             [(ngModel)]="_range"
+             placeholder="ex. 150"/>
     </div>
   </div>
 
