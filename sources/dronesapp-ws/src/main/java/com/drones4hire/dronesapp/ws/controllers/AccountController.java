@@ -201,7 +201,7 @@ public class AccountController extends AbstractController
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_PILOT", "ROLE_ADMIN"})
 	@RequestMapping(value = "license", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody PilotLicenseDTO updateLicense(@RequestBody @Valid PilotLicenseDTO license)
+	public @ResponseBody PilotLicenseDTO updateLicense(@RequestBody @Valid PilotLicenseDTO license) throws ServiceException
 	{
 		PilotLicense curLicense = licenseService.getPilotLicenseByUserId(getPrincipal().getId());
 		curLicense.setInsuranceURL(license.getInsuranceURL());

@@ -90,7 +90,7 @@ public class BidService
 		bid.setUser(user);
 		bidMapper.createBid(bid);
 		
-		emailService.sendNewBidReceiveEmail(project, user);
+		emailService.sendNewBidReceiveEmail(project);
 		emailService.sendNewBidPlacedEmail(project, user);
 		
 		return bid;

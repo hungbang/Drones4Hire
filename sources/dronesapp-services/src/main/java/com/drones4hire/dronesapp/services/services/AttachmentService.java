@@ -2,8 +2,6 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
-import com.drones4hire.dronesapp.models.db.users.Group;
-import com.drones4hire.dronesapp.models.db.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +12,13 @@ import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.Attachment.Type;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
+import com.drones4hire.dronesapp.models.db.users.Group;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
+
+import io.jsonwebtoken.lang.Collections;
 
 @Service
 public class AttachmentService
@@ -28,11 +31,17 @@ public class AttachmentService
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AWSEmailService emailService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Attachment createAttachment(Attachment attachment, long principalId) throws ServiceException {
 		checkAuthorities(attachment, principalId);
+		List<Attachment> attachments = attachMapper.getAttachmentsByProjectIdAndType(attachment.getProjectId(), Type.PROJECT_RESULT);
 		attachMapper.createAttachment(attachment);
+		if(Collections.isEmpty(attachments))
+			emailService.sendUploadProjectResultEmail(projectMapper.getProjectById(attachment.getProjectId()));
 		return attachment;
 	}
 
@@ -47,13 +56,8 @@ public class AttachmentService
 	}
 
 	@Transactional(readOnly = true)
-	public List<Attachment> getAttachmentsByProjectId(long projectId, long principalId) {
+	public List<Attachment> getAttachmentsByProjectId(long projectId) {
 		return attachMapper.getAttachmentsByProjectId(projectId);
-	}
-	
-	@Transactional(readOnly = true)
-	public List<Attachment> getAllAttachments(long principalId) {
-		return attachMapper.getAllAttachments();
 	}
 
 	@Transactional(rollbackFor = Exception.class)

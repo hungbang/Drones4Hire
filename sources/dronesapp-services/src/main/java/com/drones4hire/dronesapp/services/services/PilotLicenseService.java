@@ -10,15 +10,24 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.PilotLicenseMapper;
 import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Service
 public class PilotLicenseService
 {
+	
+	@Autowired
+	private UserService userService;
+	
 	@Autowired
 	private PilotLicenseMapper pilotLicenseMapper;
 
 	@Autowired
 	private CountryService countryService;
+	
+	@Autowired
+	private AWSEmailService emailService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public PilotLicense createPilotLicense(PilotLicense pilotLicense)
@@ -61,10 +70,21 @@ public class PilotLicenseService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public PilotLicense updatePilotLicense(PilotLicense pilotLicense)
+	public PilotLicense updatePilotLicense(PilotLicense license) throws ServiceException
 	{
-		pilotLicenseMapper.updatePilotLicense(pilotLicense);
-		return pilotLicense;
+		PilotLicense currLicense = pilotLicenseMapper.getPilotLicenseByUserId(license.getId());
+		User pilot = userService.getUserById(license.getUserId());
+		currLicense.setInsuranceURL(license.getInsuranceURL());
+		currLicense.setLicenseURL(license.getLicenseURL());
+		if(!currLicense.isVerified() && license.isVerified()) {
+			currLicense.setVerified(license.isVerified());
+			pilotLicenseMapper.updatePilotLicense(currLicense);
+			emailService.sendPilotApprovedEmail(pilot);
+		} else {
+			currLicense.setVerified(license.isVerified());
+			pilotLicenseMapper.updatePilotLicense(currLicense);
+		}
+		return currLicense;
 	}
 
 	@Transactional(rollbackFor = Exception.class)

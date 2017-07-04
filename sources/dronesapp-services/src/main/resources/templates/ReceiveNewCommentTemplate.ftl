@@ -7,9 +7,9 @@
 	    		<tr>
 	    			<td>
 	    				<p>
-	    					Need to reset your password? No problem. Just click below to get started. <br />
-	    					<a style="color:blue;font-weight:normal" href="${verifyUrl}" target="_blank">${verifyUrl}</a><br />
-	    					If you didn't request to change your Drones4Hire password, you don't have to do anything.
+	    					A new comment has been posted for your project 
+	    					<a style="color:blue;font-weight:normal" href="${projectUrl}" target="_blank">${Project.title}</a>. <br />
+	    					Please let the pilots know details about your project, so they can send you a better bid proposal.
 	    			</td>
 	    		</tr>
 	        </tbody>

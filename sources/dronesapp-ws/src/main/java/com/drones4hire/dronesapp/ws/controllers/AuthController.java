@@ -25,7 +25,6 @@ import com.drones4hire.dronesapp.models.dto.auth.RegistrationDTO;
 import com.drones4hire.dronesapp.models.dto.auth.ResetPasswordDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.exceptions.UserNotFoundException;
 import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.auth.JWTService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;

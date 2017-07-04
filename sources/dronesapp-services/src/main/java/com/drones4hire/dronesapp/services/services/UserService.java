@@ -152,6 +152,8 @@ public class UserService
 		
 		user.setConfirmed(true);
 		updateUser(user);
+		if(user.getRoles().contains(Role.ROLE_CLIENT))
+			emailService.sendClientEmailConfirmedEmail(user);
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
@@ -264,6 +266,7 @@ public class UserService
 		
 		if(!user.isConfirmed())
 		{
+			emailService.sendUpConfirmationEmail(user, jwtService.generateConfirmEmailToken(user));
 			throw new EmailNotVerifiedException();
 		}
 

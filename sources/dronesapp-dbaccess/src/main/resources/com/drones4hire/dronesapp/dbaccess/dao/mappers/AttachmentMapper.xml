@@ -57,6 +57,16 @@
         ]]>
     </select>
     
+     <select id="getAttachmentsByProjectIdAndType" resultMap="AttachmentResultMap">
+        <include refid="getAttachment"/>
+        <![CDATA[
+          WHERE
+          		A.PROJECT_ID = #{projectId}
+          	AND
+          		A.TYPE = #{type}
+        ]]>
+    </select>
+    
     <select id="getAttachmentById" resultMap="AttachmentResultMap">
         <include refid="getAttachment"/>
         <![CDATA[

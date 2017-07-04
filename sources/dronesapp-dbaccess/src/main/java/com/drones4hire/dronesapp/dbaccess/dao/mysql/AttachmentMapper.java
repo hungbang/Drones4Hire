@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.drones4hire.dronesapp.models.db.projects.Attachment;
+import com.drones4hire.dronesapp.models.db.projects.Attachment.Type;
 
 public interface AttachmentMapper
 {
@@ -15,6 +16,8 @@ public interface AttachmentMapper
 	Attachment getAttachmentById(long id);
 
 	List<Attachment> getAttachmentsByProjectId(long projectId);
+	
+	List<Attachment> getAttachmentsByProjectIdAndType(@Param("projectId") long projectId, @Param("type") Type type);
 	
 	List<Attachment> getAllAttachments();
 

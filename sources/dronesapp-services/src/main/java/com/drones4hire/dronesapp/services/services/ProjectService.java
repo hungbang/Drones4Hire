@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectOnMap;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectOnMap;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
@@ -40,6 +40,7 @@ import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException
 import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.PaymentException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Service
 public class ProjectService
@@ -73,6 +74,9 @@ public class ProjectService
 	
 	@Autowired
 	private PaidOptionService paidOptionService;
+	
+	@Autowired
+	private AWSEmailService emailService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Project createProject(Project project) throws ServiceException
@@ -340,7 +344,9 @@ public class ProjectService
 		walletService.updateWallet(pilotWallet);
 		
 		project.setStatus(Project.Status.COMPLETED);
-		return updateProject(project);
+		updateProject(project);
+		emailService.sendReleasePaymentEmail(project, userService.getNotNullUser(project.getPilotId()));
+		return project; 
 	}
 	
 	private BigDecimal calculateFee(BigDecimal amount)
