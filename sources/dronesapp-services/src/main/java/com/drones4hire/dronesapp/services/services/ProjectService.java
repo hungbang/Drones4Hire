@@ -152,6 +152,11 @@ public class ProjectService
 		} else if (user.getRoles().contains(ROLE_PILOT))
 		{
 			sc.setPilotId(principalId);
+			if(sc.getRange() == null)
+			{
+				sc.setRange(user.getLocation().getRange());
+			}
+			sc.setUserCoordinates(user.getLocation().getCoordinates());
 		}
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());

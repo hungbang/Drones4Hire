@@ -552,8 +552,8 @@
 
 	<sql id="getPointsInsideCircle">
 		<![CDATA[
-			( #{unit} * ACOS( COS( RADIANS(X(PILOT_L.COORDINATES)) ) * COS( RADIANS( X(L.COORDINATES) ) )
-						* COS( RADIANS( Y(L.COORDINATES) ) - RADIANS(Y(PILOT_L.COORDINATES)) ) + SIN( RADIANS(X(PILOT_L.COORDINATES)) ) * SIN( RADIANS( Y(L.COORDINATES) ) ) ) )
+			( #{unit} * ACOS( COS( RADIANS(#{userCoordinates.latitude}) ) * COS( RADIANS( X(L.COORDINATES) ) )
+						* COS( RADIANS( Y(L.COORDINATES) ) - RADIANS(#{userCoordinates.longitude}) ) + SIN( RADIANS(#{userCoordinates.latitude}) ) * SIN( RADIANS( Y(L.COORDINATES) ) ) ) )
 		]]>
 	</sql>
 
@@ -815,28 +815,10 @@
 	      		drones.PAID_OPTIONS PO
 	      ON
           		PPO.PAID_OPTION_ID = PO.ID
-          ]]>
-          	<if test="null == range">
-				<![CDATA[
-				  LEFT JOIN
-						drones.LOCATIONS L
-				  ON
-						P.LOCATION_ID = L.ID
-				]]>
-		  	</if>
-			<if test="null != range">
-				<![CDATA[
-			  		INNER JOIN
-				  		drones.LOCATIONS L
-			 		ON
-				  		P.LOCATION_ID = L.ID
-					AND
-						P.LOCATION_ID IS NOT NULL
-					AND #{range} >=
-				]]>
-				<include refid="getPointsInsideCircle"/>
-			</if>
-		<![CDATA[
+		  LEFT JOIN
+				drones.LOCATIONS L
+		  ON
+				P.LOCATION_ID = L.ID
           LEFT JOIN
             	drones.COUNTRIES C
           ON
@@ -886,10 +868,6 @@
 	      			drones.BIDS B
 	      		ON
           			P.ID = B.PROJECT_ID
-				LEFT JOIN
-	      			drones.LOCATIONS L
-	      		ON
-          			P.LOCATION_ID = L.ID
           		LEFT JOIN
 	      			drones.BUDGETS BD
 	      		ON
@@ -908,6 +886,18 @@
 	      		ON
           			S.SERVICE_CATEGORY_ID = SC.ID
 		]]>
+		<if test="null != range">
+			<![CDATA[
+				INNER JOIN
+	      			drones.LOCATIONS L
+	      		ON
+          			P.LOCATION_ID = L.ID
+				AND
+					L.ID IS NOT NULL
+				AND
+			]]>
+			<include refid="getPointsInsideCircle"/>
+		</if>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="null != title">
 				<![CDATA[
@@ -932,11 +922,6 @@
 			<if test="0 != durationId">
 				<![CDATA[
 				   AND D.ID = #{durationId}
-				]]>
-			</if>
-			<if test="0 != locationId">
-				<![CDATA[
-				   AND L.ID = #{locationId}
 				]]>
 			</if>
 			<if test="null != postcode">
@@ -1007,19 +992,13 @@
 			<![CDATA[
 			 )
 			LEFT JOIN
-				drones.LOCATIONS L
-			ON
-				P.LOCATION_ID = L.ID
-			LEFT JOIN
 				drones.BUDGETS BD
 			ON
 				P.BUDGET_ID = BD.ID
-
 			LEFT JOIN
 				drones.DURATIONS D
 			ON
 				P.DURATION_ID = D.ID
-
 			LEFT JOIN
 				drones.SERVICES S
 			ON
@@ -1029,6 +1008,18 @@
 			ON
 				S.SERVICE_CATEGORY_ID = SC.ID
 		]]>
+		<if test="null != range">
+			<![CDATA[
+				INNER JOIN
+	      			drones.LOCATIONS L
+	      		ON
+          			P.LOCATION_ID = L.ID
+				AND
+					L.ID IS NOT NULL
+				AND
+			]]>
+			<include refid="getPointsInsideCircle"/>
+		</if>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="null != title">
 				<![CDATA[
@@ -1053,11 +1044,6 @@
 			<if test="0 != durationId">
 				<![CDATA[
 				   AND D.ID = #{durationId}
-				]]>
-			</if>
-			<if test="0 != locationId">
-				<![CDATA[
-				   AND L.ID = #{locationId}
 				]]>
 			</if>
 			<if test="null != postcode">

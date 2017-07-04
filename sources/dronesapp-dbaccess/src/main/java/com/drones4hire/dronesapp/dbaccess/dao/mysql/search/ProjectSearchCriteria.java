@@ -1,7 +1,9 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
+import com.drones4hire.dronesapp.models.db.commons.Coordinates;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 import com.drones4hire.dronesapp.models.dto.CoordinatesDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
@@ -32,6 +34,8 @@ public class ProjectSearchCriteria extends SearchCriteria
 	private CoordinatesDTO bottomRightCoordinates;
 	private Integer range;
 	private Integer unit = MILE;
+	@JsonIgnore
+	private Coordinates userCoordinates;
 
 	public String getTitle()
 	{
@@ -181,6 +185,16 @@ public class ProjectSearchCriteria extends SearchCriteria
 	public void setUnit(Integer unit)
 	{
 		this.unit = unit;
+	}
+
+	public Coordinates getUserCoordinates()
+	{
+		return userCoordinates;
+	}
+
+	public void setUserCoordinates(Coordinates userCoordinates)
+	{
+		this.userCoordinates = userCoordinates;
 	}
 
 	@AssertTrue(message = "Coordinates should be have same type pair")
