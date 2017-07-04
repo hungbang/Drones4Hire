@@ -6,7 +6,18 @@
            (boundsChange)="boundsChange($event)"
            (mapReady)="initEvent()"
            [zoom]="12">
-    <agm-marker [latitude]="project.coordinates?.latitude" [longitude]="project.coordinates?.longitude" *ngFor="let project of mapProjects"></agm-marker>
+    <!-- TODO: make rich-markers instead -->
+    <agm-info-window
+      class="search__iw"
+      [isOpen]="true"
+      [maxWidth]="175"
+      [zIndex]="10"
+      [latitude]="project.coordinates?.latitude"
+      [longitude]="project.coordinates?.longitude"
+      *ngFor="let project of mapProjects">
+      <div class="search__iw-budget">${{project.budget.min}} - ${{project.budget.max}}</div>
+      <div class="search__iw-title">{{project.title}}</div>
+    </agm-info-window>
   </agm-map>
 </div>
 <div class="container search">

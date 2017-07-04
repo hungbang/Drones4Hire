@@ -46,7 +46,7 @@ export class SearchComponent implements OnInit {
 
   initEvent() {
     this.boundsChanges
-      .debounceTime(250)
+      .debounceTime(150)
       .switchMap(
         (res: any) => this.projectService.getProjectsOnMap(res.coordsTopLeft, res.coordsBottomRight)
       )
