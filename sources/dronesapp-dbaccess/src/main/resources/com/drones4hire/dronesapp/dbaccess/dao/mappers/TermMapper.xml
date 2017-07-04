@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.TermMapper">
+
+    <insert id="createTerm" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.TERMS (TEXT, LOCALE)
+          VALUES
+          (
+            #{text},
+            #{locale}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getTerms">
+        <![CDATA[
+          SELECT
+	        T.ID AS TERM_ID,
+	        T.TEXT AS TERM_TEXT,
+	        T.LOCALE AS TERM_LOCALE,
+	        T.MODIFIED_AT AS TERM_MODIFIED_AT,
+	        T.CREATED_AT AS TERM_CREATED_AT
+          FROM
+	        drones.TERMS T
+        ]]>
+    </sql>
+
+    <select id="getTermById" resultMap="TermResultMap">
+        <include refid="getTerms"/>
+        <![CDATA[
+          WHERE
+            T.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllTerms" resultMap="TermResultMap">
+        <include refid="getTerms"/>
+    </select>
+
+    <update id="updateTerm">
+        <![CDATA[
+          UPDATE
+         	drones.TERMS
+          SET
+          	TEXT = #{text},
+          	LOCALE = #{locale}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteTerm">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.TERMS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="TermResultMap" type="com.drones4hire.dronesapp.models.db.content.Term" autoMapping="false">
+        <id column="TERM_ID" property="id"/>
+        <result column="TERM_TEXT" property="text"/>
+        <result column="TERM_LOCALE" property="locale"/>
+        <result column="TERM_MODIFIED_AT" property="modifiedAt"/>
+        <result column="TERM_CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>

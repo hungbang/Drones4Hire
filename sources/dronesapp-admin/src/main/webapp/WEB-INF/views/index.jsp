@@ -61,6 +61,20 @@
 							<li data-ng-class="{active : isActive('/countries')}">
 								<a href="#/locations/countries"><i class="fa fa-compass"></i> Countries</a>
 							</li>
+							<li>
+								<a href="javascript:;" data-toggle="collapse" data-target="#content"><i class="fa fa-fw fa-users"></i> Content <i class="fa fa-fw fa-caret-down"></i></a>
+								<ul id="content" class="collapse">
+									<li>
+										<a href="#/content/faqs">FAQs</a>
+									</li>
+									<li>
+										<a href="#/content/policy">Policy</a>
+									</li>
+									<li>
+										<a href="#/content/terms">Terms</a>
+									</li>
+								</ul>
+							</li>
 	                    </ul>
                     <ul class="nav navbar-right top-nav" data-ng-controller="NavigationCtrl">
                         <li class="dropdown user-dropdown">

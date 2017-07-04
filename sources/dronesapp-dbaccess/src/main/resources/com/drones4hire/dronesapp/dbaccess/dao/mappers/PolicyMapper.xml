@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.PolicyMapper">
+
+    <insert id="createPolicy" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.POLICY (TEXT, LOCALE)
+          VALUES
+          (
+            #{text},
+            #{locale}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getPolicy">
+        <![CDATA[
+          SELECT
+	        P.ID AS POLICY_ID,
+	        P.TEXT AS POLICY_TEXT,
+	        P.LOCALE AS POLICY_LOCALE,
+	        P.MODIFIED_AT AS POLICY_MODIFIED_AT,
+	        P.CREATED_AT AS POLICY_CREATED_AT
+          FROM
+	        drones.POLICY P
+        ]]>
+    </sql>
+
+    <select id="getPolicyById" resultMap="PolicyResultMap">
+        <include refid="getPolicy"/>
+        <![CDATA[
+          WHERE
+            P.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllPolicy" resultMap="PolicyResultMap">
+        <include refid="getPolicy"/>
+    </select>
+
+    <update id="updatePolicy">
+        <![CDATA[
+          UPDATE
+         	drones.POLICY
+          SET
+          	TEXT = #{text},
+          	LOCALE = #{locale}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deletePolicy">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.POLICY
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="PolicyResultMap" type="com.drones4hire.dronesapp.models.db.content.Policy" autoMapping="false">
+        <id column="POLICY_ID" property="id"/>
+        <result column="POLICY_TEXT" property="text"/>
+        <result column="POLICY_LOCALE" property="locale"/>
+        <result column="POLICY_MODIFIED_AT" property="modifiedAt"/>
+        <result column="POLICY_CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>

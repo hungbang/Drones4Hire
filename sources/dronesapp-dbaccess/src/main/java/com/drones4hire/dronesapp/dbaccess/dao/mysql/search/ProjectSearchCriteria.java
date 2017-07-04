@@ -11,6 +11,10 @@ import java.util.List;
 public class ProjectSearchCriteria extends SearchCriteria
 {
 
+	private static final Integer KILOMETER = 6371;
+
+	private static final Integer MILE = 3959;
+
 	private String title;
 	private long clientId;
 	private long pilotId;
@@ -26,6 +30,8 @@ public class ProjectSearchCriteria extends SearchCriteria
 	private CoordinatesDTO topLeftCoordinates;
 	@Valid
 	private CoordinatesDTO bottomRightCoordinates;
+	private Integer range;
+	private Integer unit = MILE;
 
 	public String getTitle()
 	{
@@ -155,6 +161,26 @@ public class ProjectSearchCriteria extends SearchCriteria
 	public void setBottomRightCoordinates(CoordinatesDTO bottomRightCoordinates)
 	{
 		this.bottomRightCoordinates = bottomRightCoordinates;
+	}
+
+	public Integer getRange()
+	{
+		return range;
+	}
+
+	public void setRange(Integer range)
+	{
+		this.range = range;
+	}
+
+	public Integer getUnit()
+	{
+		return unit;
+	}
+
+	public void setUnit(Integer unit)
+	{
+		this.unit = unit;
 	}
 
 	@AssertTrue(message = "Coordinates should be have same type pair")

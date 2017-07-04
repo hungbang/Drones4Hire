@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.FaqMapper">
+
+    <insert id="createFaq" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.FAQS (QUESTION, ANSWER, LOCALE, SORT_ORDER)
+          VALUES
+          (
+            #{question},
+            #{answer},
+            #{locale},
+            #{order}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getFaqs">
+        <![CDATA[
+          SELECT
+	        F.ID AS FAQ_ID,
+	        F.QUESTION AS FAQ_QUESTION,
+	        F.ANSWER AS FAQ_ANSWER,
+	        F.LOCALE AS FAQ_LOCALE,
+	        F.SORT_ORDER AS FAQ_SORT_ORDER,
+	        F.MODIFIED_AT AS FAQ_MODIFIED_AT,
+	        F.CREATED_AT AS FAQ_CREATED_AT
+          FROM
+	        drones.FAQS F
+        ]]>
+    </sql>
+
+    <select id="getFaqById" resultMap="FaqResultMap">
+        <include refid="getFaqs"/>
+        <![CDATA[
+          WHERE
+            F.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllFaqs" resultMap="FaqResultMap">
+        <include refid="getFaqs"/>
+    </select>
+
+    <update id="updateFaq">
+        <![CDATA[
+          UPDATE
+         	drones.FAQS
+          SET
+          	QUESTION = #{question},
+          	ANSWER = #{answer},
+          	LOCALE = #{locale},
+          	SORT_ORDER = #{order}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteFaq">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.FAQS
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="FaqResultMap" type="com.drones4hire.dronesapp.models.db.content.Faq" autoMapping="false">
+        <id column="FAQ_ID" property="id"/>
+        <result column="FAQ_QUESTION" property="question"/>
+        <result column="FAQ_ANSWER" property="answer"/>
+        <result column="FAQ_LOCALE" property="locale"/>
+        <result column="FAQ_SORT_ORDER" property="order"/>
+        <result column="FAQ_MODIFIED_AT" property="modifiedAt"/>
+        <result column="FAQ_CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>

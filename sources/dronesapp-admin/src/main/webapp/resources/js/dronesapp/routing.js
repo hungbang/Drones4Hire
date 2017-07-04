@@ -50,10 +50,25 @@ DronesAdmin.constant('ROUTES', [
 		templateUrl : 'locations/countries'
 	}
 }, {
-        url : '/map',
-        config : {
-            templateUrl : 'locations/map'
-        }
+	url : '/map',
+	config : {
+		templateUrl : 'locations/map'
+	}
+}, {
+	url : '/content/faqs',
+	config : {
+		templateUrl : 'content/faqs'
+	}
+}, {
+	url : '/content/policy',
+	config : {
+		templateUrl : 'content/policy'
+	}
+}, {
+	url : '/content/terms',
+	config : {
+		templateUrl : 'content/terms'
+	}
 }]);
 
 DronesAdmin.config([ '$routeProvider', 'ROUTES',

@@ -26,6 +26,7 @@
 		<security:intercept-url pattern="/api/v1/healthcheck" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/auth/**" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/public/**" access="permitAll" />
+		<security:intercept-url pattern="/api/v1/content/**" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/common/countries" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/common/states" access="permitAll" />
 		<security:intercept-url pattern="/api/v1/payoneer/**" access="permitAll" />

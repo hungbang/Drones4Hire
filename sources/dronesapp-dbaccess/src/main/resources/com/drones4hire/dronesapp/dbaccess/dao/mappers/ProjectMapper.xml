@@ -550,6 +550,13 @@
 		</trim>
 	</select>
 
+	<sql id="getPointsInsideCircle">
+		<![CDATA[
+			( #{unit} * ACOS( COS( RADIANS(X(PILOT_L.COORDINATES)) ) * COS( RADIANS( X(L.COORDINATES) ) )
+						* COS( RADIANS( Y(L.COORDINATES) ) - RADIANS(Y(PILOT_L.COORDINATES)) ) + SIN( RADIANS(X(PILOT_L.COORDINATES)) ) * SIN( RADIANS( Y(L.COORDINATES) ) ) ) )
+		]]>
+	</sql>
+
 	<sql id="searchProject">
 		<![CDATA[
           SELECT
@@ -618,6 +625,7 @@
 	        	Y(PILOT_L.COORDINATES) AS PILOT_LOCATION_Y_COORDINATE,
 	        	PILOT_L.CITY AS PILOT_LOCATION_CITY,
 	        	PILOT_L.POSTCODE AS PILOT_LOCATION_POSTCODE,
+	        	PILOT_L.RANGE AS PILOT_LOCATION_RANGE,
 	        	PILOT_L.MODIFIED_AT AS PILOT_LOCATION_MODIFIED_AT,
 	        	PILOT_L.CREATED_AT AS PILOT_LOCATION_CREATED_AT,
 
@@ -692,7 +700,12 @@
 		        ST.NAME AS STATE_NAME,
 		        ST.MODIFIED_AT AS STATE_MODIFIED_AT,
 		        ST.CREATED_AT AS STATE_CREATED_AT,
+		        ]]>
+				<if test="null != range">
+		        	<include refid="getPointsInsideCircle"/> AS DISTANCE,
+				</if>
 
+				<![CDATA[
 		        D.ID AS DURATION_ID,
 		        D.TITLE AS DURATION_TITLE,
 		        D.MIN AS DURATION_MIN,
@@ -802,10 +815,28 @@
 	      		drones.PAID_OPTIONS PO
 	      ON
           		PPO.PAID_OPTION_ID = PO.ID
-          LEFT JOIN
-	      		drones.LOCATIONS L
-	      ON
-          		P.LOCATION_ID = L.ID
+          ]]>
+          	<if test="null == range">
+				<![CDATA[
+				  LEFT JOIN
+						drones.LOCATIONS L
+				  ON
+						P.LOCATION_ID = L.ID
+				]]>
+		  	</if>
+			<if test="null != range">
+				<![CDATA[
+			  		INNER JOIN
+				  		drones.LOCATIONS L
+			 		ON
+				  		P.LOCATION_ID = L.ID
+					AND
+						P.LOCATION_ID IS NOT NULL
+					AND #{range} >=
+				]]>
+				<include refid="getPointsInsideCircle"/>
+			</if>
+		<![CDATA[
           LEFT JOIN
             	drones.COUNTRIES C
           ON
@@ -1263,6 +1294,7 @@
 		<result column="PROJECT_MAX_BID" property="maxBid"/>
 		<result column="PROJECT_BIDS_COUNT" property="bidsCount"/>
 		<result column="PROJECT_BIDS_AVG" property="bidsAvg"/>
+		<result column="DISTANCE" property="distance"/>
 		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
 		<association property="transactions" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.TransactionMapper.TransactionResultMap"/>
 		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>

@@ -19,6 +19,7 @@ public class ProjectSearchResult
 	private Integer bidsCount;
 	private Double bidsAvg;
 	private List<Transaction> transactions;
+	private Double distance;
 
 	public Long getId()
 	{
@@ -108,5 +109,15 @@ public class ProjectSearchResult
 	public void setTransactions(List<Transaction> transactions)
 	{
 		this.transactions = transactions;
+	}
+
+	public Double getDistance()
+	{
+		return distance;
+	}
+
+	public void setDistance(Double distance)
+	{
+		this.distance = distance;
 	}
 }
