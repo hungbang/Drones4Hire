@@ -149,7 +149,7 @@ public class BidService
 		projectService.checkStatuses(project, Project.Status.NEW);
 		
 		String trId = paymentService.authorizePayment(paymentMethod, bid.getAmount(), bid.getCurrency());
-		Transaction transaction = new Transaction(wallet.getId(), bid.getAmount(), Currency.USD, Type.PROJECT_PAYMENT, trId, project.getId(), Transaction.Status.AUHTORIZED);
+		Transaction transaction = new Transaction(wallet.getId(), bid.getAmount(), Currency.USD, Type.PROJECT_PAYMENT, trId, project.getId(), Transaction.Status.AUTHORIZED);
 		transactionService.createTransaction(transaction);
 		
 		project.setPilotId(bid.getUser().getId());
@@ -205,6 +205,7 @@ public class BidService
 		TransactionSearchCriteria sc = new TransactionSearchCriteria();
 		sc.setProjectId(project.getId());
 		sc.setType(Type.PROJECT_PAYMENT);
+		sc.setStatus(Transaction.Status.AUTHORIZED);
 		
 		for(Transaction transaction : transactionService.searchTransactions(sc).getResults())
 		{
@@ -235,6 +236,7 @@ public class BidService
 		TransactionSearchCriteria sc = new TransactionSearchCriteria();
 		sc.setProjectId(project.getId());
 		sc.setType(Type.PROJECT_PAYMENT);
+		sc.setStatus(Transaction.Status.AUTHORIZED);
 		
 		for(Transaction transaction : transactionService.searchTransactions(sc).getResults())
 		{
