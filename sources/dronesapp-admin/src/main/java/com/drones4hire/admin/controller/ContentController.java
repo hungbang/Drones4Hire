@@ -79,7 +79,7 @@ public class ContentController extends AbstractController
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(value = "faqs/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "faqs/{id}", method = RequestMethod.DELETE)
 	public void deleteFaq(@PathVariable(value = "id") long id)
 	{
 		faqService.deleteFaq(id);
@@ -114,7 +114,7 @@ public class ContentController extends AbstractController
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(value = "policy/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "policy/{id}", method = RequestMethod.DELETE)
 	public void deletePolicy(@PathVariable(value = "id") long id)
 	{
 		policyService.deletePolicy(id);
@@ -149,7 +149,7 @@ public class ContentController extends AbstractController
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(value = "terms/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "terms/{id}", method = RequestMethod.DELETE)
 	public void deleteTerm(@PathVariable(value = "id") long id)
 	{
 		termService.deleteTerm(id);

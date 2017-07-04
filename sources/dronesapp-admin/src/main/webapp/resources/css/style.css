@@ -684,3 +684,23 @@ td.long {
 	right: 0;
 	left: 0;
 }
+
+.ta-editor.form-control.mini-form, .ta-scroll-window.form-control.mini-form  {
+	height: 40px;
+	min-height: 40px;
+	overflow: auto;
+	font-family: inherit;
+	font-size: 100%;
+}
+
+.ta-editor.form-control.medium-form, .ta-scroll-window.form-control.medium-form  {
+	height: 160px;
+	min-height: 160px;
+	overflow: auto;
+	font-family: inherit;
+	font-size: 100%;
+}
+
+.question {
+	color: blue;
+}

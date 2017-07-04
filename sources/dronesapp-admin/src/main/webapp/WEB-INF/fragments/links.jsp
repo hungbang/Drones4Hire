@@ -71,3 +71,6 @@
 <script src="<spring:url value='/resources/js/dronesapp/withdraw-controllers.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/countries-controllers.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/maps-controller.js'/>" type="text/javascript"></script>
+<script src="<spring:url value='/resources/js/dronesapp/faqs-controller.js'/>" type="text/javascript"></script>
+<script src="<spring:url value='/resources/js/dronesapp/policy-controller.js'/>" type="text/javascript"></script>
+<script src="<spring:url value='/resources/js/dronesapp/terms-controller.js'/>" type="text/javascript"></script>

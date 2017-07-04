@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <i class="fa fa-times cancel-button" aria-hidden="true" data-ng-click="cancel()"></i>
+    <h3>FAQ
+
+    </h3>
+</div>
+<div class="modal-body">
+    <form name="faqForm">
+        <div class="form-group">
+            <label>Question</label>
+            <text-angular data-ng-model="faq.question" ta-text-editor-class="form-control mini-form" ta-html-editor-class="form-control mini-form" options="" required></text-angular>
+        </div>
+    </form>
+    <form name="faqForm">
+        <div class="form-group">
+            <label>Answer</label>
+            <text-angular data-ng-model="faq.answer" ta-text-editor-class="form-control medium-form" ta-html-editor-class="form-control medium-form" options="" required></text-angular>
+        </div>
+        <div class="form-group">
+            <label>Locale</label>
+            <select class="form-group" data-ng-model="faq.locale" required>
+                <option value="en_US" selected>en (US)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Sort order</label>
+            <input type="text" data-ng-model="faq.order" required/>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button data-ng-if="!faq.id" class="btn btn-success" data-ng-click="createFaq(faq)"  data-ng-disabled="faqForm.$invalid">
+        Create
+    </button>
+    <button data-ng-if="faq.id" class="btn btn-success" data-ng-click="updateFaq(faq)"  data-ng-disabled="faqForm.$invalid">
+        Update
+    </button>
+</div>

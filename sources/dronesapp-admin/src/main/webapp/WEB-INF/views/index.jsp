@@ -62,7 +62,7 @@
 								<a href="#/locations/countries"><i class="fa fa-compass"></i> Countries</a>
 							</li>
 							<li>
-								<a href="javascript:;" data-toggle="collapse" data-target="#content"><i class="fa fa-fw fa-users"></i> Content <i class="fa fa-fw fa-caret-down"></i></a>
+								<a href="javascript:;" data-toggle="collapse" data-target="#content"><i class="fa fa-fw fa-question-circle-o"></i> Content <i class="fa fa-fw fa-caret-down"></i></a>
 								<ul id="content" class="collapse">
 									<li>
 										<a href="#/content/faqs">FAQs</a>

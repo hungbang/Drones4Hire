@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <i class="fa fa-times cancel-button" aria-hidden="true" data-ng-click="cancel()"></i>
+    <h3>Term
+
+    </h3>
+</div>
+<div class="modal-body">
+    <form name="termForm">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" data-ng-model="project.title" required/>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" data-ng-click="createTerm(term)"  data-ng-disabled="termForm.$invalid">
+        Create
+    </button>
+</div>
