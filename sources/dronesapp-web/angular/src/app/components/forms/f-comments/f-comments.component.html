@@ -1,7 +1,14 @@
-<form class="f-comments" novalidate (submit)="onSubmit()">
+<form class="f-comments"
+      novalidate
+      #commentFormRef="ngForm"
+      (submit)="onSubmit($event, commentFormRef)">
   <div class="f-comments__title">Comment / Ask questions</div>
   <div class="f-comments__wrapper">
-    <textarea class="f-comments__textarea" [(ngModel)]="comment" name="comment"></textarea>
+    <textarea class="f-comments__textarea"
+              required
+              #commentRef="ngModel"
+              [ngClass]="{'_error': submitted && commentRef.errors?.required}"
+              [(ngModel)]="comment" name="comment"></textarea>
   </div>
   <button class="f-comments__button"
           type="submit">Enter comment</button>

@@ -174,8 +174,8 @@
         </label>
       </div>
     </div>
-
-    <div class="f-default__row _flex" *ngIf="checkCountry()">
+    <!-- TODO: remove if no need -->
+    <div class="f-default__row _flex" *ngIf="false && checkCountry()">
       <div class="f-default__col">
         <div class="f-project-add__caption">State</div>
       </div>
@@ -256,7 +256,7 @@
               <option [value]="null">Select your budget</option>
               <option *ngFor="let budget of budgets"
                       [value]="budget.title">
-                ${{budget.min}}-${{budget.max}}
+                ${{budget.min}}{{budget.max ? '-$' + budget.max : '+'}}
               </option>
             </select>
           </label>
@@ -299,7 +299,7 @@
     </div>
     <div class="f-default__row _flex">
       <div class="f-default__col">
-        <div class="f-project-add__caption">Project Post Production (Editing)</div>
+        <div class="f-project-add__caption">Image/Video editing needed</div>
       </div>
       <div class="f-default__col">
         <label class="f-default__label _checkbox">

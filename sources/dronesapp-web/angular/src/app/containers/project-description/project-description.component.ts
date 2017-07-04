@@ -15,7 +15,8 @@ import {PaymentService} from '../../services/payment.service/payment.service';
 import {ToastrService} from '../../services/toastr.service/toastr.service';
 import {ModalService} from '../../services/modal.service/modal.service';
 import {ModalConfirmationComponent} from '../../components/modals/modal-confirmation/modal-confirmation.component';
-import {ModalPaymentComponent} from "../../components/modals/modal-payment/modal-payment.component";
+import {ModalPaymentComponent} from '../../components/modals/modal-payment/modal-payment.component';
+import {CommonService} from '../../services/common.service/common.service';
 
 @Component({
   selector: 'project-description',
@@ -35,6 +36,7 @@ export class ProjectDescriptionComponent implements OnInit {
   public pilotAttachments: ProjectAttachmentModel[] = [];
   paymentToken: string = '';
   private _serverBidInfo;
+  public fee: number = 0;
 
   get isClient() {
     return this._accountService.isUserClient();
@@ -59,7 +61,8 @@ export class ProjectDescriptionComponent implements OnInit {
     private toastrService: ToastrService,
     private _paymentService: PaymentService,
     private modalService: ModalService,
-    private progressbarService: NgProgressService
+    private progressbarService: NgProgressService,
+    private commonService: CommonService
   ) { }
 
   ngOnInit() {
@@ -91,6 +94,17 @@ export class ProjectDescriptionComponent implements OnInit {
 
     this.createBidsInfo(this._serverBidInfo);
     this.getSimilarProjects();
+
+    this.commonService.getFee()
+      .subscribe(
+        res => {
+          // console.log(res);
+          this.fee = res.serviceFee;
+        },
+        err => {
+          console.log('get fee error: ', err);
+        }
+      );
   }
 
   private getPaymentToken() {
@@ -153,7 +167,7 @@ export class ProjectDescriptionComponent implements OnInit {
         err => {
           this.progressbarService.done();
           if (err.status === 500) {
-            this.toastrService.showError('Internal server error. Please try again later.');
+            this.toastrService.showError('Internal server error. Please try later again.');
           } else if (err.status === 400) {
             const body = err.json();
             if (body && body.validationErrors) {
@@ -207,52 +221,97 @@ export class ProjectDescriptionComponent implements OnInit {
     this._award(bid);
   }
 
-  acceptFromPilot(id: number, isProgress: boolean) {
+  acceptFromPilot(id: number, canClick: boolean) {
     const message = 'Are you sure you want to accept this job? Accepting this job creates a binding contract between you and the Client.';
 
-    this._openConfirm((e) => {
-        this._acceptPilot(e, id, isProgress)
-      }, message
-    );
+    if (canClick) {
+      this._openConfirm((e) => {
+          this._acceptPilot(e, id);
+        }, message
+      );
+    }
   }
 
-  private _acceptPilot(isAccepted, id, isProgress) {
-    if (isProgress || !isAccepted) {
+  private _acceptPilot(isAccepted, id) {
+    if (!isAccepted) {
       this.modalService.pop();
       return;
     }
 
+    this.progressbarService.start();
     this._bidService.accept(id)
-      .subscribe((data) => {
-        this.modalService.pop();
-        this.project.status = 'IN_PROGRESS';
-      });
+      .subscribe(
+        () => {
+          this.progressbarService.done();
+          this.modalService.pop();
+          this.project.status = 'IN_PROGRESS';
+          this.toastrService.showSuccess('Accepted successfully');
+        },
+        err => {
+          this.progressbarService.done();
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later again.');
+          } else if (err.status === 400) {
+            const body = err.json();
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            }
+          } else {
+            this.toastrService.showError('Unable to process accept. Please try later.');
+          }
+        }
+      );
   }
 
-  private _rejectPilot(isAccepted, id, isProgress) {
-    if (isProgress || !isAccepted) {
+  private _rejectPilot(isAccepted, id) {
+    if (!isAccepted) {
       this.modalService.pop();
       return;
     }
 
+    this.progressbarService.start();
     this._bidService.reject(id)
-      .subscribe(() => {
-        this.modalService.pop();
-        this.project.status = 'NEW';
-        delete this.project.bidId;
-      });
+      .subscribe(
+        () => {
+          this.progressbarService.done();
+          this.modalService.pop();
+          this.project.status = 'NEW';
+          delete this.project.bidId;
+          this.toastrService.showSuccess('Rejected successfully');
+        },
+        err => {
+          this.progressbarService.done();
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try later again.');
+          } else if (err.status === 400) {
+            const body = err.json();
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            }
+          } else {
+            this.toastrService.showError('Unable to process reject. Please try later.');
+          }
+        }
+      );
   }
 
-  rejectFromPilot(id: number, isProgress: boolean) {
+  rejectFromPilot(id: number, canClick: boolean) {
     const message = 'Are you sure you want to reject this job?';
 
-    this._openConfirm((e) => {
-        this._rejectPilot(e, id, isProgress)
-      }, message
-    );
+    if (canClick) {
+      this._openConfirm((e) => {
+          this._rejectPilot(e, id)
+        }, message
+      );
+    }
+
   }
 
-  submitBid(bid: BidModel) {
+  submitBid({bid, callback}) {
     const data = Object.assign({
       amount: 0,
       comment: '',
@@ -320,7 +379,7 @@ export class ProjectDescriptionComponent implements OnInit {
       );
   }
 
-  editBid(bid) {
+  editBid({bid, callback}) {
     bid.oldBid.comment = bid.comment;
     bid.oldBid.amount = bid.amount;
 

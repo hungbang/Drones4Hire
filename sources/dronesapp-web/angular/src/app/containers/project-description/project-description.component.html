@@ -40,18 +40,19 @@
                   (click)="edit()"
                   *ngIf="!project.bidId && !isEdit">Edit</button>
           <button class="project-description__bid-btn"
-                  (click)="acceptFromPilot(pilotBid.id, project.status === 'IN_PROGRESS')"
-                  [ngClass]="{ _fill: project.status !== 'IN_PROGRESS', _disabled: project.status === 'IN_PROGRESS' }"
+                  (click)="acceptFromPilot(pilotBid.id, project.status === 'PENDING')"
+                  [ngClass]="{ _fill: project.status === 'PENDING', _disabled: project.status !== 'PENDING' }"
                   *ngIf="project.bidId === pilotBid.id">{{ project.status !== 'PENDING' ? 'Accepted' : 'Accept' }}</button>
           <button class="project-description__bid-btn"
-                  (click)="rejectFromPilot(pilotBid.id, project.status === 'IN_PROGRESS')"
-                  [ngClass]="{ _fill: project.status !== 'IN_PROGRESS', _disabled: project.status === 'IN_PROGRESS' }"
+                  (click)="rejectFromPilot(pilotBid.id, project.status === 'PENDING')"
+                  [ngClass]="{ _fill: project.status === 'PENDING', _disabled: project.status !== 'PENDING' }"
                   *ngIf="project.bidId === pilotBid.id">Reject</button>
         </bid-buttons>
       </pr-bid>
 
       <f-bid (send)="isEdit ? editBid($event) : submitBid($event)"
              [bid]="pilotBid"
+             [fee]="fee"
              *ngIf="isPilot && !pilotBid || isEdit"></f-bid>
       <b-comments (send)="sendComment($event)" [comments]="comments"></b-comments>
     </div>

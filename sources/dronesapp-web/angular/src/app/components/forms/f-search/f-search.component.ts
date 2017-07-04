@@ -30,6 +30,7 @@ export class FSearchComponent implements OnInit {
   _postcode: string;
   _budget: string;
   _category: string;
+  _range: string;
 
   constructor() { }
 
@@ -39,11 +40,13 @@ export class FSearchComponent implements OnInit {
   onSubmit() {
     const budget = parseInt(this._budget, 10);
     const category = parseInt(this._category, 10);
+    const range = parseInt(this._range, 10);
 
     this.send.emit({
       postcode: parseInt(this._postcode, 10),
       budgetId: budget >= 0 ? budget : null,
       serviceCategoryId: category >= 0 ? category : null,
+      range: range >= 0 ? range : null,
     });
   }
 }

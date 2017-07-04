@@ -1,15 +1,29 @@
-<form class="f-bid" novalidate (submit)="onSubmit()">
+<form class="f-bid"
+      novalidate
+      #bidForm="ngForm"
+      (submit)="onSubmit($event, bidForm)">
   <div class="f-bid__title">Bid</div>
   <div class="f-bid__row">
     <div class="f-bid__text">Bid Proposal:</div>
-    <textarea class="f-bid__textarea" [(ngModel)]="model.comment" name="proposal"></textarea>
+    <textarea class="f-default__field f-bid__textarea" [(ngModel)]="model.comment" name="proposal"></textarea>
   </div>
   <div class="f-bid__row">
     <div class="f-bid__text">Bid Amount:</div>
     <div class="f-bid__wrapper">
       <div class="f-bid__col _amount">
-        <input class="f-bid__field" type="text" [(ngModel)]="model.amount" name="amount"/>
-        <span class="f-bid__field-span">$</span>
+        <label class="f-default__label _amount">
+          <input class="f-default__field f-bid__field"
+                 type="text"
+                 required
+                 #bidRef="ngModel"
+                 [ngClass]="{'_error': submitted && bidRef.errors?.required}"
+                 [(ngModel)]="model.amount" name="amount"/>
+          <span class="f-bid__field-span">$</span>
+        </label>
+        <div class="f-default__text f-bid__fee" *ngIf="model.amount">
+          <div>Service fee: {{ fee }}%</div>
+          <div>Total pilot payout: ${{ payout }}</div>
+        </div>
       </div>
       <!--<div class="f-bid__col">-->
         <!--<label class="f-bid__label _bottom">-->
@@ -18,7 +32,9 @@
           <!--<span class="f-bid__span">Mark as favorite</span>-->
         <!--</label>-->
       <!--</div>-->
+      <div class="f-bid__col">
+        <button type="submit" class="f-bid__button">enter bid</button>
+      </div>
     </div>
   </div>
-  <button type="submit" class="f-bid__button">enter bid</button>
 </form>
