@@ -7,9 +7,9 @@
 	    		<tr>
 	    			<td>
 	    				<p>
-	    					Need to reset your password? No problem. Just click below to get started. <br />
-	    					<a style="color:blue;font-weight:normal" href="${verifyUrl}" target="_blank">${verifyUrl}</a><br />
-	    					If you didn't request to change your Drones4Hire password, you don't have to do anything.
+	    					Your account hasn’t been verified. Please 
+	    					<a style="color:blue;font-weight:normal" href="${verifyUrl}" target="_blank">verify</a>
+	    					&nbsp;your account to gain access.
 	    			</td>
 	    		</tr>
 	        </tbody>

@@ -2,14 +2,14 @@
 		<table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
 	    	<tbody>
 	    		<tr>
-	    			<td>Hello ${User.username}, </td>
+	    			<td>Hello ${User.username}! </td>
 	    		</tr>
 	    		<tr>
 	    			<td>
 	    				<p>
-	    					Thank you for joining Drones4Hire.com. To finish activating your accont, please 
-	    					<a style="color:blue;font-weight:normal" href="${verifyUrl}" target="_blank">click here</a>
-	    					&nbsp;to verify your account.
+	    					Thanks for joining! To complete your registration please 
+	    					<a style="color:blue;font-weight:normal" href="${verifyUrl}" target="_blank">verify</a>
+	    					&nbsp;your email.
 	    			</td>
 	    		</tr>
 	        </tbody>

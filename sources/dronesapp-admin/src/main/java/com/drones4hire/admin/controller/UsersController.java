@@ -27,6 +27,7 @@ import com.drones4hire.dronesapp.services.services.MessageService;
 import com.drones4hire.dronesapp.services.services.NotificationSettingService;
 import com.drones4hire.dronesapp.services.services.PilotLicenseService;
 import com.drones4hire.dronesapp.services.services.UserService;
+import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
 @Controller
 @RequestMapping("users")
@@ -166,9 +167,6 @@ public class UsersController extends AbstractController
 	@RequestMapping(value = "{id}/licenses", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody PilotLicense updateLicense(@RequestBody PilotLicense license, @PathVariable long id) throws ServiceException
 	{
-		PilotLicense currLicense = pilotLicenseService.getPilotLicenseByUserId(id);
-		currLicense.setVerified(license.isVerified());
-		pilotLicenseService.updatePilotLicense(currLicense);
-		return currLicense;
+		return pilotLicenseService.updatePilotLicense(license);
 	}
 }
