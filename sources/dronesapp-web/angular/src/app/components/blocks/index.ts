@@ -18,6 +18,7 @@ import {BTabsComponent} from './b-tabs/b-tabs.component';
 import { BAccountPortfolioComponent } from './b-account-portfolio/b-account-portfolio.component';
 import { BPortfolioFilesComponent } from './b-portfolio-files/b-portfolio-files.component';
 import { BProjectFilesComponent } from './b-project-files/b-project-files.component';
+import { BSelectServicesComponent } from './b-select-services/b-select-services.component';
 
 export const BLOCKS = [
   BProfileComponent,
@@ -37,6 +38,7 @@ export const BLOCKS = [
   BPreferencesComponent,
   BSecurityComponent,
   BNotificationsComponent,
+  BSelectServicesComponent,
   BTabsComponent,
   BAccountPortfolioComponent,
   BPortfolioFilesComponent,
