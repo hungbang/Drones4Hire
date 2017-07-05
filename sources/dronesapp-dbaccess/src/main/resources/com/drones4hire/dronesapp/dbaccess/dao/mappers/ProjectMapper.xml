@@ -553,7 +553,7 @@
 	<sql id="getPointsInsideCircle">
 		<![CDATA[
 			( #{unit} * ACOS( COS( RADIANS(#{userCoordinates.latitude}) ) * COS( RADIANS( X(L.COORDINATES) ) )
-						* COS( RADIANS( Y(L.COORDINATES) ) - RADIANS(#{userCoordinates.longitude}) ) + SIN( RADIANS(#{userCoordinates.latitude}) ) * SIN( RADIANS( Y(L.COORDINATES) ) ) ) )
+						* COS( RADIANS( Y(L.COORDINATES) ) - RADIANS(#{userCoordinates.longitude}) ) + SIN( RADIANS(#{userCoordinates.latitude}) ) * SIN( RADIANS( X(L.COORDINATES) ) ) ) )
 		]]>
 	</sql>
 
