@@ -22,6 +22,7 @@ import {AppGuards} from './guards/index';
 import {entries} from './app.entries';
 import {ROUTES} from './app.routes';
 import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settings';
+import {AgmSnazzyInfoWindowModule} from '@agm/dummy/packages/snazzy-info-window/snazzy-info-window.module'
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {ToastrGlobalOption} from './services/toastr.service/toastr.global.settin
       libraries: ["places"],
       language: 'en'
     }),
+    AgmSnazzyInfoWindowModule,
     NguiDatetimePickerModule,
     BrowserAnimationsModule,
     Daterangepicker,
