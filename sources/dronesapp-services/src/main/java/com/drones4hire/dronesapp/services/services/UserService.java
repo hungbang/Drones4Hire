@@ -36,7 +36,7 @@ public class UserService
 
 	private boolean DEFAULT_CONFIRMED = false;
 	
-	private static final Integer DEFAULT_RANGE = 100;
+	private static final Integer DEFAULT_RANGE = 1000;
 
 	@Autowired
 	private UserMapper userMapper;

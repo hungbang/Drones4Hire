@@ -700,12 +700,8 @@
 		        ST.NAME AS STATE_NAME,
 		        ST.MODIFIED_AT AS STATE_MODIFIED_AT,
 		        ST.CREATED_AT AS STATE_CREATED_AT,
-		        ]]>
-				<if test="null != range">
-		        	<include refid="getPointsInsideCircle"/> AS DISTANCE,
-				</if>
+		        PID.DISTANCE AS DISTANCE,
 
-				<![CDATA[
 		        D.ID AS DURATION_ID,
 		        D.TITLE AS DURATION_TITLE,
 		        D.MIN AS DURATION_MIN,
@@ -861,7 +857,12 @@
 					P.ID AS PROJECT_ID,
 					MAX(B.AMOUNT) AS MAX_BID,
 					COUNT(B.ID) AS BIDS_COUNT,
-					AVG(B.AMOUNT) AS BIDS_AVG
+					AVG(B.AMOUNT) AS BIDS_AVG,
+			]]>
+					<if test="null != range">
+						<include refid="getPointsInsideCircle"/> AS DISTANCE
+					</if>
+			<![CDATA[
 				FROM
 					drones.PROJECTS P
 				LEFT JOIN
@@ -963,7 +964,14 @@
 		</trim>
 		<![CDATA[
 			GROUP BY P.ID
-				ORDER BY P.CREATED_AT DESC
+			]]>
+		<if test="null != range">
+				ORDER BY DISTANCE ASC
+		</if>
+		<if test="null == range">
+			ORDER BY P.CREATED_AT DESC
+		</if>
+		<![CDATA[
 				LIMIT #{pageSize} OFFSET #{page}
 			)
 			AS PID
