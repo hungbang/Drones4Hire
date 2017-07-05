@@ -10,12 +10,12 @@ public class ProjectSearchCriteriaForAdmin extends SearchCriteria
 	private String title;
 	private String clientEmail;
 	private String pilotEmail;
-	private long serviceCategoryId;
-	private long durationId;
-	private long locationId;
+	private Long serviceCategoryId;
+	private Long durationId;
+	private Long locationId;
 	private String city;
 	private Integer postcode;
-	private long budgetId;
+	private Long budgetId;
 	private List<Project.Status> statuses;
 
 	public String getTitle()
@@ -48,32 +48,32 @@ public class ProjectSearchCriteriaForAdmin extends SearchCriteria
 		this.pilotEmail = pilotEmail;
 	}
 
-	public long getServiceCategoryId()
+	public Long getServiceCategoryId()
 	{
 		return serviceCategoryId;
 	}
 
-	public void setServiceCategoryId(long serviceCategoryId)
+	public void setServiceCategoryId(Long serviceCategoryId)
 	{
 		this.serviceCategoryId = serviceCategoryId;
 	}
 
-	public long getDurationId()
+	public Long getDurationId()
 	{
 		return durationId;
 	}
 
-	public void setDurationId(long durationId)
+	public void setDurationId(Long durationId)
 	{
 		this.durationId = durationId;
 	}
 
-	public long getLocationId()
+	public Long getLocationId()
 	{
 		return locationId;
 	}
 
-	public void setLocationId(long locationId)
+	public void setLocationId(Long locationId)
 	{
 		this.locationId = locationId;
 	}
@@ -98,12 +98,12 @@ public class ProjectSearchCriteriaForAdmin extends SearchCriteria
 		this.postcode = postcode;
 	}
 
-	public long getBudgetId()
+	public Long getBudgetId()
 	{
 		return budgetId;
 	}
 
-	public void setBudgetId(long budgetId)
+	public void setBudgetId(Long budgetId)
 	{
 		this.budgetId = budgetId;
 	}

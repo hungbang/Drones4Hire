@@ -17,14 +17,18 @@ public class ProjectSearchCriteria extends SearchCriteria
 
 	private static final Integer MILE = 3959;
 
+	private Long id;
 	private String title;
-	private long clientId;
-	private long pilotId;
-	private long serviceCategoryId;
-	private long durationId;
-	private long locationId;
+	private Long clientId;
+	private Long pilotId;
+	private String clientEmail;
+	private String pilotEmail;
+	private String city;
+	private Long serviceCategoryId;
+	private Long durationId;
+	private Long locationId;
 	private Integer postcode;
-	private long budgetId;
+	private Long budgetId;
 	private List<Status> statuses;
 	private Date createdAtBefore;
 	private Date createdAtAfter;
@@ -37,6 +41,16 @@ public class ProjectSearchCriteria extends SearchCriteria
 	@JsonIgnore
 	private Coordinates userCoordinates;
 
+	public Long getId()
+	{
+		return id;
+	}
+
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
+
 	public String getTitle()
 	{
 		return title;
@@ -47,52 +61,82 @@ public class ProjectSearchCriteria extends SearchCriteria
 		this.title = title;
 	}
 
-	public long getClientId()
+	public Long getClientId()
 	{
 		return clientId;
 	}
 
-	public void setClientId(long clientId)
+	public void setClientId(Long clientId)
 	{
 		this.clientId = clientId;
 	}
 
-	public long getPilotId()
+	public Long getPilotId()
 	{
 		return pilotId;
 	}
 
-	public void setPilotId(long pilotId)
+	public void setPilotId(Long pilotId)
 	{
 		this.pilotId = pilotId;
 	}
 
-	public long getServiceCategoryId()
+	public String getClientEmail()
+	{
+		return clientEmail;
+	}
+
+	public void setClientEmail(String clientEmail)
+	{
+		this.clientEmail = clientEmail;
+	}
+
+	public String getPilotEmail()
+	{
+		return pilotEmail;
+	}
+
+	public void setPilotEmail(String pilotEmail)
+	{
+		this.pilotEmail = pilotEmail;
+	}
+
+	public String getCity()
+	{
+		return city;
+	}
+
+	public void setCity(String city)
+	{
+		this.city = city;
+	}
+
+	public Long getServiceCategoryId()
 	{
 		return serviceCategoryId;
 	}
 
-	public void setServiceCategoryId(long serviceCategoryId)
+	public void setServiceCategoryId(Long serviceCategoryId)
 	{
 		this.serviceCategoryId = serviceCategoryId;
 	}
 
-	public long getDurationId()
+	public Long getDurationId()
 	{
 		return durationId;
 	}
 
-	public void setDurationId(long durationId)
+	public void setDurationId(Long durationId)
 	{
 		this.durationId = durationId;
 	}
 
-	public long getLocationId()
+	public Long getLocationId()
 	{
 		return locationId;
 	}
 
-	public void setLocationId(long locationId)
+	public void setLocationId(Long locationId)
 	{
 		this.locationId = locationId;
 	}
@@ -107,12 +151,12 @@ public class ProjectSearchCriteria extends SearchCriteria
 		this.postcode = postcode;
 	}
 
-	public long getBudgetId()
+	public Long getBudgetId()
 	{
 		return budgetId;
 	}
 
-	public void setBudgetId(long budgetId)
+	public void setBudgetId(Long budgetId)
 	{
 		this.budgetId = budgetId;
 	}

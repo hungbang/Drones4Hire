@@ -402,17 +402,17 @@
 			   		]]>
 				</foreach>
 			</if>
-			<if test="0 != serviceCategoryId">
+			<if test="null != serviceCategoryId">
 				<![CDATA[
 				   AND SC.ID = #{serviceCategoryId}
 				]]>
 			</if>
-			<if test="0 != durationId">
+			<if test="null != durationId">
 				<![CDATA[
 				   AND D.ID = #{durationId}
 				]]>
 			</if>
-			<if test="0 != locationId">
+			<if test="null != locationId">
 				<![CDATA[
 				   AND L.ID = #{locationId}
 				]]>
@@ -427,7 +427,7 @@
 				   AND L.POSTCODE = #{postcode}
 				]]>
 			</if>
-			<if test="0 != budgetId">
+			<if test="null != budgetId">
 				<![CDATA[
 				   AND B.ID = #{budgetId}
 				]]>
@@ -507,17 +507,17 @@
 			   			]]>
 				</foreach>
 			</if>
-			<if test="0 != serviceCategoryId">
+			<if test="null != serviceCategoryId">
 				<![CDATA[
 				   AND SC.ID = #{serviceCategoryId}
 				]]>
 			</if>
-			<if test="0 != durationId">
+			<if test="null != durationId">
 				<![CDATA[
 				   AND D.ID = #{durationId}
 				]]>
 			</if>
-			<if test="0 != locationId">
+			<if test="null != locationId">
 				<![CDATA[
 				   AND L.ID = #{locationId}
 				]]>
@@ -532,7 +532,7 @@
 				   AND L.POSTCODE = #{postcode}
 				]]>
 			</if>
-			<if test="0 != budgetId">
+			<if test="null != budgetId">
 				<![CDATA[
 				   AND B.ID = #{budgetId}
 				]]>
@@ -557,9 +557,9 @@
 		]]>
 	</sql>
 
-	<sql id="searchProject">
+	<select id="searchProjects" resultMap="ProjectSearchResultMap">
 		<![CDATA[
-          SELECT
+			SELECT
 	      		P.ID AS PROJECT_ID,
 	      		P.TITLE AS PROJECT_TITLE,
 	        	P.SUMMARY AS PROJECT_SUMMARY,
@@ -700,7 +700,11 @@
 		        ST.NAME AS STATE_NAME,
 		        ST.MODIFIED_AT AS STATE_MODIFIED_AT,
 		        ST.CREATED_AT AS STATE_CREATED_AT,
-		        PID.DISTANCE AS DISTANCE,
+		        ]]>
+					<if test="null != range">
+						PID.DISTANCE AS DISTANCE,
+					</if>
+				<![CDATA[
 
 		        D.ID AS DURATION_ID,
 		        D.TITLE AS DURATION_TITLE,
@@ -744,12 +748,12 @@
 	      (
           		P.ID = B.PROJECT_ID
 			]]>
-          		<if test="0 != pilotId and null == statuses">
-					<![CDATA[
+		<if test="null != pilotId">
+			<![CDATA[
 				   		AND B.USER_ID = #{pilotId}
 					]]>
-				</if>
-			<![CDATA[
+		</if>
+		<![CDATA[
 		  )
 		  LEFT JOIN
 	      		drones.USERS CLIENT
@@ -845,24 +849,18 @@
 	      		 drones.ATTACHMENTS A
 	      ON
           		A.PROJECT_ID = P.ID
-        ]]>
-	</sql>
-
-	<select id="searchProjects" resultMap="ProjectSearchResultMap">
-		<include refid="searchProject" />
-		<![CDATA[
-			INNER JOIN
+		  INNER JOIN
 			(
 				SELECT
 					P.ID AS PROJECT_ID,
 					MAX(B.AMOUNT) AS MAX_BID,
 					COUNT(B.ID) AS BIDS_COUNT,
-					AVG(B.AMOUNT) AS BIDS_AVG,
-			]]>
-					<if test="null != range">
-						<include refid="getPointsInsideCircle"/> AS DISTANCE
-					</if>
-			<![CDATA[
+					]]>
+						<if test="null != range">
+							<include refid="getPointsInsideCircle"/> AS DISTANCE,
+						</if>
+						<![CDATA[
+					AVG(B.AMOUNT) AS BIDS_AVG
 				FROM
 					drones.PROJECTS P
 				LEFT JOIN
@@ -896,31 +894,34 @@
 				AND
 					L.ID IS NOT NULL
 				AND
+					#{range} >
 			]]>
 			<include refid="getPointsInsideCircle"/>
 		</if>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != statuses">
+				<foreach collection="statuses" item="status" index="index" open="(" separator=" OR " close=")">
+					<![CDATA[
+			   			P.STATUS = #{status}
+			   		]]>
+					<if test="status.toString() != 'NEW' and null != pilotId">
+						<![CDATA[
+			   				AND B.USER_ID = #{pilotId}
+						]]>
+					</if>
+				</foreach>
+			</if>
 			<if test="null != title">
 				<![CDATA[
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
 				]]>
 			</if>
-			<if test="null != statuses">
-				<![CDATA[
-				   AND P.STATUS IN
-			   	]]>
-				  	<foreach collection="statuses" item="status" index="index" open="(" separator="," close=")">
-						<![CDATA[
-				   			#{status}
-			   			]]>
-				  	</foreach>
-			</if>
-			<if test="0 != serviceCategoryId">
+			<if test="null != serviceCategoryId">
 				<![CDATA[
 				   AND SC.ID = #{serviceCategoryId}
 				]]>
 			</if>
-			<if test="0 != durationId">
+			<if test="null != durationId">
 				<![CDATA[
 				   AND D.ID = #{durationId}
 				]]>
@@ -930,14 +931,34 @@
 				   AND L.POSTCODE = #{postcode}
 				]]>
 			</if>
-			<if test="0 != budgetId">
+			<if test="null != budgetId">
 				<![CDATA[
 				   AND BD.ID = #{budgetId}
 				]]>
 			</if>
-			<if test="0 != clientId">
+			<if test="null != clientId">
 				<![CDATA[
 				   AND P.CLIENT_ID = #{clientId}
+				]]>
+			</if>
+			<if test="null != id">
+				<![CDATA[
+				   AND P.ID = #{id}
+				]]>
+			</if>
+			<if test="null != city">
+				<![CDATA[
+				   AND L.CITY = #{city}
+				]]>
+			</if>
+			<if test="null != clientEmail">
+				<![CDATA[
+				   AND LOWER(CLIENT.EMAIL) LIKE LOWER(CONCAT('%', #{clientEmail}, '%'))
+				]]>
+			</if>
+			<if test="null != pilotEmail">
+				<![CDATA[
+				   AND LOWER(PILOT.EMAIL) LIKE LOWER(CONCAT('%', #{pilotEmail}, '%'))
 				]]>
 			</if>
 			<if test="null != topLeftCoordinates and null != bottomRightCoordinates">
@@ -948,7 +969,7 @@
         						L.COORDINATES)
 				]]>
 			</if>
-			<if test="0 != pilotId and null == statuses">
+			<if test="null != pilotId and null == statuses">
 				<![CDATA[
 				   AND P.ID IN
 				   (
@@ -992,7 +1013,7 @@
 			(
 				P.ID = B.PROJECT_ID
 			]]>
-				<if test="0 != pilotId and null == statuses">
+				<if test="null != pilotId and null == statuses">
 				<![CDATA[
 					AND B.USER_ID = #{pilotId}
 				]]>
@@ -1025,31 +1046,34 @@
 				AND
 					L.ID IS NOT NULL
 				AND
+					#{range} >
 			]]>
 			<include refid="getPointsInsideCircle"/>
 		</if>
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="null != statuses">
+				<foreach collection="statuses" item="status" index="index" open="(" separator=" OR " close=")">
+					<![CDATA[
+			   			P.STATUS = #{status}
+			   		]]>
+					<if test="status.toString() != 'NEW' and null != pilotId">
+						<![CDATA[
+			   				AND B.USER_ID = #{pilotId}
+						]]>
+					</if>
+				</foreach>
+			</if>
 			<if test="null != title">
 				<![CDATA[
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
 				]]>
 			</if>
-			<if test="null != statuses">
-				<![CDATA[
-				   AND P.STATUS IN
-			   	]]>
-				<foreach collection="statuses" item="status" index="index" open="(" separator="," close=")">
-					<![CDATA[
-				   			#{status}
-			   			]]>
-				</foreach>
-			</if>
-			<if test="0 != serviceCategoryId">
+			<if test="null != serviceCategoryId">
 				<![CDATA[
 				   AND SC.ID = #{serviceCategoryId}
 				]]>
 			</if>
-			<if test="0 != durationId">
+			<if test="null != durationId">
 				<![CDATA[
 				   AND D.ID = #{durationId}
 				]]>
@@ -1059,14 +1083,34 @@
 				   AND L.POSTCODE = #{postcode}
 				]]>
 			</if>
-			<if test="0 != budgetId">
+			<if test="null != budgetId">
 				<![CDATA[
 				   AND BD.ID = #{budgetId}
 				]]>
 			</if>
-			<if test="0 != clientId">
+			<if test="null != clientId">
 				<![CDATA[
 				   AND P.CLIENT_ID = #{clientId}
+				]]>
+			</if>
+			<if test="null != id">
+				<![CDATA[
+				   AND P.ID = #{id}
+				]]>
+			</if>
+			<if test="null != city">
+				<![CDATA[
+				   AND L.CITY = #{city}
+				]]>
+			</if>
+			<if test="null != clientEmail">
+				<![CDATA[
+				   AND LOWER(CLIENT.EMAIL) LIKE LOWER(CONCAT('%', #{clientEmail}, '%'))
+				]]>
+			</if>
+			<if test="null != pilotEmail">
+				<![CDATA[
+				   AND LOWER(PILOT.EMAIL) LIKE LOWER(CONCAT('%', #{pilotEmail}, '%'))
 				]]>
 			</if>
 			<if test="null != topLeftCoordinates and null != bottomRightCoordinates">
@@ -1077,7 +1121,7 @@
         						L.COORDINATES)
 				]]>
 			</if>
-			<if test="0 != pilotId and null == statuses">
+			<if test="null != pilotId and null == statuses">
 				<![CDATA[
 				   AND P.ID IN
 				   (
