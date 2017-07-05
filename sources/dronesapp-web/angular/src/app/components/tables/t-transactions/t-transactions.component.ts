@@ -24,8 +24,10 @@ export class TTransactionsComponent {
       out = `Project #${transaction.projectId}: project payment`
     } else if (transaction.type === 'PROJECT_REJECT') {
       out = `Project #${transaction.projectId}: project reject`
-    } else if (transaction.type === 'PROJECT_RELEASED') {
+    } else if (transaction.type === 'PAYMENT_RELEASED') {
       out = `Project #${transaction.projectId}: project payment`
+    } else if (transaction.type === 'SERVICE_FEE') {
+      out = `Project #${transaction.projectId}: service fee`
     }
 
     return out;
