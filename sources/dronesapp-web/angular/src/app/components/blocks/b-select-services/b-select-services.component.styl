@@ -1,0 +1,157 @@
+@import "../../../styles/settings/mixin.styl"
+@import "../../../styles/settings/variables.styl"
+
+.b-select-services
+  //border: 1px solid #ecedf0
+  //overflow: hidden
+  //border-radius: 4px
+
+  &__content
+    padding: 0 2rem
+    //max-height: 70rem
+    //overflow-y: auto
+    //customScroll()
+    //._modal-add-sectors &
+    //  max-height: 42rem
+  &__list
+    padding-bottom: 2.5rem
+  &__item
+    &._show
+      .b-select-sectors
+        &__text
+          &:before
+            transform: rotate(90deg)
+  &__text
+    color: $gray1f
+    font-size: 1.4rem
+    line-height: 3.2rem
+    font-weight: 600
+    padding-left: 3.7rem
+    position: relative
+    cursor: pointer
+    text-align: left
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    &:before
+      ps()
+      left: 23px
+      bottom: 11px
+      border-left: 8px solid $gray1f
+      border-top: 4px solid transparent
+      border-bottom: 4px solid transparent
+      transition: transform .4s ease-out
+  &__panel-item
+    display: flex
+    padding: 6px 23px 6px 0;
+  &__panel-outer
+    overflow: hidden
+  &__panel
+    display: flex
+    align-items: center
+    flex-wrap: wrap
+    padding-left: 15px
+    padding-top: 8px
+    padding-bottom: 8px
+    border-top: 1px solid #ecedf0
+  &__checkbox
+    display: flex
+    &-input
+      display: none
+    &-text
+      display: block
+      margin-left: 5px
+      font-size: 1.4rem
+      line-height: 1.6rem
+      color: $gray1f
+      font-weight: 600
+    &-btn
+      display: block
+      width: 16px
+      height: 16px
+      border: 1px solid #ecedf0
+      border-radius: 2px
+      background: #fafbfc
+      position: relative
+      transition: background .2s ease-out, border-color .2s ease-out
+      &._checked
+        border-color: $blueC7
+        background: $blueC7
+        &:before
+          display: block
+      &:before
+        display: none
+        content ""
+        position absolute
+        left: 4px
+        top: 1px
+        border-right: 2px solid #fff
+        border-bottom: 2px solid #fff
+        transform: rotate(45deg)
+        width: 5px
+        height: 10px
+
+//@media (max-width: 1024px)
+//  .b-select-services
+//    &__content
+//      padding: 0 20px
+//      max-height: 400px
+//      ._modal-add-sectors &
+//        max-height: 256px
+
+// Check styles for mobiles
+
+@media (max-width: 740px)
+  .b-select-services
+    //&__content
+    //  padding-top: 5px
+    //  max-height: 205px
+    //  overflow-y: auto
+    //  customScroll()
+    &__list
+      padding-bottom: 20px
+    &__item
+      &._show
+        .b-select-sectors
+          &__panel
+            padding: 15px 0 15px 41px
+            border-top: none
+    &__panel
+      border-top: none
+      &-item
+        padding: 0
+        width: 100%
+    &__checkbox
+      width: 100%
+      &-text
+        font-size: 1.2rem
+        line-height: 2rem
+        margin: 0
+        text-overflow ellipsis
+        overflow hidden
+        white-space nowrap
+        transition: color .2s ease-out
+        &:hover
+          color: $gray1f
+      &-btn
+        display: none
+      &-input:checked + span + span
+        color: $gray1f
+
+    &__text
+      font-size: 1.2rem
+      line-height: 2rem
+      padding-left: 34px
+      transition: color .2s ease-out
+      &._active
+        color: $gray1f
+      &:hover
+        color: $gray1f
+      &:before
+        ps()
+        left: 24px
+        bottom: 7px
+        border-left: 6px solid $gray1f
+        border-top: 3px solid transparent
+        border-bottom: 3px solid transparent
+

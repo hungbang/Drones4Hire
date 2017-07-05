@@ -20,22 +20,6 @@ export class FServicesComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.accountService.activeServices.length) {
-      return;
-    }
-    this.accountService.getAccountServices();
-  }
-
-  toggleService(data: {id: number, name: string; checked: boolean}) {
-    data.checked = !data.checked;
-
-    let pos = this.accountService.activeServices.indexOf(data.id);
-
-    if (pos !== -1) {
-      this.accountService.activeServices.splice(pos, 1);
-    } else {
-      this.accountService.activeServices.push(data.id);
-    }
   }
 
   changeServices() {
