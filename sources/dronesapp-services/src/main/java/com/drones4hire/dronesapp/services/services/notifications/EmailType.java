@@ -13,13 +13,11 @@ public enum EmailType
 	ACCEPT_BID("Pilot submits a request for your bid", "AcceptBidTemplate.ftl"),
 	RELEASE_PAYMENT("Payment released", "ReleasePaymentTemplate.ftl"),
 	UPLOAD_PROJECT_RESULT("New files uploaded", "UploadProjectResultTemplate.ftl"),
-	
-	NEW_BID_PLACE("Your Bid Has Been Placed", "PlaceNewBidTemplate.ftl"),
-	REJECT_BID("Your Project Has Been Rejected", "RejectBidTemplate.ftl"),
-	UPDATE_BID("Bid Updated Successfully", "UpdateBidTemplate.ftl"),
-	RETRACT_BID("Bid Retracted Successfully", "RetractBidTemplate.ftl"),
 	SUPPORT_MESSAGE("Support message", "SupportMessageTemplate.ftl"),
-	QUESTION("User question", "QuestionTemplate.ftl");
+	QUESTION("User question", "QuestionTemplate.ftl"),
+	REJECT_BID("Your Project Has Been Rejected", "RejectBidTemplate.ftl"),
+	SUBMIT_PAYMENT("Payment released", "SubmitPaymentTemplate.ftl"),
+	PROJECT_POSTED("New project posted", "ProjectPostedTemplate.ftl");
 
 	private String subject;
 	private String templatePath;
