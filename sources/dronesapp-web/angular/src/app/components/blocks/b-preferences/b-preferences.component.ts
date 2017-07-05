@@ -1,5 +1,4 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 'b-preferences',

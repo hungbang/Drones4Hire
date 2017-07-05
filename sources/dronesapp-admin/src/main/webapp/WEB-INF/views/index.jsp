@@ -68,10 +68,10 @@
 										<a href="#/content/faqs">FAQs</a>
 									</li>
 									<li>
-										<a href="#/content/policy">Policy</a>
+										<a href="#/content/policy">Privacy Policy</a>
 									</li>
 									<li>
-										<a href="#/content/terms">Terms</a>
+										<a href="#/content/terms">Terms & Conditions</a>
 									</li>
 								</ul>
 							</li>

@@ -1,0 +1,33 @@
+<div class="b-select-services">
+  <div class="b-select-services__content">
+    <ul class="b-select-services__list">
+      <li class="b-select-services__item"
+          *ngFor="let service of services"
+          [ngClass]="{'_show': service.active}">
+        <div class="b-select-services__text"
+             (click)="toggleItem(service)"
+             [ngClass]="{'_active': true}">
+          {{ service.name }}
+        </div>
+
+        <div class="b-select-services__panel-outer"
+             *ngIf="service.active"
+             [@slideToggle]>
+          <ul class="b-select-services__panel">
+            <li class="b-select-services__panel-item"
+                *ngFor="let category of service.categories">
+              <label class="b-select-services__checkbox">
+                <input type="checkbox"
+                       class="b-select-services__checkbox-input"
+                       (click)="toggleCheckbox(category)">
+                <span class="b-select-services__checkbox-btn"
+                      [ngClass]="{'_checked': checkCheckboxState(category.id)}"></span>
+                <span class="b-select-services__checkbox-text">{{category.name}}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 'use strict';
 
-DronesAdmin.controller('PolicyPageController', [ '$scope', '$http', '$modal', function($scope, $http, $modal) {
+DronesAdmin.controller('PolicyPageController', [ '$scope', '$http', '$modal', '$route', function($scope, $http, $modal, $route) {
 
     $scope.getPolicy = function(){
         $http.get('content/policy/all').success(function(data) {
@@ -12,11 +12,8 @@ DronesAdmin.controller('PolicyPageController', [ '$scope', '$http', '$modal', fu
 
     $scope.deletePolicy = function(id){
         $http.delete('content/policy/' + id).success(function(data) {
-            $scope.policy.filter(function (policy, index) {
-                if(policy.id == id) {
-                    delete $scope.policy[index];
-                }
-            })
+        	$route.reload();
+            alertify.success('Policy successfully deleted');
         }).error(function() {
             alertify.error('Failed to delete policy');
         });
@@ -46,7 +43,8 @@ DronesAdmin.controller('PolicyPageController', [ '$scope', '$http', '$modal', fu
 
                 $scope.updatePolicy = function(policy){
                     $http.put('content/policy', policy).success(function(data) {
-                        $scope.cancel();
+                    	alertify.success('Policy successfully updated');
+                    	$scope.cancel();
                     }).error(function() {
                         alertify.error('Failed to update policy');
                     });

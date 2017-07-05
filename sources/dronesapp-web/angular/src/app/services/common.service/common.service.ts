@@ -15,12 +15,6 @@ export class CommonService {
   public budgets: BudgetModel[] = [];
   public durations: DurationModel[] = [];
 
-  //toDo: move to account service
-  public accountCountry: string = null;
-  public accountState: string = null;
-  public companyCountry: string = null;
-  public companyState: string = null;
-
   constructor(private _requestService: RequestService) {
   }
 
@@ -116,7 +110,7 @@ export class CommonService {
     return this._requestService.fetch('get', '/common/services')
       .map(res => {
         this.services = res;
-        console.log('common services', this.services);
+        // console.log('common services', this.services);
         return this.services;
       })
   }
@@ -132,7 +126,7 @@ export class CommonService {
     return this._requestService.fetch('get', '/common/durations')
       .map(res => {
         this.durations = res;
-        console.log('common durations', this.durations);
+        // console.log('common durations', this.durations);
         return this.durations;
       })
   }
@@ -148,14 +142,10 @@ export class CommonService {
     return this._requestService.fetch('get', '/common/budgets')
       .map(res => {
         this.budgets = res;
-        console.log('common budgets', this.budgets);
+        // console.log('common budgets', this.budgets);
         return this.budgets;
       });
   }
-
-  // checkCountry(type: string) {
-  //     return this[type] === 'United States';
-  // }
 
   public getFee() {
     return this._requestService.fetch('get', '/common/fees')

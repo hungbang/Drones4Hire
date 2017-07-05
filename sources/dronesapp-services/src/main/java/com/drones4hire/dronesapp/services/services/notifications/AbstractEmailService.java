@@ -31,8 +31,10 @@ import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.settings.NotificationSettings;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.NotificationSettingService;
 import com.drones4hire.dronesapp.services.services.UserService;
 
 import freemarker.template.Configuration;
@@ -56,6 +58,9 @@ public abstract class AbstractEmailService
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private NotificationSettingService settingService;
 	
 	public abstract String sendEmail(EmailType type, Map<String, Object> params, String... recipients);
 
@@ -102,8 +107,8 @@ public abstract class AbstractEmailService
 	
 	public String sendNewBidReceiveEmail(Project project) throws ServiceException
 	{
-		String url = baseUrl + "/#/project/" + project.getId() + "/description";
 		User client = userService.getUserById(project.getClientId());
+		String url = baseUrl + "/#/project/" + project.getId() + "/description";
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
 		emailData.put(project.getClass().getSimpleName(), project);
