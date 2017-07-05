@@ -21,4 +21,37 @@
 			</array>
 		</property>
 	</bean>
+	
+	<bean id="pilotNotificationTask"
+		class="com.copper.batchservices.tasks.PilotsNotificationsTask" />
+	
+	<bean id="schedulerService" class="com.copper.batchservices.service.impl.SchedulerService" />
+
+	<!-- Job Details -->
+	<bean id="pilotNotificationTaskJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedulerService" />
+		<property name="targetMethod" value="executePilotNotificationTask" />
+	</bean>
+		
+	<!-- Triggers -->
+	<bean id="pilotNotificationTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="pilotNotificationTaskJobDetail" />
+		<property name="cronExpression" value="${copper.batch.jobs.pilotNotification.trigger.cronExpression}" />
+	</bean>
+
+	<bean id="springScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="pilotNotificationTaskJobDetail" />
+			</list>
+		</property>
+		<property name="triggers">
+			<list>
+				<ref bean="pilotNotificationTrigger" />
+			</list>
+		</property>
+	</bean>
 </beans>
