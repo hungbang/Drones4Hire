@@ -22,20 +22,22 @@ DronesAdmin.controller('PolicyPageController', [ '$scope', '$http', '$modal', fu
         });
     };
 
-    $scope.openPolicyModal = function (policy) {
+    $scope.openPolicyModal = function (policyItem) {
         var modalInstance = $modal.open({
             templateUrl: 'resources/templates/modal/policy.html',
             scope: $scope,
             resolve: {
-                'policy': function () {
-                    return policy;
+                'policyItem': function () {
+                    return policyItem;
                 }
             },
             controller: function ($scope, $modalInstance) {
 
+                $scope.policyItem = policyItem;
+
                 $scope.createPolicy = function(policy){
                     $http.post('content/policy', policy).success(function(data) {
-                        $scope.policy = data;
+                        $scope.policy.push(data);
                         $scope.cancel();
                     }).error(function() {
                         alertify.error('Failed to create policy');
@@ -44,11 +46,6 @@ DronesAdmin.controller('PolicyPageController', [ '$scope', '$http', '$modal', fu
 
                 $scope.updatePolicy = function(policy){
                     $http.put('content/policy', policy).success(function(data) {
-                        $scope.policy.filter(function (policy, index) {
-                            if(policy.id == data.id) {
-                                $scope.policy.splice(index, 0, data);
-                            }
-                        });
                         $scope.cancel();
                     }).error(function() {
                         alertify.error('Failed to update policy');

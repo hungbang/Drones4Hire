@@ -34,9 +34,11 @@ DronesAdmin.controller('TermsPageController', [ '$scope', '$http', '$modal', fun
             },
             controller: function ($scope, $modalInstance) {
 
+                $scope.term = term;
+
                 $scope.createTerm = function(term){
                     $http.post('content/terms', term).success(function(data) {
-                        $scope.term = data;
+                        $scope.terms.push(data);
                         $scope.cancel();
                     }).error(function() {
                         alertify.error('Failed to create term');
@@ -45,11 +47,6 @@ DronesAdmin.controller('TermsPageController', [ '$scope', '$http', '$modal', fun
 
                 $scope.updateTerm = function(term){
                     $http.put('content/terms', term).success(function(data) {
-                        $scope.terms.filter(function (term, index) {
-                            if(term.id == data.id) {
-                                $scope.terms.splice(index, 0, data);
-                            }
-                        });
                         $scope.cancel();
                     }).error(function() {
                         alertify.error('Failed to update term');

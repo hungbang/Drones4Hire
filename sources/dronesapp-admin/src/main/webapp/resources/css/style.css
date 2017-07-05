@@ -686,8 +686,8 @@ td.long {
 }
 
 .ta-editor.form-control.mini-form, .ta-scroll-window.form-control.mini-form  {
-	height: 40px;
-	min-height: 40px;
+	height: 64px;
+	min-height: 64px;
 	overflow: auto;
 	font-family: inherit;
 	font-size: 100%;
@@ -701,6 +701,19 @@ td.long {
 	font-size: 100%;
 }
 
+.ta-editor.form-control.large-form, .ta-scroll-window.form-control.large-form  {
+	height: 400px;
+	min-height: 400px;
+	overflow: auto;
+	font-family: inherit;
+	font-size: 100%;
+}
+
 .question {
 	color: blue;
+}
+
+.text-header {
+	padding-top: 20px;
+	padding-left: 20px;
 }
