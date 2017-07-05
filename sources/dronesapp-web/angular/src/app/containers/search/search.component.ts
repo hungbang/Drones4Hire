@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {} from '@types/googlemaps';
 import {Subject} from 'rxjs/Subject';
 
@@ -13,7 +13,7 @@ import {extend} from '../../shared/common/common-methods';
   styleUrls: ['./search.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   pilotLocation: LocationModel;
   mapProjects: any[] = [];
 
@@ -26,6 +26,10 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.pilotLocation = this.accountService.account.location;
+  }
+
+  ngOnDestroy() {
+    this.boundsChanges.unsubscribe();
   }
 
   boundsChange(bounds) {
