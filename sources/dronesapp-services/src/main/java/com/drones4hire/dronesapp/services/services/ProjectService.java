@@ -346,6 +346,7 @@ public class ProjectService
 		project.setStatus(Project.Status.COMPLETED);
 		updateProject(project);
 		emailService.sendReleasePaymentEmail(project, userService.getNotNullUser(project.getPilotId()));
+		emailService.sendSubmitPaymentEmail(project, client, jobTransation);
 		return project; 
 	}
 	

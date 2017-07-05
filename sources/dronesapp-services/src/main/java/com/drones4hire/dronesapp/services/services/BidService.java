@@ -91,7 +91,6 @@ public class BidService
 		bidMapper.createBid(bid);
 		
 		emailService.sendNewBidReceiveEmail(project);
-		emailService.sendNewBidPlacedEmail(project, user);
 		
 		return bid;
 	}
@@ -110,9 +109,7 @@ public class BidService
 		currentBid.setAmount(bid.getAmount());
 		currentBid.setCurrency(bid.getCurrency());
 		bidMapper.updateBid(bid);
-		
-		emailService.sendUpdateBidEmail(project, user);
-		
+
 		return bid;
 	}
 
@@ -131,8 +128,6 @@ public class BidService
 		}
 		
 		bidMapper.deleteBid(bidId);
-		
-		emailService.sendRetractBidEmail(project, user);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -248,6 +243,8 @@ public class BidService
 		project.setPilotId(null);
 		project.setStatus(Status.NEW);
 		projectService.updateProject(project);
+		
+		emailService.sendRejectBidEmail(project, user, bid);
 		
 		return bid;
 	}
