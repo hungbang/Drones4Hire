@@ -1,6 +1,6 @@
 'use strict';
 
-DronesAdmin.controller('TermsPageController', [ '$scope', '$http', '$modal', function($scope, $http, $modal) {
+DronesAdmin.controller('TermsPageController', [ '$scope', '$http', '$modal', '$route', function($scope, $http, $modal, $route) {
 
 
     $scope.getTerms = function(){
@@ -13,11 +13,8 @@ DronesAdmin.controller('TermsPageController', [ '$scope', '$http', '$modal', fun
 
     $scope.deleteTerm = function(id){
         $http.delete('content/terms/' + id).success(function(data) {
-            $scope.terms.filter(function (term, index) {
-                if(term.id == id) {
-                    delete $scope.terms[index];
-                }
-            })
+        	$route.reload();
+            alertify.success('Terms successfully deleted');
         }).error(function() {
             alertify.error('Failed to delete term');
         });
@@ -47,7 +44,8 @@ DronesAdmin.controller('TermsPageController', [ '$scope', '$http', '$modal', fun
 
                 $scope.updateTerm = function(term){
                     $http.put('content/terms', term).success(function(data) {
-                        $scope.cancel();
+                    	alertify.success('Terms successfully updated');
+                    	$scope.cancel();
                     }).error(function() {
                         alertify.error('Failed to update term');
                     });

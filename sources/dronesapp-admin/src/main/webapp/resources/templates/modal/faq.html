@@ -8,7 +8,7 @@
     <form name="faqForm">
         <div class="form-group">
             <label>Question</label>
-            <text-angular data-ng-model="faq.question" ta-text-editor-class="form-control mini-form" ta-html-editor-class="form-control mini-form" required></text-angular>
+            <textarea class="form-control" rows="3" data-ng-model="faq.question" required></textarea>
         </div>
     </form>
     <form name="faqForm">
@@ -19,12 +19,12 @@
         <div class="form-group">
             <label>Locale</label>
             <select class="form-control" data-ng-model="faq.locale" data-ng-init="faq.locale = 'en_US'" required>
-                <option value="en_US">en (US)</option>
+                <option value="en_US">en_US</option>
             </select>
         </div>
         <div class="form-group">
             <label>Sort order</label>
-            <input class="form-control" type="text" data-ng-model="faq.order" data-ng-init="faq.order = 0" required/>
+            <input class="form-control" type="text" data-ng-model="faq.order" required/>
         </div>
     </form>
 </div>

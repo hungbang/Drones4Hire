@@ -1,6 +1,6 @@
 'use strict';
 
-DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', function($scope, $http, $modal) {
+DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', '$route', function($scope, $http, $modal, $route) {
 
 
     $scope.getFaqs = function(){
@@ -13,11 +13,8 @@ DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', func
 
     $scope.deleteFaq = function(id){
         $http.delete('content/faqs/' + id).success(function(data) {
-            $scope.faqs.filter(function (faq, index) {
-                if(faq.id == id) {
-                    delete $scope.faqs[index];
-                }
-            });
+            $route.reload();
+            alertify.success('FAQ successfully deleted');
         }).error(function() {
             alertify.error('Failed to delete FAQ');
         });
@@ -49,6 +46,7 @@ DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', func
                 $scope.updateFaq = function(faq){
                     $http.put('content/faqs', faq).success(function(data) {
                         $scope.cancel();
+                        alertify.success('FAQ successfully updated');
                     }).error(function() {
                         alertify.error('Failed to update FAQ');
                     });
