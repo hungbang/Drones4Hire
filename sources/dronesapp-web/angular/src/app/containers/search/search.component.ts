@@ -1,10 +1,11 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {} from '@types/googlemaps';
+import {Subject} from 'rxjs/Subject';
 
 import {LocationModel} from '../../services/common.service/location.interface';
 import {AccountService} from '../../services/account.service/account.service';
 import {ProjectService} from '../../services/project.service/project.service';
-import {Subject} from "rxjs/Subject";
+import {extend} from '../../shared/common/common-methods';
 
 @Component({
   selector: 'search',
@@ -52,7 +53,29 @@ export class SearchComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.mapProjects = res.results;
+          const oldProjects = extend([], this.mapProjects);
+          const results = res.results;
+
+          if (!results.length && this.mapProjects.length) {
+            this.mapProjects = []; // mutate: clean array
+          } else if (results.length && this.mapProjects.length) {
+            oldProjects.forEach( // mutate: remove not in bounds projects
+              (el, i) => {
+                if (!results.some(item => item.id === el.id)) {
+                  this.mapProjects.splice(i, 1);
+                }
+              }
+            );
+            results.forEach( // mutate: add new projects of current bounds
+              (el) => {
+                if (!this.mapProjects.some(item => item.id === el.id)) {
+                  this.mapProjects.push(el);
+                }
+              }
+            );
+          } else if (results.length && !this.mapProjects.length) {
+            this.mapProjects = results; // we can change empty array
+          }
           // console.log(this.mapProjects);
         },
         err => {
