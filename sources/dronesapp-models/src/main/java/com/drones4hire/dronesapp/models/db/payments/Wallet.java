@@ -77,7 +77,7 @@ public class Wallet extends AbstractEntity
 	
 	public void chageBalance(BigDecimal byAmount)
 	{
-		this.balance.add(byAmount);
+		this.balance = this.balance.add(byAmount);
 	}
 	
 	public Boolean isWithdrawEnabled()
