@@ -36,7 +36,7 @@ public class UserService
 
 	private boolean DEFAULT_CONFIRMED = false;
 	
-	private Double DEAFULT_RATING = 5;
+	private Double DEAFULT_RATING = 5.0;
 	
 	private static final Integer DEFAULT_RANGE = 1000;
 
