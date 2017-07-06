@@ -60,6 +60,11 @@ public abstract class AbstractController
 			throw new ForbiddenOperationException();
 		}
 	}
+	
+	protected boolean isAdmin() throws ForbiddenOperationException
+	{
+		return getPrincipal().getAuthorities().contains(ADMIN);
+	}
 
 	@ExceptionHandler(PayoneerException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)

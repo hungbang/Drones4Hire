@@ -1,18 +1,12 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import static com.drones4hire.dronesapp.services.services.notifications.AbstractEmailService.CHANGE_PASSWORD_PATH;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
-import com.drones4hire.dronesapp.models.db.projects.Feedback;
-import com.drones4hire.dronesapp.models.dto.*;
-import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
-import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,14 +21,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.drones4hire.dronesapp.models.db.commons.Location;
+import com.drones4hire.dronesapp.models.db.projects.Feedback;
 import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.PilotLocation;
 import com.drones4hire.dronesapp.models.db.users.Profile;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.dto.AccountDTO;
+import com.drones4hire.dronesapp.models.dto.ChangePasswordDTO;
+import com.drones4hire.dronesapp.models.dto.CompanyDTO;
+import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
+import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
+import com.drones4hire.dronesapp.models.dto.PilotLocationDTO;
+import com.drones4hire.dronesapp.models.dto.ProfileDTO;
+import com.drones4hire.dronesapp.models.dto.WalletDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+import com.drones4hire.dronesapp.services.services.CompanyService;
+import com.drones4hire.dronesapp.services.services.FeedbackService;
+import com.drones4hire.dronesapp.services.services.LocationService;
+import com.drones4hire.dronesapp.services.services.PilotLicenseService;
+import com.drones4hire.dronesapp.services.services.PilotLocationService;
+import com.drones4hire.dronesapp.services.services.ProfileService;
+import com.drones4hire.dronesapp.services.services.ServiceService;
+import com.drones4hire.dronesapp.services.services.UserService;
+import com.drones4hire.dronesapp.services.services.WalletService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
@@ -75,9 +87,6 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private FeedbackService feedbackService;
-
-	@Autowired
-	private PasswordEncryptor passwordEncryptor;
 
 	@Autowired
 	private Mapper mapper;
@@ -197,7 +206,14 @@ public class AccountController extends AbstractController
 		PilotLicense curLicense = licenseService.getPilotLicenseByUserId(getPrincipal().getId());
 		curLicense.setInsuranceURL(license.getInsuranceURL());
 		curLicense.setLicenseURL(license.getLicenseURL());
-		curLicense.setVerified(license.isVerified());
+		if(isAdmin())
+		{
+			curLicense.setVerified(license.isVerified());
+		}
+		else
+		{
+			curLicense.setVerified(false);
+		}
 		return mapper.map(licenseService.updatePilotLicense(curLicense), PilotLicenseDTO.class);
 	}
 
