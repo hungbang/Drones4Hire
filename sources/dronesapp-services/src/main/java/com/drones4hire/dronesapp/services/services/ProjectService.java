@@ -146,6 +146,17 @@ public class ProjectService
 	}
 
 	@Transactional(readOnly = true)
+	public List<ProjectSearchResult> searchProjectsForBatch(ProjectSearchCriteria sc) throws ServiceException
+	{
+		SearchResult<ProjectSearchResult> results = new SearchResult<>();
+		results.setPage(sc.getPage());
+		results.setPageSize(sc.getPageSize());
+		results.setSortOrder(sc.getSortOrder());
+		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
+		return projectMapper.searchProjects(sc);
+	}
+	
+	@Transactional(readOnly = true)
 	public SearchResult<ProjectSearchResult> searchProjects(ProjectSearchCriteria sc, long principalId) throws ServiceException
 	{
 		SearchResult<ProjectSearchResult> results = new SearchResult<>();
