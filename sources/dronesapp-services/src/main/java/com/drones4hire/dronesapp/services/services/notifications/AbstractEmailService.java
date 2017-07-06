@@ -149,12 +149,14 @@ public abstract class AbstractEmailService
 
 	public String sendSubmitPaymentEmail(Project project, User client, Transaction transaction) throws ServiceException
 	{
+		String url = baseUrl + "/#/dashboard/client/1";
 		User pilot = userService.getNotNullUser(project.getPilotId());
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
 		emailData.put("Pilot", pilot);
 		emailData.put(transaction.getClass().getSimpleName(), transaction);
 		emailData.put(project.getClass().getSimpleName(), project);
+		emailData.put("dashboardUrl", url);
 		return sendEmail(SUBMIT_PAYMENT, emailData, client.getEmail());
 	}
 	
