@@ -111,6 +111,26 @@
         ]]>
     </sql>
 
+	<sql id="getPointsInsideCircle">
+		<![CDATA[
+			( #{unit} * ACOS( COS( RADIANS(#{location.coordinates.latitude}) ) * COS( RADIANS( X(L.COORDINATES) ) )
+						* COS( RADIANS( Y(L.COORDINATES) ) - RADIANS(#{location.coordinates.longitude}) ) + SIN( RADIANS(#{location.coordinates.latitude}) ) * SIN( RADIANS( X(L.COORDINATES) ) ) ) )
+		]]>
+	</sql>
+
+	<select id="getUsersNearLocation" resultMap="UserResultMap">
+        <include refid="getUser" />
+        <![CDATA[
+        	WHERE
+          		G.ROLE = #{role}
+          	AND
+        ]]> 
+          	<include refid="getPointsInsideCircle" />
+        <![CDATA[
+        	< L.RANGE
+        ]]>
+    </select>
+
 	<select id="searchUsers" resultMap="UserResultMap">
 		<include refid="getUser" />
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">

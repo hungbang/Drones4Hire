@@ -8,7 +8,7 @@
 	    			<td>
 	    				<p>
 	    					Payment for project ${Project.title} received! 
-	    					To transfer the sum to your credit card/paypal feel free to go to Withdrawal page( 
+	    					To transfer the payment to your bank account or Paypal Account, submit a request on your Withdrawal page( 
 	    					<a style="color:blue;font-weight:normal" href="${withdrawUrl}" target="_blank">${withdrawUrl}</a>)
 	    			</td>
 	    		</tr>

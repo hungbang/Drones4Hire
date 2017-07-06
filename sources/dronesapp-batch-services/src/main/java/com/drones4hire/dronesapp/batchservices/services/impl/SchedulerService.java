@@ -23,7 +23,7 @@ public class SchedulerService implements ISchedulerService
 		{
 			LOGGER.info("Starting pilots notification job...");
 			pilotsNotificationsTask.runTask();
-			LOGGER.info("Complete pilots notification complete.");
+			LOGGER.info("Complete pilots notification.");
 		} catch (ServiceException e)
 		{
 			LOGGER.error("Can't run the job for notifying pilots. " + e);

@@ -7,8 +7,8 @@
 	    		<tr>
 	    			<td>
 	    				<p>
-	    					We are sorry, but a ${Pilot.username} canceled his bid proposal for ${Bid.amount}.
-	    					Please, pick a different one (view project bids  | <a style="color:blue;font-weight:normal" href="${projectUrl}" target="_blank">${projectUrl}</a>).
+	    					We are sorry, but ${Pilot.username} canceled their bid proposal for ${Bid.amount}.
+	    					Please, hire a different pilot for your project (view project bids  | <a style="color:blue;font-weight:normal" href="${projectUrl}" target="_blank">${projectUrl}</a>).
 	    				</p> 
 	    			</td>
 	    		</tr>

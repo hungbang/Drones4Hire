@@ -116,18 +116,14 @@ public abstract class AbstractEmailService
 		return sendEmail(NEW_BID_RECEIVE, emailData, client.getEmail());
 	}
 
-	public void sendNewProjectPostedEmail(Project project) throws ServiceException
+	public String sendNewProjectPostedEmail(Project project, User pilot) throws ServiceException
 	{
 		String url = baseUrl + "/#/project/" + project.getId() + "/description";
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(project.getClass().getSimpleName(), project);
 		emailData.put("projectUrl", url);
-		List<User> pilots = null;
-		for (User pilot : pilots)
-		{
-			emailData.put(pilot.getClass().getSimpleName(), pilot);
-			sendEmail(PROJECT_POSTED, emailData, pilot.getEmail());
-		}
+		emailData.put(pilot.getClass().getSimpleName(), pilot);
+		return sendEmail(PROJECT_POSTED, emailData, pilot.getEmail());
 	}
 	
 	public String sendNewCommentReceiveEmail(Project project) throws ServiceException

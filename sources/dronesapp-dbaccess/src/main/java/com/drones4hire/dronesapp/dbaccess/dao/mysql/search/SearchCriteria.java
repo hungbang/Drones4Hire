@@ -4,7 +4,9 @@ import javax.validation.constraints.Min;
 
 public class SearchCriteria
 {
-
+	public static final Integer KILOMETER = 6371;
+	public static final Integer MILE = 3959;
+	
 	public enum SortOrder {ASC, DESC};
 
 	// Pages are zero-based

@@ -170,6 +170,16 @@
         ]]>
 	</select>
 
+	<select id="getLastProjects" resultMap="ProjectResultMap">
+		<include refid="getProject" />
+        <![CDATA[
+          WHERE
+          		P.CREATED_AT >= #{createdAfter}
+          	AND
+          		P.STATUS = #{status}
+        ]]>
+	</select>
+
 	<select id="getAllProjects" resultMap="ProjectResultMap">
 		<include refid="getProject" />
 	</select>
