@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
-import {ProjectService} from "../../services/project.service/project.service";
-import {createObservable, deleteNullOrNaN} from "../../shared/common/common-methods";
-import {Observable} from "rxjs/Observable";
+import {ProjectService} from '../../services/project.service/project.service';
+import {createObservable, deleteNullOrNaN} from '../../shared/common/common-methods';
 
 @Injectable()
 export class FindProjectsResolve implements Resolve<any> {
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private projectService: ProjectService
+  ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
     let page = Number(route.params['page']);

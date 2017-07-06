@@ -205,8 +205,9 @@ export class ProjectDescriptionComponent implements OnInit {
       component: ModalPaymentComponent,
       type: 'ModalInformationComponent',
       values: {
-        title: 'Payment method',
-        message: 'Please choose an existing payment method or add new to proceed.',
+        title: 'Payment',
+        payAmount: bid.amount,
+        message: 'Please choose payment method:',
         clientToken: this.paymentToken,
         paymentFn: (e) => { this.setPayment(e, bid); }
       }

@@ -13,6 +13,7 @@ import {ToastrService} from '../../../services/toastr.service/toastr.service';
 export class ModalPaymentComponent implements OnInit {
   @Input() title: string;
   @Input() message: string;
+  @Input() payAmount: number;
   @Input() paymentFn: Function = () => {};
   @Input() clientToken: string = '';
   dropInstance: any = null;

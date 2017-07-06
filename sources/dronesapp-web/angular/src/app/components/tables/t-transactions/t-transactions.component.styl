@@ -12,15 +12,15 @@
           border: 0
           font-size: 1.6rem
           letter-spacing: 1px
-          height: 75px
+          height: 7.5rem
           vertical-align: middle
           color #fff
-          &._date
-            background: $gray1f
-          &._description
-            background: #3fb6c0
-          &._amount
-            background: #159aa5
+          &:first-child
+            background $gray1f
+          &:nth-child(2n+3)
+            background #3fb6c0
+          &:nth-child(2n)
+            background #159aa5
 
   &__cell
     display table-cell
@@ -37,11 +37,14 @@
       background #f6f6f6
 
     &._description
-      width 58%
+      width 45%
+      text-transform none
     &._date
       width 20%
     &._amount
-      width: 22%
+      width: 17%
+    &._type
+      width: 18%
 
   &__empty
     text-align center

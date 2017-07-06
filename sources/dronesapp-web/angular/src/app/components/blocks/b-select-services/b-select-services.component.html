@@ -7,7 +7,7 @@
         <div class="b-select-services__text"
              (click)="toggleItem(service)"
              [ngClass]="{'_active': true}">
-          {{ service.name }}
+          {{ service.name }} <span class="b-select-services__text-info">({{ checkSelectedCount(service.categories) }} of {{ service.categories.length }} selected)</span>
         </div>
 
         <div class="b-select-services__panel-outer"

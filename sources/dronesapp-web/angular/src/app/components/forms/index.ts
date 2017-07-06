@@ -11,7 +11,6 @@ import {FEmailComponent} from './f-email/f-email.component';
 import {FNotificationsComponent} from './f-notifications/f-notifications.component';
 import {FChangePasswordComponent} from './f-change-password/f-change-password.component';
 import {FServicesComponent} from './f-services/f-services.component';
-import {FLocationComponent} from './f-location/f-location.component';
 import { FPortfolioUploadComponent } from './f-portfolio-upload/f-portfolio-upload.component';
 import { FProjectFilesComponent } from './f-project-files/f-project-files.component';
 import {FCardComponent} from "./f-card/f-card.component";
@@ -39,7 +38,6 @@ export const FORMS = [
   FProjectFilesComponent,
   FProjectsSearchComponent,
   FEmailComponent,
-  FLocationComponent,
   FNotificationsComponent,
   FChangePasswordComponent,
   FResetPasswordComponent,

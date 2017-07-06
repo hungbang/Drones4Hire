@@ -17,6 +17,7 @@ export class SSearchProjectsComponent implements OnInit {
   public category;
   public budget;
   public postcode = '';
+  public range = '';
 
   public projects;
   public minPage = 1;
@@ -50,6 +51,7 @@ export class SSearchProjectsComponent implements OnInit {
 
     this.route.params.subscribe(() => {
       const res = this.route.snapshot.data['projects'];
+      console.log(this.route.snapshot.data['projects']);
       const projects = res && res.results;
       const currentPage = Number(this.route.snapshot.params['page']);
 
@@ -64,6 +66,7 @@ export class SSearchProjectsComponent implements OnInit {
       this.budget = this.route.snapshot.queryParams['budgetId'] || -1;
       this.category = this.route.snapshot.queryParams['serviceCategoryId'] || -1;
       this.postcode = this.route.snapshot.queryParams['postcode'] || '';
+      this.range = this.route.snapshot.queryParams['range'] || '';
     });
   }
 
