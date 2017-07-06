@@ -1,10 +1,20 @@
 package com.drones4hire.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.projects.Feedback;
+import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
+import com.drones4hire.dronesapp.services.services.*;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +32,9 @@ import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.CompanyService;
-import com.drones4hire.dronesapp.services.services.MessageService;
-import com.drones4hire.dronesapp.services.services.NotificationSettingService;
-import com.drones4hire.dronesapp.services.services.PilotLicenseService;
-import com.drones4hire.dronesapp.services.services.UserService;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("users")
@@ -44,9 +51,15 @@ public class UsersController extends AbstractController
 	
 	@Autowired
 	private PilotLicenseService pilotLicenseService;
+
+	@Autowired
+	private FeedbackService feedbackService;
 	
 	@Autowired
 	private MessageService messageService;
+
+	@Autowired
+	private Mapper mapper;
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "clients", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -168,5 +181,38 @@ public class UsersController extends AbstractController
 	public @ResponseBody PilotLicense updateLicense(@RequestBody PilotLicense license, @PathVariable long id) throws ServiceException
 	{
 		return pilotLicenseService.updatePilotLicense(license);
+	}
+
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "feedbacks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Feedback createFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
+	{
+		Feedback feedback = mapper.map(fb, Feedback.class);
+		feedback.setFromUserId(getPrincipal().getId());
+		return feedbackService.createFeedback(feedback);
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/feedbacks", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Feedback> getFeedbacksByUserId(@PathVariable(value = "id") long id)
+	{
+		return feedbackService.getFeedbacksByUserId(id);
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "feedbacks", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Feedback updateFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
+	{
+		Feedback feedback = feedbackService.getFeedbackById(fb.getId());
+		feedback.setComment(fb.getComment());
+		feedback.setMark(fb.getMark());
+		return feedbackService.updateFeedback(feedback);
+	}
+
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@RequestMapping(value = "feedbacks/{id}", method = RequestMethod.DELETE)
+	public void deleteFeedback(@PathVariable(value = "id") long id) throws ServiceException
+	{
+		feedbackService.deleteFeedback(id);
 	}
 }

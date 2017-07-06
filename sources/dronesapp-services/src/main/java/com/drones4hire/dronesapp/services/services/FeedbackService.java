@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.services.services;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.FeedbackMapper;
 import com.drones4hire.dronesapp.models.db.projects.Feedback;
 import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -29,8 +30,9 @@ public class FeedbackService
 	public Feedback createFeedback(Feedback feedback) throws ServiceException
 	{
 		Project project = projectService.getProjectById(feedback.getProjectId());
-		if(!feedback.getFromUserId().equals(project.getClientId()) || !feedback.getToUserId().equals(project.getPilotId())
-				|| !project.getStatus().equals(Project.Status.COMPLETED))
+		User user = userService.getUserById(feedback.getFromUserId());
+		if((!feedback.getFromUserId().equals(project.getClientId()) || !feedback.getToUserId().equals(project.getPilotId())
+				|| !project.getStatus().equals(Project.Status.COMPLETED)) && !user.getRoles().contains(Group.Role.ROLE_ADMIN))
 		{
 			throw new ForbiddenOperationException();
 		}
