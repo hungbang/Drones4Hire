@@ -34,6 +34,10 @@
 	        <a>postcode</a>
 	        <b>postcode</b>
 	    </field>
+		<field>
+			<a>range</a>
+			<b>range</b>
+		</field>
 	</mapping>
 	
 	<mapping type="one-way" wildcard="false">
