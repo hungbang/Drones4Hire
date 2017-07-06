@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.models.db.projects.Feedback;
+import com.drones4hire.dronesapp.models.dto.*;
+import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -30,23 +33,8 @@ import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.PilotLocation;
 import com.drones4hire.dronesapp.models.db.users.Profile;
 import com.drones4hire.dronesapp.models.db.users.User;
-import com.drones4hire.dronesapp.models.dto.AccountDTO;
-import com.drones4hire.dronesapp.models.dto.ChangePasswordDTO;
-import com.drones4hire.dronesapp.models.dto.CompanyDTO;
-import com.drones4hire.dronesapp.models.dto.PilotLicenseDTO;
-import com.drones4hire.dronesapp.models.dto.PilotLocationDTO;
-import com.drones4hire.dronesapp.models.dto.ProfileDTO;
-import com.drones4hire.dronesapp.models.dto.WalletDTO;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.CompanyService;
-import com.drones4hire.dronesapp.services.services.LocationService;
-import com.drones4hire.dronesapp.services.services.PilotLicenseService;
-import com.drones4hire.dronesapp.services.services.PilotLocationService;
-import com.drones4hire.dronesapp.services.services.ProfileService;
-import com.drones4hire.dronesapp.services.services.ServiceService;
-import com.drones4hire.dronesapp.services.services.UserService;
-import com.drones4hire.dronesapp.services.services.WalletService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
@@ -84,6 +72,9 @@ public class AccountController extends AbstractController
 
 	@Autowired
 	private WalletService walletService;
+
+	@Autowired
+	private FeedbackService feedbackService;
 
 	@Autowired
 	private PasswordEncryptor passwordEncryptor;
@@ -309,5 +300,68 @@ public class AccountController extends AbstractController
 		PilotLocation pilotLocation = pilotLocationService.getPilotLocationById(id);
 		checkPrincipalPermissions(pilotLocation.getUserId());
 		pilotLocationService.deletePilotLocation(pilotLocation);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Create feedback", nickname = "createFeedback", code = 201, httpMethod = "POST", response = FeedbackDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "feedbacks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody FeedbackDTO createFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
+	{
+		Feedback feedback = mapper.map(fb, Feedback.class);
+		feedback.setFromUserId(getPrincipal().getId());
+		return mapper.map(feedbackService.createFeedback(feedback), FeedbackDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get feedbacks by user id", nickname = "getFeedbacksByUserId", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/feedbacks", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<FeedbackDTO> getFeedbacksByUserId(
+			@ApiParam(value = "Id of the user", required = true) @PathVariable(value = "id") long id)
+	{
+		List<Feedback> feedbacks = feedbackService.getFeedbacksByUserId(id);
+		List<FeedbackDTO> feedbackDTOs = new ArrayList<>();
+		for(Feedback feedback : feedbacks)
+		{
+			feedbackDTOs.add(mapper.map(feedback, FeedbackDTO.class));
+		}
+		return feedbackDTOs;
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update feedback", nickname = "updateFeedback", code = 200, httpMethod = "PUT", response = FeedbackDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "feedbacks", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody FeedbackDTO updateFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
+	{
+		Feedback feedback = feedbackService.getFeedbackById(fb.getId());
+		checkPrincipalPermissions(feedback.getFromUserId());
+		feedback.setComment(fb.getComment());
+		feedback.setMark(fb.getMark());
+		return mapper.map(feedbackService.updateFeedback(feedback), FeedbackDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete feedback", nickname = "deleteFeedback", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "feedbacks/{id}", method = RequestMethod.DELETE)
+	public void deleteFeedback(
+			@ApiParam(value = "Id of the feedback", required = true) @PathVariable(value = "id") long id) throws ServiceException
+	{
+		Feedback feedback = feedbackService.getFeedbackById(id);
+		checkPrincipalPermissions(feedback.getFromUserId());
+		feedbackService.deleteFeedback(id);
 	}
 }

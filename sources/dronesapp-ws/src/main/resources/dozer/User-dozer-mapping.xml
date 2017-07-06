@@ -73,6 +73,10 @@
             <b>summary</b>
         </field>
         <field>
+            <a>rating</a>
+            <b>rating</b>
+        </field>
+        <field>
             <a>flightHours</a>
             <b>flightHours</b>
         </field>

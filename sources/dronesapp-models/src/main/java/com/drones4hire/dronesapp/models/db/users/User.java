@@ -29,6 +29,7 @@ public class User extends AbstractEntity
 	private Integer flightHours;
 	private Boolean confirmed;
 	private Boolean enabled;
+	private Double rating;
 	private Location location;
 	private List<Group> groups = new ArrayList<>();
 
@@ -150,6 +151,16 @@ public class User extends AbstractEntity
 	public void setGroups(List<Group> groups)
 	{
 		this.groups = groups;
+	}
+
+	public Double getRating()
+	{
+		return rating;
+	}
+
+	public void setRating(Double rating)
+	{
+		this.rating = rating;
 	}
 
 	public Location getLocation()

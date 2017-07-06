@@ -6,7 +6,7 @@
 	<insert id="createUser" useGeneratedKeys="true" keyProperty="id">
     	<![CDATA[
         	INSERT
-          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, FLIGHT_HOURS, LOCATION_ID, ENABLED, CONFIRMED)
+          		INTO drones.USERS (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, PHOTO_URL, INTRODUCTION, SUMMARY, FLIGHT_HOURS, LOCATION_ID, ENABLED, CONFIRMED, RATING)
           	VALUES 
             (
           		#{username},
@@ -20,7 +20,8 @@
             	#{flightHours},
             	#{location.id},
             	#{enabled},
-            	#{confirmed}
+            	#{confirmed},
+            	#{rating}
           	)
         ]]>
     </insert>
@@ -53,6 +54,7 @@
 				U.FLIGHT_HOURS AS USER_FLIGHT_HOURS,
 				U.ENABLED AS USER_ENABLED,
 				U.CONFIRMED AS USER_CONFIRMED,
+				U.RATING AS USER_RATING,
 				U.MODIFIED_AT AS USER_MODIFIED_AT,
 				U.CREATED_AT AS USER_CREATED_AT,
 				 
@@ -299,6 +301,7 @@
           		FLIGHT_HOURS = #{flightHours},
           		ENABLED = #{enabled},
           		CONFIRMED = #{confirmed},
+          		RATING = #{rating},
           		LOCATION_ID = #{location.id}
           	WHERE
 			 	ID = #{id}
@@ -340,6 +343,7 @@
         <result column="USER_FLIGHT_HOURS" property="flightHours" />
         <result column="USER_ENABLED" property="enabled" />
         <result column="USER_CONFIRMED" property="confirmed" />
+        <result column="USER_RATING" property="rating" />
 		<result column="USER_MODIFIED_AT" property="modifiedAt" />
 		<result column="USER_CREATED_AT" property="createdAt" />
 		<association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap" />

@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.models.db.projects.*;
+import com.drones4hire.dronesapp.models.dto.*;
+import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,23 +30,7 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
-import com.drones4hire.dronesapp.models.db.projects.Attachment;
-import com.drones4hire.dronesapp.models.db.projects.Bid;
-import com.drones4hire.dronesapp.models.db.projects.BidInfo;
-import com.drones4hire.dronesapp.models.db.projects.Comment;
-import com.drones4hire.dronesapp.models.db.projects.PaidOption;
-import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.dto.AttachmentDTO;
-import com.drones4hire.dronesapp.models.dto.BidDTO;
-import com.drones4hire.dronesapp.models.dto.CommentDTO;
-import com.drones4hire.dronesapp.models.dto.PaidOptionDTO;
-import com.drones4hire.dronesapp.models.dto.ProjectDTO;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.AttachmentService;
-import com.drones4hire.dronesapp.services.services.BidService;
-import com.drones4hire.dronesapp.services.services.CommentService;
-import com.drones4hire.dronesapp.services.services.PaidOptionService;
-import com.drones4hire.dronesapp.services.services.ProjectService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
@@ -73,6 +60,9 @@ public class ProjectController extends AbstractController
 
 	@Autowired
 	private AttachmentService attachmentService;
+
+	@Autowired
+	private FeedbackService feedbackService;
 	
 	@Autowired
 	private Mapper mapper;
@@ -350,5 +340,23 @@ public class ProjectController extends AbstractController
 	public @ResponseBody BidInfo getBidInfo(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long projectId) throws ServiceException
 	{
 		return bidService.getBidInfo(projectId);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get feedbacks by project id", nickname = "getFeedbacksByProjectId", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "{id}/feedbacks", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<FeedbackDTO> getFeedbacksByProjectId(
+			@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id)
+	{
+		List<Feedback> feedbacks = feedbackService.getFeedbacksByProjectId(id);
+		List<FeedbackDTO> feedbackDTOs = new ArrayList<>();
+		for(Feedback feedback : feedbacks)
+		{
+			feedbackDTOs.add(mapper.map(feedback, FeedbackDTO.class));
+		}
+		return feedbackDTOs;
 	}
 }
