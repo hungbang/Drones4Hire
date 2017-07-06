@@ -158,7 +158,8 @@ public class ProjectService
 			sc.setPilotId(principalId);
 			if(sc.getRange() == null)
 			{
-				sc.setRange(user.getLocation().getRange());
+				// TODO: 07/06/2017
+				sc.setRange(5000);
 			}
 			sc.setUserCoordinates(user.getLocation().getCoordinates());
 		}
