@@ -26,6 +26,7 @@ export interface AccountModel {
     };
     id: number;
     postcode: number;
+    range?: number;
     state: {
       code: string;
       id: number;

@@ -148,6 +148,7 @@ export class ProjectService {
 
       return {
         id: project.id,
+        distance: this.formatDistance(data.distance),
         name: project.title,
         type: type,
         budget: this.formatBudget(project.budget),
@@ -157,6 +158,14 @@ export class ProjectService {
         paidOptions: this.formatPaidOptions(project.paidOptions),
       };
     });
+  }
+
+  formatDistance(distance) {
+    if (!distance) {
+      return '';
+    }
+
+    return (Math.round(parseFloat(distance) * 100) / 100) + ' Miles';
   }
 
   formatPaidOptions(paidOptions = []) {
@@ -265,7 +274,8 @@ export class ProjectService {
   public getProjectsOnMap(coordsTopLef, coordsBottomRight) {
     return this._requestService.fetch('post', '/projects/search/map', {
       topLeftCoordinates: coordsTopLef,
-      bottomRightCoordinates: coordsBottomRight
+      bottomRightCoordinates: coordsBottomRight,
+      statuses: ['NEW']
     });
   }
 }

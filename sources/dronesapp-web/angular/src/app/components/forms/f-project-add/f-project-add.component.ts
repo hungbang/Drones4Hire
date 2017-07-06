@@ -554,8 +554,9 @@ export class FProjectAddComponent implements OnInit {
       component: ModalPaymentComponent,
       type: 'ModalInformationComponent',
       values: {
-        title: 'Payment method',
-        message: 'Please choose an existing payment method or add new to proceed.',
+        title: 'Payment',
+        payAmount: this.getPaymentAmount(),
+        message: 'Please choose payment method:',
         clientToken: this.paymentToken,
         paymentFn: (e) => { this.setPayment(e); }
       }
@@ -704,6 +705,22 @@ export class FProjectAddComponent implements OnInit {
     }
   }
 
+  private getPaymentAmount() {
+    const total = this.formData.paidOptions.reduce(
+      (summ, option) => {
+        return summ += option.price;
+      }, 0);
+
+    if (this.isEditForm) {
+      this.originalPaidOptions.reduce(
+        (summ, option) => {
+          return summ -= option.price;
+        }, total);
+    }
+
+    return total;
+  }
+
   private loadPlaces() {
     this.mapsAPILoader.load().then(
       () => {
@@ -773,8 +790,6 @@ export class FProjectAddComponent implements OnInit {
     });
     this.formData.location.coordinates.latitude = place.geometry.location.lat();
     this.formData.location.coordinates.longitude = place.geometry.location.lng();
-
-    console.log(this.formData.location);
   }
 
   private resetLocation() {

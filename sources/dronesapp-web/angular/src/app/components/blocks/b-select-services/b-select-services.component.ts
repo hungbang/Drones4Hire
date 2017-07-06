@@ -63,13 +63,28 @@ export class BSelectServicesComponent implements OnInit {
       })
       .subscribe(
         res => {
-          console.log(res);
+          // console.log(res);
           this.accountService.activeServices = res;
+          this.setCheckedServices();
         },
         err => {
           console.log('get account services error:', err);
         }
       );
+  }
+
+  private setCheckedServices() {
+    this.services.forEach(
+      service => {
+        service.categories.forEach(
+          category => {
+            if (this.accountService.activeServices.indexOf(category.id) !== -1) {
+              category.checked = true;
+            }
+          }
+        );
+      }
+    );
   }
 
   private formatServices(services) {
@@ -136,6 +151,15 @@ export class BSelectServicesComponent implements OnInit {
 
   checkCheckboxState(id: number) {
     return this.accountService.activeServices.indexOf(id) !== -1;
+  }
+
+  checkSelectedCount(categories) {
+    return categories.reduce(
+      (count, item) => {
+        return item.checked ? count += 1 : count;
+      },
+      0
+    );
   }
 
 }

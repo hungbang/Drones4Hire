@@ -9,7 +9,7 @@
       margin-bottom 3rem
       .si
         &-content-wrapper
-          padding 3px 10px
+          padding 3px 22px
           min-width: 140px
           background-color $gray1f
           color #fff
@@ -20,12 +20,31 @@
             .search__iw-title
               display block
         &-close-button
-          font-size 2rem
-          line-height 1em
-          height 1em
+          text-indent: 200%
+          white-space nowrap
+          overflow hidden
+          width 1.8rem
+          height 1.8rem
+          top 3px
+          right 3px
+          &::before
+          &::after
+            content: ''
+            background: #fff
+            position: absolute;
+            height: 100%
+            width: 2px
+            top 0
+            left 50%
+          &::before
+            transform: rotate(45deg)
+          &::after
+            transform: rotate(-45deg)
         &-pointer-bg-top
           border-top-color $gray1f
   &__iw-link
     color #fff
   &__iw-title
     display none
+  &__iw-budget
+    line-height 1.8rem

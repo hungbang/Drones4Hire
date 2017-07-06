@@ -2,6 +2,7 @@
   <div class="t-search__row _head">
     <div class="t-search__cell">Project name</div>
     <div class="t-search__cell">Type</div>
+    <div class="t-search__cell">location</div>
     <div class="t-search__cell">Budget</div>
     <div class="t-search__cell">Posted</div>
     <div class="t-search__cell">Highest bid</div>
@@ -17,6 +18,7 @@
       </span>
     </div>
     <div class="t-search__cell">{{item.type}}</div>
+    <div class="t-search__cell">{{item.distance}}</div>
     <div class="t-search__cell">{{item.budget}}</div>
     <div class="t-search__cell">{{item.posted | date:'M/d/yy'}}</div>
     <div class="t-search__cell">{{item.proposals > 0 ? item.highestBid : '-'}}</div>

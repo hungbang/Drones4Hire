@@ -5,13 +5,13 @@
   </div>
   <div class="modal-payment__content">
     <div class="modal-payment__content-text">{{ message }}</div>
-    <div class="modal-payment__content-text" *ngIf="isLoading">Loading...</div>
+    <div class="modal-payment__content-text _loading" *ngIf="isLoading">Loading...</div>
     <div class="modal-payment__content-form">
       <form #paymentForm
             (submit)="onSubmit($event, paymentForm)">
         <div id="dropin-container"></div>
         <div class="modal-payment__controls">
-          <button class="f-default__button">Submit</button>
+          <button [disabled]="isLoading" class="f-default__button">Pay {{payAmount}}$</button>
         </div>
       </form>
     </div>

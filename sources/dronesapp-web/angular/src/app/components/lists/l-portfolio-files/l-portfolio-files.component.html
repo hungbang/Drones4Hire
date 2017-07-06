@@ -19,6 +19,7 @@
     <div class="l-portfolio-files__action" *ngIf="accountService.isUserClient()">
       <a href="{{ file.itemURL }}"
          download
+         *ngIf="file.itemURL"
          class="l-portfolio-files__link _download">
         <svg-use name="download"></svg-use>
       </a>
