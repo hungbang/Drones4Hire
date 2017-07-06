@@ -3,35 +3,36 @@ package com.drones4hire.dronesapp.models.db.projects;
 import java.math.BigDecimal;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
+import com.drones4hire.dronesapp.models.db.users.User;
 
 public class Feedback extends AbstractEntity
 {
 	private static final long serialVersionUID = 1985019619730337149L;
 
-	private Long fromUserId;
-	private Long toUserId;
+	private User fromUser;
+	private User toUser;
 	private Long projectId;
 	private BigDecimal mark;
 	private String comment;
 
-	public Long getFromUserId()
+	public User getFromUser()
 	{
-		return fromUserId;
+		return fromUser;
 	}
 
-	public void setFromUserId(Long fromUserId)
+	public void setFromUser(User fromUser)
 	{
-		this.fromUserId = fromUserId;
+		this.fromUser = fromUser;
 	}
 
-	public Long getToUserId()
+	public User getToUser()
 	{
-		return toUserId;
+		return toUser;
 	}
 
-	public void setToUserId(Long toUserId)
+	public void setToUser(User toUser)
 	{
-		this.toUserId = toUserId;
+		this.toUser = toUser;
 	}
 
 	public Long getProjectId()

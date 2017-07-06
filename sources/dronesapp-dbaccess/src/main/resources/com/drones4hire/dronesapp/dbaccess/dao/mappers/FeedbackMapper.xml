@@ -10,8 +10,8 @@
 			drones.FEEDBACKS (FROM_USER_ID, TO_USER_ID, PROJECT_ID, MARK, COMMENT)
 		VALUES 
 			(
-			#{fromUserId},
-			#{toUserId},
+			#{fromUser.id},
+			#{toUser.id},
 			#{projectId},
 			#{mark},
 			#{comment}
@@ -24,15 +24,33 @@
         <![CDATA[
           SELECT
 			F.ID AS FEEDBACK_ID,
-			F.FROM_USER_ID AS FEEDBACK_FROM_USER_ID,
-			F.TO_USER_ID AS FEEDBACK_TO_USER_ID,
 			F.PROJECT_ID AS FEEDBACK_PROJECT_ID,
 			F.MARK AS FEEDBACK_MARK,
 			F.COMMENT AS FEEDBACK_COMMENT,
 			F.MODIFIED_AT AS FEEDBACK_MODIFIED_AT,
-			F.CREATED_AT AS FEEDBACK_CREATED_AT
+			F.CREATED_AT AS FEEDBACK_CREATED_AT,
+
+			FROM_USER.ID AS FROM_USER_ID,
+            FROM_USER.FIRST_NAME AS FROM_USER_FIRST_NAME,
+            FROM_USER.LAST_NAME AS FROM_USER_LAST_NAME,
+            FROM_USER.PHOTO_URL AS FROM_USER_PHOTO_URL,
+            FROM_USER.RATING AS FROM_USER_RATING,
+
+            TO_USER.ID AS TO_USER_ID,
+            TO_USER.FIRST_NAME AS TO_USER_FIRST_NAME,
+            TO_USER.LAST_NAME AS TO_USER_LAST_NAME,
+            TO_USER.PHOTO_URL AS TO_USER_PHOTO_URL,
+            TO_USER.RATING AS TO_USER_RATING
           FROM
 			drones.FEEDBACKS F
+          INNER JOIN
+            drones.USERS AS FROM_USER
+          ON
+            F.FROM_USER_ID = FROM_USER.ID
+          INNER JOIN
+            drones.USERS AS TO_USER
+          ON
+            F.TO_USER_ID = TO_USER.ID
         ]]>
     </sql>
 
@@ -84,13 +102,13 @@
     
     <resultMap id="FeedbackResultMap" type="com.drones4hire.dronesapp.models.db.projects.Feedback" autoMapping="false">
         <id column="FEEDBACK_ID" property="id"/>
-        <result column="FEEDBACK_FROM_USER_ID" property="fromUserId" />
-        <result column="FEEDBACK_TO_USER_ID" property="toUserId" />
         <result column="FEEDBACK_PROJECT_ID" property="projectId" />
         <result column="FEEDBACK_MARK" property="mark" />
         <result column="FEEDBACK_COMMENT" property="comment" />
         <result column="FEEDBACK_MODIFIED_AT" property="modifiedAt" />
 		<result column="FEEDBACK_CREATED_AT" property="createdAt" />
+        <association property="fromUser" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="FROM_" />
+        <association property="toUser" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="TO_" />
     </resultMap>
 
 </mapper>

@@ -41,7 +41,7 @@
 										<input class="form-control" type="text" id="email" name="email" data-ng-model="sc.email">
 				                    </div>
 				                    <div class="col-lg-3">
-										<label class="control-label" for="status">Confirmed</label>
+										<label class="control-label" for="confirmed">Confirmed</label>
 										<select class="form-control" id="confirmed" name="confirmed" data-ng-model="sc.confirmed">
 							            	<option value="true">true</option>
 							            	<option value="false">false</option>
@@ -95,6 +95,9 @@
 		                <th>
 		                    Name
 		                </th>
+						<th data-ng-if="isPilot()">
+							Rating
+						</th>
 		                <th>
 		                    Confirmed
 		                </th>
@@ -115,6 +118,7 @@
 		                <td>{{user.username}}</td>
 		                <td class="long">{{user.email}}</td>
 		                <td>{{user.firstName}} {{user.lastName}}</td>
+		                <td data-ng-if="isPilot()">{{user.rating}}</td>
 		                <td>{{user.confirmed}}</td>
 		                <td>{{user.enabled}}</td>
 		                <td>{{user.createdAt | date}}</td>
@@ -123,7 +127,7 @@
 						</td>
 					</tr>
 					<tr data-ng-show="!sr.results.length">
-		                <td colspan="8" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
+		                <td colspan="9" class="no-results"><spring:message code="drones.admin.pages.common.serch.noresults"/></td>
 					</tr>
 			    </tbody>
 		    </table>

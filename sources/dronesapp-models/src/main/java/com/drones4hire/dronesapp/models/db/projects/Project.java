@@ -35,6 +35,7 @@ public class Project extends AbstractEntity
 	private List<PaidOption> paidOptions;
 	private List<Attachment> attachments;
 	private String paymentMethod;
+	private Feedback feedback;
 
 	public Service getService()
 	{
@@ -199,6 +200,16 @@ public class Project extends AbstractEntity
 	public boolean hasPaidOptions()
 	{
 		return paidOptions != null && paidOptions.size() > 0;
+	}
+
+	public Feedback getFeedback()
+	{
+		return feedback;
+	}
+
+	public void setFeedback(Feedback feedback)
+	{
+		this.feedback = feedback;
 	}
 
 	public BigDecimal getPaidOptionsTotal()

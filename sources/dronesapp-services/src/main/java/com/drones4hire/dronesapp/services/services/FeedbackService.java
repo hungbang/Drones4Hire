@@ -30,9 +30,10 @@ public class FeedbackService
 	public Feedback createFeedback(Feedback feedback) throws ServiceException
 	{
 		Project project = projectService.getProjectById(feedback.getProjectId());
-		User user = userService.getUserById(feedback.getFromUserId());
-		if((!feedback.getFromUserId().equals(project.getClientId()) || !feedback.getToUserId().equals(project.getPilotId())
-				|| !project.getStatus().equals(Project.Status.COMPLETED)) && !user.getRoles().contains(Group.Role.ROLE_ADMIN))
+		User user = userService.getUserById(feedback.getFromUser().getId());
+		if((!feedback.getFromUser().getId().equals(project.getClientId()) || !feedback.getToUser().getId().equals(project.getPilotId())
+				|| !project.getStatus().equals(Project.Status.COMPLETED) || feedbackMapper.getFeedbacksByProjectId(project.getId()) != null)
+				&& !user.getRoles().contains(Group.Role.ROLE_ADMIN))
 		{
 			throw new ForbiddenOperationException();
 		}

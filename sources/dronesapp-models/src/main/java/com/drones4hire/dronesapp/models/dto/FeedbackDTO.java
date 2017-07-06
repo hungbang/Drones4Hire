@@ -11,10 +11,10 @@ public class FeedbackDTO extends AbstractDTO
 	private static final long serialVersionUID = -8537747656569535467L;
 
 	@NotNull(message = "From user ID required")
-	private Long fromUserId;
+	private AccountDTO fromUser;
 
 	@NotNull(message = "To user ID required")
-	private Long toUserId;
+	private AccountDTO toUser;
 
 	@NotNull(message = "Project ID required")
 	private Long projectId;
@@ -26,24 +26,24 @@ public class FeedbackDTO extends AbstractDTO
 
 	private String comment;
 
-	public Long getFromUserId()
+	public AccountDTO getFromUser()
 	{
-		return fromUserId;
+		return fromUser;
 	}
 
-	public void setFromUserId(Long fromUserId)
+	public void setFromUser(AccountDTO fromUser)
 	{
-		this.fromUserId = fromUserId;
+		this.fromUser = fromUser;
 	}
 
-	public Long getToUserId()
+	public AccountDTO getToUser()
 	{
-		return toUserId;
+		return toUser;
 	}
 
-	public void setToUserId(Long toUserId)
+	public void setToUser(AccountDTO toUser)
 	{
-		this.toUserId = toUserId;
+		this.toUser = toUser;
 	}
 
 	public Long getProjectId()

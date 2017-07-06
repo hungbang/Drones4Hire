@@ -367,7 +367,7 @@
 		<result column="USER_MODIFIED_AT" property="modifiedAt" />
 		<result column="USER_CREATED_AT" property="createdAt" />
 		<association property="location" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.LocationMapper.LocationResultMap" />
-		<collection property="groups" ofType="com.drones4hire.dronesapp.models.db.users.Group" 
+		<collection property="groups" ofType="com.drones4hire.dronesapp.models.db.users.Group"
 			resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.GroupMapper.GroupResultMap"/>
     </resultMap>
 

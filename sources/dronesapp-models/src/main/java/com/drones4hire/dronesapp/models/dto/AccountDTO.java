@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.models.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +22,8 @@ public class AccountDTO extends AbstractDTO
 	
 	@NotNull(message = "Last name required")
 	private String lastName;
-	
+
+	@Valid
 	@NotNull(message = "Location required")
 	private LocationDTO location;
 	

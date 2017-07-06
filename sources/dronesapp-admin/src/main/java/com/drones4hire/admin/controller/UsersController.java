@@ -188,7 +188,7 @@ public class UsersController extends AbstractController
 	public @ResponseBody Feedback createFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
 	{
 		Feedback feedback = mapper.map(fb, Feedback.class);
-		feedback.setFromUserId(getPrincipal().getId());
+		feedback.setFromUser(userService.getUserById(getPrincipal().getId()));
 		return feedbackService.createFeedback(feedback);
 	}
 

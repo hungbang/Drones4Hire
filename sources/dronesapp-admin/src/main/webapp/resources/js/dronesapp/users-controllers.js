@@ -44,7 +44,7 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$route', '$l
 
 DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location', '$routeParams', '$modal', '$route', '$upload', function($scope, $http, $location, $routeParams, $modal, $route, $upload) {
 	
-	$scope.tabs = [{ active: true }, { active: false }, { active: false }, { active: false }, { active: false }];
+	$scope.tabs = [{ active: true }, { active: false }, { active: false }, { active: false }, { active: false }, { active: false }];
 	
 	$scope.message = {};
 	$scope.messages = [];
@@ -69,6 +69,26 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 			alertify.error('Failed to load user');
 		});
 	};
+
+    $scope.loadFeedbacks = function() {
+        $http.get('users/' + $routeParams.id + '/feedbacks').success(function(data) {
+            $scope.feedbacks = data;
+            $scope.feedbacks.filter(function (feedback) {
+            	var intNum = parseInt(feedback.mark);
+				if(intNum != feedback.mark)
+				{
+					feedback.halfStar = true;
+				}
+                feedback.stars = [];
+				for(var i = 0; i < intNum; i++)
+				{
+					feedback.stars.push(i);
+				}
+            })
+        }).error(function(data, status) {
+            alertify.error('Failed to load feedbacks');
+        });
+    };
 	
 	$scope.loadLicense = function() {
 		$http.get('users/' + $routeParams.id + '/license').success(function(data) {
@@ -105,11 +125,28 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 	(function init(){
 		$scope.loadLocationsData();
 		$scope.loadUser();
+		$scope.loadFeedbacks();
 		$scope.loadLicense();
 		$scope.loadMessages();
 		$scope.loadCompanyData();
 		$scope.loadSettingsData();
 	})();
+
+    $scope.updateFeedback = function(feedback) {
+        $http.put('users/feedbacks', feedback).success(function(data) {
+            $route.reload();
+        }).error(function(data, status) {
+            alertify.error('Failed to update feedback');
+        });
+    };
+
+    $scope.deleteFeedback = function(id) {
+        $http.delete('users/feedbacks/' + id).success(function(data) {
+            $route.reload();
+        }).error(function(data, status) {
+            alertify.error('Failed to delete feedback');
+        });
+    };
 	
 	$scope.sendMessage = function(message){
 		$scope.message.type = 'EMAIL';

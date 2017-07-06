@@ -312,7 +312,7 @@ public class AccountController extends AbstractController
 	public @ResponseBody FeedbackDTO createFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
 	{
 		Feedback feedback = mapper.map(fb, Feedback.class);
-		feedback.setFromUserId(getPrincipal().getId());
+		feedback.setFromUser(userService.getUserById(getPrincipal().getId()));
 		return mapper.map(feedbackService.createFeedback(feedback), FeedbackDTO.class);
 	}
 
@@ -344,7 +344,7 @@ public class AccountController extends AbstractController
 	public @ResponseBody FeedbackDTO updateFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
 	{
 		Feedback feedback = feedbackService.getFeedbackById(fb.getId());
-		checkPrincipalPermissions(feedback.getFromUserId());
+		checkPrincipalPermissions(feedback.getFromUser().getId());
 		feedback.setComment(fb.getComment());
 		feedback.setMark(fb.getMark());
 		return mapper.map(feedbackService.updateFeedback(feedback), FeedbackDTO.class);
@@ -361,7 +361,7 @@ public class AccountController extends AbstractController
 			@ApiParam(value = "Id of the feedback", required = true) @PathVariable(value = "id") long id) throws ServiceException
 	{
 		Feedback feedback = feedbackService.getFeedbackById(id);
-		checkPrincipalPermissions(feedback.getFromUserId());
+		checkPrincipalPermissions(feedback.getFromUser().getId());
 		feedbackService.deleteFeedback(id);
 	}
 }
