@@ -36,6 +36,8 @@ public class UserService
 
 	private boolean DEFAULT_CONFIRMED = false;
 	
+	private Double DEAFULT_RATING = 5;
+	
 	private static final Integer DEFAULT_RANGE = 1000;
 
 	@Autowired
@@ -86,6 +88,7 @@ public class UserService
 		{
 			user.setEnabled(DEFAULT_ENABLED);
 			user.setConfirmed(DEFAULT_CONFIRMED);
+			user.setRating(DEAFULT_RATING);
 			user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 			userMapper.createUser(user);
 		}
