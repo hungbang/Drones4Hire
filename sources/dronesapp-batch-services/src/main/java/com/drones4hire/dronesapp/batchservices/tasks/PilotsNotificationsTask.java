@@ -1,7 +1,11 @@
 package com.drones4hire.dronesapp.batchservices.tasks;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
@@ -33,21 +37,34 @@ public class PilotsNotificationsTask
 	
 	public void runTask() throws ServiceException
 	{
+		Map<Long, List<Project>> results = new HashMap<Long, List<Project>>();
+		Map<Long, User> users = new HashMap<Long, User>();
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		cal.add(Calendar.HOUR, -1);
+		cal.add(Calendar.HOUR, -24);
 		
 		LOGGER.info("Date from is " + cal.getTime());
 		List<Project> projects = projectService.getLastProjects(cal.getTime(), Status.NEW);
 		LOGGER.info("Found project numbers: " + projects.size());
+		
 		for (Project project : projects)
 		{
 			List<User> pilots = userService.getUsersNearLocation(project.getLocation(), Role.ROLE_PILOT, SearchCriteria.MILE);
 			LOGGER.info("Found pilots: " + pilots.size() + " for project " + project.getTitle());
 			for (User pilot : pilots)
 			{
-				emailService.sendNewProjectPostedEmail(project, pilot);
+				List<Project> currProjects = results.get(pilot.getId());
+				if(currProjects == null) {
+					currProjects = new ArrayList<Project>();
+				}
+				currProjects.add(project);
+				results.put(pilot.getId(), currProjects);
+				users.put(pilot.getId(), pilot);
 			}
+		}
+		for (Entry<Long, List<Project>> entry : results.entrySet())
+		{
+			emailService.sendNewProjectPostedEmail(entry.getValue(), users.get(entry.getKey()));
 		}
 	}
 }
