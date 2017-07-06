@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drones4hire.dronesapp.dbaccess.dao.mysql.ServiceFeeMapper">
+
+    <insert id="createServiceFee" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+          INSERT INTO
+            drones.SERVICE_FEES (TYPE, PERCENTAGE, FIXED, CURRENCY)
+          VALUES
+          (
+            #{type},
+            #{percentage},
+            #{fixed},
+            #{currency}
+          )
+        ]]>
+    </insert>
+
+    <sql id="getServiceFees">
+        <![CDATA[
+          SELECT
+	        SF.ID AS SERVICE_FEE_ID,
+	        SF.TYPE AS SERVICE_FEE_TYPE,
+	        SF.PERCENTAGE AS SERVICE_FEE_PERCENTAGE,
+	        SF.FIXED AS SERVICE_FEE_FIXED,
+	        SF.CURRENCY AS SERVICE_FEE_CURRENCY,
+	        SF.MODIFIED_AT AS SERVICE_FEE_MODIFIED_AT,
+	        SF.CREATED_AT AS SERVICE_FEE_CREATED_AT
+          FROM
+	        drones.SERVICE_FEES SF
+        ]]>
+    </sql>
+
+    <select id="getServiceFeeById" resultMap="ServiceFeeResultMap">
+        <include refid="getServiceFees"/>
+        <![CDATA[
+          WHERE
+            SF.ID = #{id}
+        ]]>
+    </select>
+
+    <select id="getAllServiceFees" resultMap="ServiceFeeResultMap">
+        <include refid="getServiceFees"/>
+    </select>
+
+    <update id="updateServiceFee">
+        <![CDATA[
+          UPDATE
+         	drones.SERVICE_FEES
+          SET
+          	TEXT = #{type},
+          	PERCENTAGE = #{percentage},
+          	FIXED = #{fixed},
+          	CURRENCY = #{currency}
+          WHERE
+			ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="deleteServiceFee">
+        <![CDATA[
+          DELETE
+          FROM
+            drones.SERVICE_FEES
+          WHERE
+            ID = #{id}
+        ]]>
+    </delete>
+
+    <resultMap id="ServiceFeeResultMap" type="com.drones4hire.dronesapp.models.db.payments.ServiceFee" autoMapping="false">
+        <id column="SERVICE_FEE_ID" property="id"/>
+        <result column="SERVICE_FEE_TYPE" property="type"/>
+        <result column="SERVICE_FEE_PERCENTAGE" property="percentage"/>
+        <result column="SERVICE_FEE_FIXED" property="fixed"/>
+        <result column="SERVICE_FEE_CURRENCY" property="currency"/>
+        <result column="SERVICE_FEE_MODIFIED_AT" property="modifiedAt"/>
+        <result column="SERVICE_FEE_CREATED_AT" property="createdAt"/>
+    </resultMap>
+
+</mapper>
