@@ -14,6 +14,10 @@ export class WalletService {
   }
 
   public getTransactions() {
-    return this.requestService.fetch('get', '/wallets/transactions')
+    return this.requestService.fetch('get', '/wallets/transactions');
+  }
+
+  public searchTransactions(data: any) {
+    return this.requestService.fetch('post', '/wallets/transactions/search', data);
   }
 }

@@ -234,7 +234,7 @@ export class FClientProfileComponent implements OnInit {
                 return;
               }
 
-              console.log('place:', place);
+              // console.log('place:', place);
               this.ngZone.run(() => this.setLocation(place));
             })
           }
@@ -282,8 +282,6 @@ export class FClientProfileComponent implements OnInit {
     });
     this.accountService.account.location.coordinates.latitude = place.geometry.location.lat();
     this.accountService.account.location.coordinates.longitude = place.geometry.location.lng();
-
-    console.log(this.accountService.account.location);
   }
 
   private resetLocation() {
@@ -292,6 +290,10 @@ export class FClientProfileComponent implements OnInit {
       latitude: 0,
       longitude: 0
     }
+  }
+
+  setRange(value) {
+    this.accountService.account.location.range = value ? parseInt(value, 10): null;
   }
 
 }

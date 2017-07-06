@@ -90,6 +90,19 @@
                  #flightHoursRef="ngModel">
         </label>
       </div>
+      <div class="f-default__row" *ngIf="accountService.isUserPilot()">
+        <label class="f-default__label">
+          <input class="f-default__field"
+                 type="text"
+                 pattern="\d+"
+                 name="jobsRange"
+                 #rangeRef="ngModel"
+                 placeholder="How far are you willing to travel for jobs? (Miles)"
+                 [ngModel]="accountService.account?.location?.range"
+                 [ngClass]="{'_error': submitted && rangeRef.errors?.pattern}"
+                 (ngModelChange)="setRange($event)">
+        </label>
+      </div>
     </div>
 
     <div class="f-default__col">

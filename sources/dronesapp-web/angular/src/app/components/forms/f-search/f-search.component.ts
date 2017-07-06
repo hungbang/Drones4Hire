@@ -27,6 +27,11 @@ export class FSearchComponent implements OnInit {
     this._postcode = value;
   }
 
+  @Input()
+  set range(value) {
+    this._range = value;
+  }
+
   _postcode: string;
   _budget: string;
   _category: string;

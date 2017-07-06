@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import {WalletService} from '../../../services/wallet.service/wallet.service';
+import {AccountService} from '../../../services/account.service/account.service';
 
 @Component({
   selector: 'b-transactions',
@@ -16,21 +17,27 @@ export class BTransactionsComponent implements OnInit {
   private countPerPage = 20;
 
   constructor(
-    private walletService: WalletService
+    private walletService: WalletService,
+    private accountService: AccountService
   ) { }
 
   ngOnInit() {
-    this.getTransactions();
+    this.getTransactions(this.accountService.account.wallet.id);
   }
 
-  private getTransactions() {
-    this.walletService.getTransactions()
+  private getTransactions(walletId) {
+    const searchData = {
+      sortOrder: 'DESC',
+      walletId: walletId
+    };
+
+    this.walletService.searchTransactions(searchData)
       .subscribe(
         res => {
-          console.log('transactions: ', res);
-          if (res.length) {
-            this.transactions = res;
-            this.maxPage = Math.ceil(this.transactions.length / this.countPerPage);
+          // console.log('transactions: ', res);
+          if (res.totalResults) {
+            this.transactions = res.results;
+            this.maxPage = Math.ceil(this.transactions.length / this.countPerPage); // TODO: make real pagination via routes
           }
         },
         err => {

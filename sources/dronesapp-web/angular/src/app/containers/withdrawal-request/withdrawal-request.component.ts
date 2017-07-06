@@ -20,7 +20,6 @@ export class WithdrawalRequestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.accountService.account);
     this.accountWallet = this.accountService.account.wallet;
 
     if (!this.accountWallet.withdrawEnabled) {
