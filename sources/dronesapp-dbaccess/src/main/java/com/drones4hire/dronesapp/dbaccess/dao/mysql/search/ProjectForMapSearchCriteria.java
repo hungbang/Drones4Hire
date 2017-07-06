@@ -1,11 +1,10 @@
 package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
-import com.drones4hire.dronesapp.models.db.commons.Coordinates;
-import com.drones4hire.dronesapp.models.db.projects.Project.Status;
-import com.drones4hire.dronesapp.models.dto.CoordinatesDTO;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.drones4hire.dronesapp.models.db.projects.Project.Status;
+import com.drones4hire.dronesapp.models.dto.CoordinatesDTO;
 
 public class ProjectForMapSearchCriteria
 {

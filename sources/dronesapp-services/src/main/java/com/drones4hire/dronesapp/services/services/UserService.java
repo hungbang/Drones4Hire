@@ -216,6 +216,12 @@ public class UserService
 	{
 		return userMapper.getUserByEmail(email);
 	}
+	
+	@Transactional(readOnly = true)
+	public List<User> getUsersNearLocation(Location location, Role role, Integer unit) throws ServiceException
+	{
+		return userMapper.getUsersNearLocation(location, role, unit);
+	}
 
 	@Transactional(rollbackFor=Exception.class)
 	public User updateUser(User user) throws ServiceException

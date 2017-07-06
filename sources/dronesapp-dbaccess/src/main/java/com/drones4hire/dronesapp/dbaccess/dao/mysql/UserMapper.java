@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
+import com.drones4hire.dronesapp.models.db.commons.Location;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.models.db.users.Group.Role;
 
 public interface UserMapper
 {
@@ -25,6 +27,8 @@ public interface UserMapper
 	Integer getSearchUsersCount(UserSearchCriteria searchCriteria);
 	
 	List<User> getAllUsers();
+	
+	List<User> getUsersNearLocation(@Param("location") Location location, @Param("role") Role role, @Param("unit") Integer unit);
 	
 	void updateUser(User user);
 

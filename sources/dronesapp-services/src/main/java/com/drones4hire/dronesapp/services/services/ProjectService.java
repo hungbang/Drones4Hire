@@ -11,6 +11,7 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,6 +146,12 @@ public class ProjectService
 		return project;
 	}
 
+	@Transactional(readOnly = true)
+	public List<Project> getLastProjects(Date createdAfter, Status status) throws ServiceException
+	{
+		return projectMapper.getLastProjects(createdAfter, status);
+	}
+	
 	@Transactional(readOnly = true)
 	public SearchResult<ProjectSearchResult> searchProjects(ProjectSearchCriteria sc, long principalId) throws ServiceException
 	{

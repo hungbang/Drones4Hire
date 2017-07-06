@@ -12,11 +12,6 @@ import java.util.List;
 
 public class ProjectSearchCriteria extends SearchCriteria
 {
-
-	private static final Integer KILOMETER = 6371;
-
-	private static final Integer MILE = 3959;
-
 	private Long id;
 	private String title;
 	private Long clientId;

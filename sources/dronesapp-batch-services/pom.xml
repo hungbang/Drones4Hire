@@ -140,6 +140,12 @@
 												<include>windows-x86-64</include>
 												<include>macosx-universal-64</include>
 											</includes>
+											<configuration>
+												<property>
+													<name>wrapper.logfile.loglevel</name>
+													<value>ERROR</value>
+												</property>
+											</configuration>
 										</generatorConfiguration>
 									</generatorConfigurations>
 									<platforms>
