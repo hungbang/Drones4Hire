@@ -72,7 +72,7 @@ public class PilotLicenseService
 	@Transactional(rollbackFor = Exception.class)
 	public PilotLicense updatePilotLicense(PilotLicense license) throws ServiceException
 	{
-		PilotLicense currLicense = pilotLicenseMapper.getPilotLicenseByUserId(license.getId());
+		PilotLicense currLicense = pilotLicenseMapper.getPilotLicenseByUserId(license.getUserId());
 		User pilot = userService.getUserById(license.getUserId());
 		currLicense.setInsuranceURL(license.getInsuranceURL());
 		currLicense.setLicenseURL(license.getLicenseURL());
