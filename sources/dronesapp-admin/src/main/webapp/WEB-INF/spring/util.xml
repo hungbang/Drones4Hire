@@ -31,8 +31,6 @@
 	<bean id="mapper" class="com.drones4hire.admin.util.dozer.NullSafeDozerBeanMapper">
 		<property name="mappingFiles">
 			<list>
-				<value>dozer/Project-dozer-mapping.xml</value>
-				<value>dozer/User-dozer-mapping.xml</value>
 			</list>
 		</property>
 	</bean>

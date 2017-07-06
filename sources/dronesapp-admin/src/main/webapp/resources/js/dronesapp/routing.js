@@ -69,6 +69,11 @@ DronesAdmin.constant('ROUTES', [
 	config : {
 		templateUrl : 'content/terms'
 	}
+}, {
+	url : '/common/services/fees',
+	config : {
+		templateUrl : 'common/services/fees'
+	}
 }]);
 
 DronesAdmin.config([ '$routeProvider', 'ROUTES',

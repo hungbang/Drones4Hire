@@ -49,7 +49,7 @@
           UPDATE
          	drones.SERVICE_FEES
           SET
-          	TEXT = #{type},
+          	TYPE = #{type},
           	PERCENTAGE = #{percentage},
           	FIXED = #{fixed},
           	CURRENCY = #{currency}

@@ -3,11 +3,7 @@ package com.drones4hire.admin.controller;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.payments.ServiceFee;
-import com.drones4hire.dronesapp.models.dto.ServiceFeeDTO;
 import com.drones4hire.dronesapp.services.services.*;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +16,7 @@ import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -86,13 +83,20 @@ public class CommonController
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "services/fees", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ServiceFee createServiceFee(@Valid @RequestBody ServiceFeeDTO serviceFeeDTO)
+	public @ResponseBody ServiceFee createServiceFee(@Valid @RequestBody ServiceFee serviceFee)
 	{
-		return serviceFeeService.createServiceFee(mapper.map(serviceFeeDTO, ServiceFee.class));
+		return serviceFeeService.createServiceFee(mapper.map(serviceFee, ServiceFee.class));
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "services/fees", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ModelAndView getServiceFeesPage()
+	{
+		return new ModelAndView("services/fees/index");
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/fees/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<ServiceFee> getServiceFees()
 	{
 		return serviceFeeService.getAllServiceFees();
@@ -100,9 +104,9 @@ public class CommonController
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "services/fees", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ServiceFee updateServiceFee(@Valid @RequestBody ServiceFeeDTO serviceFeeDTO)
+	public @ResponseBody ServiceFee updateServiceFee(@Valid @RequestBody ServiceFee serviceFee)
 	{
-		return serviceFeeService.updateServiceFee(mapper.map(serviceFeeDTO, ServiceFee.class));
+		return serviceFeeService.updateServiceFee(mapper.map(serviceFee, ServiceFee.class));
 	}
 
 	@ResponseStatus(HttpStatus.OK)

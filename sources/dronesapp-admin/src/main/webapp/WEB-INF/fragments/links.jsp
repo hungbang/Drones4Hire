@@ -74,3 +74,4 @@
 <script src="<spring:url value='/resources/js/dronesapp/faqs-controller.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/policy-controller.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/dronesapp/terms-controller.js'/>" type="text/javascript"></script>
+<script src="<spring:url value='/resources/js/dronesapp/service-fees-controller.js'/>" type="text/javascript"></script>

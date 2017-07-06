@@ -75,6 +75,9 @@
 									</li>
 								</ul>
 							</li>
+							<li data-ng-class="{active : isActive('/serviceFee')}">
+								<a href="#/common/services/fees"><i class="fa fa-money"></i> Service fees</a>
+							</li>
 	                    </ul>
                     <ul class="nav navbar-right top-nav" data-ng-controller="NavigationCtrl">
                         <li class="dropdown user-dropdown">
