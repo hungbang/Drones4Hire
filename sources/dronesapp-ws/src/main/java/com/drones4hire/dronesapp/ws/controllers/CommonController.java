@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.models.db.payments.ServiceFee;
+import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,13 +28,6 @@ import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
 import com.drones4hire.dronesapp.models.dto.BudgetDTO;
 import com.drones4hire.dronesapp.models.dto.DurationDTO;
 import com.drones4hire.dronesapp.models.dto.FeesDTO;
-import com.drones4hire.dronesapp.services.services.BudgetService;
-import com.drones4hire.dronesapp.services.services.CountryService;
-import com.drones4hire.dronesapp.services.services.DurationService;
-import com.drones4hire.dronesapp.services.services.ProjectService;
-import com.drones4hire.dronesapp.services.services.ServiceCategoryService;
-import com.drones4hire.dronesapp.services.services.ServiceService;
-import com.drones4hire.dronesapp.services.services.StateService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 
 import io.swagger.annotations.Api;
@@ -67,6 +62,9 @@ public class CommonController extends AbstractController
 	
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private ServiceFeeService serviceFeeService;
 
 	@Autowired
 	private Mapper mapper;
@@ -333,5 +331,15 @@ public class CommonController extends AbstractController
 	public @ResponseBody FeesDTO getFees()
 	{
 		return new FeesDTO(projectService.getServiceFee());
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get service fees", nickname = "getServiceFees", code = 200, httpMethod = "GET", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/fees", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<ServiceFee> getServiceFees()
+	{
+		return serviceFeeService.getAllServiceFees();
 	}
 }

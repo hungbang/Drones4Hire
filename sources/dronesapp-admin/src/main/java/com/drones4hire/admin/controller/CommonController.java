@@ -2,25 +2,26 @@ package com.drones4hire.admin.controller;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.payments.ServiceFee;
+import com.drones4hire.dronesapp.models.dto.ServiceFeeDTO;
+import com.drones4hire.dronesapp.services.services.*;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import com.drones4hire.dronesapp.models.db.commons.Budget;
 import com.drones4hire.dronesapp.models.db.commons.Duration;
 import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.services.Service;
 import com.drones4hire.dronesapp.models.db.services.ServiceCategory;
-import com.drones4hire.dronesapp.services.services.BudgetService;
-import com.drones4hire.dronesapp.services.services.DurationService;
-import com.drones4hire.dronesapp.services.services.PaidOptionService;
-import com.drones4hire.dronesapp.services.services.ServiceCategoryService;
-import com.drones4hire.dronesapp.services.services.ServiceService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("common")
@@ -40,7 +41,13 @@ public class CommonController
 	private ServiceService serviceService;
 
 	@Autowired
+	private ServiceFeeService serviceFeeService;
+
+	@Autowired
 	private PaidOptionService paidOptionService;
+
+	@Autowired
+	private Mapper mapper;
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "budgets", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -75,5 +82,33 @@ public class CommonController
 	public @ResponseBody List<PaidOption> getAllPaidOptions()
 	{
 		return paidOptionService.getAllPaidOptions();
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/fees", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ServiceFee createServiceFee(@Valid @RequestBody ServiceFeeDTO serviceFeeDTO)
+	{
+		return serviceFeeService.createServiceFee(mapper.map(serviceFeeDTO, ServiceFee.class));
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/fees", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<ServiceFee> getServiceFees()
+	{
+		return serviceFeeService.getAllServiceFees();
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/fees", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ServiceFee updateServiceFee(@Valid @RequestBody ServiceFeeDTO serviceFeeDTO)
+	{
+		return serviceFeeService.updateServiceFee(mapper.map(serviceFeeDTO, ServiceFee.class));
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "services/fees/{id}", method = RequestMethod.DELETE)
+	public void deleteServiceFee(@PathVariable(value = "id") Long id)
+	{
+		serviceFeeService.deleteServiceFee(id);
 	}
 }
