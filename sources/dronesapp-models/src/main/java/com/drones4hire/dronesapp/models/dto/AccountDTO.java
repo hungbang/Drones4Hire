@@ -36,6 +36,8 @@ public class AccountDTO extends AbstractDTO
 
 	private Double rating;
 
+	private Double hourlyRate;
+
 	@Min(value = 0, message = "Flight hours should be positive")
 	private Integer flightHours;
 
@@ -132,6 +134,16 @@ public class AccountDTO extends AbstractDTO
 	public void setRating(Double rating)
 	{
 		this.rating = rating;
+	}
+
+	public Double getHourlyRate()
+	{
+		return hourlyRate;
+	}
+
+	public void setHourlyRate(Double hourlyRate)
+	{
+		this.hourlyRate = hourlyRate;
 	}
 
 	public Integer getFlightHours()

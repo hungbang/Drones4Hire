@@ -30,6 +30,7 @@ public class User extends AbstractEntity
 	private Boolean confirmed;
 	private Boolean enabled;
 	private Double rating;
+	private Double hourlyRate;
 	private Location location;
 	private List<Group> groups = new ArrayList<>();
 
@@ -161,6 +162,16 @@ public class User extends AbstractEntity
 	public void setRating(Double rating)
 	{
 		this.rating = rating;
+	}
+
+	public Double getHourlyRate()
+	{
+		return hourlyRate;
+	}
+
+	public void setHourlyRate(Double hourlyRate)
+	{
+		this.hourlyRate = hourlyRate;
 	}
 
 	public Location getLocation()

@@ -77,6 +77,10 @@
             <b>rating</b>
         </field>
         <field>
+            <a>hourlyRate</a>
+            <b>hourlyRate</b>
+        </field>
+        <field>
             <a>flightHours</a>
             <b>flightHours</b>
         </field>
