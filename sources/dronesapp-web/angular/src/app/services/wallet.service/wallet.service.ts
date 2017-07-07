@@ -4,6 +4,17 @@ import {RequestService} from '../request.service/request.service';
 
 @Injectable()
 export class WalletService {
+  private allowedTypes = {
+    pilot: [
+      'PAYMENT_RELEASED',
+      'WITHDRAW'
+    ],
+    client: [
+      'PAID_OPTION',
+      'PROJECT_PAYMENT',
+      'WITHDRAW'
+    ]
+  };
 
   constructor(
     private requestService: RequestService
@@ -19,5 +30,13 @@ export class WalletService {
 
   public searchTransactions(data: any) {
     return this.requestService.fetch('post', '/wallets/transactions/search', data);
+  }
+
+  get pilotTransactionsTypes() {
+    return this.allowedTypes.pilot;
+  }
+
+  get clientTransactionsTypes() {
+    return this.allowedTypes.client;
   }
 }

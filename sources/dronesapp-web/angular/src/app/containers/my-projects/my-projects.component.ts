@@ -28,12 +28,12 @@ export class MyProjectsComponent implements OnInit {
   goToPostAProjectIfAccessExist(e) {
     e.preventDefault();
 
-    if (!this._modalService) {
+    if (!this._modalService) { // TODO: do we still need this modal
       this._modalService.push({
         component: ModalInformationComponent,
         type: 'ModalInformationComponent',
         values: {
-          title: '',
+          title: 'Post a project',
           message: 'Please complete your billing information on Payment info, to get the possibility to post your project.'
         }
       });

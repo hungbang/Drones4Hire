@@ -1,0 +1,33 @@
+@import '../../../styles/settings/variables.styl'
+@import '../../../styles/settings/mixin.styl'
+
+.l-faq
+  color $gray1f
+
+  &__item
+    margin-bottom 0.5rem
+    &-caption
+      font-size 2rem
+      line-height 2.2rem
+      padding 0.8rem 0 0.8rem 2rem
+      position relative
+      cursor pointer
+      &:before
+        ps()
+        left: 8px
+        top: 18px
+        border-top: 4px solid $gray1f
+        border-left: 4px solid transparent
+        border-right: 4px solid transparent
+        transition: transform .4s ease-out
+    &-content
+      padding 1rem 2rem 2rem
+      font-size 2.4rem
+      &-outer
+        overflow hidden
+      p
+        font-size 2.4rem
+    &._open &
+      &-caption
+        &:before
+          transform: rotate(180deg)

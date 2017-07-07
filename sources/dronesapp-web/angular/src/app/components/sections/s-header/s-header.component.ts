@@ -86,7 +86,7 @@ export class HeaderComponent {
               component: ModalInformationComponent,
               type: 'ModalInformationComponent',
               values: {
-                title: '',
+                title: 'Find a job',
                 message: 'Pilot: Your license and/or certificate were not verified yet. Please upload it on Account settings, to gain access to job board.'
               }
             });
@@ -106,7 +106,7 @@ export class HeaderComponent {
         component: ModalInformationComponent,
         type: 'ModalInformationComponent',
         values: {
-          title: '',
+          title: 'Post a project',
           message: 'Please complete your billing information on Payment info, to get the possibility to post your project.'
         }
       });
@@ -114,7 +114,7 @@ export class HeaderComponent {
       return;
     }
 
-    this._router.navigate(['/project/manage/add']);
+    this._router.navigate(['/project', 'manage', 'add']);
   }
 
   logout() {

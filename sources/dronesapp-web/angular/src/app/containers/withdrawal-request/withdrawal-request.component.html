@@ -6,7 +6,10 @@
     </div>
 
     <div class="withdrawal-request__content">
-      <f-withdrawal [wallet]="accountWallet" *ngIf="!showSuccessText" (showSuccessText)="showSuccessText = $event"></f-withdrawal>
+      <div class="withdrawal-request__success-text" *ngIf="inPayoneerRegistration">
+        Payoneer is currently processing your request, you will receive email once you are connected.
+      </div>
+      <f-withdrawal [wallet]="accountWallet" *ngIf="!showSuccessText && !inPayoneerRegistration" (showSuccessText)="showSuccessText = $event"></f-withdrawal>
       <div class="withdrawal-request__success-text" *ngIf="showSuccessText">Your withdrawal request was submitted successfully! You’re funds will be transferred within 48 hours.</div>
     </div>
   </div>

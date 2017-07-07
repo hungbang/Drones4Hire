@@ -34,8 +34,8 @@ export class TProjectComponent {
       component: ModalConfirmationComponent,
       type: 'ModalConfirmationComponent',
       values: {
-        title: '',
-        message: 'Do you really want to release payments?',
+        title: 'Project cancel',
+        message: 'Do you really want to cancel this project?',
         confirm_btn_text: 'Yes',
         cancel_btn_text: 'No',
         confirm: (e) => this._cancel(e, project)

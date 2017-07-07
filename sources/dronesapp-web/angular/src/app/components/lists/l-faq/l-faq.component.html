@@ -1,0 +1,16 @@
+<div class="l-faq">
+  <ul class="l-faq__list">
+    <li class="l-faq__item"
+        [ngClass]="{'_open': item.active}"
+        (click)="toggleItem(item)"
+        *ngFor="let item of items">
+      <div class="l-faq__item-caption">{{ item.question }}</div>
+      <div class="l-faq__item-content-outer"
+           *ngIf="item.active"
+           [@itemToggle]>
+        <div class="l-faq__item-content" [innerHTML]="item.answer"></div>
+        <!--<div class="l-faq__item-content">5454<br/><br/><br/><br/><br/><br/><br/>6666</div>-->
+      </div>
+    </li>
+  </ul>
+</div>

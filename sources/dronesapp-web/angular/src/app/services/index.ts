@@ -17,6 +17,7 @@ import {TokenService} from './token.service/token.service';
 import {CommonService} from './common.service/common.service';
 import { PublicService } from './public.service/public.service';
 import { ToastrService } from './toastr.service/toastr.service';
+import { ContentService } from './content.service/content.service';
 
 export const AppServices = [
   AppService,
@@ -24,6 +25,7 @@ export const AppServices = [
   BidService,
   ClientsService,
   CommonService,
+  ContentService,
   ModalService,
   PilotsService,
   PortfolioService,

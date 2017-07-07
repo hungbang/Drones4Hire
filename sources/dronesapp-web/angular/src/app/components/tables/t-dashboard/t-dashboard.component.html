@@ -7,6 +7,9 @@
     <th class="t-dashboard__th">STATUS</th>
     <th class="t-dashboard__th">Payment released</th>
   </tr>
+  <tr *ngIf="!projects.length">
+    <td class="t-dashboard__td" colspan="6">No results</td>
+  </tr>
   <tr *ngFor="let project of projects">
     <td class="t-dashboard__td _name">
       <a class="t-dashboard__link-name" href="#" [routerLink]="project.status === 'CANCELLED' ? [] : ['/project', project.id, 'description']">
@@ -61,6 +64,9 @@
     <th class="t-dashboard__th">Payment released</th>
     <th class="t-dashboard__th">Amount paid</th>
   </tr>
+  <tr *ngIf="!projects.length">
+    <td class="t-dashboard__td" colspan="7">No results</td>
+  </tr>
   <tr *ngFor="let item of projects">
     <td class="t-dashboard__td _name">
       <a class="t-dashboard__link-name"
@@ -100,4 +106,3 @@
     </td>
   </tr>
 </table>
-<div class="t-dashboard__empty" *ngIf="!projects.length">No projects yet.</div>

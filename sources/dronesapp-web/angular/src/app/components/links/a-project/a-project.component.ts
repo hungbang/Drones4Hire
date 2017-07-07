@@ -28,12 +28,12 @@ export class AProjectComponent implements OnInit {
 
     this._router.navigate(['/project', 'manage', 'add']);
 
-    if (!this._modalService) {
+    if (!this._modalService) { // TODO: Do we still need this modal
       this._modalService.push({
         component: ModalInformationComponent,
         type: 'ModalInformationComponent',
         values: {
-          title: '',
+          title: 'Post a project',
           message: 'Please complete your billing information on Payment info, to get the possibility to post your project.'
         }
       });

@@ -18,6 +18,7 @@ import { DashboardProfileResolve } from './dashboard-profile/dashboard-profile.r
 import {PilotProjectsResolve} from './pilot-projects/pilot-projects.resolve';
 import {BidInfoResolve} from './bid-info/bid-info';
 import {ResetTokenResolve} from './reset-token/reset-token.resolve';
+import {FaqResolve} from './faq/faq.resolve';
 
 export const AppResolves = [
   BidInfoResolve,
@@ -28,6 +29,7 @@ export const AppResolves = [
   CountriesResolve,
   DashboardProfileResolve,
   DurationsResolve,
+  FaqResolve,
   FindProjectsResolve,
   MyProjectsResolve,
   PaidOptionsResolve,

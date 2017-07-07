@@ -10,16 +10,16 @@ export class ToastrService {
   ) {
   }
 
-  showSuccess(message: string, title: string = 'Success!', settings?: any) {
+  showSuccess(message: string, title: string = '', settings?: any) {
     this.toastr.success(message, title, settings);
   }
 
-  showError(message: string, title: string = 'Error!', settings: any = {}) {
-    this.toastr.error(message, title, {...{toastLife: 15000, showCloseButton: true, dismiss: 'click'}, ...settings});
+  showError(message: string, title: string = '', settings: any = {}) {
+    this.toastr.error(message, title, {...{toastLife: 10000, showCloseButton: true, dismiss: 'click'}, ...settings});
 
   }
 
-  showWarning(message: string, title: string = 'Alert!', settings: any = {}) {
+  showWarning(message: string, title: string = '', settings: any = {}) {
     this.toastr.warning(message, title, settings);
 
   }
