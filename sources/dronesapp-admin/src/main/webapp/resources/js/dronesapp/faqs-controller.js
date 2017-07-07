@@ -34,7 +34,6 @@ DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', '$ro
                 $scope.faq = faq;
 
                 $scope.createFaq = function(faq){
-                    faq.order = 0;
                     $http.post('content/faqs', faq).success(function(data) {
                         $scope.faqs.push(data);
                         $scope.cancel();
