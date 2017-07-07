@@ -9,13 +9,15 @@ import { LBidsComponent } from './l-bids/l-bids.component';
 import { LAbilitiesComponent } from './l-abilities/l-abilities.component';
 import {LSimilarComponent} from './l-similar/l-similar.component';
 import { LPortfolioFilesComponent } from './l-portfolio-files/l-portfolio-files.component';
-import {LProjectPaginationComponent} from "./l-project-pagination/l-project-pagination.component";
-import {LCardsComponent} from "./l-cards/l-cards.component";
+import {LProjectPaginationComponent} from './l-project-pagination/l-project-pagination.component';
+import {LCardsComponent} from './l-cards/l-cards.component';
+import { LFaqComponent } from './l-faq/l-faq.component';
 
 export const LISTS = [
   LAbilitiesComponent,
   LRatingComponent,
   LCardsComponent,
+  LFaqComponent,
   LServicesComponent,
   LHowitComponent,
   LRatingComponent,

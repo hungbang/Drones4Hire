@@ -58,6 +58,8 @@ import {ResetTokenResolve} from './resolves/reset-token/reset-token.resolve';
 import {FResetPasswordComponent} from './components/forms/f-reset-password/f-reset-password.component';
 import {GuestGuard} from './guards/guest.guard/guest.guard';
 import {FForgotPasswordComponent} from './components/forms/f-forgot-password/f-forgot-password.component';
+import {FaqComponent} from './containers/faq/faq.component';
+import {FaqResolve} from './resolves/faq/faq.resolve';
 
 export const ROUTES: Routes = [
   {
@@ -555,6 +557,16 @@ export const ROUTES: Routes = [
     component: PaymentComponent,
     data: {
       className: 'p-payment'
+    }
+  },
+  {
+    path: 'faq',
+    component: FaqComponent,
+    resolve: {
+      faqs: FaqResolve
+    },
+    data: {
+      className: 'p-faq'
     }
   },
   {

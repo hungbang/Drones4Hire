@@ -20,7 +20,7 @@ export class MFooterComponent implements OnInit {
   ngOnInit() {
   }
 
-  getDashboardLink() {
+  getDashboardLink() { // TODO: check if its needed
     if (this._authorizationService.isUserLogin) {
       return this._accountService.isUserClient() ? '/dashboard/client' : '/dashboard/pilot';
     } else {

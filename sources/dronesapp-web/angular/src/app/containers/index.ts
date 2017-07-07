@@ -25,12 +25,14 @@ import {TermsComponent} from './terms/terms.component';
 import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
 import {ContactUsComponent} from './contact-us/contact-us.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { FaqComponent } from './faq/faq.component';
 
 export const AppContainers = [
   AboutComponent,
   AccountComponent,
   AuthorizationComponent,
   ContactUsComponent,
+  FaqComponent,
   IndexComponent,
   MyProjectsComponent,
   DashboardComponent,

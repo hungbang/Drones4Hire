@@ -25,7 +25,7 @@ export class FooterComponent {
       { title: 'Sign Up', link: '/sign-up' }
     ],
     support: [
-      { title: 'Faq\'s', link: '' },
+      { title: 'Faq\'s', link: '/faq' },
       { title: 'Terms & Conditions', link: '/terms-and-condition' },
       { title: 'Privacy Policy', link: '/privacy-policy' },
       { title: 'Contact Us', link: '/contact' }

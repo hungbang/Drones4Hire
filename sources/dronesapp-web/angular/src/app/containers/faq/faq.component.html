@@ -1,0 +1,12 @@
+<div class="faq">
+  <div class="container">
+    <h1 class="faq__title">FAQ</h1>
+    <div class="faq__empty" *ngIf="!faqs.length">No questions yet.</div>
+    <l-faq [items]="faqs"
+           *ngIf="faqs.length"></l-faq>
+    <div class="faq__footer">
+      <div class="faq__footer-text">Still have questions?</div>
+      <div class="faq__footer-text">Contact us at <a class="faq__footer-link" href="mailto:info@drones4hire.com">info@drones4hire.com</a> or call toll-free <a class="faq__footer-link" href="tel:+18775771782">1-877-577-1782</a></div>
+    </div>
+  </div>
+</div>
