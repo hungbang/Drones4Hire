@@ -183,15 +183,6 @@ public class UsersController extends AbstractController
 		return pilotLicenseService.updatePilotLicense(license);
 	}
 
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "feedbacks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Feedback createFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
-	{
-		Feedback feedback = mapper.map(fb, Feedback.class);
-		feedback.setFromUser(userService.getUserById(getPrincipal().getId()));
-		return feedbackService.createFeedback(feedback);
-	}
-
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "{id}/feedbacks", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Feedback> getFeedbacksByUserId(@PathVariable(value = "id") long id)

@@ -228,7 +228,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 
 DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$location', '$routeParams', '$modal', '$route', '$upload', function($scope, $http, $location, $routeParams, $modal, $route, $upload) {
 
-    $scope.tabs = [{ active: true }, { active: false }, { active: false }, { active: false }];
+    $scope.tabs = [{ active: true }, { active: false }, { active: false }, { active: false }, { active: false }];
 
     $scope.attach = {};
 
@@ -246,6 +246,8 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 			$scope.createdAt = new Date($scope.project.createdAt);
 			$scope.startDate = new Date($scope.project.startDate);
 			$scope.finishDate = new Date($scope.project.finishDate);
+
+            $scope.loadFeedbacks();
 			
 		}).error(function(data, status) {
 			alertify.error('Failed to load project');
@@ -391,6 +393,69 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
             });
         }).error(function() {
             alertify.error('Failed to upload file');
+        });
+    };
+
+
+    $scope.loadFeedbacks = function() {
+        $http.get('projects/' + $scope.project.id + '/feedbacks').success(function(data) {
+            $scope.feedbacks = data;
+            $scope.feedbacks.filter(function (feedback) {
+                var intNum = parseInt(feedback.mark);
+                if(intNum != feedback.mark)
+                {
+                    feedback.halfStar = true;
+                }
+                feedback.stars = [];
+                for(var i = 0; i < intNum; i++)
+                {
+                    feedback.stars.push(i);
+                }
+            })
+        }).error(function(data, status) {
+            alertify.error('Failed to load feedbacks');
+        });
+    };
+
+    $scope.deleteFeedback = function(id) {
+        $http.delete('users/feedbacks/' + id).success(function(data) {
+            $route.reload();
+        }).error(function(data, status) {
+            alertify.error('Failed to delete feedback');
+        });
+    };
+
+    $scope.openFeedbackModal = function (feedback) {
+        var modalInstance = $modal.open({
+            templateUrl: 'resources/templates/modal/feedback.html',
+            scope: $scope,
+            resolve: {
+                'feedback': function () {
+                    return feedback;
+                }
+            },
+            controller: function ($scope, $modalInstance) {
+
+                $scope.feedback = feedback;
+
+                $scope.updateFeedback = function(feedback){
+                    $http.put('users/feedbacks', feedback).success(function(data) {
+                        alertify.success('Feedback successfully updated');
+                        $scope.cancel();
+                    }).error(function() {
+                        alertify.error('Failed to update feedback');
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $modalInstance.close(false);
+                };
+
+                (function init() {
+                })();
+            }
+        }).result.then(function () {
+        }, function () {
         });
     };
 

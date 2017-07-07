@@ -132,14 +132,6 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 		$scope.loadSettingsData();
 	})();
 
-    $scope.updateFeedback = function(feedback) {
-        $http.put('users/feedbacks', feedback).success(function(data) {
-            $route.reload();
-        }).error(function(data, status) {
-            alertify.error('Failed to update feedback');
-        });
-    };
-
     $scope.deleteFeedback = function(id) {
         $http.delete('users/feedbacks/' + id).success(function(data) {
             $route.reload();
@@ -198,6 +190,40 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 			alertify.error('Failed to save changes');
 		});
 	};
+
+    $scope.openFeedbackModal = function (feedback) {
+        var modalInstance = $modal.open({
+            templateUrl: 'resources/templates/modal/feedback.html',
+            scope: $scope,
+            resolve: {
+                'feedback': function () {
+                    return feedback;
+                }
+            },
+            controller: function ($scope, $modalInstance) {
+
+                $scope.feedback = feedback;
+
+                $scope.updateFeedback = function(feedback){
+                    $http.put('users/feedbacks', feedback).success(function(data) {
+                        alertify.success('Feedback successfully updated');
+                        $scope.cancel();
+                    }).error(function() {
+                        alertify.error('Failed to update feedback');
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $modalInstance.close(false);
+                };
+
+                (function init() {
+                })();
+            }
+        }).result.then(function () {
+        }, function () {
+        });
+    };
 	
 	$scope.contactUser = function(userId){
 		$http.get('users/' + userId + '/contact/messages').success(function(data) {

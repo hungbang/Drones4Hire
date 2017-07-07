@@ -23,6 +23,7 @@
 				<a href="" class="tab2" data-ng-click="tabs[1].active = true" data-ng-class="{active: tabs[1].active}">Comments <small data-ng-if="comments.length">({{comments.length}})</small></a>
 				<a href="" class="tab2" data-ng-click="tabs[2].active = true" data-ng-class="{active: tabs[2].active}">Bids <small data-ng-if="bids.length">({{bids.length}})</small></a>
 				<a href="" class="tab2" data-ng-click="tabs[3].active = true" data-ng-class="{active: tabs[3].active}">Attachments <small data-ng-if="project.attachments.length">({{project.attachments.length}})</small></a>
+				<a href="" class="tab2" data-ng-click="tabs[4].active = true" data-ng-class="{active: tabs[4].active}">Feedback</a>
 			</p>
 			<tabset justified="true">
 				<tab active="tabs[0].active">
@@ -188,6 +189,39 @@
 												<input class="btn btn-default" type="file" file-model="fileToUpload" data-ng-model="file"/>
 											</div>
 											<button data-ng-if="fileToUpload" class="btn btn-default btn-primary" data-ng-click="uploadAttachment(fileToUpload)" value="Load file">Upload {{fileToUpload.name}}</button>
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+					</div>
+				</tab>
+				<tab active="tabs[4].active">
+					<div class="row">
+						<div class="col-lg-12">
+							<form name="feedbackForm">
+								<fieldset>
+									<div class="row" data-ng-repeat="feedback in feedbacks | orderBy:'id':true">
+										<div class="col-lg-10">
+											<div class="well">
+												<p>
+													<b>
+														<a data-ng-href="/admin/#/users/{{feedback.fromUser.id}}/view">{{feedback.fromUser.firstName}} {{feedback.fromUser.lastName}}</a>
+														{{feedback.createdAt | date}}
+														<i data-ng-repeat="star in feedback.stars" class="fa fa-star" aria-hidden="true"></i>
+														<i data-ng-if="feedback.halfStar" class="fa fa-star-half-o" aria-hidden="true"></i>
+														( <i>{{feedback.mark}}</i> )
+													</b>
+													<br/>
+													<i>{{feedback.comment}}</i>
+												</p>
+											</div>
+										</div>
+										<div class="col-lg-2">
+											<div class="text-center">
+												<button class="btn btn-sm btn-success" data-ng-click="openFeedbackModal(feedback)">Update</button>
+												<button class="btn btn-sm btn-danger" ng-really-message="Do you really want to delete?" ng-really-click="deleteFeedback(feedback.id)">Delete</button>
+											</div>
 										</div>
 									</div>
 								</fieldset>

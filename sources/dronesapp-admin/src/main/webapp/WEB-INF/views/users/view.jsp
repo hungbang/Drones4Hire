@@ -223,11 +223,12 @@
 									<br/>
 									<i>{{feedback.comment}}</i>
 								</p>
+								<a style="float: right; padding-bottom: 10px" data-ng-href="/admin/#/projects/{{feedback.projectId}}/view">Open project</a>
 							</div>
 						</div>
 						<div class="col-lg-2">
 							<div class="text-center">
-								<button class="btn btn-sm btn-success" data-ng-click="">Update</button>
+								<button class="btn btn-sm btn-success" data-ng-click="openFeedbackModal(feedback)">Update</button>
 								<button class="btn btn-sm btn-danger" ng-really-message="Do you really want to delete?" ng-really-click="deleteFeedback(feedback.id)">Delete</button>
 							</div>
 						</div>

@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("projects")
@@ -43,7 +46,13 @@ public class ProjectsController extends AbstractController
 	private CommentService commentService;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private FeedbackService feedbackService;
+
+	@Autowired
+	private Mapper mapper;
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -178,5 +187,14 @@ public class ProjectsController extends AbstractController
 	{
 
 		return feedbackService.getFeedbacksByProjectId(id);
+	}
+
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "feedbacks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Feedback createFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
+	{
+		Feedback feedback = mapper.map(fb, Feedback.class);
+		feedback.setFromUser(userService.getUserById(getPrincipal().getId()));
+		return feedbackService.createFeedback(feedback);
 	}
 }

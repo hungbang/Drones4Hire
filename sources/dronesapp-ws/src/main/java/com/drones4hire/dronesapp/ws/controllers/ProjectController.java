@@ -63,6 +63,9 @@ public class ProjectController extends AbstractController
 
 	@Autowired
 	private FeedbackService feedbackService;
+
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private Mapper mapper;
@@ -343,6 +346,20 @@ public class ProjectController extends AbstractController
 	}
 
 	@ResponseStatusDetails
+	@ApiOperation(value = "Create feedback", nickname = "createFeedback", code = 201, httpMethod = "POST", response = FeedbackDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "feedbacks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody FeedbackDTO createFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
+	{
+		Feedback feedback = mapper.map(fb, Feedback.class);
+		feedback.setFromUser(userService.getUserById(getPrincipal().getId()));
+		return mapper.map(feedbackService.createFeedback(feedback), FeedbackDTO.class);
+	}
+
+	@ResponseStatusDetails
 	@ApiOperation(value = "Get feedbacks by project id", nickname = "getFeedbacksByProjectId", code = 200, httpMethod = "GET", response = List.class)
 	@ApiImplicitParams(
 			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
@@ -358,5 +375,36 @@ public class ProjectController extends AbstractController
 			feedbackDTOs.add(mapper.map(feedback, FeedbackDTO.class));
 		}
 		return feedbackDTOs;
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Update feedback", nickname = "updateFeedback", code = 200, httpMethod = "PUT", response = FeedbackDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "feedbacks", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody FeedbackDTO updateFeedback(@Valid @RequestBody FeedbackDTO fb) throws ServiceException
+	{
+		Feedback feedback = feedbackService.getFeedbackById(fb.getId());
+		checkPrincipalPermissions(feedback.getFromUser().getId());
+		feedback.setComment(fb.getComment());
+		feedback.setMark(fb.getMark());
+		return mapper.map(feedbackService.updateFeedback(feedback), FeedbackDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Delete feedback", nickname = "deleteFeedback", code = 204, httpMethod = "DELETE")
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "feedbacks/{id}", method = RequestMethod.DELETE)
+	public void deleteFeedback(
+			@ApiParam(value = "Id of the feedback", required = true) @PathVariable(value = "id") long id) throws ServiceException
+	{
+		Feedback feedback = feedbackService.getFeedbackById(id);
+		checkPrincipalPermissions(feedback.getFromUser().getId());
+		feedbackService.deleteFeedback(id);
 	}
 }

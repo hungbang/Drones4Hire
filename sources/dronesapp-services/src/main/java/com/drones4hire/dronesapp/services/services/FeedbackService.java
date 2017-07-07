@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,13 +33,17 @@ public class FeedbackService
 	{
 		Project project = projectService.getProjectById(feedback.getProjectId());
 		User user = userService.getUserById(feedback.getFromUser().getId());
+		List<Feedback> feedbacks = feedbackMapper.getFeedbacksByProjectId(project.getId());
 		if((!feedback.getFromUser().getId().equals(project.getClientId()) || !feedback.getToUser().getId().equals(project.getPilotId())
-				|| !project.getStatus().equals(Project.Status.COMPLETED) || feedbackMapper.getFeedbacksByProjectId(project.getId()) != null)
+				|| !project.getStatus().equals(Project.Status.COMPLETED) || !feedbacks.isEmpty())
 				&& !user.getRoles().contains(Group.Role.ROLE_ADMIN))
 		{
 			throw new ForbiddenOperationException();
 		}
+		User toUser = userService.getUserById(feedback.getToUser().getId());
 		feedbackMapper.createFeedback(feedback);
+		toUser.setRating(calculateUserRating(toUser).doubleValue());
+		userService.updateUser(toUser);
 		return feedback;
 	}
 
@@ -60,15 +66,33 @@ public class FeedbackService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Feedback updateFeedback(Feedback feedback)
+	public Feedback updateFeedback(Feedback feedback) throws ServiceException
 	{
 		feedbackMapper.updateFeedback(feedback);
+		User toUser = userService.getUserById(feedback.getToUser().getId());
+		toUser.setRating(calculateUserRating(toUser).doubleValue());
+		userService.updateUser(toUser);
 		return feedback;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public void deleteFeedback(long id)
+	public void deleteFeedback(long id) throws ServiceException
 	{
+		Feedback feedback = getFeedbackById(id);
 		feedbackMapper.deleteFeedback(id);
+		User toUser = userService.getUserById(feedback.getToUser().getId());
+		toUser.setRating(calculateUserRating(toUser).doubleValue());
+		userService.updateUser(toUser);
+	}
+
+	private BigDecimal calculateUserRating(User user)
+	{
+		BigDecimal rating = BigDecimal.ZERO;
+		List<Feedback> feedbacks = getFeedbacksByUserId(user.getId());
+		for(Feedback feedback: feedbacks)
+		{
+			rating = rating.add(feedback.getMark());
+		}
+		return rating.divide(new BigDecimal(feedbacks.size()));
 	}
 }
