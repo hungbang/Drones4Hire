@@ -22,13 +22,13 @@ export class BTransactionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getTransactions(this.accountService.account.wallet.id);
+    this.getTransactions();
   }
 
-  private getTransactions(walletId) {
+  private getTransactions() {
     const searchData = {
       sortOrder: 'DESC',
-      walletId: walletId
+      types: this.transactionsTypes
     };
 
     this.walletService.searchTransactions(searchData)
@@ -44,6 +44,10 @@ export class BTransactionsComponent implements OnInit {
           console.log('get transactions error:', err);
         }
       );
+  }
+
+  get transactionsTypes() {
+    return this.accountService.isUserPilot() ? this.walletService.pilotTransactionsTypes : this.accountService.isUserClient() ? this.walletService.clientTransactionsTypes : [];
   }
 
   changePage(page) {

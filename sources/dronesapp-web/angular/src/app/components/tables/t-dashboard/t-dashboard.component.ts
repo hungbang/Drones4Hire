@@ -54,7 +54,7 @@ export class TDashboardComponent implements OnInit {
         component: ModalConfirmationComponent,
         type: 'ModalConfirmationComponent',
         values: {
-          title: '',
+          title: 'Release project',
           message: 'Do you really want to release payments?',
           confirm_btn_text: 'Yes',
           cancel_btn_text: 'No',

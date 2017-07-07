@@ -308,6 +308,8 @@ export class FAuthorizationComponent implements OnInit {
             const body = err.json();
             if (body && body.error && body.error.code === 401) {
               this.toastrService.showError('Wrong e-mail or password');
+            } else {
+              this.toastrService.showError('Please check your data');
             }
           } else if (err.status === 403) {
             const body = err.json();
@@ -316,6 +318,8 @@ export class FAuthorizationComponent implements OnInit {
                 this.showVerifyNotification = true;
                 this.isVerified = false;
               }
+            } else {
+              this.toastrService.showError('Please check your data');
             }
           } else if (err.status === 400) {
             const body = err.json();
@@ -323,6 +327,8 @@ export class FAuthorizationComponent implements OnInit {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
               });
+            } else {
+              this.toastrService.showError('Please check your data');
             }
           } else {
             this.toastrService.showError('Please check your data');
@@ -355,13 +361,18 @@ export class FAuthorizationComponent implements OnInit {
         (err) => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
-          if (err.status === 403) {
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else if (err.status === 403) {
+            const body = err.json();
             if (body && body.error && body.error.code === 1001) {
               this.toastrService.showError('User already exists');
+            } else {
+              this.toastrService.showError('Please check your data');
             }
           }
           if (err.status === 400) {
+            const body = err.json();
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
@@ -369,6 +380,8 @@ export class FAuthorizationComponent implements OnInit {
             } else {
               this.toastrService.showError('Invalid form data');
             }
+          } else {
+            this.toastrService.showError('Please check your data');
           }
         }
       );

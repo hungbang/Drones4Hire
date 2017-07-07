@@ -40,7 +40,7 @@ export class SIndexComponent implements OnInit {
               component: ModalInformationComponent,
               type: 'ModalInformationComponent',
               values: {
-                title: '',
+                title: 'Find a job',
                 message: 'Pilot: Your license and/or certificate were not verified yet. Please upload it on Account settings, to gain access to job board.'
               }
             });

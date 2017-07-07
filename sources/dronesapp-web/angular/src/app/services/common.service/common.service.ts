@@ -148,6 +148,6 @@ export class CommonService {
   }
 
   public getFee() {
-    return this._requestService.fetch('get', '/common/fees')
+    return this._requestService.fetch('get', '/common/services/fees')
   }
 }

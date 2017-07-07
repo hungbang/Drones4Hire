@@ -12,7 +12,9 @@
     <div class="t-transactions__cell _description">
       {{ formatDescription(transaction) }}
     </div>
-    <div class="t-transactions__cell _amount">${{ transaction.amount }}</div>
+    <div class="t-transactions__cell _amount"
+         [ngClass]="amountClass(transaction)"
+    >${{ transaction.amount }}</div>
   </div>
 </div>
 <div class="t-transactions__empty" *ngIf="!transactions.length">No transactions yet.</div>

@@ -94,12 +94,15 @@ export class ProjectDescriptionComponent implements OnInit {
 
     this.createBidsInfo(this._serverBidInfo);
     this.getSimilarProjects();
+    this.getDronesFee();
+  }
 
+  private getDronesFee() {
     this.commonService.getFee()
       .subscribe(
         res => {
           // console.log(res);
-          this.fee = res.serviceFee;
+          this.fee = (res.filter(el => el.type === 'DRONES'))[0].percentage;
         },
         err => {
           console.log('get fee error: ', err);
@@ -191,7 +194,7 @@ export class ProjectDescriptionComponent implements OnInit {
       component: ModalConfirmationComponent,
       type: 'ModalConfirmationComponent',
       values: {
-        title: '',
+        title: 'Confirmation',
         message: message,
         confirm_btn_text: 'Yes',
         cancel_btn_text: 'No',

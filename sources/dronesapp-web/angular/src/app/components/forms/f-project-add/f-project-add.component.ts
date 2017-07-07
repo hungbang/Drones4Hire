@@ -591,7 +591,7 @@ export class FProjectAddComponent implements OnInit {
           component: ModalConfirmationComponent,
           type: 'ModalConfirmationComponent',
           values: {
-            title: '',
+            title: 'Post a project',
             message: 'Do you really want to release payments?',
             confirm_btn_text: 'Yes',
             cancel_btn_text: 'No',
@@ -611,7 +611,24 @@ export class FProjectAddComponent implements OnInit {
 
     } else {
       if (this.formData.paidOptions.length) {
-        this.getPayment();
+        this._modalService.push({
+          component: ModalConfirmationComponent,
+          type: 'ModalConfirmationComponent',
+          values: {
+            title: 'Post a project',
+            message: 'Do you really want to release payments?',
+            confirm_btn_text: 'Yes',
+            cancel_btn_text: 'No',
+            confirm: (e) => {
+              this._modalService.pop();
+              if (!e) {
+                return;
+              }
+
+              this.getPayment();
+            }
+          }
+        });
       } else {
         this._post();
       }

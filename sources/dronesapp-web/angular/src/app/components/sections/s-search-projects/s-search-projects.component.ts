@@ -51,7 +51,6 @@ export class SSearchProjectsComponent implements OnInit {
 
     this.route.params.subscribe(() => {
       const res = this.route.snapshot.data['projects'];
-      console.log(this.route.snapshot.data['projects']);
       const projects = res && res.results;
       const currentPage = Number(this.route.snapshot.params['page']);
 
