@@ -6,6 +6,7 @@ import static com.drones4hire.dronesapp.models.db.payments.Transaction.Type;
 import static com.drones4hire.dronesapp.models.db.payments.Transaction.Status;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class TransactionSearchCriteria extends SearchCriteria
 {
@@ -16,6 +17,7 @@ public class TransactionSearchCriteria extends SearchCriteria
 	private String purpose;
 	private Long projectId;
 	private Status status;
+	private List<Status> statuses;
 
 	public Long getWalletId()
 	{
@@ -85,5 +87,15 @@ public class TransactionSearchCriteria extends SearchCriteria
 	public void setStatus(Status status)
 	{
 		this.status = status;
+	}
+
+	public List<Status> getStatuses()
+	{
+		return statuses;
+	}
+
+	public void setStatuses(List<Status> statuses)
+	{
+		this.statuses = statuses;
 	}
 }

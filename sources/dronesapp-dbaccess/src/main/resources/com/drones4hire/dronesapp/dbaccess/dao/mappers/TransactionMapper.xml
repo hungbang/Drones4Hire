@@ -61,6 +61,16 @@
     <select id="searchTransactions" resultMap="TransactionResultMap">
         <include refid="getTransactions"/>
         <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != statuses">
+                <![CDATA[
+				   AND T.STATUS IN
+			   	]]>
+                <foreach collection="statuses" item="statusItem" index="index" open="(" separator="," close=")">
+                    <![CDATA[
+				   			#{statusItem}
+			   			]]>
+                </foreach>
+            </if>
             <if test="null != walletId">
                 <![CDATA[
 				   AND T.WALLET_ID = #{walletId}
@@ -120,6 +130,16 @@
 	        drones.TRANSACTIONS T
         ]]>
         <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="null != statuses">
+                <![CDATA[
+				   AND T.STATUS IN
+			   	]]>
+                <foreach collection="statuses" item="statusItem" index="index" open="(" separator="," close=")">
+                    <![CDATA[
+				   			#{statusItem}
+			   			]]>
+                </foreach>
+            </if>
             <if test="null != walletId">
                 <![CDATA[
 				   AND T.WALLET_ID = #{walletId}
