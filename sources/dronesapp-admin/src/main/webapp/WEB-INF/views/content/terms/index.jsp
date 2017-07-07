@@ -45,7 +45,7 @@
 		        			{{term.locale}}
 		        		</td>
 		        		<td class="text-center">
-		                    <button class="btn btn-sm btn-success" data-ng-click="openTermModal(policyItem)">Update</button>
+		                    <button class="btn btn-sm btn-success" data-ng-click="openTermModal(term)">Update</button>
                         	<button class="btn btn-sm btn-danger" ng-really-message="Do you really want to delete?" ng-really-click="deleteTerm(term.id)">Delete</button>
 		        		</td>
 	        		<tr>
