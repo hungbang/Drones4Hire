@@ -1,16 +1,8 @@
 package com.drones4hire.dronesapp.ws.controllers;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.TransactionSearchCriteria;
 import com.drones4hire.dronesapp.models.db.Message;
-import com.drones4hire.dronesapp.models.db.payments.Transaction;
-import com.drones4hire.dronesapp.models.db.payments.Wallet;
-import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.dto.WalletDTO;
-import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.MessageService;
-import com.drones4hire.dronesapp.services.services.ProjectService;
 import com.drones4hire.dronesapp.ws.swagger.annotations.ResponseStatusDetails;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller

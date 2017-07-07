@@ -71,6 +71,16 @@
 			   			]]>
                 </foreach>
             </if>
+            <if test="null != types">
+                <![CDATA[
+				   AND T.TYPE IN
+			   	]]>
+                <foreach collection="types" item="typeItem" index="index" open="(" separator="," close=")">
+                    <![CDATA[
+				   			#{typeItem}
+			   			]]>
+                </foreach>
+            </if>
             <if test="null != walletId">
                 <![CDATA[
 				   AND T.WALLET_ID = #{walletId}
@@ -137,6 +147,16 @@
                 <foreach collection="statuses" item="statusItem" index="index" open="(" separator="," close=")">
                     <![CDATA[
 				   			#{statusItem}
+			   			]]>
+                </foreach>
+            </if>
+            <if test="null != types">
+                <![CDATA[
+				   AND T.TYPE IN
+			   	]]>
+                <foreach collection="types" item="typeItem" index="index" open="(" separator="," close=")">
+                    <![CDATA[
+				   			#{typeItem}
 			   			]]>
                 </foreach>
             </if>

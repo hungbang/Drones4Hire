@@ -18,6 +18,7 @@ public class TransactionSearchCriteria extends SearchCriteria
 	private Long projectId;
 	private Status status;
 	private List<Status> statuses;
+	private List<Type> types;
 
 	public Long getWalletId()
 	{
@@ -97,5 +98,15 @@ public class TransactionSearchCriteria extends SearchCriteria
 	public void setStatuses(List<Status> statuses)
 	{
 		this.statuses = statuses;
+	}
+
+	public List<Type> getTypes()
+	{
+		return types;
+	}
+
+	public void setTypes(List<Type> types)
+	{
+		this.types = types;
 	}
 }
