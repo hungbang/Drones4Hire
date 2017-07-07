@@ -7,12 +7,13 @@
 		<![CDATA[
 		INSERT
 		INTO 
-			drones.MESSAGES (MESSAGE, FROM_USER_ID, TO_USER_ID, TYPE)
+			drones.MESSAGES (MESSAGE, FROM_USER_ID, TO_USER_ID, PROJECT_ID, TYPE)
 		VALUES 
 			(
 			#{message},
 			#{fromUserId},
 			#{toUserId},
+			#{projectId},
 			#{type}
 		    )
         ]]>
@@ -26,6 +27,7 @@
 			M.MESSAGE AS MESSAGE_MESSAGE,
 			M.FROM_USER_ID AS MESSAGE_FROM_USER_ID,
 			M.TO_USER_ID AS MESSAGE_TO_USER_ID,
+			M.PROJECT_ID AS MESSAGE_PROJECT_ID,
 			M.TYPE AS MESSAGE_TYPE,
 			M.MODIFIED_AT AS MESSAGE_MODIFIED_AT,
 			M.CREATED_AT AS MESSAGE_CREATED_AT
@@ -62,6 +64,34 @@
         ]]>
     </select>
 
+    <select id="getMessagesByUserId" resultMap="MessageResultMap">
+        <include refid="getMessage"/>
+        <![CDATA[
+          WHERE
+			M.TO_USER_ID = #{userId}
+          OR
+            M.FROM_USER_ID = #{userId}
+		  ORDER BY
+		  	CREATED_AT DESC
+        ]]>
+    </select>
+
+    <select id="getMessagesByProjectIdAndUserId" resultMap="MessageResultMap">
+        <include refid="getMessage"/>
+        <![CDATA[
+          WHERE
+			M.PROJECT_ID = #{projectId}
+          AND
+            (
+                M.TO_USER_ID = #{userId}
+              OR
+                M.FROM_USER_ID = #{userId}
+            )
+		  ORDER BY
+		  	CREATED_AT DESC
+        ]]>
+    </select>
+
     <update id="updateMessage">
         <![CDATA[
           UPDATE
@@ -90,6 +120,7 @@
         <result column="MESSAGE_TYPE" property="type" />
         <result column="MESSAGE_FROM_USER_ID" property="fromUserId" />
         <result column="MESSAGE_TO_USER_ID" property="toUserId" />
+        <result column="MESSAGE_PROJECT_ID" property="projectId" />
         <result column="MESSAGE_MODIFIED_AT" property="modifiedAt" />
 		<result column="MESSAGE_CREATED_AT" property="createdAt" />
     </resultMap>

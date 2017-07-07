@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.dbaccess.dao.mysql;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.Message;
+import org.apache.ibatis.annotations.Param;
 
 public interface MessageMapper
 {
@@ -13,6 +14,10 @@ public interface MessageMapper
 	List<Message> getMessagesByFromUserId(Long userId);
 
 	List<Message> getMessagesByToUserId(Long userId);
+
+	List<Message> getMessagesByUserId(Long userId);
+
+	List<Message> getMessagesByProjectIdAndUserId(@Param("projectId") Long projectId, @Param("userId") Long userId);
 
 	void updateMessage(Message message);
 

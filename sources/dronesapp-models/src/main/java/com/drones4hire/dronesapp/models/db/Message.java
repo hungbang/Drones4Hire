@@ -12,6 +12,7 @@ public class Message extends AbstractEntity
 	private String message;
 	private Long fromUserId;
 	private Long toUserId;
+	private Long projectId;
 	private Type type;
 
 	public String getMessage()
@@ -42,6 +43,16 @@ public class Message extends AbstractEntity
 	public void setToUserId(Long toUserId)
 	{
 		this.toUserId = toUserId;
+	}
+
+	public Long getProjectId()
+	{
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId)
+	{
+		this.projectId = projectId;
 	}
 
 	public Type getType()

@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.services.services;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.models.db.projects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ public class MessageService
 
 	@Autowired 
 	private AWSEmailService emailService;
+
+	@Autowired
+	private ProjectService projectService;
 	
 	@Transactional(rollbackFor = Exception.class)
 	public Message createMessage(Message message) throws ServiceException
@@ -47,6 +51,18 @@ public class MessageService
 	public List<Message> getMessagesByToUserId(long userId) throws ServiceException
 	{
 		return messageMapper.getMessagesByToUserId(userId);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Message> getMessagesByUserId(long userId) throws ServiceException
+	{
+		return messageMapper.getMessagesByUserId(userId);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Message> getMessagesByProjectIdAndUserId(long projectId, long userId) throws ServiceException
+	{
+		return messageMapper.getMessagesByProjectIdAndUserId(projectId, userId);
 	}
 
 	@Transactional(rollbackFor = Exception.class)

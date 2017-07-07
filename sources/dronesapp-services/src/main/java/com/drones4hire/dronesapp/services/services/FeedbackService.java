@@ -34,7 +34,8 @@ public class FeedbackService
 		Project project = projectService.getProjectById(feedback.getProjectId());
 		User user = userService.getUserById(feedback.getFromUser().getId());
 		List<Feedback> feedbacks = feedbackMapper.getFeedbacksByProjectId(project.getId());
-		if((!feedback.getFromUser().getId().equals(project.getClientId()) || !feedback.getToUser().getId().equals(project.getPilotId())
+		if ((!feedback.getFromUser().getId().equals(project.getClientId()) || !feedback.getToUser().getId()
+				.equals(project.getPilotId())
 				|| !project.getStatus().equals(Project.Status.COMPLETED) || !feedbacks.isEmpty())
 				&& !user.getRoles().contains(Group.Role.ROLE_ADMIN))
 		{
@@ -89,7 +90,7 @@ public class FeedbackService
 	{
 		BigDecimal rating = BigDecimal.ZERO;
 		List<Feedback> feedbacks = getFeedbacksByUserId(user.getId());
-		for(Feedback feedback: feedbacks)
+		for (Feedback feedback : feedbacks)
 		{
 			rating = rating.add(feedback.getMark());
 		}
