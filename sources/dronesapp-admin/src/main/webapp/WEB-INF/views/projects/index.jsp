@@ -76,7 +76,8 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-6">
-			<!--button data-ng-click="openProjectModal()" class="btn btn-success">Create project</button-->
+			<a href="" class="black-link" data-ng-click="downloadCSV()">download csv</a>
+			<hr class="load-line">
 		</div>
 		<div class="col-lg-6">
 			<label class="search"><spring:message code="drones.admin.pages.common.projects_found.label"/>: {{projectSearchResult.totalResults}}</label>

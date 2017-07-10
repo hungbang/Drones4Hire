@@ -63,7 +63,8 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-6">
-			<!--a href="" data-ng-click="openPasswordCheckPopup()">Download CSV</a-->
+			<a href="" class="black-link" data-ng-click="downloadCSV()">download csv</a>
+			<hr class="load-line">
 		</div>
 		<div class="col-lg-6">
 			<label class="search">Withdraw requests found: {{sr.totalResults}}</label>

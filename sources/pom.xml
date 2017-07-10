@@ -109,6 +109,8 @@
 		<slack-java-webhook.version>0.0.7</slack-java-webhook.version>
 
 		<braintree.version>2.72.0</braintree.version>
+
+		<supercsv.version>2.4.0</supercsv.version>
 	</properties>
 
 	<modules>
@@ -582,6 +584,22 @@
 				<groupId>org.tuckey</groupId>
 				<artifactId>urlrewritefilter</artifactId>
 				<version>${tuckey.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.supercsv</groupId>
+				<artifactId>super-csv-dozer</artifactId>
+				<version>${supercsv.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>net.sf.dozer</groupId>
+						<artifactId>dozer</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 		</dependencies>

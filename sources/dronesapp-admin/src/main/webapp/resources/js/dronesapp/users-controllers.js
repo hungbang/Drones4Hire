@@ -35,6 +35,26 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$route', '$l
 		$scope.sc = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
 		$scope.searchUsers(1);
 	};
+
+    $scope.downloadCSV = function(callback){
+        var result;
+        $http.post('users/csv', $scope.sc).success(function(csv) {
+            var blob = new Blob([csv], { type: 'text/csv' });
+            var csvUrl = URL.createObjectURL(blob);
+            angular.element("<a/>").attr({
+                'download': $scope.sc.role.toLowerCase() + '.csv',
+                'href': csvUrl
+            })[0].click();
+            result = true;
+        }).error(function() {
+            console.error('Failed to download CSV');
+            result = false;
+        }).finally(function () {
+            if (callback) {
+                callback(result);
+            }
+        });
+    };
 		
 	(function init() {
 		$scope.searchUsers(1);

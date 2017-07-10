@@ -84,9 +84,11 @@
 				ORDER BY WR.ID DESC
 			]]>
         </if>
-        <![CDATA[
-			LIMIT #{pageSize} OFFSET #{page}
-		]]>
+        <if test="null != pageSize and null != page">
+            <![CDATA[
+				LIMIT #{pageSize} OFFSET #{page}
+			]]>
+        </if>
     </select>
 
     <select id="getSearchWithdrawRequestCount" resultType="java.lang.Integer">

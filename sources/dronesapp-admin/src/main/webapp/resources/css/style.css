@@ -717,3 +717,33 @@ td.long {
 	padding-top: 20px;
 	padding-left: 20px;
 }
+
+a.black-link {
+	font-variant: small-caps;
+	color: #101010;
+	letter-spacing: 0;
+}
+
+a.black-link:hover {
+	text-decoration: none;
+}
+
+hr.load-line {
+	border-color: #337ab7;;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	width: 100px;
+	position: absolute;
+	animation: right_load 1s linear 1s 1;
+}
+
+@keyframes right_load {
+	from {
+		width: 0px;
+		border-color: #101010;
+	}
+	to {
+		width: 100px;
+		border-color: #337ab7;
+	}
+}

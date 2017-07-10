@@ -1,5 +1,11 @@
 package com.drones4hire.dronesapp.services.services;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
+import com.drones4hire.dronesapp.models.db.users.Group;
+import com.drones4hire.dronesapp.models.db.users.User;
+import com.drones4hire.dronesapp.services.services.util.CSVWriter;
+import com.drones4hire.dronesapp.services.services.util.model.ProjectCSVModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +20,11 @@ import com.drones4hire.dronesapp.services.exceptions.InavlidWaultAmountException
 import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.PayoneerException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WithdrawService
@@ -70,6 +81,18 @@ public class WithdrawService
 		result.setResults(withdrawMapper.searchWithdrawRequests(sc));
 		result.setTotalResults(withdrawMapper.getSearchWithdrawRequestCount(sc));
 		return result;
+	}
+
+	@Transactional(readOnly = true)
+	public void exportWithdrawRequestsToCSV(WithdrawSearchCriteria sc, Writer writer)
+			throws ServiceException, IOException
+	{
+		SearchResult<WithdrawRequest> results = new SearchResult<>();
+		sc.setPage(null);
+		sc.setPageSize(null);
+		List<WithdrawRequest> withdrawRequests = withdrawMapper.searchWithdrawRequests(sc);
+		results.setResults(withdrawRequests);
+		CSVWriter.exportWithdrawToCSV(results, writer);
 	}
 	
 	@Transactional(readOnly = true)

@@ -35,6 +35,31 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
         });
     };
 
+    $scope.downloadCSV = function(callback){
+        var OFFSET = new Date().getTimezoneOffset()*60*1000;
+
+        if(! Array.isArray($scope.projectSearchCriteria.statuses)) {
+            $scope.projectSearchCriteria.statuses = [$scope.projectSearchCriteria.statuses];
+        }
+        var result;
+        $http.post('projects/csv', $scope.projectSearchCriteria).success(function(csv) {
+            var blob = new Blob([csv], { type: 'text/csv' });
+            var csvUrl = URL.createObjectURL(blob);
+            angular.element("<a/>").attr({
+                'download': 'projects.csv',
+                'href': csvUrl
+            })[0].click();
+            result = true;
+        }).error(function() {
+            console.error('Failed to download CSV');
+            result = false;
+        }).finally(function () {
+            if (callback) {
+                callback(result);
+            }
+        });
+    };
+
     $scope.loadBudgets = function(){
         $http.get('common/budgets').success(function(data) {
             $scope.budgets = data;

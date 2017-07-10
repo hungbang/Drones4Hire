@@ -29,7 +29,6 @@ public class ProjectDTO extends AbstractDTO
 	@NotNull(message = "Service required")
 	private Service service;
 
-	@NotNull(message = "Duration required")
 	private DurationDTO duration;
 
 	@NotNull(message = "Location required")

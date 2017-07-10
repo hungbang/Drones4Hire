@@ -27,7 +27,26 @@ DronesAdmin.controller('WithdrawController', [ '$scope', '$http', '$route', '$mo
 		$scope.sc = angular.copy(DEFAULT_WITHDRAW_SEARCH_CRITERIA);
 		$scope.searchWithdraws(1);
 	};
-		
+
+    $scope.downloadCSV = function(callback){
+        var result;
+        $http.post('withdraws/csv', $scope.sc).success(function(csv) {
+            var blob = new Blob([csv], { type: 'text/csv' });
+            var csvUrl = URL.createObjectURL(blob);
+            angular.element("<a/>").attr({
+                'download': 'withdraw_requests.csv',
+                'href': csvUrl
+            })[0].click();
+            result = true;
+        }).error(function() {
+            console.error('Failed to download CSV');
+            result = false;
+        }).finally(function () {
+            if (callback) {
+                callback(result);
+            }
+        });
+    };
 
 	$scope.acceptWithdraw = function(request) {
 		$http.post('withdraws/accept', request).success(function(data) {

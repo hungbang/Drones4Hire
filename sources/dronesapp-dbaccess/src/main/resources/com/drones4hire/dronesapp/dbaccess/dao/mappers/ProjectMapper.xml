@@ -1004,8 +1004,12 @@
 		<if test="null == range">
 			ORDER BY P.CREATED_AT DESC
 		</if>
-		<![CDATA[
+		<if test="null != pageSize and null != page">
+			<![CDATA[
 				LIMIT #{pageSize} OFFSET #{page}
+			]]>
+		</if>
+		<![CDATA[
 			)
 			AS PID
 			ON

@@ -223,7 +223,7 @@
 									<br/>
 									<i>{{feedback.comment}}</i>
 								</p>
-								<a style="float: right; padding-bottom: 10px" data-ng-href="/admin/#/projects/{{feedback.projectId}}/view">Open project</a>
+								<a class="black-link" style="float: right; padding-bottom: 10px" data-ng-href="/admin/#/projects/{{feedback.projectId}}/view">open project</a>
 							</div>
 						</div>
 						<div class="col-lg-2">

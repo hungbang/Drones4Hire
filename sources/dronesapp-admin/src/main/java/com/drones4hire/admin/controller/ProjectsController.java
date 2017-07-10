@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
@@ -196,5 +197,13 @@ public class ProjectsController extends AbstractController
 		Feedback feedback = mapper.map(fb, Feedback.class);
 		feedback.setFromUser(userService.getUserById(getPrincipal().getId()));
 		return feedbackService.createFeedback(feedback);
+	}
+
+	@RequestMapping(value = "csv", method = RequestMethod.POST, produces=MediaType.TEXT_PLAIN_VALUE)
+	public void downloadCSV(@RequestBody ProjectSearchCriteria sc, HttpServletResponse response) throws Exception
+	{
+		response.setHeader("Content-Disposition", "attachment; filename=" + "projects.csv");
+		projectService.exportProjectsToCSV(sc, response.getWriter());
+		response.flushBuffer();
 	}
 }

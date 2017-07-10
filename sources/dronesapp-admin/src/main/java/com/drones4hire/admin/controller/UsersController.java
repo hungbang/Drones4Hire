@@ -1,20 +1,14 @@
 package com.drones4hire.admin.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.projects.Feedback;
 import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
 import com.drones4hire.dronesapp.services.services.*;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,8 +26,8 @@ import com.drones4hire.dronesapp.models.db.users.Company;
 import com.drones4hire.dronesapp.models.db.users.PilotLicense;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
@@ -205,5 +199,13 @@ public class UsersController extends AbstractController
 	public void deleteFeedback(@PathVariable(value = "id") long id) throws ServiceException
 	{
 		feedbackService.deleteFeedback(id);
+	}
+
+	@RequestMapping(value = "csv", method = RequestMethod.POST, produces=MediaType.TEXT_PLAIN_VALUE)
+	public void downloadCSV(@RequestBody UserSearchCriteria sc, HttpServletResponse response) throws Exception
+	{
+		response.setHeader("Content-Disposition", "attachment; filename=" + sc.getRole().toString().toLowerCase() + ".csv");
+		userService.exportUsersToCSV(sc, response.getWriter());
+		response.flushBuffer();
 	}
 }

@@ -1,9 +1,11 @@
 package com.drones4hire.dronesapp.services.services;
 
-import java.math.BigDecimal;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 
+import com.drones4hire.dronesapp.services.services.util.CSVWriter;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -247,6 +249,26 @@ public class UserService
 		results.setResults(users);
 		results.setTotalResults(userMapper.getSearchUsersCount(sc));
 		return results;
+	}
+
+	@Transactional(readOnly = true)
+	public void exportUsersToCSV(UserSearchCriteria sc, Writer writer)
+			throws ServiceException, IOException
+	{
+		SearchResult<User> results = new SearchResult<>();
+		sc.setPage(null);
+		sc.setPageSize(null);
+
+		List<User> users = userMapper.searchUsers(sc);
+		if(!sc.getRole().equals(Role.ROLE_PILOT))
+		{
+			for(User user : users)
+			{
+				user.setRating(null);
+			}
+		}
+		results.setResults(users);
+		CSVWriter.exportUsersToCSV(results, writer);
 	}
 	
 	@Transactional(readOnly = true)

@@ -194,9 +194,11 @@
 				ORDER BY U.ID DESC
 			]]>
 			</if>
-		<![CDATA[
-			LIMIT #{pageSize} OFFSET #{page}
-		]]>
+			<if test="null != pageSize and null != page">
+				<![CDATA[
+					LIMIT #{pageSize} OFFSET #{page}
+				]]>
+			</if>
 	</select>
 	
 	<select id="getSearchUsersCount" resultType="java.lang.Integer">

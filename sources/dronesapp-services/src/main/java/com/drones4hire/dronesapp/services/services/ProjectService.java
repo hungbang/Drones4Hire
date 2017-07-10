@@ -8,6 +8,8 @@ import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_ADMIN;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,19 +18,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
+import com.drones4hire.dronesapp.services.services.util.CSVWriter;
+import com.drones4hire.dronesapp.services.services.util.model.ProjectCSVModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectForMapSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectOnMap;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteriaForAdmin;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectStatisticsResult;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.projects.Attachment;
@@ -178,6 +176,48 @@ public class ProjectService
 		results.setTotalResults(projectMapper.getProjectsSearchCount(sc));
 		results.setResults(projectSearchResults);
 		return results;
+	}
+
+	@Transactional(readOnly = true)
+	public void exportProjectsToCSV(ProjectSearchCriteria sc, Writer writer)
+			throws ServiceException, IOException
+	{
+		sc.setPage(null);
+		sc.setPageSize(null);
+
+		List<ProjectCSVModel> projects = new ArrayList<>();
+		List<ProjectSearchResult> results = projectMapper.searchProjects(sc);
+		ProjectCSVModel projectCSVModel;
+		for(ProjectSearchResult result : results)
+		{
+			 projectCSVModel = new ProjectCSVModel();
+
+			projectCSVModel.setId(result.getProject().getId());
+			projectCSVModel.setTitle(result.getProject().getTitle());
+			if(result.getPilot() != null)
+			{
+				projectCSVModel.setPilotEmail(result.getPilot().getEmail());
+			}
+			projectCSVModel.setClientEmail(result.getClient().getEmail());
+			if(result.getProject().getDuration() != null)
+			{
+				projectCSVModel.setDuration(result.getProject().getDuration().getTitle());
+			}
+			projectCSVModel.setBudget(result.getProject().getBudget().getTitle());
+			projectCSVModel.setStatus(result.getProject().getStatus());
+			projectCSVModel.setCountry(result.getProject().getLocation().getCountry().getName());
+			projectCSVModel.setCity(result.getProject().getLocation().getCity());
+			projectCSVModel.setService(result.getProject().getService().getName());
+			projectCSVModel.setStartDate(result.getProject().getStartDate());
+			if(result.getProject().getFinishDate() != null)
+			{
+				projectCSVModel.setFinishDate(result.getProject().getFinishDate());
+			}
+			projectCSVModel.setCreatedAt(result.getProject().getCreatedAt());
+
+			projects.add(projectCSVModel);
+		}
+		CSVWriter.exportProjectsToCSV(projects, writer);
 	}
 
 	@Transactional(readOnly = true)

@@ -1,5 +1,6 @@
 package com.drones4hire.admin.controller;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,8 @@ import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest.Status;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.PayoneerService;
 import com.drones4hire.dronesapp.services.services.WithdrawService;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("withdraws")
@@ -55,5 +58,13 @@ public class WithdrawsController extends AbstractController
 		currentRequest.setStatus(Status.CANCELED);
 		currentRequest.setAdminComment(request.getAdminComment());
 		return withdrawService.updateWithdrawRequest(currentRequest);
+	}
+
+	@RequestMapping(value = "csv", method = RequestMethod.POST, produces=MediaType.TEXT_PLAIN_VALUE)
+	public void downloadCSV(@RequestBody WithdrawSearchCriteria sc, HttpServletResponse response) throws Exception
+	{
+		response.setHeader("Content-Disposition", "attachment; filename=" + "withdraw_requests.csv");
+		withdrawService.exportWithdrawRequestsToCSV(sc, response.getWriter());
+		response.flushBuffer();
 	}
 }

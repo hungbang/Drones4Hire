@@ -74,7 +74,11 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-6">
+			<a href="" class="black-link" data-ng-click="downloadCSV()">download csv</a>
+			<hr class="load-line">
+		</div>
+		<div class="col-lg-6">
 			<label class="search"><spring:message code="drones.admin.pages.common.users_found.label"/>: {{sr.totalResults}}</label>
 		</div>
 	</div>	
