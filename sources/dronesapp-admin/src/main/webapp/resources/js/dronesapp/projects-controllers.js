@@ -12,7 +12,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 
     angular.element('#createdAtAfter').datetimepicker({
         locale: 'ru',
-        format: 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD HH:mm',
         icons: {
             time: "fa fa-clock-o",
             calendar: "fa fa-clock-o",
@@ -26,7 +26,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
     angular.element('#createdAtBefore').datetimepicker({
         useCurrent: false,
         locale: 'ru',
-        format: 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD HH:mm',
         icons: {
             time: "fa fa-clock-o",
             calendar: "fa fa-clock-o",

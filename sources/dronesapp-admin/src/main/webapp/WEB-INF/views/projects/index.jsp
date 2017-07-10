@@ -66,11 +66,11 @@
 								<div class="row">
 									<div class="col-lg-3">
 										<label class="control-label" for="category">From date</label>
-										<input type="text" class="form-control" id="createdAtAfter" name="picker1" data-ng-model="projectSearchCriteria.createdAtAfter"/>
+										<input type="text" class="form-control" id="createdAtAfter" name="picker1"/>
 									</div>
 									<div class="col-lg-3">
 										<label class="control-label" for="category">To date</label>
-										<input type="text" class="form-control" id="createdAtBefore" name="picker2" data-ng-model="projectSearchCriteria.createdAtBefore"/>
+										<input type="text" class="form-control" id="createdAtBefore" name="picker2"/>
 									</div>
 								</div>
 							</div>
