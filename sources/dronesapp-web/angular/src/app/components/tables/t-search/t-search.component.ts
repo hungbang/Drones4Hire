@@ -7,7 +7,7 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class TSearchComponent implements OnInit {
-  @Input() projects = [];
+  @Input() projects: any[] = [];
 
   constructor() {
   }

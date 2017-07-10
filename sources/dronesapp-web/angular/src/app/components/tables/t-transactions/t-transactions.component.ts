@@ -9,7 +9,7 @@ import {AccountService} from '../../../services/account.service/account.service'
   encapsulation: ViewEncapsulation.None
 })
 export class TTransactionsComponent {
-  @Input() transactions;
+  @Input() transactions: any[] = [];
 
   constructor(
     private accountService: AccountService

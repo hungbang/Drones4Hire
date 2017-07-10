@@ -14,7 +14,7 @@ import {ToastrService} from '../../../services/toastr.service/toastr.service';
   encapsulation: ViewEncapsulation.None
 })
 export class TProjectComponent {
-  @Input() projects;
+  @Input() projects: any[] = [];
 
   constructor(
     private projectService: ProjectService,
