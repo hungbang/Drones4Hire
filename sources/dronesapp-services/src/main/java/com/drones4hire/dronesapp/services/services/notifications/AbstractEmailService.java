@@ -31,7 +31,6 @@ import com.drones4hire.dronesapp.models.db.Question;
 import com.drones4hire.dronesapp.models.db.payments.Transaction;
 import com.drones4hire.dronesapp.models.db.projects.Bid;
 import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.db.settings.NotificationSettings;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.NotificationSettingService;
