@@ -724,14 +724,31 @@ a.black-link {
 	letter-spacing: 0;
 }
 
-a.black-link:hover {
+a.black-link:hover, a.black-link:active {
 	text-decoration: none;
 }
 
+div.load-icon {
+	text-align: right;
+}
+
+div.load-icon i {
+	font-size:24px;
+	color: inherit;
+}
+
+div.load-icon.centered-icon {
+	text-align: center;
+}
+
+div.load-icon.centered-icon i {
+	color: #337ab7;
+}
+
 hr.load-line {
-	border-color: #337ab7;;
-	margin-top: 0px;
-	margin-bottom: 0px;
+	border-color: #337ab7;
+	margin-top: 0;
+	margin-bottom: 0;
 	width: 100px;
 	position: absolute;
 	animation: right_load 1s linear 1s 1;
@@ -739,11 +756,29 @@ hr.load-line {
 
 @keyframes right_load {
 	from {
-		width: 0px;
+		width: 0;
 		border-color: #101010;
 	}
 	to {
 		width: 100px;
 		border-color: #337ab7;
+	}
+}
+
+div.logo-rotate {
+	text-align: center;
+	background: radial-gradient(#101010, white);
+}
+
+div.logo-rotate img {
+	animation: rotate-anim 4s linear infinite;
+}
+
+@keyframes rotate-anim {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
 	}
 }

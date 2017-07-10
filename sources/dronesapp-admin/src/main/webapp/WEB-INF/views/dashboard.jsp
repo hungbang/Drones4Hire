@@ -20,7 +20,9 @@
                             <i class="fa fa-users fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{overview['usersTotal']}}<small data-ng-if="!overview">Loading..</small></div>
+                            <div class="huge">{{overview['usersTotal']}}<small data-ng-if="!overview">
+                                <div class="load-icon"><i data-ng-if="!overview" class="fa fa-spinner fa-spin"></i></div>
+                            </small></div>
                             <div>Users registered</div>
                         </div>
                     </div>
@@ -42,7 +44,9 @@
                             <i class="fa fa-suitcase fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{overview['projectsTotal']}}<small data-ng-if="!overview">Loading..</small></div>
+                            <div class="huge">{{overview['projectsTotal']}}<small data-ng-if="!overview">
+                                <div class="load-icon"><i data-ng-if="!overview" class="fa fa-spinner fa-spin"></i></div>
+                            </small></div>
                             <div>Projects created</div>
                         </div>
                     </div>
@@ -64,7 +68,9 @@
                             <i class="fa fa-money fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{overview['withdrawRequestsTotal']}}<small data-ng-if="!overview">Loading..</small></div>
+                            <div class="huge">{{overview['withdrawRequestsTotal']}}<small data-ng-if="!overview">
+                                <div class="load-icon"><i data-ng-if="!overview" class="fa fa-spinner fa-spin"></i></div>
+                            </small></div>
                             <div>Withdraw requests</div>
                         </div>
                     </div>
@@ -86,7 +92,10 @@
                             <i class="fa fa-id-card fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{overview['polotsToVerifyTotal']}}<small data-ng-if="!overview">Loading..</small></div>
+                            <div class="huge">{{overview['polotsToVerifyTotal']}}
+                                <small data-ng-if="!overview">
+                                    <div class="load-icon"><i data-ng-if="!overview" class="fa fa-spinner fa-spin"></i></div>
+                                </small></div>
                             <div>Pilots to verify</div>
                         </div>
                     </div>
@@ -108,7 +117,9 @@
                     <h3 class="panel-title">Project statuses ({{DAYS_AGO_PROJECTS_STATISTIC}} days)</h3>
                 </div>
                 <div class="panel-body">
-                    <small data-ng-if="!data">Loading..</small>
+                    <small data-ng-if="!data"><!--<div class="logo-rotate"><img src="resources/img/drones_logo.png" alt="drones_logo"/></div>-->
+                        <div class="load-icon centered-icon"><i data-ng-if="!data" class="fa fa-spinner fa-spin"></i></div>
+                    </small>
                     <div id="projects-graph"></div>
                 </div>
             </div>
@@ -119,7 +130,9 @@
 				<h3 class="panel-title">Roles fragmentation</h3>
 			  </div>
 			  <div class="panel-body">
-			  	<small data-ng-if="!overview">Loading..</small>
+			  	<small data-ng-if="!overview">
+                    <div class="load-icon centered-icon"><i data-ng-if="!overview" class="fa fa-spinner fa-spin"></i></div>
+                </small>
 				<div id="roles-ratio-graph"></div>
 			  </div>
 			</div>
