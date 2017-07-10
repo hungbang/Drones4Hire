@@ -453,6 +453,16 @@
 				   AND LOWER(PILOT.EMAIL) LIKE LOWER(CONCAT('%', #{pilotEmail}, '%'))
 				]]>
 			</if>
+			<if test="null != createdAtAfter">
+				<![CDATA[
+				   AND P.CREATED_AT >= #{createdAtAfter}
+				]]>
+			</if>
+			<if test="null != createdAtBefore">
+				<![CDATA[
+				   AND P.CREATED_AT <= #{createdAtBefore}
+				]]>
+			</if>
 		</trim>
 		<![CDATA[
 			GROUP BY P.ID
@@ -556,6 +566,16 @@
 			<if test="null != pilotEmail">
 				<![CDATA[
 				   AND LOWER(PILOT.EMAIL) LIKE LOWER(CONCAT('%', #{pilotEmail}, '%'))
+				]]>
+			</if>
+			<if test="null != createdAtAfter">
+				<![CDATA[
+				   AND P.CREATED_AT >= #{createdAtAfter}
+				]]>
+			</if>
+			<if test="null != createdAtBefore">
+				<![CDATA[
+				   AND P.CREATED_AT <= #{createdAtBefore}
 				]]>
 			</if>
 		</trim>

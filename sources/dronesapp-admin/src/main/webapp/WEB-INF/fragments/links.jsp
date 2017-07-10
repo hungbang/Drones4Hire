@@ -12,6 +12,7 @@
 <link href="<spring:url value="/resources/css/textAngular.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/angular-tooltips.min.css" />" rel="stylesheet" type="text/css" />
 <link href="<spring:url value="/resources/css/alertify.min.css" />" rel="stylesheet" type="text/css" />
+<link href="<spring:url value="/resources/css/bootstrap-datetimepicker.min.css" />" rel="stylesheet" type="text/css" />
 
 <!-- AngularJS core -->
 <script src="<spring:url value='/resources/js/jquery/jquery-2.0.3.min.js'/>" type="text/javascript"></script>
@@ -41,6 +42,7 @@
 <script src="<spring:url value='/resources/js/3rd_party/markerAnimate.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/3rd_party/slidingMarker.min.js'/>" type="text/javascript"></script>
 <script src="<spring:url value='/resources/js/3rd_party/alertify.min.js'/>" type="text/javascript"></script>
+<script src="<spring:url value='/resources/js/3rd_party/bootstrap-datetimepicker.min.js'/>" type="text/javascript"></script>
 <script>
   SlidingMarker.initializeGlobally();
 </script>

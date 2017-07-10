@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.dbaccess.dao.mysql.search;
 
 import com.drones4hire.dronesapp.models.db.projects.Project;
 
+import java.util.Date;
 import java.util.List;
 
 public class ProjectSearchCriteriaForAdmin extends SearchCriteria
@@ -17,6 +18,8 @@ public class ProjectSearchCriteriaForAdmin extends SearchCriteria
 	private Integer postcode;
 	private Long budgetId;
 	private List<Project.Status> statuses;
+	private Date createdAtBefore;
+	private Date createdAtAfter;
 
 	public String getTitle()
 	{
@@ -116,5 +119,25 @@ public class ProjectSearchCriteriaForAdmin extends SearchCriteria
 	public void setStatuses(List<Project.Status> statuses)
 	{
 		this.statuses = statuses;
+	}
+
+	public Date getCreatedAtBefore()
+	{
+		return createdAtBefore;
+	}
+
+	public void setCreatedAtBefore(Date createdAtBefore)
+	{
+		this.createdAtBefore = createdAtBefore;
+	}
+
+	public Date getCreatedAtAfter()
+	{
+		return createdAtAfter;
+	}
+
+	public void setCreatedAtAfter(Date createdAtAfter)
+	{
+		this.createdAtAfter = createdAtAfter;
 	}
 }

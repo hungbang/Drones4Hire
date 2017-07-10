@@ -63,6 +63,16 @@
 										</select>
 									</div>
 				               </div>
+								<div class="row">
+									<div class="col-lg-3">
+										<label class="control-label" for="category">From date</label>
+										<input type="text" class="form-control" id="createdAtAfter" name="picker1" data-ng-model="projectSearchCriteria.createdAtAfter"/>
+									</div>
+									<div class="col-lg-3">
+										<label class="control-label" for="category">To date</label>
+										<input type="text" class="form-control" id="createdAtBefore" name="picker2" data-ng-model="projectSearchCriteria.createdAtBefore"/>
+									</div>
+								</div>
 							</div>
 							<div class="text-right">
 								<a href="" data-ng-click="resetSearchCriteria()" class="clear-form"><spring:message code="drones.admin.pages.common.button.clear"/>&nbsp;<i class="fa fa-times-circle"></i></a>

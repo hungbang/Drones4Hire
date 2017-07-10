@@ -9,6 +9,41 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 	};
 	$scope.projectSearchCriteria = angular.copy(DEFAULT_PROJECTS_SEARCH_CRITERIA);
 	$scope.projectListPageSizes = PAGE_SIZES;
+
+    angular.element('#createdAtAfter').datetimepicker({
+        locale: 'ru',
+        format: 'YYYY-MM-DD',
+        icons: {
+            time: "fa fa-clock-o",
+            calendar: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down",
+            previous: "fa fa-arrow-left",
+            next: "fa fa-arrow-right"
+        }
+    });
+    angular.element('#createdAtBefore').datetimepicker({
+        useCurrent: false,
+        locale: 'ru',
+        format: 'YYYY-MM-DD',
+        icons: {
+            time: "fa fa-clock-o",
+            calendar: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            previous: "fa fa-arrow-left",
+            next: "fa fa-arrow-right",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        }
+    });
+
+    angular.element('#createdAtAfter').on("dp.change", function (e) {
+        angular.element('#createdAtBefore').data("DateTimePicker").minDate(e.date);
+    });
+    angular.element('#createdAtBefore').on("dp.change", function (e) {
+        angular.element('#createdAtAfter').data("DateTimePicker").maxDate(e.date);
+    });
 	
 	$scope.loadStatuses = function(){
 		$scope.roles = ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'BLOCKED'];
@@ -20,6 +55,14 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
         $scope.projectSearchCriteria.page = page;
         if(pageSize){
             $scope.projectSearchCriteria.pageSize = pageSize;
+        }
+
+        if(angular.element('#createdAtAfter')[0].value){
+            $scope.projectSearchCriteria.createdAtAfter = new Date(Date.parse(angular.element('#createdAtAfter')[0].value) + OFFSET);
+        }
+
+        if(angular.element('#createdAtBefore')[0].value){
+            $scope.projectSearchCriteria.createdAtBefore = new Date(Date.parse(angular.element('#createdAtBefore')[0].value) + OFFSET);
         }
 
         if(! Array.isArray($scope.projectSearchCriteria.statuses)) {
@@ -80,6 +123,8 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 	
 	$scope.resetSearchCriteria = function(){
 		$scope.projectSearchCriteria = angular.copy(DEFAULT_PROJECTS_SEARCH_CRITERIA);
+        angular.element('#createdAtAfter')[0].value = null;
+        angular.element('#createdAtBefore')[0].value = null;
 		$scope.searchProjects(1);
 	};
 		
