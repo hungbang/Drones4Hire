@@ -13,7 +13,7 @@ import {ModalService} from "../../../services/modal.service/modal.service";
   styleUrls: ['./t-dashboard.component.styl']
 })
 export class TDashboardComponent implements OnInit {
-  @Input() projects;
+  @Input() projects: any[] = [];
 
   constructor(
     public _accountService: AccountService,
