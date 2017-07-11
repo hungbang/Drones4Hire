@@ -76,6 +76,10 @@ export class FAuthorizationComponent implements OnInit {
     this.isSignUpForm = this._authorizationService.signUpFormActive = this._router.url === '/sign-up';
     if (!this.isSignUpForm) {
       this.verifyEmail();
+
+      if (this._authorizationService.isUserLogin) { // logout user if was redirected because expired tokens
+        this._authorizationService.logout();
+      }
     }
 
     this.getCountries();

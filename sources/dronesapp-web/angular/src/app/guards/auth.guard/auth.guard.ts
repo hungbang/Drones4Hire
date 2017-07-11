@@ -1,43 +1,66 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+
 import {AccountService} from '../../services/account.service/account.service';
 import {AuthorizationService} from '../../services/authorization.service/authorization.service';
-import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private _authorizationService: AuthorizationService,
-              private _accountService: AccountService) {
+  constructor(
+    private _authorizationService: AuthorizationService,
+    private _accountService: AccountService,
+    private router: Router
+  ) {
   }
 
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     console.log('-activate auth guard');
 
     return Observable.create(observer => {
-      if (this._accountService.isAuthorized()) {
+      if (this._authorizationService.isUserLogin) {
         if (!this._accountService.account) {
-
-          this._accountService.getAccountData().subscribe(() => {
-            this._authorizationService.isUserLogin = true;
-
-            if (this._accountService.isUserPilot()) {
-              return this._accountService.getAccountLicense().subscribe(() => {
+          this._accountService.getAccountData().subscribe(
+            () => {
+              if (this._accountService.isUserPilot()) {
+                this._accountService.getAccountLicense().subscribe(
+                  (res) => {
+                    if (!res.verified) {
+                      this.router.navigate(['/account', 'pilot', 'details']);
+                    }
+                    observer.next(true);
+                    observer.complete();
+                  },
+                  () => {
+                    observer.next(true);
+                    observer.complete();
+                  }
+                );
+              } else {
                 observer.next(true);
                 observer.complete();
-              });
+              }
+            },
+            (err) => {
+              if (err.status === 401) {
+                this.router.navigate(['/login']);
+              }
+              observer.next(false);
+              observer.complete();
             }
-
-            observer.next(true);
-            observer.complete();
-          });
+          );
         } else {
           observer.next(true);
+          observer.complete();
         }
       } else {
         if (state.url !== '/') {
+          this.router.navigate(['/login']);
           observer.next(false);
+          observer.complete();
         } else {
           observer.next(true);
+          observer.complete();
         }
       }
     });
