@@ -723,18 +723,17 @@ export class FProjectAddComponent implements OnInit {
   }
 
   private getPaymentAmount() {
-    const total = this.formData.paidOptions.reduce(
+    let total = this.formData.paidOptions.reduce(
       (summ, option) => {
         return summ += option.price;
       }, 0);
 
     if (this.isEditForm) {
-      this.originalPaidOptions.reduce(
+      total = this.originalPaidOptions.reduce(
         (summ, option) => {
           return summ -= option.price;
         }, total);
     }
-
     return total;
   }
 

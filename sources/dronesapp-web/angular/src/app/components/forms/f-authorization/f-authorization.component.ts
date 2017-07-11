@@ -325,15 +325,6 @@ export class FAuthorizationComponent implements OnInit {
             } else {
               this.toastrService.showError('Please check your data');
             }
-          } else if (err.status === 400) {
-            const body = err.json();
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
-            } else {
-              this.toastrService.showError('Please check your data');
-            }
           } else {
             this.toastrService.showError('Please check your data');
           }
@@ -373,16 +364,6 @@ export class FAuthorizationComponent implements OnInit {
               this.toastrService.showError('User already exists');
             } else {
               this.toastrService.showError('Please check your data');
-            }
-          }
-          if (err.status === 400) {
-            const body = err.json();
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
-            } else {
-              this.toastrService.showError('Invalid form data');
             }
           } else {
             this.toastrService.showError('Please check your data');
