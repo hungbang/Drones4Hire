@@ -136,7 +136,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'my-projects',
-    canActivate: [ClientGuard],
+    canActivate: [AuthGuard, ClientGuard],
     component: MyProjectsComponent,
     data: {
       className: 'p-projects'
@@ -300,6 +300,7 @@ export const ROUTES: Routes = [
     data: {
       className: 'p-dashboard'
     },
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -364,6 +365,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'account',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -386,7 +388,6 @@ export const ROUTES: Routes = [
           {
             path: 'details',
             component: DetailsComponent,
-            canActivate: [PilotGuard],
             data: {
               className: 'p-account'
             }
@@ -394,7 +395,6 @@ export const ROUTES: Routes = [
           {
             path: 'preferences',
             component: PreferencesComponent,
-            canActivate: [PilotGuard],
             data: {
               className: 'p-account'
             }
@@ -402,7 +402,6 @@ export const ROUTES: Routes = [
           {
             path: 'security',
             component: SecurityComponent,
-            canActivate: [PilotGuard],
             data: {
               className: 'p-account'
             }
@@ -410,7 +409,6 @@ export const ROUTES: Routes = [
           {
             path: 'notifications',
             component: NotificationsComponent,
-            canActivate: [PilotGuard],
             data: {
               className: 'p-account'
             }
@@ -418,7 +416,6 @@ export const ROUTES: Routes = [
           {
             path: 'portfolio',
             component: PortfolioComponent,
-            canActivate: [PilotGuard],
             data: {
               className: 'p-account'
             }
@@ -441,7 +438,6 @@ export const ROUTES: Routes = [
           {
             path: 'details',
             component: DetailsComponent,
-            canActivate: [ClientGuard],
             data: {
               className: 'p-account'
             }
@@ -449,7 +445,6 @@ export const ROUTES: Routes = [
           {
             path: 'security',
             component: SecurityComponent,
-            canActivate: [ClientGuard],
             data: {
               className: 'p-account'
             }
@@ -457,7 +452,6 @@ export const ROUTES: Routes = [
           {
             path: 'notifications',
             component: NotificationsComponent,
-            canActivate: [ClientGuard],
             data: {
               className: 'p-account'
             }
@@ -476,7 +470,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'search',
-    canActivate: [PilotGuard, PilotLicensedGuard],
+    canActivate: [AuthGuard, PilotGuard, PilotLicensedGuard],
     component: SearchComponent,
     resolve: {
       services: ServicesResolve,
@@ -531,7 +525,7 @@ export const ROUTES: Routes = [
     }
   },
   {
-    path: 'terms-and-condition',
+    path: 'terms-and-conditions',
     component: TermsComponent,
     data: {
       className: 'p-terms'
@@ -553,7 +547,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'payment',
-    canActivate: [ClientGuard],
+    canActivate: [AuthGuard, ClientGuard],
     component: PaymentComponent,
     data: {
       className: 'p-payment'

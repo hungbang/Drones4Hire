@@ -345,7 +345,7 @@
     <button class="f-default__button _big">{{ isEditForm ? 'Update Project' : 'Post Project now' }}</button>
     <div class="f-default__text _center" *ngIf="!isEditForm">
       <div>By clicking 'Post Project Now', you are indicating that you have reed and agree to the
-        <a href="#" class="f-project-add__link">Terms & Conditions</a>
+        <a [routerLink]="['/terms-and-conditions']" class="f-project-add__link">Terms & Conditions</a>
       </div>
     </div>
   </div>
