@@ -16,6 +16,7 @@ export class PilotGuard implements CanActivate {
     return this._authGuard.canActivate(_route, state)
       .map((auth: boolean) => {
         if (!auth) {
+          this._router.navigate(['/login']);
           return false
         }
 

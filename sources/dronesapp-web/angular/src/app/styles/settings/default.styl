@@ -48,3 +48,11 @@ p
 @media only screen and (max-width: 320px)
   body
     width: 320px;
+
+// fix FF outline dashed border
+@-moz-document url-prefix()
+  ::-moz-focus-inner
+    border: none
+  select:-moz-focusring
+    color: transparent
+    text-shadow: 0 0 0 #000

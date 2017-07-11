@@ -5,9 +5,11 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
-import {TokenService} from '../token.service/token.service';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+import {tokenNotExpired} from 'angular2-jwt';
+
+import {TokenService} from '../token.service/token.service';
 
 @Injectable()
 export class RequestService {
@@ -23,9 +25,11 @@ export class RequestService {
     head: this.head.bind(this)
   };
 
-  constructor(public _http: Http,
-              private _router: Router,
-              private _tokenService: TokenService) {
+  constructor(
+    public _http: Http,
+    private _router: Router,
+    private _tokenService: TokenService
+  ) {
   }
 
   getCurrentToken() {
@@ -55,22 +59,26 @@ export class RequestService {
     return this.requests[method](url, body)
       .map(this.extractData)
       .catch((err) => {
-        if (err.status === 401 && localStorage.getItem('refreshToken')) {
-          return this.refreshToken(localStorage.getItem('refreshToken'))
-            .map(
-              (refreshRes) => {
-                this._tokenService.setAccessToken((refreshRes as any).accessToken);
-                this._tokenService.setRefreshToken((refreshRes as any).refreshToken);
-                return this.requests[method](url, body)
-                  .map((res) => {
-                    return res.json();
-                  });
-              })
-            .catch((refreshErr) => {
-              this._tokenService.removeTokens();
-              window.location.reload();
-              return Observable.throw(refreshErr);
-            });
+        if (err.status === 401 && this._router.url !== '/login') {
+          if (localStorage.getItem('refreshToken') && tokenNotExpired('refreshToken')) {
+            return this.refreshToken(localStorage.getItem('refreshToken'))
+              .map(
+                (refreshRes) => {
+                  this._tokenService.setAccessToken((refreshRes as any).accessToken);
+                  this._tokenService.setRefreshToken((refreshRes as any).refreshToken);
+                  return this.requests[method](url, body)
+                    .map((res) => {
+                      return res.json();
+                    });
+                })
+              .catch((refreshErr) => {
+                this._router.navigate(['/login']);
+                return Observable.throw(refreshErr);
+              });
+          } else {
+            this._router.navigate(['/login']);
+            return Observable.throw(err);
+          }
         }
         return Observable.throw(err);
       });

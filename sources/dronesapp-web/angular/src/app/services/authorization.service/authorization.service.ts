@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {tokenNotExpired} from 'angular2-jwt';
 
 import { RequestService } from '../request.service/request.service';
 import { TokenService } from '../token.service/token.service';
@@ -9,7 +10,6 @@ import { AccountService } from '../account.service/account.service';
 @Injectable()
 export class AuthorizationService {
   public signUpFormActive = true;
-  public isUserLogin = false;
   public tokenType: any;
 
   constructor(
@@ -23,10 +23,12 @@ export class AuthorizationService {
     this._tokenService.setRefreshToken((res as any).refreshToken);
   }
 
+  get isUserLogin() {
+    return this._tokenService.refreshToken && tokenNotExpired('refreshToken');
+  }
+
   logout() {
-    this.isUserLogin = false;
     this._tokenService.removeTokens();
-    // sessionStorage.removeItem('user');
     this.clearData();
   }
 
@@ -35,7 +37,6 @@ export class AuthorizationService {
       .map((res) => {
         this.tokenType = res.type;
         this.saveTokens(res);
-        this.isUserLogin = true;
         return res;
       });
   }
