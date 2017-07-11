@@ -62,14 +62,19 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-6">
-			<a href="" class="black-link" data-ng-click="downloadCSV()">download csv</a>
-			<hr class="load-line">
+		<div class="btn-group col-lg-6">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				Actions&nbsp;<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="" class="black-link" data-ng-click="downloadCSV()">download csv</a></li>
+			</ul>
 		</div>
 		<div class="col-lg-6">
 			<label class="search">Withdraw requests found: {{sr.totalResults}}</label>
 		</div>
 	</div>
+	<br/>
 	<div class="row">
 		<div class="col-lg-12">
 			<table class="table table-bordered table-hover table-striped tablesorter">
