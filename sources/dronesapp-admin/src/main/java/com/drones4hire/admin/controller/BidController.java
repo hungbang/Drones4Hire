@@ -2,6 +2,7 @@ package com.drones4hire.admin.controller;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.services.services.ProjectManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,9 @@ public class BidController extends AbstractController
 	@Autowired
 	private BidService bidService;
 
+	@Autowired
+	private ProjectManageService projectManageService;
+
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Bid createBid(@Valid @RequestBody Bid bid) throws ServiceException
@@ -42,7 +46,7 @@ public class BidController extends AbstractController
 	@RequestMapping(value = "{id}/retract", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteBid(@PathVariable(value = "id") long bidId) throws ServiceException
 	{
-		bidService.deleteBid(bidId, getPrincipal().getId());
+		projectManageService.deleteBid(bidId);
 	}
 
 //	@ResponseStatus(HttpStatus.CREATED)

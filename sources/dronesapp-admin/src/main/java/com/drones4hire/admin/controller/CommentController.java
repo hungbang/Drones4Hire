@@ -1,5 +1,6 @@
 package com.drones4hire.admin.controller;
 
+import com.drones4hire.dronesapp.services.services.ProjectManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,20 +22,23 @@ public class CommentController extends AbstractController
 {
 
 	@Autowired
+	private ProjectManageService projectManageService;
+
+	@Autowired
 	private CommentService commentService;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Comment createComment(@RequestBody Comment comment) throws ServiceException
 	{
-		return commentService.createComment(comment, getPrincipal().getId());
+		return projectManageService.createComment(comment, getPrincipal().getId());
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Comment updateComment(@RequestBody Comment comment) throws ServiceException
 	{
-		return commentService.updateComment(comment, getPrincipal().getId());
+		return projectManageService.updateComment(comment);
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)

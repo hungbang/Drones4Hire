@@ -1,6 +1,5 @@
 package com.drones4hire.admin.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +7,6 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import com.drones4hire.dronesapp.models.db.projects.*;
 import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
 import com.drones4hire.dronesapp.services.services.*;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,13 +33,10 @@ public class ProjectsController extends AbstractController
 	private ProjectService projectService;
 
 	@Autowired
-	private AttachmentService attachmentService;
+	private ProjectManageService projectManageService;
 
 	@Autowired
 	private BidService bidService;
-
-	@Autowired
-	private CommentService commentService;
 
 	@Autowired
 	private UserService userService;
@@ -102,7 +94,7 @@ public class ProjectsController extends AbstractController
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		SearchResult<ProjectSearchResult> searchResult = projectService.searchProjectsWithAdmin(sc);
+		SearchResult<ProjectSearchResult> searchResult = projectManageService.searchProjectsWithAdmin(sc);
 		results.setResults(searchResult.getResults());
 		results.setTotalResults(searchResult.getTotalResults());
 		return results;
@@ -113,7 +105,7 @@ public class ProjectsController extends AbstractController
 	SearchResult<ProjectOnMap> searchProjectsForMap(@RequestBody ProjectForMapSearchCriteria sc)
 			throws Exception
 	{
-		return projectService.searchProjectsForMap(sc, getPrincipal().getId());
+		return projectManageService.searchProjectsForMap(sc);
 	}
 
 	@RequestMapping(value = "search/statistic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -155,7 +147,7 @@ public class ProjectsController extends AbstractController
 	@RequestMapping(value = "results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Attachment uploadAttachment(@RequestBody Attachment attach) throws ServiceException
 	{
-		return attachmentService.createAttachment(attach, getPrincipal().getId());
+		return projectManageService.createAttachment(attach);
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -163,7 +155,7 @@ public class ProjectsController extends AbstractController
 	public void deleteAttachment(@PathVariable(value = "id") long id)
 			throws ServiceException
 	{
-		attachmentService.deleteAttachment(id, getPrincipal().getId());
+		projectManageService.deleteAttachment(id);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
@@ -179,7 +171,7 @@ public class ProjectsController extends AbstractController
 	public @ResponseBody List<Comment> getCommentsByProjectId(@PathVariable(value = "id") long id)
 			throws ServiceException
 	{
-		return commentService.getCommentsByProjectId(id, getPrincipal().getId());
+		return projectManageService.getCommentsByProjectId(id);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
@@ -196,14 +188,14 @@ public class ProjectsController extends AbstractController
 	{
 		Feedback feedback = mapper.map(fb, Feedback.class);
 		feedback.setFromUser(userService.getUserById(getPrincipal().getId()));
-		return feedbackService.createFeedback(feedback);
+		return projectManageService.createFeedback(feedback);
 	}
 
 	@RequestMapping(value = "csv", method = RequestMethod.POST, produces=MediaType.TEXT_PLAIN_VALUE)
 	public void downloadCSV(@RequestBody ProjectSearchCriteria sc, HttpServletResponse response) throws Exception
 	{
 		response.setHeader("Content-Disposition", "attachment; filename=" + "projects.csv");
-		projectService.exportProjectsToCSV(sc, response.getWriter());
+		projectManageService.exportProjectsToCSV(sc, response.getWriter());
 		response.flushBuffer();
 	}
 }

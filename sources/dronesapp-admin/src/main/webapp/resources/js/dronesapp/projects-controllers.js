@@ -380,7 +380,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 
     $scope.deleteComment = function (id) {
         $http.delete('comments/' + id).success(function(data) {
-            $route.loadComments();
+            $scope.loadComments();
             alertify.success('Success, comment was deleted.');
         }).error(function(data, status) {
             alertify.error('Failed to delete comment!');

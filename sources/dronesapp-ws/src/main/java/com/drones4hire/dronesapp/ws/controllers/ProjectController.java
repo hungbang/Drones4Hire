@@ -200,7 +200,7 @@ public class ProjectController extends AbstractController
 	public @ResponseBody SearchResult<ProjectOnMap> searchProjectsForMap(@Valid @RequestBody ProjectForMapSearchCriteria sc)
 			throws ServiceException
 	{
-		return projectService.searchProjectsForMap(sc, getPrincipal().getId());
+		return projectService.searchProjectsForMap(sc);
 	}
 
 	@ResponseStatusDetails

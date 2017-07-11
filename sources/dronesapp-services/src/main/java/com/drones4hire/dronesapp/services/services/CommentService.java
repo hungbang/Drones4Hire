@@ -77,19 +77,15 @@ public class CommentService
 	private void checkAuthorities(long projectId, long principalId) throws ServiceException
 	{
 		Project project = projectMapper.getProjectById(projectId);
-		User user = userService.getUserById(principalId);
-		if(! user.getRoles().contains(Group.Role.ROLE_ADMIN))
+		switch (project.getStatus())
 		{
-			switch (project.getStatus())
+		case NEW:
+		case PENDING:
+			return;
+		default:
+			if (principalId != project.getClientId() && principalId != project.getPilotId())
 			{
-			case NEW:
-			case PENDING:
-				return;
-			default:
-				if (principalId != project.getClientId() && principalId != project.getPilotId())
-				{
-					throw new ForbiddenOperationException();
-				}
+				throw new ForbiddenOperationException();
 			}
 		}
 	}

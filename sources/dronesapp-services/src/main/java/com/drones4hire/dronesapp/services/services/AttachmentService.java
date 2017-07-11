@@ -12,8 +12,6 @@ import com.drones4hire.dronesapp.models.db.projects.Attachment;
 import com.drones4hire.dronesapp.models.db.projects.Attachment.Type;
 import com.drones4hire.dronesapp.models.db.projects.Project;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
-import com.drones4hire.dronesapp.models.db.users.Group;
-import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
@@ -28,9 +26,6 @@ public class AttachmentService
 	
 	@Autowired
 	private ProjectMapper projectMapper;
-
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private AWSEmailService emailService;
@@ -68,26 +63,22 @@ public class AttachmentService
 	
 	private void checkAuthorities(Attachment attachment, long principalId) throws ServiceException
 	{
-		User user = userService.getUserById(principalId);
-		if(! user.getRoles().contains(Group.Role.ROLE_ADMIN))
+		Project project = projectMapper.getProjectById(attachment.getProjectId());
+		if (attachment.getType().equals(Type.PROJECT_RESULT))
 		{
-			Project project = projectMapper.getProjectById(attachment.getProjectId());
-			if (attachment.getType().equals(Type.PROJECT_RESULT))
-			{
-				if (project.getPilotId() != principalId && !project.getStatus().equals(Status.IN_PROGRESS))
-				{
-					throw new ForbiddenOperationException();
-				}
-			} else if (attachment.getType().equals(Type.PROJECT_ATTACHMENT))
-			{
-				if (project.getClientId() != principalId)
-				{
-					throw new ForbiddenOperationException();
-				}
-			} else
+			if (project.getPilotId() != principalId && !project.getStatus().equals(Status.IN_PROGRESS))
 			{
 				throw new ForbiddenOperationException();
 			}
+		} else if (attachment.getType().equals(Type.PROJECT_ATTACHMENT))
+		{
+			if (project.getClientId() != principalId)
+			{
+				throw new ForbiddenOperationException();
+			}
+		} else
+		{
+			throw new ForbiddenOperationException();
 		}
 	}
 }
