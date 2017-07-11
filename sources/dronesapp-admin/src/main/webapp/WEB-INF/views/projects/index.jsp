@@ -65,11 +65,11 @@
 				               </div>
 								<div class="row">
 									<div class="col-lg-3">
-										<label class="control-label" for="category">From date</label>
+										<label class="control-label" for="createdAtAfter">From date</label>
 										<input type="text" class="form-control" id="createdAtAfter" name="picker1"/>
 									</div>
 									<div class="col-lg-3">
-										<label class="control-label" for="category">To date</label>
+										<label class="control-label" for="createdAtBefore">To date</label>
 										<input type="text" class="form-control" id="createdAtBefore" name="picker2"/>
 									</div>
 								</div>

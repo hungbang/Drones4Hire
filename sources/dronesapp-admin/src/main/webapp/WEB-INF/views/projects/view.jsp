@@ -94,7 +94,7 @@
 										<input class="form-control" type="text" data-ng-model="finishDate"/>
 									</div>
 									<div class="form-group">
-										<label><spring:message code="drones.admin.pages.project.form.postProdaction.label"/></label>
+										<label><spring:message code="drones.admin.pages.project.form.postProduction.label"/></label>
 										<input type="checkbox" data-ng-model="project.postProductionRequired" />
 									</div>
 									<button data-ng-if="project.status != 'BLOCKED'" class="btn btn-primary btn-warning" data-ng-click="blockProject()">Block up</button>
