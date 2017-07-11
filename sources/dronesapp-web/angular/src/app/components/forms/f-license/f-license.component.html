@@ -20,9 +20,9 @@
     </label>
   </div>
 
-  <div class="f-default__row f-license__row">
+  <div class="f-default__row f-license__row _flex">
+    <span class="f-default__text">Insurance Certificate:{{isRequiredLicense ? '*' : ''}} <span class="f-license__filename">{{ uploadedCertFileName }}</span></span>
     <label class="f-default__file">
-      <span class="f-default__text">Insurance Certificate:{{isRequiredLicense ? '*' : ''}} <span class="f-license__filename">{{ uploadedCertFileName }}</span></span>
       <input class="f-default__input"
              type="file"
              accept="image/jpeg,image/jpg,image/png"

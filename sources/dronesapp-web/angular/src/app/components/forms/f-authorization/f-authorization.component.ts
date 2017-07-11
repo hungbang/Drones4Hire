@@ -76,6 +76,10 @@ export class FAuthorizationComponent implements OnInit {
     this.isSignUpForm = this._authorizationService.signUpFormActive = this._router.url === '/sign-up';
     if (!this.isSignUpForm) {
       this.verifyEmail();
+
+      if (this._authorizationService.isUserLogin) { // logout user if was redirected because expired tokens
+        this._authorizationService.logout();
+      }
     }
 
     this.getCountries();
@@ -321,15 +325,6 @@ export class FAuthorizationComponent implements OnInit {
             } else {
               this.toastrService.showError('Please check your data');
             }
-          } else if (err.status === 400) {
-            const body = err.json();
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
-            } else {
-              this.toastrService.showError('Please check your data');
-            }
           } else {
             this.toastrService.showError('Please check your data');
           }
@@ -369,16 +364,6 @@ export class FAuthorizationComponent implements OnInit {
               this.toastrService.showError('User already exists');
             } else {
               this.toastrService.showError('Please check your data');
-            }
-          }
-          if (err.status === 400) {
-            const body = err.json();
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
-            } else {
-              this.toastrService.showError('Invalid form data');
             }
           } else {
             this.toastrService.showError('Please check your data');

@@ -11,7 +11,7 @@ import {ProjectService} from "../../../services/project.service/project.service"
 })
 export class SDashboardComponent implements OnInit {
   public currentPage: number;
-  public projects: ProjectModel[];
+  public projects: ProjectModel[] = [];
 
   private pageLink: string;
 

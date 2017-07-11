@@ -21,9 +21,10 @@ export class AccountService {
   activeServices: Array<number> = [];
   profile: AccountProfileModel = null;
 
-  constructor(private _requestService: RequestService,
-              private _tokenService: TokenService,
-              private _commonService: CommonService) {
+  constructor(
+    private _requestService: RequestService,
+    private _commonService: CommonService
+  ) {
   }
 
   isUserClient() {
@@ -119,11 +120,6 @@ export class AccountService {
 
   setAccountServices(data: Array<number>) {
     return this._requestService.fetch('put', '/account/services', data);
-  }
-
-  isAuthorized() {
-    console.log(this._tokenService.accessToken, '-auth');
-    return this._tokenService.accessToken && this._tokenService.refreshToken;
   }
 
   private setServices(_services) {

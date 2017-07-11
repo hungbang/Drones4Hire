@@ -60,6 +60,7 @@ export class FPilotLicenseComponent implements OnInit {
 
     this.uploader.onErrorItem = (item, response, status, headers) => {
       this.progressbarService.done();
+      this.toastrService.showError('Can\'t upload image. Please try one more time.');
       console.log('problem with upload image');
       this.uploader.clearQueue();
       return {item, response, status, headers};
@@ -107,21 +108,16 @@ export class FPilotLicenseComponent implements OnInit {
         (res) => {
           this.progressbarService.done();
           console.log('-save license', res);
+          this.updateFilenames();
           this.toastrService.showSuccess('Submitted')
         },
         err => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
-
-          if (err.status === 400) {
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
-            } else {
-              this.toastrService.showError('Please check your data');
-            }
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else {
+            this.toastrService.showError('Please check your data');
           }
         }
       );
@@ -144,5 +140,11 @@ export class FPilotLicenseComponent implements OnInit {
   private fetchUploadedFilenames() {
     this.uploadedLicFileName = this.accountService.license.licenseURL ? this.accountService.license.licenseURL.split('/').pop().split('-').splice(2).join('-') : '';
     this.uploadedCertFileName = this.accountService.license.insuranceURL ? this.accountService.license.insuranceURL.split('/').pop().split('-').splice(2).join('-') : '';
+  }
+
+  private updateFilenames() {
+    this.fetchUploadedFilenames();
+    this.licFileName = '';
+    this.certFileName = '';
   }
 }
