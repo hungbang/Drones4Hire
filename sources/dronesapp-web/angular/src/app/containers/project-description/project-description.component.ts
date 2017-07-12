@@ -460,7 +460,7 @@ export class ProjectDescriptionComponent implements OnInit {
   getSimilarProjects() {
     const search = {
       page: 1,
-      pageSize: 3,
+      pageSize: 4,
       serviceCategoryId: this.project.service.category.id,
       statuses: ['NEW']
     };
@@ -468,7 +468,13 @@ export class ProjectDescriptionComponent implements OnInit {
     this.projectService.getProjects(search).subscribe(
       res => {
         if (res.totalResults) {
-          this.similarProjects = res.results.map(data => data.project);
+          this.similarProjects = res.results
+            .map(data => data.project)
+            .filter(project => project.id !== this.project.id);
+
+          if (this.similarProjects.length === 4) {
+            this.similarProjects.pop();
+          }
         }
       }
     )

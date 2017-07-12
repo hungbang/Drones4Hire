@@ -123,7 +123,7 @@ export class FProjectAddComponent implements OnInit {
     this.uploader.onErrorItem = (item, response, status, headers) => {
       this.progressbarService.done();
       console.log('problem with upload image');
-      this.uploader.clearQueue();
+      this.toastrService.showError('Couldn\'t upload image. Try one more time.');
       return {item, response, status, headers};
     };
 
@@ -742,7 +742,7 @@ export class FProjectAddComponent implements OnInit {
       () => {
         this.ngZone.run(
           () => {
-            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement,  {types: ['address']});
 
             if (this.formData.location.country && this.formData.location.country.name) {
               const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
@@ -804,6 +804,10 @@ export class FProjectAddComponent implements OnInit {
         state = el.long_name;
       }
     });
+    if (!this.formData.location.address) {
+      this.formData.location.address = place.formatted_address;
+    }
+
     this.formData.location.coordinates.latitude = place.geometry.location.lat();
     this.formData.location.coordinates.longitude = place.geometry.location.lng();
   }

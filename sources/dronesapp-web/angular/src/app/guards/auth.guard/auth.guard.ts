@@ -17,29 +17,34 @@ export class AuthGuard implements CanActivate {
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     console.log('-activate auth guard');
 
-    if (this._authorizationService.isUserLogin) {
-      if (!this._accountService.account) {
-        return this._accountService.getAccountData()
-          .map(
-            () => {
-              if (this._accountService.isUserPilot()) {
-                this._accountService.getAccountLicense()
-                  .subscribe();
+    return Observable.create(observer => {
+      if (this._authorizationService.isUserLogin) {
+        if (!this._accountService.account) {
+          this._accountService.getAccountData()
+            .subscribe(
+              () => {
+                observer.next(true);
+                observer.complete();
+              },
+              () => {
+                observer.next(false);
+                observer.complete();
               }
-              return true;
-            }
-          )
-          .catch(() => Observable.of(false));
+            )
+        } else {
+          observer.next(true);
+          observer.complete();
+        }
       } else {
-        return Observable.of(true);
+        if (state.url !== '/') {
+          this.router.navigate(['/login']);
+          observer.next(false);
+          observer.complete();
+        } else {
+          observer.next(true);
+          observer.complete();
+        }
       }
-    } else {
-      if (state.url !== '/') {
-        this.router.navigate(['/login']);
-        return Observable.of(false);
-      } else {
-        return Observable.of(true);
-      }
-    }
+    });
   }
 }

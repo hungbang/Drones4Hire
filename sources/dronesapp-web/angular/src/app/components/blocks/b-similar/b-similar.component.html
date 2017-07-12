@@ -1,5 +1,7 @@
 <div class="b-similar">
-  <div class="b-similar__title">{{ item.title }}</div>
+  <div class="b-similar__title">
+    <a [routerLink]="['/project', item.id, 'description']" class="b-similar__title-link">{{ item.title }}</a>
+  </div>
   <div class="b-similar__wrapper">
     <div class="b-similar__description" *ngIf="item.service?.category?.name">
       <div class="b-similar__subtitle">Type</div>

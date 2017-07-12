@@ -6,27 +6,30 @@
 
   &__item
     margin-bottom 0.5rem
+    &:last-of-type &
+      &-content
+        padding-bottom 1rem
     &-caption
-      font-size 2rem
+      font-size 2.4rem
       line-height 2.2rem
-      padding 0.8rem 0 0.8rem 2rem
+      padding 0.8rem 0 0.8rem 2.5rem
       position relative
       cursor pointer
       &:before
         ps()
         left: 8px
         top: 18px
-        border-top: 4px solid $gray1f
-        border-left: 4px solid transparent
-        border-right: 4px solid transparent
+        border-top: .5rem solid $gray1f
+        border-left: .5rem solid transparent
+        border-right: .5rem solid transparent
         transition: transform .4s ease-out
     &-content
-      padding 1rem 2rem 2rem
-      font-size 2.4rem
+      padding 1rem 1rem 4rem 2.5rem
+      font-size 2rem
       &-outer
         overflow hidden
       p
-        font-size 2.4rem
+        font-size 2rem
     &._open &
       &-caption
         &:before

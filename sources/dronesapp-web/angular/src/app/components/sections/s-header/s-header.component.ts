@@ -74,7 +74,7 @@ export class HeaderComponent {
   }
 
   goToFindAJobIfAccessExist() {
-    if (this._accountService.license.verified) {
+    if (this._accountService.license && this._accountService.license.verified) {
       this._router.navigate(['/search']);
     } else {
       this._accountService.getAccountLicense().subscribe(
