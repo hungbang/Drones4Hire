@@ -1,14 +1,16 @@
 'use strict';
 
-DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', function($scope, $http, $window) {
+DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$modal', '$filter', function($scope, $http, $window, $modal, $filter) {
 
     var START_LATITUDE = 42.8;
     var START_LONGITUDE = -119.2;
     var ZOOM = 4;
     var MIN_ZOOM = 2;
 
-    var PROJECT = 'P';
-    var ITEM = PROJECT;
+    var PROJECT_ABBR = 'P';
+    var CLIENT_ABBR = 'C';
+    var PILOT_ABBR = 'DP';
+    var ITEM = PROJECT_ABBR;
 
     var COLORS = {
         NEW: '69FE6B',
@@ -27,6 +29,8 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
         $scope.sc.topLeftCoordinates.longitude = -180;
         $scope.sc.bottomRightCoordinates.latitude = -90;
         $scope.sc.bottomRightCoordinates.longitude = 180;
+
+        $scope.sc.isEmpty = true;
     };
 
     var newMarker = function (r) {
@@ -72,6 +76,96 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', fun
 
     $scope.getProjectPage = function (id) {
         $window.open('/admin/#/projects/' + id + '/view', '_blank');
+    };
+
+    $scope.openSearchCriteriaModal = function (sc) {
+        var modalInstance = $modal.open({
+            templateUrl: 'resources/templates/modal/project-search-criteria.html',
+            scope: $scope,
+            resolve: {
+                'sc': function () {
+                    return sc;
+                }
+            },
+            controller: function ($scope, $modalInstance) {
+
+                var initPickers = function () {
+                    angular.element('#createdAtAfter').datetimepicker({
+                        locale: 'ru',
+                        format: 'YYYY-MM-DD HH:mm',
+                        icons: {
+                            time: "fa fa-clock-o",
+                            calendar: "fa fa-clock-o",
+                            date: "fa fa-calendar",
+                            up: "fa fa-arrow-up",
+                            down: "fa fa-arrow-down",
+                            previous: "fa fa-arrow-left",
+                            next: "fa fa-arrow-right"
+                        }
+                    });
+                    angular.element('#createdAtBefore').datetimepicker({
+                        useCurrent: false,
+                        locale: 'ru',
+                        format: 'YYYY-MM-DD HH:mm',
+                        icons: {
+                            time: "fa fa-clock-o",
+                            calendar: "fa fa-clock-o",
+                            date: "fa fa-calendar",
+                            previous: "fa fa-arrow-left",
+                            next: "fa fa-arrow-right",
+                            up: "fa fa-arrow-up",
+                            down: "fa fa-arrow-down"
+                        }
+                    });
+
+                    angular.element('#createdAtAfter').on("dp.change", function (e) {
+                        angular.element('#createdAtBefore').data("DateTimePicker").minDate(e.date);
+                    });
+                    angular.element('#createdAtBefore').on("dp.change", function (e) {
+                        angular.element('#createdAtAfter').data("DateTimePicker").maxDate(e.date);
+                    });
+                };
+
+                $scope.search = function(){
+
+                    var OFFSET = new Date().getTimezoneOffset()*60*1000;
+
+                    if(angular.element('#createdAtAfter')[0].value){
+                        $scope.sc.createdAtAfter = new Date(Date.parse(angular.element('#createdAtAfter')[0].value) + OFFSET);
+                    }
+
+                    if(angular.element('#createdAtBefore')[0].value){
+                        $scope.sc.createdAtBefore = new Date(Date.parse(angular.element('#createdAtBefore')[0].value) + OFFSET);
+                    }
+                    $http.post('projects/search/map', $scope.sc).success(function(data) {
+                        $scope.sr = data;
+                        $scope.cleanMap();
+                        $scope.sc.isEmpty = false;
+                        $scope.cancel();
+                        data.results.forEach(function (project, index, projects) {
+                            if(project.coordinates) {
+                                $scope.map.orderMarkers.push(newMarker(project));
+                            }
+                        });
+                    }).error(function() {
+                        alertify.error('Failed to search projects');
+                    });
+                };
+
+                $scope.cancel = function () {
+                    $modalInstance.close(false);
+                };
+
+                (function init() {
+                    $scope.createdAtAfter = $filter('date')($scope.sc.createdAtAfter, "yyyy-MM-dd HH:mm");
+                    $scope.createdAtBefore =  $filter('date')($scope.sc.createdAtBefore, "yyyy-MM-dd HH:mm");
+
+                    setTimeout(initPickers, 400);
+                })();
+            }
+        }).result.then(function () {
+        }, function () {
+        });
     };
 
     (function init() {

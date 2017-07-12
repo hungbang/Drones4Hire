@@ -1220,6 +1220,16 @@
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
 				]]>
 			</if>
+			<if test="null != createdAtAfter">
+				<![CDATA[
+				   AND P.CREATED_AT >= #{createdAtAfter}
+				]]>
+			</if>
+			<if test="null != createdAtBefore">
+				<![CDATA[
+				   AND P.CREATED_AT <= #{createdAtBefore}
+				]]>
+			</if>
 			<if test="null != topLeftCoordinates and null != bottomRightCoordinates">
 				<![CDATA[
 				   AND MBRContains(
@@ -1265,6 +1275,16 @@
 			<if test="null != budgetId">
 				<![CDATA[
 				   AND BD.ID = #{budgetId}
+				]]>
+			</if>
+			<if test="null != createdAtAfter">
+				<![CDATA[
+				   AND P.CREATED_AT >= #{createdAtAfter}
+				]]>
+			</if>
+			<if test="null != createdAtBefore">
+				<![CDATA[
+				   AND P.CREATED_AT <= #{createdAtBefore}
 				]]>
 			</if>
 			<if test="null != topLeftCoordinates and null != bottomRightCoordinates">

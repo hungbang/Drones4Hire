@@ -20,19 +20,8 @@
     </div>
     <div class="row">
         <div class="col-lg-2">
-            <select class="form-control" id="status" name="status" data-ng-model="sc.status">
-                <option value="" disabled selected>Project status</option>
-                <option value="NEW">New</option>
-                <option value="IN_PROGRESS">In progress</option>
-                <option value="COMPLETED">Completed</option>
-                <option value="CANCELLED">Cancelled</option>
-                <option value="PENDING">Pending</option>
-                <option value="BLOCKED">Blocked</option>
-            </select>
-        </div>
-        <div class="col-lg-2">
-            <input type="button" class="btn btn-default btn-primary" data-ng-click="search()" value="Search"/>
-            <input type="button" class="btn btn-default btn-danger" data-ng-click="clear()" value="Clear"/>
+            <input type="button" class="btn btn-default btn-primary" data-ng-click="openSearchCriteriaModal(sc)" value="Search"/>
+            <input data-ng-show="!sc.isEmpty" type="button" class="btn btn-default btn-danger" data-ng-click="clear()" value="Clear"/>
         </div>
     </div>
 </div>

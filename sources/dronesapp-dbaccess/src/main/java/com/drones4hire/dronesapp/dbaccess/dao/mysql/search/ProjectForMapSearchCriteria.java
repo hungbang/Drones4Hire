@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import com.drones4hire.dronesapp.models.db.projects.Project.Status;
 import com.drones4hire.dronesapp.models.dto.CoordinatesDTO;
 
+import java.util.Date;
+
 public class ProjectForMapSearchCriteria
 {
 	private Long id;
@@ -18,6 +20,8 @@ public class ProjectForMapSearchCriteria
 	@NotNull(message = "Bottom right bounding box coordinates required")
 	@Valid
 	private CoordinatesDTO bottomRightCoordinates;
+	private Date createdAtBefore;
+	private Date createdAtAfter;
 
 	public Long getId()
 	{
@@ -77,5 +81,25 @@ public class ProjectForMapSearchCriteria
 	public void setBottomRightCoordinates(CoordinatesDTO bottomRightCoordinates)
 	{
 		this.bottomRightCoordinates = bottomRightCoordinates;
+	}
+
+	public Date getCreatedAtBefore()
+	{
+		return createdAtBefore;
+	}
+
+	public void setCreatedAtBefore(Date createdAtBefore)
+	{
+		this.createdAtBefore = createdAtBefore;
+	}
+
+	public Date getCreatedAtAfter()
+	{
+		return createdAtAfter;
+	}
+
+	public void setCreatedAtAfter(Date createdAtAfter)
+	{
+		this.createdAtAfter = createdAtAfter;
 	}
 }

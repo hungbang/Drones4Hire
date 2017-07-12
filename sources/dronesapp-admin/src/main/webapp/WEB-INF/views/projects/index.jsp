@@ -36,6 +36,10 @@
 										<label class="control-label" for="pilotEmail"><spring:message code="drones.admin.pages.common.column.pilotEmail.caption"/></label>
 										<input class="form-control" type="text" id="pilotEmail" name="pilotEmail" data-ng-model="projectSearchCriteria.pilotEmail">
 									</div>
+									<div class="col-lg-3">
+										<label class="control-label" for="city"><spring:message code="drones.admin.pages.common.form.field.city.label"/></label>
+										<input class="form-control" type="text" id="city" name="city" data-ng-model="projectSearchCriteria.city">
+									</div>
 				                    <div class="col-lg-3">
 										<label class="control-label" for="status"><spring:message code="drones.admin.pages.common.column.status.caption"/></label>
 										<select class="form-control" id="status" name="status" data-ng-model="projectSearchCriteria.statuses">
@@ -51,10 +55,6 @@
 										<select class="form-control" id="budget" name="budget" data-ng-model="projectSearchCriteria.budgetId">
 											<option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{budget.title}} {{budget.min}} - {{budget.max}} {{budget.currency}}</option>
 										</select>
-									</div>
-									<div class="col-lg-3">
-										<label class="control-label" for="city"><spring:message code="drones.admin.pages.common.form.field.city.label"/></label>
-										<input class="form-control" type="text" id="city" name="city" data-ng-model="projectSearchCriteria.city">
 									</div>
 									<div class="col-lg-3">
 										<label class="control-label" for="category">Service</label>

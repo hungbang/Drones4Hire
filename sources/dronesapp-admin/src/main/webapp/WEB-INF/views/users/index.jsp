@@ -104,7 +104,7 @@
 		                <th>
 		                    Name
 		                </th>
-						<th data-ng-if="isPilot()">
+						<th>
 							Rating
 						</th>
 		                <th>
@@ -127,7 +127,7 @@
 		                <td>{{user.username}}</td>
 		                <td class="long">{{user.email}}</td>
 		                <td>{{user.firstName}} {{user.lastName}}</td>
-		                <td data-ng-if="isPilot()">{{user.rating}}</td>
+		                <td>{{user.rating}}</td>
 		                <td>{{user.confirmed}}</td>
 		                <td>{{user.enabled}}</td>
 		                <td>{{user.createdAt | date}}</td>
