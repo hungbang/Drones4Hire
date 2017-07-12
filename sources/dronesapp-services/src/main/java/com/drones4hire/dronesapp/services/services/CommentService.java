@@ -40,10 +40,8 @@ public class CommentService
 		User user = userService.getUserById(principalId);
 		comment.setUser(user);
 		commentMapper.createComment(comment);
-		if(user.getRoles().contains(Role.ROLE_CLIENT)) {
-			Project project = projectMapper.getProjectById(comment.getProjectId());
-			emailService.sendNewCommentReceiveEmail(project);
-		}
+		Project project = projectMapper.getProjectById(comment.getProjectId());
+		emailService.sendNewCommentReceiveEmail(project);
 		return commentMapper.getCommentById(comment.getId());
 	}
 

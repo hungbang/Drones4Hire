@@ -7,7 +7,7 @@
 	    		<tr>
 	    			<td>
 	    				<p>
-	    					ongratulations, You're Hired! Now accept the 
+	    					Congratulations, You're Hired! Now accept the 
 	    					<a style="color:blue;font-weight:normal" href="${projectUrl}" target="_blank">${Project.title}</a>
 	    					job and fly the mission.
 	    			</td>
