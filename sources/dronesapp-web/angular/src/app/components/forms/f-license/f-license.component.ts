@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {NgProgressService} from 'ngx-progressbar';
 
 import {AccountService} from '../../../services/account.service/account.service';
 import {RequestService} from '../../../services/request.service/request.service';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
+import {log} from "util";
 
 @Component({
   selector: 'f-license',
@@ -43,7 +44,8 @@ export class FPilotLicenseComponent implements OnInit {
     public accountService: AccountService,
     private _requestService: RequestService,
     private toastrService: ToastrService,
-    private progressbarService: NgProgressService
+    private progressbarService: NgProgressService,
+    private el: ElementRef
   ) {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.progressbarService.done();
@@ -86,10 +88,16 @@ export class FPilotLicenseComponent implements OnInit {
           () => {
             // console.log(this.accountService.license);
             this.fetchUploadedFilenames();
+            if (this.isNeedUpload) {
+              this.scrollToForm();
+            }
           }
         );
     } else {
       this.fetchUploadedFilenames();
+      if (this.isNeedUpload) {
+        this.scrollToForm();
+      }
     }
   }
 
@@ -146,5 +154,17 @@ export class FPilotLicenseComponent implements OnInit {
     this.fetchUploadedFilenames();
     this.licFileName = '';
     this.certFileName = '';
+  }
+
+  get isNeedUpload() {
+    return !this.accountService.license.verified && !this.accountService.license.licenseURL && !this.accountService.license.insuranceURL;
+  }
+
+  private scrollToForm() {
+    const rect = this.el.nativeElement.getBoundingClientRect();
+
+    setTimeout(() => {
+      window.scrollTo(0, rect.top + document.body.scrollTop - 150);
+    }, 1);
   }
 }
