@@ -1215,6 +1215,11 @@
 				   AND P.ID = #{id}
 				]]>
 			</if>
+			<if test="null != budgetId">
+				<![CDATA[
+				   AND BD.ID = #{budgetId}
+				]]>
+			</if>
 			<if test="null != title">
 				<![CDATA[
 				   AND LOWER(P.TITLE) LIKE LOWER(CONCAT('%', #{title}, '%'))
