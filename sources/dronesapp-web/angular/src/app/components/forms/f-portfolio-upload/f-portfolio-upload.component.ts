@@ -49,7 +49,6 @@ export class FPortfolioUploadComponent implements OnInit {
       this.progressbarService.done();
       console.log('problem with upload image');
       this.toastrService.showError('Couldn\'t upload image. Try one more time.');
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 

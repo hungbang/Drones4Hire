@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {} from '@types/googlemaps';
 import {Subject} from 'rxjs/Subject';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {LocationModel} from '../../services/common.service/location.interface';
 import {AccountService} from '../../services/account.service/account.service';
 import {ProjectService} from '../../services/project.service/project.service';
-import {extend} from '../../shared/common/common-methods';
+import {extend, deleteNullOrNaN} from '../../shared/common/common-methods';
 
 @Component({
   selector: 'search',
@@ -19,13 +20,30 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   boundsChanges = new Subject();
 
+  serviceCategoryId: number|null = null;
+  budgetId: number|null = null;
+  // postcode: number|null = null; // TODO: temporary disabled from search. Remove if will not returned back
+  range: number|null = null;
+  statuses: string[] = ['NEW'];
+
   constructor(
     private accountService: AccountService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.pilotLocation = this.accountService.account.location;
+
+    this.router.events.subscribe(
+      (item) => {
+        this.serviceCategoryId = +this.route.snapshot.queryParams['serviceCategoryId'];
+        this.budgetId = +this.route.snapshot.queryParams['budgetId'];
+        // this.postcode = +this.route.snapshot.queryParams['postcode'];
+        const range = +this.route.snapshot.queryParams['range'];
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -50,10 +68,29 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   initEvent() {
+
+
     this.boundsChanges
       .debounceTime(150)
       .switchMap(
-        (res: any) => this.projectService.getProjectsOnMap(res.coordsTopLeft, res.coordsBottomRight)
+        (res: any) => {
+          const searchObj = {
+            budgetId: this.budgetId,
+            // postcode: this.postcode,
+            serviceCategoryId: this.serviceCategoryId,
+            range: this.range,
+            topLeftCoordinates: res.coordsTopLeft,
+            bottomRightCoordinates: res.coordsBottomRight,
+            statuses: ['NEW']
+          };
+
+          deleteNullOrNaN(searchObj, 'serviceCategoryId');
+          deleteNullOrNaN(searchObj, 'budgetId');
+          // deleteNullOrNaN(searchObj, 'postcode');
+          deleteNullOrNaN(searchObj, 'range');
+
+          return this.projectService.getProjectsOnMap(searchObj)
+        }
       )
       .subscribe(
         (res: any) => {

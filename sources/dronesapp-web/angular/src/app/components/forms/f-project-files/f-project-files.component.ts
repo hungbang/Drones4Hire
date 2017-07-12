@@ -51,7 +51,6 @@ export class FProjectFilesComponent implements OnInit {
       console.log('problem with upload image');
       this.progressbarService.done();
       this.toastrService.showError('Couldn\'t upload image. Try one more time.');
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 

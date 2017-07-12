@@ -11,7 +11,6 @@ import {ToastrService} from '../../../services/toastr.service/toastr.service';
   encapsulation: ViewEncapsulation.None
 })
 export class FServicesComponent implements OnInit {
-  submitted: boolean = false;
   constructor(
     public accountService: AccountService,
     private toastrService: ToastrService,
@@ -29,15 +28,16 @@ export class FServicesComponent implements OnInit {
         () => {
           this.progressbarService.done();
           console.log('services are updated');
-          this.submitted = false;
           this.toastrService.showSuccess('Saved')
         },
         err => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else if (err.status === 400) {
+            const body = err.json();
 
-          if (err.status === 400) {
             if (body && body.validationErrors) {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
@@ -45,10 +45,10 @@ export class FServicesComponent implements OnInit {
             } else {
               this.toastrService.showError('Please check your data');
             }
+          } else {
+            this.toastrService.showError('Please check your data');
           }
         }
         );
-
-    this.submitted = true;
   }
 }

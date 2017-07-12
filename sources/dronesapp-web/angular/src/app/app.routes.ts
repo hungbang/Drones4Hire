@@ -136,7 +136,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'my-projects',
-    canActivate: [AuthGuard, ClientGuard],
+    canActivate: [ClientGuard],
     component: MyProjectsComponent,
     data: {
       className: 'p-projects'
@@ -217,11 +217,10 @@ export const ROUTES: Routes = [
   },
   {
     path: 'project',
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
-        redirectTo: '',
+        redirectTo: '/',
         pathMatch: 'full'
       },
       {
@@ -253,7 +252,7 @@ export const ROUTES: Routes = [
             children: [
               {
                 path: '',
-                redirectTo: '', // TODO: why not works?
+                redirectTo: '/',
                 pathMatch: 'full'
               },
               {
@@ -277,6 +276,7 @@ export const ROUTES: Routes = [
           comments: CommentsResolve,
           bidInfo: BidInfoResolve
         },
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',
@@ -300,12 +300,11 @@ export const ROUTES: Routes = [
     data: {
       className: 'p-dashboard'
     },
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: ''
+        redirectTo: '/'
       },
       {
         path: 'client',
@@ -365,11 +364,10 @@ export const ROUTES: Routes = [
   },
   {
     path: 'account',
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
-        redirectTo: '',
+        redirectTo: '/',
         pathMatch: 'full'
       },
       {
@@ -470,7 +468,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'search',
-    canActivate: [AuthGuard, PilotGuard, PilotLicensedGuard],
+    canActivate: [PilotLicensedGuard],
     component: SearchComponent,
     resolve: {
       services: ServicesResolve,
@@ -547,7 +545,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'payment',
-    canActivate: [AuthGuard, ClientGuard],
+    canActivate: [ClientGuard],
     component: PaymentComponent,
     data: {
       className: 'p-payment'
