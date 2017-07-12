@@ -13,12 +13,12 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
     var ITEM = PROJECT_ABBR;
 
     var COLORS = {
-        NEW: '69FE6B',
-        IN_PROGRESS: '4169e1',
-        COMPLETED: 'ff00ff',
-        CANCELLED: 'FE7569',
-        PENDING: 'ffff00',
-        BLOCKED: 'f7f7f7'
+        NEW: '0b62a4',
+        PENDING: 'edc240',
+        IN_PROGRESS: '7A92A3',
+        COMPLETED: '4da74d',
+        CANCELLED: 'afd8f8',
+        BLOCKED: 'cb4b4b'
     };
 
     var initSearchCriteria = function () {
@@ -39,7 +39,9 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
             from: {
                 latitude: r.coordinates.latitude, longitude: r.coordinates.longitude
             },
-            title: r.status + '\n' + 'ID: ' + r.id + '\n' + 'TITLE: ' + r.title,
+            options: {
+                title: r.status + '\n' + 'ID: ' + r.id + '\n' + 'TITLE: ' + r.title
+            },
             icon: getImage(r.status)
         }
     };
@@ -176,22 +178,23 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
             },
             zoom: ZOOM,
             options: {
-                minZoom: MIN_ZOOM
+                minZoom: MIN_ZOOM,
+                cluster: {
+                    minimumClusterSize : 2,
+                    zoomOnClick: true,
+                    maxZoom:10,
+                    averageCenter: true,
+                    clusterClass: 'cluster-icon',
+                    styles: [{
+                        textColor: 'white',
+                        url: 'http://s15.postimg.org/fuaqrrot3/rsz_cluster_resize.png',
+                        height: 40,
+                        width: 40,
+                        textSize: 11,
+                        fontWeight: 'normal'
+                    }]
+                }
             },
-            ClusterMarkers: true,
-            clusterOptions: {
-                maxZoom:15,
-                styles: [{
-                    textColor: 'white',
-                    url: 'http://s15.postimg.org/fuaqrrot3/rsz_cluster_resize.png',
-                    height: 40,
-                    width: 40,
-                    textSize: 11,
-                    fontWeight: 'normal'
-                }],
-                keepSpiderfied:true
-            },
-            showOverlay: true,
             events: {
                 bounds_changed: function (map) {
                     /*var bounds = map.getBounds();

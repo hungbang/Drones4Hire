@@ -659,9 +659,20 @@ td.long {
 
 #map_canvas {
 	position: relative;
-	width:100%;
-	height: 100%;
-	z-index: 0
+}
+
+#legend {
+	position: absolute;
+	left: 90%;
+	height: 160px;
+	width: 100%;
+	z-index: 1;
+	text-shadow: 1px 1px black;
+	padding-top: 20px;
+	padding-left: 20px;
+	background-color: white;
+	opacity: 0.7;
+	filter: alpha(Opacity=70);
 }
 
 .search-box-map{
