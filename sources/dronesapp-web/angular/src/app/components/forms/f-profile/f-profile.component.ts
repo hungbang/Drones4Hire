@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {NgProgressService} from 'ngx-progressbar';
 import {} from '@types/googlemaps';
@@ -18,7 +18,7 @@ import {ToastrService} from '../../../services/toastr.service/toastr.service';
   styleUrls: ['./f-profile.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class FClientProfileComponent implements OnInit {
+export class FClientProfileComponent implements OnInit, AfterViewInit {
   public uploader: FileUploader = new FileUploader({
     url: `${this._requestService.apiUrl}/upload`,
     authToken: this._requestService.getCurrentToken(),
@@ -32,6 +32,7 @@ export class FClientProfileComponent implements OnInit {
   countries: CountryModel[] = [];
   states: StateModel[] = [];
   @ViewChild("location") public searchElement: ElementRef;
+  autocomplete: any = null;
 
   constructor(
     public accountService: AccountService,
@@ -54,7 +55,6 @@ export class FClientProfileComponent implements OnInit {
       this.progressbarService.done();
       console.log('problem with upload image');
       this.toastrService.showError('Couldn\'t upload image. Try one more time.');
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 
@@ -75,6 +75,10 @@ export class FClientProfileComponent implements OnInit {
     this.getCountries();
     this.getListOfStates();
     this.loadPlaces();
+  }
+
+  ngAfterViewInit() {
+    this.setAutocompleteCountry();
   }
 
   handlePhotoUpload() {
@@ -122,7 +126,14 @@ export class FClientProfileComponent implements OnInit {
 
   private getCountries() {
     this.commonService.getCountries()
-      .subscribe((countries) => this.setCountries(countries));
+      .subscribe(
+        countries => {
+          this.setCountries(countries);
+          if (this.autocomplete) {
+            this.setAutocompleteCountry();
+          }
+        }
+      );
   }
 
   selectCountry(name: string, isAutocomplete = false) {
@@ -140,7 +151,7 @@ export class FClientProfileComponent implements OnInit {
 
     if (!isAutocomplete) {
       this.resetLocation();
-      this.loadPlaces();
+      this.setAutocompleteCountry();
     }
   }
 
@@ -217,30 +228,43 @@ export class FClientProfileComponent implements OnInit {
       () => {
         this.ngZone.run(
           () => {
-            let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement);
+            this.autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement,  {types: ['address']});
 
-            if (this.accountService.account.location.country && this.accountService.account.location.country.name) {
-              const country = this.countries.find((country) => country.name.toLowerCase() === this.accountService.account.location.country.name.toLowerCase());
-              if (country) {
-                autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+            this.autocomplete.addListener('place_changed', () => {
+              let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+
+              if (this.countries.length) {
+                this.setAutocompleteCountry();
               }
-
-            }
-            autocomplete.addListener('place_changed', () => {
-              let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
               //verify result
               if (place.geometry === undefined || place.geometry === null) {
                 return;
               }
 
-              // console.log('place:', place);
+              console.log('place:', place);
               this.ngZone.run(() => this.setLocation(place));
             })
           }
         );
       }
     )
+  }
+
+  private setAutocompleteCountry() {
+    if (this.accountService.account.location.country && this.accountService.account.location.country.name) {
+      console.log(this.accountService.account.location.country.name);
+      console.log(this.countries);
+
+      const country = this.countries.find((country) => country.name.toLowerCase() === this.accountService.account.location.country.name.toLowerCase());
+      console.log(country);
+      if (country && this.autocomplete) {
+        this.autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+      }
+
+    } else if (this.autocomplete){
+      this.autocomplete.setComponentRestrictions([]);
+    }
   }
 
   private setLocation(place) {
@@ -280,6 +304,11 @@ export class FClientProfileComponent implements OnInit {
         state = el.long_name;
       }
     });
+
+    if (!this.accountService.account.location.address) {
+      this.accountService.account.location.address = place.formatted_address;
+    }
+
     this.accountService.account.location.coordinates.latitude = place.geometry.location.lat();
     this.accountService.account.location.coordinates.longitude = place.geometry.location.lng();
   }

@@ -64,7 +64,6 @@ export class FPilotLicenseComponent implements OnInit {
       this.progressbarService.done();
       this.toastrService.showError('Can\'t upload image. Please try one more time.');
       console.log('problem with upload image');
-      this.uploader.clearQueue();
       return {item, response, status, headers};
     };
 
