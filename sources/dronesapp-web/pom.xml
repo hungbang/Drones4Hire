@@ -58,7 +58,7 @@
                         <goal>npm</goal>
                     </goals>
                     <configuration>
-                        <arguments>run build ${drones4hire.env}</arguments>
+                        <arguments>run build --env=${drones4hire.env}</arguments>
                     </configuration>
                 </execution>
             </executions>
