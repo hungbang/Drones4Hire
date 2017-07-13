@@ -39,6 +39,12 @@
 		<security:intercept-url pattern="/api/v1/projects/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/api/v1/payments/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/api/v1/messages/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/v1/withdraws/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/v1/wallets/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/v1/equipments/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/v1/notifications/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/v1/comments/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/api/v1/bids/**" access="isAuthenticated()" />
 
 		<security:csrf disabled="true"/>
 		<security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />

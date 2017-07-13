@@ -409,3 +409,16 @@ INSERT INTO drones.GROUPS (NAME, ROLE) VALUES
 	('General pilots group', 'ROLE_PILOT'),
 	('General clients group', 'ROLE_CLIENT'),
 	('General admins group', 'ROLE_ADMIN');
+
+INSERT INTO drones.BUDGETS (TITLE, MIN, MAX, CURRENCY, SORT_ORDER) VALUES
+	('Mini', 100, 350, 'USD', 0),
+	('Small', 350, 1000, 'USD', 0),
+	('Average', 1000, 3000, 'USD', 0),
+	('Large', 3000, 5000, 'USD', 0),
+	('Major', 5000, 0, 'USD', 0);
+    
+INSERT INTO drones.DURATIONS (TITLE, MIN, MAX, SORT_ORDER) VALUES
+	('1-2', 1, 2, 0),
+	('3-4', 3, 4, 0),
+	('5-8', 5, 8, 0),
+	('9+', 9, 0, 0);
