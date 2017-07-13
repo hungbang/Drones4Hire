@@ -21,7 +21,6 @@ export class TransactionService {
   }
 
   getDroneToPilotTransaction(transactions) {
-    console.log(transactions);
     return transactions.filter((transaction) => transaction.type === 'PAYMENT_RELEASED');
   }
 
