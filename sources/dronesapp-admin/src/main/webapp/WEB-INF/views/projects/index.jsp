@@ -53,7 +53,7 @@
 									<div class="col-lg-3">
 										<label class="control-label" for="budget"><spring:message code="drones.admin.pages.common.column.budget.caption"/></label>
 										<select class="form-control" id="budget" name="budget" data-ng-model="projectSearchCriteria.budgetId">
-											<option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{budget.title}} {{budget.min}} - {{budget.max}} {{budget.currency}}</option>
+											<option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{budget.title}}</option>
 										</select>
 									</div>
 									<div class="col-lg-3">

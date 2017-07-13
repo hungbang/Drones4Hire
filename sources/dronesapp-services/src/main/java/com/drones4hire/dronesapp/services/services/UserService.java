@@ -132,9 +132,14 @@ public class UserService
 			profileService.createDefaultProfile(user);
 			// Initialize default license
 			pilotLicenseService.createDefaultPilotLicense(user);
+		}
+
+
+		if(user.getRoles().contains(Role.ROLE_CLIENT) || user.getRoles().contains(Role.ROLE_PILOT))
+		{
 			// Initialize default company
 			companyService.createDefaultCompany(user);
-		} 
+		}
 		
 		// Initialize customer in braintree service
 		Customer customer = braintreeService.createCustomer(user);
