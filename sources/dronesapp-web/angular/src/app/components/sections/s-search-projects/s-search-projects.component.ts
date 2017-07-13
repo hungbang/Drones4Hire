@@ -41,7 +41,10 @@ export class SSearchProjectsComponent implements OnInit {
       .map((item) =>
         Object.assign({}, item, {
           name: this.projectService.formatType(item.name)
-        }));
+        }))
+      .sort((objA, objB) => {
+        return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+      });
     this.budgets = budgets.map((item) => {
       return {
         text: `${item.title} ($${item.min}${item.max ? ' - $' + item.max : '+'})`,
