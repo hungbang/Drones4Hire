@@ -253,11 +253,9 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
 
   private setAutocompleteCountry() {
     if (this.accountService.account.location.country && this.accountService.account.location.country.name) {
-      console.log(this.accountService.account.location.country.name);
-      console.log(this.countries);
 
       const country = this.countries.find((country) => country.name.toLowerCase() === this.accountService.account.location.country.name.toLowerCase());
-      console.log(country);
+
       if (country && this.autocomplete) {
         this.autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
       }

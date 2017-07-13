@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {NgProgressService} from 'ngx-progressbar';
 
-import {AccountService} from '../../../services/account.service/account.service';
 import {TransactionService} from '../../../services/transaction.service/transaction.service';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
 import {WalletModel} from '../../../services/wallet.service/wallet.interface';
@@ -20,7 +19,6 @@ export class FWithdrawalComponent implements OnInit {
   @Output() showSuccessText: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
-    private accountService: AccountService,
     private transactionService: TransactionService,
     private toastrService: ToastrService,
     private progressbarService: NgProgressService
