@@ -14,7 +14,7 @@ import {TokenService} from '../token.service/token.service';
 
 @Injectable()
 export class RequestService {
-  public apiUrl = environment.production ? 'https://stag.drones4hire.com/drones-api/api/v1' : 'https://stag.drones4hire.com/drones-api/api/v1'; // TODO: change prod URL
+  public apiUrl = environment.production ? 'https://stag.drones4hire.com/drones-api/api/v1' : 'https://stag.drones4hire.com/drones-api/api/v1';
   public authorizationType = 'Bearer';
 
   private requests = {
