@@ -153,6 +153,7 @@ public class AccountController extends AbstractController
 		company.setContactName(c.getContactName());
 		company.setContactEmail(c.getContactEmail());
 		company.setCountry(c.getCountry());
+		company.setState(c.getState());
 
 		return mapper.map(companyService.updateCompany(company), CompanyDTO.class);
 	}

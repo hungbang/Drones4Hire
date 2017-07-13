@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.models.db.users;
 
 import com.drones4hire.dronesapp.models.db.AbstractEntity;
 import com.drones4hire.dronesapp.models.db.commons.Country;
+import com.drones4hire.dronesapp.models.db.commons.State;
 
 public class Company extends AbstractEntity
 {
@@ -13,6 +14,7 @@ public class Company extends AbstractEntity
 	private String contactName;
 	private String contactEmail;
 	private Country country;
+	private State state;
 
 	public Company()
 	{
@@ -82,5 +84,15 @@ public class Company extends AbstractEntity
 	public void setUserId(Long userId)
 	{
 		this.userId = userId;
+	}
+
+	public State getState()
+	{
+		return state;
+	}
+
+	public void setState(State state)
+	{
+		this.state = state;
 	}
 }

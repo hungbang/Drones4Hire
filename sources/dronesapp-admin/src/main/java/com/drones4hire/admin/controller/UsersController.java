@@ -147,6 +147,7 @@ public class UsersController extends AbstractController
 		currCompany.setContactEmail(company.getContactEmail());
 		currCompany.setContactName(company.getContactName());
 		currCompany.setCountry(company.getCountry());
+		currCompany.setState(company.getState());
 		currCompany.setName(company.getName());
 		currCompany.setWebURL(company.getWebURL());
 		return companyService.updateCompany(currCompany);

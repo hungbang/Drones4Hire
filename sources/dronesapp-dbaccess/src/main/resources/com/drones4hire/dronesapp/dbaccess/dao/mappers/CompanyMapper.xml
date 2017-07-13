@@ -6,7 +6,7 @@
 	<insert id="createCompany" useGeneratedKeys="true" keyProperty="id">
     	<![CDATA[
         	INSERT
-          		INTO drones.COMPANIES (USERS_ID, NAME, WEB_URL, CONTACT_NAME, CONTACT_EMAIL, COUNTRY_ID)
+          		INTO drones.COMPANIES (USER_ID, NAME, WEB_URL, CONTACT_NAME, CONTACT_EMAIL, COUNTRY_ID, STATE_ID)
           	VALUES 
             (
           		#{userId},
@@ -14,7 +14,8 @@
             	#{webURL},
             	#{contactName},
             	#{contactEmail},
-            	#{country.id}
+            	#{country.id},
+            	#{state.id}
           	)
         ]]>
     </insert>
@@ -24,7 +25,7 @@
     	<![CDATA[
         	SELECT
 	      		C.ID AS COMPANY_ID,
-				C.USERS_ID AS COMPANY_USER_ID,
+				C.USER_ID AS COMPANY_USER_ID,
 				C.NAME AS COMPANY_NAME,
 				C.WEB_URL AS COMPANY_WEB_URL,
 				C.CONTACT_NAME AS COMPANY_CONTACT_NAME,
@@ -35,10 +36,23 @@
 				CO.ID AS COUNTRY_ID,
 	       		CO.NAME AS COUNTRY_NAME,
 	        	CO.MODIFIED_AT AS COUNRTY_MODIFIED_AT,
-	        	CO.CREATED_AT AS COUNTRY_CREATED_AT
+	        	CO.CREATED_AT AS COUNTRY_CREATED_AT,
+
+	        	S.ID AS STATE_ID,
+                S.NAME AS STATE_NAME,
+                S.CODE AS STATE_CODE,
+                S.MODIFIED_AT AS STATE_MODIFIED_AT,
+                S.CREATED_AT AS STATE_CREATED_AT
           	FROM
 	          	drones.COMPANIES C
-	        LEFT JOIN drones.COUNTRIES CO ON C.COUNTRY_ID = CO.ID
+	        LEFT JOIN
+	            drones.COUNTRIES CO
+            ON
+                C.COUNTRY_ID = CO.ID
+	        LEFT JOIN
+	            drones.STATES S
+            ON
+                C.STATE_ID = S.ID
         ]]>
     </sql>
 
@@ -54,7 +68,7 @@
         <include refid="getCompany"/>
         <![CDATA[
         	WHERE
-          		C.USERS_ID = #{userId}
+          		C.USER_ID = #{userId}
         ]]>
     </select>
 
@@ -67,12 +81,13 @@
         	UPDATE
         		drones.COMPANIES
           	SET
-          		USERS_ID = #{userId}, 
+          		USER_ID = #{userId},
           		NAME = #{name}, 
           		WEB_URL = #{webURL}, 
           		CONTACT_NAME = #{contactName},
           		CONTACT_EMAIL = #{contactEmail},
-          		COUNTRY_ID = #{country.id}
+          		COUNTRY_ID = #{country.id},
+          		STATE_ID = #{state.id}
           	WHERE
 			 	ID = #{id}
         ]]>
@@ -98,6 +113,7 @@
 		<result column="COMPANY_MODIFIED_AT" property="modifiedAt" />
 		<result column="COUNTRY_CREATED_AT" property="createdAt" />
 		<association property="country" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.CountryMapper.CountryResultMap" />
+		<association property="state" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.StateMapper.StateResultMap" />
     </resultMap>
 
 </mapper>

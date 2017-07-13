@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.models.dto;
 import javax.validation.constraints.NotNull;
 
 import com.drones4hire.dronesapp.models.db.commons.Country;
+import com.drones4hire.dronesapp.models.db.commons.State;
 
 public class CompanyDTO extends AbstractDTO
 {
@@ -21,6 +22,8 @@ public class CompanyDTO extends AbstractDTO
 	
 	@NotNull(message = "Country required")
 	private Country country;
+
+	private State state;
 
 	public String getName()
 	{
@@ -70,5 +73,15 @@ public class CompanyDTO extends AbstractDTO
 	public void setCountry(Country country)
 	{
 		this.country = country;
+	}
+
+	public State getState()
+	{
+		return state;
+	}
+
+	public void setState(State state)
+	{
+		this.state = state;
 	}
 }
