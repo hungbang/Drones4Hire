@@ -8,12 +8,13 @@ import 'rxjs/add/operator/catch';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {tokenNotExpired} from 'angular2-jwt';
+import { environment } from '../../../environments/environment';
 
 import {TokenService} from '../token.service/token.service';
 
 @Injectable()
 export class RequestService {
-  public apiUrl = 'https://drones.qaprosoft.com/drones-api/api/v1';
+  public apiUrl = environment.production ? 'https://stag.drones4hire.com/drones-api/api/v1' : 'https://stag.drones4hire.com/drones-api/api/v1'; // TODO: change prod URL
   public authorizationType = 'Bearer';
 
   private requests = {
