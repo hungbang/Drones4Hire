@@ -17,4 +17,4 @@
     >${{ transaction.amount }}</div>
   </div>
 </div>
-<div class="t-transactions__empty" *ngIf="!transactions && !transactions.length">No results</div>
+<div class="t-transactions__empty" *ngIf="!transactions || !transactions.length">No results</div>

@@ -55,6 +55,7 @@
             <input class="f-default__radio-input"
                    type="radio"
                    [(ngModel)]="formData.role"
+                   (ngModelChange)="initAutocomplete()"
                    value="ROLE_PILOT"
                    name="role"
                    required
@@ -188,7 +189,7 @@
         </select>
       </label>
     </div>
-    <div class="f-default__row" *ngIf="isSignUpForm && formData.role === 'ROLE_PILOT' && canAddLocation">
+    <div class="f-default__row" *ngIf="isSignUpForm && formData.role === 'ROLE_PILOT'">
       <label class="f-default__label" (keydown.enter)="$event.preventDefault()">
         <input class="f-default__field"
                type="text"

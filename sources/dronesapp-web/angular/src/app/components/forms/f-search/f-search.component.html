@@ -18,7 +18,7 @@
                 [(ngModel)]="_budget">
           <option value="-1">Price Range</option>
           <option *ngFor="let budget of budgets"
-                  [value]="budget.value">{{ budget.text }}</option>
+                  [value]="budget.id">{{ budget.title }}</option>
         </select>
       </label>
     </div>
