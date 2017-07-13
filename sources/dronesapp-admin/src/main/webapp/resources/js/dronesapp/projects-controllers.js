@@ -388,7 +388,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
     };
 
     $scope.deleteAttachment = function (id) {
-        $http.delete('projects/results/' + id).success(function(data) {
+        $http.delete('projects/attachments/' + id).success(function(data) {
             $scope.loadProject();
             alertify.success('Success, attachment was deleted.');
         }).error(function(data, status) {
@@ -457,7 +457,7 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
             transformRequest : angular.identity
         }).success(function(data) {
             $scope.attach.attachmentURL = data.url;
-            $http.post('projects/results', $scope.attach).success(function(data) {
+            $http.post('projects/attachments', $scope.attach).success(function(data) {
                 $scope.loadProject();
             }).error(function() {
             });

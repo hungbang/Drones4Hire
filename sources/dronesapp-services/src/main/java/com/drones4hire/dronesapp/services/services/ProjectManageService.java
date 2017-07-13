@@ -161,11 +161,7 @@ public class ProjectManageService
 	@Transactional(rollbackFor = Exception.class)
 	public Attachment createAttachment(Attachment attachment) throws ServiceException
 	{
-		List<Attachment> attachments = attachMapper
-				.getAttachmentsByProjectIdAndType(attachment.getProjectId(), Attachment.Type.PROJECT_RESULT);
 		attachMapper.createAttachment(attachment);
-		if (Collections.isEmpty(attachments))
-			emailService.sendUploadProjectResultEmail(projectMapper.getProjectById(attachment.getProjectId()));
 		return attachment;
 	}
 

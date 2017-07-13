@@ -232,13 +232,26 @@ public class ProjectController extends AbstractController
 	}
 
 	@ResponseStatusDetails
-	@ApiOperation(value = "Upload attachment", nickname = "uploadAttachment", code = 201, httpMethod = "POST", response = AttachmentDTO.class)
+	@ApiOperation(value = "Upload project result", nickname = "uploadResult", code = 201, httpMethod = "POST", response = AttachmentDTO.class)
 	@ApiImplicitParams(
 	{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
 	@ResponseStatus(HttpStatus.CREATED)
 //	TODO: Need new endpoint to edit attachment for client
 //	@Secured({"ROLE_PILOT"})
 	@RequestMapping(value = "results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody AttachmentDTO uploadResult(@Valid @RequestBody AttachmentDTO attachmentDTO) throws ServiceException
+	{
+		Attachment attach = mapper.map(attachmentDTO, Attachment.class);
+		return mapper.map(attachmentService.createAttachment(attach, getPrincipal().getId()), AttachmentDTO.class);
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Upload attachment", nickname = "uploadAttachment", code = 201, httpMethod = "POST", response = AttachmentDTO.class)
+	@ApiImplicitParams(
+			{ @ApiImplicitParam(name = "Authorization", paramType = "header") })
+	@ResponseStatus(HttpStatus.CREATED)
+	@Secured({"ROLE_CLIENT"})
+	@RequestMapping(value = "attachments", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody AttachmentDTO uploadAttachment(@Valid @RequestBody AttachmentDTO attachmentDTO) throws ServiceException
 	{
 		Attachment attach = mapper.map(attachmentDTO, Attachment.class);

@@ -144,14 +144,14 @@ public class ProjectsController extends AbstractController
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "attachments", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Attachment uploadAttachment(@RequestBody Attachment attach) throws ServiceException
 	{
 		return projectManageService.createAttachment(attach);
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(value = "results/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "attachments/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteAttachment(@PathVariable(value = "id") long id)
 			throws ServiceException
 	{

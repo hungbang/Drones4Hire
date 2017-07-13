@@ -33,10 +33,14 @@ public class AttachmentService
 	@Transactional(rollbackFor = Exception.class)
 	public Attachment createAttachment(Attachment attachment, long principalId) throws ServiceException {
 		checkAuthorities(attachment, principalId);
-		List<Attachment> attachments = attachMapper.getAttachmentsByProjectIdAndType(attachment.getProjectId(), Type.PROJECT_RESULT);
 		attachMapper.createAttachment(attachment);
-		if(Collections.isEmpty(attachments))
-			emailService.sendUploadProjectResultEmail(projectMapper.getProjectById(attachment.getProjectId()));
+		if(attachment.getType().equals(Type.PROJECT_RESULT))
+		{
+			List<Attachment> attachments = attachMapper
+					.getAttachmentsByProjectIdAndType(attachment.getProjectId(), Type.PROJECT_RESULT);
+			if (Collections.isEmpty(attachments))
+				emailService.sendUploadProjectResultEmail(projectMapper.getProjectById(attachment.getProjectId()));
+		}
 		return attachment;
 	}
 
