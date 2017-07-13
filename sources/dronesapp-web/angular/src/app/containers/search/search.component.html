@@ -15,7 +15,7 @@
         [closeOnMapClick]="false"
         [closeWhenOthersOpen]="false">
         <ng-template>
-          <div class="search__iw-budget">${{project.budget.min}}{{project.budget.max ? ' - $' + project.budget.max : '+'}}</div>
+          <div class="search__iw-budget">{{ project.budget.title }}</div>
           <div class="search__iw-title">
             <a  class="search__iw-link"
                 [routerLink]="['/project', project.id, 'description']">{{project.title}}</a>

@@ -1,4 +1,7 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  Component, ElementRef, NgZone, OnInit, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgProgressService} from 'ngx-progressbar';
 import {MapsAPILoader} from '@agm/core';
@@ -58,6 +61,7 @@ export class FAuthorizationComponent implements OnInit {
   isVerified: boolean = true;
 
   @ViewChild('location') public searchElement: ElementRef;
+  autocomplete: any = null;
 
   constructor(
     public _authorizationService: AuthorizationService,
@@ -97,7 +101,12 @@ export class FAuthorizationComponent implements OnInit {
 
   private getCountries() {
     this.commonService.getCountries()
-      .subscribe((countries) => this.setCountries(countries));
+      .subscribe(
+        (countries) => {
+          this.setCountries(countries);
+          this.setAutocompleteCountry();
+        }
+      );
   }
 
   private setCountries(countries) {
@@ -132,13 +141,26 @@ export class FAuthorizationComponent implements OnInit {
 
     if (!isAutocomplete) {
       this.resetLocation();
-      this.loadPlaces();
+      this.setAutocompleteCountry();
     }
   }
 
   private setCountry({name, id}) {
     this.formData.location.country.name = name;
     this.formData.location.country.id = id;
+  }
+
+  private setAutocompleteCountry() {
+    if (this.formData.location.country && this.formData.location.country.name) {
+
+      const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
+      if (country && this.autocomplete) {
+        this.autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+      }
+
+    } else if (this.autocomplete){
+      this.autocomplete.setComponentRestrictions({country: []});
+    }
   }
 
   private getListOfStates() {
@@ -180,21 +202,28 @@ export class FAuthorizationComponent implements OnInit {
     };
   }
 
+  initAutocomplete() {
+    setTimeout(
+      () => {
+        this.loadPlaces();
+      },
+      1
+    )
+  }
+
   private loadPlaces() {
     this.mapsAPILoader.load().then(
       () => {
         this.ngZone.run(
           () => {
-            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement,  {types: ['address']});
+            this.autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement,  {types: ['address']});
 
-            if (this.formData.location.country && this.formData.location.country.name) {
-              const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
-              if (country) {
-                autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
-              }
+            if (this.countries.length) {
+              this.setAutocompleteCountry();
             }
-            autocomplete.addListener('place_changed', () => {
-              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+            this.autocomplete.addListener('place_changed', () => {
+              const place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
 
               // verify result
               if (place.geometry === undefined || place.geometry === null) {
@@ -253,10 +282,6 @@ export class FAuthorizationComponent implements OnInit {
 
     this.formData.location.coordinates.latitude = place.geometry.location.lat();
     this.formData.location.coordinates.longitude = place.geometry.location.lng();
-  }
-
-  get canAddLocation() {
-    return this.formData.location.country && this.formData.location.country.name;
   }
 
   private resetLocation() {

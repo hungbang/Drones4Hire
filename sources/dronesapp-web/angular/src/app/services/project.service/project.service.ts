@@ -151,7 +151,7 @@ export class ProjectService {
         distance: this.formatDistance(data.distance),
         name: project.title,
         type: type,
-        budget: this.formatBudget(project.budget),
+        budget: project.budget ? project.budget.title : '',
         posted: project.createdAt ? moment(project.createdAt, 'x') : null,
         highestBid: this.getHighestBid(bids).amount,
         proposals: bids.length,
@@ -193,11 +193,6 @@ export class ProjectService {
 
   formatType(type) {
     return type.replace(/\s?\(.+\)/, '');
-  }
-
-  formatBudget(budget) {
-    if (!budget) { return {}; }
-    return `$${budget.min}-$${budget.max}`;
   }
 
   public formatLocation(location) {

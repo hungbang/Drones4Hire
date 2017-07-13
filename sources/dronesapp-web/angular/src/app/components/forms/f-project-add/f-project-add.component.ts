@@ -48,6 +48,7 @@ export class FProjectAddComponent implements OnInit {
   isLimitReached: boolean = false;
   isSubmitted: boolean = false;
   paymentToken: string = '';
+  autocomplete: any = null;
 
   date = {
     start: moment(),
@@ -236,7 +237,12 @@ export class FProjectAddComponent implements OnInit {
 
   private getCountries() {
     this.commonService.getCountries()
-      .subscribe((countries) => this.setCountries(countries));
+      .subscribe(
+        (countries) => {
+          this.setCountries(countries);
+          this.setAutocompleteCountry();
+        }
+      );
   }
 
   private setCountries(countries) {
@@ -396,8 +402,8 @@ export class FProjectAddComponent implements OnInit {
     }
 
     if (!isAutocomplete) {
-      this.loadPlaces();
       this.resetLocation();
+      this.setAutocompleteCountry();
     }
   }
 
@@ -737,21 +743,32 @@ export class FProjectAddComponent implements OnInit {
     return total;
   }
 
+  private setAutocompleteCountry() {
+    if (this.formData.location.country && this.formData.location.country.name) {
+
+      const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
+      if (country && this.autocomplete) {
+        this.autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
+      }
+
+    } else if (this.autocomplete){
+      this.autocomplete.setComponentRestrictions({country: []});
+    }
+  }
+
   private loadPlaces() {
     this.mapsAPILoader.load().then(
       () => {
         this.ngZone.run(
           () => {
-            const autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement,  {types: ['address']});
+            this.autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement,  {types: ['address']});
 
-            if (this.formData.location.country && this.formData.location.country.name) {
-              const country = this.countries.find((country) => country.name.toLowerCase() === this.formData.location.country.name.toLowerCase());
-              if (country) {
-                autocomplete.setComponentRestrictions({country: country.code.toLowerCase()});
-              }
+            if (this.countries.length) {
+              this.setAutocompleteCountry();
             }
-            autocomplete.addListener('place_changed', () => {
-              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+            this.autocomplete.addListener('place_changed', () => {
+              const place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
 
               // verify result
               if (place.geometry === undefined || place.geometry === null) {

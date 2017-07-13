@@ -98,16 +98,22 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   private getDronesFee() {
-    this.commonService.getFee()
-      .subscribe(
-        res => {
-          // console.log(res);
-          this.fee = (res.filter(el => el.type === 'DRONES'))[0].percentage;
-        },
-        err => {
-          console.log('get fee error: ', err);
-        }
-      );
+    if (this.isPilot) {
+      this.commonService.getFee()
+        .subscribe(
+          res => {
+            // console.log(res);
+            const fee = res.filter(el => el.type === 'DRONES');
+
+            if (fee.length) {
+              this.fee = fee[0].percentage;
+            }
+          },
+          err => {
+            console.log('get fee error: ', err);
+          }
+        );
+    }
   }
 
   private getPaymentToken() {

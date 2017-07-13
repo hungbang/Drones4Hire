@@ -32,7 +32,7 @@ export class SSearchProjectsComponent implements OnInit {
 
   ngOnInit() {
     const services = this.route.parent.snapshot.data['services'] || [];
-    const budgets = this.route.parent.snapshot.data['budgets'] || [];
+    this.budgets = this.route.parent.snapshot.data['budgets'] || [];
 
     this.categories = services
       .map((item) => item.category)
@@ -45,12 +45,6 @@ export class SSearchProjectsComponent implements OnInit {
       .sort((objA, objB) => {
         return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
       });
-    this.budgets = budgets.map((item) => {
-      return {
-        text: `${item.title} ($${item.min}${item.max ? ' - $' + item.max : '+'})`,
-        value: item.id
-      };
-    });
 
     this.route.params.subscribe(() => {
       const res = this.route.snapshot.data['projects'];

@@ -30,9 +30,9 @@
         </div>
       </div>
     </div>
-    <div class="b-project-details__item" *ngIf="project.budget?.min || project.budget?.max">
+    <div class="b-project-details__item" *ngIf="project.budget?.id">
       <div class="b-project-details__subtitle">Budget</div>
-      <div class="b-project-details__text">{{'$' + project.budget?.min + '-$' + project.budget?.max }}</div>
+      <div class="b-project-details__text">{{ project.budget.title }}</div>
     </div>
     <div class="b-project-details__item" *ngIf="project.duration?.min || project.duration?.max">
       <div class="b-project-details__subtitle">Duration of flight</div>

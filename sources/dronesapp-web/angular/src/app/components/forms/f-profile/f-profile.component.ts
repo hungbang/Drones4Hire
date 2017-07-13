@@ -261,7 +261,7 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
       }
 
     } else if (this.autocomplete){
-      this.autocomplete.setComponentRestrictions([]);
+      this.autocomplete.setComponentRestrictions({country: []});
     }
   }
 

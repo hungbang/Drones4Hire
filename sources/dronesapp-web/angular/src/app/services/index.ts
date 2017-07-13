@@ -10,7 +10,6 @@ import {PilotsService} from './pilots.service/pilots.service';
 import {PaymentService} from './payment.service/payment.service';
 import {CommentsService} from './comments.service/comments.service';
 import {ClientsService} from './clients.service/clients.service';
-import {SimilarService} from './similar.service/similar.service';
 import {AuthorizationService} from './authorization.service/authorization.service';
 import {RequestService} from './request.service/request.service';
 import {TokenService} from './token.service/token.service';
@@ -32,7 +31,6 @@ export const AppServices = [
   ProjectService,
   PublicService,
   RequestService,
-  SimilarService,
   TokenService,
   TransactionService,
   AccountService,
