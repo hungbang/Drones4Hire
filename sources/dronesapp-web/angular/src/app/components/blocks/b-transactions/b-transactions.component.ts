@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import {WalletService} from '../../../services/wallet.service/wallet.service';
 import {AccountService} from '../../../services/account.service/account.service';
+import {ToastrService} from '../../../services/toastr.service/toastr.service';
 
 @Component({
   selector: 'b-transactions',
@@ -18,7 +19,8 @@ export class BTransactionsComponent implements OnInit {
 
   constructor(
     private walletService: WalletService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -42,6 +44,9 @@ export class BTransactionsComponent implements OnInit {
         },
         err => {
           console.log('get transactions error:', err);
+          if (err.status === 500) {
+            this.toastrService.showError('Internal Server error. Please try again later')
+          }
         }
       );
   }

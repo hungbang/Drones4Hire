@@ -62,17 +62,14 @@ export class RequestService {
         if (err.status === 401 && this._router.url !== '/login') {
           if (localStorage.getItem('refreshToken') && tokenNotExpired('refreshToken')) {
             return this.refreshToken(localStorage.getItem('refreshToken'))
-              .map(
+              .mergeMap(
                 (refreshRes) => {
                   this._tokenService.setAccessToken((refreshRes as any).accessToken);
                   this._tokenService.setRefreshToken((refreshRes as any).refreshToken);
                   return this.requests[method](url, body)
-                    .map((res) => {
-                      return res.json();
-                    });
+                    .map(this.extractData);
                 })
               .catch((refreshErr) => {
-                this._router.navigate(['/login']);
                 return Observable.throw(refreshErr);
               });
           } else {
