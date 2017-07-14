@@ -1,12 +1,12 @@
-import {Component, EventEmitter, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, OnInit, ViewEncapsulation} from '@angular/core';
 import {} from '@types/googlemaps';
-import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 
 import {LocationModel} from '../../services/common.service/location.interface';
 import {AccountService} from '../../services/account.service/account.service';
 import {ProjectService} from '../../services/project.service/project.service';
 import {extend, deleteNullOrNaN} from '../../shared/common/common-methods';
+import {UnSubscribeDirective} from '../../shared/un-subscribe/un-subscribe.directive';
 
 @Component({
   selector: 'search',
@@ -14,11 +14,11 @@ import {extend, deleteNullOrNaN} from '../../shared/common/common-methods';
   styleUrls: ['./search.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent extends UnSubscribeDirective implements OnInit {
   pilotLocation: LocationModel;
   mapProjects: any[] = [];
   coords: any = null;
-  boundsChanges: EventEmitter<any> = new EventEmitter();
+  boundsChanges$: EventEmitter<any> = new EventEmitter();
 
   serviceCategoryId: number|null = null;
   budgetId: number|null = null;
@@ -31,28 +31,12 @@ export class SearchComponent implements OnInit, OnDestroy {
     private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.pilotLocation = this.accountService.account.location;
-
-    this.router.events.subscribe(
-      (event) => {
-        this.serviceCategoryId = +this.route.snapshot.queryParams['serviceCategoryId'];
-        this.budgetId = +this.route.snapshot.queryParams['budgetId'];
-        // this.postcode = +this.route.snapshot.queryParams['postcode'];
-        const range = +this.route.snapshot.queryParams['range'];
-
-        if (event instanceof NavigationEnd && event.url.indexOf('/search', 0) === 0 && this.coords) {
-          console.log(event);
-          this.boundsChanges.emit(this.coords);
-        }
-      }
-    );
-  }
-
-  ngOnDestroy() {
-    this.boundsChanges.unsubscribe();
   }
 
   boundsChange(bounds) {
@@ -69,11 +53,12 @@ export class SearchComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.boundsChanges.emit(this.coords);
+    this.boundsChanges$.emit(this.coords);
   }
 
   initEvent() {
-    this.boundsChanges
+    this.boundsChanges$
+      .takeUntil(this.ngUnSubscribe)
       .debounceTime(150)
       .switchMap(
         (res: any) => {
@@ -81,7 +66,6 @@ export class SearchComponent implements OnInit, OnDestroy {
             budgetId: this.budgetId,
             // postcode: this.postcode,
             serviceCategoryId: this.serviceCategoryId,
-            range: this.range,
             topLeftCoordinates: res.coordsTopLeft,
             bottomRightCoordinates: res.coordsBottomRight,
             statuses: ['NEW']
@@ -90,7 +74,6 @@ export class SearchComponent implements OnInit, OnDestroy {
           deleteNullOrNaN(searchObj, 'serviceCategoryId');
           deleteNullOrNaN(searchObj, 'budgetId');
           // deleteNullOrNaN(searchObj, 'postcode');
-          deleteNullOrNaN(searchObj, 'range');
 
           return this.projectService.getProjectsOnMap(searchObj)
         }
@@ -101,6 +84,22 @@ export class SearchComponent implements OnInit, OnDestroy {
         },
         err => {
           console.log(err);
+        }
+      );
+
+    // Subscribe to search changes on page
+    this.router.events
+      .takeUntil(this.ngUnSubscribe)
+      .filter((route) => route instanceof NavigationEnd)
+      .subscribe(
+        () => {
+          this.serviceCategoryId = parseInt(this.route.snapshot.queryParams['serviceCategoryId'], 10);
+          this.budgetId = parseInt(this.route.snapshot.queryParams['budgetId'], 10);
+          // this.postcode = parseInt(this.route.snapshot.queryParams['postcode'], 10);
+
+          if (this.coords) {
+            this.boundsChanges$.emit(this.coords);
+          }
         }
       );
   }

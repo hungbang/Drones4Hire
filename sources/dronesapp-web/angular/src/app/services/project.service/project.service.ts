@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 
 import {PaidOptionModel} from './paid-option.interface';
 import {createObservable} from '../../shared/common/common-methods';
 import {RequestService} from '../request.service/request.service';
 import {ProjectAttachmentModel} from './project-attacment.interface';
 import * as moment from 'moment';
-import {AccountService} from "../account.service/account.service";
-import {TransactionService} from "../transaction.service/transaction.service";
+import {AccountService} from '../account.service/account.service';
+import {TransactionService} from '../transaction.service/transaction.service';
+import {ToastrService} from '../toastr.service/toastr.service';
 
 @Injectable()
 export class ProjectService {
@@ -23,7 +25,8 @@ export class ProjectService {
   constructor(
     private _requestService: RequestService,
     private _accountService: AccountService,
-    private _transactionService: TransactionService
+    private _transactionService: TransactionService,
+    private toastrService: ToastrService
   ) {
   }
 
@@ -238,7 +241,17 @@ export class ProjectService {
       .map(res => {
         this.projects = res.results;
         return res;
-      });
+      })
+      .catch(
+        err => {
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else if (err.status === 400) {
+            this.toastrService.showError('Please check your data')
+          }
+          return Observable.throw(err);
+        }
+      );
   }
 
   // todo add notification

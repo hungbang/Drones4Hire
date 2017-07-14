@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {ProjectService} from "../../../services/project.service/project.service";
+import {ActivatedRoute} from '@angular/router';
+
+import {ProjectService} from '../../../services/project.service/project.service';
+import {UnSubscribeDirective} from '../../../shared/un-subscribe/un-subscribe.directive';
 
 @Component({
   selector: 'b-review',
@@ -8,13 +10,14 @@ import {ProjectService} from "../../../services/project.service/project.service"
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./b-review.component.styl']
 })
-export class BReviewComponent implements OnInit {
+export class BReviewComponent extends UnSubscribeDirective implements OnInit {
   abilities: any;
 
   constructor(
     private _route: ActivatedRoute,
     private projectService: ProjectService
   ) {
+    super();
     this.abilities = {
       services: [],
       industries: [],
@@ -24,25 +27,27 @@ export class BReviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._route.params.subscribe(
-      () => {
-        const services = this._route.snapshot.data['services'];
-        const equipments = this._route.snapshot.data['equipments'];
-        this.abilities = {
-          services: [],
-          industries: [],
-          drones: [],
-          cameras: []
-        };
+    this._route.params
+      .takeUntil(this.ngUnSubscribe)
+      .subscribe(
+        () => {
+          const services = this._route.snapshot.data['services'];
+          const equipments = this._route.snapshot.data['equipments'];
+          this.abilities = {
+            services: [],
+            industries: [],
+            drones: [],
+            cameras: []
+          };
 
-        if (services.length) {
-          this.fetchServiceData(services);
+          if (services.length) {
+            this.fetchServiceData(services);
+          }
+          if (equipments.length) {
+            this.fetchEquipmentsData(equipments);
+          }
         }
-        if (equipments.length) {
-          this.fetchEquipmentsData(equipments);
-        }
-      }
-    );
+      );
   }
 
   private fetchServiceData(services) {
