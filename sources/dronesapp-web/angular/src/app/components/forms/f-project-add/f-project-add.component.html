@@ -134,10 +134,10 @@
           </div>
         </div>
         <ul class="f-project-add__files-list" *ngIf="formData.attachments.length">
-          <li class="f-project-add__files-item" *ngFor="let attach of formData.attachments">
+          <li class="f-project-add__files-item" *ngFor="let attach of formData.attachments; let index=index">
             <span class="f-project-add__files-text">{{ attach.title }}</span>
             <button type="button"
-                    (click)="deleteAttachment(attach.id)"
+                    (click)="deleteAttachment(isEditForm ? attach.id : index)"
                     class="f-project-add__files-button">
               <svg-use name="rubbish-bin"></svg-use>
             </button>
