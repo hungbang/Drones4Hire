@@ -11,6 +11,8 @@ import {
 import {NgProgressService} from 'ngx-progressbar';
 
 import {ModalService} from './services/modal.service/modal.service';
+import {UnSubscribeDirective} from './shared/un-subscribe/un-subscribe.directive';
+import {takeUntil} from "rxjs/operator/takeUntil";
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,7 @@ import {ModalService} from './services/modal.service/modal.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.styl']
 })
-export class AppComponent implements OnInit {
-  isIndex: boolean = true;
+export class AppComponent extends UnSubscribeDirective {
 
   constructor(
     private modalService: ModalService,
@@ -28,15 +29,16 @@ export class AppComponent implements OnInit {
     private router: Router,
     private progressbarService: NgProgressService
   ) {
+    super();
+
     this.toastr.setRootViewContainerRef(this.vRef);
-    this.router.events.subscribe(
+    this.router.events
+      .takeUntil(this.ngUnSubscribe)
+      .subscribe(
       (event: RouterEvent) => {
         this.navigationInterceptor(event);
       }
     );
-  }
-
-  ngOnInit() {
   }
 
   confirmExit(event) {

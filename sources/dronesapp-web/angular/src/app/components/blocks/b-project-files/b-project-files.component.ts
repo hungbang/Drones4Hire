@@ -5,6 +5,7 @@ import {AccountService} from '../../../services/account.service/account.service'
 import {ProjectModel} from '../../../services/project.service/project.interface';
 import {ProjectAttachmentModel} from '../../../services/project.service/project-attacment.interface';
 import {ProjectService} from '../../../services/project.service/project.service';
+import {UnSubscribeDirective} from '../../../shared/un-subscribe/un-subscribe.directive';
 
 @Component({
   selector: 'b-project-files',
@@ -12,7 +13,7 @@ import {ProjectService} from '../../../services/project.service/project.service'
   styleUrls: ['./b-project-files.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class BProjectFilesComponent implements OnInit {
+export class BProjectFilesComponent extends UnSubscribeDirective implements OnInit {
   files: Array<any> = [];
   project: ProjectModel;
   public deleteFunc = (e) => { this.deleteFile(e) };
@@ -21,15 +22,19 @@ export class BProjectFilesComponent implements OnInit {
     public accountService: AccountService,
     private _route: ActivatedRoute,
     private projectService: ProjectService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    this._route.params.subscribe(
-      () => {
-        this.project = this._route.snapshot.parent.data['project'];
-        this.fetchProjectFiles();
-      }
-    );
+    this._route.params
+      .takeUntil(this.ngUnSubscribe)
+      .subscribe(
+        () => {
+          this.project = this._route.snapshot.parent.data['project'];
+          this.fetchProjectFiles();
+        }
+      );
   }
 
   private fetchProjectFiles() {

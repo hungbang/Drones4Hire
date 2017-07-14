@@ -1,7 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ProjectModel} from "../../../services/project.service/project.interface";
-import {ProjectService} from "../../../services/project.service/project.service";
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {ProjectModel} from '../../../services/project.service/project.interface';
+import {ProjectService} from '../../../services/project.service/project.service';
+import {UnSubscribeDirective} from '../../../shared/un-subscribe/un-subscribe.directive';
 
 @Component({
   selector: 's-dashboard',
@@ -9,7 +11,7 @@ import {ProjectService} from "../../../services/project.service/project.service"
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./s-dashboard.component.styl']
 })
-export class SDashboardComponent implements OnInit {
+export class SDashboardComponent extends UnSubscribeDirective implements OnInit {
   public currentPage: number;
   public projects: ProjectModel[] = [];
 
@@ -23,26 +25,30 @@ export class SDashboardComponent implements OnInit {
     private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.userType = this.route.snapshot.data['userType'];
-    this.route.params.subscribe(() => {
-      const page = Number(this.route.snapshot.params['page']);
-      const pageLink = this.route.snapshot.data['pageLink'];
-      const res = this.route.snapshot.data['projects'];
+    this.route.params
+      .takeUntil(this.ngUnSubscribe)
+      .subscribe(() => {
+        const page = Number(this.route.snapshot.params['page']);
+        const pageLink = this.route.snapshot.data['pageLink'];
+        const res = this.route.snapshot.data['projects'];
 
-      const projects = res && res.results;
+        const projects = res && res.results;
 
-      if ((!projects || !projects.length) && !isNaN(page) && page > 1 || isNaN(page)) {
-        return this.router.navigate([pageLink, 1]);
-      }
+        if ((!projects || !projects.length) && !isNaN(page) && page > 1 || isNaN(page)) {
+          return this.router.navigate([pageLink, 1]);
+        }
 
-      this.update(res, projects);
+        this.update(res, projects);
 
-      this.pageLink = pageLink;
-      this.currentPage = page;
-    });
+        this.pageLink = pageLink;
+        this.currentPage = page;
+      });
   }
 
   update(res, projects) {

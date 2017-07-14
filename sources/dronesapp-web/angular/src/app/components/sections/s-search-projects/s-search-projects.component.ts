@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ProjectService} from "../../../services/project.service/project.service";
-import {deleteNullOrNaN} from "../../../shared/common/common-methods";
-import {CategoryModel} from "../../../services/common.service/category.interface";
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {ProjectService} from '../../../services/project.service/project.service';
+import {deleteNullOrNaN} from '../../../shared/common/common-methods';
+import {CategoryModel} from '../../../services/common.service/category.interface';
+import {UnSubscribeDirective} from '../../../shared/un-subscribe/un-subscribe.directive';
 
 @Component({
   selector: 's-search-projects',
@@ -10,7 +12,7 @@ import {CategoryModel} from "../../../services/common.service/category.interface
   styleUrls: ['./s-search-projects.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class SSearchProjectsComponent implements OnInit {
+export class SSearchProjectsComponent extends UnSubscribeDirective implements OnInit {
   public categories: CategoryModel[];
   public budgets: any[];
 
@@ -28,7 +30,9 @@ export class SSearchProjectsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     const services = this.route.parent.snapshot.data['services'] || [];
@@ -46,24 +50,26 @@ export class SSearchProjectsComponent implements OnInit {
         return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
       });
 
-    this.route.params.subscribe(() => {
-      const res = this.route.snapshot.data['projects'];
-      const projects = res && res.results;
-      const currentPage = Number(this.route.snapshot.params['page']);
+    this.route.params
+      .takeUntil(this.ngUnSubscribe)
+      .subscribe(() => {
+        const res = this.route.snapshot.data['projects'];
+        const projects = res && res.results;
+        const currentPage = Number(this.route.snapshot.params['page']);
 
-      if ((!projects || !projects.length) && !isNaN(currentPage) && currentPage > 1 || isNaN(currentPage)) {
-        this.router.navigate(['/search', 1], { queryParams: this.route.snapshot.queryParams });
-        return;
-      }
+        if ((!projects || !projects.length) && !isNaN(currentPage) && currentPage > 1 || isNaN(currentPage)) {
+          this.router.navigate(['/search', 1], { queryParams: this.route.snapshot.queryParams });
+          return;
+        }
 
-      this.update(res, projects);
+        this.update(res, projects);
 
-      this.currentPage = currentPage;
-      this.budget = this.route.snapshot.queryParams['budgetId'] || -1;
-      this.category = this.route.snapshot.queryParams['serviceCategoryId'] || -1;
-      this.postcode = this.route.snapshot.queryParams['postcode'] || '';
-      this.range = this.route.snapshot.queryParams['range'] || '';
-    });
+        this.currentPage = currentPage;
+        this.budget = this.route.snapshot.queryParams['budgetId'] || -1;
+        this.category = this.route.snapshot.queryParams['serviceCategoryId'] || -1;
+        this.postcode = this.route.snapshot.queryParams['postcode'] || '';
+        this.range = this.route.snapshot.queryParams['range'] || '';
+      });
   }
 
   changePage(page) {
