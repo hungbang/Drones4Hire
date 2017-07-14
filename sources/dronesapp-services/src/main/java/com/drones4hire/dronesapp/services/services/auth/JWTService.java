@@ -134,4 +134,30 @@ public class JWTService
 	{
 		return authTokenExp;
 	}
+
+	public String generateUserRestoreToken(com.drones4hire.dronesapp.services.services.util.model.restore.User user)
+	{
+		Claims claims = Jwts.claims().setSubject(user.getId().toString());
+		claims.put("firstName", user.getFirstName());
+		claims.put("lastName", user.getLastName());
+		claims.put("email", user.getEmail());
+		claims.put("username", user.getUsername());
+		claims.put("role", user.getRole());
+		return buildToken(claims, authTokenExp);
+	}
+
+	public com.drones4hire.dronesapp.services.services.util.model.restore.User parseUserRestoreToken(String token)
+	{
+		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+
+		com.drones4hire.dronesapp.services.services.util.model.restore.User user = new com.drones4hire.dronesapp.services.services.util.model.restore.User();
+		user.setId(Long.valueOf(body.getSubject()));
+		user.setFirstName((String)body.get("firstName"));
+		user.setLastName((String)body.get("lastName"));
+		user.setEmail((String)body.get("email"));
+		user.setUsername((String)body.get("username"));
+		user.setRole((String)body.get("role"));
+
+		return user;
+	}
 }

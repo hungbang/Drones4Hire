@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.ws.controllers;
 
 import javax.validation.Valid;
 
+import com.drones4hire.dronesapp.services.services.util.UserRestoreService;
 import org.dozer.Mapper;
 import org.dozer.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,9 @@ public class AuthController extends AbstractController
 	
 	@Autowired
 	private AWSEmailService emailService;
+
+	@Autowired
+	private UserRestoreService userRestoreService;
 
 	@Autowired
 	private Mapper mapper;
@@ -132,5 +136,15 @@ public class AuthController extends AbstractController
 	public void resetPassword(@RequestParam(name = "token", required = true) String token, @RequestBody @Valid ResetPasswordDTO resetPassword) throws ServiceException
 	{
 		userService.resetUserPassword(token, resetPassword.getPassword());
+	}
+
+	@ResponseStatusDetails
+	@ApiOperation(value = "Get info by token", nickname = "getInfoByToken", code = 201, httpMethod = "POST", response = com.drones4hire.dronesapp.services.services.util.model.restore.User.class)
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "register/info", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody com.drones4hire.dronesapp.services.services.util.model.restore.User getInfoByToken(@RequestParam(name = "token", required = true) String token)
+			throws MappingException, ServiceException
+	{
+		return jwtService.parseUserRestoreToken(token);
 	}
 }

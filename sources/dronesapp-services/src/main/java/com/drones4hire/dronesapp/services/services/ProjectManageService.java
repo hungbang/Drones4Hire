@@ -8,8 +8,7 @@ import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.services.services.util.CSVWriter;
-import com.drones4hire.dronesapp.services.services.util.model.ProjectCSVModel;
-import io.jsonwebtoken.lang.Collections;
+import com.drones4hire.dronesapp.services.services.util.model.csv.ProjectCSVModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

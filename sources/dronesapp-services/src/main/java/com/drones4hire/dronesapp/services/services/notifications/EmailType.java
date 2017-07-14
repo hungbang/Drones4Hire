@@ -17,7 +17,8 @@ public enum EmailType
 	QUESTION("User question", "QuestionTemplate.ftl"),
 	REJECT_BID("Your Project Has Been Rejected", "RejectBidTemplate.ftl"),
 	SUBMIT_PAYMENT("Payment released", "SubmitPaymentTemplate.ftl"),
-	PROJECT_POSTED("New project posted", "ProjectPostedTemplate.ftl");
+	PROJECT_POSTED("New project posted", "ProjectPostedTemplate.ftl"),
+	USER_RESTORE("Try a new Drones4Hire", "RestoreUserTemplate.ftl");
 
 	private String subject;
 	private String templatePath;

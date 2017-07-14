@@ -5,6 +5,7 @@ import java.util.List;
 import com.drones4hire.dronesapp.models.db.projects.Feedback;
 import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
 import com.drones4hire.dronesapp.services.services.*;
+import com.drones4hire.dronesapp.services.services.util.UserRestoreService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,9 @@ public class UsersController extends AbstractController
 	
 	@Autowired
 	private MessageService messageService;
+
+	@Autowired
+	private UserRestoreService userRestoreService;
 
 	@Autowired
 	private Mapper mapper;
@@ -208,5 +212,12 @@ public class UsersController extends AbstractController
 		response.setHeader("Content-Disposition", "attachment; filename=" + sc.getRole().toString().toLowerCase() + ".csv");
 		userService.exportUsersToCSV(sc, response.getWriter());
 		response.flushBuffer();
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "restore/all", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void restoreAllUsers()
+	{
+		userRestoreService.restoreUsers();
 	}
 }

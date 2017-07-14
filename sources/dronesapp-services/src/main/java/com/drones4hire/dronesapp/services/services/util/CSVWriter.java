@@ -4,7 +4,7 @@ import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.SearchResult;
 import com.drones4hire.dronesapp.models.db.payments.WithdrawRequest;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
-import com.drones4hire.dronesapp.services.services.util.model.ProjectCSVModel;
+import com.drones4hire.dronesapp.services.services.util.model.csv.ProjectCSVModel;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;

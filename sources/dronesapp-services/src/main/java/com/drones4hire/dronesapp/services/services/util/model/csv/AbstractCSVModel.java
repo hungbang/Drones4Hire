@@ -1,4 +1,4 @@
-package com.drones4hire.dronesapp.services.services.util.model;
+package com.drones4hire.dronesapp.services.services.util.model.csv;
 
 import java.io.Serializable;
 import java.util.Date;

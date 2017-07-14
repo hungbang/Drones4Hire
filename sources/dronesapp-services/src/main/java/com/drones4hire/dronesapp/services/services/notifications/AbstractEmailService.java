@@ -1,21 +1,5 @@
 package com.drones4hire.dronesapp.services.services.notifications;
 
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.ACCEPT_BID;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.AWARD_BID;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.CLIENT_EMAIL_CONFIRMED;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.CONFIRMATION;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.FORGOT_PASSWORD;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.NEW_BID_RECEIVE;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.NEW_COMMENT_RECEIVE;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.PILOT_APPROVED;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.PROJECT_POSTED;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.REJECT_BID;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.RELEASE_PAYMENT;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.SUBMIT_PAYMENT;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.SUPPORT_MESSAGE;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.UPLOAD_PROJECT_RESULT;
-import static com.drones4hire.dronesapp.services.services.notifications.EmailType.UP_EMAIL_CONFIRMATION;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +22,8 @@ import com.drones4hire.dronesapp.services.services.UserService;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
+import static com.drones4hire.dronesapp.services.services.notifications.EmailType.*;
 
 public abstract class AbstractEmailService
 {
@@ -226,6 +212,15 @@ public abstract class AbstractEmailService
 		emailData.put(user.getClass().getSimpleName(), user);
 		emailData.put("message", message.getMessage());
 		return sendEmail(SUPPORT_MESSAGE, emailData, user.getEmail());
+	}
+
+	public String sendRestoreUserEmail(com.drones4hire.dronesapp.services.services.util.model.restore.User user, String url, String token) throws ServiceException
+	{
+		Map<String, Object> emailData = new HashMap<String, Object>();
+		emailData.put("firstName", user.getFirstName());
+		emailData.put("lastName", user.getLastName());
+		emailData.put("url", url + "?token=" + token);
+		return sendEmail(USER_RESTORE, emailData, user.getEmail());
 	}
 	
 	protected Content buildBody(String path, Map<String, Object> params)

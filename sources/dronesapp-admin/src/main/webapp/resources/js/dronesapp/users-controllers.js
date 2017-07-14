@@ -29,6 +29,16 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$route', '$l
 			console.error('Failed to search users');
 		});
 	};
+
+    $scope.restoreUsers = function()
+    {
+        $http.post('users/restore/all').success(function(data)
+        {
+            alertify.success('Emails were sent');
+        }).error(function() {
+            console.error('Failed to search users');
+        });
+    };
 	
 
 	$scope.resetSearchCriteria = function() {
