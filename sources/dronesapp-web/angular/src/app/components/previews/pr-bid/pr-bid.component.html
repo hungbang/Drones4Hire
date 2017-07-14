@@ -28,6 +28,11 @@
         <span class="pr-bid__count">${{bid.amount|number:'1.2'}}</span>
       </div>
       <div class="pr-bid__age">Bid Age: {{ diff }} day(s)</div>
+      <hr class="pr-bid__line _small" *ngIf="pilot">
+      <div class="pr-bid__fee" *ngIf="pilot">
+        <div>Service fee: {{ fee }}%</div>
+        <div>Total pilot payout: ${{ payout }}</div>
+      </div>
       <ng-content select="bid-buttons"></ng-content>
     </div>
   </div>

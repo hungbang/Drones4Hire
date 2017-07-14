@@ -138,6 +138,7 @@ export class FProjectAddComponent implements OnInit {
           this.uploader.uploadAll();
         } else {
           this.isNotAcceptedFormat = true;
+          this.uploader.clearQueue();
         }
       } else {
         this.isLimitReached = true;

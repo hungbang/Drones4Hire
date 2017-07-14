@@ -34,6 +34,8 @@
               (award)="award($event)"></l-bids>
 
       <pr-bid *ngIf="isPilot && pilotBid"
+              [pilot]="isPilot"
+              [fee]="fee"
               [bid]="pilotBid">
         <bid-buttons>
           <button class="project-description__bid-btn _fill"

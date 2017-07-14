@@ -41,7 +41,8 @@ export class FBidComponent {
   }
 
   get payout() {
-    return this.fee ? this.model.amount - Math.ceil(this.model.amount * this.fee / 100) : this.model.amount;
+    const num = this.model.amount * ((100 - this.fee) / 100)  + 'e+2';
+    return this.fee ? +(Math.round(+num) + 'e-2') : this.model.amount;
   }
 }
 

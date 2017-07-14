@@ -128,6 +128,7 @@ export const ROUTES: Routes = [
           services: ProfileServicesResolve,
           equipments: ProfileEquipmentsResolve
         },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange'
       }
     ],
     data: {
@@ -227,6 +228,7 @@ export const ROUTES: Routes = [
         path: 'manage',
         canActivate: [ClientGuard],
         component: ProjectManageComponent,
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         data: {
           className: 'p-project'
         },
@@ -261,7 +263,7 @@ export const ROUTES: Routes = [
                   project: ProjectResolve
                 },
                 component: SProjectEditComponent
-              },
+              }
             ]
           },
         ]
@@ -559,7 +561,8 @@ export const ROUTES: Routes = [
     },
     data: {
       className: 'p-faq'
-    }
+    },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   },
   {
     path: '**',
