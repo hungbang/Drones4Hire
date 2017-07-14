@@ -1,11 +1,6 @@
 package com.drones4hire.dronesapp.services.services;
 
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
-import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
-import com.drones4hire.dronesapp.models.db.users.Group;
-import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.services.util.CSVWriter;
-import com.drones4hire.dronesapp.services.services.util.model.ProjectCSVModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +18,6 @@ import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
