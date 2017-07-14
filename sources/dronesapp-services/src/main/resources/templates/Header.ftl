@@ -9,7 +9,7 @@
       		<tbody>
       			<tr>
       				<td style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;">
-      					<img src="https://ci5.googleusercontent.com/proxy/9lA9_CWPsiHlVNKL02yiedxvRgJydnT8k-wdlQ_ssYr_qAgAmAl7Gv0ugAa0j7jXzO5BfLBqSHbWthFF2g_b8LEvukeH5K_kVK0YmpkC-4e2gYDF_8kYXJk=s0-d-e1-ft#http://www.drones4hire.com/preview/tiny_mca_page_img/email_logo.png" alt="" width="428" height="70">
+      					<img src="https://s3.us-east-2.amazonaws.com/drones4hire-prod/project/email_logo.png" alt="" width="428" height="70">
       				</td>
       			</tr>
       		</tbody>
