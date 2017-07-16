@@ -34,7 +34,7 @@ export class SIndexComponent implements OnInit {
       this._accountService.getAccountLicense().subscribe(
         res => {
           if (res.verified) {
-            this._router.navigate(['/search']);
+            this._router.navigate(['/search', 1]);
           } else {
             this._modalService.push({
               component: ModalInformationComponent,

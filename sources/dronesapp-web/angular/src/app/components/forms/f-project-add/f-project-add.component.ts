@@ -795,7 +795,6 @@ export class FProjectAddComponent implements OnInit {
       if (addressType === 'locality') {
         this.formData.location.city = el.long_name;
       } else if (addressType === 'postal_code') {
-        debugger
         this.formData.location.postcode = parseInt(el.long_name, 10) || null;
       } else if (addressType === 'route') {
         this.formData.location.address = el.short_name + this.formData.location.address;
