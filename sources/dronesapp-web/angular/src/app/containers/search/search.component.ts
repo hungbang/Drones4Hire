@@ -37,6 +37,14 @@ export class SearchComponent extends UnSubscribeDirective implements OnInit {
 
   ngOnInit() {
     this.pilotLocation = this.accountService.account.location;
+
+    this.serviceCategoryId = parseInt(this.route.snapshot.queryParams['serviceCategoryId'], 10);
+    this.budgetId = parseInt(this.route.snapshot.queryParams['budgetId'], 10);
+    // this.postcode = parseInt(this.route.snapshot.queryParams['postcode'], 10);
+
+    if (this.coords) {
+      this.boundsChanges$.emit(this.coords);
+    }
   }
 
   boundsChange(bounds) {
@@ -113,14 +121,15 @@ export class SearchComponent extends UnSubscribeDirective implements OnInit {
     } else if (results.length && this.mapProjects.length) {
       oldProjects.forEach( // mutate: remove not in bounds projects
         (el, i) => {
-          if (!results.some(item => item.id === el.id)) {
-            this.mapProjects.splice(i, 1);
+          if (!results.find(item => item.id === el.id)) {
+            const index = this.mapProjects.findIndex(item => item.id === el.id);
+            this.mapProjects.splice(index, 1);
           }
         }
       );
       results.forEach( // mutate: add new projects of current bounds
         (el) => {
-          if (!this.mapProjects.some(item => item.id === el.id)) {
+          if (!this.mapProjects.find(item => item.id === el.id)) {
             this.mapProjects.push(el);
           }
         }
@@ -128,6 +137,5 @@ export class SearchComponent extends UnSubscribeDirective implements OnInit {
     } else if (results.length && !this.mapProjects.length) {
       this.mapProjects = results; // we can change empty array
     }
-    // console.log(this.mapProjects);
   }
 }

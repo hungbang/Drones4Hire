@@ -22,7 +22,7 @@ export class MFooterComponent implements OnInit {
 
   getDashboardLink() { // TODO: check if its needed
     if (this._authorizationService.isUserLogin) {
-      return this._accountService.isUserClient() ? '/dashboard/client' : '/dashboard/pilot';
+      return this._accountService.isUserClient() ? '/dashboard/client/1' : '/dashboard/pilot/1';
     } else {
       return 'sign-up';
     }

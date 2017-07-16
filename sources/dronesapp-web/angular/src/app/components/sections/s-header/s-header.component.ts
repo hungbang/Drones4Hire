@@ -32,8 +32,8 @@ export class HeaderComponent {
       { title: 'Sign Up', link: '/sign-up', classes: '_active' },
     ],
     client: [
-      { title: 'Dashboard', link: '/dashboard/client' },
-      { title: 'My projects', link: '/my-projects/bidding' },
+      { title: 'Dashboard', link: '/dashboard/client/1' },
+      { title: 'My projects', link: '/my-projects/bidding/1' },
       {
         title: 'Account',
         isOpened: true,
@@ -48,7 +48,7 @@ export class HeaderComponent {
       { title: 'New project', action: this.goToPostAProjectIfAccessExist.bind(this), link: '/project/manage/add', classes: '_active' }
     ],
     pilot: [
-      { title: 'Dashboard', link: '/dashboard/pilot' },
+      { title: 'Dashboard', link: '/dashboard/pilot/1' },
       {
         title: 'Account',
         isOpened: true,
