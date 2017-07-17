@@ -87,6 +87,8 @@ public class UserService
 			throw new ForbiddenOperationException("Invalid role for registration");
 		}
 
+		checkUniqueFields(user);
+
 		try
 		{
 			user.setEnabled(DEFAULT_ENABLED);
@@ -308,5 +310,31 @@ public class UserService
 		}
 
 		return user;
+	}
+
+	private void checkUniqueField(String fieldName, User u) throws UserAlreadyExistException
+	{
+		User user = null;
+		switch(fieldName)
+		{
+		case "email":
+			user = userMapper.getUserByEmail(u.getEmail());
+			break;
+		case "username":
+			user = userMapper.getUserByUsername(u.getUsername());
+			break;
+		default:
+			break;
+		}
+		if(user != null)
+		{
+			throw new UserAlreadyExistException("Current " + fieldName + " already exists");
+		}
+	}
+
+	private void checkUniqueFields(User user) throws UserAlreadyExistException
+	{
+		checkUniqueField("email", user);
+		checkUniqueField("username", user);
 	}
 }

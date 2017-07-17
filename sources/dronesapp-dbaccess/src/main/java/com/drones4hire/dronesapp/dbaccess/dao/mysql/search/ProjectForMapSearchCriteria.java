@@ -20,6 +20,7 @@ public class ProjectForMapSearchCriteria
 	@NotNull(message = "Bottom right bounding box coordinates required")
 	@Valid
 	private CoordinatesDTO bottomRightCoordinates;
+	private Long serviceCategoryId;
 	private Date createdAtBefore;
 	private Date createdAtAfter;
 
@@ -81,6 +82,16 @@ public class ProjectForMapSearchCriteria
 	public void setBottomRightCoordinates(CoordinatesDTO bottomRightCoordinates)
 	{
 		this.bottomRightCoordinates = bottomRightCoordinates;
+	}
+
+	public Long getServiceCategoryId()
+	{
+		return serviceCategoryId;
+	}
+
+	public void setServiceCategoryId(Long serviceCategoryId)
+	{
+		this.serviceCategoryId = serviceCategoryId;
 	}
 
 	public Date getCreatedAtBefore()

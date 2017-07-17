@@ -113,6 +113,7 @@ public abstract class AbstractController
 	{
 		ErrorResponse result = new ErrorResponse();
 		result.setError(new Error(ErrorCode.USER_ALREADY_EXIST));
+		result.getError().setField(e.getMessage());
 		return result;
 	}
 	

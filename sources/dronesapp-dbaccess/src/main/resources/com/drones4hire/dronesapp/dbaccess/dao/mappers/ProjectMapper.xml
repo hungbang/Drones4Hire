@@ -1195,6 +1195,10 @@
 				drones.BUDGETS BD
 			ON
 				P.BUDGET_ID = BD.ID
+			LEFT JOIN
+				drones.SERVICES S
+			ON
+				S.ID = P.SERVICE_ID
 			INNER JOIN
 				drones.LOCATIONS L
 			ON
@@ -1208,6 +1212,11 @@
 			<if test="null != status">
 				<![CDATA[
 				   AND P.STATUS = #{status}
+				]]>
+			</if>
+			<if test="null != serviceCategoryId">
+				<![CDATA[
+				   AND S.SERVICE_CATEGORY_ID = #{serviceCategoryId}
 				]]>
 			</if>
 			<if test="null != id">
@@ -1257,6 +1266,10 @@
 			ON
 				P.LOCATION_ID = L.ID
 			LEFT JOIN
+				drones.SERVICES S
+			ON
+				S.ID = P.SERVICE_ID
+			LEFT JOIN
 				drones.BUDGETS BD
 			ON
 				P.BUDGET_ID = BD.ID
@@ -1265,6 +1278,11 @@
 			<if test="null != status">
 				<![CDATA[
 				   AND P.STATUS = #{status}
+				]]>
+			</if>
+			<if test="null != serviceCategoryId">
+				<![CDATA[
+				   AND S.SERVICE_CATEGORY_ID = #{serviceCategoryId}
 				]]>
 			</if>
 			<if test="null != id">
