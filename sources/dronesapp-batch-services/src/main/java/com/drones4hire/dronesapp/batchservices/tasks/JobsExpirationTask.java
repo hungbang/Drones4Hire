@@ -33,15 +33,18 @@ public class JobsExpirationTask
 
 	public void runTask() throws ServiceException
 	{
+		Project.Status[] STATUSES = { Project.Status.NEW};
+		ProjectSearchCriteria sc;
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		cal.add(Calendar.HOUR, -24);
 		sc = new ProjectSearchCriteria();
 		sc.setStartDateBefore(cal.getTime());
 		sc.setStatuses(Arrays.asList(STATUSES));
-		LOGGER.info("Time: " + cal.getTime());
+		sc.setPage(null);
+		sc.setPageSize(null);
 		List<ProjectSearchResult> projects = projectMapper.searchProjects(sc);
 
-		LOGGER.info("Found jobs: " + projects.size());
 
 		for (ProjectSearchResult project : projects)
 		{
