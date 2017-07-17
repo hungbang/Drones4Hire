@@ -366,6 +366,11 @@ export class FAuthorizationComponent implements OnInit {
     this.submitted = true;
 
     if (form.invalid || (this.formData.role === 'ROLE_PILOT' && !this.formData.location.coordinates.latitude)) {
+      if (Object.keys(form.controls).find(
+          key => form.controls[key].errors && form.controls[key].errors.required
+        )) {
+        this.toastrService.showError('Please fill in all required fields.');
+      }
       return;
     }
     // reset location for client

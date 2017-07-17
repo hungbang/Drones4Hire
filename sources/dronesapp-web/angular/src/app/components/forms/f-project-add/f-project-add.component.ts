@@ -587,7 +587,13 @@ export class FProjectAddComponent implements OnInit {
     this.isSubmitted = true;
 
     if (!form.valid) {
-      this.toastrService.showWarning('Please check your form data');
+      let message = '';
+      if (Object.keys(form.controls).find(
+          key => form.controls[key].errors && form.controls[key].errors.required
+        )) {
+        message = 'Please fill in all required fields.'
+      }
+      this.toastrService.showError(message !== '' ? message : 'Please check your form data.');
       return;
     }
 
@@ -725,6 +731,7 @@ export class FProjectAddComponent implements OnInit {
           }
         );
     } else {
+      this.uploader.queue.splice(id, 1);
       this.formData.attachments.splice(id, 1);
     }
   }
