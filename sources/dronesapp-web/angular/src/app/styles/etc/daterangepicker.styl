@@ -1,3 +1,6 @@
+@import "../settings/variables.styl"
+@import "../settings/mixin.styl"
+
 .daterangepicker.ltr
   display: none
 .daterangepicker.show-calendar.ltr
@@ -31,6 +34,28 @@
       padding: 0 10px
       height: 38px
       font-size: 1.4rem
+
+  th
+    vertical-align middle
+
+  .prev
+  .next
+    &.available
+      .glyphicon
+        display flex
+        align-items center
+        justify-content center
+        &:before
+          ps()
+          position relative
+          border-left: .5rem solid $gray1f
+          border-top: .5rem solid transparent
+          border-bottom: .5rem solid transparent
+  .prev
+    &.available
+      .glyphicon
+        &:before
+          transform: rotate(180deg)
 
 @media screen and (max-width: 720px)
   .daterangepicker.show-calendar.ltr

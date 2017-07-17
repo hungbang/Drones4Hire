@@ -270,7 +270,20 @@
       <div class="f-default__col">
         <div class="f-default__field f-project-add__datepicker"
              daterangepicker
-             [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'MM-DD-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
+             [options]="{
+              cancelClass: 'daterangepicker-cancel',
+              locale: { format: 'MM-DD-YYYY hh:mm' },
+              applyClass: 'f-default__button',
+              minDate: now,
+              linkedCalendars: true,
+              autoApply: true,
+              skipCss: true,
+              opens: 'left',
+              startDate:date.start,
+              endDate:date.end,
+              timePicker: true,
+              showDropdowns: true,
+              ranges: false }"
              (selected)="selectedDate($event, date)">
           <span class="form-control uneditable-input" name="daterange">
               from {{ date.start | date:'MM/dd/yyyy' }} to {{ date.end| date:'MM/dd/yyyy' }}
