@@ -12,7 +12,7 @@ import {CountryModel} from '../../../services/common.service/country.interface';
 import {StateModel} from '../../../services/common.service/state.interface';
 import {BudgetModel} from '../../../services/common.service/budget.interface';
 import {NormalizedServiceModel} from '../../../services/common.service/services.interface';
-import {mergeDeep, extend} from '../../../shared/common/common-methods';
+import {mergeDeep, extend, deleteNullOrNaN} from '../../../shared/common/common-methods';
 import {DurationModel} from '../../../services/common.service/duration.interface';
 import {ProjectService} from '../../../services/project.service/project.service';
 import {PaidOptionModel} from '../../../services/project.service/paid-option.interface';
@@ -587,7 +587,13 @@ export class FProjectAddComponent implements OnInit {
     this.isSubmitted = true;
 
     if (!form.valid) {
-      this.toastrService.showWarning('Please check your data', '');
+      let message = '';
+      if (Object.keys(form.controls).find(
+          key => form.controls[key].errors && form.controls[key].errors.required
+        )) {
+        message = 'Please fill in all required fields.'
+      }
+      this.toastrService.showError(message !== '' ? message : 'Please check your form data.');
       return;
     }
 
@@ -725,7 +731,8 @@ export class FProjectAddComponent implements OnInit {
           }
         );
     } else {
-      this.formData.attachments = this.formData.attachments.filter(attach => attach.id !== id);
+      this.uploader.queue.splice(id, 1);
+      this.formData.attachments.splice(id, 1);
     }
   }
 
@@ -795,7 +802,7 @@ export class FProjectAddComponent implements OnInit {
       if (addressType === 'locality') {
         this.formData.location.city = el.long_name;
       } else if (addressType === 'postal_code') {
-        this.formData.location.postcode = el.long_name || null;
+        this.formData.location.postcode = parseInt(el.long_name, 10) || null;
       } else if (addressType === 'route') {
         this.formData.location.address = el.short_name + this.formData.location.address;
       } else if (addressType === 'street_number') {
@@ -825,6 +832,8 @@ export class FProjectAddComponent implements OnInit {
     if (!this.formData.location.address) {
       this.formData.location.address = place.formatted_address;
     }
+    deleteNullOrNaN(this.formData.location, 'postcode');
+
 
     this.formData.location.coordinates.latitude = place.geometry.location.lat();
     this.formData.location.coordinates.longitude = place.geometry.location.lng();

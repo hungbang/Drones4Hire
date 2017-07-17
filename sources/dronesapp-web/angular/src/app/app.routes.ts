@@ -145,7 +145,7 @@ export const ROUTES: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'bidding',
+        redirectTo: 'bidding/1',
         pathMatch: 'full'
       },
       {
@@ -159,7 +159,7 @@ export const ROUTES: Routes = [
           {
             path: ':page',
             data: {
-              pageLink: '/my-projects/bidding',
+              pageLink: '/my-projects/bidding/1',
               status: ['NEW', 'PENDING']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
@@ -327,7 +327,7 @@ export const ROUTES: Routes = [
               projects: ClientProjectsResolve
             },
             data: {
-              pageLink: '/dashboard/client',
+              pageLink: '/dashboard/client/1',
               userType: 'client'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
@@ -354,7 +354,7 @@ export const ROUTES: Routes = [
               projects: PilotProjectsResolve
             },
             data: {
-              pageLink: '/dashboard/pilot',
+              pageLink: '/dashboard/pilot/1',
               userType: 'pilot'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',

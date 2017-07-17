@@ -34,14 +34,14 @@ export class SIndexComponent implements OnInit {
       this._accountService.getAccountLicense().subscribe(
         res => {
           if (res.verified) {
-            this._router.navigate(['/search']);
+            this._router.navigate(['/search', 1]);
           } else {
             this._modalService.push({
               component: ModalInformationComponent,
               type: 'ModalInformationComponent',
               values: {
                 title: 'Find a job',
-                message: 'Pilot: Your license and/or certificate were not verified yet. Please upload it on Account settings, to gain access to job board.'
+                message: 'Your license and/or certificate were not verified yet. Please upload it on Account settings, to gain access to job board.'
               }
             });
           }

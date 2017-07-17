@@ -134,10 +134,10 @@
           </div>
         </div>
         <ul class="f-project-add__files-list" *ngIf="formData.attachments.length">
-          <li class="f-project-add__files-item" *ngFor="let attach of formData.attachments">
+          <li class="f-project-add__files-item" *ngFor="let attach of formData.attachments; let index=index">
             <span class="f-project-add__files-text">{{ attach.title }}</span>
             <button type="button"
-                    (click)="deleteAttachment(attach.id)"
+                    (click)="deleteAttachment(isEditForm ? attach.id : index)"
                     class="f-project-add__files-button">
               <svg-use name="rubbish-bin"></svg-use>
             </button>
@@ -270,7 +270,20 @@
       <div class="f-default__col">
         <div class="f-default__field f-project-add__datepicker"
              daterangepicker
-             [options]="{cancelClass: 'daterangepicker-cancel', locale: { format: 'MM-DD-YYYY hh:mm' }, applyClass: 'f-default__button', minDate: now, linkedCalendars: true, autoApply: true, skipCss: true, opens: 'left', startDate:date.start, endDate:date.end, timePicker: true, ranges: false }"
+             [options]="{
+              cancelClass: 'daterangepicker-cancel',
+              locale: { format: 'MM-DD-YYYY hh:mm' },
+              applyClass: 'f-default__button',
+              minDate: now,
+              linkedCalendars: true,
+              autoApply: true,
+              skipCss: true,
+              opens: 'left',
+              startDate:date.start,
+              endDate:date.end,
+              timePicker: true,
+              showDropdowns: true,
+              ranges: false }"
              (selected)="selectedDate($event, date)">
           <span class="form-control uneditable-input" name="daterange">
               from {{ date.start | date:'MM/dd/yyyy' }} to {{ date.end| date:'MM/dd/yyyy' }}
