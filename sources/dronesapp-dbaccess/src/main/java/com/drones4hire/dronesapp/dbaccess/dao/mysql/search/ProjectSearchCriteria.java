@@ -27,6 +27,7 @@ public class ProjectSearchCriteria extends SearchCriteria
 	private List<Status> statuses;
 	private Date createdAtBefore;
 	private Date createdAtAfter;
+	private Date startDateBefore;
 	@Valid
 	private CoordinatesDTO topLeftCoordinates;
 	@Valid
@@ -184,6 +185,16 @@ public class ProjectSearchCriteria extends SearchCriteria
 	public void setCreatedAtAfter(Date createdAtAfter)
 	{
 		this.createdAtAfter = createdAtAfter;
+	}
+
+	public Date getStartDateBefore()
+	{
+		return startDateBefore;
+	}
+
+	public void setStartDateBefore(Date startDateBefore)
+	{
+		this.startDateBefore = startDateBefore;
 	}
 
 	public CoordinatesDTO getTopLeftCoordinates()

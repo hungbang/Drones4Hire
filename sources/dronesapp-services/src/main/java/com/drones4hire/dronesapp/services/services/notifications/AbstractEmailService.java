@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +29,10 @@ import static com.drones4hire.dronesapp.services.services.notifications.EmailTyp
 public abstract class AbstractEmailService
 {
 	public final static String CONFIRM_REGISTRATION_PATH = "/#/login";
+	public static final String SIGN_UP_PATH = "/#/sign-up";
 	public final static String RESET_PASSWORD_PATH = "/#/password/reset";
 	public final static String CHANGE_PASSWORD_PATH = "password";
+	public final static String EDIT_PROJECT_PATH = "/#/project/manage/edit/";
 
 	@Autowired
 	@Qualifier("freemarkerEmailConfiguration")
@@ -109,6 +112,15 @@ public abstract class AbstractEmailService
 		emailData.put("Projects", projects);
 		emailData.put(pilot.getClass().getSimpleName(), pilot);
 		return sendEmail(PROJECT_POSTED, emailData, pilot.getEmail());
+	}
+
+	public String sendNewProjectExpirationEmail(ProjectSearchResult project) throws ServiceException
+	{
+		String url = baseUrl + EDIT_PROJECT_PATH +  project.getId();
+		Map<String, Object> emailData = new HashMap<String, Object>();
+		emailData.put("url", url);
+		emailData.put("project", project);
+		return sendEmail(JOB_EXPIRATION, emailData, project.getClient().getEmail());
 	}
 	
 	public String sendNewCommentReceiveEmail(Project project) throws ServiceException
@@ -214,12 +226,13 @@ public abstract class AbstractEmailService
 		return sendEmail(SUPPORT_MESSAGE, emailData, user.getEmail());
 	}
 
-	public String sendRestoreUserEmail(com.drones4hire.dronesapp.services.services.util.model.restore.User user, String url, String token) throws ServiceException
+	public String sendRestoreUserEmail(com.drones4hire.dronesapp.services.services.util.model.restore.User user, String token) throws ServiceException
 	{
+		String url = baseUrl + SIGN_UP_PATH + "?token=" + token;
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put("firstName", user.getFirstName());
 		emailData.put("lastName", user.getLastName());
-		emailData.put("url", url + "?token=" + token);
+		emailData.put("url", url);
 		return sendEmail(USER_RESTORE, emailData, user.getEmail());
 	}
 	

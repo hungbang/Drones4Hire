@@ -1,5 +1,6 @@
 package com.drones4hire.dronesapp.batchservices.services.impl;
 
+import com.drones4hire.dronesapp.batchservices.tasks.JobsExpirationTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class SchedulerService implements ISchedulerService
 
 	@Autowired
 	private PilotsNotificationsTask pilotsNotificationsTask;
+
+	@Autowired
+	private JobsExpirationTask jobsExpirationTask;
 	
 	@Override
 	public void executePilotNotificationTask()
@@ -27,6 +31,20 @@ public class SchedulerService implements ISchedulerService
 		} catch (ServiceException e)
 		{
 			LOGGER.error("Can't run the job for notifying pilots. " + e);
+		}
+	}
+
+	@Override
+	public void executeJobsExpirationTask()
+	{
+		try
+		{
+			LOGGER.info("Starting job expiration job...");
+			jobsExpirationTask.runTask();
+			LOGGER.info("Complete jobs expiration.");
+		} catch (ServiceException e)
+		{
+			LOGGER.error("Can't run the job for expiration jobs. " + e);
 		}
 	}
 }

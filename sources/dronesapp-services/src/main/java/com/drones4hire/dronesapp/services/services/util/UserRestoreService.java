@@ -24,7 +24,6 @@ public class UserRestoreService
 	@Autowired
 	private AWSEmailService emailService;
 
-	private static final String URL = "https://stag.drones4hire.com/#/sign-up";
 	private static final String FILE_PATH = "C://Users//Bogdan//Downloads//users.json";
 
 	private ObjectMapper mapper;
@@ -38,7 +37,7 @@ public class UserRestoreService
 			for (User user : users)
 			{
 				String token = jwtService.generateUserRestoreToken(user);
-				emailService.sendRestoreUserEmail(user, URL, token);
+				emailService.sendRestoreUserEmail(user, token);
 			}
 		} catch (Exception e)
 		{

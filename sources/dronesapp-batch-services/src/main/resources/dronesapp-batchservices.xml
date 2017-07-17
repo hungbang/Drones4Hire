@@ -24,6 +24,9 @@
 	
 	<bean id="pilotNotificationTask"
 		class="com.drones4hire.dronesapp.batchservices.tasks.PilotsNotificationsTask" />
+
+	<bean id="jobExpirationTask"
+		  class="com.drones4hire.dronesapp.batchservices.tasks.JobsExpirationTask" />
 	
 	<bean id="schedulerService" class="com.drones4hire.dronesapp.batchservices.services.impl.SchedulerService" />
 
@@ -33,6 +36,12 @@
 		<property name="targetObject" ref="schedulerService" />
 		<property name="targetMethod" value="executePilotNotificationTask" />
 	</bean>
+
+	<bean id="jobExpirationTaskJobDetail"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="schedulerService" />
+		<property name="targetMethod" value="executeJobsExpirationTask" />
+	</bean>
 		
 	<!-- Triggers -->
 	<bean id="pilotNotificationTrigger"
@@ -41,16 +50,24 @@
 		<property name="cronExpression" value="${drones4hire.batch.jobs.pilotNotification.trigger.cronExpression}" />
 	</bean>
 
+	<bean id="jobExpirationTrigger"
+		  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobExpirationTaskJobDetail" />
+		<property name="cronExpression" value="${drones4hire.batch.jobs.jobExpiration.trigger.cronExpression}" />
+	</bean>
+
 	<bean id="springScheduler"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="jobDetails">
 			<list>
 				<ref bean="pilotNotificationTaskJobDetail" />
+				<ref bean="jobExpirationTaskJobDetail" />
 			</list>
 		</property>
 		<property name="triggers">
 			<list>
 				<ref bean="pilotNotificationTrigger" />
+				<ref bean="jobExpirationTrigger" />
 			</list>
 		</property>
 	</bean>
