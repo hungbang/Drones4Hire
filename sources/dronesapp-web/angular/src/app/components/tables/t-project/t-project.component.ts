@@ -59,6 +59,7 @@ export class TProjectComponent {
         },
         err => {
           this.progressbarService.done();
+          this._modalService.pop();
           console.log('Cancel project error:', err);
 
           if (err.status === 500) {

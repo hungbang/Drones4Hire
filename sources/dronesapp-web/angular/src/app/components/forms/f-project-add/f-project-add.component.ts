@@ -477,10 +477,9 @@ export class FProjectAddComponent implements OnInit {
 
   private _edit() {
     this.progressbarService.start();
-    return this.projectService.updateProject(this.formData)
+    this.projectService.updateProject(this.formData)
       .subscribe(
         res => {
-          this.progressbarService.done();
           // console.log('updated project:', res);
           this.router.navigate(['/project', res.id]);
         },
@@ -523,7 +522,6 @@ export class FProjectAddComponent implements OnInit {
     return this.projectService.postProjects(this.formData)
       .subscribe(
         res => {
-          this.progressbarService.done();
           // console.log('saved new project:', res);
           this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
         },

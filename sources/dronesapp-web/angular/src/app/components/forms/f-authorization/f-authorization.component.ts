@@ -427,7 +427,6 @@ export class FAuthorizationComponent implements OnInit {
 
   checkUserImport() {
     const queryParams = this.route.snapshot.queryParams;
-    console.log(queryParams);
 
     if (queryParams && queryParams.token) {
       this._authorizationService.getImportedUserData(queryParams.token)
