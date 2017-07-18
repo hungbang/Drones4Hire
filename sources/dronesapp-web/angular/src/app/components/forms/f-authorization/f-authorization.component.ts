@@ -77,13 +77,15 @@ export class FAuthorizationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isSignUpForm = this._authorizationService.signUpFormActive = this._router.url === '/sign-up';
+    this.isSignUpForm = this._authorizationService.signUpFormActive = this._router.url.indexOf('/sign-up', 0) === 0;
     if (!this.isSignUpForm) {
       this.verifyEmail();
 
       if (this._authorizationService.isUserLogin) { // logout user if was redirected because expired tokens
         this._authorizationService.logout();
       }
+    } else {
+      this.checkUserImport();
     }
 
     this.getCountries();
@@ -418,6 +420,30 @@ export class FAuthorizationComponent implements OnInit {
           },
           err => {
             console.log('verify email error:', err);
+          }
+        );
+    }
+  }
+
+  checkUserImport() {
+    const queryParams = this.route.snapshot.queryParams;
+    console.log(queryParams);
+
+    if (queryParams && queryParams.token) {
+      this._authorizationService.getImportedUserData(queryParams.token)
+        .subscribe(
+          res => {
+            console.log(res);
+            this.formData.firstName = res.fname;
+            this.formData.lastName = res.lname;
+            this.formData.email = res.email;
+            this.formData.username = res.user_name;
+            if (res.user_type_id) {
+              this.formData.role = res.user_type_id;
+              if (this.formData.role === 'ROLE_PILOT') {
+                this.initAutocomplete();
+              }
+            }
           }
         );
     }
