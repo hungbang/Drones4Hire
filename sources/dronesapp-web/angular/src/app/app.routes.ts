@@ -160,7 +160,7 @@ export const ROUTES: Routes = [
             path: ':page',
             data: {
               pageLink: '/my-projects/bidding/1',
-              status: ['NEW', 'PENDING']
+              status: ['NEW', 'PENDING', 'EXPIRED']
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
             resolve: {

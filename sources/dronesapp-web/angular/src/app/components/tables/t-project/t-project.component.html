@@ -20,14 +20,14 @@
       <div class="t-project__actions">
         <button type="button"
                 (click)="onNavigate(project)"
-                [disabled]="project.status !== 'NEW'"
+                [disabled]="project.status !== 'NEW' && project.status !== 'EXPIRED'"
                 class="t-project__action">
           <svg-use name="note" title="Edit" class="t-project__action-icon"></svg-use>
         </button>
         <span class="t-project__action-separator"></span>
         <button type="button"
                 (click)="onCancel(project)"
-                [disabled]="project.status !== 'NEW'"
+                [disabled]="project.status !== 'NEW' && project.status !== 'EXPIRED'"
                 class="t-project__action">
           <svg-use name="cancel" title="Cancel" class="t-project__action-icon"></svg-use>
         </button>
