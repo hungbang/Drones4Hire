@@ -84,6 +84,8 @@ export class FAuthorizationComponent implements OnInit {
       if (this._authorizationService.isUserLogin) { // logout user if was redirected because expired tokens
         this._authorizationService.logout();
       }
+    } else {
+      this.checkUserImport();
     }
 
     this.getCountries();
@@ -420,6 +422,15 @@ export class FAuthorizationComponent implements OnInit {
             console.log('verify email error:', err);
           }
         );
+    }
+  }
+
+  checkUserImport() {
+    const queryParams = this.route.snapshot.queryParams;
+    console.log(queryParams);
+
+    if (queryParams && queryParams.token) {
+
     }
   }
 }
