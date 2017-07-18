@@ -213,11 +213,4 @@ public class UsersController extends AbstractController
 		userService.exportUsersToCSV(sc, response.getWriter());
 		response.flushBuffer();
 	}
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "restore/all", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void restoreAllUsers()
-	{
-		userRestoreService.restoreUsers();
-	}
 }

@@ -22,7 +22,6 @@ public class User
 	@JsonProperty("user_name")
 	private String username;
 
-	@JsonProperty("user_type_id")
 	private Group.Role role;
 
 	public Long getId()
@@ -80,9 +79,15 @@ public class User
 		return role;
 	}
 
-	public void setRole(String typeId)
+	@JsonProperty("user_type_id")
+	public void setUserTypeId(String typeId)
 	{
 		this.role = getUserRoleByTypeId(typeId);
+	}
+
+	public void setRole(Group.Role role)
+	{
+		this.role = role;
 	}
 
 	private Group.Role getUserRoleByTypeId(String typeId)

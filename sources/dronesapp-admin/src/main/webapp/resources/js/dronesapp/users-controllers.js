@@ -30,17 +30,6 @@ DronesAdmin.controller('UsersPageController', [ '$scope', '$http', '$route', '$l
 		});
 	};
 
-    $scope.restoreUsers = function()
-    {
-        $http.post('users/restore/all').success(function(data)
-        {
-            alertify.success('Emails were sent');
-        }).error(function() {
-            console.error('Failed to search users');
-        });
-    };
-	
-
 	$scope.resetSearchCriteria = function() {
 		$scope.sc = angular.copy(DEFAULT_USER_SEARCH_CRITERIA);
 		$scope.searchUsers(1);

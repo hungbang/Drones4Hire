@@ -143,6 +143,7 @@ public class JWTService
 		claims.put("email", user.getEmail());
 		claims.put("username", user.getUsername());
 		claims.put("role", user.getRole());
+		authTokenExp = 604800; // one week
 		return buildToken(claims, authTokenExp);
 	}
 
@@ -156,7 +157,7 @@ public class JWTService
 		user.setLastName((String)body.get("lastName"));
 		user.setEmail((String)body.get("email"));
 		user.setUsername((String)body.get("username"));
-		user.setRole((String)body.get("role"));
+		user.setRole(Role.valueOf((String)body.get("role")));
 
 		return user;
 	}

@@ -8,7 +8,7 @@
         <td>
             <p>
                 You can to try our new website version by url
-                <a style="color:blue;font-weight:normal" href="${url}" target="_blank">${url}</a>)
+                <a style="color:blue;font-weight:normal" href="${url}" target="_blank">${url}</a>
         </td>
     </tr>
     </tbody>
