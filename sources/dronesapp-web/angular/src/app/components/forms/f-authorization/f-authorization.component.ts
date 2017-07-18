@@ -427,19 +427,17 @@ export class FAuthorizationComponent implements OnInit {
 
   checkUserImport() {
     const queryParams = this.route.snapshot.queryParams;
-    console.log(queryParams);
 
     if (queryParams && queryParams.token) {
       this._authorizationService.getImportedUserData(queryParams.token)
         .subscribe(
           res => {
-            console.log(res);
             this.formData.firstName = res.fname;
             this.formData.lastName = res.lname;
             this.formData.email = res.email;
             this.formData.username = res.user_name;
-            if (res.user_type_id) {
-              this.formData.role = res.user_type_id;
+            if (res.role) {
+              this.formData.role = res.role;
               if (this.formData.role === 'ROLE_PILOT') {
                 this.initAutocomplete();
               }

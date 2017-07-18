@@ -64,7 +64,7 @@
         [ngClass]="{'_error': submitted && reasonRef.errors?.required}"
       >
         <option [value]="null">Please select the reason</option>
-        <option [value]="'test reason'">Some reason</option>
+        <option [value]="reason" *ngFor="let reason of reasons">{{ reason }}</option>
       </select>
     </label>
   </div>

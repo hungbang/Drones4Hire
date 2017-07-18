@@ -12,8 +12,8 @@ export class FooterComponent {
   private _menus = {
     company: [
       { title: 'About Us', link: '/about-us' },
-      { title: 'Team', link: '' },
-      { title: 'Media', link: '' },
+      // { title: 'Team', link: '' },
+      // { title: 'Media', link: '' },
       { title: 'Blog', link: '' }
     ],
     clients: [

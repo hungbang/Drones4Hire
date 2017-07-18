@@ -39,7 +39,6 @@ export class FResetPasswordComponent implements OnInit {
     this.accountService.resetPassword(this.token, form.value)
       .subscribe(
         () => {
-          this.progressbarService.done();
           this.toastrService.showSuccess('The password has been saved successfully. You may login now.');
           this.router.navigate(['/login']);
         },

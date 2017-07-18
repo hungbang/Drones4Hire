@@ -121,11 +121,13 @@
         <input class="f-default__field"
                type="password"
                required
+               minlength="6"
                [(ngModel)]="formData.password"
                name="password"
                #passwordRef="ngModel"
                placeholder="Password"
-               [ngClass]="{'_error': submitted && passwordRef.errors?.required}"/>
+               [ngClass]="{'_error': submitted && (passwordRef.errors?.required || passwordRef.errors?.minlength)}"/>
+        <span class="f-default__text _error" *ngIf="submitted && passwordRef.errors?.minlength">Check your password length</span>
       </label>
     </div>
     <div class="f-default__row" *ngIf="!isSignUpForm">
