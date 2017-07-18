@@ -27,7 +27,7 @@ export class SProjectEditComponent extends UnSubscribeDirective implements OnIni
         () => {
           this.project = this.route.snapshot.data['project'];
 
-          if (!this.project || this.project.status !== 'NEW') {
+          if (!this.project || (this.project.status !== 'NEW' && this.project.status !== 'EXPIRED')) {
             this.router.navigate(['/my-projects']);
           }
         }

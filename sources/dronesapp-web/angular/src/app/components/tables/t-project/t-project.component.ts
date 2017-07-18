@@ -26,7 +26,7 @@ export class TProjectComponent {
   }
 
   onCancel(project) {
-    if (project.status !== 'NEW') {
+    if (project.status !== 'NEW' && project.status !== 'EXPIRED') {
       return;
     }
 
@@ -81,7 +81,7 @@ export class TProjectComponent {
   }
 
   onNavigate(project) {
-    if (project.status !== 'NEW') {
+    if (project.status !== 'NEW' && project.status !== 'EXPIRED') {
       return;
     }
     this.router.navigate(['/project', 'manage', 'edit', project.id]);
