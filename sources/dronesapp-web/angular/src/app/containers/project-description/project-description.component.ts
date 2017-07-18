@@ -153,6 +153,7 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   award(bid) {
+    const title = 'Pilot selection';
     const message = 'Are you sure you want to accept this Pilot?';
 
     this._openConfirm((e) => {
@@ -161,7 +162,7 @@ export class ProjectDescriptionComponent implements OnInit {
         console.log(bid);
         this.getPayment(bid);
       }
-    }, message);
+    }, message, title);
   }
 
   private _award(bid) {
@@ -195,12 +196,12 @@ export class ProjectDescriptionComponent implements OnInit {
     this.isEdit = true;
   }
 
-  private _openConfirm(confirm, message) {
+  private _openConfirm(confirm, message, title) {
     this.modalService.push({
       component: ModalConfirmationComponent,
       type: 'ModalConfirmationComponent',
       values: {
-        title: 'Confirmation',
+        title: title,
         message: message,
         confirm_btn_text: 'Yes',
         cancel_btn_text: 'No',
@@ -232,12 +233,13 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   acceptFromPilot(id: number, canClick: boolean) {
+    const title = 'Job confirmation';
     const message = 'Are you sure you want to accept this job? Accepting this job creates a binding contract between you and the Client.';
 
     if (canClick) {
       this._openConfirm((e) => {
           this._acceptPilot(e, id);
-        }, message
+        }, message, title
       );
     }
   }
@@ -310,12 +312,13 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   rejectFromPilot(id: number, canClick: boolean) {
+    const title = 'Job rejection';
     const message = 'Are you sure you want to reject this job?';
 
     if (canClick) {
       this._openConfirm((e) => {
           this._rejectPilot(e, id)
-        }, message
+        }, message, title
       );
     }
 
@@ -435,11 +438,12 @@ export class ProjectDescriptionComponent implements OnInit {
   }
 
   release(projectId: number) {
+    const title = 'Payment release';
     const message = 'Are you sure you want to release your payment? Once payment is released this action can\'t be reversed.';
 
     this._openConfirm((e) => {
         this._release(e, projectId)
-      }, message
+      }, message, title
     );
   }
 

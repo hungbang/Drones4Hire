@@ -605,7 +605,7 @@ export class FProjectAddComponent implements OnInit {
           type: 'ModalConfirmationComponent',
           values: {
             title: 'Post a project',
-            message: 'Do you really want to release payments?',
+            message: 'Are you sure you want to make the payment?',
             confirm_btn_text: 'Yes',
             cancel_btn_text: 'No',
             confirm: (e) => {
@@ -629,7 +629,7 @@ export class FProjectAddComponent implements OnInit {
           type: 'ModalConfirmationComponent',
           values: {
             title: 'Post a project',
-            message: 'Do you really want to release payments?',
+            message: 'Are you sure you want to make the payment?',
             confirm_btn_text: 'Yes',
             cancel_btn_text: 'No',
             confirm: (e) => {

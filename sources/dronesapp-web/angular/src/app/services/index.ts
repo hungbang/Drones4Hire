@@ -9,7 +9,6 @@ import {WalletService} from './wallet.service/wallet.service';
 import {PilotsService} from './pilots.service/pilots.service';
 import {PaymentService} from './payment.service/payment.service';
 import {CommentsService} from './comments.service/comments.service';
-import {ClientsService} from './clients.service/clients.service';
 import {AuthorizationService} from './authorization.service/authorization.service';
 import {RequestService} from './request.service/request.service';
 import {TokenService} from './token.service/token.service';
@@ -22,7 +21,6 @@ export const AppServices = [
   AppService,
   AuthorizationService,
   BidService,
-  ClientsService,
   CommonService,
   ContentService,
   ModalService,
