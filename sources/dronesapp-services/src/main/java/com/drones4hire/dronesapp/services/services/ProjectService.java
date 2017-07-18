@@ -3,6 +3,7 @@ package com.drones4hire.dronesapp.services.services;
 import static com.drones4hire.dronesapp.models.db.payments.Transaction.Status.COMPLETED;
 import static com.drones4hire.dronesapp.models.db.payments.Transaction.Type.PAID_OPTION;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.CANCELLED;
+import static com.drones4hire.dronesapp.models.db.projects.Project.Status.EXPIRED;
 import static com.drones4hire.dronesapp.models.db.projects.Project.Status.NEW;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_CLIENT;
 import static com.drones4hire.dronesapp.models.db.users.Group.Role.ROLE_PILOT;
@@ -278,7 +279,7 @@ public class ProjectService
 		{
 			throw new ServiceException("Project with id: " + id + " not found.");
 		}
-		if (!project.getStatus().equals(NEW))
+		if (!(project.getStatus().equals(NEW) || project.getStatus().equals(EXPIRED)))
 		{
 			throw new ForbiddenOperationException();
 		}
