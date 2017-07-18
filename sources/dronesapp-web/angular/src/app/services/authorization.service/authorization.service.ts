@@ -55,4 +55,8 @@ export class AuthorizationService {
   public verifyEmail(token) {
     return this._requestService.fetch('get', `/auth/register/confirm?token=${token}`);
   }
+
+  public getImportedUserData(token) {
+    return this._requestService.fetch('post', `/auth/register/info?token=${token}`, {});
+  }
 }
