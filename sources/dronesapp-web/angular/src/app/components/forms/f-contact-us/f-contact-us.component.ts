@@ -18,6 +18,11 @@ export class FContactUsComponent implements OnInit {
   countries: CountryModel[] = []; // TODO: get reasons data
   country: string|null = null;
   reason: string|null = null;
+  reasons: string[] = [
+    'General Questions',
+    'Client Question',
+    'Drone Pilot Question'
+  ];
 
   constructor(
     private toastrService: ToastrService,
