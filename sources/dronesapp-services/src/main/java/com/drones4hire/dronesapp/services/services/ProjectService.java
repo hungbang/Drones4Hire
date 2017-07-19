@@ -171,6 +171,10 @@ public class ProjectService
 		results.setSortOrder(sc.getSortOrder());
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjects(sc);
+		if(user.getRoles().contains(ROLE_PILOT))
+		{
+			projectSearchResults = updatePrivateProjectResult(projectSearchResults);
+		}
 		results.setTotalResults(projectMapper.getProjectsSearchCount(sc));
 		results.setResults(projectSearchResults);
 		return results;
@@ -370,6 +374,23 @@ public class ProjectService
 		{
 			throw new ForbiddenOperationException("Invalid project status");
 		}
+	}
+
+	private List<ProjectSearchResult> updatePrivateProjectResult(List<ProjectSearchResult> sr)
+	{
+		for(ProjectSearchResult result : sr)
+		{
+			for (PaidOption paidOption : result.getProject().getPaidOptions())
+			{
+				if (paidOption.getRating().equals(1))
+				{
+					result.getClient().setFirstName("confidential");
+					result.getClient().setLastName("user");
+					break;
+				}
+			}
+		}
+		return sr;
 	}
 
 	public BigDecimal getServiceFee()
