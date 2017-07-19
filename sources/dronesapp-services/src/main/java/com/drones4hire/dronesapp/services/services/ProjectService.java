@@ -382,7 +382,7 @@ public class ProjectService
 		{
 			for (PaidOption paidOption : result.getProject().getPaidOptions())
 			{
-				if (paidOption.getRating() != null && paidOption.getRating().equals(1))
+				if (paidOption.getRating().equals(1))
 				{
 					result.getClient().setFirstName("confidential");
 					result.getClient().setLastName("user");
