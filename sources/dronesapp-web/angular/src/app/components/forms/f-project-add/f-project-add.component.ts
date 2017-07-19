@@ -108,10 +108,27 @@ export class FProjectAddComponent implements OnInit {
             () => {
               this.progressbarService.done();
               this.formData.attachments.push(attachment);
+              this.toastrService.showSuccess('File saved');
             },
             err => {
               this.progressbarService.done();
               console.log('project attachment error', err);
+              if (err.status === 500) {
+                this.toastrService.showError('Internal server error. Please try again later.');
+              } else {
+                if (err.status === 400) {
+                  const body = err.json();
+                  if (body && body.validationErrors) {
+                    body.validationErrors.forEach(item => {
+                      this.toastrService.showError(item.field);
+                    });
+                  } else {
+                    this.toastrService.showError('Can\'t save file. Please try again');
+                  }
+                } else {
+                  this.toastrService.showError('Can\'t save file. Please try again');
+                }
+              }
             }
           );
       } else {
@@ -241,7 +258,11 @@ export class FProjectAddComponent implements OnInit {
       .subscribe(
         (countries) => {
           this.setCountries(countries);
-          this.setAutocompleteCountry();
+          if (this.project) {
+            this.setAutocompleteCountry();
+          } else {
+            this.selectCountry('United States');
+          }
         }
       );
   }
