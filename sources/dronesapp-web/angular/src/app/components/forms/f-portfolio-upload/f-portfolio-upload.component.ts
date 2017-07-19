@@ -87,6 +87,7 @@ export class FPortfolioUploadComponent implements OnInit {
     const portfolio = {
       title: this.title,
       itemURL: this.fileURL,
+      name: this.fileName,
       type: 'PHOTO'
     };
     this.progressbarService.start();
@@ -99,15 +100,18 @@ export class FPortfolioUploadComponent implements OnInit {
       err => {
         this.progressbarService.done();
         console.log(err);
-        const body = err.json();
-
-        if (err.status === 400) {
-          if (body && body.validationErrors) {
-            body.validationErrors.forEach(item => {
-              this.toastrService.showError(item.field);
-            });
+        if (err.status === 500) {
+          this.toastrService.showError('Internal server error. Please try again later.');
+        } else {
+          if (err.status === 400) {
+            const body = err.json();
+            if (body && body.validationErrors) {
+              body.validationErrors.forEach(item => {
+                this.toastrService.showError(item.field);
+              });
+            }
           } else {
-            this.toastrService.showError('Please check your data');
+            this.toastrService.showError('Can\'t save file. Please try again');
           }
         }
       }

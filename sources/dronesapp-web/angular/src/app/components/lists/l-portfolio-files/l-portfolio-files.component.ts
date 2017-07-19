@@ -19,4 +19,12 @@ export class LPortfolioFilesComponent implements OnInit {
   ngOnInit() {
   }
 
+  get isPilot() {
+    return this.accountService.isUserPilot();
+  }
+
+  get isClient() {
+    return this.accountService.isUserClient();
+  }
+
 }

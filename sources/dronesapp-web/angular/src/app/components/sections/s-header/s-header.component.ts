@@ -45,7 +45,7 @@ export class HeaderComponent {
           { title: 'Log out', action: this.logout.bind(this) }
         ]
       },
-      { title: 'New project', action: this.goToPostAProjectIfAccessExist.bind(this), link: '/project/manage/add', classes: '_active' }
+      { title: 'Post a project', action: this.goToPostAProjectIfAccessExist.bind(this), link: '/project/manage/add', classes: '_active' }
     ],
     pilot: [
       { title: 'Dashboard', link: '/dashboard/pilot/1' },

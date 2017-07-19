@@ -352,6 +352,12 @@ export class FAuthorizationComponent implements OnInit {
               if (body.error.code === 1003) {
                 this.showVerifyNotification = true;
                 this.isVerified = false;
+              } else if (body.error.code === 1006) {
+                this.showVerifyNotification = true;
+                this.isVerified = false;
+                this.toastrService.showError('Unverified account.');
+              } else {
+                this.toastrService.showError('Please check your data');
               }
             } else {
               this.toastrService.showError('Please check your data');
@@ -397,7 +403,7 @@ export class FAuthorizationComponent implements OnInit {
           } else if (err.status === 403) {
             const body = err.json();
             if (body && body.error && body.error.code === 1001) {
-              this.toastrService.showError('User already exists');
+              this.toastrService.showError('This Username or Email is already taken');
             } else {
               this.toastrService.showError('Please check your data');
             }
