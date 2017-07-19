@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Event as RouterEvent, Router} from '@angular/router';
+
+import {UnSubscribeDirective} from '../../../shared/un-subscribe/un-subscribe.directive';
 
 @Component({
   selector: 's-project',
@@ -7,19 +9,32 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./s-project.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class SProjectComponent implements OnInit {
+export class SProjectComponent extends UnSubscribeDirective implements OnInit {
   tabs: Array<any> = null;
   project: any;
   canUpload: boolean = false;
   approvedStatuses = ['IN_PROGRESS', 'COMPLETED'];
 
   constructor(
-    private _route: ActivatedRoute
-  ) { }
+    private _route: ActivatedRoute,
+    private _router: Router
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    this.project = this._route.snapshot.data['project'];
-    this.checkUploadAccess();
+    this.initData();
+
+    this._router.events
+      .takeUntil(this.ngUnSubscribe)
+      .filter((route) => route instanceof NavigationEnd)
+      .subscribe(
+        (event: RouterEvent) => {
+          if (!this.project || this.project.id !== +this._route.snapshot.params['projectId']) {
+            this.initData();
+          }
+        }
+      );
 
     this.tabs = [
       {
@@ -35,6 +50,11 @@ export class SProjectComponent implements OnInit {
         icon: 'folder'
       }
     ]
+  }
+
+  private initData() {
+    this.project = this._route.snapshot.data['project'];
+    this.checkUploadAccess();
   }
 
   private checkUploadAccess() {

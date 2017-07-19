@@ -481,6 +481,7 @@ export class FProjectAddComponent implements OnInit {
       .subscribe(
         res => {
           // console.log('updated project:', res);
+          this.toastrService.showSuccess('Changes saved');
           this.router.navigate(['/project', res.id]);
         },
         err => {
@@ -523,6 +524,12 @@ export class FProjectAddComponent implements OnInit {
       .subscribe(
         res => {
           // console.log('saved new project:', res);
+          this.toastrService.showInfo('You will start receiving quotes shortly', '', {
+            toastLife: 10000
+          });
+          this.toastrService.showSuccess('Project was posted successfully', '', {
+            toastLife: 7000
+          });
           this.router.navigate(['/project', res.id]); // TODO: we can redirect after show success notification
         },
         err => {

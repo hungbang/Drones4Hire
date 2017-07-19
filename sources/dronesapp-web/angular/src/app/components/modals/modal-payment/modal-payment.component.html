@@ -11,7 +11,7 @@
             (submit)="onSubmit($event, paymentForm)">
         <div id="dropin-container"></div>
         <div class="modal-payment__controls">
-          <button [disabled]="isLoading" class="f-default__button">Pay {{payAmount}}$</button>
+          <button [disabled]="isLoading" class="f-default__button">Pay ${{payAmount}}</button>
         </div>
       </form>
     </div>
