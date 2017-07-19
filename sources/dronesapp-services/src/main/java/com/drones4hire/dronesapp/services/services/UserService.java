@@ -40,8 +40,6 @@ public class UserService
 	private boolean DEFAULT_CONFIRMED = false;
 	
 	private Double DEAFULT_RATING = 5.0;
-	
-	private static final Integer DEFAULT_RANGE = 1000;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -127,9 +125,6 @@ public class UserService
 
 		if(Role.ROLE_PILOT.equals(role))
 		{
-			// Initialize default range
-			user.getLocation().setRange(DEFAULT_RANGE);
-			locationService.updateLocation(user.getLocation());
 			// Initialize default profile
 			profileService.createDefaultProfile(user);
 			// Initialize default license

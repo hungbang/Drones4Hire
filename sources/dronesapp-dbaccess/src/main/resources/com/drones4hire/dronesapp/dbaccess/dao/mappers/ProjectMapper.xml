@@ -737,11 +737,7 @@
 		        ST.NAME AS STATE_NAME,
 		        ST.MODIFIED_AT AS STATE_MODIFIED_AT,
 		        ST.CREATED_AT AS STATE_CREATED_AT,
-		        ]]>
-					<if test="null != range">
-						PID.DISTANCE AS DISTANCE,
-					</if>
-				<![CDATA[
+				PID.DISTANCE AS DISTANCE,
 
 		        D.ID AS DURATION_ID,
 		        D.TITLE AS DURATION_TITLE,
@@ -892,10 +888,8 @@
 					P.ID AS PROJECT_ID,
 					MAX(B.AMOUNT) AS MAX_BID,
 					COUNT(B.ID) AS BIDS_COUNT,
-					]]>
-						<if test="null != range">
+						]]>
 							<include refid="getPointsInsideCircle"/> AS DISTANCE,
-						</if>
 						<![CDATA[
 					AVG(B.AMOUNT) AS BIDS_AVG
 				FROM
@@ -921,15 +915,15 @@
 	      			drones.SERVICE_CATEGORIES SC
 	      		ON
           			S.SERVICE_CATEGORY_ID = SC.ID
-		]]>
-		<if test="null != range">
-			<![CDATA[
 				INNER JOIN
 	      			drones.LOCATIONS L
 	      		ON
           			P.LOCATION_ID = L.ID
 				AND
 					L.ID IS NOT NULL
+				]]>
+		<if test="null != range and range > 0">
+			<![CDATA[
 				AND
 					#{range} >
 			]]>
@@ -1028,7 +1022,7 @@
 		<![CDATA[
 			GROUP BY P.ID
 			]]>
-		<if test="null != range">
+		<if test="null != range or null != pilotId">
 			ORDER BY
 			<if test="null != pilotId and null != statuses">
 				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
@@ -1041,7 +1035,7 @@
 			</if>
 			DISTANCE ASC
 		</if>
-		<if test="null == range">
+		<if test="null == range and null == pilotId">
 			ORDER BY
 			<if test="null != pilotId and null != statuses">
 				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
@@ -1102,15 +1096,15 @@
 				drones.SERVICE_CATEGORIES SC
 			ON
 				S.SERVICE_CATEGORY_ID = SC.ID
-		]]>
-		<if test="null != range">
+			INNER JOIN
+	      		drones.LOCATIONS L
+	      	ON
+          		P.LOCATION_ID = L.ID
+			AND
+				L.ID IS NOT NULL
+				]]>
+		<if test="null != range and range > 0">
 			<![CDATA[
-				INNER JOIN
-	      			drones.LOCATIONS L
-	      		ON
-          			P.LOCATION_ID = L.ID
-				AND
-					L.ID IS NOT NULL
 				AND
 					#{range} >
 			]]>

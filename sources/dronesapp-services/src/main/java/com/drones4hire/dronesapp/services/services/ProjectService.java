@@ -164,11 +164,6 @@ public class ProjectService
 		} else if (user.getRoles().contains(ROLE_PILOT))
 		{
 			sc.setPilotId(principalId);
-			if (sc.getRange() == null)
-			{
-				// TODO: 07/06/2017
-				sc.setRange(5000);
-			}
 			sc.setUserCoordinates(user.getLocation().getCoordinates());
 		}
 		results.setPage(sc.getPage());

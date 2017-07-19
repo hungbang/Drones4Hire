@@ -13,7 +13,7 @@ import com.drones4hire.dronesapp.models.db.users.User;
 @Service
 public class CompanyService
 {
-	private static final String DEFAULT_COMPANY_NAME = "default";
+	private static final String DEFAULT_COMPANY_NAME = "";
 
 	@Autowired
 	private CompanyMapper companyMapper;
