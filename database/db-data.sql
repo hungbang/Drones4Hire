@@ -741,10 +741,11 @@ INSERT INTO drones.GROUPS (NAME, ROLE) VALUES
 	('Major', 5000, 0, 'USD', 0);*/
     
 INSERT INTO drones.BUDGETS (TITLE, MIN, MAX, CURRENCY, SORT_ORDER) VALUES
-	('$350 - $1000', 350, 1000, 'USD', 0),
-	('$1001 - $2500', 1001, 2500, 'USD', 0),
-	('$2501 - $5000', 2501, 5000, 'USD', 0),
-	('$5001 +', 5001, 0, 'USD', 0);
+	('$300 - $500', 300, 500, 'USD', 0),
+	('$501 - $1000', 501, 1000, 'USD', 1),
+	('$1001 - $2500', 1001, 2500, 'USD', 2),
+	('$2501 - $5000', 2501, 5000, 'USD', 3);
+	('$5000 +', 5000, 0, 'USD', 4);
     
 INSERT INTO drones.DURATIONS (TITLE, MIN, MAX, SORT_ORDER) VALUES
 	('1-2', 1, 2, 0),
