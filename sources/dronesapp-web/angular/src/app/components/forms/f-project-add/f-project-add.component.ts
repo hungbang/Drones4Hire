@@ -258,7 +258,11 @@ export class FProjectAddComponent implements OnInit {
       .subscribe(
         (countries) => {
           this.setCountries(countries);
-          this.setAutocompleteCountry();
+          if (this.project) {
+            this.setAutocompleteCountry();
+          } else {
+            this.selectCountry('United States');
+          }
         }
       );
   }
