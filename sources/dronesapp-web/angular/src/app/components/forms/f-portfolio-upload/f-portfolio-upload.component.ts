@@ -109,6 +109,8 @@ export class FPortfolioUploadComponent implements OnInit {
               body.validationErrors.forEach(item => {
                 this.toastrService.showError(item.field);
               });
+            } else {
+              this.toastrService.showError('Can\'t save file. Please try again');
             }
           } else {
             this.toastrService.showError('Can\'t save file. Please try again');
