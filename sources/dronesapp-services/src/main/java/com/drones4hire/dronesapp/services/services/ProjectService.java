@@ -95,6 +95,7 @@ public class ProjectService
 
 		locationService.createLocation(project.getLocation());
 
+		project.setSortOrder(project.calculateProjectSortOrder());
 		projectMapper.createProject(project);
 
 		if (tid != null)
@@ -253,6 +254,8 @@ public class ProjectService
 				transactionService.createTransaction(
 						new Transaction(wallet.getId(), total, wallet.getCurrency(), PAID_OPTION, tid, project.getId(),
 								COMPLETED));
+
+				project.setSortOrder(project.calculateProjectSortOrder());
 			}
 		}
 

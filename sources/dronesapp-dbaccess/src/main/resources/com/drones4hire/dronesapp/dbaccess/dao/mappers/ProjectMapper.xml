@@ -6,7 +6,7 @@
 	<insert id="createProject" useGeneratedKeys="true" keyProperty="id">
         <![CDATA[
           INSERT
-          		INTO drones.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE)
+          		INTO drones.PROJECTS (TITLE, SUMMARY, CLIENT_ID, PILOT_ID, SERVICE_ID, DURATION_ID, LOCATION_ID, BUDGET_ID, POST_PRODUCTION_REQUIRED, STATUS, START_DATE, FINISH_DATE, SORT_ORDER)
           VALUES 
 	           (
 	            #{title},
@@ -20,7 +20,8 @@
 	            #{postProductionRequired},
 	            #{status},
 	            #{startDate},
-	            #{finishDate}
+	            #{finishDate},
+	            #{sortOrder}
 	           )
         ]]>
 	</insert>
@@ -52,6 +53,7 @@
 	        	P.STATUS AS PROJECT_STATUS,
 	        	P.START_DATE AS PROJECT_START_DATE,
 	        	P.FINISH_DATE AS PROJECT_FINISH_DATE,
+	        	P.SORT_ORDER AS PROJECT_SORT_ORDER,
 	        	P.AWARD_DATE AS PROJECT_AWARD_DATE,
 	        	P.CREATED_AT AS PROJECT_CREATED_AT,
 	        	P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
@@ -225,6 +227,7 @@
 	        	P.STATUS AS PROJECT_STATUS,
 	        	P.START_DATE AS PROJECT_START_DATE,
 	        	P.FINISH_DATE AS PROJECT_FINISH_DATE,
+	        	P.SORT_ORDER AS PROJECT_SORT_ORDER,
 	        	P.AWARD_DATE AS PROJECT_AWARD_DATE,
 	        	P.CREATED_AT AS PROJECT_CREATED_AT,
 	        	P.MODIFIED_AT AS PROJECT_MODIFIED_AT,
@@ -1026,10 +1029,30 @@
 			GROUP BY P.ID
 			]]>
 		<if test="null != range">
-				ORDER BY DISTANCE ASC
+			ORDER BY
+			<if test="null != pilotId and null != statuses">
+				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
+					<if test="status.toString() == 'NEW'">
+						<![CDATA[
+			   				P.SORT_ORDER DESC,
+			   			]]>
+					</if>
+				</foreach>
+			</if>
+			DISTANCE ASC
 		</if>
 		<if test="null == range">
-			ORDER BY P.CREATED_AT DESC
+			ORDER BY
+			<if test="null != pilotId and null != statuses">
+				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
+					<if test="status.toString() == 'NEW'">
+						<![CDATA[
+			   				P.SORT_ORDER DESC,
+			   			]]>
+					</if>
+				</foreach>
+			</if>
+			P.CREATED_AT DESC
 		</if>
 		<if test="null != pageSize and null != page">
 			<![CDATA[
@@ -1374,6 +1397,7 @@
           	 	STATUS = #{status},
           	 	START_DATE = #{startDate},
           	 	FINISH_DATE = #{finishDate},
+          	 	SORT_ORDER = #{sortOrder},
           	 	SERVICE_ID = #{service.id},
           	 	DURATION_ID = #{duration.id},
           	 	BUDGET_ID = #{budget.id},
@@ -1403,6 +1427,7 @@
 		<result column="PROJECT_STATUS" property="status" />
 		<result column="PROJECT_START_DATE" property="startDate" />
 		<result column="PROJECT_FINISH_DATE" property="finishDate" />
+		<result column="PROJECT_SORT_ORDER" property="sortOrder" />
 		<result column="PROJECT_AWARD_DATE" property="awardDate" />
 		<result column="PROJECT_MODIFIED_AT" property="modifiedAt" />
 		<result column="PROJECT_CREATED_AT" property="createdAt" />

@@ -7,13 +7,14 @@
         <![CDATA[
           INSERT
           INTO 
-          		drones.PAID_OPTIONS (TITLE, DESCRIPTION, PRICE, CURRENCY)
+          		drones.PAID_OPTIONS (TITLE, DESCRIPTION, PRICE, CURRENCY, RATING)
           VALUES 
 	          (
 	            #{title},
 	            #{description},
 	            #{price},
-	            #{currency}
+	            #{currency},
+	            #{rating}
 	          )
         ]]>
     </insert>
@@ -27,6 +28,7 @@
 		        PO.DESCRIPTION AS PAID_OPTION_DESCRIPTION,
 		        PO.PRICE AS PAID_OPTION_PRICE,
 		        PO.CURRENCY AS PAID_OPTION_CURRENCY,
+		        PO.RATING AS PAID_OPTION_RATING,
 		        PO.MODIFIED_AT AS PAID_OPTION_MODIFIED_AT,
 		        PO.CREATED_AT AS PAID_OPTION_CREATED_AT
 
@@ -55,7 +57,8 @@
           		TITLE = #{title},
           		DESCRIPTION = #{description},
           		PRICE = #{price},
-          		CURRENCY = #{currency}
+          		CURRENCY = #{currency},
+          		RATING = #{rating}
           WHERE
 		  		ID = #{id}
         ]]>
@@ -77,6 +80,7 @@
         <result column="PAID_OPTION_DESCRIPTION" property="description" />
         <result column="PAID_OPTION_PRICE" property="price" />
         <result column="PAID_OPTION_CURRENCY" property="currency" />
+        <result column="PAID_OPTION_RATING" property="rating" />
         <result column="PAID_OPTION_MODIFIED_AT" property="modifiedAt" />
 		<result column="PAID_OPTION_CREATED_AT" property="createdAt" />
     </resultMap>

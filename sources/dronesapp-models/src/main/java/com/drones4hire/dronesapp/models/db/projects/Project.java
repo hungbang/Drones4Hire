@@ -36,6 +36,7 @@ public class Project extends AbstractEntity
 	private List<Attachment> attachments;
 	private String paymentMethod;
 	private Feedback feedback;
+	private Integer sortOrder;
 
 	public Service getService()
 	{
@@ -212,6 +213,16 @@ public class Project extends AbstractEntity
 		this.feedback = feedback;
 	}
 
+	public Integer getSortOrder()
+	{
+		return sortOrder;
+	}
+
+	public void setSortOrder(Integer sortOrder)
+	{
+		this.sortOrder = sortOrder;
+	}
+
 	public BigDecimal getPaidOptionsTotal()
 	{
 		BigDecimal amount = new BigDecimal(0);
@@ -220,5 +231,19 @@ public class Project extends AbstractEntity
 			amount = amount.add(paidOption.getPrice());
 		}
 		return amount;
+	}
+
+	public Integer calculateProjectSortOrder()
+	{
+		int sortOrder = 0;
+		for(PaidOption paidOption : this.paidOptions)
+		{
+			sortOrder = sortOrder + paidOption.getRating();
+		}
+		if(this.sortOrder != null)
+		{
+			sortOrder = sortOrder + this.sortOrder;
+		}
+		return sortOrder;
 	}
 }

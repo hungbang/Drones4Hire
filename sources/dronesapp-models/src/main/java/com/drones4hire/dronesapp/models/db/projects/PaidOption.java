@@ -13,6 +13,7 @@ public class PaidOption extends AbstractEntity implements Comparable<PaidOption>
 	private String description;
 	private BigDecimal price;
 	private Currency currency;
+	private Integer rating;
 
 	public String getTitle()
 	{
@@ -54,7 +55,17 @@ public class PaidOption extends AbstractEntity implements Comparable<PaidOption>
 		this.currency = currency;
 	}
 
-	@Override 
+	public Integer getRating()
+	{
+		return rating;
+	}
+
+	public void setRating(Integer rating)
+	{
+		this.rating = rating;
+	}
+
+	@Override
 	public boolean equals(Object o)
 	{
 		boolean equals = false;
