@@ -3,20 +3,20 @@
     <div class="l-portfolio-files__title">
       <div class="l-portfolio-files__title-text">Title</div>
     </div>
-    <div class="l-portfolio-files__action">Options</div>
+    <div class="l-portfolio-files__action">{{ isPilot ? 'Remove' : 'Download' }}</div>
   </li>
   <li class="l-portfolio-files__item" *ngFor="let file of files">
     <div class="l-portfolio-files__title">
       <div class="l-portfolio-files__title-text">{{ file.title }}</div>
     </div>
-    <div class="l-portfolio-files__action" *ngIf="accountService.isUserPilot()">
+    <div class="l-portfolio-files__action" *ngIf="isPilot">
       <button type="button"
               (click)="deleteFunc(file.id)"
               class="l-portfolio-files__button _delete">
         <svg-use name="rubbish-bin"></svg-use>
       </button>
     </div>
-    <div class="l-portfolio-files__action" *ngIf="accountService.isUserClient()">
+    <div class="l-portfolio-files__action" *ngIf="isClient">
       <a href="{{ file.itemURL }}"
          download
          *ngIf="file.itemURL"

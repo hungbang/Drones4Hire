@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, Event as RouterEvent, NavigationEnd} from '@angular/router';
 import {NgProgressService} from 'ngx-progressbar';
 import * as moment from 'moment';
 
@@ -17,6 +17,7 @@ import {ModalService} from '../../services/modal.service/modal.service';
 import {ModalConfirmationComponent} from '../../components/modals/modal-confirmation/modal-confirmation.component';
 import {ModalPaymentComponent} from '../../components/modals/modal-payment/modal-payment.component';
 import {CommonService} from '../../services/common.service/common.service';
+import {UnSubscribeDirective} from '../../shared/un-subscribe/un-subscribe.directive';
 
 @Component({
   selector: 'project-description',
@@ -24,7 +25,7 @@ import {CommonService} from '../../services/common.service/common.service';
   styleUrls: ['./project-description.component.styl'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProjectDescriptionComponent implements OnInit {
+export class ProjectDescriptionComponent extends UnSubscribeDirective implements OnInit {
   public bidsInfo;
   public bids: BidModel[];
   public project: ProjectModel;
@@ -63,9 +64,25 @@ export class ProjectDescriptionComponent implements OnInit {
     private modalService: ModalService,
     private progressbarService: NgProgressService,
     private commonService: CommonService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
+    this.initData();
+    this._router.events
+      .takeUntil(this.ngUnSubscribe)
+      .filter((route) => route instanceof NavigationEnd)
+      .subscribe(
+        (event: RouterEvent) => {
+          if (!this.project || this.project.id !== +this._route.snapshot.parent.params['projectId']) {
+            this.initData();
+          }
+        }
+      );
+  }
+
+  private initData() {
     const project = this._route.snapshot.parent.data['project'];
     const bids = this._route.snapshot.parent.data['bids'];
     const comments = this._route.snapshot.parent.data['comments'];
@@ -159,7 +176,6 @@ export class ProjectDescriptionComponent implements OnInit {
     this._openConfirm((e) => {
       this.modalService.pop();
       if (e) {
-        console.log(bid);
         this.getPayment(bid);
       }
     }, message, title);
@@ -348,15 +364,20 @@ export class ProjectDescriptionComponent implements OnInit {
         err => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
-
-          if (err.status === 400) {
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else {
+            if (err.status === 400) {
+              const body = err.json();
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              } else {
+                this.toastrService.showError('Can\'t save bid. Please check your data');
+              }
             } else {
-              this.toastrService.showError('Please check your data');
+              this.toastrService.showError('Can\'t save bid. Please check your data');
             }
           }
         }
@@ -377,15 +398,20 @@ export class ProjectDescriptionComponent implements OnInit {
         err => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
-
-          if (err.status === 400) {
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else {
+            if (err.status === 400) {
+              const body = err.json();
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              } else {
+                this.toastrService.showError('Can\'t save message. Please check your data');
+              }
             } else {
-              this.toastrService.showError('Please check your data');
+              this.toastrService.showError('Can\'t save message. Please check your data');
             }
           }
         }
@@ -409,15 +435,20 @@ export class ProjectDescriptionComponent implements OnInit {
         err => {
           this.progressbarService.done();
           console.log(err);
-          const body = err.json();
-
-          if (err.status === 400) {
-            if (body && body.validationErrors) {
-              body.validationErrors.forEach(item => {
-                this.toastrService.showError(item.field);
-              });
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else {
+            if (err.status === 400) {
+              const body = err.json();
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              } else {
+                this.toastrService.showError('Can\'t save bid. Please check your data');
+              }
             } else {
-              this.toastrService.showError('Please check your data');
+              this.toastrService.showError('Can\'t save bid. Please check your data');
             }
           }
         }
@@ -463,6 +494,22 @@ export class ProjectDescriptionComponent implements OnInit {
         err => {
           this.progressbarService.done();
           console.log('delete attached file error', err);
+          if (err.status === 500) {
+            this.toastrService.showError('Internal server error. Please try again later.');
+          } else {
+            if (err.status === 400) {
+              const body = err.json();
+              if (body && body.validationErrors) {
+                body.validationErrors.forEach(item => {
+                  this.toastrService.showError(item.field);
+                });
+              } else {
+                this.toastrService.showError('Can\'t delete file. Please try again');
+              }
+            } else {
+              this.toastrService.showError('Can\'t delete file. Please try again');
+            }
+          }
         }
       );
   }
