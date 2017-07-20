@@ -854,7 +854,8 @@
 						]]>
 							<include refid="getPointsInsideCircle"/> AS DISTANCE,
 						<![CDATA[
-					AVG(B.AMOUNT) AS BIDS_AVG
+					AVG(B.AMOUNT) AS BIDS_AVG,
+					CASE P.STATUS WHEN 'PENDING' THEN 0 WHEN 'IN_PROGRESS' THEN 1 WHEN 'COMPLETED' THEN 2 ELSE 3 END AS PRIORITY
 				FROM
 					drones.PROJECTS P
 				LEFT JOIN
@@ -995,6 +996,11 @@
 			   			]]>
 					</if>
 				</foreach>
+			</if>
+			<if test="null != pilotId and null == statuses">
+				<![CDATA[
+		  			PRIORITY ASC, P.START_DATE ASC,
+				]]>
 			</if>
 			DISTANCE ASC
 		</if>
