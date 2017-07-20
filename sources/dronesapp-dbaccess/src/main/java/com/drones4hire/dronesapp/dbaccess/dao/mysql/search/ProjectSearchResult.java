@@ -13,7 +13,6 @@ public class ProjectSearchResult
 	private Long id;
 	private Project project;
 	private List<Bid> bids;
-	private User client;
 	private User pilot;
 	private BigDecimal maxBid;
 	private Integer bidsCount;
@@ -49,16 +48,6 @@ public class ProjectSearchResult
 	public void setBids(List<Bid> bids)
 	{
 		this.bids = bids;
-	}
-
-	public User getClient()
-	{
-		return client;
-	}
-
-	public void setClient(User client)
-	{
-		this.client = client;
 	}
 
 	public User getPilot()

@@ -602,46 +602,6 @@
 	        	P.CLIENT_ID AS PROJECT_CLIENT_ID,
 	        	P.PILOT_ID AS PROJECT_PILOT_ID,
 
-	        	CLIENT.ID AS CLIENT_USER_ID,
-				CLIENT.USERNAME AS CLIENT_USER_USERNAME,
-				CLIENT.EMAIL AS CLIENT_USER_EMAIL,
-				CLIENT.PASSWORD AS CLIENT_USER_PASSWORD,
-				CLIENT.FIRST_NAME AS CLIENT_USER_FIRST_NAME,
-				CLIENT.LAST_NAME AS CLIENT_USER_LAST_NAME,
-				CLIENT.PHOTO_URL AS CLIENT_USER_PHOTO_URL,
-				CLIENT.INTRODUCTION AS CLIENT_USER_INTRODUCTION,
-				CLIENT.SUMMARY AS CLIENT_USER_SUMMARY,
-				CLIENT.ENABLED AS CLIENT_USER_ENABLED,
-				CLIENT.CONFIRMED AS CLIENT_USER_CONFIRMED,
-				CLIENT.MODIFIED_AT AS CLIENT_USER_MODIFIED_AT,
-				CLIENT.CREATED_AT AS CLIENT_USER_CREATED_AT,
-
-				CLIENT_L.ID AS CLIENT_LOCATION_ID,
-				CLIENT_L.ADDRESS AS CLIENT_LOCATION_ADDRESS,
-	        	X(CLIENT_L.COORDINATES) AS CLIENT_LOCATION_X_COORDINATE,
-	        	Y(CLIENT_L.COORDINATES) AS CLIENT_LOCATION_Y_COORDINATE,
-	        	CLIENT_L.CITY AS CLIENT_LOCATION_CITY,
-	        	CLIENT_L.POSTCODE AS CLIENT_LOCATION_POSTCODE,
-	        	CLIENT_L.MODIFIED_AT AS CLIENT_LOCATION_MODIFIED_AT,
-	        	CLIENT_L.CREATED_AT AS CLIENT_LOCATION_CREATED_AT,
-
-	        	CLIENT_G.ID AS CLIENT_GROUP_ID,
-		        CLIENT_G.NAME AS CLIENT_GROUP_NAME,
-		        CLIENT_G.ROLE AS CLIENT_GROUP_ROLE,
-		        CLIENT_G.MODIFIED_AT AS CLIENT_GROUP_MODIFIED_AT,
-		        CLIENT_G.CREATED_AT AS CLIENT_GROUP_CREATED_AT,
-
-	        	CLIENT_C.ID AS CLIENT_COUNTRY_ID,
-	        	CLIENT_C.NAME AS CLIENT_COUNTRY_NAME,
-	        	CLIENT_C.MODIFIED_AT AS CLIENT_COUNTRY_MODIFIED_AT,
-	        	CLIENT_C.CREATED_AT AS CLIENT_COUNTRY_CREATED_AT,
-
-	        	CLIENT_S.ID AS CLIENT_STATE_ID,
-	        	CLIENT_S.NAME AS CLIENT_STATE_NAME,
-	        	CLIENT_S.CODE AS CLIENT_STATE_CODE,
-	        	CLIENT_S.MODIFIED_AT AS CLIENT_STATE_MODIFIED_AT,
-	        	CLIENT_S.CREATED_AT AS CLIENT_STATE_CREATED_AT,
-
                 PILOT.ID AS PILOT_USER_ID,
 				PILOT.USERNAME AS PILOT_USER_USERNAME,
 				PILOT.EMAIL AS PILOT_USER_EMAIL,
@@ -1448,7 +1408,7 @@
 		<result column="DISTANCE" property="distance"/>
 		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
 		<association property="transactions" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.TransactionMapper.TransactionResultMap"/>
-		<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>
+		<!--<association property="client" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="CLIENT_"/>-->
 		<association property="pilot" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper.UserResultMap" columnPrefix="PILOT_"/>
 		<collection property="bids" ofType="com.drones4hire.dronesapp.models.db.projects.Bid"
 					resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper.BidResultMap" columnPrefix="PROJECT_"/>

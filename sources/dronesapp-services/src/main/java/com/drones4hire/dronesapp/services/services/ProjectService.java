@@ -40,6 +40,9 @@ import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService
 @Service
 public class ProjectService
 {
+
+	private static final String PRIVATE_PAID_OPTION_TITLE = "Private Project";
+
 	@Value("${drones4hire.service.fee}")
 	private BigDecimal serviceFee;
 
@@ -174,7 +177,7 @@ public class ProjectService
 		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjects(sc);
 		if(user.getRoles().contains(ROLE_PILOT))
 		{
-			projectSearchResults = updatePrivateProjectsResult(projectSearchResults);
+			projectSearchResults = updatePrivateProjectResults(projectSearchResults);
 		}
 		results.setTotalResults(projectMapper.getProjectsSearchCount(sc));
 		results.setResults(projectSearchResults);
@@ -382,16 +385,15 @@ public class ProjectService
 		}
 	}
 
-	private List<ProjectSearchResult> updatePrivateProjectsResult(List<ProjectSearchResult> sr)
+	private List<ProjectSearchResult> updatePrivateProjectResults(List<ProjectSearchResult> sr)
 	{
 		for(ProjectSearchResult result : sr)
 		{
 			for (PaidOption paidOption : result.getProject().getPaidOptions())
 			{
-				if (paidOption.getRating().equals(1))
+				if (paidOption.getTitle().equals(PRIVATE_PAID_OPTION_TITLE))
 				{
-					result.getClient().setFirstName("confidential");
-					result.getClient().setLastName("user");
+					result.getProject().setClientId(null);
 					break;
 				}
 			}

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.drones4hire.dronesapp.models.db.projects.*;
+import com.drones4hire.dronesapp.models.db.users.Group;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.models.dto.*;
 import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
@@ -45,6 +47,8 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("api/v1/projects")
 public class ProjectController extends AbstractController
 {
+
+	private static final String PRIVATE_PAID_OPTION_TITLE = "Private Project";
 
 	@Autowired
 	private ProjectService projectService;
@@ -92,6 +96,20 @@ public class ProjectController extends AbstractController
 	public @ResponseBody ProjectDTO getProjectById(@ApiParam(value = "Id of the project", required = true) @PathVariable(value = "id") long id) throws ServiceException
 	{
 		Project project = projectService.getProjectById(id, getPrincipal().getId());
+
+		User user = userService.getUserById(getPrincipal().getId());
+		if(user.getRoles().contains(Group.Role.ROLE_PILOT))
+		{
+			for (PaidOption paidOption : project.getPaidOptions())
+			{
+				if (paidOption.getTitle().equals(PRIVATE_PAID_OPTION_TITLE))
+				{
+					project.setClientId(null);
+					break;
+				}
+			}
+		}
+
 		ProjectDTO projectDTO = mapper.map(project, ProjectDTO.class);
 		if(project.getPilotId() != null)
 		{

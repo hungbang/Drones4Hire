@@ -114,13 +114,13 @@ public abstract class AbstractEmailService
 		return sendEmail(PROJECT_POSTED, emailData, pilot.getEmail());
 	}
 
-	public String sendNewProjectExpirationEmail(ProjectSearchResult project) throws ServiceException
+	public String sendNewProjectExpirationEmail(ProjectSearchResult project, User user) throws ServiceException
 	{
 		String url = baseUrl + EDIT_PROJECT_PATH +  project.getId();
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put("url", url);
 		emailData.put("project", project);
-		return sendEmail(JOB_EXPIRATION, emailData, project.getClient().getEmail());
+		return sendEmail(JOB_EXPIRATION, emailData, user.getEmail());
 	}
 	
 	public String sendNewCommentReceiveEmail(Project project) throws ServiceException

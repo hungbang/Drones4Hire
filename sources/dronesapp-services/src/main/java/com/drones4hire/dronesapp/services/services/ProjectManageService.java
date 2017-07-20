@@ -93,7 +93,8 @@ public class ProjectManageService
 			{
 				projectCSVModel.setPilotEmail(result.getPilot().getEmail());
 			}
-			projectCSVModel.setClientEmail(result.getClient().getEmail());
+			User client = userService.getUserById(result.getProject().getClientId());
+			projectCSVModel.setClientEmail(client.getEmail());
 			if (result.getProject().getDuration() != null)
 			{
 				projectCSVModel.setDuration(result.getProject().getDuration().getTitle());

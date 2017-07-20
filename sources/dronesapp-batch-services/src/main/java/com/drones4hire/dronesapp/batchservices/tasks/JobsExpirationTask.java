@@ -1,9 +1,11 @@
 package com.drones4hire.dronesapp.batchservices.tasks;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchCriteria;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import com.drones4hire.dronesapp.models.db.projects.Project;
+import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import org.slf4j.Logger;
@@ -25,6 +27,9 @@ public class JobsExpirationTask
 
 	@Autowired
 	private ProjectMapper projectMapper;
+
+	@Autowired
+	private UserMapper userMapper;
 
 	@Autowired
 	private AWSEmailService emailService;
@@ -50,7 +55,8 @@ public class JobsExpirationTask
 		{
 			project.getProject().setStatus(Project.Status.EXPIRED);
 			projectMapper.updateProject(project.getProject());
-			emailService.sendNewProjectExpirationEmail(project);
+			User user = userMapper.getUserById(project.getProject().getClientId());
+			emailService.sendNewProjectExpirationEmail(project, user);
 		}
 	}
 }
