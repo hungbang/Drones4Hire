@@ -327,7 +327,7 @@ export const ROUTES: Routes = [
               projects: ClientProjectsResolve
             },
             data: {
-              pageLink: '/dashboard/client/1',
+              pageLink: '/dashboard/client',
               userType: 'client'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
@@ -354,7 +354,7 @@ export const ROUTES: Routes = [
               projects: PilotProjectsResolve
             },
             data: {
-              pageLink: '/dashboard/pilot/1',
+              pageLink: '/dashboard/pilot',
               userType: 'pilot'
             },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
