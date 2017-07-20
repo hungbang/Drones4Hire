@@ -37,14 +37,15 @@ DronesAdmin.controller('DashboardCtrl', [ '$scope', '$http','$location', '$timeo
 					COMPLETED: results[key]["COMPLETED"].count,
 					CANCELLED: results[key]["CANCELLED"].count,
 					PENDING: results[key]["PENDING"].count,
+					EXPIRED: results[key]["EXPIRED"].count,
 					BLOCKED: results[key]["BLOCKED"].count});
             });
             Morris.Area({
                 element: 'projects-graph',
                 data: $scope.data,
                 xkey: 'createdAt',
-                ykeys: ['NEW', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'PENDING', 'BLOCKED'],
-                labels: ['New', 'In progress', 'Completed', 'Cancelled', 'Pending', 'Blocked'],
+                ykeys: ['NEW', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'PENDING', 'EXPIRED', 'BLOCKED'],
+                labels: ['New', 'In progress', 'Completed', 'Cancelled', 'Pending', 'Expired', 'Blocked'],
 				dateFormat: function (date) {
 					return new Date(new Date(date).getTime()).toLocaleDateString();
                 },

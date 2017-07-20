@@ -18,7 +18,8 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
         IN_PROGRESS: '7A92A3',
         COMPLETED: '4da74d',
         CANCELLED: 'afd8f8',
-        BLOCKED: 'cb4b4b'
+        EXPIRED: 'cb4b4b',
+        BLOCKED: '9440ed'
     };
 
     var initSearchCriteria = function () {

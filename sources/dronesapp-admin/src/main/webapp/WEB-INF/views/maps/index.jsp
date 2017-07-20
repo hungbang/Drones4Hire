@@ -23,7 +23,8 @@
                     <li style="color: #7A92A3">In progress</li>
                     <li style="color: #4da74d">Completed</li>
                     <li style="color: #afd8f8">Cancelled</li>
-                    <li style="color: #cb4b4b">Blocked</li>
+                    <li style="color: #cb4b4b">Expired</li>
+                    <li style="color: #9440ed">Blocked</li>
                 </ul>
             </div>
         </div>

@@ -5,7 +5,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 	var DEFAULT_PROJECTS_SEARCH_CRITERIA = {
 			'rating' : 5,
 			'pageSize' : PAGE_SIZES[0],
-			'statuses' : ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'BLOCKED']
+			'statuses' : ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'EXPIRED', 'BLOCKED']
 	};
 	$scope.projectSearchCriteria = angular.copy(DEFAULT_PROJECTS_SEARCH_CRITERIA);
 	$scope.projectListPageSizes = PAGE_SIZES;
@@ -46,7 +46,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
     });
 	
 	$scope.loadStatuses = function(){
-		$scope.roles = ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'BLOCKED'];
+		$scope.roles = ['NEW', 'PENDING', 'IN_PROGRESS', 'CANCELLED', 'COMPLETED', 'EXPIRED', 'BLOCKED'];
 	};
 
 	$scope.searchProjects = function(page, pageSize){

@@ -48,6 +48,8 @@
 							            	<option value="COMPLETED">Completed</option>
 							            	<option value="CANCELLED">Cancelled</option>
 							            	<option value="PENDING">Pending</option>
+							            	<option value="EXPIRED">Expired</option>
+							            	<option value="BLOCKED">Blocked</option>
 							            </select>
 				                    </div>
 									<div class="col-lg-3">
