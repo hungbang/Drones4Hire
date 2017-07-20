@@ -41,7 +41,7 @@ import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService
 public class ProjectService
 {
 
-	private static final String PRIVATE_PAID_OPTION_TITLE = "Private Project";
+	public static final Integer PRIVATE_PAID_OPTION = 1;
 
 	@Value("${drones4hire.service.fee}")
 	private BigDecimal serviceFee;
@@ -391,7 +391,7 @@ public class ProjectService
 		{
 			for (PaidOption paidOption : result.getProject().getPaidOptions())
 			{
-				if (paidOption.getTitle().equals(PRIVATE_PAID_OPTION_TITLE))
+				if (paidOption.getRating().equals(PRIVATE_PAID_OPTION))
 				{
 					result.getProject().setClientId(null);
 					break;

@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.CommentMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper;
 import com.drones4hire.dronesapp.models.db.projects.Comment;
+import com.drones4hire.dronesapp.models.db.projects.PaidOption;
 import com.drones4hire.dronesapp.models.db.projects.Project;
-import com.drones4hire.dronesapp.models.db.users.Group;
-import com.drones4hire.dronesapp.models.db.users.Group.Role;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -55,7 +54,18 @@ public class CommentService
 	public List<Comment> getCommentsByProjectId(long projectId, long principalId) throws ServiceException
 	{
 		checkAuthorities(projectId, principalId);
-		return commentMapper.getCommentsByProjectId(projectId);
+		Project project = projectMapper.getProjectById(projectId);
+		List<Comment> comments = commentMapper.getCommentsByProjectId(projectId);
+		for(PaidOption option : project.getPaidOptions()) {
+			if(option.getRating().equals(ProjectService.PRIVATE_PAID_OPTION)) {
+				for(Comment comment : comments) {
+					if(project.getClientId().equals(comment.getUser().getId())) {
+						comment.setUser(null);
+					}
+				}
+			}
+		}
+		return comments;
 	}
 
 	@Transactional(rollbackFor = Exception.class)

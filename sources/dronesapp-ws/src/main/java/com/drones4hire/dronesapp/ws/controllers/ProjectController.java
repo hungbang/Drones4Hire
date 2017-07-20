@@ -48,8 +48,6 @@ import io.swagger.annotations.ApiParam;
 public class ProjectController extends AbstractController
 {
 
-	private static final String PRIVATE_PAID_OPTION_TITLE = "Private Project";
-
 	@Autowired
 	private ProjectService projectService;
 
@@ -102,7 +100,7 @@ public class ProjectController extends AbstractController
 		{
 			for (PaidOption paidOption : project.getPaidOptions())
 			{
-				if (paidOption.getTitle().equals(PRIVATE_PAID_OPTION_TITLE))
+				if (paidOption.getRating().equals(ProjectService.PRIVATE_PAID_OPTION))
 				{
 					project.setClientId(null);
 					break;
