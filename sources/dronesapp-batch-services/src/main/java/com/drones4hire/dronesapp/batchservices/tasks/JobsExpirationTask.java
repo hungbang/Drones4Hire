@@ -33,7 +33,7 @@ public class JobsExpirationTask
 
 	public void runTask() throws ServiceException
 	{
-		Project.Status[] STATUSES = { Project.Status.NEW};
+		Project.Status[] STATUSES = { Project.Status.NEW };
 		ProjectSearchCriteria sc;
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));

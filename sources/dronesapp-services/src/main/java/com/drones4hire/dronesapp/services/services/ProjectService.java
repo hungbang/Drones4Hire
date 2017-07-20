@@ -269,6 +269,11 @@ public class ProjectService
 
 		project.setPaidOptions(existingProject.getPaidOptions());
 
+		if(existingProject.getStatus().equals(EXPIRED) && !project.getStartDate().equals(existingProject.getStartDate()))
+		{
+			project.setStatus(NEW);
+		}
+
 		projectMapper.updateProject(project);
 
 		return project;
