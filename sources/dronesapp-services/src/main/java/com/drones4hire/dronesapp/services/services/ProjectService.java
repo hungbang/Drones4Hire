@@ -82,6 +82,7 @@ public class ProjectService
 		String tid = null;
 		if (project.hasPaidOptions())
 		{
+			project.setPaidOptions(getDbPaidOptions(project.getPaidOptions()));
 			for (PaidOption po : project.getPaidOptions())
 			{
 				if (!po.getCurrency().equals(wallet.getCurrency()))
@@ -173,7 +174,7 @@ public class ProjectService
 		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjects(sc);
 		if(user.getRoles().contains(ROLE_PILOT))
 		{
-			projectSearchResults = updatePrivateProjectResult(projectSearchResults);
+			projectSearchResults = updatePrivateProjectsResult(projectSearchResults);
 		}
 		results.setTotalResults(projectMapper.getProjectsSearchCount(sc));
 		results.setResults(projectSearchResults);
@@ -230,6 +231,7 @@ public class ProjectService
 		// Paid options selected
 		if (project.hasPaidOptions())
 		{
+			project.setPaidOptions(getDbPaidOptions(project.getPaidOptions()));
 			if (!existingProject.hasPaidOptions())
 			{
 				existingProject.setPaidOptions(new ArrayList<>());
@@ -242,12 +244,11 @@ public class ProjectService
 				BigDecimal total = BigDecimal.ZERO;
 				for (PaidOption po : project.getPaidOptions())
 				{
-					PaidOption paidOption = paidOptionService.getPaidOptionById(po.getId());
-					if (!paidOption.getCurrency().equals(wallet.getCurrency()))
+					if (!po.getCurrency().equals(wallet.getCurrency()))
 					{
 						throw new InvalidCurrenyException();
 					}
-					total = total.add(paidOption.getPrice());
+					total = total.add(po.getPrice());
 				}
 				String tid = paymentService.makePayment(project.getPaymentMethod(), total, wallet.getCurrency());
 				transactionService.createTransaction(
@@ -255,10 +256,10 @@ public class ProjectService
 								COMPLETED));
 
 				project.setSortOrder(project.calculateProjectSortOrder());
+
+				createProjectPaidOptions(project.getId(), project.getPaidOptions());
 			}
 		}
-
-		createProjectPaidOptions(project.getId(), project.getPaidOptions());
 
 		//createAttachment(project.getId(), project.getAttachments());
 
@@ -376,7 +377,7 @@ public class ProjectService
 		}
 	}
 
-	private List<ProjectSearchResult> updatePrivateProjectResult(List<ProjectSearchResult> sr)
+	private List<ProjectSearchResult> updatePrivateProjectsResult(List<ProjectSearchResult> sr)
 	{
 		for(ProjectSearchResult result : sr)
 		{
@@ -391,6 +392,16 @@ public class ProjectService
 			}
 		}
 		return sr;
+	}
+
+	private List<PaidOption> getDbPaidOptions(List<PaidOption> paidOptions)
+	{
+		List<PaidOption> po  = new ArrayList<>();
+		for(PaidOption paidOption : paidOptions)
+		{
+			po.add(paidOptionService.getPaidOptionById(paidOption.getId()));
+		}
+		return po;
 	}
 
 	public BigDecimal getServiceFee()
