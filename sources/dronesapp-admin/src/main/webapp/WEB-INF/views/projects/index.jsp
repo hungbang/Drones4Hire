@@ -8,7 +8,7 @@
 <div data-ng-controller="ProjectsPageController" class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Projects</h1>
+			<h1 class="page-header">Projects <button class="btn btn-default btn-success" data-ng-click="openProjectModal()">Post project</button> </h1>
 		</div>
 	</div>
 	<div class="row">
