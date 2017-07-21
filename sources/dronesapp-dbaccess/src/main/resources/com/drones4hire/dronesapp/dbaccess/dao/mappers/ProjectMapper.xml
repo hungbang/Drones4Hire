@@ -193,6 +193,8 @@
 	      		P.ID AS PROJECT_ID,
 	      		P.TITLE AS PROJECT_TITLE,
 	        	P.SUMMARY AS PROJECT_SUMMARY,
+	        	P.CLIENT_ID AS PROJECT_CLIENT_ID,
+	        	P.PILOT_ID AS PROJECT_PILOT_ID,
 
 	        	CLIENT.ID AS CLIENT_USER_ID,
 				CLIENT.USERNAME AS CLIENT_USER_USERNAME,
@@ -1420,7 +1422,7 @@
 					resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.BidMapper.BidResultMap" columnPrefix="PROJECT_"/>
 	</resultMap>
 
-	<resultMap id="ProjectSearchForAdminResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult" autoMapping="false">
+	<resultMap id="ProjectSearchForAdminResultMap" type="com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResultForAdmin" autoMapping="false">
 		<id column="PROJECT_ID" property="id" />
 		<association property="project" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.ProjectMapper.ProjectResultMap"/>
 		<association property="transactions" resultMap="com.drones4hire.dronesapp.dbaccess.dao.mysql.TransactionMapper.TransactionResultMap"/>

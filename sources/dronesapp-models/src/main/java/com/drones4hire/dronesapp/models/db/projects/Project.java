@@ -236,9 +236,12 @@ public class Project extends AbstractEntity
 	public Integer calculateProjectSortOrder()
 	{
 		int sortOrder = 0;
-		for(PaidOption paidOption : this.paidOptions)
+		if(hasPaidOptions())
 		{
-			sortOrder = sortOrder + paidOption.getRating();
+			for (PaidOption paidOption : this.paidOptions)
+			{
+				sortOrder = sortOrder + paidOption.getRating();
+			}
 		}
 		if(this.sortOrder != null)
 		{

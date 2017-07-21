@@ -1,23 +1,20 @@
 package com.drones4hire.admin.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
 import com.drones4hire.dronesapp.models.db.projects.*;
 import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
+import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
 import com.drones4hire.dronesapp.services.services.*;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
@@ -61,12 +58,16 @@ public class ProjectsController extends AbstractController
 		return new ModelAndView("projects/view");
 	}
 
-//	@ResponseStatus(HttpStatus.CREATED)
-//	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody Project createProject(@RequestBody Project p, @RequestHeader(value = "BidAmount", required = false) BigDecimal bidAmount) throws ServiceException
-//	{
-//		return projectService.createProject(p, getPrincipal().getId(), bidAmount);
-//	}
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Project createProject(@RequestBody Project project, @RequestHeader(value = "BidAmount", required = false) BigDecimal bidAmount) throws ServiceException
+	{
+		if(project.getPilotId() != null && bidAmount == null)
+		{
+			throw new ForbiddenOperationException();
+		}
+		return projectManageService.createProject(project, bidAmount);
+	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "{id}/block", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,14 +88,14 @@ public class ProjectsController extends AbstractController
 
 	@RequestMapping(value = "search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	SearchResult<ProjectSearchResult> searchProjects(@RequestBody ProjectSearchCriteriaForAdmin sc)
+	SearchResult<ProjectSearchResultForAdmin> searchProjects(@RequestBody ProjectSearchCriteriaForAdmin sc)
 			throws Exception
 	{
-		SearchResult<ProjectSearchResult> results = new SearchResult<>();
+		SearchResult<ProjectSearchResultForAdmin> results = new SearchResult<>();
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
-		SearchResult<ProjectSearchResult> searchResult = projectManageService.searchProjectsWithAdmin(sc);
+		SearchResult<ProjectSearchResultForAdmin> searchResult = projectManageService.searchProjectsWithAdmin(sc);
 		results.setResults(searchResult.getResults());
 		results.setTotalResults(searchResult.getTotalResults());
 		return results;

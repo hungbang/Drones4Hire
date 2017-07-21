@@ -2,9 +2,13 @@ package com.drones4hire.dronesapp.services.services;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.*;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.*;
+import com.drones4hire.dronesapp.models.db.commons.Currency;
+import com.drones4hire.dronesapp.models.db.payments.Transaction;
+import com.drones4hire.dronesapp.models.db.payments.Wallet;
 import com.drones4hire.dronesapp.models.db.projects.*;
 import com.drones4hire.dronesapp.models.db.users.User;
 import com.drones4hire.dronesapp.services.exceptions.ForbiddenOperationException;
+import com.drones4hire.dronesapp.services.exceptions.InvalidCurrenyException;
 import com.drones4hire.dronesapp.services.exceptions.ServiceException;
 import com.drones4hire.dronesapp.services.services.notifications.AWSEmailService;
 import com.drones4hire.dronesapp.services.services.util.CSVWriter;
@@ -17,7 +21,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static com.drones4hire.dronesapp.models.db.payments.Transaction.Status.COMPLETED;
+import static com.drones4hire.dronesapp.models.db.payments.Transaction.Type.PAID_OPTION;
 
 @Service
 public class ProjectManageService
@@ -42,21 +50,84 @@ public class ProjectManageService
 	private AttachmentMapper attachMapper;
 
 	@Autowired
+	private LocationService locationService;
+
+	@Autowired
 	private BidMapper bidMapper;
+
+	@Autowired
+	private WalletService walletService;
 
 	@Autowired
 	private AWSEmailService emailService;
 
+	@Transactional(rollbackFor = Exception.class)
+	public Project createProject(Project project, BigDecimal bidAmount) throws ServiceException
+	{
+		locationService.createLocation(project.getLocation());
+
+		project.setSortOrder(project.calculateProjectSortOrder());
+		projectMapper.createProject(project);
+
+		if(bidAmount != null && project.getPilotId() != null)
+		{
+			Bid newBid = createBid(bidAmount, project);
+			awardBid(newBid.getId());
+		}
+
+		if(project.hasPaidOptions())
+		{
+			projectService.createProjectPaidOptions(project.getId(), project.getPaidOptions());
+		}
+
+		projectService.createAttachment(project.getId(), project.getAttachments());
+
+		return projectService.getProjectById(project.getId());
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public Bid createBid(BigDecimal bidAmount, Project project) throws ServiceException
+	{
+		Wallet wallet = walletService.getWalletByUserId(project.getPilotId());
+		User user = userService.getUserById(project.getPilotId());
+		Bid bid = new Bid();
+		bid.setAmount(bidAmount);
+		bid.setCurrency(wallet.getCurrency());
+		bid.setProjectId(project.getId());
+		bid.setUser(user);
+		bid.setComment("From Admin");
+		bidMapper.createBid(bid);
+		emailService.sendNewBidReceiveEmail(project);
+		return bid;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public Bid awardBid(Long bidId) throws ServiceException
+	{
+		Bid bid = bidMapper.getBidById(bidId);
+
+		Project project = projectService.getProjectById(bid.getProjectId());
+
+		project.setPilotId(bid.getUser().getId());
+		project.setStatus(Project.Status.PENDING);
+		project.setAwardDate(Calendar.getInstance().getTime());
+		projectService.updateProject(project);
+
+		emailService.sendAwardBidEmail(project);
+
+		return bid;
+	}
+
 	@Transactional(readOnly = true)
-	public SearchResult<ProjectSearchResult> searchProjectsWithAdmin(ProjectSearchCriteriaForAdmin sc) throws
+	public SearchResult<ProjectSearchResultForAdmin> searchProjectsWithAdmin(ProjectSearchCriteriaForAdmin sc) throws
 			ServiceException
 	{
-		SearchResult<ProjectSearchResult> results = new SearchResult<>();
+		SearchResult<ProjectSearchResultForAdmin> results = new SearchResult<>();
 		results.setPage(sc.getPage());
 		results.setPageSize(sc.getPageSize());
 		results.setSortOrder(sc.getSortOrder());
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
-		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjectsWithAdmin(sc);
+		List<ProjectSearchResultForAdmin> projectSearchResults = projectMapper.searchProjectsWithAdmin(sc);
 		results.setTotalResults(projectMapper.getProjectsWithAdminSearchCount(sc));
 		results.setResults(projectSearchResults);
 		return results;

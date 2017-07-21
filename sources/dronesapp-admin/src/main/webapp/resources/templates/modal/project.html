@@ -41,7 +41,7 @@
         <div class="form-group">
             <label>Budget</label>
             <select class="form-control validation" data-ng-model="project.budget.id" required>
-                <option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{budget.min}} - {{budget.max}} {{budget.currency}}</option>
+                <option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{ budget.title }}</option>
             </select>
         </div>
         <div class="form-group">
@@ -61,24 +61,23 @@
             </select>
         </div>
         <div>
-        <div class="form-group row">
-            <div class="col-lg-12">
-                <div class="col-lg-6">
-                    <label>Start date</label>
-                    <input type="date" data-ng-model="project.startDate" required/>
-                </div>
-                <div class="col-lg-6">
-                    <label>Finish date</label>
-                    <input type="date" data-ng-model="project.finishDate"/>
-                </div>
-            </div>
+        <div class="form-group">
+            <label class="control-label" for="startDate">Start date</label>
+            <input type="text" class="form-control" id="startDate" name="picker1"/>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="finishDate">Finish date</label>
+            <input type="text" class="form-control" id="finishDate" name="picker2"/>
         </div>
         <div class="form-group">
             <label>Expected duration of flight</label>
             <select class="form-control validation" data-ng-model="project.duration.id" required>
                 <option data-ng-value="duration.id" data-ng-repeat="duration in durations">{{duration.min}} - {{duration.max}} hours</option>
             </select>
+        </div>
+        <div class="form-group">
+            <label>Post production</label>
+            <input type="checkbox" data-ng-model="project.postProductionRequired">
         </div>
         <div class="form-group">
             <label>Attachments <span data-ng-if="attachs.length">({{attachs.length}})</span></label>
@@ -95,14 +94,10 @@
             <input type="button" data-ng-if="fileToUpload" class="btn btn-default" data-ng-click="uploadAttachment(fileToUpload)" value="Upload"/>
             {{fileToUpload.name}}
         </div>
-        <div class="form-group">
+        <!--<div class="form-group">
             <label>Commission free</label>
             <input type="checkbox" data-ng-model="commissionFree">
-        </div>
-        <div class="form-group">
-            <label>Post production</label>
-            <input type="checkbox" data-ng-model="project.postProductionRequired">
-        </div>
+        </div>-->
         <div class="form-group">
             <label>Paid options</label>
             <div data-ng-repeat="option in paidOptions">

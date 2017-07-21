@@ -145,6 +145,43 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 $scope.project.postProductionRequired = false;
                 $scope.project.bidAmount = 0.0;
 
+                var initPickers = function () {
+                    angular.element('#startDate').datetimepicker({
+                        locale: 'ru',
+                        format: 'YYYY-MM-DD HH:mm',
+                        icons: {
+                            time: "fa fa-clock-o",
+                            calendar: "fa fa-clock-o",
+                            date: "fa fa-calendar",
+                            up: "fa fa-arrow-up",
+                            down: "fa fa-arrow-down",
+                            previous: "fa fa-arrow-left",
+                            next: "fa fa-arrow-right"
+                        }
+                    });
+                    angular.element('#finishDate').datetimepicker({
+                        useCurrent: false,
+                        locale: 'ru',
+                        format: 'YYYY-MM-DD HH:mm',
+                        icons: {
+                            time: "fa fa-clock-o",
+                            calendar: "fa fa-clock-o",
+                            date: "fa fa-calendar",
+                            previous: "fa fa-arrow-left",
+                            next: "fa fa-arrow-right",
+                            up: "fa fa-arrow-up",
+                            down: "fa fa-arrow-down"
+                        }
+                    });
+
+                    angular.element('#startDate').on("dp.change", function (e) {
+                        angular.element('#finishDate').data("DateTimePicker").minDate(e.date);
+                    });
+                    angular.element('#finishDate').on("dp.change", function (e) {
+                        angular.element('#startDate').data("DateTimePicker").maxDate(e.date);
+                    });
+                };
+
                 $scope.loadBudgets = function(){
                     $http.get('common/budgets').success(function(data) {
                         $scope.budgets = data;
@@ -222,6 +259,13 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 };
 
                 $scope.createProject = function () {
+                    if(angular.element('#startDate')[0].value){
+                        $scope.project.startDate = new Date(Date.parse(angular.element('#startDate')[0].value) + OFFSET);
+                    }
+
+                    if(angular.element('#finishDate')[0].value){
+                        $scope.project.finishDate = new Date(Date.parse(angular.element('#finishDate')[0].value) + OFFSET);
+                    }
                     $scope.project.paidOptions = $scope.paidOptions.filter(function (option) {
                         return option.isChecked;
                     });
@@ -275,6 +319,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 }
 
                 (function init() {
+                    setTimeout(initPickers, 400);
                 	$scope.loadBudgets();
                 	$scope.loadServiceCategories();
                 	$scope.loadCountries();

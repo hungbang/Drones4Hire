@@ -401,7 +401,7 @@ public class ProjectService
 		return sr;
 	}
 
-	private List<PaidOption> getDbPaidOptions(List<PaidOption> paidOptions)
+	public List<PaidOption> getDbPaidOptions(List<PaidOption> paidOptions)
 	{
 		List<PaidOption> po  = new ArrayList<>();
 		for(PaidOption paidOption : paidOptions)
