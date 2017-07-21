@@ -56,15 +56,11 @@ export class BSelectServicesComponent implements OnInit {
   }
 
 
-  getAccountServices() { // TODO: move back in account Service if no one use old method
-    this.requestService.fetch('get', '/account/services')
-      .map(res => {
-        return res.map((service) => service.id);
-      })
+  getAccountServices() {
+    this.accountService.getAccountServices()
       .subscribe(
         res => {
           // console.log(res);
-          this.accountService.activeServices = res;
           this.setCheckedServices();
         },
         err => {
