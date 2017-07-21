@@ -5,7 +5,7 @@ import {QuestionModel} from './question.interface';
 
 @Injectable()
 export class PublicService {
-  profile: any = null; // TODO: ?add appropriate interface?
+  profile: any = null;
   services: Array<any> = [];
 
   constructor(

@@ -147,10 +147,17 @@ export class ProjectDescriptionComponent extends UnSubscribeDirective implements
   }
 
   fetchClientFullName(id: number) {
-    return this._publicService.getPublicAccount(id)
-      .subscribe((data) => {
-        this.project.client = data || {};
-      });
+    if (id) {
+      this._publicService.getPublicAccount(id)
+        .subscribe((data) => {
+          this.project.client = data || {};
+        });
+    } else {
+      this.project.client = {
+        firstName: 'Confidential'
+      }
+    }
+
   }
 
   createBidsInfo(bidInfo, bid?) {

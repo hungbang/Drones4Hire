@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
     "name": "fd-starter-angular",
-    "ejected": true
+    "ejected": false
   },
   "apps": [
     {

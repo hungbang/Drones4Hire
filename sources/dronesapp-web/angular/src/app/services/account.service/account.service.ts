@@ -106,30 +106,16 @@ export class AccountService {
   }
 
   getAccountServices() {
-    this._requestService.fetch('get', '/account/services')
+    return this._requestService.fetch('get', '/account/services')
       .map(res => {
         this.activeServices = res.map((service) => service.id);
 
-        return res;
+        return this.activeServices;
       })
-      .subscribe(() => {
-        this._commonService.getServices()
-          .subscribe((services) => this.setServices(services));
-      });
   }
 
   setAccountServices(data: Array<number>) {
     return this._requestService.fetch('put', '/account/services', data);
-  }
-
-  private setServices(_services) {
-    let services = extend([], _services);
-
-    services.forEach((service: any) => {
-      service.checked = this.activeServices.indexOf(service.id) !== -1;
-    });
-
-    this.services = this._commonService.normalizeServices(services);
   }
 
   private setAccount(): AccountModel {

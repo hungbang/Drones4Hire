@@ -17,8 +17,6 @@ export class ProjectService {
 
   public projects;
 
-  chooseTabFilter: string = 'openForBidding';
-  countProjectsToShow: number[] = [5, 10, 20, 30];
   limitProjectsToShow: number = 10;
   nameFilter: string;
 
@@ -61,7 +59,6 @@ export class ProjectService {
     return projects.map((data) => {
       const project = data.project;
       const bid = data.bids[0];
-      const client = data.client;
 
       let paymentCreated = this._transactionService.getClientToDroneTransaction(data.transactions);
       paymentCreated = this._transactionService.getLastTransaction(paymentCreated);
@@ -71,7 +68,6 @@ export class ProjectService {
 
       return {
         id: project.id,
-        fullName: `${client.firstName} ${client.lastName}`,
         name: project.title,
         bidPlaced: bid.createdAt,
         awardedDate: this.getAwardedDate(data),

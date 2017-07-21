@@ -13,10 +13,16 @@ export class CommentsService {
 
   formatCommentToPreview(comments) {
     return comments.map((comment) => {
-      const newComment = getFromObjectToObject(comment, 'account:firstName', 'account:lastName', 'id', 'comment', 'createdAt', 'account:photoURL');
-
-      newComment.accountId = comment.account.id;
-      newComment.isPilot = this.accountService.isPilot(comment.account);
+      let newComment: any = null;
+      if (comment.account && comment.account.id) {
+        newComment = getFromObjectToObject(comment, 'account:firstName', 'account:lastName', 'id', 'comment', 'createdAt', 'account:photoURL');
+        newComment.accountId = comment.account.id;
+        newComment.isPilot = this.accountService.isPilot(comment.account);
+      } else {
+        newComment = getFromObjectToObject(comment, 'comment', 'createdAt');
+        newComment.firstName = 'Confidential';
+        newComment.isPilot = false;
+      }
 
       return newComment;
     });
