@@ -754,30 +754,6 @@
 		<![CDATA[
 		  )
 		  LEFT JOIN
-	      		drones.USERS CLIENT
-	      ON
-          		P.CLIENT_ID = CLIENT.ID
-		  LEFT JOIN
-	        	drones.LOCATIONS CLIENT_L
-	      ON
-	        	CLIENT.LOCATION_ID = CLIENT_L.ID
-	      LEFT JOIN
-            	drones.COUNTRIES CLIENT_C
-          ON
-            	CLIENT_L.COUNTRY_ID = CLIENT_C.ID
-          LEFT JOIN
-            	drones.STATES CLIENT_S
-          ON
-            	CLIENT_L.STATE_ID = CLIENT_S.ID
-          LEFT JOIN
-            	drones.USER_GROUPS CLIENT_UG
-          ON
-            	CLIENT_UG.USER_ID = CLIENT.ID
-          LEFT JOIN
-	        	drones.GROUPS CLIENT_G
-	      ON
-	        	CLIENT_G.ID = CLIENT_UG.GROUP_ID
-		  LEFT JOIN
 	      		drones.USERS PILOT
 	      ON
           		P.PILOT_ID = PILOT.ID
@@ -1030,6 +1006,37 @@
 			ON
 				P.ID = PID.PROJECT_ID
 		]]>
+		<if test="null != range or null != pilotId">
+			ORDER BY
+			<if test="null != pilotId and null != statuses">
+				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
+					<if test="status.toString() == 'NEW'">
+						<![CDATA[
+			   				P.SORT_ORDER DESC,
+			   			]]>
+					</if>
+				</foreach>
+			</if>
+			<if test="null != pilotId and null == statuses">
+				<![CDATA[
+		  			PRIORITY ASC, P.START_DATE ASC,
+				]]>
+			</if>
+			DISTANCE ASC
+		</if>
+		<if test="null == range and null == pilotId">
+			ORDER BY
+			<if test="null != pilotId and null != statuses">
+				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
+					<if test="status.toString() == 'NEW'">
+						<![CDATA[
+			   				P.SORT_ORDER DESC,
+			   			]]>
+					</if>
+				</foreach>
+			</if>
+			P.CREATED_AT DESC
+		</if>
 	</select>
 
 	<select id="getProjectsSearchCount" resultType="java.lang.Integer">
