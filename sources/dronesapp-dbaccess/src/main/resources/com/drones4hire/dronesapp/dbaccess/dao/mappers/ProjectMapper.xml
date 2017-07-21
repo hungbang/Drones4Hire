@@ -964,37 +964,7 @@
 		<![CDATA[
 			GROUP BY P.ID
 			]]>
-		<if test="null != range or null != pilotId">
-			ORDER BY
-			<if test="null != pilotId and null != statuses">
-				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
-					<if test="status.toString() == 'NEW'">
-						<![CDATA[
-			   				P.SORT_ORDER DESC,
-			   			]]>
-					</if>
-				</foreach>
-			</if>
-			<if test="null != pilotId and null == statuses">
-				<![CDATA[
-		  			PRIORITY ASC, P.START_DATE ASC,
-				]]>
-			</if>
-			DISTANCE ASC
-		</if>
-		<if test="null == range and null == pilotId">
-			ORDER BY
-			<if test="null != pilotId and null != statuses">
-				<foreach collection="statuses" item="status" index="index" open="" separator="" close="">
-					<if test="status.toString() == 'NEW'">
-						<![CDATA[
-			   				P.SORT_ORDER DESC,
-			   			]]>
-					</if>
-				</foreach>
-			</if>
-			P.CREATED_AT DESC
-		</if>
+		<include refid="searchOrder"/>
 		<if test="null != pageSize and null != page">
 			<![CDATA[
 				LIMIT #{pageSize} OFFSET #{page}
@@ -1006,6 +976,10 @@
 			ON
 				P.ID = PID.PROJECT_ID
 		]]>
+		<include refid="searchOrder"/>
+	</select>
+
+	<sql id="searchOrder">
 		<if test="null != range or null != pilotId">
 			ORDER BY
 			<if test="null != pilotId and null != statuses">
@@ -1037,7 +1011,7 @@
 			</if>
 			P.CREATED_AT DESC
 		</if>
-	</select>
+	</sql>
 
 	<select id="getProjectsSearchCount" resultType="java.lang.Integer">
 		<![CDATA[
