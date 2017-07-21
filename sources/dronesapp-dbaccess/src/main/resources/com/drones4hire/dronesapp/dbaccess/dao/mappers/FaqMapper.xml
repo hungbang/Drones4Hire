@@ -42,8 +42,12 @@
         ]]>
     </select>
 
-    <select id="getAllFaqs" resultMap="FaqResultMap">
+    <select id="getFaqsByRole" resultMap="FaqResultMap">
         <include refid="getFaqs"/>
+         <![CDATA[
+          WHERE
+            F.GROUP_ID = (select G.ID from drones.GROUPS G where G.ROLE = #{role})
+        ]]>
     </select>
 
     <update id="updateFaq">

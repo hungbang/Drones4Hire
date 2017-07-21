@@ -65,10 +65,10 @@ public class ContentController extends AbstractController
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "faqs/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Faq> getAllFaqs()
+	@RequestMapping(value = "faqs/{role}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Faq> getAllFaqs(String role)
 	{
-		return faqService.getAllFaqs();
+		return faqService.getFaqsByRole(role);
 	}
 
 	@ResponseStatus(HttpStatus.OK)

@@ -46,9 +46,9 @@ public class ContentController
 	@ApiOperation(value = "Get all FAQs", nickname = "getAllFaqs", code = 200, httpMethod = "GET", response = List.class)
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "faqs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Faq> getAllFaqs()
+	public @ResponseBody List<Faq> getFaqsByRole(@RequestParam(name = "role", required = true) String role)
 	{
-		return faqService.getAllFaqs();
+		return faqService.getFaqsByRole(role);
 	}
 
 	@ResponseStatusDetails

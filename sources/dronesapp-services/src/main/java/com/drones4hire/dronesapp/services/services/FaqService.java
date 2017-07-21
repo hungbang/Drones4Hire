@@ -29,9 +29,9 @@ public class FaqService
 	}
 
 	@Transactional(readOnly = true)
-	public List<Faq> getAllFaqs()
+	public List<Faq> getFaqsByRole(String role)
 	{
-		return faqMapper.getAllFaqs();
+		return faqMapper.getFaqsByRole(role);
 	}
 
 	@Transactional(rollbackFor = Exception.class)

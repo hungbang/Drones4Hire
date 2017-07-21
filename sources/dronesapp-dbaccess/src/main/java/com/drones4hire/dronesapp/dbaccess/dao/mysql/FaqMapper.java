@@ -11,7 +11,7 @@ public interface FaqMapper
 
 	Faq getFaqById(long id);
 
-	List<Faq> getAllFaqs();
+	List<Faq> getFaqsByRole(String role);
 
 	void updateFaq(Faq Faq);
 
