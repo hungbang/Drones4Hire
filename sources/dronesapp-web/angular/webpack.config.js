@@ -91,7 +91,7 @@ module.exports = {
         "loaders": [
           "exports-loader?module.exports.toString()",
           "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader"
+          "postcss-loader?{postss:{}}"
         ]
       },
       {
@@ -103,7 +103,7 @@ module.exports = {
         "loaders": [
           "exports-loader?module.exports.toString()",
           "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader",
+          "postcss-loader?{postss:{}}",
           "sass-loader"
         ]
       },
@@ -116,7 +116,7 @@ module.exports = {
         "loaders": [
           "exports-loader?module.exports.toString()",
           "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader",
+          "postcss-loader?{postss:{}}",
           "less-loader"
         ]
       },
@@ -129,7 +129,7 @@ module.exports = {
         "loaders": [
           "exports-loader?module.exports.toString()",
           "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader",
+          "postcss-loader?{postss:{}}",
           "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
         ]
       },
@@ -142,7 +142,7 @@ module.exports = {
         "loaders": ExtractTextPlugin.extract({
   "use": [
     "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-    "postcss-loader"
+    "postcss-loader?{postss:{}}"
   ],
   "fallback": "style-loader",
   "publicPath": ""
@@ -157,7 +157,7 @@ module.exports = {
         "loaders": ExtractTextPlugin.extract({
   "use": [
     "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-    "postcss-loader",
+    "postcss-loader?{postss:{}}",
     "sass-loader"
   ],
   "fallback": "style-loader",
@@ -173,7 +173,7 @@ module.exports = {
         "loaders": ExtractTextPlugin.extract({
   "use": [
     "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-    "postcss-loader",
+    "postcss-loader?{postss:{}}",
     "less-loader"
   ],
   "fallback": "style-loader",
@@ -189,7 +189,7 @@ module.exports = {
         "loaders": ExtractTextPlugin.extract({
   "use": [
     "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-    "postcss-loader",
+    "postcss-loader?{postss:{}}",
     "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
   ],
   "fallback": "style-loader",
