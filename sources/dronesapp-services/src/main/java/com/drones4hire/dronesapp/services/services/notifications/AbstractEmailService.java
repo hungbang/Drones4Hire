@@ -120,6 +120,7 @@ public abstract class AbstractEmailService
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put("url", url);
 		emailData.put("project", project);
+		emailData.put("user", project);
 		return sendEmail(JOB_EXPIRATION, emailData, user.getEmail());
 	}
 	
