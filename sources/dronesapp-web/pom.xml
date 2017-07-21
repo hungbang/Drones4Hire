@@ -53,12 +53,12 @@
                     <phase>generate-resources</phase>
                 </execution>
                 <execution>
-                    <id>npm run build</id>
+                    <id>npm run ${drones4hire.env}</id>
                     <goals>
                         <goal>npm</goal>
                     </goals>
                     <configuration>
-                        <arguments>run build --env=${drones4hire.env}</arguments>
+                        <arguments>run ${drones4hire.env}</arguments>
                     </configuration>
                 </execution>
             </executions>
