@@ -3,6 +3,7 @@ package com.drones4hire.admin.controller;
 import java.util.List;
 
 import com.drones4hire.dronesapp.models.db.projects.Feedback;
+import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
 import com.drones4hire.dronesapp.services.services.*;
 import com.drones4hire.dronesapp.services.services.util.UserRestoreService;
@@ -54,6 +55,9 @@ public class UsersController extends AbstractController
 	private MessageService messageService;
 
 	@Autowired
+	private GroupService groupService;
+
+	@Autowired
 	private UserRestoreService userRestoreService;
 
 	@Autowired
@@ -91,6 +95,13 @@ public class UsersController extends AbstractController
 	public @ResponseBody User getUser(@PathVariable long id) throws ServiceException
 	{
 		return userService.getUserById(id);
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "groups/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Group> getGroups() throws ServiceException
+	{
+		return groupService.getAllGroups();
 	}
 	
 	@ResponseStatus(HttpStatus.OK)

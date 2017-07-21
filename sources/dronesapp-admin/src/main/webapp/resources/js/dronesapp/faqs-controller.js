@@ -2,12 +2,30 @@
 
 DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', '$route', function($scope, $http, $modal, $route) {
 
+    $scope.tabs = [{ active: true }, { active: false }];
 
-    $scope.getFaqs = function(){
-        $http.get('content/faqs/all').success(function(data) {
+    $scope.ROLES = ['ROLE_CLIENT', 'ROLE_PILOT'];
+
+    $scope.activeTab = 0;
+
+    $scope.switchRoles = function (tab) {
+        $scope.activeTab = tab;
+        $scope.getFaqs($scope.ROLES[tab])
+    };
+
+    $scope.getFaqs = function(role){
+        $http.get('content/faqs/all?role=' + role).success(function(data) {
             $scope.faqs = data;
         }).error(function() {
             alertify.error('Failed to load FAQs');
+        });
+    };
+
+    $scope.getGroups = function(){
+        $http.get('users/groups/all').success(function(data) {
+            $scope.groups = data;
+        }).error(function() {
+            alertify.error('Failed to load groups');
         });
     };
 
@@ -35,7 +53,7 @@ DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', '$ro
 
                 $scope.createFaq = function(faq){
                     $http.post('content/faqs', faq).success(function(data) {
-                        $scope.faqs.push(data);
+                        $scope.getFaqs($scope.ROLES[$scope.activeTab]);
                         $scope.cancel();
                     }).error(function() {
                         alertify.error('Failed to create FAQ');
@@ -64,7 +82,8 @@ DronesAdmin.controller('FaqsPageController', [ '$scope', '$http', '$modal', '$ro
     };
 
     (function init() {
-        $scope.getFaqs();
+        $scope.getFaqs($scope.ROLES[0]);
+        $scope.getGroups();
     })();
 
 }]);

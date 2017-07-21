@@ -12,10 +12,16 @@
         </div>
     </div>
     <div class="row">
-    	<div class="col-lg-6">
+    	<div class="col-lg-4">
 			<button class="btn btn-default btn-success" data-ng-click="openFaqModal()">Create FAQ</button>
 		</div>
-        <div class="col-lg-6">
+		<div class="col-lg-4">
+			<p style="color: grey">
+				<a href="" class="tab2" data-ng-click="switchRoles(0)" data-ng-class="{active: activeTab == 0}">Client</a>
+				<a href="" class="tab2" data-ng-click="switchRoles(1)" data-ng-class="{active: activeTab == 1}">Pilot</a>
+			</p>
+		</div>
+        <div class="col-lg-4">
             <label class="search">FAQs found: {{ faqs.length }}</label>
         </div>
     </div>
