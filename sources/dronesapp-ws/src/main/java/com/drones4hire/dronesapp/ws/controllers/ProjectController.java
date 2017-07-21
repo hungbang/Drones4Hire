@@ -95,16 +95,12 @@ public class ProjectController extends AbstractController
 	{
 		Project project = projectService.getProjectById(id, getPrincipal().getId());
 
-		User user = userService.getUserById(getPrincipal().getId());
-		if(user.getRoles().contains(Group.Role.ROLE_PILOT))
+		for (PaidOption paidOption : project.getPaidOptions())
 		{
-			for (PaidOption paidOption : project.getPaidOptions())
+			if (paidOption.getRating().equals(ProjectService.PRIVATE_PAID_OPTION))
 			{
-				if (paidOption.getRating().equals(ProjectService.PRIVATE_PAID_OPTION))
-				{
-					project.setClientId(null);
-					break;
-				}
+				project.setClientId(null);
+				break;
 			}
 		}
 

@@ -175,7 +175,7 @@ public class ProjectService
 		results.setSortOrder(sc.getSortOrder());
 		sc.setPageSizeFully(sc.getPage(), sc.getPageSize());
 		List<ProjectSearchResult> projectSearchResults = projectMapper.searchProjects(sc);
-		if(user.getRoles().contains(ROLE_PILOT))
+		if(user.getRoles().contains(ROLE_PILOT) || user.getRoles().contains(ROLE_CLIENT))
 		{
 			projectSearchResults = updatePrivateProjectResults(projectSearchResults);
 		}
