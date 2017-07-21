@@ -5,11 +5,6 @@ import {WithdrawalModel} from "./withdrawal.interface";
 
 @Injectable()
 export class TransactionService {
-  defaultSort = 'date';
-  defaultDirection = false;
-  itemsPerPage = 100;
-  pagesCount = 0;
-  currentPage = 0;
 
   constructor(
     private requestService: RequestService

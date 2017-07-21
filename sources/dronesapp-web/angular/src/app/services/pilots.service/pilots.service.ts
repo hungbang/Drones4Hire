@@ -11,10 +11,6 @@ export class PilotsService {
   ) {
   }
 
-  savePilotEquipments(equipments: EquipmentModel[] = []) { // TODO: do we need this endpoint?
-    return this.requestService.fetch('post', '/equipments', equipments);
-  }
-
   updatePilotEquipments(equipments: EquipmentModel[] = []) {
     return this.requestService.fetch('put', '/equipments', equipments);
   }
