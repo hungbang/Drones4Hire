@@ -11,6 +11,7 @@ public class Faq extends AbstractEntity
 	private String answer;
 	private Locale locale;
 	private Integer order;
+	private Integer groupId;
 
 	public String getQuestion()
 	{
@@ -50,5 +51,15 @@ public class Faq extends AbstractEntity
 	public void setOrder(Integer order)
 	{
 		this.order = order;
+	}
+
+	public Integer getGroupId()
+	{
+		return groupId;
+	}
+
+	public void setGroupId(Integer groupId)
+	{
+		this.groupId = groupId;
 	}
 }
