@@ -200,6 +200,7 @@
                required
                [ngModel]="formData.location?.address"
                name="location"
+               [placeholder]="'Address'"
                #location
                #locationRef="ngModel"
                [ngClass]="{'_error': submitted && (locationRef.errors?.required || !formData.location?.coordinates?.latitude)}"
