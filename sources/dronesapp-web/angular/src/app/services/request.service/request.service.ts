@@ -71,6 +71,9 @@ export class RequestService {
                     .map(this.extractData);
                 })
               .catch((refreshErr) => {
+                if (refreshErr.status === 403) {
+                  this._router.navigate(['/login']);
+                }
                 return Observable.throw(refreshErr);
               });
           } else {
