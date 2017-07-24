@@ -3,7 +3,7 @@
       #authForm="ngForm"
       (ngSubmit)="sendAuthorizationRequest($event, authForm)">
   <h2 class="f-authorization__header">
-    {{ getButtonTitle() }}
+    {{ isSignUpForm ? 'Sign up as...' : 'Login' }}
   </h2>
   <div class="f-authorization__content">
     <div class="f-default__row" *ngIf="showConfirmNotification">
@@ -49,35 +49,19 @@
         </a>
       </div>
     </div>
-    <div class="f-default__row" *ngIf="isSignUpForm">
-        <div class="f-default__subtitle">Sign up as</div>
-
-        <div class="f-default__labels">
-          <label class="f-default__radio _invert">
-            <input class="f-default__radio-input"
-                   type="radio"
-                   [(ngModel)]="formData.role"
-                   (ngModelChange)="initAutocomplete()"
-                   value="ROLE_PILOT"
-                   name="role"
-                   required
-                   #roleRef="ngModel"
-                   [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
-            <span class="f-default__radio-text">Drone Pilot</span>
-          </label>
-
-          <label class="f-default__radio _invert">
-            <input class="f-default__radio-input"
-                   type="radio"
-                   [(ngModel)]="formData.role"
-                   value="ROLE_CLIENT"
-                   name="role"
-                   required
-                   #roleRef="ngModel"
-                   [ngClass]="{'_error': submitted && roleRef.errors?.required}"/>
-            <span class="f-default__radio-text">Client</span>
-          </label>
-        </div>
+    <div class="f-default__row _flex _role-select" *ngIf="isSignUpForm">
+      <button class="f-authorization__button-role"
+              [ngClass]="{
+                '_error': submitted && !formData.role,
+                '_active': formData.role === 'ROLE_PILOT'
+              }"
+              (click)="onRoleSelect($event, 'ROLE_PILOT')">Drone Pilot</button>
+      <button class="f-authorization__button-role"
+              [ngClass]="{
+                '_error': submitted && !formData.role,
+                '_active': formData.role === 'ROLE_CLIENT'
+              }"
+              (click)="onRoleSelect($event, 'ROLE_CLIENT')">Client</button>
     </div>
     <div class="f-default__row" *ngIf="isSignUpForm">
       <label class="f-default__label">

@@ -452,4 +452,9 @@ export class FAuthorizationComponent implements OnInit {
         );
     }
   }
+
+  onRoleSelect(e, role) {
+    e.preventDefault();
+    this.formData.role = role;
+  }
 }
