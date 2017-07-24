@@ -15,11 +15,13 @@
     	<div class="col-lg-4">
 			<button class="btn btn-default btn-success" data-ng-click="openFaqModal()">Create FAQ</button>
 		</div>
-		<div class="col-lg-4">
-			<p style="color: grey">
+		<div class="col-lg-4 btn-group">
+			<%--<p style="color: grey">
 				<a href="" class="tab2" data-ng-click="switchRoles(0)" data-ng-class="{active: activeTab == 0}">Client</a>
 				<a href="" class="tab2" data-ng-click="switchRoles(1)" data-ng-class="{active: activeTab == 1}">Pilot</a>
-			</p>
+			</p>--%>
+			<button class="btn btn-default btn-primary btn-drone" data-ng-click="switchRoles(0)" data-ng-class="{active: activeTab == 0}">client</button>
+			<button class="btn btn-default btn-primary btn-drone" data-ng-click="switchRoles(1)" data-ng-class="{active: activeTab == 1}">pilot</button>
 		</div>
         <div class="col-lg-4">
             <label class="search">FAQs found: {{ faqs.length }}</label>

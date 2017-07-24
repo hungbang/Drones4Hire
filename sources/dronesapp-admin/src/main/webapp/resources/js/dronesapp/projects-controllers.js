@@ -319,7 +319,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 }
 
                 (function init() {
-                    setTimeout(initPickers, 400);
+                    setTimeout(initPickers, 800);
                 	$scope.loadBudgets();
                 	$scope.loadServiceCategories();
                 	$scope.loadCountries();

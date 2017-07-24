@@ -479,6 +479,7 @@
 			AS PID
 			ON
 				P.ID = PID.PROJECT_ID
+			ORDER BY P.CREATED_AT DESC
 		]]>
 	</select>
 

@@ -6,78 +6,88 @@
 </div>
 <div class="modal-body">
     <form name="projectForm">
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>Name</label>
-            <input type="text" class="form-control" data-ng-model="project.title" required/>
+            <input type="text" class="form-control" name="title" data-ng-model="project.title" required/>
+            <p class="help-block error" data-ng-show="projectForm.title.$invalid && !projectForm.title.$pristine">Project name is required</p>
         </div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>Client ID</label>
-            <input type="number" class="form-control" data-ng-model="project.clientId" required/>
+            <input type="number" name="clientId" class="form-control" data-ng-model="project.clientId" required/>
+            <p class="help-block error" data-ng-show="projectForm.clientId.$invalid && !projectForm.clientId.$pristine">Client ID is required</p>
         </div>
         <div class="form-group">
             <label>Pilot ID</label>
-            <input type="number" class="form-control" data-ng-model="project.pilotId"/>
+            <input type="number" name="pilotId" class="form-control" data-ng-model="project.pilotId"/>
+            <p class="help-block error" data-ng-show="projectForm.bid.$valid && projectForm.pilotId.$pristine">Pilot ID is required</p>
         </div>
         <div class="form-group" data-ng-if="project.pilotId">
             <label>Pilot bid amount ($)</label>
-            <input type="number" class="form-control" step="0.01" data-ng-model="project.bidAmount"/>
+            <input type="number" name="bid" class="form-control" step="0.01" min="1" data-ng-model="project.bidAmount"/>
+            <p class="help-block error" data-ng-show="!projectForm.pilotId.$pristine && projectForm.bid.$error.min">Bid amount should greater than 0</p>
         </div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>Category</label>
-            <select class="form-control validation" data-ng-model="project.categoryId" data-ng-change="loadServices()" required>
+            <select name="category" class="form-control validation" data-ng-model="project.categoryId" data-ng-change="loadServices()" required>
                 <option data-ng-value="category.id" data-ng-repeat="category in categories">{{category.name}}</option>
             </select>
+            <p class="help-block error" data-ng-show="projectForm.category.$invalid && !projectForm.category.$pristine">Category is required</p>
         </div>
-        <div class="form-group" data-ng-if="services.length">
+        <div class="form-group required-label" data-ng-if="services.length">
             <label>Service</label>
-            <select class="form-control validation" data-ng-model="project.service.id" required>
+            <select name="service" class="form-control validation" data-ng-model="project.service.id" required>
                 <option data-ng-value="service.id" data-ng-repeat="service in services">{{service.name}}</option>
             </select>
+            <p class="help-block error" data-ng-show="projectForm.service.$invalid && !projectForm.service.$pristine">Service is required</p>
         </div>
         <div class="form-group">
             <label>Summary</label>
-            <input type="text" class="form-control" data-ng-model="project.summary"/>
+            <textarea name="summary" rows="8" class="form-control" data-ng-model="project.summary"/>
         </div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>Budget</label>
-            <select class="form-control validation" data-ng-model="project.budget.id" required>
+            <select name="budget" class="form-control validation" data-ng-model="project.budget.id" required>
                 <option data-ng-value="budget.id" data-ng-repeat="budget in budgets">{{ budget.title }}</option>
             </select>
+            <p class="help-block error" data-ng-show="projectForm.budget.$invalid && !projectForm.budget.$pristine">Budget is required</p>
         </div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>City</label>
-            <input type="text" class="form-control" data-ng-model="project.location.city" required/>
+            <input name="city" type="text" class="form-control" data-ng-model="project.location.city" required/>
+            <p class="help-block error" data-ng-show="projectForm.city.$invalid && !projectForm.city.$pristine">City is required</p>
         </div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>Country</label>
-            <select class="form-control validation" data-ng-model="project.location.country.id" data-ng-change="loadStates()" required>
+            <select name="country" class="form-control validation" data-ng-model="project.location.country.id" data-ng-change="loadStates()" required>
                 <option data-ng-value="country.id" data-ng-repeat="country in countries">{{country.name}}</option>
             </select>
+            <p class="help-block error" data-ng-show="projectForm.country.$invalid && !projectForm.country.$pristine">Country is required</p>
         </div>
         <div class="form-group" data-ng-if="states.length">
             <label>State</label>
-            <select class="form-control validation" data-ng-model="project.location.state.id">
+            <select name="state" class="form-control validation" data-ng-model="project.location.state.id">
                 <option data-ng-value="state.id" data-ng-repeat="state in states">{{state.name}}</option>
             </select>
         </div>
         <div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label class="control-label" for="startDate">Start date</label>
-            <input type="text" class="form-control" id="startDate" name="picker1"/>
+            <input type="text" class="form-control" id="startDate" name="picker1" required/>
+            <p class="help-block error" data-ng-show="projectForm.picker1.$invalid && !projectForm.picker1.$pristine">Start date is required</p>
         </div>
         <div class="form-group">
             <label class="control-label" for="finishDate">Finish date</label>
             <input type="text" class="form-control" id="finishDate" name="picker2"/>
         </div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>Expected duration of flight</label>
-            <select class="form-control validation" data-ng-model="project.duration.id" required>
+            <select name="duration" class="form-control validation" data-ng-model="project.duration.id" required>
                 <option data-ng-value="duration.id" data-ng-repeat="duration in durations">{{duration.min}} - {{duration.max}} hours</option>
             </select>
         </div>
         <div class="form-group">
             <label>Post production</label>
-            <input type="checkbox" data-ng-model="project.postProductionRequired">
+            <input name="postProduction" type="checkbox" data-ng-model="project.postProductionRequired">
         </div>
         <div class="form-group">
             <label>Attachments <span data-ng-if="attachs.length">({{attachs.length}})</span></label>

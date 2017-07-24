@@ -30,6 +30,16 @@ th.header {
 	color: red;
 }
 
+.help-block.error {
+	color: red;
+}
+
+.form-group.required-label label:after {
+	content: '*';
+	color: red;
+	padding-left: 4px;
+}
+
 .view-wrapper {
 }
 
@@ -792,4 +802,9 @@ div.logo-rotate img {
 	to {
 		transform: rotate(360deg);
 	}
+}
+
+.btn-drone {
+	width: 100px;
+	font-variant: small-caps;
 }
