@@ -6,13 +6,6 @@
     {{ isSignUpForm ? 'Sign up as...' : 'Login' }}
   </h2>
   <div class="f-authorization__content">
-    <div class="f-default__row" *ngIf="showConfirmNotification">
-      <div class="f-default__text _verify _first-login">
-        <p>Sign up successful. Please activate your account. We sent you a confirmation email to verify your account.</p>
-        <p>If you don't see the email in your inbox then check the spam/ junk folders. Sometimes it just takes a little bit more time.</p>
-        <p>Tip: Add our email address noreply@drones4hire.com to your address book to make sure you receive our emails.</p>
-      </div>
-    </div>
     <div class="f-default__row" *ngIf="showVerifyNotification">
       <div class="f-default__text _verify _error">
         You can't log in. We sent you a confirmation email to verify your account. Please verify your email before log in.
@@ -89,7 +82,7 @@
       </label>
 
     </div>
-    <div class="f-default__row" *ngIf="!showConfirmNotification">
+    <div class="f-default__row">
       <label class="f-default__label">
         <input class="f-default__field"
                type="email"
@@ -102,7 +95,7 @@
                [ngClass]="{'_error': submitted && (emailRef.errors?.required || emailRef.errors?.email)}"/>
       </label>
     </div>
-    <div class="f-default__row" *ngIf="!showConfirmNotification">
+    <div class="f-default__row">
       <label class="f-default__label">
         <input class="f-default__field"
                type="password"
@@ -116,7 +109,7 @@
         <span class="f-default__text _error" *ngIf="submitted && passwordRef.errors?.minlength">Password must be at least 6 characters in length</span>
       </label>
     </div>
-    <div class="f-default__row" *ngIf="!isSignUpForm && !showConfirmNotification">
+    <div class="f-default__row" *ngIf="!isSignUpForm">
       <span class="f-default__text">Forgot Password? <a [routerLink]="['/password', 'forgot']">click here</a></span>
     </div>
     <div class="f-default__row" *ngIf="isSignUpForm">
@@ -205,7 +198,7 @@
           <span class="f-default__chk-text">I agree to the <a target="_blank" [routerLink]="['/terms-and-conditions']">Terms of Service</a> and <a target="_blank" [routerLink]="['/privacy-policy']">Privacy Policy</a></span>
         </label>
     </div>
-    <div class="f-default__row _controls" *ngIf="!showConfirmNotification">
+    <div class="f-default__row _controls">
       <button class="f-default__button"
               [disabled]="submitted && !authForm.form.valid">{{ getButtonTitle() }}
       </button>
