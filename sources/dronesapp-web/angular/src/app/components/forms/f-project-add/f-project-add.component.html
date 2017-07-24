@@ -94,13 +94,12 @@
                       [ngClass]="{'_error': isSubmitted && projectSummaryRef.errors?.required}"></textarea>
           </label>
           <div class="f-default__col f-project-add__col">
-            <div class="f-default__filedrop f-project-add__filedrop _vertical">
-              <div ng2FileDrop
-                   [ngClass]="{'_file-over': hasBaseDropZoneOver}"
-                   (fileOver)="fileOverBase($event)"
-                   [uploader]="uploader"
-                   (click)="triggerFileClick()"
-                   class="f-default__filedrop-dropzone">
+            <div class="f-default__filedrop f-project-add__filedrop _vertical"
+                 ng2FileDrop
+                 [ngClass]="{'_file-over': hasBaseDropZoneOver}"
+                 (fileOver)="fileOverBase($event)"
+                 [uploader]="uploader">
+              <div class="f-default__filedrop-dropzone">
                 <div class="f-default__filedrop-dropzone-text _title">Upload your files here</div>
                 <div class="f-default__filedrop-dropzone-text _small">Add images or documents that might help explain
                   your project (Optional)
@@ -115,6 +114,7 @@
               <input type="file"
                      name="photo"
                      ng2FileSelect
+                     #file
                      [uploader]="uploader"
                      class="f-default__field _file">
             </div>
