@@ -1,12 +1,10 @@
 @import "./../../styles/settings/mixin.styl";
 
 .work-client
-  padding-top: 150px
-  osans();
   &__container
-    max-width 1000px
-    padding-left: 50px
-    padding-right: 50px
+    max-width 100rem
+    padding-top: 15rem
+    padding-bottom: 5rem
   &__title,
   &__subtitle,
   &__text,
@@ -24,7 +22,7 @@
     margin-bottom: 3rem
   &__subtitle
     font-size: 2.6rem;
-    margin-bottom: 1.5rem
+    margin-bottom: 1em
   &__link
     cursor: pointer
     color: #337ab7;
@@ -53,6 +51,19 @@
   &__list
     padding-left: 20px
     list-style: disc
+    margin-bottom 3rem
+    &._digits
+      padding 0
+      list-style none
+      counter-reset li
+    &._digits &
+      &-item
+        &::before
+          content counter(li)"."
+          counter-increment li
+          font-weight 700
+          display inline-block
+          margin-right .5em
     &-item
       font-size: 1.8rem
       line-height: 3.4rem
