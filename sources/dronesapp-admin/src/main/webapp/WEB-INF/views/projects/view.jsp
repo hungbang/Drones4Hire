@@ -53,41 +53,43 @@
 						<div class="col-lg-6">
 							<form name="summaryForm">
 								<fieldset>
-									<div class="form-group">
+									<div class="form-group required-label">
 										<label><spring:message code="drones.admin.pages.project.form.title.label"/></label>
-										<input class="form-control" data-ng-model="project.title" type="text"/>
+										<input class="form-control" data-ng-model="project.title" type="text" required/>
 									</div>
 									<div class="form-group">
 										<label><spring:message code="drones.admin.pages.project.form.summary.label"/></label>
 										<input class="form-control" data-ng-model="project.summary" type="text"/>
 									</div>
-									<div class="form-group">
+									<div class="form-group required-label">
 										<label><spring:message code="drones.admin.pages.project.form.category.label"/></label>
 										<select class="form-control validation" data-ng-model="project.service.category"
 												data-ng-options="category.name for category in categories track by category.id"
-												data-ng-change="loadServices()"></select>
+												data-ng-change="loadServices()" required></select>
 									</div>
-									<div class="form-group" data-ng-if="services.length">
+									<div class="form-group required-label" data-ng-if="services.length">
 										<label><spring:message code="drones.admin.pages.project.form.service.label"/></label>
-										<select class="form-control validation" data-ng-model="project.service.id">
+										<select class="form-control validation" data-ng-model="project.service.id" required>
 											<option data-ng-value="service.id" data-ng-repeat="service in services">{{service.name}}</option>
 										</select>
 									</div>
-									<div class="form-group">
+									<div class="form-group required-label">
 										<label><spring:message code="drones.admin.pages.project.form.duration.label"/></label>
-										<select class="form-control validation" data-ng-model="project.duration" data-ng-options="duration.title for duration in durations track by duration.id"></select>
+										<select class="form-control validation" data-ng-model="project.duration"
+												data-ng-options="duration.title for duration in durations track by duration.id" required></select>
 									</div>
 									<div class="form-group">
 										<label><spring:message code="drones.admin.pages.project.form.address.label"/></label>
 										<input class="form-control" type="text" data-ng-model="project.location.address" />
 									</div>
-									<div class="form-group">
+									<div class="form-group required-label">
 										<label><spring:message code="drones.admin.pages.project.form.budget.label"/></label>
-										<select class="form-control validation" data-ng-model="project.budget" data-ng-options="budget.title for budget in budgets track by budget.id"></select>
+										<select class="form-control validation" data-ng-model="project.budget"
+												data-ng-options="budget.title for budget in budgets track by budget.id" required></select>
 									</div>
-									<div class="form-group">
+									<div class="form-group required-label">
 										<label><spring:message code="drones.admin.pages.common.column.startDate.caption"/></label>
-										<input class="form-control" type="text" data-ng-model="startDate"/>
+										<input class="form-control" type="text" data-ng-model="startDate" required/>
 									</div>
 									<div class="form-group">
 										<label><spring:message code="drones.admin.pages.common.column.finishDate.caption"/></label>

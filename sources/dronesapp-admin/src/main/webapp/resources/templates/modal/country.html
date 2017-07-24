@@ -6,13 +6,13 @@
 </div>
 <div class="modal-body">
     <form name="countryForm">
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>Name</label>
             <input type="text" class="form-control" data-ng-model="country.name" required/>
         </div>
-        <div class="form-group">
+        <div class="form-group required-label">
             <label>License required</label>
-            <select class="form-control" id="licenseRequired" name="licenseRequired" data-ng-model="country.licenseRequired" data-ng-options="cat for cat in [true, false]">
+            <select class="form-control" id="licenseRequired" name="licenseRequired" data-ng-model="country.licenseRequired" data-ng-options="cat for cat in [true, false]" required>
             </select>
         </div>
     </form>

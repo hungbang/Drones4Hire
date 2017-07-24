@@ -28,7 +28,7 @@
 			<label>Comment</label> 
 			<textarea class="form-control" data-ng-model="request.comment" disabled></textarea>
 		</div>
-		<div class="form-group">
+		<div class="form-group required-label">
 			<label>Cancelation comment</label> 
 			<textarea class="form-control" rows="4" data-ng-model="request.adminComment" required></textarea>
 		</div>

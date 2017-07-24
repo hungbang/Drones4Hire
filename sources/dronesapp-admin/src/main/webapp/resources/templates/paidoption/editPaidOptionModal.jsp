@@ -16,19 +16,19 @@
 			<label>ID</label> 
 			<input type="text" class="form-control" data-ng-model="option.id" disabled></input>
 		</div>
-		<div class="form-group">
+		<div class="form-group required-label">
 			<label>Title</label> 
 			<input type="text" class="form-control" data-ng-model="option.title" required></input>
 		</div>
-		<div class="form-group">
+		<div class="form-group required-label">
 			<label>Description</label> 
 			<textarea class="form-control" data-ng-model="option.description" required></textarea>
 		</div>
-		<div class="form-group">
+		<div class="form-group required-label">
 			<label>Price</label> 
 			<input type="number" class="form-control" data-ng-model="option.price" required></input>
 		</div>
-		<div class="form-group">
+		<div class="form-group required-label">
 			<label>Currency</label> 
 			<select class="form-control" data-ng-model="option.currency" required>
 				<option value="USD">USD</option> 
