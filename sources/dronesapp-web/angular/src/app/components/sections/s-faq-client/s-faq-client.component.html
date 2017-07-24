@@ -1,0 +1,5 @@
+<section class="s-faq-pilot">
+  <div class="faq__empty" *ngIf="!faqs.length">No questions yet.</div>
+  <l-faq [items]="faqs"
+         *ngIf="faqs.length"></l-faq>
+</section>

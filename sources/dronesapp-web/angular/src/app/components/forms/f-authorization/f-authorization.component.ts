@@ -55,7 +55,6 @@ export class FAuthorizationComponent implements OnInit {
   public submitted = false;
   countries: CountryModel[] = [];
   states: StateModel[] = [];
-  showConfirmNotification: boolean = false;
   showVerifyNotification: boolean = false;
   showVerifySuccessNotification: boolean = false;
   isVerified: boolean = true;
@@ -90,11 +89,6 @@ export class FAuthorizationComponent implements OnInit {
 
     this.getCountries();
     this.getListOfStates();
-
-    if (localStorage.getItem('firstLogin')) {
-      this.showConfirmNotification = true;
-      localStorage.removeItem('firstLogin');
-    }
   }
 
   getButtonTitle() {
@@ -349,10 +343,7 @@ export class FAuthorizationComponent implements OnInit {
           } else if (err.status === 403) {
             const body = err.json();
             if (body && body.error) {
-              if (body.error.code === 1003) {
-                this.showVerifyNotification = true;
-                this.isVerified = false;
-              } else if (body.error.code === 1006) {
+              if (body.error.code === 1003 || body.error.code === 1006) {
                 this.showVerifyNotification = true;
                 this.isVerified = false;
                 this.toastrService.showError('Unverified account.');
@@ -392,8 +383,7 @@ export class FAuthorizationComponent implements OnInit {
       .subscribe(
         () => {
           this.progressbarService.done();
-          localStorage.setItem('firstLogin', 'true');
-          this._router.navigate(['/login']);
+          this._router.navigate(['/sign-up-success']);
         },
         (err) => {
           this.progressbarService.done();
@@ -456,5 +446,8 @@ export class FAuthorizationComponent implements OnInit {
   onRoleSelect(e, role) {
     e.preventDefault();
     this.formData.role = role;
+    if (role === 'ROLE_PILOT' && !this.autocomplete) {
+      this.initAutocomplete();
+    }
   }
 }

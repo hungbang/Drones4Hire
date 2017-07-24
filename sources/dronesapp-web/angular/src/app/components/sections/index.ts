@@ -17,12 +17,17 @@ import { SProjectComponent } from './s-project/s-project.component';
 import {SMyProjectsComponent} from './s-my-projects/s-my-projects.component';
 import { SSearchProjectsComponent } from './s-search-projects/s-search-projects.component';
 import { SProjectEditComponent } from './s-project-edit/s-project-edit.component';
+import { SFaqPilotComponent } from './s-faq-pilot/s-faq-pilot.component';
+import { SFaqClientComponent } from './s-faq-client/s-faq-client.component';
+import { SSignupSuccessComponent } from './s-signup-success/s-signup-success.component';
 
 export const SECTIONS = [
   HeaderComponent,
   FooterComponent,
   SProfileComponent,
   SAuthorizationComponent,
+  SFaqPilotComponent,
+  SFaqClientComponent,
   SIndexComponent,
   SMyProjectsComponent,
   SServicesComponent,
@@ -33,9 +38,10 @@ export const SECTIONS = [
   SSayingComponent,
   SAccountComponent,
   SProjectComponent,
-  STransactionsComponent,
   SPortfolioComponent,
   SProjectAddComponent,
   SProjectEditComponent,
   SSearchProjectsComponent,
+  SSignupSuccessComponent,
+  STransactionsComponent,
 ];
