@@ -8,7 +8,7 @@
 <div data-ng-controller="ProjectsPageController" class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Projects <button class="btn btn-default btn-success" data-ng-click="openProjectModal()">Post project</button> </h1>
+			<h1 class="page-header">Projects</h1>
 		</div>
 	</div>
 	<div class="row">
@@ -87,13 +87,16 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="btn-group col-lg-6">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				Actions&nbsp;<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<li><a href="" class="black-link" data-ng-click="downloadCSV()">download csv</a></li>
-			</ul>
+		<div class="col-lg-6">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+					Actions&nbsp;<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a href="" class="black-link" data-ng-click="downloadCSV()">download csv</a></li>
+				</ul>
+			</div>
+			<button class="btn btn-default btn-success" data-ng-click="openProjectModal()">Post project</button>
 		</div>
 		<div class="col-lg-6">
 			<label class="search"><spring:message code="drones.admin.pages.common.projects_found.label"/>: {{projectSearchResult.totalResults}}</label>
