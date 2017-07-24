@@ -1,6 +1,6 @@
 'use strict';
 
-DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location', '$modal', '$upload', '$route', 'PAGE_SIZES', '$cookieStore', 'LocaleProvider', function($scope, $http, $location, $modal, $upload, $route, PAGE_SIZES, $cookieStore, LocaleProvider) {
+DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location', '$modal', '$upload', '$route', '$interval', '$filter', 'PAGE_SIZES', '$cookieStore', 'LocaleProvider', function($scope, $http, $location, $modal, $upload, $route, $interval, $filter, PAGE_SIZES, $cookieStore, LocaleProvider) {
 
 	var DEFAULT_PROJECTS_SEARCH_CRITERIA = {
 			'rating' : 5,
@@ -280,20 +280,29 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     $modalInstance.close(false);
                 };
 
+                var initPicker = $interval(function () {
+                    if(angular.element('#startDate')[0].value){
+                        var startDate = new Date(Date.parse(angular.element('#startDate')[0].value));
+                        $scope.project.startDate = $filter('date')(startDate, "yyyy-MM-dd HH:mm")
+                    }
+                }, 100);
+
                 $scope.createProject = function () {
                     if(angular.element('#startDate')[0].value){
-                        $scope.project.startDate = new Date(Date.parse(angular.element('#startDate')[0].value) + OFFSET);
+                        var startDate= new Date(Date.parse(angular.element('#startDate')[0].value) + OFFSET);
+                        $scope.project.startDate = new Date(Date.parse(startDate) + OFFSET);
                     }
 
                     if(angular.element('#finishDate')[0].value){
-                        $scope.project.finishDate = new Date(Date.parse(angular.element('#finishDate')[0].value) + OFFSET);
+                        var finishDate = new Date(Date.parse(angular.element('#finishDate')[0].value) + OFFSET);
+                        $scope.project.finishDate = new Date(Date.parse(finishDate) + OFFSET);
                     }
                     $scope.project.paidOptions = $scope.paidOptions.filter(function (option) {
                         return option.isChecked;
                     });
+
                     $scope.project.attachments = $scope.attachs;
-                    $scope.project.startDate = new Date(Date.parse($scope.project.startDate) + OFFSET);
-                    $scope.project.finishDate = new Date(Date.parse($scope.project.finishDate) + OFFSET);
+
                     $http.post('projects', $scope.project, {headers: {'BidAmount': $scope.project.bidAmount}}).success(function(data) {
                         alertify.success('Was created');
                         $scope.cancel();
@@ -302,6 +311,12 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                         alertify.error('Failed to create');
                     });
                 };
+
+                $scope.$on("$destroy",function(){
+                    if (angular.isDefined(initPicker)) {
+                        $interval.cancel(initPicker);
+                    }
+                });
 
                 $scope.attachs = [];
 

@@ -76,7 +76,7 @@
         <div>
         <div class="form-group required-label">
             <label class="control-label" for="startDate">Start date</label>
-            <input type="text" class="form-control" id="startDate" name="picker1" required/>
+            <input type="text" class="form-control" id="startDate" name="picker1" data-ng-model="project.startDate" required/>
             <p class="help-block error" data-ng-show="projectForm.picker1.$invalid && !projectForm.picker1.$pristine">Start date is required</p>
         </div>
         <div class="form-group">
