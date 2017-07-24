@@ -10,8 +10,8 @@ export class ContentService {
     private _requestService: RequestService
   ) { }
 
-  public getFaqs(): FaqModel[] {
-    return this._requestService.fetch('get', '/content/faqs');
+  public getFaqs(role): FaqModel[] {
+    return this._requestService.fetch('get', `/content/faqs?role=${role}`);
   }
 
 }

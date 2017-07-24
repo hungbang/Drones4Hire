@@ -60,6 +60,8 @@ import {GuestGuard} from './guards/guest.guard/guest.guard';
 import {FForgotPasswordComponent} from './components/forms/f-forgot-password/f-forgot-password.component';
 import {FaqComponent} from './containers/faq/faq.component';
 import {FaqResolve} from './resolves/faq/faq.resolve';
+import {SFaqPilotComponent} from './components/sections/s-faq-pilot/s-faq-pilot.component';
+import {SFaqClientComponent} from './components/sections/s-faq-client/s-faq-client.component';
 
 export const ROUTES: Routes = [
   {
@@ -556,13 +558,30 @@ export const ROUTES: Routes = [
   {
     path: 'faq',
     component: FaqComponent,
-    resolve: {
-      faqs: FaqResolve
-    },
     data: {
       className: 'p-faq'
     },
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: '/'
+      },
+      {
+        path: 'pilot',
+        component: SFaqPilotComponent,
+        resolve: {
+          content: FaqResolve
+        }
+      },
+      {
+        path: 'client',
+        component: SFaqClientComponent,
+        resolve: {
+          content: FaqResolve
+        }
+      }
+    ]
   },
   {
     path: '**',
