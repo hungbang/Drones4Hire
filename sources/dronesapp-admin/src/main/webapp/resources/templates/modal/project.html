@@ -13,18 +13,22 @@
         </div>
         <div class="form-group required-label">
             <label>Client ID</label>
-            <input type="number" name="clientId" class="form-control" data-ng-model="project.clientId" required/>
-            <p class="help-block error" data-ng-show="projectForm.clientId.$invalid && !projectForm.clientId.$pristine">Client ID is required</p>
+            <p class="help-block left-help" data-ng-show="projectForm.clientId.$valid && !projectForm.clientId.$pristine && client.id"><a href="" data-ng-href="/admin/#/users/{{ client.id }}/view" target="_blank">{{ client.username }}</a> / {{ client.email}}</p>
+            <input type="number" name="clientId" class="form-control" min="1" data-ng-model="project.clientId" data-ng-change="getClientById()" required/>
+            <p class="help-block error" data-ng-show="projectForm.clientId.$invalid && !projectForm.clientId.$pristine">Valid client ID is required</p>
+            <p class="help-block error" data-ng-show="client && client.groups[0].role != 'ROLE_CLIENT'">Current user isn't client</p>
         </div>
         <div class="form-group">
             <label>Pilot ID</label>
-            <input type="number" name="pilotId" class="form-control" data-ng-model="project.pilotId"/>
-            <p class="help-block error" data-ng-show="projectForm.bid.$valid && projectForm.pilotId.$pristine">Pilot ID is required</p>
+            <p class="help-block left-help" data-ng-show="projectForm.pilotId.$valid && !projectForm.clientId.$pristine && pilot.id"><a href="" data-ng-href="/admin/#/users/{{ pilot.id }}/view" target="_blank">{{ pilot.username }}</a> / {{ pilot.email}}</p>
+            <input type="number" name="pilotId" class="form-control" min="1" data-ng-model="project.pilotId" data-ng-change="getPilotById()"/>
+            <p class="help-block error" data-ng-show="projectForm.pilotId.$invalid && !projectForm.pilotId.$pristine">Valid pilot ID is required</p>
+            <p class="help-block error" data-ng-show="pilot && pilot.groups[0].role != 'ROLE_PILOT'">Current user isn't pilot</p>
         </div>
-        <div class="form-group" data-ng-if="project.pilotId">
+        <div class="form-group required-label" data-ng-if="project.pilotId">
             <label>Pilot bid amount ($)</label>
-            <input type="number" name="bid" class="form-control" step="0.01" min="1" data-ng-model="project.bidAmount"/>
-            <p class="help-block error" data-ng-show="!projectForm.pilotId.$pristine && projectForm.bid.$error.min">Bid amount should greater than 0</p>
+            <input type="number" name="bid" class="form-control" step="0.01" min="0" data-ng-model="project.bidAmount" required/>
+            <p class="help-block error" data-ng-show="!projectForm.pilotId.$pristine && projectForm.bid.$error.min">Bid amount should positive</p>
         </div>
         <div class="form-group required-label">
             <label>Category</label>

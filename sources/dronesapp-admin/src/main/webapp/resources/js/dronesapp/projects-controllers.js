@@ -198,6 +198,28 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     });
                 };
 
+                $scope.getClientById = function () {
+                    delete $scope.client;
+                    if($scope.project.clientId) {
+                        $http.get('users/' + $scope.project.clientId).success(function (data) {
+                            $scope.client = data;
+                        }).error(function () {
+                            alertify.error('Failed to get client by id ' + id);
+                        });
+                    }
+                };
+
+                $scope.getPilotById = function () {
+                    delete $scope.pilot;
+                    if($scope.project.pilotId) {
+                        $http.get('users/' + $scope.project.pilotId).success(function (data) {
+                            $scope.pilot = data;
+                        }).error(function () {
+                            alertify.error('Failed to get pilot by id ' + id);
+                        });
+                    }
+                };
+
                 $scope.loadServices = function(){
                     $http.get('common/services').success(function(data) {
                         $scope.services = data.filter(function (service) {

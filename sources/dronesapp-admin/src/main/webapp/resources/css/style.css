@@ -808,3 +808,12 @@ div.logo-rotate img {
 	width: 100px;
 	font-variant: small-caps;
 }
+
+.left-help {
+	float: right;
+}
+
+.left-help a {
+	font-variant: small-caps;
+	color: #337ab7;
+}
