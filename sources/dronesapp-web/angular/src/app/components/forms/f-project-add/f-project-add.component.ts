@@ -33,6 +33,7 @@ import {PaymentService} from '../../../services/payment.service/payment.service'
 export class FProjectAddComponent implements OnInit {
   @Input() project: ProjectModel = null;
   @ViewChild('location') public searchElement: ElementRef;
+  @ViewChild('file') selectedFile: ElementRef;
   private _now = moment();
   attachmentsLimit = 8;
   acceptedFormats = [
@@ -155,11 +156,13 @@ export class FProjectAddComponent implements OnInit {
           this.uploader.uploadAll();
         } else {
           this.isNotAcceptedFormat = true;
-          this.uploader.clearQueue();
+          this.uploader.removeFromQueue(item);
+          this.selectedFile.nativeElement.value = '';
         }
       } else {
         this.isLimitReached = true;
-        this.uploader.clearQueue();
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
       }
       return {item};
     };
@@ -757,7 +760,10 @@ export class FProjectAddComponent implements OnInit {
           }
         );
     } else {
-      this.uploader.queue.splice(id, 1);
+      const item = this.uploader.queue[id];
+
+      this.uploader.cancelItem(item);
+      this.selectedFile.nativeElement.value = '';
       this.formData.attachments.splice(id, 1);
     }
   }

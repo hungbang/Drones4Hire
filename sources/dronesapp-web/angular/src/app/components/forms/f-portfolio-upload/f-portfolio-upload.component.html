@@ -16,13 +16,12 @@
       </label>
     </div>
     <div class="f-portfolio-upload__col">
-      <div class="f-default__filedrop">
-        <div ng2FileDrop
-             [ngClass]="{'_file-over': hasBaseDropZoneOver}"
-             (fileOver)="fileOverBase($event)"
-             [uploader]="uploader"
-             (click)="triggerFileClick()"
-             class="f-default__filedrop-dropzone">
+      <div class="f-default__filedrop"
+           ng2FileDrop
+           [ngClass]="{'_file-over': hasBaseDropZoneOver}"
+           (fileOver)="fileOverBase($event)"
+           [uploader]="uploader">
+        <div class="f-default__filedrop-dropzone">
           <div class="f-default__filedrop-dropzone-text">Upload your Photo</div>
           <div class="f-default__filedrop-dropzone-text">Drug & Drop file here</div>
         </div>
