@@ -15,7 +15,7 @@ export class BidService {
 
   formatBidsToPreview(bids) {
     return bids.map((bid) => {
-      const newBid: any = getFromObjectToObject(bid, 'account:firstName', 'account:lastName', 'comment', 'amount', 'id', 'createdAt', 'account:photoURL', 'projectId');
+      const newBid: any = getFromObjectToObject(bid, 'account:username', 'comment', 'amount', 'id', 'createdAt', 'account:photoURL', 'projectId');
 
       newBid.isConfirmationValid = true;
       newBid.oldBid = bid;
