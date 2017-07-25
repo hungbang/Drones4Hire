@@ -11,4 +11,5 @@ export interface AccountNotificationsModel {
   projectUpdate: boolean;
   staff: boolean;
   userId: number;
+  bidPlaced?: boolean;
 }

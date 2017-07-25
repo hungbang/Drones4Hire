@@ -7,7 +7,7 @@ import {ToastModule, ToastOptions} from 'ng2-toastr';
 import {NguiDatetimePickerModule} from '@ngui/datetime-picker';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Daterangepicker} from 'ng2-daterangepicker';
-import {FileSelectDirective, FileDropDirective} from 'ng2-file-upload';
+import {FileUploadModule} from 'ng2-file-upload';
 import {NgProgressModule} from 'ngx-progressbar';
 import { AgmCoreModule } from '@agm/core';
 
@@ -31,8 +31,9 @@ import {AgmSnazzyInfoWindowModule} from '@agm/dummy/packages/snazzy-info-window/
     AppContainers,
     AppPipes,
     AppShared,
-    FileSelectDirective,
-    FileDropDirective,
+  ],
+  exports: [
+    FileUploadModule
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -46,6 +47,7 @@ import {AgmSnazzyInfoWindowModule} from '@agm/dummy/packages/snazzy-info-window/
     Daterangepicker,
     BrowserModule,
     FormsModule,
+    FileUploadModule,
     HttpModule,
     BrowserAnimationsModule,
     NgProgressModule,
