@@ -154,7 +154,7 @@ export class ProjectDescriptionComponent extends UnSubscribeDirective implements
         });
     } else {
       this.project.client = {
-        firstName: 'Confidential'
+        username: 'Confidential'
       }
     }
 
