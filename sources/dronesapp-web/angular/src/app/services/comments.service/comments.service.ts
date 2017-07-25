@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+
 import {RequestService} from '../request.service/request.service';
 import {CommentModel} from './comment.interface';
 import {getFromObjectToObject} from "../../shared/common/common-methods";
-import {AccountService} from "../account.service/account.service";
+import {AccountService} from '../account.service/account.service';
 
 @Injectable()
 export class CommentsService {
@@ -15,12 +16,12 @@ export class CommentsService {
     return comments.map((comment) => {
       let newComment: any = null;
       if (comment.account && comment.account.id) {
-        newComment = getFromObjectToObject(comment, 'account:firstName', 'account:lastName', 'id', 'comment', 'createdAt', 'account:photoURL');
+        newComment = getFromObjectToObject(comment, 'account:username', 'id', 'comment', 'createdAt', 'account:photoURL');
         newComment.accountId = comment.account.id;
         newComment.isPilot = this.accountService.isPilot(comment.account);
       } else {
         newComment = getFromObjectToObject(comment, 'comment', 'createdAt');
-        newComment.firstName = 'Confidential';
+        newComment.username = 'Confidential';
         newComment.isPilot = false;
       }
 

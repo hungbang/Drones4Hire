@@ -15,7 +15,7 @@ export class BTransactionsComponent implements OnInit {
   public currentPage = 1;
   public minPage = 1;
   public maxPage = 1;
-  private countPerPage = 20;
+  public countPerPage = 20;
 
   constructor(
     private walletService: WalletService,

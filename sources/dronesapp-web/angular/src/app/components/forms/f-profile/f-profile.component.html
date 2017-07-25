@@ -117,7 +117,7 @@
                    type="file"
                    accept="image/jpeg,image/jpg,image/png"
                    name="profileImage"
-                   (change)="handlePhotoUpload($event)"
+                   (change)="handlePhotoUpload()"
                    ng2FileSelect
                    [uploader]="uploader"
                    [ngClass]="{'_error': submitted && !accountService.account?.photoURL}">

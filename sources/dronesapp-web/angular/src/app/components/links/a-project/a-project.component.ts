@@ -15,7 +15,7 @@ export class AProjectComponent implements OnInit {
 
   constructor(
     public _accountService: AccountService,
-    private _authorizationService: AuthorizationService,
+    public _authorizationService: AuthorizationService,
     private _router: Router,
     private _modalService: ModalService,
     ) { }

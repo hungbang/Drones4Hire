@@ -11,7 +11,7 @@ export class ModalConfirmationComponent implements OnInit {
   @Input() message: string;
   @Input() confirm_btn_text: string;
   @Input() cancel_btn_text: string;
-  @Input() confirm = () => {};
+  @Input() confirm = (e) => {};
 
   constructor(
     private _el: ElementRef,
