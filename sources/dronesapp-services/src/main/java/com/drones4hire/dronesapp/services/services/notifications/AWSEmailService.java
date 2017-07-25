@@ -28,6 +28,7 @@ public class AWSEmailService extends AbstractEmailService
 		Destination destination = new Destination().withToAddresses(recipients);
 		Content subject = new Content(type.subject());
 		Content emailBody = null;
+		params.put(EmailType.class.getSimpleName(), type.subject());
 		emailBody = buildBody(type.templatePath(), params);
 		Message message = new Message(subject, new Body().withHtml(emailBody));
 		SendEmailRequest request = new SendEmailRequest(sender, destination, message);

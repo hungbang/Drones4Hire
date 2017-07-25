@@ -18,7 +18,7 @@ public enum EmailType
 	REJECT_BID("Your Project Has Been Rejected", "RejectBidTemplate.ftl"),
 	SUBMIT_PAYMENT("Payment released", "SubmitPaymentTemplate.ftl"),
 	PROJECT_POSTED("New project posted", "ProjectPostedTemplate.ftl"),
-	USER_RESTORE("New Platform Release!", "RestoreUserTemplate.ftl"),
+	USER_RESTORE("New Platform Released!", "RestoreUserTemplate.ftl"),
 	JOB_EXPIRATION("Project date has expired", "ExpiredJobTemplate.ftl");
 
 	private String subject;

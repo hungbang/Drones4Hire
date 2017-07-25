@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.UserMapper;
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +34,10 @@ public abstract class AbstractEmailService
 	public final static String RESET_PASSWORD_PATH = "/#/password/reset";
 	public final static String CHANGE_PASSWORD_PATH = "password";
 	public final static String EDIT_PROJECT_PATH = "/#/project/manage/edit/";
+	public final static String START_PROJECT_PATH = "/#/project/manage/add";
+	public final static String PILOT_PROFILE_PATH = "/#/account/pilot/details";
+	public final static String MY_PROJECTS_PATH = "/#/my-projects";
+	public final static String PROJECT_PREFIX_PATH = "/#/project";
 
 	@Autowired
 	@Qualifier("freemarkerEmailConfiguration")
@@ -72,15 +77,19 @@ public abstract class AbstractEmailService
 	
 	public String sendClientEmailConfirmedEmail(User user)
 	{
+		String url = baseUrl + CONFIRM_REGISTRATION_PATH;
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(user.getClass().getSimpleName(), user);
+		emailData.put("url", url);
 		return sendEmail(CLIENT_EMAIL_CONFIRMED, emailData, user.getEmail());
 	}
 	
 	public String sendPilotApprovedEmail(User user)
 	{
+		String url = baseUrl + PILOT_PROFILE_PATH;
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(user.getClass().getSimpleName(), user);
+		emailData.put("url", url);
 		return sendEmail(PILOT_APPROVED, emailData, user.getEmail());
 	}
 
@@ -95,8 +104,8 @@ public abstract class AbstractEmailService
 	
 	public String sendNewBidReceiveEmail(Project project) throws ServiceException
 	{
-		User client = userService.getUserById(project.getClientId());
-		String url = baseUrl + "/#/project/" + project.getId() + "/description";
+		User client = userService.getNotNullUser(project.getClientId());
+		String url = baseUrl +  PROJECT_PREFIX_PATH + "/" + project.getId() + "/description";
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
 		emailData.put(project.getClass().getSimpleName(), project);
@@ -106,9 +115,10 @@ public abstract class AbstractEmailService
 
 	public String sendNewProjectPostedEmail(List<Project> projects, User pilot) throws ServiceException
 	{
-		String url = baseUrl + "/#/project/";
+		String url = baseUrl + "/#/project/${project.id}/description";
 		Map<String, Object> emailData = new HashMap<String, Object>();
-		emailData.put("baseUrl", url);
+		emailData.put("baseUrl", baseUrl + PROJECT_PREFIX_PATH);
+		emailData.put("descriptionSuffix", "/description");
 		emailData.put("Projects", projects);
 		emailData.put(pilot.getClass().getSimpleName(), pilot);
 		return sendEmail(PROJECT_POSTED, emailData, pilot.getEmail());
@@ -117,17 +127,19 @@ public abstract class AbstractEmailService
 	public String sendNewProjectExpirationEmail(ProjectSearchResult project, User user) throws ServiceException
 	{
 		String url = baseUrl + EDIT_PROJECT_PATH +  project.getId();
+		String projectsUrl = baseUrl + MY_PROJECTS_PATH;
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put("url", url);
+		emailData.put("baseUrl", projectsUrl);
 		emailData.put("project", project);
-		emailData.put("user", project);
+		emailData.put("user", user);
 		return sendEmail(JOB_EXPIRATION, emailData, user.getEmail());
 	}
 	
 	public String sendNewCommentReceiveEmail(Project project) throws ServiceException
 	{
 		String url = baseUrl + "/#/project/" + project.getId() + "/description";
-		User client = userService.getUserById(project.getClientId());
+		User client = userService.getNotNullUser(project.getClientId());
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
 		emailData.put(project.getClass().getSimpleName(), project);
@@ -148,6 +160,7 @@ public abstract class AbstractEmailService
 	public String sendSubmitPaymentEmail(Project project, User client, Transaction transaction) throws ServiceException
 	{
 		String url = baseUrl + "/#/dashboard/client/1";
+		String startUrl = baseUrl + START_PROJECT_PATH;
 		User pilot = userService.getNotNullUser(project.getPilotId());
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
@@ -155,15 +168,18 @@ public abstract class AbstractEmailService
 		emailData.put(transaction.getClass().getSimpleName(), transaction);
 		emailData.put(project.getClass().getSimpleName(), project);
 		emailData.put("dashboardUrl", url);
+		emailData.put("startUrl", startUrl);
 		return sendEmail(SUBMIT_PAYMENT, emailData, client.getEmail());
 	}
 	
 	public String sendAwardBidEmail(Project project) throws ServiceException
 	{
-		User pilot = userService.getUserById(project.getPilotId());
+		User pilot = userService.getNotNullUser(project.getPilotId());
+		User client = userService.getNotNullUser(project.getClientId());
 		String url = baseUrl + "/#/project/" + project.getId() + "/description";
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(pilot.getClass().getSimpleName(), pilot);
+		emailData.put("client", client);
 		emailData.put(project.getClass().getSimpleName(), project);
 		emailData.put("projectUrl", url);
 		return sendEmail(AWARD_BID, emailData, pilot.getEmail());
@@ -171,8 +187,8 @@ public abstract class AbstractEmailService
 	
 	public String sendRejectBidEmail(Project project, User pilot, Bid bid) throws ServiceException
 	{
-		String url = baseUrl + "/#/project/" + project.getId() + "/description";
-		User client = userService.getUserById(project.getClientId());
+		String url = baseUrl + PROJECT_PREFIX_PATH + "/" + project.getId() + "/description";
+		User client = userService.getNotNullUser(project.getClientId());
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
 		emailData.put("Pilot", pilot);
@@ -184,8 +200,8 @@ public abstract class AbstractEmailService
 	
 	public String sendAcceptBidEmail(Project project, User pilot) throws ServiceException
 	{
-		String url = baseUrl + "/#/project/" + project.getId() + "/description";
-		User client = userService.getUserById(project.getClientId());
+		String url = baseUrl + PROJECT_PREFIX_PATH + "/" + project.getId() + "/description";
+		User client = userService.getNotNullUser(project.getClientId());
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
 		emailData.put("Pilot", pilot);
@@ -197,7 +213,7 @@ public abstract class AbstractEmailService
 	public String sendUploadProjectResultEmail(Project project) throws ServiceException
 	{
 		String url = baseUrl + "/#/project/" + project.getId() + "/description";
-		User client = userService.getUserById(project.getClientId());
+		User client = userService.getNotNullUser(project.getClientId());
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(client.getClass().getSimpleName(), client);
 		emailData.put(project.getClass().getSimpleName(), project);
@@ -220,7 +236,7 @@ public abstract class AbstractEmailService
 	
 	public String sendSupportMessageEmail(Message message) throws ServiceException
 	{
-		User user = userService.getUserById(message.getToUserId());
+		User user = userService.getNotNullUser(message.getToUserId());
 		Map<String, Object> emailData = new HashMap<String, Object>();
 		emailData.put(user.getClass().getSimpleName(), user);
 		emailData.put("message", message.getMessage());
@@ -231,8 +247,7 @@ public abstract class AbstractEmailService
 	{
 		String url = baseUrl + SIGN_UP_PATH + "?token=" + token;
 		Map<String, Object> emailData = new HashMap<String, Object>();
-		emailData.put("firstName", user.getFirstName());
-		emailData.put("lastName", user.getLastName());
+		emailData.put("user", user);
 		emailData.put("url", url);
 		return sendEmail(USER_RESTORE, emailData, user.getEmail());
 	}
