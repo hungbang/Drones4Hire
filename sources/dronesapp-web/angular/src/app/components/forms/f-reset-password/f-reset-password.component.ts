@@ -14,6 +14,8 @@ import {ToastrService} from '../../../services/toastr.service/toastr.service';
 export class FResetPasswordComponent implements OnInit {
   submitted: boolean = false;
   token: string = '';
+  password: string = '';
+  confirmPassword: string = '';
 
   constructor(
     private route: ActivatedRoute,

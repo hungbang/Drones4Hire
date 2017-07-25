@@ -8,7 +8,7 @@ import {AccountService} from '../../../services/account.service/account.service'
   encapsulation: ViewEncapsulation.None
 })
 export class FNotificationsComponent implements OnInit{
-  private submitted: boolean = false;
+  public submitted: boolean = false;
 
   constructor(public accountService: AccountService) {
   }

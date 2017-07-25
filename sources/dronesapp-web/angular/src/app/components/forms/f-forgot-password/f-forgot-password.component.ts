@@ -13,6 +13,7 @@ import {ToastrService} from '../../../services/toastr.service/toastr.service';
 export class FForgotPasswordComponent implements OnInit {
   submitted: boolean = false;
   formSent: boolean = false;
+  email: string = '';
 
   constructor(
     private accountService: AccountService,

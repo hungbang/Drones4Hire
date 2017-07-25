@@ -5,7 +5,6 @@ import {NgProgressService} from 'ngx-progressbar';
 import {AccountService} from '../../../services/account.service/account.service';
 import {RequestService} from '../../../services/request.service/request.service';
 import {ToastrService} from '../../../services/toastr.service/toastr.service';
-import {log} from "util";
 
 @Component({
   selector: 'f-license',
