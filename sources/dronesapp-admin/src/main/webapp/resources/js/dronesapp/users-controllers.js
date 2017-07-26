@@ -74,7 +74,7 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
                 'pdf'
             ],
 			type: 'pdf',
-			class: 'fa fa-file-pdf-o fa-5x',
+			class: 'fa fa-file-pdf-o fa-5x red',
 			show: false
         },
         {
@@ -91,7 +91,7 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
                 'docx'
             ],
             type: 'word',
-			class: 'fa fa-file-word-o fa-5x',
+			class: 'fa fa-file-word-o fa-5x blue',
             show: false
         },
         {

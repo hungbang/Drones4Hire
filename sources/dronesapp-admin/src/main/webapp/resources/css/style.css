@@ -672,10 +672,11 @@ td.long {
 }
 
 #legend {
-	position: absolute;
+	position: fixed;
 	left: 90%;
-	height: 160px;
-	width: 100%;
+	right: 1px;
+	height: 180px;
+	width: 200px;
 	z-index: 1;
 	text-shadow: 1px 1px black;
 	padding-top: 20px;
@@ -747,7 +748,12 @@ a.black-link {
 	text-transform: lowercase;
 }
 
-i
+label input[type="radio"] ~ i.fa.fa-circle-o{
+	color: #c8c8c8;    display: inline;
+}
+label input[type="radio"] ~ i.fa.fa-dot-circle-o{
+	display: none;
+}
 
 a.black-link:hover, a.black-link:active {
 	text-decoration: none;
@@ -820,4 +826,32 @@ div.logo-rotate img {
 .left-help a {
 	font-variant: small-caps;
 	color: #337ab7;
+}
+
+.red {
+	color: orangered;
+}
+
+.blue {
+	color: blue;
+}
+
+.drones-turquoise {
+	color: #3fb6c0;
+}
+
+.options-block {
+	height:40px;
+	width: 100px;
+	display: inline-block;
+	background-color: white;
+	vertical-align: middle;
+	opacity: 0.9;
+	font-family: Georgia;
+	font-variant: all-petite-caps;
+}
+
+.options-block div {
+	margin-left: 10px;
+	display: inline-block;
 }
