@@ -67,6 +67,64 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 	
 	$scope.message = {};
 	$scope.messages = [];
+
+    var FILE_EXTENSIONS = [
+        {
+            extensions: [
+                'pdf'
+            ],
+			type: 'pdf',
+			class: 'fa fa-file-pdf-o fa-5x',
+			show: false
+        },
+        {
+            extensions: [
+                'txt'
+            ],
+            type: 'text',
+			class: 'fa fa-file-text-o fa-5x',
+            show: false
+        },
+        {
+            extensions: [
+                'doc',
+                'docx'
+            ],
+            type: 'word',
+			class: 'fa fa-file-word-o fa-5x',
+            show: false
+        },
+        {
+            extensions: [
+                'jpg',
+                'jpeg',
+                'png',
+                'bmp',
+				'img'
+            ],
+            type: 'img',
+			class: 'fa fa-file-image-o',
+            show: true
+        },
+		{
+			extensions: [
+				'zip',
+				'zipx',
+				'rar',
+				'tar'
+			],
+			type: 'archive',
+			class: 'fa fa-file-archive-o fa-5x',
+            show: false
+		}
+    ];
+
+    var getFileType = function (filename) {
+        var extension = filename.split('.').pop();
+        return FILE_EXTENSIONS.filter(function (fileExtn) {
+            return fileExtn.extensions.includes(extension);
+        })[0];
+    };
 	
 	$scope.loadLocationsData = function() {
 		$http.get('locations/states/list').success(function(data) {
@@ -112,6 +170,8 @@ DronesAdmin.controller('UserDetailsController', [ '$scope', '$http', '$location'
 	$scope.loadLicense = function() {
 		$http.get('users/' + $routeParams.id + '/license').success(function(data) {
 			$scope.license = data;
+			$scope.license.licenseType = getFileType(data.licenseURL);
+			$scope.license.insuranceType = getFileType(data.insuranceURL);
 		}).error(function(data, status) {
 			alertify.error('Failed to load license');
 		});

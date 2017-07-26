@@ -743,7 +743,11 @@ a.black-link {
 	font-variant: small-caps;
 	color: #101010;
 	letter-spacing: 0;
+	margin-left: 10px;
+	text-transform: lowercase;
 }
+
+i
 
 a.black-link:hover, a.black-link:active {
 	text-decoration: none;

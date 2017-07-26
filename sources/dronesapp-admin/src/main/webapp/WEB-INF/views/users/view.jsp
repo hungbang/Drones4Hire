@@ -239,13 +239,15 @@
 						<div class="col-lg-6">
 							<div class="form-group">
 								<label>License</label><br/> 										
-								<img class="img-thumbnail" width="100%" alt="Not available" data-ng-src="{{license.licenseURL}}">
+								<img data-ng-if="license.licenseType.show" class="img-thumbnail" width="100%" alt="Not available" data-ng-src="{{license.licenseURL}}">
+								<i data-ng-class="license.licenseType.class" aria-hidden="true"></i><a class="black-link" data-ng-href="{{license.licenseURL}}" target="_blank">{{license.licenseURL.split('/').pop()}}</a>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
 								<label>Insurance</label><br/> 										
-								<img class="img-thumbnail" width="100%" alt="Not available" data-ng-src="{{license.insuranceURL}}">
+								<img data-ng-if="license.insuranceType.show" class="img-thumbnail" width="100%" alt="Not available" data-ng-src="{{license.insuranceURL}}">
+								<i data-ng-class="license.insuranceType.class" aria-hidden="true"></i><a class="black-link" data-ng-href="{{license.insuranceURL}}" target="_blank">{{license.insuranceURL.split('/').pop()}}</a>
 							</div>
 						</div>
 					</div>
