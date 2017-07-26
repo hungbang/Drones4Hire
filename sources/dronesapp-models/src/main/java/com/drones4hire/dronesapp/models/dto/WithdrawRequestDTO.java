@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.models.dto;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.drones4hire.dronesapp.models.db.commons.Currency;
@@ -14,6 +15,7 @@ public class WithdrawRequestDTO extends AbstractDTO
 	private Long userId;
 	private Long transactionId;
 	@NotNull
+	@Min(value = 20, message = "You can withdraw min 20$.")
 	private BigDecimal amount;
 	@NotNull
 	private Currency currency;
