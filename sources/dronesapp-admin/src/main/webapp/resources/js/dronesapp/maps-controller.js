@@ -69,7 +69,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
             options: {
                 title: r.username + '\n' + 'ID: ' + r.id
             },
-            icon: getImage(r.groups[0].role),
+            icon: 'https://maps.google.com/mapfiles/kml/shapes/library_maps.png',
             type: USER_MARKER_TYPE
         }
     };
