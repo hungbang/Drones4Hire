@@ -17,8 +17,7 @@
                #amountRef="ngModel"
                [ngClass]="{'_error': submitted && (amountRef.errors?.required || !isCorrectValue)}"
                class="f-default__field">
-        <span class="f-default__text _error" *ngIf="submitted && !isCorrectValue">Please enter correct amount.</span>
-        <span class="f-default__text _error" *ngIf="submitted && isLimitedValue">Minimum withdrawal amount is $20.</span>
+        <span class="f-default__text _error" *ngIf="submitted && !isCorrectValue">Please enter correct amount. (Minimum withdrawal amount is $20)</span>
       </label>
     </div>
     <div class="f-default__row">
