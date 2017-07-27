@@ -16,16 +16,15 @@
                         </ui-gmap-markers>
                 </ui-gmap-google-map>
             </div>
-            <div data-ng-show="lookForProjects || lookForUsers" id="legend">
+            <div data-ng-show="lookForProjects" id="legend">
                 <ul>
-                    <li data-ng-show="lookForProjects" style="color: #0b62a4">New</li>
-                    <li data-ng-show="lookForProjects" style="color: #edc240">Pending</li>
-                    <li data-ng-show="lookForProjects" style="color: #7A92A3">In progress</li>
-                    <li data-ng-show="lookForProjects" style="color: #4da74d">Completed</li>
-                    <li data-ng-show="lookForProjects" style="color: #afd8f8">Cancelled</li>
-                    <li data-ng-show="lookForProjects" style="color: #cb4b4b">Expired</li>
-                    <li data-ng-show="lookForProjects" style="color: #9440ed">Blocked</li>
-                    <li data-ng-show="lookForUsers" style="color: #3ebcc7">Pilots</li>
+                    <li style="color: #0b62a4">New</li>
+                    <li style="color: #edc240">Pending</li>
+                    <li style="color: #7A92A3">In progress</li>
+                    <li style="color: #4da74d">Completed</li>
+                    <li style="color: #afd8f8">Cancelled</li>
+                    <li style="color: #cb4b4b">Expired</li>
+                    <li style="color: #9440ed">Blocked</li>
                 </ul>
             </div>
         </div>
@@ -33,7 +32,7 @@
     <div class="row">
         <div class="col-lg-2">
             <input type="button" data-ng-disabled="!lookForProjects" class="btn btn-default btn-primary" data-ng-click="openSearchCriteriaModal(sc)" value="Search"/>
-            <input data-ng-show="!sc.isEmpty" type="button" class="btn btn-default btn-danger" data-ng-click="clear()" value="Clear"/>
+            <input data-ng-show="!projectSc.isEmpty" type="button" class="btn btn-default btn-danger" data-ng-click="clear()" value="Clear"/>
             <div class="options-block">
                 <div>
                     <i data-ng-click="lookForProjects = !lookForProjects;switchSearch()" data-ng-class="{'fa fa-square-o': !lookForProjects, 'fa fa-check-square-o drones-turquoise': lookForProjects}" aria-hidden="true"></i>

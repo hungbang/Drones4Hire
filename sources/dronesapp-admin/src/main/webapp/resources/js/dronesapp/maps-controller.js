@@ -23,9 +23,6 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
         CANCELLED: 'afd8f8',
         EXPIRED: 'cb4b4b',
         BLOCKED: '9440ed',
-
-        ROLE_PILOT: '3ebcc7',
-        ROLE_CLIENT: 'e1e1e1'
     };
 
     $scope.lookForProjects = true;
@@ -35,20 +32,22 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
     $scope.users = {};
 
     var initSearchCriteria = function () {
-        $scope.sc = {};
-        $scope.sc.topLeftCoordinates = {};
-        $scope.sc.bottomRightCoordinates = {};
-        $scope.sc.topLeftCoordinates.latitude = 90;
-        $scope.sc.topLeftCoordinates.longitude = -180;
-        $scope.sc.bottomRightCoordinates.latitude = -90;
-        $scope.sc.bottomRightCoordinates.longitude = 180;
+        $scope.projectSc = {};
+        $scope.userSc = {};
+        $scope.userSc.role = 'ROLE_PILOT';
+        $scope.projectSc.topLeftCoordinates = {};
+        $scope.projectSc.bottomRightCoordinates = {};
+        $scope.projectSc.topLeftCoordinates.latitude = 90;
+        $scope.projectSc.topLeftCoordinates.longitude = -180;
+        $scope.projectSc.bottomRightCoordinates.latitude = -90;
+        $scope.projectSc.bottomRightCoordinates.longitude = 180;
 
-        $scope.sc.isEmpty = true;
+        $scope.projectSc.isEmpty = true;
     };
 
     var newProjectMarker = function (r) {
         return {
-            id: r.id,
+            id: r.id + 'P',
             from: {
                 latitude: r.coordinates.latitude, longitude: r.coordinates.longitude
             },
@@ -62,7 +61,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
 
     var newUserMarker = function (r) {
         return {
-            id: r.id,
+            id: r.id + 'U',
             from: {
                 latitude: r.location.coordinates.latitude, longitude: r.location.coordinates.longitude
             },
@@ -82,30 +81,32 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
     };
 
     $scope.searchProjects = function(){
-        $http.post('projects/search/map', $scope.sc).success(function(data) {
+        $http.post('projects/search/map', $scope.projectSc).success(function(data) {
             $scope.cleanMap();
             ITEM = PROJECT_ABBR;
             $scope.projects = data;
             data.results.forEach(function (project, index, projects) {
                 if(project.coordinates) {
-                    $scope.map.orderMarkers.push(newProjectMarker(project));
+                    $scope.projectMarkers.push(newProjectMarker(project));
                 }
             });
+            pushMarkers($scope.projectMarkers);
         }).error(function() {
             alertify.error('Failed to search projects');
         });
     };
 
     $scope.searchUsers = function(){
-        $http.post('users/search', $scope.sc).success(function(data) {
+        $http.post('users/search', $scope.userSc).success(function(data) {
             $scope.cleanMap();
             ITEM = USER_ABBR;
             $scope.users = data;
             $scope.users.results.forEach(function (user, index, projects) {
                 if(user.location && user.location.coordinates) {
-                    $scope.map.orderMarkers.push(newUserMarker(user));
+                    $scope.userMarkers.push(newUserMarker(user));
                 }
             });
+            pushMarkers($scope.userMarkers);
         }).error(function() {
             alertify.error('Failed to search users');
         });
@@ -131,6 +132,12 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
         if(!$scope.projects.results && !$scope.users.results) {
             $scope.map.orderMarkers = [];
         }
+        $scope.projectMarkers = [];
+        $scope.userMarkers = [];
+    };
+
+    var pushMarkers = function (markers) {
+        $scope.map.orderMarkers.push.apply($scope.map.orderMarkers, markers);
     };
 
     $scope.getPage = function (type, id) {
@@ -195,6 +202,12 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
                     if(!$scope.projects.results && !$scope.users.results) {
                         $scope.map.orderMarkers = [];
                     }
+                    $scope.projectMarkers = [];
+                    $scope.userMarkers = [];
+                };
+
+                var pushMarkers = function (markers) {
+                    $scope.map.orderMarkers.push.apply($scope.map.orderMarkers, markers);
                 };
 
                 $scope.search = function(){
@@ -209,38 +222,40 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
                     var OFFSET = new Date().getTimezoneOffset()*60*1000;
 
                     if(angular.element('#createdAtAfter')[0].value){
-                        $scope.sc.createdAtAfter = new Date(Date.parse(angular.element('#createdAtAfter')[0].value) + OFFSET);
+                        $scope.projectSc.createdAtAfter = new Date(Date.parse(angular.element('#createdAtAfter')[0].value) + OFFSET);
                     }
 
                     if(angular.element('#createdAtBefore')[0].value){
-                        $scope.sc.createdAtBefore = new Date(Date.parse(angular.element('#createdAtBefore')[0].value) + OFFSET);
+                        $scope.projectSc.createdAtBefore = new Date(Date.parse(angular.element('#createdAtBefore')[0].value) + OFFSET);
                     }
-                    $http.post('projects/search/map', $scope.sc).success(function(data) {
+                    $http.post('projects/search/map', $scope.projectSc).success(function(data) {
                         $scope.cleanMap();
                         ITEM = PROJECT_ABBR;
                         $scope.projects = data;
-                        $scope.sc.isEmpty = false;
+                        $scope.projectSc.isEmpty = false;
                         $scope.cancel();
                         data.results.forEach(function (project, index, projects) {
                             if(project.coordinates) {
-                                $scope.map.orderMarkers.push(newProjectMarker(project));
+                                $scope.projectMarkers.push(newProjectMarker(project));
                             }
                         });
+                        pushMarkers($scope.projectMarkers);
                     }).error(function() {
                         alertify.error('Failed to search projects');
                     });
                 };
 
                 $scope.searchUsers = function(){
-                    $http.post('users/search', $scope.sc).success(function(data) {
+                    $http.post('users/search', $scope.userSc).success(function(data) {
                         $scope.cleanMap();
                         ITEM = USER_ABBR;
                         $scope.users = data;
                         $scope.users.results.forEach(function (user, index, projects) {
                             if(user.location && user.location.coordinates) {
-                                $scope.map.orderMarkers.push(newUserMarker(user));
+                                $scope.userMarkers.push(newUserMarker(user));
                             }
                         });
+                        pushMarkers($scope.userMarkers);
                     }).error(function() {
                         alertify.error('Failed to search users');
                     });
@@ -251,8 +266,8 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
                 };
 
                 (function init() {
-                    $scope.createdAtAfter = $filter('date')($scope.sc.createdAtAfter, "yyyy-MM-dd HH:mm");
-                    $scope.createdAtBefore =  $filter('date')($scope.sc.createdAtBefore, "yyyy-MM-dd HH:mm");
+                    $scope.createdAtAfter = $filter('date')($scope.projectSc.createdAtAfter, "yyyy-MM-dd HH:mm");
+                    $scope.createdAtBefore =  $filter('date')($scope.projectSc.createdAtBefore, "yyyy-MM-dd HH:mm");
 
                     setTimeout(initPickers, 400);
                 })();
@@ -290,10 +305,10 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
             events: {
                 bounds_changed: function (map) {
                     /*var bounds = map.getBounds();
-                    $scope.sc.topLeftLatitude = (bounds.f.f);
-                    $scope.sc.topLeftLongitude = (bounds.b.b);
-                    $scope.sc.bottomRightLatitude = (bounds.f.b);
-                    $scope.sc.bottomRightLongitude = (bounds.b.f);
+                    $scope.projectSc.topLeftLatitude = (bounds.f.f);
+                    $scope.projectSc.topLeftLongitude = (bounds.b.b);
+                    $scope.projectSc.bottomRightLatitude = (bounds.f.b);
+                    $scope.projectSc.bottomRightLongitude = (bounds.b.f);
                     $scope.search();*/
                 }
             },
