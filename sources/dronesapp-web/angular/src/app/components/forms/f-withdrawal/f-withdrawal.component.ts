@@ -32,7 +32,7 @@ export class FWithdrawalComponent implements OnInit {
 
     this.submitted = true;
 
-    if (form.invalid || !this.isCorrectValue || !this.canWithdarawal) {
+    if (form.invalid || !this.canWithdarawal || !this.isCorrectValue || this.isLimitedValue) {
       return;
     }
 
@@ -79,6 +79,12 @@ export class FWithdrawalComponent implements OnInit {
   get isCorrectValue() {
     const value = parseFloat(this.amount.replace(',', '.')); // TODO: use replacement on enter instead parsing?
     return isFinite(value) && value > 0 && value <= this.wallet.balance;
+  }
+
+  get isLimitedValue() {
+    const value = parseFloat(this.amount.replace(',', '.'));
+
+    return this.isCorrectValue && value >= 20;
   }
 
   get paymentLink() {
