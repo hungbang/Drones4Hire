@@ -15,6 +15,7 @@ export class FWithdrawalComponent implements OnInit {
   amount: string = '';
   description: string = '';
   submitted: boolean = false;
+  minimumValue: number = 20;
   @Input() wallet: WalletModel;
   @Output() showSuccessText: EventEmitter<boolean> = new EventEmitter();
 
@@ -32,7 +33,7 @@ export class FWithdrawalComponent implements OnInit {
 
     this.submitted = true;
 
-    if (form.invalid || !this.isCorrectValue || !this.canWithdarawal) {
+    if (form.invalid || !this.canWithdarawal || !this.isCorrectValue) {
       return;
     }
 
@@ -78,7 +79,7 @@ export class FWithdrawalComponent implements OnInit {
 
   get isCorrectValue() {
     const value = parseFloat(this.amount.replace(',', '.')); // TODO: use replacement on enter instead parsing?
-    return isFinite(value) && value > 0 && value <= this.wallet.balance;
+    return isFinite(value) && value >= this.minimumValue && value <= this.wallet.balance;
   }
 
   get paymentLink() {
