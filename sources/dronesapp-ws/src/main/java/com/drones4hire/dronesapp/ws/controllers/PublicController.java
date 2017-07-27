@@ -77,8 +77,7 @@ public class PublicController extends AbstractController
 			return mapper.map(user, AccountDTO.class);
 		} else {
 			AccountDTO account = new AccountDTO();
-			account.setFirstName(user.getFirstName());
-			account.setLastName(user.getLastName());
+			account.setUsername(user.getUsername());
 			return account;
 		}
 	}
