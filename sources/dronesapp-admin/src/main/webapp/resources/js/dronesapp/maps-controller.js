@@ -7,8 +7,9 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
     var ZOOM = 4;
     var MIN_ZOOM = 2;
 
+    // One character !
     var PROJECT_ABBR = 'P';
-    var USER_ABBR = '';
+    var USER_ABBR = 'U';
 
     var ITEM;
 
@@ -22,7 +23,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
         COMPLETED: '4da74d',
         CANCELLED: 'afd8f8',
         EXPIRED: 'cb4b4b',
-        BLOCKED: '9440ed',
+        BLOCKED: '9440ed'
     };
 
     $scope.lookForProjects = true;
@@ -47,7 +48,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
 
     var newProjectMarker = function (r) {
         return {
-            id: r.id + 'P',
+            id: r.id + PROJECT_ABBR,
             from: {
                 latitude: r.coordinates.latitude, longitude: r.coordinates.longitude
             },
@@ -61,7 +62,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
 
     var newUserMarker = function (r) {
         return {
-            id: r.id + 'U',
+            id: r.id + USER_ABBR,
             from: {
                 latitude: r.location.coordinates.latitude, longitude: r.location.coordinates.longitude
             },
@@ -140,7 +141,8 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
         $scope.map.orderMarkers.push.apply($scope.map.orderMarkers, markers);
     };
 
-    $scope.getPage = function (type, id) {
+    $scope.getPage = function (type, idMarker) {
+        var id = idMarker.substring(0, idMarker.length - 1);
         if(type == PROJECT_MARKER_TYPE)
             $window.open('/admin/#/projects/' + id + '/view', '_blank');
         else
