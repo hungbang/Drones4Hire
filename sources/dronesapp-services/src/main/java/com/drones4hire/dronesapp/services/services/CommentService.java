@@ -40,7 +40,10 @@ public class CommentService
 		comment.setUser(user);
 		commentMapper.createComment(comment);
 		Project project = projectMapper.getProjectById(comment.getProjectId());
-		emailService.sendNewCommentReceiveEmail(project);
+		if(!project.getClientId().equals(principalId))
+		{
+			emailService.sendNewCommentReceiveEmail(project);
+		}
 		return commentMapper.getCommentById(comment.getId());
 	}
 
