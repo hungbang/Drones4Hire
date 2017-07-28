@@ -99,12 +99,12 @@ export class FPilotLicenseComponent implements OnInit {
     }
   }
 
-  saveChanges(e) {
+  saveChanges(e, form) {
     e.preventDefault();
 
     this.submitted = true;
 
-    if (!this.accountService.license || !this.accountService.license.insuranceURL || !this.accountService.license.licenseURL) {
+    if ((this.isNeedUpload && !this.licFileName) || (!this.licFileName && !this.certFileName)) {
       return;
     }
 
@@ -115,7 +115,9 @@ export class FPilotLicenseComponent implements OnInit {
           this.progressbarService.done();
           console.log('-save license', res);
           this.updateFilenames();
-          this.toastrService.showSuccess('Submitted')
+          this.toastrService.showSuccess('Submitted');
+          this.submitted = false;
+          form.resetForm();
         },
         err => {
           this.progressbarService.done();
@@ -150,10 +152,6 @@ export class FPilotLicenseComponent implements OnInit {
     this.uploader.uploadAll();
   }
 
-  get isRequiredLicense() {
-    return this.accountService.account.location.country && this.licenseCountries.some(country_id => country_id === this.accountService.account.location.country.id);
-  }
-
   private fetchUploadedFilenames() {
     this.uploadedLicFileName = this.accountService.license.licenseURL ? this.accountService.license.licenseURL.split('/').pop().split('-').splice(2).join('-') : '';
     this.uploadedCertFileName = this.accountService.license.insuranceURL ? this.accountService.license.insuranceURL.split('/').pop().split('-').splice(2).join('-') : '';
@@ -166,7 +164,11 @@ export class FPilotLicenseComponent implements OnInit {
   }
 
   get isNeedUpload() {
-    return !this.accountService.license.verified && !this.accountService.license.licenseURL && !this.accountService.license.insuranceURL;
+    const isPilot = this.accountService.isUserPilot();
+    const isGotLicenseInfo = !!this.accountService.license;
+    const isVerified = isGotLicenseInfo ? this.accountService.license.verified : null;
+
+    return isPilot && !isVerified;
   }
 
   private scrollToForm() {
