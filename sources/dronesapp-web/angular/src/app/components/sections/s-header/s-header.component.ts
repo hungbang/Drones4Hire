@@ -123,13 +123,15 @@ export class HeaderComponent {
   }
 
   get menu() {
-    if (!this._authorizationService.isUserLogin) {
-      return this._menus.guest;
-    } else if (this._accountService.isUserPilot()) {
-      return this._menus.pilot;
+    if (this._authorizationService.isUserLogin) {
+      if (this._accountService.isUserPilot()) {
+        return this._menus.pilot;
+      } else if (this._accountService.isUserClient()) {
+        return this._menus.client;
+      }
     }
 
-    return this._menus.client;
+    return this._menus.guest;
   }
 
   closeMenu() {
