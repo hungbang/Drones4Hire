@@ -12,7 +12,6 @@ public class PilotLicenseDTO extends AbstractDTO
 	@URL(message = "Wrong license URL")
 	private String licenseURL;
 	
-	@NotNull(message = "Insurance URL required")
 	@URL(message = "Wrong insurance URL")
 	private String insuranceURL;
 	

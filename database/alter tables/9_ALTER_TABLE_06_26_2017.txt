@@ -1,2 +1,0 @@
-ALTER TABLE drones.COUNTRIES ADD COLUMN LICENSE_REQUIRED TINYINT(1) NOT NULL DEFAULT 0 AFTER NAME;
-UPDATE drones.COUNTRIES SET LICENSE_REQUIRED = TRUE WHERE NAME IN ('United States', 'Australia', 'United Kingdom', 'Canada', 'New Zealand', 'Mexico', 'Ireland', 'France', 'Singapore', 'Germany');

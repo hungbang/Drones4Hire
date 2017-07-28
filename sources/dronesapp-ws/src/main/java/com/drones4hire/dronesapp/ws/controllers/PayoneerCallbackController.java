@@ -54,7 +54,7 @@ public class PayoneerCallbackController extends AbstractController
 	}
 	
 	@ResponseStatusDetails
-	@ApiOperation(value = "Accept payment request", nickname = "acceptPayoneerAccount", code = 200, httpMethod = "GET")
+	@ApiOperation(value = "Cancel payment request", nickname = "cancelPayoneerRequest", code = 200, httpMethod = "GET")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "cancel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void cancelPayoneerRequest(
