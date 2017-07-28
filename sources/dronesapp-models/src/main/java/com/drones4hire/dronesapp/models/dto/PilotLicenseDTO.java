@@ -8,6 +8,7 @@ public class PilotLicenseDTO extends AbstractDTO
 {
 	private static final long serialVersionUID = -4783150607563567638L;
 	
+	@NotNull(message = "License URL required")
 	@URL(message = "Wrong license URL")
 	private String licenseURL;
 	
