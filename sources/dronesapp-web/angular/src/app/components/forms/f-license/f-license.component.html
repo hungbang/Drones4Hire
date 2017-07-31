@@ -1,7 +1,7 @@
 <form class="f-default f-license"
       novalidate
       #licenceForm="ngForm"
-      (submit)="saveChanges($event)">
+      (submit)="saveChanges($event, licenceForm)">
 
   <div class="f-default__row f-license__row" *ngIf="accountService.license && isNeedUpload">
     <div class="f-default__text _error">Please upload your license and/or certificate, to gain access to job board.</div>
