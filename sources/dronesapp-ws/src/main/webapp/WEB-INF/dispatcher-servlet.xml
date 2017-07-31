@@ -10,7 +10,7 @@
 	
 	<context:property-placeholder location="classpath:environment.properties" />
 
-	<import resource="/swagger-configuration.xml"/>
+	<!-- import resource="/swagger-configuration.xml"/-->
 
 	<mvc:annotation-driven validator="validator" />
 
