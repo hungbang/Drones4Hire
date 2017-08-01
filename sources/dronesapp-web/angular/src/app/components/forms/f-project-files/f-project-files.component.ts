@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {NgProgressService} from 'ngx-progressbar';
 
@@ -32,6 +32,9 @@ export class FProjectFilesComponent implements OnInit {
   fileURL: string = '';
   fileName: string = '';
   title: string = '';
+  private fileNameLengthLimit: number = 70;
+  public fileNameLengthLimitError: boolean = false;
+  @ViewChild('file') selectedFile: ElementRef;
 
   constructor(
     private _elementRef: ElementRef,
@@ -56,10 +59,19 @@ export class FProjectFilesComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
-      this.fileItem = item;
-      this.uploader.uploadAll();
-      this.progressbarService.start();
-      return {item};
+
+      if (item.file.name.length > this.fileNameLengthLimit) {
+        this.fileNameLengthLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else {
+        this.fileNameLengthLimitError = false;
+        this.fileItem = item;
+        this.uploader.uploadAll();
+        this.progressbarService.start();
+        return {item};
+      }
+
     };
 
     this.uploader.onCancelItem = (item, response, status, headers) => {
@@ -87,6 +99,7 @@ export class FProjectFilesComponent implements OnInit {
       title: this.title,
       type: 'PROJECT_RESULT'
     };
+    this.fileNameLengthLimitError = false;
     this.progressbarService.start();
     this.projectService.addAttachment(attachment)
       .subscribe(

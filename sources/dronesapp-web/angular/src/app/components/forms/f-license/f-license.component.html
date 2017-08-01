@@ -20,6 +20,7 @@
       <span class="f-default__button f-license__button _center">Choose File</span>
       <span class="f-default__text" *ngIf="licFileName">Chosen file: <span class="f-license__filename">{{ licFileName }}</span></span>
       <span class="f-default__text" *ngIf="!licFileName">No file chosen</span>
+      <span class="f-default__text _error" *ngIf="fileNameLengthLimitError === 'license'">Name of the file is too long</span>
     </label>
   </div>
 
@@ -36,6 +37,7 @@
       <span class="f-default__button f-license__button _center">Choose File</span>
       <span class="f-default__text" *ngIf="certFileName">Chosen file: <span class="f-license__filename">{{ certFileName }}</span></span>
       <span class="f-default__text" *ngIf="!certFileName">No file chosen</span>
+      <span class="f-default__text _error" *ngIf="fileNameLengthLimitError === 'insurance'">Name of the file is too long</span>
     </label>
   </div>
 

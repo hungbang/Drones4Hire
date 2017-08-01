@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {NgProgressService} from 'ngx-progressbar';
 
@@ -30,6 +30,9 @@ export class FPortfolioUploadComponent implements OnInit {
   public hasBaseDropZoneOver = false;
   public submitted: boolean = false;
   attachmentsLimit = 11;
+  private fileNameLengthLimit: number = 70;
+  public fileNameLengthLimitError: boolean = false;
+  @ViewChild('file') selectedFile: ElementRef;
 
   constructor(
     private _elementRef: ElementRef,
@@ -55,12 +58,18 @@ export class FPortfolioUploadComponent implements OnInit {
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
 
-      if (!this.isLimitReached) {
+      if (item.file.name.length > this.fileNameLengthLimit) {
+        this.fileNameLengthLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (!this.isLimitReached) {
+        this.fileNameLengthLimitError = false;
         this.progressbarService.start();
         this.fileItem = item;
         this.uploader.uploadAll();
       } else {
-        this.uploader.clearQueue();
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
       }
       return {item};
     };
@@ -90,6 +99,7 @@ export class FPortfolioUploadComponent implements OnInit {
       name: this.fileName,
       type: 'PHOTO'
     };
+    this.fileNameLengthLimitError = false;
     this.progressbarService.start();
     this._portfolioService.addPortfolio(portfolio).subscribe(
       () => {

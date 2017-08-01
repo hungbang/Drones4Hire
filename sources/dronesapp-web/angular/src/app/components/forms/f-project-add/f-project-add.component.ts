@@ -50,6 +50,8 @@ export class FProjectAddComponent implements OnInit {
   isSubmitted: boolean = false;
   paymentToken: string = '';
   autocomplete: any = null;
+  private fileNameLengthLimit: number = 70;
+  public fileNameLengthLimitError: boolean = false;
 
   date = {
     start: moment(),
@@ -150,7 +152,12 @@ export class FProjectAddComponent implements OnInit {
       console.log('onAfterAddingFile', item);
 
       this.isNotAcceptedFormat = false;
-      if (this.formData.attachments.length < this.attachmentsLimit) {
+      this.fileNameLengthLimitError = false;
+      if (item.file.name.length > this.fileNameLengthLimit) {
+        this.fileNameLengthLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (this.formData.attachments.length < this.attachmentsLimit) {
         if (this.acceptedFormats.indexOf(item.file.type) !== -1) {
           this.progressbarService.start();
           this.uploader.uploadAll();
@@ -501,6 +508,8 @@ export class FProjectAddComponent implements OnInit {
 
   private _edit() {
     this.progressbarService.start();
+    this.isNotAcceptedFormat = false;
+    this.fileNameLengthLimitError = false;
     this.projectService.updateProject(this.formData)
       .subscribe(
         res => {
@@ -544,6 +553,8 @@ export class FProjectAddComponent implements OnInit {
     });
 
     this.progressbarService.start();
+    this.isNotAcceptedFormat = false;
+    this.fileNameLengthLimitError = false;
     return this.projectService.postProjects(this.formData)
       .subscribe(
         res => {
