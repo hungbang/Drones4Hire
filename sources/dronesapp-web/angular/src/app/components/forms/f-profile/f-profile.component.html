@@ -117,13 +117,16 @@
                    type="file"
                    accept="image/jpeg,image/jpg,image/png"
                    name="profileImage"
-                   (change)="handlePhotoUpload()"
                    ng2FileSelect
+                   #file
                    [uploader]="uploader"
                    [ngClass]="{'_error': submitted && !accountService.account?.photoURL}">
             <span class="f-default__button _center">Choose File</span>
           </label>
         </figure>
+        <div class="f-default__text _error" *ngIf="fileNameLengthLimitError">
+          Name of the file is too long
+        </div>
       </div>
 
       <div class="f-default__row">

@@ -33,12 +33,16 @@
                accept="image/*"
                name="photo"
                ng2FileSelect
+               #file
                [uploader]="uploader"
                class="f-default__field _file">
       </div>
       <div class="f-portfolio-upload__messages">
         <div class="f-portfolio-upload__message _error" *ngIf="isLimitReached">
           You can't attach more than {{ attachmentsLimit }} files
+        </div>
+        <div class="f-portfolio-upload__message _error" *ngIf="fileNameLengthLimitError">
+          Name of the file is too long
         </div>
         <div class="f-portfolio-upload__message _error" *ngIf="submitted && (fileName === '')">
           No file chosen

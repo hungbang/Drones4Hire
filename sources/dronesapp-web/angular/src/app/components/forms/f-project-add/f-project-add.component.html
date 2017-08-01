@@ -126,6 +126,9 @@
       <div class="f-default__col f-project-add__col _attachment"></div>
       <div class="f-default__col f-project-add__col _attachment">
         <div class="f-project-add__messages">
+          <div class="f-project-add__message _error" *ngIf="fileNameLengthLimitError">
+            Name of the file is too long
+          </div>
           <div class="f-project-add__message _error" *ngIf="isNotAcceptedFormat">
             Incorrect file format. You can upload only .pdf, .doc(x), .xls(x), .png, .jpg files
           </div>
