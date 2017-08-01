@@ -10,7 +10,7 @@ public enum EmailType
 	CLIENT_EMAIL_CONFIRMED("Welcome to Drones4Hire", "ClientEmailConfirmedTemplate.ftl"),
 	UP_EMAIL_CONFIRMATION("Verify your account", "UpEmailConfirmationTemplate.ftl"),
 	AWARD_BID("You're Hired!", "AwardPilotBidTemplate.ftl"),
-	ACCEPT_BID("Pilot submits a request for your bid", "AcceptBidTemplate.ftl"),
+	ACCEPT_BID("Pilot ready to start your project", "AcceptBidTemplate.ftl"),
 	RELEASE_PAYMENT("Payment released", "ReleasePaymentTemplate.ftl"),
 	UPLOAD_PROJECT_RESULT("New files uploaded", "UploadProjectResultTemplate.ftl"),
 	SUPPORT_MESSAGE("Support message", "SupportMessageTemplate.ftl"),
