@@ -188,6 +188,26 @@ export class ProjectDescriptionComponent extends UnSubscribeDirective implements
     }, message, title);
   }
 
+  private showSuccessAward() {
+    const title = 'Pilot selection';
+    const message = 'Waiting for pilot confirmation.';
+
+    this.modalService.push({
+      component: ModalConfirmationComponent,
+      type: 'ModalConfirmationComponent',
+      values: {
+        title: title,
+        message: message,
+        confirm_btn_text: 'OK',
+        cancel_btn_text: null,
+        confirm: () => {
+          this.modalService.pop();
+          this._router.navigate(['/dashboard', 'client', 1]);
+        }
+      }
+    });
+  }
+
   private _award(bid) {
     this.progressbarService.start();
     this._bidService.award(bid.id, bid.paymentMethod)
@@ -195,7 +215,8 @@ export class ProjectDescriptionComponent extends UnSubscribeDirective implements
         () => {
           this.progressbarService.done();
           this.project.bidId = bid.id;
-          this.isEdit = false;
+          this.showSuccessAward();
+          // this.isEdit = false;
         },
         err => {
           this.progressbarService.done();
