@@ -100,7 +100,7 @@ export class FAuthorizationComponent implements OnInit {
       .subscribe(
         (countries) => {
           this.setCountries(countries);
-          this.setAutocompleteCountry();
+          this.selectCountry('United States');
         }
       );
   }
