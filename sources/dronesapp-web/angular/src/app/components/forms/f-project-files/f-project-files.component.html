@@ -16,13 +16,12 @@
       </label>
     </div>
     <div class="f-project-files__col">
-      <div class="f-default__filedrop">
-        <div ng2FileDrop
-             [ngClass]="{'_file-over': hasBaseDropZoneOver}"
-             (fileOver)="fileOverBase($event)"
-             [uploader]="uploader"
-             (click)="triggerFileClick()"
-             class="f-default__filedrop-dropzone">
+      <div class="f-default__filedrop"
+           ng2FileDrop
+           [ngClass]="{'_file-over': hasBaseDropZoneOver}"
+           (fileOver)="fileOverBase($event)"
+           [uploader]="uploader">
+        <div class="f-default__filedrop-dropzone">
           <div class="f-default__filedrop-dropzone-text">Upload your Photo</div>
           <div class="f-default__filedrop-dropzone-text">Drag & Drop file here</div>
         </div>
@@ -33,10 +32,14 @@
         <input type="file"
                name="projectFile"
                ng2FileSelect
+               #file
                [uploader]="uploader"
                class="f-default__field _file">
       </div>
       <div class="f-project-files__messages">
+        <div class="f-project-files__message _error" *ngIf="fileNameLengthLimitError">
+          Name of the file is too long
+        </div>
         <div class="f-project-files__message _error" *ngIf="submitted && (fileName === '')">
           No file chosen
         </div>

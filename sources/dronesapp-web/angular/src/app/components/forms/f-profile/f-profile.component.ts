@@ -28,6 +28,10 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     }]
   });
 
+  private fileNameLengthLimit: number = 70;
+  public fileNameLengthLimitError: boolean = false;
+  @ViewChild('file') selectedFile: ElementRef;
+
   submitted: boolean = false;
   countries: CountryModel[] = [];
   states: StateModel[] = [];
@@ -60,8 +64,17 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
 
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
-      this.uploader.queue[0].upload();
-      return {item};
+
+      if (item.file.name.length > this.fileNameLengthLimit) {
+        this.fileNameLengthLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else {
+        this.fileNameLengthLimitError = false;
+        this.progressbarService.start();
+        this.uploader.uploadAll();
+        return {item};
+      }
     };
 
     this.uploader.onCancelItem = (item, response, status, headers) => {
@@ -81,11 +94,6 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     this.setAutocompleteCountry();
   }
 
-  handlePhotoUpload() {
-    this.progressbarService.start();
-    this.uploader.uploadAll();
-  }
-
   saveChanges(e, form) {
     e.preventDefault();
 
@@ -98,6 +106,7 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     }
 
     this.progressbarService.start();
+    this.fileNameLengthLimitError = false;
     this.accountService.setAccountData(this.accountService.account)
       .subscribe(
         (res) => {

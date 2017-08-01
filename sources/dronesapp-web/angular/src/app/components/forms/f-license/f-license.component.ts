@@ -24,20 +24,10 @@ export class FPilotLicenseComponent implements OnInit {
   public certFileName: string = '';
   public uploadedLicFileName: string = '';
   public uploadedCertFileName: string = '';
+  private fileNameLengthLimit: number = 70;
+  public fileNameLengthLimitError: string = '';
 
   public submitted: boolean = false;
-  private licenseCountries: any[] = [
-    13, // Australia
-    40, // Canada
-    76, // France
-    83, // Germany
-    106, // Ireland
-    141, // Mexico
-    155, // New Zealand
-    192, // Singapore
-    224, // United Kingdom
-    225, // United States
-  ];
 
   constructor(
     public accountService: AccountService,
@@ -68,6 +58,7 @@ export class FPilotLicenseComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
+
       this.fileItem = item;
       return {item};
     };
@@ -108,6 +99,7 @@ export class FPilotLicenseComponent implements OnInit {
       return;
     }
 
+    this.fileNameLengthLimitError = '';
     this.progressbarService.start();
     this.accountService.setAccountLicense(this.accountService.license)
       .subscribe(
@@ -143,13 +135,20 @@ export class FPilotLicenseComponent implements OnInit {
   }
 
   handlePhotoUpload(type: string) {
-    this.fileItem.formData.push({type});
-    this.fileItem.headers.push({
-      name: 'FileType',
-      value: type.toUpperCase()
-    });
-    this.progressbarService.start();
-    this.uploader.uploadAll();
+    if (this.fileItem.file.name.length > this.fileNameLengthLimit) {
+      this.fileNameLengthLimitError = type;
+      this.uploader.removeFromQueue(this.fileItem);
+      this.fileItem = null;
+    } else {
+      this.fileNameLengthLimitError = '';
+      this.fileItem.formData.push({type});
+      this.fileItem.headers.push({
+        name: 'FileType',
+        value: type.toUpperCase()
+      });
+      this.progressbarService.start();
+      this.uploader.uploadAll();
+    }
   }
 
   private fetchUploadedFilenames() {
