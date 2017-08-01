@@ -1,24 +1,25 @@
+@import '../../../styles/settings/variables.styl'
 @import '../../../styles/settings/mixin.styl'
 
 .t-dashboard
   width: 100%
-  color #1f2532
+  color $gray1f
   font-size 1.6rem
   text-transform: uppercase
   text-align: center
   tr:first-of-type
     th.t-dashboard__th:first-child
-      background #1f2532
+      background $gray1f
     .t-dashboard__th:nth-child(2n)
-      background #3fb6c0
+      background $blueC0
     .t-dashboard__th:nth-child(2n+1)
-      background #159aa5
+      background $blueA5
   tr
     td:first-child
       ._client &
         width: 33.333%
     .t-dashboard__td:nth-child(2n)
-      background #f6f6f6
+      background $grayF8
     ._pilot &
       td:last-child
         width: 9%
@@ -38,7 +39,7 @@
     vertical-align: middle
     text-transform: uppercase
     border-bottom 1px solid #b7b7b7
-    color: #1f2532
+    color: $gray1f
     border-bottom: 1px solid #d3d3d3
     &._name
       word-break: break-all
@@ -49,14 +50,14 @@
       &._name
         width: 34%
   &__link
-    color: #1d90e0
+    color: $blueE0
     &._inactive
       cursor: default
-      color: #1f2532
+      color: $gray1f
     &-name
-      color #1f2532
       display: inline-block
       font-weight 600
+      color #32afff
       &._inactive
         cursor: default
     ._client &
