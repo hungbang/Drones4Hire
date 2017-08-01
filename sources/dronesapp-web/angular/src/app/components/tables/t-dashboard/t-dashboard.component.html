@@ -33,6 +33,9 @@
       </span>
     </td>
     <td class="t-dashboard__td">
+      <span *ngIf="project.status === 'PENDING'">
+        Pending
+      </span>
       <span *ngIf="project.status === 'IN_PROGRESS' && !project.attachmentLength">
         PAYMENT RESERVED
       </span>
