@@ -93,8 +93,9 @@ public class ProjectService
 					throw new InvalidCurrenyException();
 				}
 			}
+			User user = userService.getNotNullUser(project.getClientId());
 			tid = paymentService
-					.makePayment(project.getPaymentMethod(), project.getPaidOptionsTotal(), wallet.getCurrency());
+					.makePayment(project.getPaymentMethod(), project.getPaidOptionsTotal(), wallet.getCurrency(), user.getEmail());
 		}
 
 		locationService.createLocation(project.getLocation());
@@ -225,7 +226,7 @@ public class ProjectService
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public Project updateProject(Project project) throws PaymentException, InvalidCurrenyException
+	public Project updateProject(Project project) throws ServiceException
 	{
 		Wallet wallet = walletService.getWalletByUserId(project.getClientId());
 
@@ -253,7 +254,8 @@ public class ProjectService
 					}
 					total = total.add(po.getPrice());
 				}
-				String tid = paymentService.makePayment(project.getPaymentMethod(), total, wallet.getCurrency());
+				User user = userService.getNotNullUser(existingProject.getClientId());
+				String tid = paymentService.makePayment(project.getPaymentMethod(), total, wallet.getCurrency(), user.getEmail());
 				transactionService.createTransaction(
 						new Transaction(wallet.getId(), total, wallet.getCurrency(), PAID_OPTION, tid, project.getId(),
 								COMPLETED));

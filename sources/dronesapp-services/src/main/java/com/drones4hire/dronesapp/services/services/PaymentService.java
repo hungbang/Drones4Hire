@@ -24,14 +24,14 @@ public class PaymentService
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public String makePayment(String paymentMethod, BigDecimal amount, Currency currency) throws PaymentException
+	public String makePayment(String paymentMethod, BigDecimal amount, Currency currency, String email) throws PaymentException
 	{
 		if(!Currency.USD.equals(currency))
 		{
 			throw new PaymentException("Supported currencies: USD");
 		}
 		
-		Result<com.braintreegateway.Transaction> transaction  = braintreeService.sale(paymentMethod, amount);
+		Result<com.braintreegateway.Transaction> transaction  = braintreeService.sale(paymentMethod, amount, email);
 		if(!transaction.isSuccess())
 		{
 			throw new PaymentException("Unable to process payment: " + transaction.getMessage());
@@ -41,14 +41,14 @@ public class PaymentService
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public String authorizePayment(String paymentMethod, BigDecimal amount, Currency currency) throws PaymentException
+	public String authorizePayment(String paymentMethod, BigDecimal amount, Currency currency, String email) throws PaymentException
 	{
 		if(!Currency.USD.equals(currency))
 		{
 			throw new PaymentException("Supported currencies: USD");
 		}
 		
-		Result<com.braintreegateway.Transaction> transaction  = braintreeService.authrorize(paymentMethod, amount);
+		Result<com.braintreegateway.Transaction> transaction  = braintreeService.authrorize(paymentMethod, amount, email);
 		if(!transaction.isSuccess())
 		{
 			throw new PaymentException("Unable to process payment: " + transaction.getMessage());

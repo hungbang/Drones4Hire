@@ -143,7 +143,7 @@ public class BidService
 		projectService.checkAuthorities(project, user);
 		projectService.checkStatuses(project, Project.Status.NEW);
 		
-		String trId = paymentService.authorizePayment(paymentMethod, bid.getAmount(), bid.getCurrency());
+		String trId = paymentService.authorizePayment(paymentMethod, bid.getAmount(), bid.getCurrency(), user.getEmail());
 		Transaction transaction = new Transaction(wallet.getId(), bid.getAmount(), Currency.USD, Type.PROJECT_PAYMENT, trId, project.getId(), Transaction.Status.AUTHORIZED);
 		transactionService.createTransaction(transaction);
 		

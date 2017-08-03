@@ -106,7 +106,7 @@ public class BraintreeService
 		return result.getTarget();
 	}
 
-	public Result<Transaction> sale(String paymentMethod, BigDecimal amount) throws PaymentException
+	public Result<Transaction> sale(String paymentMethod, BigDecimal amount, String email) throws PaymentException
 	{
 		Result<Transaction> result = null;
 		try
@@ -114,6 +114,9 @@ public class BraintreeService
 			TransactionRequest request = new TransactionRequest()
 				    .amount(amount)
 				    .paymentMethodNonce(paymentMethod)
+					.customer()
+						.email(email)
+						.done()
 				    .options()
 				      .submitForSettlement(true)
 				      .done();
@@ -126,14 +129,17 @@ public class BraintreeService
 		return result;
 	}
 	
-	public Result<Transaction> authrorize(String paymentMethod, BigDecimal amount) throws PaymentException
+	public Result<Transaction> authrorize(String paymentMethod, BigDecimal amount, String email) throws PaymentException
 	{
 		Result<Transaction> result = null;
 		try
 		{
 			TransactionRequest request = new TransactionRequest()
 					.amount(amount)
-					.paymentMethodNonce(paymentMethod);
+					.paymentMethodNonce(paymentMethod)
+					.customer()
+						.email(email)
+						.done();
 							
 			// authorize
 			result = braintreeGateway.transaction().sale(request);
