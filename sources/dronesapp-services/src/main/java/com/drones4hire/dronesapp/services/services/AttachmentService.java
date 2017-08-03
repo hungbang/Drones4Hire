@@ -38,7 +38,7 @@ public class AttachmentService
 		{
 			List<Attachment> attachments = attachMapper
 					.getAttachmentsByProjectIdAndType(attachment.getProjectId(), Type.PROJECT_RESULT);
-			if (Collections.isEmpty(attachments))
+			if (!Collections.isEmpty(attachments))
 				emailService.sendUploadProjectResultEmail(projectMapper.getProjectById(attachment.getProjectId()));
 		}
 		return attachment;
