@@ -36,7 +36,7 @@ public class Project extends AbstractEntity
 	private List<Attachment> attachments;
 	private String paymentMethod;
 	private Feedback feedback;
-	private Integer sortOrder;
+	private int sortOrder;
 
 	public Service getService()
 	{
@@ -213,12 +213,12 @@ public class Project extends AbstractEntity
 		this.feedback = feedback;
 	}
 
-	public Integer getSortOrder()
+	public int getSortOrder()
 	{
 		return sortOrder;
 	}
 
-	public void setSortOrder(Integer sortOrder)
+	public void setSortOrder(int sortOrder)
 	{
 		this.sortOrder = sortOrder;
 	}
@@ -243,7 +243,7 @@ public class Project extends AbstractEntity
 				sortOrder = sortOrder + paidOption.getRating();
 			}
 		}
-		if(this.sortOrder != null)
+		if(this.sortOrder != 0)
 		{
 			sortOrder = sortOrder + this.sortOrder;
 		}

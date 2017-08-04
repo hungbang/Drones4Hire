@@ -131,7 +131,7 @@
         ]]> 
           	<include refid="getPointsInsideCircle" />
         <![CDATA[
-        	< L.RANGE
+        	< IF(ISNULL(L.RANGE), 100000, L.RANGE)
         ]]>
     </select>
 
