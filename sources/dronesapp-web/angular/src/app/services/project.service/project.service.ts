@@ -70,13 +70,15 @@ export class ProjectService {
         id: project.id,
         name: project.title,
         bidPlaced: bid.createdAt,
+        bidId: bid.id,
         awardedDate: this.getAwardedDate(data),
         paymentCreated: paymentCreated && paymentCreated.createdAt,
         paymentReleased: paymentReleased && paymentReleased.createdAt,
         status: project.status,
         amountPaid: bid.amount,
         pilotId: data.pilot && data.pilot.id,
-        currentPilotId
+        currentPilotId,
+        attachments: (project.status === 'IN_PROGRESS' || project.status === 'COMPLETED') ? !!project.attachments.filter((project) => project.type === 'PROJECT_RESULT').length : false
       };
     });
   }
@@ -85,7 +87,7 @@ export class ProjectService {
     return projects.map((data) => {
       const project = data.project;
 
-      const pilotAttechments = project.attachments.filter((project) => project.type === 'PROJECT_RESULT');
+      const pilotAttachments = project.attachments.filter((project) => project.type === 'PROJECT_RESULT');
 
       const paymentCreated = this._transactionService.getClientToDroneTransaction(data.transactions);
       const paymentReleased = this._transactionService.getDroneToPilotTransaction(data.transactions);
@@ -100,7 +102,7 @@ export class ProjectService {
         bidsCount: data.bidsCount,
         pilotId: data.pilot && data.pilot.id || null,
 
-        attachmentLength: pilotAttechments.length,
+        attachmentLength: pilotAttachments.length,
         status: project.status,
         bidId: this.getBidId(data)
       };
