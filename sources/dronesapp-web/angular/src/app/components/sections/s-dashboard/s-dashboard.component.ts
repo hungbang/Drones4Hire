@@ -37,7 +37,6 @@ export class SDashboardComponent extends UnSubscribeDirective implements OnInit 
         const page = Number(this.route.snapshot.params['page']);
         const pageLink = this.route.snapshot.data['pageLink'];
         const res = this.route.snapshot.data['projects'];
-
         const projects = res && res.results;
 
         if ((!projects || !projects.length) && !isNaN(page) && page > 1 || isNaN(page)) {

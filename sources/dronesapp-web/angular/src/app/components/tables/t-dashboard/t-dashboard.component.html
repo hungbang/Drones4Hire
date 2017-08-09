@@ -93,12 +93,29 @@
       </span>
     </td>
     <td class="t-dashboard__td">
-      <a class="t-dashboard__link"
-         *ngIf="item.currentPilotId === item.pilotId"
-         [ngClass]="{ _inactive: item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' || item.pilotId !== item.currentPilotId || !item.paymentCreated }"
-         [routerLink]="item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' || item.pilotId !== item.currentPilotId || !item.paymentCreated ? [] : ['/project/', item.id, 'files']">
-        UPLOAD<br>IMAGES/DATA
-      </a>
+      <div class="t-dashboard__action"
+           *ngIf="item.currentPilotId === item.pilotId && (item.status === 'IN_PROGRESS' || item.status === 'COMPLETED')">
+        <div class="t-dashboard__action-text"
+             *ngIf="!item.finished && !item.attachments">OK to Fly</div>
+        <button class="t-dashboard__action-btn"
+           *ngIf="!item.finished && !item.attachments"
+           (click)="item.finished = true">
+          Finish job
+        </button>
+        <a class="t-dashboard__action-link"
+           *ngIf="item.finished || item.attachments"
+           [routerLink]="item.status !== 'IN_PROGRESS' && item.status !== 'COMPLETED' || item.pilotId !== item.currentPilotId || !item.paymentCreated ? [] : ['/project/', item.id, 'files']">
+          UPLOAD<br>IMAGES/DATA
+        </a>
+      </div>
+      <div class="t-dashboard__action"
+           *ngIf="item.currentPilotId === item.pilotId && item.status === 'PENDING'">
+        <button class="t-dashboard__action-btn"
+                (click)="acceptFromPilot(item)">Accept a job</button>
+        <div class="t-dashboard__action-text">or</div>
+        <button class="t-dashboard__action-btn"
+                (click)="rejectFromPilot(item)">Reject a job</button>
+      </div>
     </td>
     <td class="t-dashboard__td">
       <span *ngIf="item.pilotId === item.currentPilotId">
