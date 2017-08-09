@@ -305,6 +305,7 @@ export class ProjectDescriptionComponent extends UnSubscribeDirective implements
         },
         err => {
           this.progressbarService.done();
+          this.modalService.pop();
           if (err.status === 500) {
             this.toastrService.showError('Internal server error. Please try later again.');
           } else if (err.status === 400) {
@@ -339,6 +340,7 @@ export class ProjectDescriptionComponent extends UnSubscribeDirective implements
         },
         err => {
           this.progressbarService.done();
+          this.modalService.pop();
           if (err.status === 500) {
             this.toastrService.showError('Internal server error. Please try later again.');
           } else if (err.status === 400) {
