@@ -19,7 +19,7 @@
       <div class="b-profile__col-text">{{profile.flightHours}}</div>
     </div>
     <div class="b-profile__col" *ngIf="!showDescription && profile.wallet?.balance >= 0">
-      <div class="b-profile__col-title">Wallet Balance</div>
+      <div class="b-profile__col-title _blue">Wallet Balance</div>
       <div class="b-profile__col-text">${{profile.wallet.balance}}</div>
     </div>
     <div class="b-profile__col" *ngIf="showDescription && (profile.location?.city || profile.location?.country?.name)">
