@@ -111,10 +111,10 @@
       <div class="t-dashboard__action"
            *ngIf="item.currentPilotId === item.pilotId && item.status === 'PENDING'">
         <button class="t-dashboard__action-btn"
-                (click)="acceptFromPilot(item)">Accept a job</button>
+                (click)="acceptFromPilot(item)">Accept job</button>
         <div class="t-dashboard__action-text">or</div>
         <button class="t-dashboard__action-btn"
-                (click)="rejectFromPilot(item)">Reject a job</button>
+                (click)="rejectFromPilot(item)">Reject job</button>
       </div>
     </td>
     <td class="t-dashboard__td">
