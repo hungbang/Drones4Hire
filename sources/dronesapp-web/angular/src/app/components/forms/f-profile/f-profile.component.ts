@@ -28,6 +28,7 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     }]
   });
 
+  public bioTextLimit = 2000;
   private fileNameLengthLimit: number = 70;
   public fileNameLengthLimitError: boolean = false;
   @ViewChild('file') selectedFile: ElementRef;
@@ -35,7 +36,7 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
   submitted: boolean = false;
   countries: CountryModel[] = [];
   states: StateModel[] = [];
-  @ViewChild("location") public searchElement: ElementRef;
+  @ViewChild('location') public searchElement: ElementRef;
   autocomplete: any = null;
 
   constructor(
@@ -334,7 +335,7 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
   }
 
   setRange(value) {
-    this.accountService.account.location.range = value ? parseInt(value, 10): null;
+    this.accountService.account.location.range = value ? parseInt(value, 10) : null;
   }
 
 }

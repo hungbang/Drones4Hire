@@ -136,10 +136,12 @@
                     placeholder="Bio"
                     #bioRef="ngModel"
                     required
+                    [maxLength]="bioTextLimit"
                     [ngModel]="accountService.account?.summary"
                     (ngModelChange)="accountService.account.summary = $event"
                     [ngClass]="{'_error': submitted && bioRef.errors?.required}"
           ></textarea>
+          <span class="f-default__text _light">Characters: {{(accountService.account?.summary?.length ? accountService.account.summary.length : 0) + '/' + bioTextLimit }} </span>
         </label>
       </div>
     </div>
