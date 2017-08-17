@@ -112,7 +112,7 @@
               <img src="{{accountService.account.photoURL}}" *ngIf="accountService.account?.photoURL" alt="avatar">
           </div>
           <label class="f-default__label _top">
-            <span class="f-default__text">Upload Photo</span>
+            <span class="f-default__text">Upload Photo (2MB max)</span>
             <input class="f-default__field _file f-default__input"
                    type="file"
                    accept="image/jpeg,image/jpg,image/png"
@@ -127,6 +127,9 @@
         <div class="f-default__text _error" *ngIf="fileNameLengthLimitError">
           Name of the file is too long
         </div>
+        <div class="f-default__text _error" *ngIf="fileSizeLimitError">
+          Attachment size limit is exceeded
+        </div>
       </div>
 
       <div class="f-default__row">
@@ -136,10 +139,12 @@
                     placeholder="Bio"
                     #bioRef="ngModel"
                     required
+                    [maxLength]="bioTextLimit"
                     [ngModel]="accountService.account?.summary"
                     (ngModelChange)="accountService.account.summary = $event"
                     [ngClass]="{'_error': submitted && bioRef.errors?.required}"
           ></textarea>
+          <span class="f-default__text _light">{{(accountService.account?.summary?.length ? accountService.account.summary.length : 0) + '/' + bioTextLimit }} characters</span>
         </label>
       </div>
     </div>
