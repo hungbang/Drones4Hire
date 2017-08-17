@@ -165,7 +165,7 @@ export class FPilotLicenseComponent implements OnInit {
   get isNeedUpload() {
     const isPilot = this.accountService.isUserPilot();
     const isGotLicenseInfo = !!this.accountService.license;
-    const isVerified = isGotLicenseInfo ? this.accountService.license.verified : null;
+    const isVerified = isGotLicenseInfo ? this.accountService.license.verified : false;
 
     return isPilot && !isVerified;
   }

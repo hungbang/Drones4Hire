@@ -3,8 +3,10 @@
       #licenceForm="ngForm"
       (submit)="saveChanges($event, licenceForm)">
 
-  <div class="f-default__row f-license__row" *ngIf="accountService.license && isNeedUpload">
-    <div class="f-default__text _error">Please upload your license and/or certificate, to gain access to job board.</div>
+  <div class="f-default__row f-license__row" [class._green]="accountService.license?.licenseURL" *ngIf="isNeedUpload">
+    <div class="f-default__text _error">
+      {{ accountService.license?.licenseURL ? 'Our team is processing your data, we will update you shortly.' : 'Please upload your license and/or certificate, to gain access to job board.' }}
+    </div>
   </div>
   <div class="f-default__row f-license__row _flex">
     <span class="f-default__text">Pilot License:{{isNeedUpload ? '*' : ''}} <span class="f-license__filename">{{ uploadedLicFileName }}</span></span>
