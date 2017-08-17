@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="f-default__row f-license__row _flex">
-    <span class="f-default__text">Pilot License:{{isNeedUpload ? '*' : ''}} <span class="f-license__filename">{{ uploadedLicFileName }}</span></span>
+    <span class="f-default__text">Pilot License (2MB max):{{isNeedUpload ? '*' : ''}} <span class="f-license__filename">{{ uploadedLicFileName }}</span></span>
     <label class="f-default__file">
       <input class="f-default__input"
              type="file"
@@ -23,11 +23,12 @@
       <span class="f-default__text" *ngIf="licFileName">Chosen file: <span class="f-license__filename">{{ licFileName }}</span></span>
       <span class="f-default__text" *ngIf="!licFileName">No file chosen</span>
       <span class="f-default__text _error" *ngIf="fileNameLengthLimitError === 'license'">Name of the file is too long</span>
+      <span class="f-default__text _error" *ngIf="fileSizeLimitError === 'license'">Attachment size limit is exceeded</span>
     </label>
   </div>
 
   <div class="f-default__row f-license__row _flex">
-    <span class="f-default__text">Insurance Certificate:<span class="f-license__filename">{{ uploadedCertFileName }}</span></span>
+    <span class="f-default__text">Insurance Certificate (2MB max):<span class="f-license__filename">{{ uploadedCertFileName }}</span></span>
     <label class="f-default__file">
       <input class="f-default__input"
              type="file"
@@ -40,6 +41,7 @@
       <span class="f-default__text" *ngIf="certFileName">Chosen file: <span class="f-license__filename">{{ certFileName }}</span></span>
       <span class="f-default__text" *ngIf="!certFileName">No file chosen</span>
       <span class="f-default__text _error" *ngIf="fileNameLengthLimitError === 'insurance'">Name of the file is too long</span>
+      <span class="f-default__text _error" *ngIf="fileSizeLimitError === 'insurance'">Attachment size limit is exceeded</span>
     </label>
   </div>
 

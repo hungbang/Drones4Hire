@@ -28,8 +28,10 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     }]
   });
 
+  private fileSizeLimit = 2097152;
   public bioTextLimit = 2000;
   private fileNameLengthLimit: number = 70;
+  public fileSizeLimitError: boolean = false;
   public fileNameLengthLimitError: boolean = false;
   @ViewChild('file') selectedFile: ElementRef;
 
@@ -66,11 +68,16 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
 
-      if (item.file.name.length > this.fileNameLengthLimit) {
+      if (item.file.size > this.fileSizeLimit) {
+        this.fileSizeLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (item.file.name.length > this.fileNameLengthLimit) {
         this.fileNameLengthLimitError = true;
         this.uploader.removeFromQueue(item);
         this.selectedFile.nativeElement.value = '';
       } else {
+        this.fileSizeLimitError = false;
         this.fileNameLengthLimitError = false;
         this.progressbarService.start();
         this.uploader.uploadAll();
