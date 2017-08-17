@@ -28,14 +28,17 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     }]
   });
 
+  private fileSizeLimit = 2097152;
+  public bioTextLimit = 2000;
   private fileNameLengthLimit: number = 70;
+  public fileSizeLimitError: boolean = false;
   public fileNameLengthLimitError: boolean = false;
   @ViewChild('file') selectedFile: ElementRef;
 
   submitted: boolean = false;
   countries: CountryModel[] = [];
   states: StateModel[] = [];
-  @ViewChild("location") public searchElement: ElementRef;
+  @ViewChild('location') public searchElement: ElementRef;
   autocomplete: any = null;
 
   constructor(
@@ -65,11 +68,16 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
 
-      if (item.file.name.length > this.fileNameLengthLimit) {
+      if (item.file.size > this.fileSizeLimit) {
+        this.fileSizeLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (item.file.name.length > this.fileNameLengthLimit) {
         this.fileNameLengthLimitError = true;
         this.uploader.removeFromQueue(item);
         this.selectedFile.nativeElement.value = '';
       } else {
+        this.fileSizeLimitError = false;
         this.fileNameLengthLimitError = false;
         this.progressbarService.start();
         this.uploader.uploadAll();
@@ -334,7 +342,7 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
   }
 
   setRange(value) {
-    this.accountService.account.location.range = value ? parseInt(value, 10): null;
+    this.accountService.account.location.range = value ? parseInt(value, 10) : null;
   }
 
 }

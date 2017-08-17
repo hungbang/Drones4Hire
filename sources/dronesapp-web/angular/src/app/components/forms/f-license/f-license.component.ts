@@ -26,6 +26,8 @@ export class FPilotLicenseComponent implements OnInit {
   public uploadedCertFileName: string = '';
   private fileNameLengthLimit: number = 70;
   public fileNameLengthLimitError: string = '';
+  private fileSizeLimit = 2097152;
+  public fileSizeLimitError: string = '';
 
   public submitted: boolean = false;
 
@@ -135,11 +137,16 @@ export class FPilotLicenseComponent implements OnInit {
   }
 
   handlePhotoUpload(type: string) {
-    if (this.fileItem.file.name.length > this.fileNameLengthLimit) {
+    if (this.fileItem.file.size > this.fileSizeLimit) {
+      this.fileSizeLimitError = type;
+      this.uploader.removeFromQueue(this.fileItem);
+      this.fileItem = null;
+    } else if (this.fileItem.file.name.length > this.fileNameLengthLimit) {
       this.fileNameLengthLimitError = type;
       this.uploader.removeFromQueue(this.fileItem);
       this.fileItem = null;
     } else {
+      this.fileSizeLimitError = '';
       this.fileNameLengthLimitError = '';
       this.fileItem.formData.push({type});
       this.fileItem.headers.push({
@@ -165,7 +172,7 @@ export class FPilotLicenseComponent implements OnInit {
   get isNeedUpload() {
     const isPilot = this.accountService.isUserPilot();
     const isGotLicenseInfo = !!this.accountService.license;
-    const isVerified = isGotLicenseInfo ? this.accountService.license.verified : null;
+    const isVerified = isGotLicenseInfo ? this.accountService.license.verified : false;
 
     return isPilot && !isVerified;
   }
