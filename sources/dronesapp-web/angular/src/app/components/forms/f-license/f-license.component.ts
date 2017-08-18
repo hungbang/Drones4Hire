@@ -112,6 +112,7 @@ export class FPilotLicenseComponent implements OnInit {
           console.log('-save license', res);
           this.updateFilenames();
           this.toastrService.showSuccess('Submitted');
+          this.accountService.license.verified = false;
           this.submitted = false;
           form.resetForm();
         },
