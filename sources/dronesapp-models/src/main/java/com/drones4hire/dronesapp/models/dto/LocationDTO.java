@@ -21,8 +21,9 @@ public class LocationDTO extends AbstractDTO
 	
 	private State state;
 	
-	@NotNull(message="City required")
-	private String city;
+//  TODO: find out better way when Google API fixed
+//	@NotNull(message="City required")
+	private String city = "";
 
 	private Integer postcode;
 
