@@ -26,10 +26,11 @@ export class FPilotLicenseComponent implements OnInit {
   public uploadedCertFileName: string = '';
   private fileNameLengthLimit: number = 70;
   public fileNameLengthLimitError: string = '';
-  private fileSizeLimit = 2097152;
+  private fileSizeLimit = 5242880;
   public fileSizeLimitError: string = '';
 
   public submitted: boolean = false;
+  public isLicenceSubmitted = false;
 
   constructor(
     public accountService: AccountService,
@@ -97,7 +98,8 @@ export class FPilotLicenseComponent implements OnInit {
 
     this.submitted = true;
 
-    if ((this.isNeedUpload && !this.licFileName) || (!this.licFileName && !this.certFileName)) {
+    if (!this.isLicenceSubmitted && !this.licFileName && !this.certFileName
+      || this.isLicenceSubmitted && !this.licFileName && !this.certFileName) {
       return;
     }
 
@@ -161,6 +163,8 @@ export class FPilotLicenseComponent implements OnInit {
   private fetchUploadedFilenames() {
     this.uploadedLicFileName = this.accountService.license.licenseURL ? this.accountService.license.licenseURL.split('/').pop().split('-').splice(2).join('-') : '';
     this.uploadedCertFileName = this.accountService.license.insuranceURL ? this.accountService.license.insuranceURL.split('/').pop().split('-').splice(2).join('-') : '';
+
+    this.isLicenceSubmitted = !!this.uploadedLicFileName.length;
   }
 
   private updateFilenames() {
