@@ -60,7 +60,7 @@ public class CompanyMapperTest extends AbstractTestNGSpringContextTests {
             setCountry(COUNTRY);
             setState(STATE);
             setCity("c2");
-            setPostcode(1);
+            setPostcode("1");
         }
     };
     

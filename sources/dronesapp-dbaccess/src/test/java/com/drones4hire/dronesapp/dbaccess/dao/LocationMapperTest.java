@@ -52,7 +52,7 @@ public class LocationMapperTest extends AbstractTestNGSpringContextTests {
             setCountry(COUNTRY);
             setState(STATE);
             setCity("c2");
-            setPostcode(1);
+            setPostcode("1");
         }
     };
 
@@ -100,7 +100,7 @@ public class LocationMapperTest extends AbstractTestNGSpringContextTests {
         LOCATION.setCountry(COUNTRY);
         LOCATION.setState(STATE);
         LOCATION.setCity("c2");
-        LOCATION.setPostcode(2);
+        LOCATION.setPostcode("2");
         locationMapper.updateLocation(LOCATION);
         Location location = locationMapper.getLocationById(LOCATION.getId());
         check(location);

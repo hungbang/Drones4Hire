@@ -60,7 +60,7 @@ public class NotificationSettingsMapperTest extends AbstractTestNGSpringContextT
             setCountry(COUNTRY);
             setState(STATE);
             setCity("c2");
-            setPostcode(1);
+            setPostcode("1");
         }
     };
     
@@ -157,7 +157,7 @@ public class NotificationSettingsMapperTest extends AbstractTestNGSpringContextT
         LOCATION.setCountry(COUNTRY);
         LOCATION.setState(STATE);
         LOCATION.setCity("c2");
-        LOCATION.setPostcode(2);
+        LOCATION.setPostcode("2");
         locationMapper.createLocation(LOCATION);
         USER.setUsername("userName2");
         USER.setEmail("email2");

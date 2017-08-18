@@ -21,11 +21,10 @@ public class LocationDTO extends AbstractDTO
 	
 	private State state;
 	
-//  TODO: find out better way when Google API fixed
-//	@NotNull(message="City required")
-	private String city = "";
+	@NotNull(message="City required")
+	private String city;
 
-	private Integer postcode;
+	private String postcode;
 
 	@Min(value = 0, message = "Range should be positive")
 	private Integer range;
@@ -89,12 +88,12 @@ public class LocationDTO extends AbstractDTO
 		this.city = city;
 	}
 
-	public Integer getPostcode()
+	public String getPostcode()
 	{
 		return postcode;
 	}
 
-	public void setPostcode(Integer postcode)
+	public void setPostcode(String postcode)
 	{
 		this.postcode = postcode;
 	}
