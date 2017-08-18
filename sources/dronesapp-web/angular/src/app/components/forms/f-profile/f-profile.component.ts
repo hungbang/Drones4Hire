@@ -28,7 +28,7 @@ export class FClientProfileComponent implements OnInit, AfterViewInit {
     }]
   });
 
-  private fileSizeLimit = 2097152;
+  private fileSizeLimit = 5242880;
   public bioTextLimit = 2000;
   private fileNameLengthLimit: number = 70;
   public fileSizeLimitError: boolean = false;
