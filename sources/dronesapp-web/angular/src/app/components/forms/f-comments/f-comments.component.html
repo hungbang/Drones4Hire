@@ -4,11 +4,16 @@
       (submit)="onSubmit($event, commentFormRef)">
   <div class="f-comments__title">Comment / Ask questions</div>
   <div class="f-comments__wrapper">
-    <textarea class="f-comments__textarea"
-              required
-              #commentRef="ngModel"
-              [ngClass]="{'_error': submitted && commentRef.errors?.required}"
-              [(ngModel)]="comment" name="comment"></textarea>
+    <label class="f-default__label">
+      <textarea class="f-comments__textarea"
+                required
+                #commentRef="ngModel"
+                [maxLength]="textLengthLimit"
+                [ngClass]="{'_error': submitted && commentRef.errors?.required}"
+                [(ngModel)]="comment" name="comment"></textarea>
+      <span class="f-default__text _light">{{(comment?.length ? comment.length : 0) + '/' + textLengthLimit }} characters</span>
+    </label>
+
   </div>
   <button class="f-comments__button"
           type="submit">Enter comment</button>

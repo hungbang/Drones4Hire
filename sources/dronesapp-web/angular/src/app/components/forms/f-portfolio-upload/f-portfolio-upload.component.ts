@@ -32,6 +32,8 @@ export class FPortfolioUploadComponent implements OnInit {
   attachmentsLimit = 11;
   private fileNameLengthLimit: number = 70;
   public fileNameLengthLimitError: boolean = false;
+  private fileSizeLimit = 10485760;
+  public fileSizeLimitError: boolean = false;
   @ViewChild('file') selectedFile: ElementRef;
 
   constructor(
@@ -58,12 +60,18 @@ export class FPortfolioUploadComponent implements OnInit {
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
 
-      if (item.file.name.length > this.fileNameLengthLimit) {
+      this.fileNameLengthLimitError = false;
+      this.fileSizeLimitError = false;
+
+      if (item.file.size > this.fileSizeLimit) {
+        this.fileSizeLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (item.file.name.length > this.fileNameLengthLimit) {
         this.fileNameLengthLimitError = true;
         this.uploader.removeFromQueue(item);
         this.selectedFile.nativeElement.value = '';
       } else if (!this.isLimitReached) {
-        this.fileNameLengthLimitError = false;
         this.progressbarService.start();
         this.fileItem = item;
         this.uploader.uploadAll();

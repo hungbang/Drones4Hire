@@ -22,7 +22,7 @@
            (fileOver)="fileOverBase($event)"
            [uploader]="uploader">
         <div class="f-default__filedrop-dropzone">
-          <div class="f-default__filedrop-dropzone-text">Upload your Photo</div>
+          <div class="f-default__filedrop-dropzone-text">Upload your Photo (10MB max)</div>
           <div class="f-default__filedrop-dropzone-text">Drag & Drop file here</div>
         </div>
         <div class="f-default__filedrop-or">or</div>
@@ -49,6 +49,9 @@
         </div>
         <div class="f-portfolio-upload__message" *ngIf="(fileName !== '') && fileURL">
           Chosen file: {{ fileName }}
+        </div>
+        <div class="f-portfolio-upload__message _error" *ngIf="fileSizeLimitError">
+          Attachment size limit is exceeded
         </div>
       </div>
     </div>

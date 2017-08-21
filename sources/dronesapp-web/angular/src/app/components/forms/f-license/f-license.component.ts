@@ -140,6 +140,9 @@ export class FPilotLicenseComponent implements OnInit {
   }
 
   handlePhotoUpload(type: string) {
+    this.fileSizeLimitError = '';
+    this.fileNameLengthLimitError = '';
+
     if (this.fileItem.file.size > this.fileSizeLimit) {
       this.fileSizeLimitError = type;
       this.uploader.removeFromQueue(this.fileItem);
@@ -149,8 +152,6 @@ export class FPilotLicenseComponent implements OnInit {
       this.uploader.removeFromQueue(this.fileItem);
       this.fileItem = null;
     } else {
-      this.fileSizeLimitError = '';
-      this.fileNameLengthLimitError = '';
       this.fileItem.formData.push({type});
       this.fileItem.headers.push({
         name: 'FileType',

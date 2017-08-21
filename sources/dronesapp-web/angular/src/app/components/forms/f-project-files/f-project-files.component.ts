@@ -34,6 +34,8 @@ export class FProjectFilesComponent implements OnInit {
   title: string = '';
   private fileNameLengthLimit: number = 70;
   public fileNameLengthLimitError: boolean = false;
+  private fileSizeLimit = 524288000;
+  public fileSizeLimitError: boolean = false;
   @ViewChild('file') selectedFile: ElementRef;
 
   constructor(
@@ -60,12 +62,18 @@ export class FProjectFilesComponent implements OnInit {
     this.uploader.onAfterAddingFile = (item) => {
       console.log('onAfterAddingFile');
 
-      if (item.file.name.length > this.fileNameLengthLimit) {
+      this.fileNameLengthLimitError = false;
+      this.fileSizeLimitError = false;
+
+      if (item.file.size > this.fileSizeLimit) {
+        this.fileSizeLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (item.file.name.length > this.fileNameLengthLimit) {
         this.fileNameLengthLimitError = true;
         this.uploader.removeFromQueue(item);
         this.selectedFile.nativeElement.value = '';
       } else {
-        this.fileNameLengthLimitError = false;
         this.fileItem = item;
         this.uploader.uploadAll();
         this.progressbarService.start();
