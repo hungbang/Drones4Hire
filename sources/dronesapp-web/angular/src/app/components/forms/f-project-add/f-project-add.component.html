@@ -83,13 +83,14 @@
     <div class="f-default__row">
       <div>
         <div class="f-project-add__caption _margin">Describe your project</div>
-        <div class="f-default__row f-project-add__row _flex">
+        <div class="f-default__row f-project-add__row _flex _area">
           <label class="f-default__label f-default__col f-project-add__col _area">
             <textarea class="f-default__field _area"
                       type="text"
                       name="projectSummary"
                       [(ngModel)]="formData.summary"
                       required
+                      [maxLength]="textLengthLimit"
                       #projectSummaryRef="ngModel"
                       [ngClass]="{'_error': isSubmitted && projectSummaryRef.errors?.required}"></textarea>
           </label>
@@ -101,6 +102,7 @@
                  [uploader]="uploader">
               <div class="f-default__filedrop-dropzone">
                 <div class="f-default__filedrop-dropzone-text _title">Upload your files here</div>
+                <div class="f-default__filedrop-dropzone-text _title">(10MB per file max)</div>
                 <div class="f-default__filedrop-dropzone-text _small">Add images or documents that might help explain
                   your project (Optional)
                 </div>
@@ -119,6 +121,9 @@
                      class="f-default__field _file">
             </div>
           </div>
+          <div class="f-default__col f-project-add__col">
+            <div class="f-default__text _light">{{(formData?.summary?.length ? formData.summary.length : 0) + '/' + textLengthLimit }} characters</div>
+          </div>
         </div>
       </div>
     </div>
@@ -134,6 +139,9 @@
           </div>
           <div class="f-project-add__message _error" *ngIf="isLimitReached">
             You can't attach more than {{ attachmentsLimit }} files
+          </div>
+          <div class="f-project-add__message _error" *ngIf="fileSizeLimitError">
+            Attachment size limit is exceeded
           </div>
         </div>
         <ul class="f-project-add__files-list" *ngIf="formData.attachments.length">

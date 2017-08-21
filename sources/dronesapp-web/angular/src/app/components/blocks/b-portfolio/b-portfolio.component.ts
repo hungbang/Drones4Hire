@@ -15,9 +15,7 @@ export class BPortfolioComponent implements OnInit {
   constructor() {}
 
   click() {
-    if (window.innerWidth < 1025) {
-      this.toggleClass = !this.toggleClass;
-    }
+    this.toggleClass = !this.toggleClass;
   }
 
   ngOnInit() {

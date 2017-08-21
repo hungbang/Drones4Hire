@@ -5,7 +5,12 @@
   <div class="f-bid__title">Bid</div>
   <div class="f-bid__row">
     <div class="f-bid__text">Bid Proposal:</div>
-    <textarea class="f-default__field f-bid__textarea" [(ngModel)]="model.comment" name="proposal"></textarea>
+    <label class="f-default__label">
+      <textarea class="f-default__field f-bid__textarea"
+                [maxLength]="textLengthLimit"
+                [(ngModel)]="model.comment" name="proposal"></textarea>
+      <span class="f-default__text _light">{{(model?.comment?.length ? model.comment.length : 0) + '/' + textLengthLimit }} characters</span>
+    </label>
   </div>
   <div class="f-bid__row">
     <div class="f-bid__text">Bid Amount:</div>

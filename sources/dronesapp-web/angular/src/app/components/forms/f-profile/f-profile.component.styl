@@ -1,11 +1,14 @@
-@import "./../../../styles/settings/mixin.styl";
-
 .f-profile
-  osans();
   position: relative
   &__button
     font-family: inherit
-  .f-default__field
-    font-family: inherit
-    &._area
-      height: 200px
+  .f-default
+    &__field
+      font-family: inherit
+      &._area
+        height: 200px
+    &__text
+      &._light
+        display block
+        text-align right
+        margin-right 0
