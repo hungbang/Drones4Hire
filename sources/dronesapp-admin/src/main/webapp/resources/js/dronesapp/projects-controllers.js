@@ -144,6 +144,8 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                 $scope.project.status = 'NEW';
                 $scope.project.postProductionRequired = false;
                 $scope.project.bidAmount = 0.0;
+                $scope.project.location = {};
+                $scope.project.location.coordinates = {};
 
                 var initPickers = function () {
                     angular.element('#startDate').datetimepicker({
@@ -312,6 +314,12 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     });
                 };
 
+                $scope.$on('place_changed', function (e, place) {
+                    $scope.project.location.coordinates.latitude = place.geometry.location.lat();
+                    $scope.project.location.coordinates.longitude = place.geometry.location.lng();
+                    $scope.project.location.address = place.formatted_address;
+                });
+
                 $scope.$on("$destroy",function(){
                     if (angular.isDefined(initPicker)) {
                         $interval.cancel(initPicker);
@@ -432,6 +440,12 @@ DronesAdmin.controller('ProjectDetailsController', [ '$scope', '$http', '$locati
 			alertify.error('Failed to save changes!');
 		});
 	};
+
+    $scope.$on('place_changed', function (e, place) {
+        $scope.project.location.coordinates.latitude = place.geometry.location.lat();
+        $scope.project.location.coordinates.longitude = place.geometry.location.lng();
+        $scope.project.location.address = place.formatted_address;
+    });
 
 	$scope.blockProject = function () {
 	    $scope.project.status = 'BLOCKED';

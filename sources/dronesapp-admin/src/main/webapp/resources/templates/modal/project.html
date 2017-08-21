@@ -73,6 +73,10 @@
                 <option data-ng-value="state.id" data-ng-repeat="state in states">{{state.name}}</option>
             </select>
         </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input class="form-control" type="text" google-place ng-model="project.location.address" aria-label="search">
+        </div>
         <div>
         <div class="form-group required-label">
             <label class="control-label" for="startDate">Start date</label>

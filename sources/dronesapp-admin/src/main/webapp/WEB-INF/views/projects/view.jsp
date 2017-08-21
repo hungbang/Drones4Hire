@@ -80,7 +80,7 @@
 									</div>
 									<div class="form-group">
 										<label><spring:message code="drones.admin.pages.project.form.address.label"/></label>
-										<input class="form-control" type="text" data-ng-model="project.location.address" />
+										<input class="form-control" type="text" google-place ng-model="project.location.address" aria-label="search">
 									</div>
 									<div class="form-group required-label">
 										<label><spring:message code="drones.admin.pages.project.form.budget.label"/></label>

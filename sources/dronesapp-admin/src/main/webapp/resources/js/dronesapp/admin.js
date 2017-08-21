@@ -221,6 +221,31 @@ DronesAdmin.directive("rpattern", function() {
     };
 });
 
+DronesAdmin.directive('googlePlace', directiveFunction);
+
+directiveFunction.$inject = ['$rootScope'];
+
+function directiveFunction($rootScope) {
+    return {
+        require: 'ngModel',
+        scope: {
+            ngModel: '=',
+            details: '=?'
+        },
+        link: function(scope, element, attrs, model) {
+            scope.gPlace = new google.maps.places.Autocomplete(element[0]);
+
+            google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+                scope.$apply(function() {
+                    scope.details = scope.gPlace.getPlace();
+                    model.$setViewValue(element.val());
+                    $rootScope.$broadcast('place_changed', scope.details);
+                });
+            });
+        }
+    };
+}
+
 angular.module('DronesAdmin').directive('dropdown', function($document) {
     return function($scope, $element, $attrs) {
         $element.on('hide.bs.dropdown', function(event) {

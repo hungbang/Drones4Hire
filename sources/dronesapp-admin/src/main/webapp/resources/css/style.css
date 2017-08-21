@@ -855,3 +855,7 @@ div.logo-rotate img {
 	margin-left: 10px;
 	display: inline-block;
 }
+
+.pac-container.pac-logo {
+	z-index: 10000;
+}
