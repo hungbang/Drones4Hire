@@ -11,6 +11,7 @@
                 [maxLength]="textLengthLimit"
                 [ngClass]="{'_error': submitted && commentRef.errors?.required}"
                 [(ngModel)]="comment" name="comment"></textarea>
+      <span class="f-default__text _info">Posting contact information (emails, phone numbers, web addresses(URL’s), etc.) is in violation of our Terms of Service and will result in being banned.</span>
       <span class="f-default__text _light">{{(comment?.length ? comment.length : 0) + '/' + textLengthLimit }} characters</span>
     </label>
 
