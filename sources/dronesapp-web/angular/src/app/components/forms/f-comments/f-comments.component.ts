@@ -11,6 +11,7 @@ export class FCommentsComponent implements OnInit {
   submitted: boolean = false;
 
   public comment = '';
+  public textLengthLimit = 2000;
 
   constructor() { }
 

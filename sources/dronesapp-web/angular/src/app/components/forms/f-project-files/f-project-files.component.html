@@ -22,7 +22,7 @@
            (fileOver)="fileOverBase($event)"
            [uploader]="uploader">
         <div class="f-default__filedrop-dropzone">
-          <div class="f-default__filedrop-dropzone-text">Upload your Photo</div>
+          <div class="f-default__filedrop-dropzone-text">Upload your Photo (500MB max)</div>
           <div class="f-default__filedrop-dropzone-text">Drag & Drop file here</div>
         </div>
         <div class="f-default__filedrop-or">or</div>
@@ -37,6 +37,9 @@
                class="f-default__field _file">
       </div>
       <div class="f-project-files__messages">
+        <div class="f-project-files__message _error" *ngIf="fileSizeLimitError">
+          Attachment size limit is exceeded
+        </div>
         <div class="f-project-files__message _error" *ngIf="fileNameLengthLimitError">
           Name of the file is too long
         </div>

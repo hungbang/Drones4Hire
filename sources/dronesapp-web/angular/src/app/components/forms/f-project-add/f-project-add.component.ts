@@ -52,6 +52,9 @@ export class FProjectAddComponent implements OnInit {
   autocomplete: any = null;
   private fileNameLengthLimit: number = 70;
   public fileNameLengthLimitError: boolean = false;
+  public textLengthLimit = 2000;
+  private fileSizeLimit = 10485760;
+  public fileSizeLimitError: boolean = false;
 
   date = {
     start: moment(),
@@ -153,7 +156,13 @@ export class FProjectAddComponent implements OnInit {
 
       this.isNotAcceptedFormat = false;
       this.fileNameLengthLimitError = false;
-      if (item.file.name.length > this.fileNameLengthLimit) {
+      this.fileSizeLimitError = false;
+
+      if (item.file.size > this.fileSizeLimit) {
+        this.fileSizeLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (item.file.name.length > this.fileNameLengthLimit) {
         this.fileNameLengthLimitError = true;
         this.uploader.removeFromQueue(item);
         this.selectedFile.nativeElement.value = '';
