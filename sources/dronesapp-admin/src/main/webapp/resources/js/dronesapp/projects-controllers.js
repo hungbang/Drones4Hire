@@ -11,7 +11,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 	$scope.projectListPageSizes = PAGE_SIZES;
 
     angular.element('#createdAtAfter').datetimepicker({
-        locale: 'ru',
+        locale: 'en',
         format: 'YYYY-MM-DD HH:mm',
         icons: {
             time: "fa fa-clock-o",
@@ -25,7 +25,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
     });
     angular.element('#createdAtBefore').datetimepicker({
         useCurrent: false,
-        locale: 'ru',
+        locale: 'en',
         format: 'YYYY-MM-DD HH:mm',
         icons: {
             time: "fa fa-clock-o",
@@ -147,7 +147,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
 
                 var initPickers = function () {
                     angular.element('#startDate').datetimepicker({
-                        locale: 'ru',
+                        locale: 'en',
                         format: 'YYYY-MM-DD HH:mm',
                         icons: {
                             time: "fa fa-clock-o",
@@ -161,7 +161,7 @@ DronesAdmin.controller('ProjectsPageController', [ '$scope', '$http', '$location
                     });
                     angular.element('#finishDate').datetimepicker({
                         useCurrent: false,
-                        locale: 'ru',
+                        locale: 'en',
                         format: 'YYYY-MM-DD HH:mm',
                         icons: {
                             time: "fa fa-clock-o",

@@ -165,7 +165,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
 
                 var initPickers = function () {
                     angular.element('#createdAtAfter').datetimepicker({
-                        locale: 'ru',
+                        locale: 'en',
                         format: 'YYYY-MM-DD HH:mm',
                         icons: {
                             time: "fa fa-clock-o",
@@ -179,7 +179,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
                     });
                     angular.element('#createdAtBefore').datetimepicker({
                         useCurrent: false,
-                        locale: 'ru',
+                        locale: 'en',
                         format: 'YYYY-MM-DD HH:mm',
                         icons: {
                             time: "fa fa-clock-o",
