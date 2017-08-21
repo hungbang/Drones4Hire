@@ -139,12 +139,13 @@
                     placeholder="Bio"
                     #bioRef="ngModel"
                     required
-                    [maxLength]="bioTextLimit"
+                    [maxLength]="textLengthLimit"
                     [ngModel]="accountService.account?.summary"
                     (ngModelChange)="accountService.account.summary = $event"
                     [ngClass]="{'_error': submitted && bioRef.errors?.required}"
           ></textarea>
-          <span class="f-default__text _light">{{(accountService.account?.summary?.length ? accountService.account.summary.length : 0) + '/' + bioTextLimit }} characters</span>
+          <span class="f-default__text _info">Posting contact information (emails, phone numbers, web addresses(URL’s), etc.) is in violation of our Terms of Service and will result in being banned.</span>
+          <span class="f-default__text _light">{{(accountService.account?.summary?.length ? accountService.account.summary.length : 0) + '/' + textLengthLimit }} characters</span>
         </label>
       </div>
     </div>

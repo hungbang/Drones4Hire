@@ -9,6 +9,7 @@ import {BidModel} from '../../../services/bid.service/bid.interface';
 })
 export class FBidComponent {
   public model: BidModel|null = null;
+  public textLengthLimit = 2000;
   @Output() send = new EventEmitter<BidModel|{}>();
   submitted: boolean = false;
 
