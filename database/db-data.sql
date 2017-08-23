@@ -6,7 +6,7 @@ BEGIN
 
 	DECLARE serviceCategoryId int unsigned default 0;
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Aerial Filming', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Aerial Filming', 1);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Advertising and Marketing (i.e. Promotional Video)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Agriculture (i.e. Data Collection)', serviceCategoryId);
@@ -25,7 +25,7 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Tourism (i.e. Resort/Hotel)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Aerial Photography', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Aerial Photography', 2);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Advertising and Marketing (i.e. Promotional Video)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Agriculture (i.e. Data Collection)', serviceCategoryId);
@@ -44,7 +44,7 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Tourism (i.e. Resort/Hotel)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Analysis', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Analysis', 3);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Agriculture (i.e. Data Collection)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Conservation and Forestry (i.e. Plant/Tree Health Analysis)', serviceCategoryId);
@@ -58,7 +58,7 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Underwater (i.e. Inspections)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Data Collection', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Data Collection', 4);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Agriculture (i.e. Data Collection)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Conservation and Forestry (i.e. Plant/Tree Health Analysis)', serviceCategoryId);
@@ -73,14 +73,14 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Underwater (i.e. Inspections)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Fishing Assistant', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Fishing Assistant', 5);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Conservation and Forestry (i.e. Plant/Tree Health Analysis)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Drone Fishing', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Underwater (i.e. Inspections)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Inspection', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Inspection', 6);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Infrastructure (i.e. Mapping/Data Collection)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Insurance/Damage Claims (i.e. Roof Inspections)', serviceCategoryId);
@@ -92,7 +92,7 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Virtual 3D Walkthroughs (i.e. Floor Plans)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Mapping', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Mapping', 7);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Agriculture (i.e. Data Collection)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Conservation and Forestry (i.e. Plant/Tree Health Analysis)', serviceCategoryId);
@@ -103,17 +103,17 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Real Estate (i.e. Building/home)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Other (See Project Description)', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Other (See Project Description)', 8);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
 
-	INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Photo/Video Editing', 0);
+	INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Photo/Video Editing', 9);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Film Editing ONLY', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Virtual 3D Walkthroughs (i.e. Floor Plans)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Progress Monitoring', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Progress Monitoring', 10);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Agriculture (i.e. Data Collection)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Conservation and Forestry (i.e. Plant/Tree Health Analysis)', serviceCategoryId);
@@ -124,7 +124,7 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Virtual 3D Walkthroughs (i.e. Floor Plans)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Raw Footage', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Raw Footage', 11);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Advertising and Marketing (i.e. Promotional Video)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Agriculture (i.e. Data Collection)', serviceCategoryId);
@@ -145,29 +145,29 @@ BEGIN
 	INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Virtual 3D Walkthroughs (i.e. Floor Plans)', serviceCategoryId);
 	INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Repair', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Repair', 12);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Drone Repair Services', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Search and Rescue', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Search and Rescue', 13);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Emergency Services (i.e. Search & Rescue)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Media (i.e. News coverage/Live Broadcast)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Underwater (i.e. Inspections)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Training', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Training', 14);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Training Services', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
 	
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Virtual Walkthroughs', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Virtual Walkthroughs', 15);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Virtual 3D Walkthroughs (i.e. Floor Plans)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-	INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Interior/Exterior Footage', 0);
+	INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Interior/Exterior Footage', 16);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Advertising and Marketing (i.e. Promotional Video)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Events and Wedding (i.e. Corporate Event)', serviceCategoryId);
@@ -176,7 +176,7 @@ BEGIN
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Virtual 3D Walkthroughs (i.e. Floor Plans)', serviceCategoryId);
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
     
-    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Other', 0);
+    INSERT INTO drones.SERVICE_CATEGORIES(NAME, SORT_ORDER) VALUES ('Other', 17);
     SET serviceCategoryId = LAST_INSERT_ID();
     INSERT INTO drones.SERVICES(NAME, SERVICE_CATEGORY_ID) VALUES ('Other', serviceCategoryId);
 END #
