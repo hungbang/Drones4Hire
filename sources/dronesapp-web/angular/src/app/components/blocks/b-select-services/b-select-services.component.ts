@@ -37,12 +37,14 @@ export class BSelectServicesComponent implements OnInit {
     this.commonService.getServices()
       .map(
         res => {
+          // console.log(res);
           return this.formatServices(res);
         }
       )
       .subscribe(
         res => {
           this.services = res;
+          // console.log(res);
           this.getAccountServices();
         },
         err => {
@@ -97,7 +99,8 @@ export class BSelectServicesComponent implements OnInit {
           formatted.push({
             name: item.category.name,
             id: item.category.id,
-            services: [this.createService(item)]
+            services: [this.createService(item)],
+            order: item.category.order
           });
         }
         return formatted;
@@ -107,8 +110,13 @@ export class BSelectServicesComponent implements OnInit {
 
     transformed.forEach(el => {
       el.services.sort((objA: any, objB: any) => {
-        return objA.order < objB.order ? -1 : 1
-      })
+        return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+      });
+      const otherItemIndex = el.services.findIndex(el => el.name.toLowerCase() === 'other');
+      if (otherItemIndex !== -1) {
+        const otherElement = el.services.splice(otherItemIndex, 1);
+        el.services.push(otherElement[0]);
+      }
     });
 
     return transformed.sort((objA, objB) => {

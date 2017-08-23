@@ -44,7 +44,7 @@ export class SSearchProjectsComponent extends UnSubscribeDirective implements On
         self.findIndex((category) => item.id === category.id) === index)
       .map((item) =>
         Object.assign({}, item, {
-          name: this.projectService.formatType(item.name)
+          name: item.name
         }))
       .sort((objA, objB) => {
         return objA.order < objB.order ? -1 : 1

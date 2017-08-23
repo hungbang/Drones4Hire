@@ -229,7 +229,7 @@ export class ProjectService {
     return this._requestService.fetch('get', '/projects/paidoptions')
       .map(res => {
         this.paidOptions = res;
-        console.log(res);
+        // console.log(res);
         return this.paidOptions;
       });
   }

@@ -58,12 +58,17 @@ export class CommonService {
 
     normalizedServices.forEach(el => {
       el.category.sort((objA: any, objB: any) => {
-        return objA.order < objB.order ? -1 : 1
-      })
+        return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1;
+      });
+      const otherItemIndex = el.category.findIndex(el => el.name.toLowerCase() === 'other');
+      if (otherItemIndex !== -1) {
+        const otherElement = el.category.splice(otherItemIndex, 1);
+        el.category.push(otherElement[0]);
+      }
     });
 
     return normalizedServices.sort((objA, objB) => {
-      return objA.order < objB.order ? -1 : 1
+      return objA.order < objB.order ? -1 : 1;
     });
 
 
