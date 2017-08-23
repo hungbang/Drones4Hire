@@ -2,27 +2,27 @@
   <div class="b-select-services__content">
     <ul class="b-select-services__list">
       <li class="b-select-services__item"
-          *ngFor="let service of services"
-          [ngClass]="{'_show': service.active}">
+          *ngFor="let category of services"
+          [ngClass]="{'_show': category.active}">
         <div class="b-select-services__text"
-             (click)="toggleItem(service)"
+             (click)="toggleItem(category)"
              [ngClass]="{'_active': true}">
-          {{ service.name }} <span class="b-select-services__text-info">({{ checkSelectedCount(service.categories) }} of {{ service.categories.length }} selected)</span>
+          {{ category.name }} <span class="b-select-services__text-info">({{ checkSelectedCount(category.services) }} of {{ category.services.length }} selected)</span>
         </div>
 
         <div class="b-select-services__panel-outer"
-             *ngIf="service.active"
+             *ngIf="category.active"
              [@slideToggle]>
           <ul class="b-select-services__panel">
             <li class="b-select-services__panel-item"
-                *ngFor="let category of service.categories">
+                *ngFor="let service of category.services">
               <label class="b-select-services__checkbox">
                 <input type="checkbox"
                        class="b-select-services__checkbox-input"
-                       (click)="toggleCheckbox(category)">
+                       (click)="toggleCheckbox(service)">
                 <span class="b-select-services__checkbox-btn"
-                      [ngClass]="{'_checked': checkCheckboxState(category.id)}"></span>
-                <span class="b-select-services__checkbox-text">{{category.name}}</span>
+                      [ngClass]="{'_checked': checkCheckboxState(service.id)}"></span>
+                <span class="b-select-services__checkbox-text">{{service.name}}</span>
               </label>
             </li>
           </ul>
