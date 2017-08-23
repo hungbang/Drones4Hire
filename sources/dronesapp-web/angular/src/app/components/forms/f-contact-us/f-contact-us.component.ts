@@ -58,7 +58,7 @@ export class FContactUsComponent implements OnInit {
         () => {
           form.resetForm();
           this.progressbarService.done();
-          this.toastrService.showSuccess('Message was send.');
+          this.toastrService.showSuccess('Message was sent.');
           this.submitted = false;
         },
         err => {

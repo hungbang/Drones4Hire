@@ -1,9 +1,8 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 
 import {AccountService} from '../../../services/account.service/account.service';
 import {CommonService} from '../../../services/common.service/common.service';
-import {RequestService} from '../../../services/request.service/request.service';
 
 @Component({
   selector: 'b-select-services',
@@ -27,8 +26,7 @@ export class BSelectServicesComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private commonService: CommonService,
-    private requestService: RequestService
+    private commonService: CommonService
   ) { }
 
   ngOnInit() {
@@ -39,13 +37,11 @@ export class BSelectServicesComponent implements OnInit {
     this.commonService.getServices()
       .map(
         res => {
-          // console.log(res);
           return this.formatServices(res);
         }
       )
       .subscribe(
         res => {
-          // console.log(res);
           this.services = res;
           this.getAccountServices();
         },
@@ -71,11 +67,11 @@ export class BSelectServicesComponent implements OnInit {
 
   private setCheckedServices() {
     this.services.forEach(
-      service => {
-        service.categories.forEach(
-          category => {
-            if (this.accountService.activeServices.indexOf(category.id) !== -1) {
-              category.checked = true;
+      category => {
+        category.services.forEach(
+          service => {
+            if (this.accountService.activeServices.indexOf(service.id) !== -1) {
+              service.checked = true;
             }
           }
         );
@@ -94,13 +90,14 @@ export class BSelectServicesComponent implements OnInit {
 
         if (formatted.some((el, i) => {
             pos = i;
-            return el.name === item.name
+            return el.id === item.category.id
           })) {
-          formatted[pos].categories.push(this.createCategory(item));
+          formatted[pos].services.push(this.createService(item));
         } else {
           formatted.push({
-            name: item.name,
-            categories: [this.createCategory(item)]
+            name: item.category.name,
+            id: item.category.id,
+            services: [this.createService(item)]
           });
         }
         return formatted;
@@ -109,7 +106,7 @@ export class BSelectServicesComponent implements OnInit {
     );
 
     transformed.forEach(el => {
-      el.categories.sort((objA: any, objB: any) => {
+      el.services.sort((objA: any, objB: any) => {
         return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
       })
     });
@@ -120,13 +117,13 @@ export class BSelectServicesComponent implements OnInit {
 
   }
 
-  private createCategory(service) {
-    let category = {};
-    category['id'] = service.id;
-    category['name'] = service.category.name;
-    category['checked'] = service['checked'] ? service['checked'] : false;
+  private createService(service) {
+    let srv = {};
+    srv['id'] = service.id;
+    srv['name'] = service.name;
+    srv['checked'] = service['checked'] ? service['checked'] : false;
 
-    return category;
+    return srv;
   }
 
   toggleItem(item: any) {
