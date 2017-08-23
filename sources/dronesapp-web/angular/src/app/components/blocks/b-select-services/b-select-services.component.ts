@@ -107,12 +107,12 @@ export class BSelectServicesComponent implements OnInit {
 
     transformed.forEach(el => {
       el.services.sort((objA: any, objB: any) => {
-        return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+        return objA.order < objB.order ? -1 : 1
       })
     });
 
     return transformed.sort((objA, objB) => {
-      return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+      return objA.order < objB.order ? -1 : 1
     });
 
   }

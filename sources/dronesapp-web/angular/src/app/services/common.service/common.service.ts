@@ -58,12 +58,12 @@ export class CommonService {
 
     normalizedServices.forEach(el => {
       el.category.sort((objA: any, objB: any) => {
-        return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+        return objA.order < objB.order ? -1 : 1
       })
     });
 
     return normalizedServices.sort((objA, objB) => {
-      return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+      return objA.order < objB.order ? -1 : 1
     });
 
 

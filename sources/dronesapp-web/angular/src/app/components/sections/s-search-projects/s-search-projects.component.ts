@@ -47,7 +47,7 @@ export class SSearchProjectsComponent extends UnSubscribeDirective implements On
           name: this.projectService.formatType(item.name)
         }))
       .sort((objA, objB) => {
-        return objA.name.toLowerCase() < objB.name.toLowerCase() ? -1 : 1
+        return objA.order < objB.order ? -1 : 1
       });
 
     this.route.params
