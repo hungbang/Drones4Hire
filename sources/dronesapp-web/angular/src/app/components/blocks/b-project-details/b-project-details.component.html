@@ -12,9 +12,9 @@
     <div class="b-project-details__item" *ngIf="false">
       <button class="f-default__button b-project-details__button">leave a review</button>
     </div>
-    <div class="b-project-details__item" *ngIf="project.service?.category?.name">
+    <div class="b-project-details__item" *ngIf="project.service?.name">
       <div class="b-project-details__subtitle">Type</div>
-      <div class="b-project-details__text">{{ projectService.formatType(project.service?.category?.name) }}</div>
+      <div class="b-project-details__text">{{ projectService.formatType(project.service?.name) }}</div>
     </div>
     <div class="b-project-details__item" *ngIf="project.location">
       <div class="b-project-details__subtitle">Location</div>
