@@ -32,41 +32,41 @@
         <div class="f-project-add__caption">What type of work do you require?</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.service.category.name}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.service.name}">
           <select class="f-default__field"
                   name="service"
-                  [(ngModel)]="formData.service.category.name"
-                  (ngModelChange)="selectService($event)"
+                  [(ngModel)]="formData.service.name"
+                  (ngModelChange)="selectCategory($event)"
                   required
                   #serviceRef="ngModel"
                   [ngClass]="{'_error': isSubmitted && serviceRef.errors?.required}">
             <option [value]="null">Select Category</option>
-            <option *ngFor="let service of services"
-                    [value]="service.name">
-              {{service.name}}
+            <option *ngFor="let category of categories"
+                    [value]="category.name">
+              {{category.name}}
             </option>
           </select>
         </label>
       </div>
     </div>
 
-    <div class="f-default__row _flex" *ngIf="formData.service.category.name">
+    <div class="f-default__row _flex" *ngIf="formData.service.name">
       <div class="f-default__col">
         <div class="f-project-add__caption">What service do you require?</div>
       </div>
       <div class="f-default__col">
-        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.service.name}">
+        <label class="f-default__label _select" [ngClass]="{'_placeholder': !formData.service.category.name}">
           <select class="f-default__field"
                   name="category"
-                  [(ngModel)]="formData.service.name"
-                  (ngModelChange)="selectCategory($event)"
+                  [(ngModel)]="formData.service.category.name"
+                  (ngModelChange)="selectService($event)"
                   required
                   #categoryRef="ngModel"
                   [ngClass]="{'_error': isSubmitted && categoryRef.errors?.required}">
             <option [value]="null">Select your service</option>
-            <option *ngFor="let category of categories"
-                    [value]="category.name">
-              {{category.name}}
+            <option *ngFor="let service of selectedServices"
+                    [value]="service.category.name">
+              {{service.category.name}}
             </option>
           </select>
         </label>
@@ -135,7 +135,7 @@
             Name of the file is too long
           </div>
           <div class="f-project-add__message _error" *ngIf="isNotAcceptedFormat">
-            Incorrect file format. You can upload only .pdf, .doc(x), .xls(x), .png, .jpg files
+            Invalid file format, you may upload: <strong>.pdf</strong>, <strong>.doc(x)</strong>, <strong>.xls(x)</strong>, <strong>.png</strong>, <strong>.jpg</strong> files
           </div>
           <div class="f-project-add__message _error" *ngIf="isLimitReached">
             You can't attach more than {{ attachmentsLimit }} files
