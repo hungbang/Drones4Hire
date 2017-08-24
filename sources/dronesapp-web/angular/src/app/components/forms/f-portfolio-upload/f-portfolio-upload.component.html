@@ -41,6 +41,9 @@
         <div class="f-portfolio-upload__message _error" *ngIf="isLimitReached">
           You can't attach more than {{ attachmentsLimit }} files
         </div>
+        <div class="f-portfolio-upload__message _error" *ngIf="isNotAcceptedFormat">
+          Invalid file format, you may upload: <strong>.jpg</strong>, <strong>.jpeg</strong>, <strong>.png</strong> files.
+        </div>
         <div class="f-portfolio-upload__message _error" *ngIf="fileNameLengthLimitError">
           Name of the file is too long
         </div>
