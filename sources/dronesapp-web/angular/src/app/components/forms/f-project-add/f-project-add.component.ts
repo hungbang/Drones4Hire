@@ -11,7 +11,7 @@ import {RequestService} from '../../../services/request.service/request.service'
 import {CountryModel} from '../../../services/common.service/country.interface';
 import {StateModel} from '../../../services/common.service/state.interface';
 import {BudgetModel} from '../../../services/common.service/budget.interface';
-import {NormalizedServiceModel} from '../../../services/common.service/services.interface';
+import {NormalizedServiceModel, ServiceModel} from '../../../services/common.service/services.interface';
 import {mergeDeep, extend, deleteNullOrNaN} from '../../../shared/common/common-methods';
 import {DurationModel} from '../../../services/common.service/duration.interface';
 import {ProjectService} from '../../../services/project.service/project.service';
@@ -61,8 +61,9 @@ export class FProjectAddComponent implements OnInit {
     end: moment()
   };
 
-  services: NormalizedServiceModel[] = [];
-
+  services: ServiceModel[] = [];
+  normalizedServices: NormalizedServiceModel[] = [];
+  selectedServices: any[] = [];
   categories: CategoryModel[] = [];
 
   countries: CountryModel[] = [];
@@ -311,7 +312,9 @@ export class FProjectAddComponent implements OnInit {
   private setServices(services) {
     const copyServices = extend([], services);
 
-    this.services = this.commonService.normalizeServices(copyServices);
+    this.services = services;
+    this.normalizedServices = this.commonService.normalizeServices(copyServices);
+    this.fetchCategories();
   }
 
   private getBudgets() {
@@ -345,25 +348,34 @@ export class FProjectAddComponent implements OnInit {
       );
   }
 
+  fetchCategories() {
+    this.categories = this.normalizedServices.reduce((out, el) => {
+      el.category.forEach(el => {
+        if (out.findIndex(item => item.name === el.name) === -1) {
+          out.push({
+            name: el.name
+          });
+        }
+      });
+
+      return out;
+    }, []);
+  }
+
   selectService(name: string) {
     if (!name || name === 'null') {
       this.clearService();
       return;
     }
 
-    const service = this.services.find((service) => service.name === name);
+    const service = this.selectedServices.find((service) => service.category.name === name);
 
-    this.setServiceToPostData(service);
-    this.categories = service['category'];
+    this.formData.service = service;
   }
 
-  private setServiceToPostData({id, name, order}) {
-    this.formData.service.category['id'] = id;
-    this.formData.service.category['name'] = name;
-    this.formData.service.category['order'] = order;
-  }
+  clearService(isCategory = false) {
+    if (isCategory) { this.selectedServices = []; }
 
-  clearService() {
     this.formData.service = {
       id: null,
       name: null,
@@ -377,9 +389,7 @@ export class FProjectAddComponent implements OnInit {
 
   initCategories() {
     if (this.project.service.id) {
-      const service = this.services.find((service) => service.name === this.project.service.category.name);
-
-      this.categories = service['category'];
+      this.fetchSelectedServices(this.project.service.name);
     }
   }
 
@@ -415,14 +425,23 @@ export class FProjectAddComponent implements OnInit {
 
   selectCategory(name: string) {
     if (!name || name === 'null') {
-      this.clearService();
+      this.clearService(true);
       return;
     }
 
-    const category = this.categories.find((category) => category.name === name);
+    this.selectedServices = [];
+    this.formData.service.category.name = null;
+    this.formData.service.category.id = null;
+    this.formData.service.category.order = null;
+    this.fetchSelectedServices(name);
+  }
 
-    this.formData.service['id'] = category.id;
-    this.formData.service['name'] = category.name;
+  fetchSelectedServices(name: string) {
+    const selected = this.services.filter((category) => category.name === name).sort((objA: any, objB: any) => {
+      return objA.category.order < objB.category.order ? -1 : 1
+    });
+
+    this.selectedServices = selected;
   }
 
   selectCountry(name: string, isAutocomplete = false) {
@@ -835,7 +854,7 @@ export class FProjectAddComponent implements OnInit {
                 return;
               }
 
-              console.log('place:', place);
+              // console.log('place:', place);
               this.ngZone.run(() => this.setLocation(place));
             })
           }

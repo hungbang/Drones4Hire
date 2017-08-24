@@ -1,6 +1,6 @@
 <div class="l-abilities">
   <div class="l-abilities__block">
-    <div class="l-abilities__title">services</div>
+    <div class="l-abilities__title">Industries</div>
     <div class="l-abilities__content" *ngIf="abilities.services?.length">
       <ul class="l-abilities__list" *ngFor="let service of abilities.services">
         <li class="l-abilities__item">{{service}}</li>
@@ -9,7 +9,7 @@
     <div class="l-abilities__text" *ngIf="!abilities.services.length">The pilot hasn’t added any services yet.</div>
   </div>
   <div class="l-abilities__block">
-    <div class="l-abilities__title">Industries</div>
+    <div class="l-abilities__title">Services</div>
     <div class="l-abilities__content" *ngIf="abilities.industries?.length" >
       <ul class="l-abilities__list" *ngFor="let industry of abilities.industries">
         <li class="l-abilities__item">{{industry}}</li>

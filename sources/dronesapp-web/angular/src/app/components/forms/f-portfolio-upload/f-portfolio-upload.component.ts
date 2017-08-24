@@ -30,6 +30,11 @@ export class FPortfolioUploadComponent implements OnInit {
   public hasBaseDropZoneOver = false;
   public submitted: boolean = false;
   attachmentsLimit = 11;
+  acceptedFormats = [
+    'image/jpeg',
+    'image/png'
+  ];
+  isNotAcceptedFormat: boolean = false;
   private fileNameLengthLimit: number = 70;
   public fileNameLengthLimitError: boolean = false;
   private fileSizeLimit = 10485760;
@@ -62,6 +67,7 @@ export class FPortfolioUploadComponent implements OnInit {
 
       this.fileNameLengthLimitError = false;
       this.fileSizeLimitError = false;
+      this.isNotAcceptedFormat = false;
 
       if (item.file.size > this.fileSizeLimit) {
         this.fileSizeLimitError = true;
@@ -69,6 +75,10 @@ export class FPortfolioUploadComponent implements OnInit {
         this.selectedFile.nativeElement.value = '';
       } else if (item.file.name.length > this.fileNameLengthLimit) {
         this.fileNameLengthLimitError = true;
+        this.uploader.removeFromQueue(item);
+        this.selectedFile.nativeElement.value = '';
+      } else if (this.acceptedFormats.indexOf(item.file.type) === -1) {
+        this.isNotAcceptedFormat = true;
         this.uploader.removeFromQueue(item);
         this.selectedFile.nativeElement.value = '';
       } else if (!this.isLimitReached) {
