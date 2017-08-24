@@ -90,7 +90,7 @@
         <![CDATA[
           SELECT
             B.PROJECT_ID AS BID_PROJECT_ID,
-            B.CURRENCY AS BID_CURRENCY,
+            ANY_VALUE(B.CURRENCY) AS BID_CURRENCY,
             COUNT(B.ID) AS BID_COUNT,
             AVG(B.AMOUNT) AS BID_AVG,
             MAX(B.AMOUNT) AS BID_MAX
