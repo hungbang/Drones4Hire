@@ -5,6 +5,8 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.ProjectOnMap;
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserForMapSearchCriteria;
 import com.drones4hire.dronesapp.services.services.util.CSVWriter;
 import org.jasypt.util.password.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -250,6 +252,16 @@ public class UserService
 		List<User> users = userMapper.searchUsers(sc);
 		results.setResults(users);
 		results.setTotalResults(userMapper.getSearchUsersCount(sc));
+		return results;
+	}
+
+	@Transactional(readOnly = true)
+	public SearchResult<User> searchUsersForMap(UserForMapSearchCriteria sc) {
+		SearchResult<User> results = new SearchResult<>();
+		List<User> projectSearchResults = userMapper.searchUsersForMap(sc);
+		results.setTotalResults(userMapper.getSearchUsersForMapCount(sc));
+		results.setResults(projectSearchResults);
+		results.setPageSize(results.getTotalResults());
 		return results;
 	}
 

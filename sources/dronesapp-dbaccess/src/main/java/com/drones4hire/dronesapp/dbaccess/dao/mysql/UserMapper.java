@@ -2,6 +2,7 @@ package com.drones4hire.dronesapp.dbaccess.dao.mysql;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserForMapSearchCriteria;
 import org.apache.ibatis.annotations.Param;
 
 import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserSearchCriteria;
@@ -23,8 +24,12 @@ public interface UserMapper
 	User getUserByEmail(String email);
 
 	List<User> searchUsers(UserSearchCriteria sc);
+
+	List<User> searchUsersForMap(UserForMapSearchCriteria sc);
 	
 	Integer getSearchUsersCount(UserSearchCriteria searchCriteria);
+
+	Integer getSearchUsersForMapCount(UserForMapSearchCriteria searchCriteria);
 	
 	List<User> getAllUsers();
 	

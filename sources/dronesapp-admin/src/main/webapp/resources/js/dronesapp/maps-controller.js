@@ -98,7 +98,7 @@ DronesAdmin.controller('MapsPageController', [ '$scope', '$http', '$window', '$m
     };
 
     $scope.searchUsers = function(){
-        $http.post('users/search', $scope.userSc).success(function(data) {
+        $http.post('users/search/map', $scope.userSc).success(function(data) {
             $scope.cleanMap();
             ITEM = USER_ABBR;
             $scope.users = data;

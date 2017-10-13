@@ -2,6 +2,7 @@ package com.drones4hire.admin.controller;
 
 import java.util.List;
 
+import com.drones4hire.dronesapp.dbaccess.dao.mysql.search.UserForMapSearchCriteria;
 import com.drones4hire.dronesapp.models.db.projects.Feedback;
 import com.drones4hire.dronesapp.models.db.users.Group;
 import com.drones4hire.dronesapp.models.dto.FeedbackDTO;
@@ -88,6 +89,12 @@ public class UsersController extends AbstractController
 	public @ResponseBody SearchResult<User> search(@RequestBody UserSearchCriteria userSearchCriteria) throws Exception
 	{
 		return userService.search(userSearchCriteria);
+	}
+
+	@RequestMapping(value = "search/map", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody SearchResult<User> searchForMap(@RequestBody UserForMapSearchCriteria sc) throws Exception
+	{
+		return userService.searchUsersForMap(sc);
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
