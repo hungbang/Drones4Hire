@@ -50,7 +50,7 @@ import {AgmSnazzyInfoWindowModule} from '@agm/dummy/packages/snazzy-info-window/
     HttpModule,
     NguiDatetimePickerModule,
     NgProgressModule,
-    RouterModule.forRoot(ROUTES, {useHash: true}),
+    RouterModule.forRoot(ROUTES),
     ToastModule.forRoot(),
   ],
   providers: [
